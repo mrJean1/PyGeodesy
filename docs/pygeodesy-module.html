@@ -99,9 +99,9 @@
   href="https://www.Movable-Type.co.UK/scripts/geodesy/docs" 
   target="_top">docs</a> and <i>Karney</i>'s Python <a 
   href="https://PyPI.org/project/geographiclib" 
-  target="_top">geographiclib</a> and <a 
+  target="_top">geographiclib</a> and C++ <a 
   href="https://GeographicLib.SourceForge.io/C++/doc/index.html" 
-  target="_top">C++ GeographicLib</a>.</p>
+  target="_top">GeographicLib</a>.</p>
   <p>Also included are modules for conversions to and from <a 
   href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1CassiniSoldner.html"
   target="_top">Cassini-Soldner</a>, <a 
@@ -581,7 +581,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        24.10.24
+        24.11.11
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -782,7 +782,7 @@
     <li> <strong class="uidlink"><a href="pygeodesy.geodesicx-module.html">pygeodesy.geodesicx</a></strong>: <em class="summary">A pure Python version of <i>Karney</i>'s C++ classes <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html"
         target="_top">GeodesicExact</a> and <a 
-        href="https://geographiclib.sourceforge.io/C++/doc/classGeographicLib_1_1GeodesicLine.html"
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicLine.html"
         target="_top">GeodesicLineExact</a>.</em>
     <ul>
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.geodesicx._C4_24-module.html">pygeodesy.geodesicx._C4_24</a></strong>: <em class="summary">A Python version of part of <i>Karney</i>'s C++ module <a 
@@ -2141,7 +2141,7 @@
       Pure Python version of Karney's C++ class <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/TransverseMercatorExact_8cpp_source.html"
         target="_top">TransverseMercatorExact</a>, a numerically exact 
-        transverse Mercator projection, further referred to as 
+        transverse Mercator projection, abbreviated as 
         <code>TMExact</code>.
     </td>
   </tr>
@@ -2587,7 +2587,7 @@
     </td><td class="summary">
         <a href="pygeodesy.geodesicw.Geodesic-class.html" class="summary-name">Geodesic</a><br />
       <i>Wrapper</i> around <i>Karney</i>'s class <a 
-        href="https://geographiclib.sourceforge.io/Python/doc/code.html" 
+        href="https://GeographicLib.SourceForge.io/Python/doc/code.html" 
         target="_top">geographiclib.geodesic.Geodesic</a>.
     </td>
   </tr>
@@ -2633,7 +2633,7 @@
     </td><td class="summary">
         <a href="pygeodesy.geodesicw.GeodesicLine-class.html" class="summary-name">GeodesicLine</a><br />
       <i>Wrapper</i> around <i>Karney</i>'s class <a 
-        href="https://geographiclib.sourceforge.io/Python/doc/code.html" 
+        href="https://GeographicLib.SourceForge.io/Python/doc/code.html" 
         target="_top">geographiclib.geodesicline.GeodesicLine</a>.
     </td>
   </tr>
@@ -3250,7 +3250,7 @@
         <i>angular</i> distance in <code>degrees</code> from 
         <i>Karney</i>'s <a href="https://PyPI.org/project/geographiclib" 
         target="_top">geographiclib</a> method <a 
-        href="https://geographiclib.sourceforge.io/Python/doc/code.html#geographiclib.geodesic.Geodesic.Inverse"
+        href="https://GeographicLib.SourceForge.io/Python/doc/code.html#geographiclib.geodesic.Geodesic.Inverse"
         target="_top">Geodesic.Inverse</a>.
     </td>
   </tr>
@@ -4090,7 +4090,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.geoids.PGMError-class.html" class="summary-name">PGMError</a><br />
-      Issue parsing or cropping an <code>egm*.pgm</code> geoid dataset.
+      An issue while parsing or cropping an <code>egm*.pgm</code> geoid 
+        dataset.
     </td>
   </tr>
 <tr>
@@ -7418,7 +7419,7 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#f2product" class="summary-sig-name">f2product</a>(<span class="summary-sig-arg">*two</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#f2product" class="summary-sig-name">f2product</a>(<span class="summary-sig-arg">two</span>=<span class="summary-sig-default">None</span>)</span><br />
       Turn accurate <i>TwoProduct</i> multiplication on or off.</td>
           <td align="right" valign="top">
             
@@ -7581,9 +7582,9 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#fdot" class="summary-sig-name">fdot</a>(<span class="summary-sig-arg">a</span>,
         <span class="summary-sig-arg">*b</span>,
-        <span class="summary-sig-arg">**start</span>)</span><br />
+        <span class="summary-sig-arg">**start_f2product_nonfinites</span>)</span><br />
       Return the precision dot product <i class="math">sum(a[i] * b[i] for 
-      ni=0..len(a))</i>.</td>
+      i=0..len(a))</i>.</td>
           <td align="right" valign="top">
             
             
@@ -7602,9 +7603,28 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#fdot3" class="summary-sig-name">fdot3</a>(<span class="summary-sig-arg">xs</span>,
         <span class="summary-sig-arg">ys</span>,
         <span class="summary-sig-arg">zs</span>,
-        <span class="summary-sig-arg">start</span>=<span class="summary-sig-default">0</span>)</span><br />
+        <span class="summary-sig-arg">**start_f2product_nonfinites</span>)</span><br />
       Return the precision dot product <i class="math">start + sum(a[i] * 
       b[i] * c[i] for i=0..len(a)-1)</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#fdot_" class="summary-sig-name">fdot_</a>(<span class="summary-sig-arg">*ab</span>,
+        <span class="summary-sig-arg">**start_f2product_nonfinites</span>)</span><br />
+      Return the precision dot product <i class="math">sum(ab[i] * ab[i+1] 
+      for i=0, 2, 4, ... len(ab)-1)</i>.</td>
           <td align="right" valign="top">
             
             
@@ -8412,7 +8432,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f9890239650&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fba7850b950&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -10425,7 +10445,7 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#nonfiniterrors" class="summary-sig-name">nonfiniterrors</a>(<span class="summary-sig-arg">*raiser</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#nonfiniterrors" class="summary-sig-name">nonfiniterrors</a>(<span class="summary-sig-arg">raiser</span>=<span class="summary-sig-default">None</span>)</span><br />
       Throw <code>OverflowError</code> and <code>ValueError</code> 
       exceptions for or handle <i>non-finite</i> <code>float</code>s as 
       <code>inf</code>, <code>INF</code>, <code>NINF</code>, 
@@ -12989,7 +13009,7 @@ ygeodesy'"><code class="variable-quote">'</code><code class="variable-string">/U
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'24.10.24'">'24.10.24'</code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'24.11.11'">'24.11.11'</code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -15382,9 +15402,9 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use the points' Z component, otherwise 
           force <code>z=INT0</code> (<code>bool</code>).</li>
         <li><strong class="pname"><code>Vector_and_kwds</code></strong> - Optional class <code><b>Vector</b>=None</code> to return the 
-          center point and optional, additional <b><code>Vector</code></b> 
-          keyword arguments, otherwise the first 
-          <b><code>points</code></b>' (sub-)class is used.</li>
+          center point and optionally, additional 
+          <b><code>Vector</code></b> keyword arguments, otherwise the 
+          <b><code>points</code></b>' (sub-)class.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.vector2d.Circum4Tuple-class.html" 
@@ -18556,7 +18576,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">f2product</span>&nbsp;(<span class="sig-arg">*two</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">f2product</span>&nbsp;(<span class="sig-arg">two</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -18803,7 +18823,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">fdot</span>&nbsp;(<span class="sig-arg">a</span>,
         <span class="sig-arg">*b</span>,
-        <span class="sig-arg">**start</span>)</span>
+        <span class="sig-arg">**start_f2product_nonfinites</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -18811,7 +18831,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   </tr></table>
   
   <p>Return the precision dot product <i class="math">sum(a[i] * b[i] for 
-  ni=0..len(a))</i>.</p>
+  i=0..len(a))</i>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -18823,11 +18843,15 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a>), all positional.</li>
-        <li><strong class="pname"><code>start</code></strong> - Optional bias <code><b>start</b>=0</code> (<code>scalar</code>, 
+        <li><strong class="pname"><code>start_f2product_nonfinites</code></strong> - Optional bias <code><b>start</b>=0</code> (<code>scalar</code>, 
           an <a href="pygeodesy.fsums.Fsum-class.html" 
           class="link">Fsum</a> or <a 
           href="pygeodesy.fsums.Fsum2Tuple-class.html" 
-          class="link">Fsum2Tuple</a>).</li>
+          class="link">Fsum2Tuple</a>) and settings 
+          <code><b>f2product</b>=None</code> (<code>bool</code>) and 
+          <code><b>nonfinites</b>=True</code> (<code>bool</code>), see 
+          class <a href="pygeodesy.fsums.Fsum-class.html#__init__" 
+          class="link">Fsum</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Dot product (<code>float</code>).</dd>
@@ -18855,7 +18879,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
   <h3 class="epydoc"><span class="sig"><span class="sig-name">fdot3</span>&nbsp;(<span class="sig-arg">xs</span>,
         <span class="sig-arg">ys</span>,
         <span class="sig-arg">zs</span>,
-        <span class="sig-arg">start</span>=<span class="sig-default">0</span>)</span>
+        <span class="sig-arg">**start_f2product_nonfinites</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -18879,10 +18903,15 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a>).</li>
-        <li><strong class="pname"><code>start</code></strong> - Optional bias (<code>scalar</code>, an <a 
-          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
-          <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
-          class="link">Fsum2Tuple</a>).</li>
+        <li><strong class="pname"><code>start_f2product_nonfinites</code></strong> - Optional bias <code><b>start</b>=0</code> (<code>scalar</code>, 
+          an <a href="pygeodesy.fsums.Fsum-class.html" 
+          class="link">Fsum</a> or <a 
+          href="pygeodesy.fsums.Fsum2Tuple-class.html" 
+          class="link">Fsum2Tuple</a>) and settings 
+          <code><b>f2product</b>=None</code> (<code>bool</code>) and 
+          <code><b>nonfinites</b>=True</code> (<code>bool</code>), see 
+          class <a href="pygeodesy.fsums.Fsum-class.html#__init__" 
+          class="link">Fsum</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Dot product (<code>float</code>).</dd>
@@ -18893,6 +18922,38 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     </ul></dd>
   </dl>
 </td></tr></table>
+</div>
+<a name="fdot_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fdot_</span>&nbsp;(<span class="sig-arg">*ab</span>,
+        <span class="sig-arg">**start_f2product_nonfinites</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the precision dot product <i class="math">sum(ab[i] * ab[i+1] 
+  for i=0, 2, 4, ... len(ab)-1)</i>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>ab</code></strong> - Pairwise values  (each <code>scalar</code>, an <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
+          <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
+          class="link">Fsum2Tuple</a>), all positional.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.fmath-module.html#fdot" 
+        class="link">fdot</a> for further details.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="fhorner"></a>
 <div>
@@ -20631,7 +20692,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f9890239650&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fba7850b950&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -24363,16 +24424,16 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, use the Z components, otherwise force 
           <code>z=INT0</code> (<code>bool</code>).</li>
         <li><strong class="pname"><code>Vector_and_kwds</code></strong> - Optional class <code><b>Vector</b>=None</code> to return the 
-          closest point and optional, additional <b><code>Vector</code></b>
-          keyword arguments, otherwise <b><code>point</code></b>'s 
-          (sub-)class.</li>
+          closest point and optionally, additional 
+          <b><code>Vector</code></b> keyword arguments, otherwise 
+          <b><code>point</code></b>'s (sub-)class.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.NearestOn6Tuple-class.html" 
           class="link">NearestOn6Tuple</a><code>(closest, distance, fi, j, 
           start, end)</code> with the <code>closest</code>, the 
           <code>start</code> and the <code>end</code> point each an 
-          instance of the <b><code>Vector</code></b> keyword argument of if
+          instance of the <b><code>Vector</code></b> keyword argument or if
           {<b>Vector</b>=None} or not specified, an instance of the 
           reference <b><code>point</code></b>'s (sub-)class.</dd>
     <dt>Raises:</dt>
@@ -24452,7 +24513,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">nonfiniterrors</span>&nbsp;(<span class="sig-arg">*raiser</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">nonfiniterrors</span>&nbsp;(<span class="sig-arg">raiser</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -25346,8 +25407,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           href="pygeodesy.osgr.Osgr-class.html" class="link">Osgr</a>) or 
           <code>None</code>.</li>
         <li><strong class="pname"><code>name_Osgr_kwds</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>) and 
-          optional, additional <b><code>Osgr</code></b> keyword arguments, 
-          ignored if <code><b>Osgr</b> is None</code>.</li>
+          optionally, additional <b><code>Osgr</code></b> keyword 
+          arguments, ignored if <code><b>Osgr</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>An (<b><code>Osgr</code></b>) instance or if <code><b>Osgr</b> is
@@ -25758,7 +25819,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           alpha2</code></b>(<code>degrees</code>).</li>
         <li><strong class="pname"><code>useZ</code></strong> - If <code>True</code>, interpolate the survey point's Z component,
           otherwise use <code>z=INT0</code> (<code>bool</code>).</li>
-        <li><strong class="pname"><code>eps</code></strong> - Tolerance for <code>cot</code> (pseudo-)singularities 
+        <li><strong class="pname"><code>eps</code></strong> - Tolerance for <code>cot</code>angent (pseudo-)singularities 
           (<code>float</code>).</li>
         <li><strong class="pname"><code>Clas_and_kwds</code></strong> - Optional class <code><b>Clas</b>=<b>point1</b>.classof</code> to 
           return the survey point with optionally other 
@@ -26544,9 +26605,9 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           otherwise.</li>
         <li><strong class="pname"><code>phi</code></strong> - Azimuthal angle <b><code>phi</code></b> (<code>radians</code>), 
           like <b><code>theta</code></b>.</li>
-        <li><strong class="pname"><code>name_Cartesian_and_kwds</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>), a 
+        <li><strong class="pname"><code>name_Cartesian_and_kwds</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>), 
           <code><b>Cartesian</b>=None</code> class to return the 
-          coordinates and optional, additional 
+          coordinates and optionally, additional 
           <code><b>Cartesian</b></code> keyword arguments.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -28137,7 +28198,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
         <li><strong class="pname"><code>Lcc</code></strong> - Class to return the <i>Lambert</i> location (<a 
           href="pygeodesy.lcc.Lcc-class.html" class="link">Lcc</a>).</li>
         <li><strong class="pname"><code>name_Lcc_kwds</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>) and 
-          optional, additional <b><code>Lcc</code></b> keyword arguments, 
+          optionally, additional <b><code>Lcc</code></b> keyword arguments,
           ignored if <b><code>Lcc</code> is None</b>.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -28182,8 +28243,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           href="pygeodesy.mgrs.Mgrs-class.html" class="link">Mgrs</a>) or 
           <code>None</code>.</li>
         <li><strong class="pname"><code>name_Mgrs_kwds</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>) and 
-          optional, additional <b><code>Mgrs</code></b> keyword arguments, 
-          ignored if <code><b>Mgrs</b> is None</code>.</li>
+          optionally, additional <b><code>Mgrs</code></b> keyword 
+          arguments, ignored if <code><b>Mgrs</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The MGRS grid reference as <b><code>Mgrs</code></b> or if 
@@ -28547,7 +28608,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           href="pygeodesy.webmercator.Wm-class.html" class="link">Wm</a>) 
           or <code>None</code>.</li>
         <li><strong class="pname"><code>name_Wm_kwds_radius</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>), 
-          optional, additional <b><code>Wm</code></b> keyword arguments, 
+          optionally, additional <b><code>Wm</code></b> keyword arguments, 
           ignored if <code><b>Wm</b> is None</code> and DEPRECATED keyword 
           argument <code><b>radius</b>=earth</code>, use 
           <b><code>earth</code></b>.</li>
@@ -29159,8 +29220,8 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           circles (<code>scalar</code>) or <code>None</code> for no 
           checking.</li>
         <li><strong class="pname"><code>Vector_and_kwds</code></strong> - Optional class <code><b>Vector</b>=None</code> to return the 
-          trilateration and optional, additional <b><code>Vector</code></b>
-          keyword arguments).</li>
+          trilateration and optionally, additional 
+          <b><code>Vector</code></b> keyword arguments).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Trilaterated point as <code><b>Vector</b>(x, y, 
@@ -29236,9 +29297,9 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           <code>x</code>, <code>y</code> and <code>z</code> or 
           <code>None</code> for no pertubations.</li>
         <li><strong class="pname"><code>Vector_and_kwds</code></strong> - Optional class <code><b>Vector</b>=None</code> to return the 
-          trilateration and optional, additional <b><code>Vector</code></b>
-          keyword arguments, otherwise the <b><code>center1</code></b>'s 
-          (sub-)class.</li>
+          trilateration and optionally, additional 
+          <b><code>Vector</code></b> keyword arguments, otherwise 
+          <b><code>center1</code></b>'s (sub-)class.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-Tuple with two trilaterated points, each a 
@@ -29333,7 +29394,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
           class="link">Vector3d</a> or <code>Vector3Tuple</code>) or 
           <code>None</code>.</li>
         <li><strong class="pname"><code>name_Vector_kwds</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>) and 
-          optional, additional <b><code>Vector</code></b> keyword 
+          optionally, additional <b><code>Vector</code></b> keyword 
           arguments, ignored if <code><b>Vector</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -30524,7 +30585,7 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Oct 22 17:06:19 2024
+    Generated by Epydoc 3.0.1 on Sun Nov 10 11:35:48 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

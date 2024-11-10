@@ -23,7 +23,7 @@ from pygeodesy.solveBase import _SolveGDictBase, _SolveGDictLineBase
 from pygeodesy.utily import _unrollon, _Wrap, wrap360
 
 __all__ = _ALL_LAZY.geodsolve
-__version__ = '24.10.14'
+__version__ = '24.11.02'
 
 
 class _GeodesicSolveBase(_SolveGDictBase):
@@ -181,15 +181,6 @@ class GeodesicSolve(_GeodesicSolveBase):
             ll2 = _unrollon(ll1, _Wrap.point(ll2))
         return self.InverseLine(ll1.lat, ll1.lon, ll2.lat, ll2.lon, **caps_name)
 
-#   def _InverseLine2(self, lat1, lon1, lat2, lon2, **caps_name):  # in .geodesici
-#       '''(INTERNAL) Helper for L{InverseLine} and L{_InverseLine}.
-#       '''
-#       r  = self.Inverse(lat1, lon1, lat2, lon2)
-#       gl = GeodesicLineSolve(self, lat1, lon1, r.azi1, **_name1__(caps_name, _or_nameof=self))
-#       gl._a13 = r.a12  # gl.SetArc(r.a12)
-#       gl._s13 = r.s12  # gl.SetDistance(r.s12)
-#       return gl, r
-
     def InverseLine(self, lat1, lon1, lat2, lon2, **caps_name):  # PYCHOK no cover
         '''Set up a L{GeodesicLineSolve} to compute several points
            on a single geodesic.
@@ -270,14 +261,14 @@ class GeodesicLineSolve(_GeodesicSolveBase, _SolveGDictLineBase):
         '''
         return self._a13
 
-    def Arc(self):
+    def Arc(self):  # PYCHOK no cover
         '''Return the arc length to reference point 3 (C{degrees} or C{NAN}).
 
            @see: Method L{SetArc} and property L{a13}.
         '''
         return self.a13
 
-    def ArcPosition(self, a12, outmask=Caps.STANDARD):  # PYCHOK unused
+    def ArcPosition(self, a12, outmask=Caps.STANDARD):  # PYCHOK no cover
         '''Find the position on the line given B{C{a12}}.
 
            @arg a12: Spherical arc length from the first point to the
@@ -347,7 +338,7 @@ class GeodesicLineSolve(_GeodesicSolveBase, _SolveGDictLineBase):
         '''
         return self._s13
 
-    def SetArc(self, a13):
+    def SetArc(self, a13):  # PYCHOK no cover
         '''Set reference point 3 in terms relative to the first point.
 
            @arg a13: Spherical arc length from the first to the reference
@@ -362,13 +353,13 @@ class GeodesicLineSolve(_GeodesicSolveBase, _SolveGDictLineBase):
 #           _update_all(self)
         return self._s13
 
-    def SetDistance(self, s13):
+    def SetDistance(self, s13):  # PYCHOK no cover
         '''Set reference point 3 in terms relative to the first point.
 
            @arg s13: Distance from the first to the reference point (C{meter}).
 
-           @return: The arc length C{a13} (C{degrees}) between the first
-                    and the reference point or C{NAN}.
+           @return: The arc length C{a13} (C{degrees}) between the first and
+                    the reference point or C{NAN}.
         '''
         if self._s13 != s13:
             self._s13 = s13

@@ -36,7 +36,7 @@ from pygeodesy.utily import degrees90, degrees180
 from math import atan, atanh, exp, radians, sin, tanh
 
 __all__ = _ALL_LAZY.webmercator
-__version__ = '24.08.13'
+__version__ = '24.11.06'
 
 # _FalseEasting  = 0   # false Easting (C{meter})
 # _FalseNorthing = 0   # false Northing (C{meter})
@@ -314,10 +314,10 @@ def toWm(latlon, lon=None, earth=R_MA, Wm=Wm, **name_Wm_kwds_radius):
                      L{a_f2Tuple}, L{Ellipsoid} or L{Ellipsoid2}), overridden
                      by B{C{latlon}}'s datum if present.
        @kwarg Wm: Optional class to return the WM coordinate (L{Wm}) or C{None}.
-       @kwarg name_Wm_kwds_radius: Optional C{B{name}=NN} (C{str}), optional,
+       @kwarg name_Wm_kwds_radius: Optional C{B{name}=NN} (C{str}), optionally,
                    additional B{C{Wm}} keyword arguments, ignored if C{B{Wm} is
-                   None} and DEPRECATED keyword argument C{B{radius}=earth},
-                   use B{C{earth}}.
+                   None} and DEPRECATED keyword argument C{B{radius}=earth}, use
+                   B{C{earth}}.
 
        @return: The WM coordinate (B{C{Wm}}) or if C{B{Wm} is None}, an
                 L{EasNorRadius3Tuple}C{(easting, northing, radius)}.

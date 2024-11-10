@@ -17,6 +17,7 @@ from time import localtime, time
 
 seed(localtime().tm_yday)
 del localtime, seed
+
 test_dir = dirname(abspath(__file__))
 PyGeodesy_dir = dirname(test_dir)
 # extend sys.path to include the ../.. directory,
@@ -34,14 +35,15 @@ _DOT_     = interns._DOT_
 _skipped_ = 'skipped'  # in .run
 _SPACE_   = interns._SPACE_
 _TILDE_   = interns._TILDE_
+_HOME_dir = dirname(PyGeodesy_dir or _TILDE_) or _TILDE_
 
 __all__ = ('coverage', 'GeodSolve', 'geographiclib',  # constants
-           'isIntelPython', 'isiOS', 'ismacOS', 'isNix', 'isPyPy',
-           'isPython2', 'isPython3', 'isPython37', 'isWindows',
+           'isiOS', 'ismacOS', 'isNix', 'isPyPy',  # 'isIntelPython'
+           'isPython2', 'isPython3', 'isPython37', 'isPython39', 'isWindows',
            'numpy', 'PyGeodesy_dir', 'PythonX', 'scipy', 'test_dir',
            'RandomLatLon', 'TestsBase',  # classes
            'secs2str', 'tilde', 'type2str', 'versions')  # functions
-__version__ = '24.10.14'
+__version__ = '24.11.06'
 
 try:
     if float(_getenv('PYGEODESY_COVERAGE', '0')) > 0:
@@ -63,7 +65,6 @@ try:
 except ImportError:
     scipy = None
 _xcopy = basics._xcopy
-del basics
 
 try:
     _Ints = int, long
@@ -72,14 +73,12 @@ except NameError:  # Python 3+
     _Ints = int
     _Strs = str
 
-_pseudo_home_dir = dirname(PyGeodesy_dir or _TILDE_) or _TILDE_
-
 _W_opts = sys.warnoptions or NN
 if _W_opts:
     _W_opts = _SPACE_(*(_SPACE_('-W', _) for _ in _W_opts))
 
 PythonX = sys.executable  # python or Pythonista path
-isIntelPython = 'intelpython' in PythonX
+# isIntelPython = 'intelpython' in PythonX
 
 endswith   = str.endswith
 startswith = str.startswith
@@ -434,14 +433,6 @@ def _get_kwds(fmt='%s', prec=0, known=False, **kwds):
     return fmt, known, kwds
 
 
-try:  # Pythonista only
-    from platform import iOS_ver as ios_ver
-except (AttributeError, ImportError):
-
-    def ios_ver(**unused):
-        return (NN, (NN, NN, NN), NN)
-
-
 def prefix2(prev):  # in .run
     '''Get time prefix and time stamp.
     '''
@@ -454,7 +445,7 @@ def prefix2(prev):  # in .run
 def tilde(path):
     '''Return a shortened path, especially Pythonista.
     '''
-    return path.replace(_pseudo_home_dir, _TILDE_)
+    return path.replace(_HOME_dir, _TILDE_)
 
 
 def type2str(obj, attr, **renamed):
@@ -554,7 +545,7 @@ GeoConvert    = _X_OK(_Xables, _Xables.GeoConvert)
 GeodSolve     = _X_OK(_Xables, _Xables.GeodSolve)
 IntersectTool = _X_OK(_Xables, _Xables.IntersectTool)
 RhumbSolve    = _X_OK(_Xables, _Xables.RhumbSolve)
-del _Xables, _X_OK
+del basics, _Xables, _X_OK
 
 if internals._is_DUNDER_main(__name__):
     try:

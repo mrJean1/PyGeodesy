@@ -43,7 +43,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdlln4
 # from math import atan2, degrees, fabs, radians, sqrt  # from .fmath, .utily
 
 __all__ = _ALL_LAZY.cartesianBase
-__version__ = '24.10.12'
+__version__ = '24.11.06'
 
 _r_     = 'r'
 _theta_ = 'theta'
@@ -186,7 +186,7 @@ class CartesianBase(Vector3d):
                        or L{Local9Tuple}).
            @kwarg Cartesian: Optional (geocentric) class to return the destination
                              or C{None}.
-           @kwarg name_Cartesian_kwds: Optional C{B{name}=NN} (C{str}) and optional,
+           @kwarg name_Cartesian_kwds: Optional C{B{name}=NN} (C{str}) and optionally,
                        additional B{C{Cartesian}} keyword arguments, ignored if
                        C{B{Cartesian} is None}.
 
@@ -768,7 +768,7 @@ class CartesianBase(Vector3d):
                            (C{Nvector}) or C{None}.
            @kwarg datum: Optional datum (L{Datum}, L{Ellipsoid}, L{Ellipsoid2}
                          or L{a_f2Tuple}) overriding this cartesian's datum.
-           @kwarg name_Nvector_kwds: Optional C{B{name}=NN} (C{str}) and optional,
+           @kwarg name_Nvector_kwds: Optional C{B{name}=NN} (C{str}) and optionally,
                        additional B{C{Nvector}} keyword arguments, ignored if
                        C{B{Nvector} is None}.
 
@@ -940,8 +940,8 @@ def rtp2xyz_(r_rtp, theta=0, phi=0, **name_Cartesian_and_kwds):
        @arg theta: Inclination B{C{theta}} (C{radians} with respect to the positive z-axis),
                    required if C{B{r_rtp}} is C{scalar}, ignored otherwise.
        @arg phi: Azimuthal angle B{C{phi}} (C{radians}), like B{C{theta}}.
-       @kwarg name_Cartesian_and_kwds: Optional C{B{name}=NN} (C{str}), a C{B{Cartesian}=None}
-                   class to return the coordinates and optional, additional C{B{Cartesian}}
+       @kwarg name_Cartesian_and_kwds: Optional C{B{name}=NN} (C{str}), C{B{Cartesian}=None}
+                   class to return the coordinates and optionally, additional C{B{Cartesian}}
                    keyword arguments.
 
        @return: A C{B{Cartesian}(x, y, z)} instance or if no C{B{Cartesian}} keyword argument

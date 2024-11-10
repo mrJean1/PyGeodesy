@@ -1156,7 +1156,7 @@ class _idllmn6(object):  # see also .geodesicw._wargs, .latlonBase._toCartesian3
                         m = _MODS.ellipsoidalKarney
                     except ImportError:
                         m = _MODS.ellipsoidalExact
-                    _i = m._intersections2 if s else m._intersection3  # ellispoidalBaseDI
+                    _i = m._intersections2 if s else m._intersection3  # ellipsoidalBaseDI
                 else:
                     raise _TypeError(datum=datum)
             yield _i, d, lat2, lon2, m, n
@@ -1231,7 +1231,8 @@ def intersection2(lat1, lon1, bearing1,
 
         else:
             t = _i(m.LatLon(lat1, lon1, datum=d), b1,
-                   m.LatLon(lat2, lon2, datum=d), b2, height=0, wrap=False)
+                   m.LatLon(lat2, lon2, datum=d), b2,
+                     LatLon=None, height=0, wrap=False)
             if isinstance(t, Intersection3Tuple):  # ellipsoidal
                 t, _, _ = t
             t = LatLon2Tuple(t.lat, t.lon, name=n)

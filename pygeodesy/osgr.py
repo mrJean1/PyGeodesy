@@ -53,7 +53,7 @@ from pygeodesy.utily import degrees90, degrees180, sincostan3, truncate
 from math import cos, fabs, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '24.08.13'
+__version__ = '24.11.06'
 
 _equivalent_ = 'equivalent'
 _OSGR_       = 'OSGR'
@@ -505,20 +505,17 @@ def _ll2LatLon3(ll, LatLon, datum, LatLon_kwds):
 
 
 def parseOSGR(strOSGR, Osgr=Osgr, **name_Osgr_kwds):
-    '''Parse a string representing an OS Grid Reference, consisting
-       of C{"[GD] easting northing"}.
+    '''Parse a string representing an OS Grid Reference, consisting of C{"[GD]
+       easting northing"}.
 
-       Accepts standard OS Grid References like "SU 387 148", with
-       or without whitespace separators, from 2- up to 22-digit
-       references, or all-numeric, comma-separated references in
-       meters, for example "438700,114800".
+       Accepts standard OS Grid References like "SU 387 148", with or without
+       whitespace separators, from 2- up to 22-digit references, or all-numeric,
+       comma-separated references in meters, for example "438700,114800".
 
        @arg strOSGR: An OSGR coordinate (C{str}).
-       @kwarg Osgr: Optional class to return the OSGR coordinate
-                    (L{Osgr}) or C{None}.
-       @kwarg name_Osgr_kwds: Optional C{B{name}=NN} (C{str}) and
-                   optional, additional B{C{Osgr}} keyword arguments,
-                   ignored if C{B{Osgr} is None}.
+       @kwarg Osgr: Optional class to return the OSGR coordinate (L{Osgr}) or C{None}.
+       @kwarg name_Osgr_kwds: Optional C{B{name}=NN} (C{str}) and optionally, additional
+                   B{C{Osgr}} keyword arguments, ignored if C{B{Osgr} is None}.
 
        @return: An (B{C{Osgr}}) instance or if C{B{Osgr} is None}, an
                 L{EasNor2Tuple}C{(easting, northing)}.

@@ -38,7 +38,7 @@ from pygeodesy.constants import EPS, EPS0, PI, PI2, PI_2, R_M, \
                                _0_0, _0_5, _1_0
 # from pygeodesy.datums import Datums  # from .sphericalBase
 from pygeodesy.errors import PointsError, VectorError, _xError, _xkwds
-from pygeodesy.fmath import fmean, fsum
+from pygeodesy.fmath import fdot_, fmean, fsum
 # from pygeodesy.fsums import fsum  # from .fmath
 from pygeodesy.interns import _composite_, _end_, _Nv00_, _other_, \
                               _point_, _pole_
@@ -61,7 +61,7 @@ from pygeodesy.utily import atan2, degrees360, fabs, sincos2, sincos2_, \
 # from math import atan2, fabs  # from utily
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '24.10.19'
+__version__ = '24.11.07'
 
 _lines_ = 'lines'
 
@@ -273,8 +273,10 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         a, b = self.philam
 
         sa, ca, sb, cb, st, ct = sincos2_(a, b, t)
-        return Nvector(sb * ct - sa * cb * st,
-                      -cb * ct - sa * sb * st,
+
+        sa *= st
+        return Nvector(fdot_(sb, ct, -sa, cb),
+                      -fdot_(cb, ct,  sa, sb),
                        ca * st, name=self.name)  # XXX .unit()
 
     def greatCircleTo(self, other, wrap=False):
@@ -391,47 +393,29 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         return i.toLatLon(height=h, LatLon=self.classof)  # Nvector(i.x, i.y, i.z).toLatLon(...)
 
     def intersection(self, end1, start2, end2, height=None, wrap=False):
-        '''Locate the intersection point of two lines each defined
-           by two points or a start point and bearing from North.
-
-           @arg end1: End point of the first line (L{LatLon}) or the
-                      initial bearing at this point (compass C{degrees360}).
-           @arg start2: Start point of the second line (L{LatLon}).
-           @arg end2: End point of the second line (L{LatLon}) or the
-                      initial bearing at the second point (compass
-                      C{degrees}).
-           @kwarg height: Optional height at the intersection point,
-                          overriding the mean height (C{meter}).
-           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll all
-                        start and end points (C{bool}).
+        '''Locate an intersection point of two lines each defined by two
+           points or by a point and an (initial) bearing.
 
            @return: The intersection point (L{LatLon}).
 
-           @raise TypeError: If B{C{start2}}, B{C{end1}} or B{C{end2}}
-                             point is not L{LatLon}.
-
-           @raise ValueError: Intersection is ambiguous or infinite or
-                              the lines are parallel, coincident or null.
-
-           @see: Function L{sphericalNvector.intersection} and method
-                 L{intersection2}.
+           @see: Method L{intersection2<sphericalNvector.LatLon.intersection2>}
+                 for further details.
         '''
         return intersection(self, end1, start2, end2, height=height,
                                         wrap=wrap, LatLon=self.classof)
 
     def intersection2(self, end1, start2, end2, height=None, wrap=False):
-        '''Locate the intersections of two (great circle) lines each defined
-           by two points or by a start point and an (initial) bearing.
+        '''Locate both intersections of two (great circle) lines each defined
+           by two points or by a point and an (initial) bearing.
 
-           @arg end1: End point of the first line (L{LatLon}) or the
-                      initial bearing at this point (compass C{degrees360}).
-           @arg start2: Start point of the second line (L{LatLon}).
-           @arg end2: End point of the second line (L{LatLon}) or the
-                      initial bearing at the second start point (compass
-                      C{degrees360}).
+           @arg end1: End point of the line starting at this point (L{LatLon})
+                      or the bearing at this point (compass C{degrees360}).
+           @arg start2: Start point of the other line (L{LatLon}).
+           @arg end2: End point of the other line (L{LatLon}) or the bearing
+                      at B{C{start2}} (compass C{degrees360}).
            @kwarg height: Optional height at the intersection and antipodal
                           point, overriding the mean height (C{meter}).
-           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
                         B{C{start2}} and both B{C{end*}} points (C{bool}).
 
            @return: 2-Tuple C{(intersection, antipode)}, each a B{C{LatLon}}.
@@ -442,8 +426,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @raise ValueError: Intersection is ambiguous or infinite or
                               the lines are parallel, coincident or null.
 
-           @see: Function L{sphericalNvector.intersection2} and method
-                 L{intersection}.
+           @see: Function L{sphericalNvector.intersection2}.
         '''
         return intersection2(self, end1, start2, end2, height=height,
                                          wrap=wrap, LatLon=self.classof)
@@ -472,17 +455,14 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
 
         # sum subtended angles of each edge (using n0, the
         # normal vector to this point for sign of α)
-        def _subtangles(ps, w):
-            Ps  =  self.PointsIter(ps, loop=1, wrap=w)
-            n0  =  self.toNvector()
-            _m0 =  n0.minus
-            p1  =  Ps[0]
-            vs1 = _m0(p1.toNvector())
+        def _subt(Ps, n0, w):
+            p1  = Ps[0]
+            vs1 = n0.minus(p1.toNvector())
             for p2 in Ps.iterate(closed=True):
                 if w and not Ps.looped:
                     p2 = _unrollon(p1, p2)
-                p1  =  p2
-                vs2 = _m0(p2.toNvector())
+                p1  = p2
+                vs2 = n0.minus(p2.toNvector())
                 yield vs1.angleTo(vs2, vSign=n0)  # PYCHOK false
                 vs1 = vs2
 
@@ -491,7 +471,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         # an exterior point will sum to 0°.  On a sphere, enclosed
         # point angles will sum to less than 360° (due to spherical
         # excess), exterior point angles will be small but non-zero.
-        s = fsum(_subtangles(points, wrap))  # normal vector
+        s = fsum(_subt(self.PointsIter(points, loop=1, wrap=wrap),
+                       self.toNvector(), wrap))  # normal vector
         # XXX are winding number optimisations equally applicable to
         # spherical surface?
         return fabs(s) > PI
@@ -642,8 +623,8 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         return r.closest, r.distance
 
     def nearestOn3(self, points, closed=False, radius=R_M, height=None, wrap=False):
-        '''Locate the point on a path or polygon (with great circle
-           arcs joining consecutive points) closest to this point.
+        '''Locate the point on a path or polygon (with great circle arcs
+           joining consecutive points) closest to this point.
 
            The closest point is either on within the extent of any great
            circle arc or the nearest of the arc's end points.
@@ -653,14 +634,14 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @kwarg radius: Mean earth radius (C{meter}) or C{None}.
            @kwarg height: Optional height, overriding the mean height
                           for a point within the arc (C{meter}).
-           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll
-                        the B{C{points}} (C{bool}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
+                        B{C{points}} (C{bool}).
 
            @return: A L{NearestOn3Tuple}C{(closest, distance, angle)} of
                     the C{closest} point (L{LatLon}), the C{distance}
                     between this and the C{closest} point in C{meter},
-                    same units as B{C{radius}} or in C{radians} if
-                    C{B{radius} is None} and the C{angle} from this to
+                    same units as B{C{radius}} (or in C{radians} if
+                    C{B{radius} is None}) and the C{angle} from this to
                     the C{closest} point in compass C{degrees360}.
 
            @raise TypeError: Some B{C{points}} are not C{LatLon}.
@@ -668,16 +649,16 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
            @raise ValueError: No B{C{points}}.
         '''
         Ps = self.PointsIter(points, loop=1, wrap=wrap)
-        _r = self.distanceTo
+        _d = self.distanceTo
         _n = self.nearestOn
 
         c = p1 = Ps[0]
-        r = _r(c, radius=None)  # radians
+        r = _d(c, radius=None)  # radians
         for p2 in Ps.iterate(closed=closed):
             if wrap and not Ps.looped:
                 p2 = _unrollon(p1, p2)
             p = _n(p1, p2, height=height)
-            d = _r(p, radius=None)  # radians
+            d = _d(p, radius=None)  # radians
             if d < r:
                 c, r = p, d
             p1 = p2
@@ -775,13 +756,13 @@ class Nvector(NvectorBase):
 
     def greatCircle(self, bearing):
         '''Compute the n-vector normal to great circle obtained by
-           heading on given compass bearing from this point as its
+           heading on given (initial) bearing from this point as its
            n-vector.
 
            Direction of vector is such that initial bearing vector
            b = c × p.
 
-           @arg bearing: Initial compass bearing (C{degrees}).
+           @arg bearing: Initial bearing (compass C{degrees360}).
 
            @return: N-vector representing great circle (C{Nvector}).
 
@@ -889,77 +870,54 @@ def intersecant2(center, circle, point, other, **radius_exact_height_wrap):
 
 
 def intersection(start1, end1, start2, end2, height=None, wrap=False,
-                               LatLon=LatLon, **LatLon_kwds):
-    '''Locate the intersections of two (great circle) lines each defined
-       by two points or by a start point and an (initial) bearing.
+                                             **LatLon_and_kwds):
+    '''Locate an intersection point of two (great circle) lines each defined
+       by two points or by a point and an (initial) bearing.
 
-       @arg start1: Start point of the first line (L{LatLon}).
-       @arg end1: End point of the first line (L{LatLon}) or the initial
-                  bearing at the first start point (compass C{degrees360}).
-       @arg start2: Start point of the second line (L{LatLon}).
-       @arg end2: End point of the second line (L{LatLon}) or the initial
-                  bearing at the second start point (compass C{degrees360}).
-       @kwarg height: Optional height at the intersection point,
-                      overriding the mean height (C{meter}).
-       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll B{C{start2}}
-                    and both B{C{end*}} points (C{bool}).
-       @kwarg LatLon: Optional class to return the intersection point
-                      (L{LatLon}).
-       @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                           arguments, ignored if C{B{LatLon} is None}.
+       @return: The intersection point (L{LatLon}) or if C{B{LatLon}=None},
+                a cartesian L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M,
+                datum)} with C{C} and C{M} if available.
 
-       @return: The intersection point (B{C{LatLon}}) or if C{B{LatLon}
-                is None}, a cartesian L{Ecef9Tuple}C{(x, y, z, lat, lon,
-                height, C, M, datum)} with C{C} and C{M} if available.
-
-       @raise TypeError: If B{C{start*}} or B{C{end*}} is not L{LatLon}.
-
-       @raise ValueError: Intersection is ambiguous or infinite or
-                          the lines are parallel, coincident or null.
-
-       @see: Function L{sphericalNvector.intersection2}.
+       @see: Function L{intersection2<sphericalNvector.intersection2>}
+             for further details.
     '''
     i, _, h = _intersect3(start1, end1, start2, end2, height, wrap)
-    kwds = _xkwds(LatLon_kwds, height=h, LatLon=LatLon)
+    kwds = _xkwds(LatLon_and_kwds, height=h, LatLon=LatLon)
     return i.toLatLon(**kwds)
 
 
 def intersection2(start1, end1, start2, end2, height=None, wrap=False,
-                                LatLon=LatLon, **LatLon_kwds):
-    '''Locate the intersections of two (great circle) lines each defined
-       by two points or by a start point and an (initial) bearing.
+                                              **LatLon_and_kwds):
+    '''Locate both intersections of two (great circle) lines each defined
+       by two points or by a point and an (initial) bearing.
 
        @arg start1: Start point of the first line (L{LatLon}).
-       @arg end1: End point of the first line (L{LatLon}) or the
-                  initial bearing at the first start point
-                  (compass C{degrees360}).
+       @arg end1: End point of the first line (L{LatLon}) or the bearing at
+                  B{C{start1}} (compass C{degrees360}).
        @arg start2: Start point of the second line (L{LatLon}).
-       @arg end2: End point of the second line (L{LatLon}) or the
-                  initial bearing at the second start point
-                  (compass C{degrees360}).
-       @kwarg height: Optional height at the intersection and antipodal
-                      point, overriding the mean height (C{meter}).
-       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll B{C{start2}}
-                    and both B{C{end*}} points (C{bool}).
-       @kwarg LatLon: Optional class to return the intersection and
-                      antipodal points (L{LatLon}).
-       @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                           arguments, ignored if C{B{LatLon} is None}.
+       @arg end2: End point of the second line (L{LatLon}) or the bearing at
+                  B{C{start2}} (compass C{degrees360}).
+       @kwarg height: Optional height at the intersection and antipodal point,
+                      overriding the mean height (C{meter}).
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll B{C{start2}} and
+                    both B{C{end*}} points (C{bool}).
+       @kwarg LatLon_and_kwds: Optional class C{B{LatLon}=}L{LatLon} to return
+                     the intersection points and optionally, additional B{C{LatLon}}
+                     keyword arguments, ignored if C{B{LatLon} is None}.
 
-       @return: 2-Tuple C{(intersection, antipode)}, each a (B{C{LatLon}})
-                or if C{B{LatLon} is None}, a cartesian L{Ecef9Tuple}C{(x,
-                y, z, lat, lon, height, C, M, datum)} with C{C} and C{M}
-                if available.
+       @return: 2-Tuple C{(intersection, antipode)}, each a (B{C{LatLon}}) or if
+                C{B{LatLon}=None}, a cartesian L{Ecef9Tuple}C{(x, y, z, lat, lon,
+                height, C, M, datum)} with C{C} and C{M} if available.
 
        @raise TypeError: If B{C{start*}} or B{C{end*}} is not L{LatLon}.
 
-       @raise ValueError: Intersection is ambiguous or infinite or
-                          the lines are parallel, coincident or null.
+       @raise ValueError: Intersection is ambiguous or infinite or the lines are
+                          parallel, coincident or null.
 
        @see: Function L{sphericalNvector.intersection}.
     '''
     i, a, h = _intersect3(start1, end1, start2, end2, height, wrap)
-    kwds = _xkwds(LatLon_kwds, height=h, LatLon=LatLon)
+    kwds = _xkwds(LatLon_and_kwds, height=h, LatLon=LatLon)
     return i.toLatLon(**kwds), a.toLatLon(**kwds)
 
 
@@ -1022,21 +980,20 @@ def _intersect3(start1, end1, start2, end2, height, wrap):
     return (i1, i2, h) if d > 0 else (i2, i1, h)
 
 
-def meanOf(points, height=None, wrap=False, LatLon=LatLon, **LatLon_kwds):
+def meanOf(points, height=None, wrap=False, **LatLon_and_kwds):
     '''Compute the I{geographic} mean of the supplied points.
 
        @arg points: Array of points to be averaged (L{LatLon}[]).
-       @kwarg height: Optional height, overriding the mean height
-                      (C{meter}).
+       @kwarg height: Optional height, overriding the mean height (C{meter}).
        @kwarg wrap: If C{True}, wrap or I{normalize} B{C{points}} (C{bool}).
-       @kwarg LatLon: Optional class to return the mean point (L{LatLon}).
-       @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                           arguments, ignored if C{B{LatLon} is None}.
+       @kwarg LatLon_and_kwds: Optional class C{B{LatLon}=}L{LatLon} to return
+                     the mean point and optionally, additional B{C{LatLon}}
+                     keyword arguments, ignored if C{B{LatLon} is None}.
 
        @return: Point at geographic mean and mean height (B{C{LatLon}}).
 
-       @raise PointsError: Insufficient number of B{C{points}} or
-                           some B{C{points}} are not C{LatLon}.
+       @raise PointsError: Insufficient number of B{C{points}} or some
+                           B{C{points}} are not C{LatLon}.
     '''
     def _N_vs(ps, w):
         Ps = _Nv00.PointsIter(ps, wrap=w)
@@ -1047,9 +1004,9 @@ def meanOf(points, height=None, wrap=False, LatLon=LatLon, **LatLon_kwds):
         # geographic mean
         n = _nsumOf(_N_vs(points, wrap), height, Nvector, {})
     except (TypeError, ValueError) as x:
-        raise PointsError(points=points, wrap=wrap, LatLon=LatLon, cause=x)
-    return n.toLatLon(**_xkwds(LatLon_kwds, LatLon=LatLon, height=n.h,
-                                              name=meanOf.__name__))
+        raise PointsError(points=points, wrap=wrap, cause=x, **LatLon_and_kwds)
+    return n.toLatLon(**_xkwds(LatLon_and_kwds, LatLon=LatLon, height=n.h,
+                                                name=meanOf.__name__))
 
 
 @deprecated_function
@@ -1164,8 +1121,8 @@ def sumOf(nvectors, Vector=Nvector, h=None, **Vector_kwds):
 def triangulate(point1, bearing1, point2, bearing2,
                                   height=None, wrap=False,
                                   LatLon=LatLon, **LatLon_kwds):
-    '''Locate a point given two known points and the (initial) bearing
-       from those points.
+    '''Locate a point given two known, reference points and the (initial)
+       bearing from those points.
 
        @arg point1: First reference point (L{LatLon}).
        @arg bearing1: Bearing at the first point (compass C{degrees360}).

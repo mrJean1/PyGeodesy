@@ -35,7 +35,7 @@ from pygeodesy.units import Epoch, _isDegrees, Radius_, _1mm as _TOL_M
 # from math import fabs  # from .latlonBase
 
 __all__ = _ALL_LAZY.ellipsoidalBase
-__version__ = '24.10.12'
+__version__ = '24.11.07'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -77,7 +77,7 @@ class CartesianEllipsoidalBase(CartesianBase):
     @deprecated_method
     def convertRefFrame(self, reframe2, reframe, epoch=None):
         '''DEPRECATED, use method L{toRefFrame}.'''
-        return self.toRefFrame(reframe2, reframe=reframe, epoch=epoch)
+        return self.toRefFrame(reframe2, reframe=reframe, epoch=epoch)  # PYCHOK no cover
 
     @property_RO
     def ellipsoidalCartesian(self):
@@ -276,7 +276,7 @@ class LatLonEllipsoidalBase(LatLonBase):
     @deprecated_property_RO
     def convergence(self):
         '''DEPRECATED, use property C{gamma}.'''
-        return self.gamma
+        return self.gamma  # PYCHOK no cover
 
     @deprecated_method
     def convertDatum(self, datum2):
@@ -330,7 +330,7 @@ class LatLonEllipsoidalBase(LatLonBase):
                  formula.
         '''
         p = self.others(other)
-        if wrap:
+        if wrap:  # PYCHOK no cover
             p = _Wrap.point(p)
         E = self.ellipsoids(other)
         return E.distance2(*(self.latlon + p.latlon))
@@ -488,46 +488,43 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''I{Must be overloaded}.'''
         self._notOverloaded(other, fraction, height=height, wrap=wrap)
 
-    def intersection3(self, end1, other, end2, height=None, wrap=False,  # was=True
+    def intersection3(self, end1, start2, end2, height=None, wrap=False,  # was=True
                                           equidistant=None, tol=_TOL_M):
-        '''I{Iteratively} compute the intersection point of two lines, each
-           defined by two points or a start point and bearing from North.
+        '''I{Iteratively} compute the intersection point of two geodesic lines, each
+           given as two points or as a start point and a bearing from North.
 
-           @arg end1: End point of this line (C{LatLon}) or the initial
-                      bearing at this point (compass C{degrees360}).
-           @arg other: Start point of the other line (C{LatLon}).
-           @arg end2: End point of the other line (C{LatLon}) or the initial
-                      bearing at the other point (compass C{degrees360}).
-           @kwarg height: Optional height at the intersection (C{meter},
-                          conventionally) or C{None} for the mean height.
-           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
-                        B{C{other}} and B{C{end*}} points (C{bool}).
-           @kwarg equidistant: An azimuthal equidistant projection (I{class} or
-                               function L{pygeodesy.equidistant}), or C{None}
-                               for this point's preferred C{.Equidistant}.
-           @kwarg tol: Tolerance for convergence and skew line distance and
-                       length (C{meter}, conventionally).
+           @arg end1: End point of this line (C{LatLon}) or the initial bearing at
+                      this point (compass C{degrees360}).
+           @arg start2: Start point of the second line (this C{LatLon}).
+           @arg end2: End point of the second line (this C{LatLon}) or the initial
+                      bearing at B{C{start2}} (compass C{degrees360}).
+           @kwarg height: Optional height at the intersection (C{meter}, conventionally)
+                          or C{None} for the mean height.
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll B{C{start2}} and
+                        both B{C{end*}} points (C{bool}).
+           @kwarg equidistant: An azimuthal equidistant projection (I{class} or function
+                               L{pygeodesy.equidistant}), or C{None} for this point's
+                               preferred C{.Equidistant}.
+           @kwarg tol: Tolerance for convergence and skew line distance and length
+                       (C{meter}, conventionally).
 
-           @return: An L{Intersection3Tuple}C{(point, outside1, outside2)}
-                    with C{point} a C{LatLon} instance.
+           @return: An L{Intersection3Tuple}C{(point, outside1, outside2)} with C{point}
+                    a C{LatLon} instance.
 
            @raise ImportError: Package U{geographiclib
-                               <https://PyPI.org/project/geographiclib>}
-                               not installed or not found, but only if
+                               <https://PyPI.org/project/geographiclib>} not
+                               installed or not found, but only in case
                                C{B{equidistant}=}L{EquidistantKarney}.
 
-           @raise IntersectionError: Skew, colinear, parallel or otherwise
-                                     non-intersecting lines or no convergence
-                                     for the given B{C{tol}}.
+           @raise IntersectionError: Skew, colinear, parallel or otherwise non-intersecting
+                                     lines or no convergence for the given B{C{tol}}.
 
-           @raise TypeError: If B{C{end1}}, B{C{other}} or B{C{end2}} point
-                             is not C{LatLon}.
+           @raise TypeError: Invalid B{C{end1}}, B{C{start2}} or B{C{end2}}.
 
-           @note: For each line specified with an initial bearing, a pseudo-end
-                  point is computed as the C{destination} along that bearing at
-                  about 1.5 times the distance from the start point to an initial
-                  gu-/estimate of the intersection point (and between 1/8 and 3/8
-                  of the C{authalic} earth perimeter).
+           @note: For each line specified with an initial bearing, a pseudo-end point is
+                  computed as the C{destination} along that bearing at about 1.5 times the
+                  distance from the start point to an initial gu-/estimate of the intersection
+                  point (and between 1/8 and 3/8 of the C{authalic} earth perimeter).
 
            @see: I{Karney's} U{intersect.cpp<https://SourceForge.net/p/geographiclib/
                  discussion/1026621/thread/21aaff9f/>}, U{The B{ellipsoidal} case<https://
@@ -536,30 +533,30 @@ class LatLonEllipsoidalBase(LatLonBase):
                  B{14. MARITIME BOUNDARIES} for more details about the iteration algorithm.
         '''
         try:
-            s2 = self.others(other)
+            s2 = self.others(start2=start2)
             return _MODS.ellipsoidalBaseDI._intersect3(self, end1,
                                                        s2,   end2,
                                                        height=height, wrap=wrap,
                                                        equidistant=equidistant, tol=tol,
                                                        LatLon=self.classof, datum=self.datum)
         except (TypeError, ValueError) as x:
-            raise _xError(x, start1=self, end1=end1, other=other, end2=end2,
+            raise _xError(x, start1=self, end1=end1, start2=start2, end2=end2,
                                           height=height, wrap=wrap, tol=tol)
 
-    def intersections2(self, radius1, other, radius2, height=None, wrap=False,  # was=True
-                                                 equidistant=None, tol=_TOL_M):
-        '''I{Iteratively} compute the intersection points of two circles,
-           each defined by a center point and a radius.
+    def intersections2(self, radius1, center2, radius2, height=None, wrap=False,  # was=True
+                                                   equidistant=None, tol=_TOL_M):
+        '''I{Iteratively} compute the intersection points of two circles, each
+           defined by a center point and a radius.
 
            @arg radius1: Radius of this circle (C{meter}, conventionally).
-           @arg other: Center of the other circle (C{LatLon}).
+           @arg center2: Center of the other circle (this C{LatLon}).
            @arg radius2: Radius of the other circle (C{meter}, same units as
                          B{C{radius1}}).
            @kwarg height: Optional height for the intersection points (C{meter},
                           conventionally) or C{None} for the I{"radical height"}
                           at the I{radical line} between both centers.
-           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the B{C{other}}
-                        center (C{bool}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll B{C{center2}}
+                        (C{bool}).
            @kwarg equidistant: An azimuthal equidistant projection (I{class} or
                                function L{pygeodesy.equidistant}) or C{None}
                                for this point's preferred C{.Equidistant}.
@@ -579,7 +576,7 @@ class LatLonEllipsoidalBase(LatLonBase):
                                      non-intersecting circles or no
                                      convergence for the given B{C{tol}}.
 
-           @raise TypeError: Invalid B{C{other}} or B{C{equidistant}}.
+           @raise TypeError: Invalid B{C{center2}} or B{C{equidistant}}.
 
            @raise UnitError: Invalid B{C{radius1}}, B{C{radius2}} or B{C{height}}.
 
@@ -591,15 +588,15 @@ class LatLonEllipsoidalBase(LatLonBase):
                  intersections.
         '''
         try:
-            c2 = self.others(other)
+            c2 = self.others(center2=center2)
             return _MODS.ellipsoidalBaseDI._intersections2(self, radius1,
                                                            c2,   radius2,
                                                            height=height, wrap=wrap,
                                                            equidistant=equidistant, tol=tol,
                                                            LatLon=self.classof, datum=self.datum)
         except (AssertionError, TypeError, ValueError) as x:
-            raise _xError(x, center=self, radius1=radius1, other=other, radius2=radius2,
-                                          height=height, wrap=wrap, tol=tol)
+            raise _xError(x, center=self, radius1=radius1, center2=center2, radius2=radius2,
+                                                           height=height, wrap=wrap, tol=tol)
 
     def isenclosedBy(self, points, wrap=False):
         '''Check whether a polygon or composite encloses this point.
@@ -654,23 +651,22 @@ class LatLonEllipsoidalBase(LatLonBase):
 
     def nearestOn(self, point1, point2, within=True, height=None, wrap=False,  # was=True
                                         equidistant=None, tol=_TOL_M):
-        '''I{Iteratively} locate the closest point on the geodesic between
-           two other (ellipsoidal) points.
+        '''I{Iteratively} locate the closest point on the geodesic (line)
+           between two other (ellipsoidal) points.
 
-           @arg point1: Start point (C{LatLon}).
-           @arg point2: End point (C{LatLon}).
-           @kwarg within: If C{True}, return the closest point I{between}
-                          B{C{point1}} and B{C{point2}}, otherwise the
-                          closest point elsewhere on the geodesic (C{bool}).
-           @kwarg height: Optional height for the closest point (C{meter},
-                          conventionally) or C{None} or C{False} for the
-                          interpolated height.  If C{False}, the closest
-                          takes the heights of the points into account.
-           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll both
-                        B{C{point1}} and B{C{point2}} (C{bool}).
-           @kwarg equidistant: An azimuthal equidistant projection (I{class} or
-                               function L{pygeodesy.equidistant}) or C{None}
-                               for this point's preferred C{.Equidistant}.
+           @arg point1: Start point of the geodesic (C{LatLon}).
+           @arg point2: End point of the geodesic (C{LatLon}).
+           @kwarg within: If C{True}, return the closest point I{between} B{C{point1}} and
+                          B{C{point2}}, otherwise the closest point elsewhere on the geodesic
+                          (C{bool}).
+           @kwarg height: Optional height for the closest point (C{meter}, conventionally)
+                          or C{None} or C{False} for the interpolated height.  If C{False},
+                          the closest takes the heights of the points into account.
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll both B{C{point1}} and
+                        B{C{point2}} (C{bool}).
+           @kwarg equidistant: An azimuthal equidistant projection (I{class} or function
+                               L{pygeodesy.equidistant}) or C{None} for this point's preferred
+                               C{Equidistant}, like L{Equidistant<LatLonEllipsoidalBase.Equistant>}.
            @kwarg tol: Convergence tolerance (C{meter}, conventionally).
 
            @return: Closest point (C{LatLon}).
@@ -680,11 +676,10 @@ class LatLonEllipsoidalBase(LatLonBase):
                                not installed or not found, but only if
                                C{B{equidistant}=}L{EquidistantKarney}.
 
-           @raise TypeError: Invalid B{C{point1}}, B{C{point2}} or
-                             B{C{equidistant}}.
+           @raise TypeError: Invalid B{C{point1}}, B{C{point2}} or B{C{equidistant}}.
 
-           @raise ValueError: Datum or ellipsoid of B{C{point1}} or B{C{point2}} is
-                              incompatible or no convergence for the given B{C{tol}}.
+           @raise ValueError: Datum or ellipsoid of B{C{point1}} or B{C{point2}} is incompatible
+                              or no convergence for the given B{C{tol}}.
 
            @see: I{Karney}'s U{intercept.cpp<https://SourceForge.net/p/geographiclib/
                  discussion/1026621/thread/21aaff9f/>}, U{The B{ellipsoidal} case<https://
@@ -726,15 +721,9 @@ class LatLonEllipsoidalBase(LatLonBase):
            @raise ParseError: Invalid B{C{strllh}}.
         '''
         a, b, h = _MODS.dms.parse3llh(strllh, height=height, sep=sep, wrap=wrap)
-        r = self.classof(a, b, height=h, datum=self.datum, epoch=self.epoch,
-                                                         reframe=self.reframe)
-        if datum not in (None, self.datum):
-            r.datum = datum
-        if epoch not in (None, self.epoch):
-            r.epoch = epoch
-        if reframe not in (None, self.reframe):
-            r.reframe = reframe
-        return self._xnamed(r, force=True, **name) if name else r
+        return self.classof(a, b, height=h, datum=datum   or self.datum,
+                                            epoch=epoch   or self.epoch,
+                                          reframe=reframe or self.reframe, **name)
 
     def _Radjust2(self, adjust, datum, meter_text2):
         '''(INTERNAL) Adjust an C{elevation} or C{geoidHeight} with
@@ -745,7 +734,7 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''
         if adjust:  # Elevation2Tuple or GeoidHeight2Tuple
             m, t = meter_text2
-            if isinstance(m, float) and fabs(m) > EPS:
+            if isinstance(m, float) and fabs(m) > EPS:  # PYCHOK no cover
                 n = Datums.NAD83.ellipsoid.rocGauss(self.lat)
                 if n > EPS0:
                     # use ratio, datum and NAD83 units may differ
@@ -809,9 +798,9 @@ class LatLonEllipsoidalBase(LatLonBase):
                           converted height (C{meter}).
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
-           @return: The converted point (ellipsoidal C{LatLon})
-                    or a copy of this point if B{C{datum2}}
-                    matches this point's C{datum}.
+           @return: The converted point (this C{LatLon}) or a copy
+                    of this point if B{C{datum2}} matches this
+                    point's C{datum}.
 
            @raise TypeError: Invalid B{C{datum2}}.
         '''
@@ -934,9 +923,9 @@ class LatLonEllipsoidalBase(LatLonBase):
            @kwarg pole: Optional top/center of (stereographic)
                         projection (C{str}, 'N[orth]' or 'S[outh]').
            @kwarg falsed: False easting and northing (C{bool}).
-           @kwarg center: If C{True}, I{un}-center the UPS
-                          to its C{lowerleft} (C{bool}) or
-                          by C{B{center} meter} (C{scalar}).
+           @kwarg center: If C{True}, I{un}-center the UPS to its
+                          C{lowerleft} (C{bool}) or by C{B{center}
+                          meter} (C{scalar}).
 
            @return: The UPS coordinate (L{Ups}).
 
@@ -953,9 +942,9 @@ class LatLonEllipsoidalBase(LatLonBase):
     def toUtm(self, center=False):
         '''Convert this C{LatLon} point to a UTM coordinate.
 
-           @kwarg center: If C{True}, I{un}-center the UTM
-                          to its C{lowerleft} (C{bool}) or
-                          by C{B{center} meter} (C{scalar}).
+           @kwarg center: If C{True}, I{un}-center the UTM to its
+                          C{lowerleft} (C{bool}) or by C{B{center}
+                          meter} (C{scalar}).
 
            @return: The UTM coordinate (L{Utm}).
 
@@ -1004,11 +993,11 @@ class LatLonEllipsoidalBase(LatLonBase):
         return _MODS.namedTuples.Vector3Tuple(r.x, r.y, r.z, name=self.name)
 
     def triangulate(self, bearing1, other, bearing2, **height_wrap_tol):
-        '''I{Iteratively} locate a point given this, an other point and the (initial)
-           bearing at this and at the other point.
+        '''I{Iteratively} locate a point given this, an other point and a bearing
+           from North at each point.
 
            @arg bearing1: Bearing at this point (compass C{degrees360}).
-           @arg other: Start point of the other line (C{LatLon}).
+           @arg other: The other point (C{LatLon}).
            @arg bearing2: Bearing at the B{C{other}} point (compass C{degrees360}).
            @kwarg height_wrap_tol: Optional keyword arguments C{B{height}=None},
                          C{B{wrap}=False} and C{B{tol}}, see method L{intersection3
@@ -1026,44 +1015,40 @@ class LatLonEllipsoidalBase(LatLonBase):
 
     def trilaterate5(self, distance1, point2, distance2, point3, distance3,
                            area=True, eps=EPS1, wrap=False):
-        '''Trilaterate three points by I{area overlap} or I{perimeter
-           intersection} of three intersecting circles.
+        '''Trilaterate three points by I{area overlap} or I{perimeter intersection}
+           of three intersecting circles.
 
-           @arg distance1: Distance to this point (C{meter}), same units
-                           as B{C{eps}}).
+           @arg distance1: Distance to this point (C{meter}), same units as B{C{eps}}).
            @arg point2: Second center point (C{LatLon}).
-           @arg distance2: Distance to point2 (C{meter}, same units as
-                           B{C{eps}}).
+           @arg distance2: Distance to point2 (C{meter}, same units as B{C{eps}}).
            @arg point3: Third center point (C{LatLon}).
-           @arg distance3: Distance to point3 (C{meter}, same units as
-                           B{C{eps}}).
-           @kwarg area: If C{True}, compute the area overlap, otherwise the
-                        perimeter intersection of the circles (C{bool}).
-           @kwarg eps: The required I{minimal overlap} for C{B{area}=True}
-                       or the I{intersection margin} for C{B{area}=False}
-                       (C{meter}, conventionally).
+           @arg distance3: Distance to point3 (C{meter}, same units as B{C{eps}}).
+           @kwarg area: If C{True}, compute the area overlap, otherwise the perimeter
+                        intersection of the circles (C{bool}).
+           @kwarg eps: The required I{minimal overlap} for C{B{area}=True} or the
+                       I{intersection margin} for C{B{area}=False} (C{meter},
+                       conventionally).
            @kwarg wrap: If C{True}, wrap or I{normalize} and unroll B{C{point2}}
                         and B{C{point3}} (C{bool}).
 
-           @return: A L{Trilaterate5Tuple}C{(min, minPoint, max, maxPoint, n)}
-                    with C{min} and C{max} in C{meter}, same units as B{C{eps}},
-                    the corresponding trilaterated points C{minPoint} and
-                    C{maxPoint} as I{ellipsoidal} C{LatLon} and C{n}, the number
-                    of trilatered points found for the given B{C{eps}}.
+           @return: A L{Trilaterate5Tuple}C{(min, minPoint, max, maxPoint, n)} with
+                    C{min} and C{max} in C{meter}, same units as B{C{eps}}, the
+                    corresponding trilaterated points C{minPoint} and C{maxPoint}
+                    as I{ellipsoidal} C{LatLon} and C{n}, the number of trilatered
+                    points found for the given B{C{eps}}.
 
-                    If only a single trilaterated point is found, C{min I{is}
-                    max}, C{minPoint I{is} maxPoint} and C{n=1}.
+                    If only a single trilaterated point is found, C{min I{is} max},
+                    C{minPoint I{is} maxPoint} and C{n=1}.
 
-                    For C{B{area}=True}, C{min} and C{max} are the smallest
-                    respectively largest I{radial} overlap found.
+                    If C{B{area}=False}, C{min} and C{max} represent the nearest
+                    respectively farthest intersection margin.
 
-                    For C{B{area}=False}, C{min} and C{max} represent the
-                    nearest respectively farthest intersection margin.
+                    If C{B{area}=True}, C{min} and C{max} are the smallest respectively
+                    largest I{radial} overlap found.
 
-                    If C{B{area}=True} and all 3 circles are concentric, C{n=0}
-                    and C{minPoint} and C{maxPoint} are the B{C{point#}} with
-                    the smallest B{C{distance#}} C{min} respectively C{max} the
-                    largest B{C{distance#}}.
+                    If C{B{area}=True} and all 3 circles are concentric, C{n=0} and
+                    C{minPoint} and C{maxPoint} are the B{C{point#}} with the smallest
+                    B{C{distance#}} C{min} respectively largest B{C{distance#}} C{max}.
 
            @raise IntersectionError: Trilateration failed for the given B{C{eps}},
                                      insufficient overlap for C{B{area}=True}, no

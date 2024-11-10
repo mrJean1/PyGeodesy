@@ -31,7 +31,7 @@ from pygeodesy.vector3dBase import Vector3dBase
 # from math import fabs, sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '24.10.01'
+__version__ = '24.11.06'
 
 _vector2d = _MODS.into(vector2d=__name__)
 
@@ -497,17 +497,16 @@ def intersection3d3(start1, end1, start2, end2, eps=EPS, useZ=True,
                   B{C{start2}} (Ccompass C{degrees}).
        @kwarg eps: Tolerance for skew line distance and length (C{EPS}).
        @kwarg useZ: If C{True}, use the Z components, otherwise force C{z=INT0} (C{bool}).
-       @kwarg Vector_and_kwds: Optional class C{B{Vector}=None} to return the
-                               intersection points and optional, additional B{C{Vector}}
-                               keyword arguments, otherwise B{C{start1}}'s (sub-)class.
+       @kwarg Vector_and_kwds: Optional class C{B{Vector}=None} to return the intersection
+                     points and optional, additional B{C{Vector}} keyword arguments,
+                     otherwise B{C{start1}}'s (sub-)class.
 
-       @return: An L{Intersection3Tuple}C{(point, outside1, outside2)} with
-                C{point} an instance of B{C{Vector}} or B{C{start1}}'s (sub-)class.
+       @return: An L{Intersection3Tuple}C{(point, outside1, outside2)} with C{point}
+                an instance of B{C{Vector}} or B{C{start1}}'s (sub-)class.
 
        @note: The C{outside} values is C{0} for lines specified by point and bearing.
 
-       @raise IntersectionError: Invalid, skew, non-co-planar or otherwise
-                                 non-intersecting lines.
+       @raise IntersectionError: Invalid, skew, non-co-planar or otherwise non-intersecting lines.
 
        @see: U{Line-line intersection<https://MathWorld.Wolfram.com/Line-LineIntersection.html>}
              and U{line-line distance<https://MathWorld.Wolfram.com/Line-LineDistance.html>},
@@ -538,9 +537,9 @@ def intersections2(center1, radius1, center2, radius2, sphere=True, **Vector_and
        @kwarg sphere: If C{True}, compute the center and radius of the intersection of
                       two spheres.  If C{False}, ignore the C{z}-component and compute
                       the intersection of two circles (C{bool}).
-       @kwarg Vector_and_kwds: Optional class C{B{Vector}=None} to return the
-                               intersection points and optional, additional B{C{Vector}}
-                               keyword arguments, otherwise B{C{center1}}'s (sub-)class.
+       @kwarg Vector_and_kwds: Optional class C{B{Vector}=None} to return the intersection
+                     points and optionally, additional B{C{Vector}} keyword arguments,
+                     otherwise B{C{center1}}'s (sub-)class.
 
        @return: If C{B{sphere} is True}, a 2-tuple of the C{center} and C{radius} of the
                 intersection of the I{spheres}.  For abutting circles, C{radius} is C{0.0}
@@ -725,12 +724,12 @@ def nearestOn6(point, points, closed=False, useZ=True, **Vector_and_kwds):  # ep
        @kwarg closed: Optionally, close the path or polygon (C{bool}).
        @kwarg useZ: If C{True}, use the Z components, otherwise force C{z=INT0} (C{bool}).
        @kwarg Vector_and_kwds: Optional class C{B{Vector}=None} to return the closest
-                               point and optional, additional B{C{Vector}} keyword
-                               arguments, otherwise B{C{point}}'s (sub-)class.
+                     point and optionally, additional B{C{Vector}} keyword arguments,
+                     otherwise B{C{point}}'s (sub-)class.
 
        @return: A L{NearestOn6Tuple}C{(closest, distance, fi, j, start, end)} with the
                 C{closest}, the C{start} and the C{end} point each an instance of the
-                B{C{Vector}} keyword argument of if {B{Vector}=None} or not specified,
+                B{C{Vector}} keyword argument or if {B{Vector}=None} or not specified,
                 an instance of the reference B{C{point}}'s (sub-)class.
 
        @raise PointsError: Insufficient number of B{C{points}}
@@ -854,17 +853,16 @@ def trilaterate3d2(center1, radius1, center2, radius2, center3, radius3,
                      and C{z}).
        @kwarg eps: Pertubation tolerance (C{scalar}), same units as C{x},
                    C{y} and C{z} or C{None} for no pertubations.
-       @kwarg Vector_and_kwds: Optional class C{B{Vector}=None} to return
-                               the trilateration and optional, additional
-                               B{C{Vector}} keyword arguments, otherwise
-                               the B{C{center1}}'s (sub-)class.
+       @kwarg Vector_and_kwds: Optional class C{B{Vector}=None} to return the
+                     trilateration and optionally, additional B{C{Vector}}
+                     keyword arguments, otherwise B{C{center1}}'s (sub-)class.
 
        @return: 2-Tuple with two trilaterated points, each a B{C{Vector}}
                 instance.  Both points are the same instance if all three
                 spheres abut/intersect in a single point.
 
-       @raise ImportError: Package C{numpy} not found, not installed or
-                           older than version 1.10.
+       @raise ImportError: Package C{numpy} not found, not installed or older
+                           than version 1.10.
 
        @raise IntersectionError: Near-concentric, -colinear, too distant or
                                  non-intersecting spheres.

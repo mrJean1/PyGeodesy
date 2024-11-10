@@ -44,7 +44,7 @@ from pygeodesy.vector3d import _ALL_LAZY, Vector3d
 # from math import fabs, floor as _floor  # from .fmath, .fsums
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '24.08.18'
+__version__ = '24.11.06'
 
 _height0_ = _height_ + _0_
 _narrow_  = 'narrow'
@@ -150,9 +150,9 @@ class Attitude(_NamedBase):
            @kwarg z: Z component of vector (C{scalar}), same units as B{C{x}}.
            @kwarg Vector: Class to return transformed point (C{Cartesian}, L{Vector3d}
                           or C{Vector3Tuple}) or C{None}.
-           @kwarg name_Vector_kwds: Optional C{B{name}=NN} (C{str}) and optional,
-                       additional B{C{Vector}} keyword arguments, ignored if
-                       C{B{Vector} is None}.
+           @kwarg name_Vector_kwds: Optional C{B{name}=NN} (C{str}) and optionally,
+                       additional B{C{Vector}} keyword arguments, ignored if C{B{Vector}
+                       is None}.
 
            @return: A named B{C{Vector}} instance or if C{B{Vector} is None},
                     a named L{Vector3Tuple}C{(x, y, z)}.
@@ -469,9 +469,9 @@ class LocalCartesian(_NamedBase):
 
            @arg ecef: Geocentric (and geodetic) (L{Ecef9Tuple}).
            @arg Xyz: An L{XyzLocal}, L{Enu} or L{Ned} I{class} or C{None}.
-           @arg name_Xyz_kwds: Optional C{B{name}=NN} (C{str}) and optional,
-                     additional B{C{Xyz}} keyword arguments, ignored if
-                     C{B{Xyz} is None}.
+           @arg name_Xyz_kwds: Optional C{B{name}=NN} (C{str}) and optionally,
+                     additional B{C{Xyz}} keyword arguments, ignored if C{B{Xyz}
+                     is None}.
 
            @return: An C{B{Xyz}(x, y, z, ltp, **B{name_Xyz_kwds}} instance or
                     if C{B{Xyz} is None}, a L{Local9Tuple}C{(x, y, z, lat, lon,
@@ -1098,9 +1098,9 @@ def tyr3d(tilt=INT0, yaw=INT0, roll=INT0, Vector=Vector3d, **name_Vector_kwds):
                     (clockwise rotation along and around the y-axis).
        @kwarg Vector: Class to return the direction vector (C{Cartesian},
                       L{Vector3d} or C{Vector3Tuple}) or C{None}.
-       @kwarg name_Vector_kwds: Optional C{B{name}=NN} (C{str}) and optional,
-                   additional B{C{Vector}} keyword arguments, ignored if
-                   C{B{Vector} is None}.
+       @kwarg name_Vector_kwds: Optional C{B{name}=NN} (C{str}) and optionally,
+                   additional B{C{Vector}} keyword arguments, ignored if C{B{Vector}
+                   is None}.
 
        @return: A named B{C{Vector}} instance or if C{B{Vector} is None},
                 a named L{Vector3Tuple}C{(x, y, z)}.

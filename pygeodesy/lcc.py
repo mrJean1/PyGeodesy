@@ -48,7 +48,7 @@ from pygeodesy.utily import atan1, degrees90, degrees180, sincos2, tanPI_2_2
 from math import atan, fabs, log, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.lcc
-__version__ = '24.06.24'
+__version__ = '24.11.06'
 
 _E0_   = 'E0'
 _N0_   = 'N0'
@@ -620,9 +620,9 @@ def toLcc(latlon, conic=Conics.WRF_Lb, height=None, Lcc=Lcc,
        @kwarg height: Optional height for the point, overriding the
                       default height (C{meter}).
        @kwarg Lcc: Class to return the I{Lambert} location (L{Lcc}).
-       @kwarg name_Lcc_kwds: Optional C{B{name}=NN} (C{str}) and optional,
-                   additional B{C{Lcc}} keyword arguments, ignored if
-                   B{C{Lcc} is None}.
+       @kwarg name_Lcc_kwds: Optional C{B{name}=NN} (C{str}) and optionally,
+                   additional B{C{Lcc}} keyword arguments, ignored if B{C{Lcc}
+                   is None}.
 
        @return: The I{Lambert} location (L{Lcc}) or if C{B{Lcc} is None},
                 an L{EasNor3Tuple}C{(easting, northing, height)}.

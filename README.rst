@@ -19,7 +19,7 @@ and nearest points, intersections of geodesic, great circle and rhumb lines, cir
 secants, `3-point resections`_, triangulation, trilateration (by intersection, by overlap and in
 3d), conversions and unrolling, among other things.  For more information and further details see the
 documentation_, the descriptions of `Latitude/Longitude`_, Vincenty_ and `Vector-based`_ geodesy, the
-original `JavaScript source`_ or docs_ and *Karney*\'s Python geographiclib_ and `C++ GeographicLib`_.
+original `JavaScript source`_ or docs_ and *Karney*\'s Python geographiclib_ and C++ GeographicLib_.
 
 Also included are modules for conversions to and from `Cassini-Soldner`_, ECEF_ (Earth-Centered,
 Earth-Fixed cartesian), UTM_ (Universal Transverse Mercator and Exact_), UPS_ (Universal Polar
@@ -135,7 +135,7 @@ and McCabe_ using Python 2.7.18 and with Flake8_ using Python 3.11.5, both in 64
 
 For a summary of all *Karney*-based functionality in ``pygeodesy``, see module karney_.
 
-*Last updated: Oct 24, 2024.*
+*Last updated: Nov 11, 2024.*
 
 License
 =======
@@ -175,7 +175,6 @@ DEALINGS IN THE SOFTWARE.
 
 .. _Albers equal-area: https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AlbersEqualArea.html
 .. _C++ classes: https://GeographicLib.SourceForge.io/C++/doc/annotated.html
-.. _C++ GeographicLib: https://GeographicLib.SourceForge.io/C++/doc/index.html
 .. _Cartesian: https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy-Cartesian-attributes-table.html
 .. _Cassini-Soldner: https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1CassiniSoldner.html
 .. _checked: https://GitHub.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor
@@ -197,6 +196,7 @@ DEALINGS IN THE SOFTWARE.
 .. _GeoConvert: https://GeographicLib.SourceForge.io/C++/doc/utilities.html
 .. _GeodSolve: https://GeographicLib.SourceForge.io/C++/doc/utilities.html
 .. _geographiclib: https://PyPI.org/project/geographiclib
+.. _GeographicLib: https://GeographicLib.SourceForge.io/C++/doc/index.html
 .. _Geohashes: https://www.Movable-Type.co.UK/scripts/geohash.html
 .. _Geoid: https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.geoids-module.html
 .. _Georefs (WGRS): https://WikiPedia.org/wiki/World_Geographic_Reference_System

@@ -12,7 +12,7 @@ from pygeodesy.constants import EPS, EPS0, EPS02, EPS4, INF, INT0, \
                                _1_0, _1_0_1T, _N_1_0, _2_0, _N_2_0, _4_0
 from pygeodesy.errors import _and, _AssertionError, IntersectionError, NumPyError, \
                               PointsError, TriangleError, _xError, _xkwds
-from pygeodesy.fmath import fabs, fdot, hypot, hypot2_, sqrt
+from pygeodesy.fmath import fabs, fdot, fdot_, hypot, hypot2_, sqrt
 from pygeodesy.fsums import _Fsumf_, fsumf_, fsum1f_
 from pygeodesy.interns import NN, _a_, _and_, _b_, _c_, _center_, _coincident_, \
                              _colinear_, _COMMASPACE_, _concentric_, _few_, \
@@ -31,7 +31,7 @@ from contextlib import contextmanager
 # from math import fabs, sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.vector2d
-__version__ = '24.08.19'
+__version__ = '24.11.07'
 
 _cA_        = 'cA'
 _cB_        = 'cB'
@@ -251,8 +251,8 @@ def circum4(points, useZ=True, **Vector_and_kwds):
        @kwarg useZ: If C{True}, use the points' Z component, otherwise force C{z=INT0}
                     (C{bool}).
        @kwarg Vector_and_kwds: Optional class C{B{Vector}=None} to return the center point
-                     and optional, additional B{C{Vector}} keyword arguments, otherwise
-                     the first B{C{points}}' (sub-)class is used.
+                     and optionally, additional B{C{Vector}} keyword arguments, otherwise
+                     the B{C{points}}' (sub-)class.
 
        @return: L{Circum4Tuple}C{(radius, center, rank, residuals)} with C{center} an
                 instance of C{B{points}[0]}' (sub-)class or B{C{Vector}} if specified.
@@ -685,8 +685,8 @@ def trilaterate2d2(x1, y1, radius1, x2, y2, radius2, x3, y3, radius3,
        @kwarg eps: Tolerance to check the trilaterated point I{delta} on
                    all 3 circles (C{scalar}) or C{None} for no checking.
        @kwarg Vector_and_kwds: Optional class C{B{Vector}=None} to return
-                               the trilateration and optional, additional
-                               B{C{Vector}} keyword arguments).
+                     the trilateration and optionally, additional B{C{Vector}}
+                     keyword arguments).
 
        @return: Trilaterated point as C{B{Vector}(x, y, **B{Vector_kwds})}
                 or L{Vector2Tuple}C{(x, y)} if C{B{Vector} is None}.
@@ -742,14 +742,14 @@ def _trilaterate2d2(x1, y1, radius1, x2, y2, radius2, x3, y3, radius3,
         raise IntersectionError(_and(_astr(x3=x3, y3=y3, radius3=r3),
                                      _astr(x1=x1, y1=y1, radius1=r1)), txt=t)
 
-    q = (a * e - b * d) * _2_0
+    q = fdot_(a, e, -b, d) * _2_0
     if isnear0(q):
         t = _no_(_intersection_)
         raise IntersectionError(_and(_astr(x1=x1, y1=y1, radius1=r1),
                                      _astr(x2=x2, y2=y2, radius2=r2),
                                      _astr(x3=x3, y3=y3, radius3=r3)), txt=t)
-    t = Vector2Tuple((c * e - b * f) / q,
-                     (a * f - c * d) / q, name=trilaterate2d2.__name__)
+    t = Vector2Tuple(fdot_(c, e, -b, f) / q,
+                     fdot_(a, f, -c, d) / q, name=trilaterate2d2.__name__)
 
     if eps and eps > 0:  # check distances to center vs radius
         for x, y, r in ((x1, y1, r1), (x2, y2, r2), (x3, y3, r3)):

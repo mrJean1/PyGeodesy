@@ -319,8 +319,8 @@ sphericalBase.LatLonSphericalBase --+
         <span class="summary-sig-arg">end2</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Locate the intersection point of two lines each defined by two points
-      or a start point and bearing from North.</td>
+      Locate an intersection point of two lines each defined by two points 
+      or by a point and an (initial) bearing.</td>
           <td align="right" valign="top">
             
             
@@ -342,8 +342,8 @@ sphericalBase.LatLonSphericalBase --+
         <span class="summary-sig-arg">end2</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Locate the intersections of two (great circle) lines each defined by 
-      two points or by a start point and an (initial) bearing.</td>
+      Locate both intersections of two (great circle) lines each defined by
+      two points or by a point and an (initial) bearing.</td>
           <td align="right" valign="top">
             
             
@@ -1173,47 +1173,18 @@ sphericalBase.LatLonSphericalBase --+
     </td>
   </tr></table>
   
-  <p>Locate the intersection point of two lines each defined by two points 
-  or a start point and bearing from North.</p>
+  <p>Locate an intersection point of two lines each defined by two points 
+  or by a point and an (initial) bearing.</p>
   <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>end1</code></strong> - End point of the first line (<a 
-          href="pygeodesy.sphericalNvector.LatLon-class.html" 
-          class="link">LatLon</a>) or the initial bearing at this point 
-          (compass <code>degrees360</code>).</li>
-        <li><strong class="pname"><code>start2</code></strong> - Start point of the second line (<a 
-          href="pygeodesy.sphericalNvector.LatLon-class.html" 
-          class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>end2</code></strong> - End point of the second line (<a 
-          href="pygeodesy.sphericalNvector.LatLon-class.html" 
-          class="link">LatLon</a>) or the initial bearing at the second 
-          point (compass <code>degrees</code>).</li>
-        <li><strong class="pname"><code>height</code></strong> - Optional height at the intersection point, overriding the mean 
-          height (<code>meter</code>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll all 
-          start and end points (<code>bool</code>).</li>
-    </ul></dd>
     <dt>Returns:</dt>
         <dd>The intersection point (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>start2</code></b>, <b><code>end1</code></b> or 
-        <b><code>end2</code></b> point is not <a 
-        href="pygeodesy.sphericalNvector.LatLon-class.html" 
-        class="link">LatLon</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Intersection is ambiguous or infinite or the lines are parallel, 
-        coincident or null.</li>
-    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a 
-        href="pygeodesy.sphericalNvector-module.html#intersection" 
-        class="link">sphericalNvector.intersection</a> and method <a 
+        Method <a 
         href="pygeodesy.sphericalNvector.LatLon-class.html#intersection2" 
-        class="link">intersection2</a>.
+        class="link">intersection2</a> for further details.
       </p>
 </div></td></tr></table>
 </div>
@@ -1236,25 +1207,25 @@ sphericalBase.LatLonSphericalBase --+
     </td>
   </tr></table>
   
-  <p>Locate the intersections of two (great circle) lines each defined by 
-  two points or by a start point and an (initial) bearing.</p>
+  <p>Locate both intersections of two (great circle) lines each defined by 
+  two points or by a point and an (initial) bearing.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>end1</code></strong> - End point of the first line (<a 
+        <li><strong class="pname"><code>end1</code></strong> - End point of the line starting at this point (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
-          class="link">LatLon</a>) or the initial bearing at this point 
-          (compass <code>degrees360</code>).</li>
-        <li><strong class="pname"><code>start2</code></strong> - Start point of the second line (<a 
+          class="link">LatLon</a>) or the bearing at this point (compass 
+          <code>degrees360</code>).</li>
+        <li><strong class="pname"><code>start2</code></strong> - Start point of the other line (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>end2</code></strong> - End point of the second line (<a 
+        <li><strong class="pname"><code>end2</code></strong> - End point of the other line (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
-          class="link">LatLon</a>) or the initial bearing at the second 
-          start point (compass <code>degrees360</code>).</li>
+          class="link">LatLon</a>) or the bearing at 
+          <b><code>start2</code></b> (compass <code>degrees360</code>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height at the intersection and antipodal point, 
           overriding the mean height (<code>meter</code>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll 
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
           <b><code>start2</code></b> and both <b><code>end*</code></b> 
           points (<code>bool</code>).</li>
     </ul></dd>
@@ -1274,9 +1245,7 @@ sphericalBase.LatLonSphericalBase --+
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a 
         href="pygeodesy.sphericalNvector-module.html#intersection2" 
-        class="link">sphericalNvector.intersection2</a> and method <a 
-        href="pygeodesy.sphericalNvector.LatLon-class.html#intersection" 
-        class="link">intersection</a>.
+        class="link">sphericalNvector.intersection2</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -1600,8 +1569,8 @@ sphericalBase.LatLonSphericalBase --+
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>), the <code>distance</code> between this 
           and the <code>closest</code> point in <code>meter</code>, same 
-          units as <b><code>radius</code></b> or in <code>radians</code> if
-          <code><b>radius</b> is None</code> and the <code>angle</code> 
+          units as <b><code>radius</code></b> (or in <code>radians</code> 
+          if <code><b>radius</b> is None</code>) and the <code>angle</code>
           from this to the <code>closest</code> point in compass 
           <code>degrees360</code>.</dd>
     <dt>Raises:</dt>
@@ -1735,7 +1704,7 @@ sphericalBase.LatLonSphericalBase --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Oct 22 17:06:21 2024
+    Generated by Epydoc 3.0.1 on Sun Nov 10 11:35:51 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

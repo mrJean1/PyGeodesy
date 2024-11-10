@@ -11,7 +11,7 @@ Class L{ExactTransverseMercator} provides C{Exact Transverse Mercator} projectio
 instances of class L{Etm} represent ETM C{(easting, northing)} locations.  See also
 I{Karney}'s utility U{TransverseMercatorProj<https://GeographicLib.SourceForge.io/C++/doc/
 TransverseMercatorProj.1.html>} and use C{"python[3] -m pygeodesy.etm ..."} to compare
-the results.
+the results, see usage C{"python[3] -m pygeodesy.etm -h"}.
 
 Following is a copy of I{Karney}'s U{TransverseMercatorExact.hpp
 <https://GeographicLib.SourceForge.io/C++/doc/TransverseMercatorExact_8hpp_source.html>}
@@ -65,23 +65,25 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import map1, neg, neg_, _xinstanceof
 from pygeodesy.constants import EPS, EPS02, PI_2, PI_4, _K0_UTM, \
-                               _1_EPS, _0_0, _0_1, _0_5, _1_0, _2_0, \
-                               _3_0, _4_0, _90_0, isnear0, isnear90
+                             _1_EPS, _0_0, _0_1, _0_5, _1_0, _2_0, \
+                             _3_0, _90_0, isnear0, isnear90
+from pygeodesy.constants import _4_0  # PYCHOK used!
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84,  _EWGS84
 # from pygeodesy.ellipsoids import _EWGS84  # from .datums
-from pygeodesy.elliptic import _ALL_LAZY, Elliptic
+# from pygeodesy.elliptic import Elliptic  # _MODS
 # from pygeodesy.errors import _incompatible  # from .named
 # from pygeodesy.fsums import Fsum  # from .fmath
 from pygeodesy.fmath import cbrt, hypot, hypot1, hypot2,  Fsum
 from pygeodesy.interns import _COMMASPACE_, _near_, _SPACE_, _spherical_
 from pygeodesy.karney import _K_2_4, _copyBit, _diff182, _fix90, \
                              _norm2, _norm180, _tand, _unsigned2
-# from pygeodesy.lazily import _ALL_LAZY  # from .elliptic
-from pygeodesy.named import callername, _incompatible, _NamedBase
+# from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS  # from .named
+from pygeodesy.named import callername, _incompatible, _NamedBase, \
+                           _ALL_LAZY, _MODS
 from pygeodesy.namedTuples import Forward4Tuple, Reverse4Tuple
 from pygeodesy.props import deprecated_method, deprecated_property_RO, \
                             Property_RO, property_RO, _update_all, \
-                            property_doc_
+                            property_doc_,  _allPropertiesOf_n
 from pygeodesy.streprs import Fmt, pairs, unstr
 from pygeodesy.units import Degrees, Scalar_
 from pygeodesy.utily import atan1d, atan2d, _loneg, sincos2
@@ -91,12 +93,12 @@ from pygeodesy.utm import _cmlon, _LLEB, _parseUTM5, _toBand, _toXtm8, \
 from math import asinh, atan2, degrees, radians, sinh, sqrt
 
 __all__ = _ALL_LAZY.etm
-__version__ = '24.10.21'
+__version__ = '24.11.04'
 
-_OVERFLOW = _1_EPS**2  # about 2e+31
-_TAYTOL   =  pow(EPS, 0.6)
+_OVERFLOW = _1_EPS**2  # ~2e+31
+_TAYTOL   =  pow(EPS,  0.6)
 _TAYTOL2  = _TAYTOL * _2_0
-_TOL_10   =  EPS * _0_1
+_TOL_10   =  EPS    * _0_1
 _TRIPS    =  21  # C++ 10
 
 
@@ -218,12 +220,12 @@ class Etm(Utm):
 class ExactTransverseMercator(_NamedBase):
     '''Pure Python version of Karney's C++ class U{TransverseMercatorExact
        <https://GeographicLib.SourceForge.io/C++/doc/TransverseMercatorExact_8cpp_source.html>},
-       a numerically exact transverse Mercator projection, further referred to as C{TMExact}.
+       a numerically exact transverse Mercator projection, abbreviated as C{TMExact}.
     '''
     _datum     = _WGS84       # Datum
     _E         = _EWGS84      # Ellipsoid
     _extendp   =  False       # use extended domain
-#   _iteration =  None        # ._sigmaInv2 and ._zetaInv2
+#   _iteration =  None        # _NameBase, ._sigmaInv2 and ._zetaInv2
     _k0        = _K0_UTM      # central scale factor
     _lat0      = _0_0         # central parallel
     _lon0      = _0_0         # central meridian
@@ -240,7 +242,7 @@ class ExactTransverseMercator(_NamedBase):
                          L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}).
            @kwarg lon0: Central meridian, default (C{degrees180}).
            @kwarg k0: Central scale factor (C{float}).
-           @kwarg extendp: Use the I{extended} domain (C{bool}), I{standard} otherwise.
+           @kwarg extendp: If C{True}, use the I{extended} domain, I{standard} otherwise (C{bool}).
            @kwarg raiser: If C{True}, throw an L{ETMError} for convergence failures (C{bool}).
            @kwarg name: Optional C{B{name}=NN} for the projection (C{str}).
 
@@ -349,7 +351,7 @@ class ExactTransverseMercator(_NamedBase):
     def _Eu(self):
         '''(INTERNAL) Get and cache C{Elliptic(_mu)}.
         '''
-        return Elliptic(self._mu)
+        return _MODS.elliptic.Elliptic(self._mu)
 
     @Property_RO
     def _Eu_cE(self):
@@ -390,7 +392,7 @@ class ExactTransverseMercator(_NamedBase):
     def _Ev(self):
         '''(INTERNAL) Get and cache C{Elliptic(_mv)}.
         '''
-        return Elliptic(self._mv)
+        return _MODS.elliptic.Elliptic(self._mv)
 
     @Property_RO
     def _Ev_cK(self):
@@ -416,7 +418,7 @@ class ExactTransverseMercator(_NamedBase):
         '''
         return self._Ev_cKE * 1.25  # _1_25
 
-    @Property_RO
+    @property_RO
     def extendp(self):
         '''Get the domain (C{bool}), I{extended} or I{standard}.
         '''
@@ -635,7 +637,7 @@ class ExactTransverseMercator(_NamedBase):
         '''Set the central parallel and meridian.
 
            @arg lat0: Latitude of the central parallel (C{degrees90}).
-           @arg lon0: Longitude of the central parallel (C{degrees180}).
+           @arg lon0: Longitude of the central meridian (C{degrees180}).
 
            @return: 2-Tuple C{(lat0, lon0)} of the previous central
                     parallel and meridian.
@@ -644,7 +646,7 @@ class ExactTransverseMercator(_NamedBase):
         '''
         t = self._lat0, self.lon0
         self._lat0 = _fix90(Degrees(lat0=lat0, Error=ETMError))
-        self. lon0 =  lon0
+        self. lon0 =  lon0  # lon0.setter
         return t
 
     def _resets(self, datum):
@@ -655,15 +657,15 @@ class ExactTransverseMercator(_NamedBase):
            @raise ETMError: Near-spherical B{C{datum}} or C{ellipsoid}.
         '''
         E  = datum.ellipsoid
-        mu = E.e2   # .eccentricity1st2
+        mu = E.e2   # E.eccentricity1st2
         mv = E.e21  # _1_0 - mu
         if isnear0(E.e) or isnear0(mu, eps0=EPS02) \
                         or isnear0(mv, eps0=EPS02):  # or sqrt(mu) != E.e
             raise ETMError(ellipsoid=E, txt=_near_(_spherical_))
 
         if self._datum or self._E:
-            _i = ExactTransverseMercator.iteration._uname
-            _update_all(self, _i, '_sigmaC', '_zetaC')  # _under
+            _i = ExactTransverseMercator.iteration._uname  # property_RO
+            _update_all(self, _i, '_sigmaC', '_zetaC', Base=Property_RO)  # _under
 
         self._E  = E
         self._mu = mu
@@ -757,7 +759,7 @@ class ExactTransverseMercator(_NamedBase):
             # k = sqrt(mv + mu / sec2) * sqrt(sec2) * sqrt(q2)
             #   = sqrt(mv * sec2 + mu) * sqrt(q2)
             #   = sqrt(mv + mv * tau**2 + mu) * sqrt(q2)
-            k, q2 = _0_0, (mv * snv**2 + cnudnv**2)
+            k, q2 = _0_0, (snv**2 * mv + cnudnv**2)
             if q2 > 0:
                 k2 = (tau**2 + _1_0) * mv + mu
                 if k2 > 0:
@@ -809,9 +811,9 @@ class ExactTransverseMercator(_NamedBase):
         d = (cnv**2 + snuv**2 * mu)**2 * self._mv
         r =  cnv * dnu * dnv
         i =  cnu * snuv * mu
-        du = (r**2 - i**2) / d  # (r + i) * (r - i) / d
-        dv = neg(r * i * _2_0 / d)
-        return du, dv
+        du = (r + i) * (r - i) / d  # (r**2 - i**2) / d
+        dv =  r * i * _2_0 / d
+        return du, neg(dv)
 
     def _sigmaInv2(self, xi, eta):
         '''(INTERNAL) Invert C{sigma} using Newton's method.
@@ -874,7 +876,8 @@ class ExactTransverseMercator(_NamedBase):
         '''
         # snu, cnu, dnu = self._Eu.sncndn(u)
         # snv, cnv, dnv = self._Ev.sncndn(v)
-        return self._Eu.sncndn(u, **jam) + self._Ev.sncndn(v, **jam)
+        return self._Eu.sncndn(u, **jam) + \
+               self._Ev.sncndn(v, **jam)
 
     def toStr(self, joined=_COMMASPACE_, **kwds):  # PYCHOK signature
         '''Return a C{str} representation.
@@ -900,21 +903,19 @@ class ExactTransverseMercator(_NamedBase):
                                       real &taup, real &lam)}
         '''
         e, cnu2, mv = self._e, cnu**2, self._mv
-        # Overflow value like atan(overflow) = pi/2
-        t1 = t2 = _overflow(snu)
         # Lee 54.17 but write
         # atanh(snu * dnv)      = asinh(snu * dnv / sqrt(cnu^2 + _mv * snu^2 * snv^2))
         # atanh(_e * snu / dnv) = asinh(_e * snu / sqrt(_mu * cnu^2 + _mv * cnv^2))
-        d1 = cnu2 + mv * (snu * snv)**2
+        d1 = cnu2 + (snu * snv)**2 * mv
         if d1 > EPS02:  # _EPSmin
             t1 = snu * dnv / sqrt(d1)
-        else:
-            d1 = 0
-        d2 = self._mu * cnu2 + mv * cnv**2
+        else:  # like atan(overflow) = pi/2
+            t1, d1 = _overflow(snu), 0
+        d2 = cnu2 * self._mu + cnv**2 * mv
         if d2 > EPS02:  # _EPSmin
             t2 = sinh(e * asinh(e * snu / sqrt(d2)))
         else:
-            d2 = 0
+            t2, d2 = _overflow(snu), 0
         # psi = asinh(t1) - asinh(t2)
         # taup = sinh(psi)
         taup = t1 * hypot1(t2) - t2 * hypot1(t1)
@@ -939,9 +940,9 @@ class ExactTransverseMercator(_NamedBase):
         snuv2 = snuv**2 * self._mu
         # Lee 54.21 but write (see A+S 16.21.4)
         # (1 - dnu^2 * snv^2) = (cnv^2 + _mu * snu^2 * snv^2)
-        d  = self._mv   * (cnv2 + snuv2)**2  # max(d, EPS02)?
-        du = cnu * dnuv * (cnv2 - snuv2) / d
-        dv = cnv * snuv * (cnu2 + dnuv2) / d
+        d  = (cnv2 + snuv2)**2    * self._mv  # max(d, EPS02)?
+        du = (cnv2 - snuv2) * cnu * dnuv / d
+        dv = (cnu2 + dnuv2) * cnv * snuv / d
         return du, neg(dv)
 
     def _zetaInv2(self, taup, lam):
@@ -1020,6 +1021,9 @@ class ExactTransverseMercator(_NamedBase):
         if ll:
             g_k += atan1d(tau), degrees(lam)
         return g_k  # or (g, k, lat, lon)
+
+_allPropertiesOf_n(22, ExactTransverseMercator, Property_RO)  # PYCHOK assert
+del _0_1, _allPropertiesOf_n, EPS, _1_EPS, _EWGS84
 
 
 def _overflow(x):
@@ -1102,32 +1106,42 @@ if __name__ == '__main__':  # MCCABE 16
     def _main():
 
         from pygeodesy import fstr, KTransverseMercator
-#       from pygeodesy.interns import _DASH_  # from internals
-        from pygeodesy.internals import printf, _usage,  _DASH_
+        from pygeodesy.interns import _BAR_, _COLONSPACE_, _DASH_, NN
+        from pygeodesy.internals import printf, _usage
         from sys import argv, exit as _exit
 
-        def _help():
-            _exit(_usage(argv[0], '[-s | -t ]',
-                                  '[-p[recision] <ndigits>',
-                                  '[-f[orward] <lat> <lon>',
-                                  '|-r[everse] <easting> <northing>',
-                                  '|<lat> <lon>]',
-                                  '|-h[elp]'))
+        def _error(why, _a=NN):
+            if _a:
+                why = 'option %r %s' % (_a, why)
+            _exit(_COLONSPACE_(_usage(*argv), why))
+
+        def _help(*why):
+            if why:
+                printf(_COLONSPACE_(_usage(*argv), *why))
+            _exit(_usage(argv[0], '[-s[eries]', _BAR_, '-t]',
+                                  '[-p[recision] <ndigits>]',
+                                  '[-f[orward] <lat> <lon>', _BAR_,
+                                  '-r[everse] <easting> <northing>', _BAR_,
+                                  '<lat> <lon>]', _BAR_,
+                                  '-h[elp]'))
+
+        def _result(t4):
+            printf(_COLONSPACE_(tm.classname, fstr(t4, prec=_p, sep=_SPACE_)))
 
         # mimick some of I{Karney}'s utility C{TransverseMercatorProj}
         _f = _r = _s = _t = False
         _p = -6
-        _as = argv[1:]
-        while _as and _as[0].startswith(_DASH_):
-            _a = _as.pop(0)
+        args = argv[1:]
+        while args and args[0].startswith(_DASH_):
+            _a = args.pop(0)
             if len(_a) < 2:
-                _exit('%s: option %r invalid' % (_usage(*argv), _a))
+                _error('invalid', _a)
             elif '-forward'.startswith(_a):
                 _f, _r = True, False
             elif '-reverse'.startswith(_a):
                 _f, _r = False, True
-            elif '-precision'.startswith(_a):
-                _p = int(_as.pop(0))
+            elif '-precision'.startswith(_a) and args:
+                _p = int(args.pop(0))
             elif '-series'.startswith(_a):
                 _s, _t = True, False
             elif _a == '-t':
@@ -1135,52 +1149,46 @@ if __name__ == '__main__':  # MCCABE 16
             elif '-help'.startswith(_a):
                 _help()
             else:
-                _exit('%s: option %r not supported' % (_usage(*argv), _a))
+                _error('not supported', _a)
+        if len(args) < 2:
+            _help('incomplete')
 
-        if len(_as) > 1:
-            f2 = map1(float, *_as[:2])
-        else:
-            printf('%s ...: incomplete', _usage(*argv))
-            _help()
-
-        if _s:  # -series
-            tm = KTransverseMercator()
-        else:
-            tm = ExactTransverseMercator(extendp=_t)
-
+        f2 = map1(float, *args[:2])
+        tm = KTransverseMercator() if _s else \
+             ExactTransverseMercator(extendp=_t)
         if _f:
             t = tm.forward(*f2)
         elif _r:
             t = tm.reverse(*f2)
         else:
             t = tm.forward(*f2)
-            printf('%s: %s', tm.classname, fstr(t, prec=_p, sep=_SPACE_))
+            _result(t)
             t = tm.reverse(t.easting, t.northing)
-        printf('%s: %s', tm.classname, fstr(t, prec=_p, sep=_SPACE_))
+        _result(t)
 
     _main()
 
-# % python3.13 -m pygeodesy.etm -p 12 33.33 44.44
+# % python3.13 -m pygeodesy.etm -p 12  33.33 44.44
 # ExactTransverseMercator: 4276926.114803905599 4727193.767015309073 28.375536563148 1.233325101778
 # ExactTransverseMercator: 33.33 44.44 28.375536563148 1.233325101778
 
-# % python3.13 -m pygeodesy.etm -s -p 12 33.33 44.44
+# % python3.13 -m pygeodesy.etm -s  -p 12  33.33 44.44
 # KTransverseMercator: 4276926.114803904667 4727193.767015310004 28.375536563148 1.233325101778
 # KTransverseMercator: 33.33 44.44 28.375536563148 1.233325101778
 
-# % python3.12 -m pygeodesy.etm -p 12 33.33 44.44
+# % python3.12 -m pygeodesy.etm -p 12  33.33 44.44
 # ExactTransverseMercator: 4276926.11480390653 4727193.767015309073 28.375536563148 1.233325101778
 # ExactTransverseMercator: 33.33 44.44 28.375536563148 1.233325101778
 
-# % python3.12 -m pygeodesy.etm -s -p 12 33.33 44.44
+# % python3.12 -m pygeodesy.etm -s  -p 12  33.33 44.44
 # KTransverseMercator: 4276926.114803904667 4727193.767015310004 28.375536563148 1.233325101778
 # KTransverseMercator: 33.33 44.44 28.375536563148 1.233325101778
 
-# % python2 -m pygeodesy.etm -p 12 33.33 44.44
+# % python2 -m pygeodesy.etm -p 12  33.33 44.44
 # ExactTransverseMercator: 4276926.11480390653 4727193.767015309073 28.375536563148 1.233325101778
 # ExactTransverseMercator: 33.33 44.44 28.375536563148 1.233325101778
 
-# % python2 -m pygeodesy.etm -s -p 12 33.33 44.44
+# % python2 -m pygeodesy.etm -s  -p 12  33.33 44.44
 # KTransverseMercator: 4276926.114803904667 4727193.767015310004 28.375536563148 1.233325101778
 # KTransverseMercator: 33.33 44.44 28.375536563148 1.233325101778
 

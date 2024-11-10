@@ -37,7 +37,7 @@ from math import copysign as _copysign
 # import inspect as _inspect  # _MODS
 
 __all__ = _ALL_LAZY.basics
-__version__ = '24.10.14'
+__version__ = '24.11.02'
 
 _below_           = 'below'
 _list_tuple_types = (list, tuple)
@@ -111,29 +111,29 @@ except NameError:  # Python 3+
         return ub
 
 
-def _args_kwds_count2(func, exelf=True):
-    '''(INTERNAL) Get a C{func}'s args and kwds count as 2-tuple
-       C{(nargs, nkwds)}, including arg C{self} for methods.
-
-       @kwarg exelf: If C{True}, exclude C{self} in the C{args}
-                     of a method (C{bool}).
-    '''
-    i = _MODS.inspect
-    try:  # PYCHOK no cover
-        a = k = 0
-        for _, p in i.signature(func).parameters.items():
-            if p.kind is p.POSITIONAL_OR_KEYWORD:
-                if p.default is p.empty:
-                    a += 1
-                else:
-                    k += 1
-    except AttributeError:  # Python 2-
-        s = i.getargspec(func)
-        k = len(s.defaults or ())
-        a = len(s.args) - k
-    if exelf and a > 0 and i.ismethod(func):
-        a -= 1
-    return a, k
+# def _args_kwds_count2(func, exelf=True):  # in .formy
+#     '''(INTERNAL) Get a C{func}'s args and kwds count as 2-tuple
+#        C{(nargs, nkwds)}, including arg C{self} for methods.
+#
+#        @kwarg exelf: If C{True}, exclude C{self} in the C{args}
+#                      of a method (C{bool}).
+#     '''
+#     i = _MODS.inspect
+#     try:
+#         a = k = 0
+#         for _, p in i.signature(func).parameters.items():
+#             if p.kind is p.POSITIONAL_OR_KEYWORD:
+#                 if p.default is p.empty:
+#                     a += 1
+#                 else:
+#                     k += 1
+#     except AttributeError:  # Python 2-
+#         s = i.getargspec(func)
+#         k = len(s.defaults or ())
+#         a = len(s.args) - k
+#     if exelf and a > 0 and i.ismethod(func):
+#         a -= 1
+#     return a, k
 
 
 def _args_kwds_names(func, splast=False):
@@ -222,7 +222,7 @@ def halfs2(str2):
     return str2[:h], str2[h:]
 
 
-def int1s(x):
+def int1s(x):  # PYCHOK no cover
     '''Count the number of 1-bits in an C{int}, I{unsigned}.
 
        @note: C{int1s(-B{x}) == int1s(abs(B{x}))}.
@@ -736,7 +736,7 @@ def _xcopy(obj, deep=False):
     return _deepcopy(obj) if deep else _copy(obj)
 
 
-def _xcoverage(where, *required):
+def _xcoverage(where, *required):  # in .__main__  # PYCHOK no cover
     '''(INTERNAL) Import C{coverage} and check required version.
     '''
     try:
@@ -847,15 +847,16 @@ def _xor(x, *xs):
     return x
 
 
-def _xpackages(_xpkg):
+def _xpackages(_xpkgf):
     '''(INTERNAL) Check dependency to be excluded.
     '''
-    n = _xpkg.__name__[2:]  # _DUNDER_nameof, less '_x'
-    if n in _XPACKAGES:  # n.lower() in _XPACKAGES
-        E = _PYGEODESY(_xpackages)
-        x = _SPACE_(n, _in_, E)
-        e = _enquote(_getenv(E, NN))
-        raise ImportError(_EQUAL_(x, e))
+    if _XPACKAGES:  # PYCHOK no cover
+        n = _xpkgf.__name__[2:]  # _DUNDER_nameof, less '_x'
+        if n.lower() in _XPACKAGES:
+            E = _PYGEODESY(_xpackages)
+            x = _SPACE_(n, _in_, E)
+            e = _enquote(_getenv(E, NN))
+            raise ImportError(_EQUAL_(x, e))
 
 
 def _xscalar(**names_values):

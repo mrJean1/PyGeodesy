@@ -34,7 +34,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d
 from math import cos, atan2, degrees, fabs, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.resections
-__version__ = '24.09.23'
+__version__ = '24.11.04'
 
 _concyclic_ = 'concyclic'
 _PA_        = 'PA'
@@ -200,11 +200,11 @@ def cassini(pointA, pointB, pointC, alpha, beta, useZ=False, **Clas_and_kwds):
                              alpha=alpha, beta=beta, cause=x)
 
 
-def _Clas(where, point, Clas_and_kwds, *args):
+def _Clas(which, point, Clas_and_kwds, *args):
     '''(INTERNAL) Return a C{B{Clas}=point.classof} survey point.
     '''
     Clas, kwds = _xkwds_pop2(Clas_and_kwds, Clas=point.classof)
-    return Clas(*args, **_xkwds(kwds, name=where.__name__))
+    return Clas(*args, **_xkwds(kwds, name=which.__name__))
 
 
 def collins5(pointA, pointB, pointC, alpha, beta, useZ=False, **Clas_and_kwds):
@@ -252,8 +252,8 @@ def collins5(pointA, pointB, pointC, alpha, beta, useZ=False, **Clas_and_kwds):
 
     def _xyz(d, r, A, B, C, useZ):
         s, c = sincos2(r)
-        x =  A.x + d * s
-        y =  A.y + d * c
+        x =  d * s + A.x  # fma(d, s, A.x)
+        y =  d * c + A.y  # fma(d, c, A.y)
         z = _zidw(x, y, useZ, A, B, C)
         return x, y, z
 
@@ -282,11 +282,10 @@ def collins5(pointA, pointB, pointC, alpha, beta, useZ=False, **Clas_and_kwds):
         d =  b * sin(zb - zh) / sra  # A.minus(P).length
         r =  zh - ra  # zb - PI + (PI - ra - (zb - zh))
         P = _xyz(d, r, A, B, C, useZ)
-        P = _Clas(collins5, pointA, Clas_and_kwds, *P)
 
+        P = _Clas(collins5, pointA, Clas_and_kwds, *P)
         H = _Clas(collins5, pointA, Clas_and_kwds, *H)
         a =  B.minus(C).length
-
         return Collins5Tuple(P, H, a, b, c, name=collins5.__name__)
 
     except (TypeError, ValueError) as x:
@@ -312,7 +311,7 @@ def pierlot(point1, point2, point3, alpha12, alpha23, useZ=False, eps=EPS,
                      B{C{alpha3 - alpha2}}(C{degrees}).
        @kwarg useZ: If C{True}, interpolate the survey point's Z component,
                     otherwise use C{z=INT0} (C{bool}).
-       @kwarg eps: Tolerance for C{cot} (pseudo-)singularities (C{float}).
+       @kwarg eps: Tolerance for C{cot}angent (pseudo-)singularities (C{float}).
        @kwarg Clas_and_kwds: Optional class C{B{Clas}=B{point1}.classof} to
                    return the survey point with optionally other B{C{Clas}}
                    keyword arguments to instantiate the survey point.
@@ -427,8 +426,8 @@ def pierlotx(point1, point2, point3, alpha1, alpha2, alpha3, useZ=False,
                    return the survey point with optionally other B{C{Clas}}
                    keyword arguments to instantiate the survey point.
 
-       @return: The survey (or robot) point, an instance of B{C{Clas}} or B{C{point1}}'s
-                (sub-)class.
+       @return: The survey (or robot) point, an instance of B{C{Clas}} or
+                B{C{point1}}'s (sub-)class.
 
        @raise ResectionError: Near-coincident, -colinear or -concyclic points or
                               invalid B{C{alpha1}}, B{C{alpha2}} or B{C{alpha3}}.

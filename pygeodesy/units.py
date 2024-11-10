@@ -27,7 +27,7 @@ from pygeodesy.unitsBase import Float, Int, _NamedUnit, Radius, Str,  Fmt, fstr
 from math import degrees, isnan, radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '24.10.12'
+__version__ = '24.11.06'
 
 
 class Float_(Float):
@@ -527,7 +527,7 @@ class FIx(Float_):
                         (C{bool}) or C{None} for backward compatible L{LatLon2Tuple} or
                         B{C{LatLon}} with I{averaged} lat- and longitudes.
            @kwarg LatLon_or_Vector_and_kwds: Optional C{B{LatLon}=None} I{or} C{B{Vector}=None}
-                         to return the I{intermediate}, I{fractional} point and optional,
+                         to return the I{intermediate}, I{fractional} point and optionally,
                          additional B{C{LatLon}} I{or} B{C{Vector}} keyword arguments, see
                          function L{fractional<pygeodesy.points.fractional>}.
 

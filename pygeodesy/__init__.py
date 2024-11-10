@@ -23,7 +23,7 @@ the U{documentation<https://mrJean1.GitHub.io/PyGeodesy>}, the descriptions of U
 <https://www.Movable-Type.co.UK/scripts/latlong-vincenty.html>} and U{Vector-based
 <https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>} geodesy, the original U{JavaScript source
 <https://GitHub.com/ChrisVeness/geodesy>} or U{docs<https://www.Movable-Type.co.UK/scripts/geodesy/docs>}
-and I{Karney}'s Python U{geographiclib<https://PyPI.org/project/geographiclib>} and U{C++ GeographicLib
+and I{Karney}'s Python U{geographiclib<https://PyPI.org/project/geographiclib>} and C++ U{GeographicLib
 <https://GeographicLib.SourceForge.io/C++/doc/index.html>}.
 
 Also included are modules for conversions to and from U{Cassini-Soldner
@@ -598,7 +598,7 @@ else:
 
 from pygeodesy.internals import _version2,  _DOT_  # PYCHOK import
 # from pygeodesy.interns import _DOT_  # from .internals
-__version__ = '24.10.24'
+__version__ = '24.11.11'
 # see setup.py for similar logic
 version     = _DOT_(*_version2(__version__, n=3))
 

@@ -7,7 +7,7 @@ u'''Mostly INTERNAL functions, except L{machine}, L{print_} and L{printf}.
 # from pygeodesy.errors import _AttributeError, _error_init, _UnexpectedError, _xError2  # _MODS
 from pygeodesy.interns import NN, _BAR_, _COLON_, _DASH_, _DOT_, _ELLIPSIS_, _EQUALSPACED_, \
                              _immutable_, _NL_, _pygeodesy_, _PyPy__, _python_, _QUOTE1_, \
-                             _QUOTE2_, _s_, _SPACE_, _sys, _UNDER_, _utf_8_
+                             _QUOTE2_, _s_, _SPACE_, _sys, _UNDER_
 from pygeodesy.interns import _COMMA_, _Python_  # PYCHOK used!
 # from pygeodesy.streprs import anstr, pairs, unstr  # _MODS
 
@@ -16,6 +16,7 @@ from pygeodesy.interns import _COMMA_, _Python_  # PYCHOK used!
 # import sys as _sys  # from .interns
 
 _0_0      =  0.0  # PYCHOK in .basics, .constants
+_100_0    =  100.0  # in .constants
 _arm64_   = 'arm64'
 _iOS_     = 'iOS'
 _macOS_   = 'macOS'
@@ -40,14 +41,14 @@ def _DUNDER_nameof_(*names__):  # in .errors._IsnotError
 
 
 def _Property_RO(method):
-    '''(INTERNAL) Can't I{recursively} import L{props.property_RO}.
+    '''(INTERNAL) Can't import L{props.Property_RO}, I{recursively}.
     '''
     name = _DUNDER_nameof(method)
 
-    def _del(inst, attr):  # PYCHOK no cover
-        delattr(inst, attr)  # force error
+    def _del(inst, *unused):  # PYCHOK no cover
+        inst.__dict__.pop(name, None)
 
-    def _get(inst, **unused):  # PYCHOK 2 vs 3 args
+    def _get(inst, *unused):  # PYCHOK 2 vs 3 args
         try:  # to get the cached value immediately
             v = inst.__dict__[name]
         except (AttributeError, KeyError):
@@ -69,7 +70,8 @@ class _MODS_Base(object):
 
     def __setattr__(self, attr, value):  # PYCHOK no cover
         e = _MODS.errors
-        t = _EQUALSPACED_(self._DOT_(attr), repr(value))
+        n = _DOT_(self.name, attr)
+        t = _EQUALSPACED_(n, repr(value))
         raise e._AttributeError(_immutable_, txt=t)
 
     @_Property_RO
@@ -84,7 +86,6 @@ class _MODS_Base(object):
         '''Get platform 2-list C{[bits, machine]}, I{once}.
         '''
         import platform as p
-
         m = p.machine()  # ARM64, arm64, x86_64, iPhone13,2, etc.
         m = m.replace(_COMMA_, _UNDER_)
         if m.lower() == 'x86_64':  # PYCHOK on Intel or Rosetta2 ...
@@ -99,30 +100,15 @@ class _MODS_Base(object):
 
     @_Property_RO
     def ctypes3(self):
-        '''Get 3-tuple C{(ctypes.CDLL, ._dlopen, .util.findlibrary)}, I{once}.
+        '''Get C{ctypes.CDLL}, C{find_library} and C{dlopen}, I{once}.
         '''
-        if _ismacOS():
-            from ctypes import CDLL, DEFAULT_MODE, _dlopen
+        import ctypes as c
+        from ctypes.util import find_library as f
 
-            def dlopen(name):
-                return _dlopen(name, DEFAULT_MODE)
+        def dlopen(name):  # on macOS only
+            return c._dlopen(name, c.DEFAULT_MODE)
 
-        else:  # PYCHOK no cover
-            from ctypes import CDLL
-            dlopen = _passarg
-
-        from ctypes.util import find_library
-        return CDLL, dlopen, find_library
-
-    @_Property_RO
-    def ctypes5(self):
-        '''Get 5-tuple C{(ctypes.byref, .c_char_p, .c_size_t, .c_uint, .sizeof)}, I{once}.
-        '''
-        from ctypes import byref, c_char_p, c_size_t, c_uint, sizeof  # get_errno
-        return byref, c_char_p, c_size_t, c_uint, sizeof
-
-    def _DOT_(self, name):  # PYCHOK no cover
-        return _DOT_(self.name, name)
+        return c.CDLL, f, (dlopen if _ismacOS() else None)
 
     @_Property_RO
     def errors(self):
@@ -143,15 +129,10 @@ class _MODS_Base(object):
         '''
         try:  # Pythonista only
             from platform import iOS_ver
-            return iOS_ver()
+            t = iOS_ver()
         except (AttributeError, ImportError):
-            return NN, (NN, NN, NN), NN
-
-    @_Property_RO
-    def libc(self):
-        '''Load C{libc.dll|dylib}, I{once}.
-        '''
-        return _load_lib('libc')
+            t = NN, (NN, NN, NN), NN
+        return t
 
     @_Property_RO
     def name(self):
@@ -161,13 +142,12 @@ class _MODS_Base(object):
 
     @_Property_RO
     def nix2(self):  # PYCHOK no cover
-        '''Get Linux 2-list C{[distro, version]}, I{once}.
+        '''Get Linux 2-tuple C{(distro, version)}, I{once}.
         '''
-        import platform as p
-
-        n, v = p.uname()[0], NN
+        from platform import uname
+        v, n = NN, uname()[0]  # [0] == .system
         if n.lower() == 'linux':
-            try:  # use distro only for Linux, not macOS, etc.
+            try:  # use distro only on Linux, not macOS, etc.
                 import distro  # <https://PyPI.org/project/distro>
                 _a = _MODS.streprs.anstr
                 v  = _a(distro.version())  # first
@@ -197,7 +177,6 @@ class _MODS_Base(object):
         '''Get 2-list C{[OS, release]}, I{once}.
         '''
         import platform as p
-
         _Nix, _ = _MODS.nix2
         # - mac_ver() returns ('10.12.5', ..., 'x86_64') on
         #   macOS and ('10.3.3', ..., 'iPad4,2') on iOS
@@ -217,26 +196,26 @@ class _MODS_Base(object):
             if v and n:
                 break
         else:
-            n = v = NN  # XXX AssertioError?
+            n = v = NN  # XXX AssertionError?
         return [n, v]
 
     @_Property_RO
     def _Popen_kwds2(self):
         '''(INTERNAL) Get C{subprocess.Popen} and C{-kwds}.
         '''
-        import subprocess as _sub
+        import subprocess as s
         kwds = dict(creationflags=0,  # executable=sys.executable, shell=True,
-                    stdin=_sub.PIPE, stdout=_sub.PIPE, stderr=_sub.STDOUT)
-        if _sys.version_info[:2] > (3, 6):
+                    stdin=s.PIPE, stdout=s.PIPE, stderr=s.STDOUT)
+        if _MODS.sys_version_info2 > (3, 6):
             kwds.update(text=True)
-        return _sub.Popen, kwds
+        return s.Popen, kwds
 
     @_Property_RO
     def Pythonarchine(self):
         '''Get 3- or 4-list C{[PyPy, Python, bits, machine]}, I{once}.
         '''
         v  =  _sys.version
-        l3 = [_Python_(v)] + self.bits_machine2
+        l3 = [_Python_(v)] + _MODS.bits_machine2
         pypy = _PyPy__(v)
         if pypy:  # PYCHOK no cover
             l3.insert(0, pypy)
@@ -270,23 +249,23 @@ def _caller3(up, base=True):  # in .lazily, .named
        for the caller B{C{up}} frames back in the Python call stack.
 
        @kwarg base: Use C{B{base}=False} for the fully-qualified file
-                     name, otherwise the base (module) name (C{bool}).
+                    name, otherwise the base (module) name (C{bool}).
     '''
     f  =  None
-    _f = _MODS.os.path.basename if base else _passarg
+    _b = _MODS.os.path.basename if base else _passarg
     try:
         f = _sys._getframe(up + 1)  # == inspect.stack()[up + 1][0]
         t = _MODS.inspect.getframeinfo(f)
-        t =  t.function, _f(t.filename), t.lineno
+        t =  t.function, _b(t.filename), t.lineno
 # or ...
         # f = _sys._getframe(up + 1)
         # c =  f.f_code
         # t = (c.co_name,  # caller name
-        #     _f(c.co_filename),  # file name .py
+        #     _b(c.co_filename),  # file name .py
         #      f.f_lineno)  # line number
 # or ...
         # t = _MODS.inspect.stack()[up + 1]  # (frame, filename, lineno, function, ...)
-        # t =  t[3], _f(t[1]), t[2]
+        # t =  t[3], _b(t[1]), t[2]
     except (AttributeError, IndexError, ValueError):
         # sys._getframe(1) ... 'importlib._bootstrap' line 1032,
         # may throw a ValueError('call stack not deep enough')
@@ -307,7 +286,7 @@ def _enquote(strs, quote=_QUOTE2_, white=NN):  # in .basics, .solveBase
     return strs
 
 
-def _fper(p, q, per=100.0, prec=1):
+def _fper(p, q, per=_100_0, prec=1):
     '''Format a percentage C{B{p} * B{per} / B{q}} (C{str}).
     '''
     return '%.*f%%' % (prec, (float(p) * per / float(q)))
@@ -335,7 +314,7 @@ def _headof(name):
 #     return (a == b) if _isPyPy() else (a is b)
 
 
-def _isAppleSi():
+def _isAppleSi():  # PYCHOK no cover
     '''(INTERNAL) Is this C{macOS on Apple Silicon}? (C{bool})
     '''
     return _ismacOS() and machine().startswith(_arm64_)
@@ -366,7 +345,7 @@ def _isNix():  # in test/bases
     return _MODS.nix2[0]
 
 
-def _isPyChecker():
+def _isPyChecker():  # PYCHOK no cover
     '''(INTERNAL) Is C{PyChecker} running? (C{bool}).
     '''
     # .../pychecker/checker.py --limit 0 --stdlib pygeodesy/<mod>/<name>.py
@@ -390,17 +369,19 @@ def _isWindows():  # in test/bases
 def _load_lib(name):
     '''(INTERNAL) Load a C{dylib}, B{C{name}} must startwith('lib').
     '''
-    # macOS 11+ (aka 10.16) no longer provides direct loading of
-    # system libraries.  As a result, C{ctypes.util.find_library}
-    # will not find any library, unless previously installed by a
-    # low-level dlopen(name) call (with the library base C{name}).
-    CDLL, dlopen, find_lib = _MODS.ctypes3
-
+    CDLL, find_lib, dlopen = _MODS.ctypes3
     ns = find_lib(name), name
-    if dlopen is not _passarg:  # _ismacOS()
+    if dlopen:
+        # macOS 11+ (aka 10.16) no longer provides direct loading of
+        # system libraries.  As a result, C{ctypes.util.find_library}
+        # will not find any library, unless previously installed by a
+        # low-level dlopen(name) call (with the library base C{name}).
         ns += (_DOT_(name, 'dylib'),
                _DOT_(name, 'framework'), _MODS.os.path.join(
                _DOT_(name, 'framework'),  name))
+    else:  # not macOS
+        dlopen = _passarg  # no-op
+
     for n in ns:
         try:
             if n and dlopen(n):  # pre-load handle
@@ -548,7 +529,7 @@ def _Pythonarchine(sep=NN):  # in .lazily, test/bases versions
 def _secs2str(secs):  # in .geoids, ../test/bases
     '''Convert a time in C{secs} to C{str}.
     '''
-    if secs < 100.0:  # _100_0
+    if secs < _100_0:
         unit = len(_SIsecs) - 1
         while 0 < secs < 1 and unit > 0:
             secs *= 1e3  # _1000_0
@@ -610,18 +591,18 @@ def _sizeof(obj, deep=True):
 
 
 def _sysctl_uint(name):
-    '''(INTERNAL) Get an unsigned int sysctl item by name, use on macOS ONLY!
+    '''(INTERNAL) Get an C{unsigned int sysctl} item by name, I{ONLY on macOS!}
     '''
-    libc = _MODS.libc
+    libc = _load_lib('libc') if _ismacOS() else None
     if libc:  # <https://StackOverflow.com/questions/759892/python-ctypes-and-sysctl>
-        byref, char_p, size_t, uint, sizeof = _MODS.ctypes5
-        n = name if str is bytes else bytes(name, _utf_8_)  # PYCHOK isPython2 = str is bytes
-        u = uint(0)
-        z = size_t(sizeof(u))
-        r = libc.sysctlbyname(char_p(n), byref(u), byref(z), None, size_t(0))
-    else:  # couldn't find or load 'libc'
+        import ctypes as c
+        n = c.c_char_p(_MODS.basics.str2ub(name))  # bytes(name, _utf_8_)
+        u = c.c_uint(0)
+        z = c.c_size_t(c.sizeof(u))
+        r = libc.sysctlbyname(n, c.byref(u), c.byref(z), None, c.c_size_t(0))  # PYCHOK attr
+    else:  # not macOS or couldn't find or load 'libc'=
         r = -2
-    return int(r if r else u.value)  # -1 ENOENT error, -2 no libc
+    return int(r if r else u.value)  # -1 ENOENT error, -2 no libc or not macOS
 
 
 def _tailof(name):
@@ -637,7 +618,7 @@ def _under(name):  # PYCHOK in .datums, .auxilats, .ups, .utm, .utmupsBase, ...
     return name if name.startswith(_UNDER_) else NN(_UNDER_, name)
 
 
-def _usage(file_py, *args, **opts_help):  # in .etm, .geodesici
+def _usage(file_py, *args, **opts_help):  # in .etm, .geodesici  # PYCHOK no cover
     '''(INTERNAL) Build "usage: python -m ..." cmd line for module B{C{file_py}}.
     '''
     if opts_help:
@@ -671,12 +652,12 @@ def _usage_argv(argv0, *args):
     o = _MODS.os
     m =  o.path.dirname(argv0)
     m =  m.replace(o.getcwd(), _ELLIPSIS_) \
-          .replace(o.sep, _DOT_).strip()
+          .replace(o.sep,      _DOT_).strip()
     b =  o.path.basename(argv0)
     b, x = o.path.splitext(b)
     if x == '.py' and not _is_DUNDER_main(b):
         m = _DOT_(m or _pygeodesy_, b)
-    p = NN(_python_, _sys.version_info[0])
+    p = NN(_python_, _MODS.sys_version_info2[0])
     return (p, '-m', _enquote(m)) + args
 
 
@@ -689,7 +670,7 @@ def _version2(version, n=2):
     return t[:n]
 
 
-def _version_info(package):  # in .Base.karney, .basics
+def _version_info(package):  # in .basics, .karney._kWrapped.Math
     '''(INTERNAL) Get the C{package.__version_info__} as a 2- or
        3-tuple C{(major, minor, revision)} if C{int}s.
     '''
@@ -713,14 +694,14 @@ def _version_ints(vs):
 
 
 def _versions(sep=_SPACE_):
-    '''(INTERNAL) Get pygeodesy, PyPy and Python versions, bits, machine and OS as C{7- or 8-list} or C{str}.
+    '''(INTERNAL) Get pygeodesy, PyPy and Python versions, bits, machine and OS as C{8- or 9-list} or C{str}.
     '''
     l7 = [_pygeodesy_, _MODS.version] + _Pythonarchine() + _osversion2()
     return sep.join(l7) if sep else l7  # 5- or 6-list
 
 
 __all__ = tuple(map(_DUNDER_nameof, (machine, print_, printf)))
-__version__ = '24.10.20'
+__version__ = '24.11.06'
 
 if _is_DUNDER_main(__name__):  # PYCHOK no cover
 
@@ -731,6 +712,9 @@ if _is_DUNDER_main(__name__):  # PYCHOK no cover
                                       'isLazy',     isLazy]))
 
     _main()
+
+# % python3 -m pygeodesy.internals
+# pygeodesy 24.11.11 Python 3.13.0 64bit arm64 macOS 14.6.1 _isfrozen False isLazy 1
 
 # **) MIT License
 #

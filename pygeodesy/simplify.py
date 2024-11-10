@@ -76,7 +76,7 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 # from pygeodesy.basics import len2  # from .fmath
 from pygeodesy.constants import EPS, R_M, _1_0
 from pygeodesy.errors import _AttributeError, _ValueError
-from pygeodesy.fmath import len2, sqrt0
+from pygeodesy.fmath import fdot_, len2, sqrt0
 from pygeodesy.formy import equirectangular4
 from pygeodesy.interns import _small_, _too_
 from pygeodesy.iters import isNumpy2, isTuple2
@@ -86,7 +86,7 @@ from pygeodesy.units import _ALL_LAZY, _1mm, Radius_
 from math import degrees, fabs, radians
 
 __all__ = _ALL_LAZY.simplify
-__version__ = '24.08.13'
+__version__ = '24.11.07'
 
 
 # try:
@@ -222,11 +222,11 @@ class _Sy(object):
             # distance points[i] to -[s]
             d2, y01, x01, _ = _d2yxu4(s, i)
             if d2 > eps:
-                w = y01 * y21 + x01 * x21
+                w = fdot_(y01, y21, x01, x21)
                 if w > 0:
                     if w < d21:
                         # perpendicular distance squared
-                        d2 = (y01 * x21 - x01 * y21)**2 / d21
+                        d2 = fdot_(y01, x21, -x01, y21)**2 / d21
                     else:  # distance points[i] to -[e]
                         d2, _, _, _ = _d2yxu4(e, i)
                 if d2 > t2:
@@ -252,7 +252,7 @@ class _Sy(object):
         if d21 > self.eps:
             d01, y01, x01, _ = self.d2yxu4(i1, i0)
             if d01 > self.eps:
-                h2 = fabs(y01 * x21 - x01 * y21)
+                h2 = fabs(fdot_(y01, x21, -x01, y21))
                 # triangle height h = h2 / sqrt(d21) and
                 # the area = h * sqrt(d21) / 2 == h2 / 2
                 return h2  # double triangle area

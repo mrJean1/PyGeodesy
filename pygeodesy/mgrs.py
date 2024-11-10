@@ -55,7 +55,7 @@ from pygeodesy.utm import toUtm8, _to3zBlat, Utm, _UTM_ZONE_MAX, _UTM_ZONE_MIN
 # from pygeodesy.utmupsBase import _UTM_ZONE_MAX, _UTM_ZONE_MIN  # from .utm
 
 __all__ = _ALL_LAZY.mgrs
-__version__ = '24.10.13'
+__version__ = '24.11.06'
 
 _AN_    = 'AN'  # default south pole grid tile and band B
 _AtoPx_ = _AtoZnoIO_.tillP
@@ -594,15 +594,14 @@ def toMgrs(utmups, Mgrs=Mgrs, **name_Mgrs_kwds):
     '''Convert a UTM or UPS coordinate to an MGRS grid reference.
 
        @arg utmups: A UTM or UPS coordinate (L{Utm}, L{Etm} or L{Ups}).
-       @kwarg Mgrs: Optional class to return the MGRS grid reference
-                    (L{Mgrs}) or C{None}.
-       @kwarg name_Mgrs_kwds: Optional C{B{name}=NN} (C{str}) and optional,
-                   additional B{C{Mgrs}} keyword arguments, ignored if
-                   C{B{Mgrs} is None}.
+       @kwarg Mgrs: Optional class to return the MGRS grid reference (L{Mgrs})
+                    or C{None}.
+       @kwarg name_Mgrs_kwds: Optional C{B{name}=NN} (C{str}) and optionally,
+                   additional B{C{Mgrs}} keyword arguments, ignored if C{B{Mgrs}
+                   is None}.
 
-       @return: The MGRS grid reference as B{C{Mgrs}} or if C{B{Mgrs} is
-                None} as an L{Mgrs6Tuple}C{(zone, EN, easting, northing,
-                band, datum)}.
+       @return: The MGRS grid reference as B{C{Mgrs}} or if C{B{Mgrs} is None} as
+                an L{Mgrs6Tuple}C{(zone, EN, easting, northing, band, datum)}.
 
        @raise MGRSError: Invalid B{C{utmups}}.
 

@@ -12,9 +12,8 @@ from pygeodesy.constants import EPS0, EPS02, EPS1, NAN, PI, PI_2, PI_4, \
                                _0_0, _0_125, _1_6th, _0_25, _1_3rd, _0_5, _1_0, \
                                _1_5, _copysign_0_0, isfinite, remainder
 from pygeodesy.errors import _IsnotError, LenError, _TypeError, _ValueError, \
-                             _xError, _xkwds_pop2, _xsError
-from pygeodesy.fsums import _2float, Fsum, fsum, _isFsum_2Tuple, _1primed, \
-                             Fmt, unstr
+                             _xError, _xkwds, _xkwds_pop2, _xsError
+from pygeodesy.fsums import _2float, Fsum, fsum, _isFsum_2Tuple,  Fmt, unstr
 from pygeodesy.interns import MISSING, _negative_, _not_scalar_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.streprs import Fmt, unstr  # from .fsums
@@ -24,7 +23,7 @@ from math import fabs, sqrt  # pow
 import operator as _operator  # in .datums, .trf, .utm
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '24.10.11'
+__version__ = '24.11.08'
 
 # sqrt(2) - 1 <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142  =  0.41421356237309504880  # ... ~ 3730904090310553 / 9007199254740992
@@ -62,14 +61,7 @@ class Fdot(Fsum):
         n = len(b)
         if len(a) != n:  # PYCHOK no cover
             raise LenError(Fdot, a=len(a), b=n)
-        self._faddot(n, a, b, **kwds)
-
-    def _faddot(self, n, xs, ys, **kwds):
-        if n > 0:
-            _f = Fsum(**kwds)
-            r = (_f(x).fmul(y) for x, y in zip(xs, ys))  # PYCHOK attr?
-            self.fadd(_1primed(r) if n < 4 else r)  # PYCHOK attr?
-        return self
+        self._facc_dot(n, a, b, **kwds)
 
 
 class Fhorner(Fsum):
@@ -129,7 +121,7 @@ class Fhypot(Fsum):
             raise self._ErrorXs(X, xs, root=r)
 
 
-class Fpolynomial(Fdot):
+class Fpolynomial(Fsum):
     '''Precision polynomial evaluation.
     '''
     def __init__(self, x, *cs, **name_f2product_nonfinites_RESIDUAL):
@@ -150,12 +142,10 @@ class Fpolynomial(Fdot):
 
            @see: Class L{Fhorner}, function L{fpolynomial} and method L{Fsum.fadd}.
         '''
-        Fsum.__init__(self, *cs[:1], **name_f2product_nonfinites_RESIDUAL)
+        Fsum.__init__(self, **name_f2product_nonfinites_RESIDUAL)
         n = len(cs) - 1
-        if n > 0:
-            self._faddot(n, cs[1:], _powers(x, n), **name_f2product_nonfinites_RESIDUAL)
-        elif n < 0:
-            self(_0_0)
+        self(_0_0 if n < 0 else cs[0])
+        self._facc_dot(n, cs[1:], _powers(x, n), **name_f2product_nonfinites_RESIDUAL)
 
 
 class Fpowers(Fsum):
@@ -431,14 +421,15 @@ def favg(a, b, f=_0_5, nonfinites=True):
     return float(F)
 
 
-def fdot(a, *b, **start):
-    '''Return the precision dot product M{sum(a[i] * b[i] for ni=0..len(a))}.
+def fdot(a, *b, **start_f2product_nonfinites):
+    '''Return the precision dot product M{sum(a[i] * b[i] for i=0..len(a))}.
 
        @arg a: Iterable of values (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
        @arg b: Other values (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}), all
                positional.
-       @kwarg start: Optional bias C{B{start}=0} (C{scalar}, an L{Fsum} or
-                     L{Fsum2Tuple}).
+       @kwarg start_f2product_nonfinites: Optional bias C{B{start}=0} (C{scalar}, an
+                    L{Fsum} or L{Fsum2Tuple}) and settings C{B{f2product}=None} (C{bool})
+                    and C{B{nonfinites}=True} (C{bool}), see class L{Fsum<Fsum.__init__>}.
 
        @return: Dot product (C{float}).
 
@@ -448,18 +439,29 @@ def fdot(a, *b, **start):
              <https://www.TUHH.De/ti3/paper/rump/OgRuOi05.pdf>} and function
              C{math.sumprod} in Python 3.12 and later.
     '''
-    D = Fdot(a, nonfinites=True, *b, **start)
+    D = Fdot(a, *b, **_xkwds(start_f2product_nonfinites, nonfinites=True))
     return float(D)
 
 
-def fdot3(xs, ys, zs, start=0):
-    '''Return the precision dot product M{start + sum(a[i] * b[i] * c[i]
-       for i=0..len(a)-1)}.
+def fdot_(*ab, **start_f2product_nonfinites):
+    '''Return the precision dot product M{sum(ab[i] * ab[i+1] for i=0, 2, 4, ... len(ab)-1)}.
+
+       @arg ab: Pairwise values  (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}), all positional.
+
+       @see: Function L{fdot} for further details.
+    '''
+    return fdot(ab[0::2], *ab[1::2], **start_f2product_nonfinites)
+
+
+def fdot3(xs, ys, zs, **start_f2product_nonfinites):
+    '''Return the precision dot product M{start + sum(a[i] * b[i] * c[i] for i=0..len(a)-1)}.
 
        @arg xs: Iterable (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
        @arg ys: Iterable (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
        @arg zs: Iterable (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
-       @kwarg start: Optional bias (C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
+       @kwarg start_f2product_nonfinites: Optional bias C{B{start}=0} (C{scalar}, an
+                    L{Fsum} or L{Fsum2Tuple}) and settings C{B{f2product}=None} (C{bool})
+                    and C{B{nonfinites}=True} (C{bool}), see class L{Fsum<Fsum.__init__>}.
 
        @return: Dot product (C{float}).
 
@@ -469,10 +471,9 @@ def fdot3(xs, ys, zs, start=0):
     if not n == len(ys) == len(zs):
         raise LenError(fdot3, xs=n, ys=len(ys), zs=len(zs))
 
-    D  = Fdot((), nonfinites=True, start=start)
-    _f = Fsum(nonfinites=True)  # f2product=True
-    r  = (_f(x).f2mul_(y, z) for x, y, z in zip(xs, ys, zs))
-    D  = D.fadd(_1primed(r) if n < 4 else r)
+    D  = Fdot((), **_xkwds(start_f2product_nonfinites, nonfinites=True))
+    _f = Fsum(f2product=D.f2product(), nonfinites=D.nonfinites())
+    D  = D._facc(_f(x).f2mul_(y, z) for x, y, z in zip(xs, ys, zs))
     return float(D)
 
 

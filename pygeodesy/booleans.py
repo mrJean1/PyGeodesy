@@ -21,7 +21,7 @@ from pygeodesy.basics import isodd, issubclassof, map2, _xscalar
 from pygeodesy.constants import EPS, EPS2, INT0, _0_0, _0_5, _1_0
 from pygeodesy.errors import ClipError, _IsnotError, _TypeError, \
                             _ValueError, _xattr, _xkwds_get, _xkwds_pop2
-from pygeodesy.fmath import favg, hypot, hypot2
+from pygeodesy.fmath import favg, fdot_, hypot, hypot2
 # from pygeodesy.fsums import fsum1  # _MODS
 from pygeodesy.interns import NN, _BANG_, _clipid_, _COMMASPACE_, \
                              _composite_, _DOT_, _duplicate_, _e_, \
@@ -43,12 +43,12 @@ from pygeodesy.utily import fabs, _unrollon, _Wrap
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.booleans
-__version__ = '24.10.22'
+__version__ = '24.11.07'
 
-_0_EPS =  EPS  # near-zero, positive
-_EPS_0 = -EPS  # near-zero, negative
-_1_EPS = _1_0 + EPS   # near-one, over
-_EPS_1 = _1_0 - EPS   # near-one, under
+_0EPS  =  EPS  # near-zero, positive
+_EPS0  = -EPS  # near-zero, negative
+_1EPS  = _1_0 + EPS   # near-one, over
+_EPS1  = _1_0 - EPS   # near-one, under
 _10EPS =  EPS * 10    # see ._2Abs, ._10eps
 
 _alpha_   = 'alpha'
@@ -162,7 +162,7 @@ class _LatLonBool(_Named):
                                       other.x == self.x  and
                                       other.y == self.y)
 
-    def __ne__(self, other):  # required for Python 2
+    def __ne__(self, other):  # required for Python 2  # PYCHOK no cover
         return not self.__eq__(other)
 
     def __repr__(self):
@@ -316,11 +316,11 @@ class LatLonFHP(_LatLonBool):
 
     def __mod__(self, other):  # cross product
         _other(self, other)
-        return self.x * other.y - self.y * other.x
+        return fdot_(self.x, other.y, -self.y, other.x)
 
     def __mul__(self, other):  # dot product
         _other(self, other)
-        return self.x * other.x + self.y * other.y
+        return fdot_(self.x, other.x,  self.y, other.y)
 
     def __rmul__(self, other):  # scalar product
         _xscalar(other=other)
@@ -424,7 +424,7 @@ class LatLonFHP(_LatLonBool):
     def _prev_next2(self):
         # Adjust 2-tuple (._prev, ._next) iff a I{duplicate} intersection
         p, n = self, self._next
-        if self._isduplicate:
+        if self._isduplicate:  # PYCHOK no cover
             p = self._dupof
             while p._isduplicate:
                 p = p._dupof
@@ -580,7 +580,7 @@ class _Clip(_Named):
         '''
         return self._bltr4 > _other(self, other)._bltr4
 
-    def __hash__(self):  # PYCHOK no over
+    def __hash__(self):  # PYCHOK no cover
         return hash(self._bltr4)
 
     def __iter__(self):
@@ -610,7 +610,7 @@ class _Clip(_Named):
         '''
         return self._bltr4 < _other(self, other)._bltr4
 
-    def __ne__(self, other):  # required for Python 2
+    def __ne__(self, other):  # required for Python 2  # PYCHOK no cover
         '''See method C{__eq__}.
         '''
         return not self.__eq__(other)
@@ -1551,10 +1551,10 @@ class _EdgeFHP(object):
                 p1, p2 = self._p1_p2
                 ap1   = p1._2A(q1, q2)
                 ap2_1 = p2._2A(q1, q2) - ap1
-                if fabs(ap2_1) > _0_EPS:  # non-parallel edges
+                if fabs(ap2_1) > _0EPS:  # non-parallel edges
                     aq1   = q1._2A(p1, p2)
                     aq2_1 = q2._2A(p1, p2) - aq1
-                    if fabs(aq2_1) > _0_EPS:
+                    if fabs(aq2_1) > _0EPS:
                         # compute and classify alpha and beta
                         a, a_0, a_0_1, _ = _alpha4(-ap1 / ap2_1)
                         b, b_0, b_0_1, _ = _alpha4(-aq1 / aq2_1)
@@ -1564,7 +1564,7 @@ class _EdgeFHP(object):
                             _E.Q_INTERSECT if a_0   and b_0_1 else (
                             _E.V_INTERSECT if a_0   and b_0   else None)))
 
-                elif fabs(ap1) < _0_EPS:  # parallel or colinear edges
+                elif fabs(ap1) < _0EPS:  # parallel or colinear edges
                     dp = self._dp
                     d1 = q1 - p1
                     # compute and classify alpha and beta
@@ -1610,8 +1610,8 @@ class _EdgeGH(object):
 
     def _alpha2(self, x, y, dx, dy):
         # Return C{(alpha)}, see .points.nearestOn5
-        a = (y * dy + x * dx) / self._hypot2
-        d = (y * dx - x * dy) / self._hypot0
+        a = fdot_(y, dy,  x, dx) / self._hypot2
+        d = fdot_(y, dx, -x, dy) / self._hypot0
         return a, fabs(d)
 
     def _Error(self, n, *args, **kwds):  # PYCHOK no cover
@@ -1622,7 +1622,7 @@ class _EdgeGH(object):
     @Property_RO
     def _hypot0(self):
         _, sx, _, sy = self._x_sx_y_sy
-        return hypot(sx, sy) * _0_EPS
+        return hypot(sx, sy) * _0EPS
 
     @Property_RO
     def _hypot2(self):
@@ -1650,33 +1650,33 @@ class _EdgeGH(object):
             cy = c2.y - c1_y
             d  = cy * sx - cx * sy
 
-            if fabs(d) > _0_EPS:  # non-parallel edges
+            if fabs(d) > _0EPS:  # non-parallel edges
                 dx = x - c1_x
                 dy = y - c1_y
-                ca = (sx * dy - sy * dx) / d
-                if _0_EPS < ca < _EPS_1 or (self._xtend and
-                   _EPS_0 < ca < _1_EPS):
-                    sa = (cx * dy - cy * dx) / d
-                    if _0_EPS < sa < _EPS_1 or (self._xtend and
-                       _EPS_0 < sa < _1_EPS):
+                ca = fdot_(sx, dy, -sy, dx) / d
+                if _0EPS < ca < _EPS1 or (self._xtend and
+                   _EPS0 < ca < _1EPS):
+                    sa = fdot_(cx, dy, -cy, dx) / d
+                    if _0EPS < sa < _EPS1 or (self._xtend and
+                       _EPS0 < sa < _1EPS):
                         yield (y + sa * sy), (x + sa * sx), sa, ca
 
                     # unhandled, "degenerate" cases 1, 2 or 3
-                    elif self._raiser and not (sa < _EPS_0 or sa > _1_EPS):  # PYCHOK no cover
+                    elif self._raiser and not (sa < _EPS0 or sa > _1EPS):  # PYCHOK no cover
                         raise self._Error(1, c1, c2, sa=sa)  # intersection at s1 or s2
 
-                elif self._raiser and not (ca < _EPS_0 or ca > _1_EPS):  # PYCHOK no cover
+                elif self._raiser and not (ca < _EPS0 or ca > _1EPS):  # PYCHOK no cover
                     # intersection at c1 or c2 or at c1 or c2 and s1 or s2
-                    sa = (cx * dy - cy * dx) / d
-                    e = 2 if sa < _EPS_0 or sa > _1_EPS else 3
+                    sa = fdot_(cx, dy, -cy, dx) / d
+                    e  = 2 if sa < _EPS0 or sa > _1EPS else 3
                     raise self._Error(e, c1, c2, ca=ca)
 
             elif parallel and (sx or sy) and (cx or cy):  # PYCHOK no cover
                 # non-null, parallel or colinear edges
                 sa1, d1 = self._alpha2(c1_x - x, c1_y - y, sx, sy)
                 sa2, d2 = self._alpha2(c2.x - x, c2.y - y, sx, sy)
-                if max(d1, d2) < _0_EPS:
-                    if self._xtend and not _outside(sa1, sa2, _EPS_0, _1_EPS):
+                if max(d1, d2) < _0EPS:
+                    if self._xtend and not _outside(sa1, sa2, _EPS0, _1EPS):
                         if sa1 > sa2:  # anti-parallel
                             sa1, sa2 =  sa2,  sa1
                             ca1, ca2 = _1_0, _0_0
@@ -1694,7 +1694,7 @@ class _EdgeGH(object):
                             yield (y + sy), (x + sx), ca2, _alpha1(ca2 - ca)
                         else:  # c2 is between s1 and s2
                             yield (y + sa2 * sy), (x + sa2 * sx), sa2, ca2
-                    elif self._raiser and not _outside(sa1, sa2, _0_0, _1_EPS):
+                    elif self._raiser and not _outside(sa1, sa2, _0_0, _1EPS):
                         raise self._Error(4, c1, c2, d1=d1, d2=d2)
 
 
@@ -1887,9 +1887,9 @@ class BooleanGH(_CompositeGH, _BooleanBase):
         return self._boolean(other, True, False, self.__sub__)
 
 
-def _alpha1(alpha):
+def _alpha1(alpha):  # PYCHOK no cover
     # Return C{alpha} in C{[0..1]} range
-    if _EPS_0 < alpha < _1_EPS:
+    if _EPS0 < alpha < _1EPS:
         return max(_0_0, min(alpha, _1_0))
     t = _not_(Fmt.SQUARE(_ELLIPSIS_(0, 1)))
     raise ClipError(_alpha_, alpha, txt=t)
@@ -1899,8 +1899,8 @@ def _alpha4(a):
     # Return 4-tuple (alpha, -EPS < alpha < EPS,
     #                           0 < alpha < 1,
     #                       not 0 < alpha < 1)
-    a_EPS = bool(_EPS_0 < a < _0_EPS)
-    a_0_1 = bool(_0_EPS < a < _EPS_1)
+    a_EPS = bool(_EPS0 < a < _0EPS)
+    a_0_1 = bool(_0EPS < a < _EPS1)
     return a, a_EPS, a_0_1, (not a_0_1)
 
 

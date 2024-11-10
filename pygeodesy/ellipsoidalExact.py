@@ -24,7 +24,7 @@ from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
 # from math import fabs  # from .karney
 
 __all__ = _ALL_LAZY.ellipsoidalExact
-__version__ = '24.08.13'
+__version__ = '24.11.06'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -119,30 +119,28 @@ def areaOf(points, datum=_WGS84, wrap=True):
 
 
 def intersection3(start1, end1, start2, end2, height=None, wrap=False,  # was=True
-                  equidistant=None, tol=_TOL_M, LatLon=LatLon, **LatLon_kwds):
-    '''I{Iteratively} compute the intersection point of two lines, each defined
-       by two (ellipsoidal) points or by an (ellipsoidal) start point and an
-       initial bearing from North.
+                                equidistant=None, tol=_TOL_M, **LatLon_and_kwds):
+    '''I{Iteratively} compute the intersection point of two geodesic lines, each
+       given as two points or as an start point and a bearing from North.
 
        @arg start1: Start point of the first line (L{LatLon}).
        @arg end1: End point of the first line (L{LatLon}) or the initial bearing
-                  at the first point (compass C{degrees360}).
+                  at B{C{start1}} (compass C{degrees360}).
        @arg start2: Start point of the second line (L{LatLon}).
        @arg end2: End point of the second line (L{LatLon}) or the initial bearing
-                  at the second point (compass C{degrees360}).
+                  at B{C{start2}} (compass C{degrees360}).
        @kwarg height: Optional height at the intersection (C{meter}, conventionally)
                       or C{None} for the mean height.
-       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the B{C{start2}}
-                    and B{C{end*}} points (C{bool}).
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll B{C{start2}} and
+                    both B{C{end*}} points (C{bool}).
        @kwarg equidistant: An azimuthal equidistant projection (I{class} or function
                            L{pygeodesy.equidistant}) or C{None} for the preferred
                            C{B{start1}.Equidistant}.
        @kwarg tol: Tolerance for convergence and for skew line distance and length
                    (C{meter}, conventionally).
-       @kwarg LatLon: Optional class to return the intersection points (L{LatLon})
-                      or C{None}.
-       @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword arguments,
-                           ignored if C{B{LatLon} is None}.
+       @kwarg LatLon_and_kwds: Optional class C{B{LatLon}=}L{LatLon} to return the
+                     intersection points and optionally, additional B{C{LatLon}}
+                     keyword arguments, ignored if C{B{LatLon}=None}.
 
        @return: An L{Intersection3Tuple}C{(point, outside1, outside2)} with C{point}
                 a B{C{LatLon}} or if C{B{LatLon} is None}, a L{LatLon4Tuple}C{(lat,
@@ -154,23 +152,23 @@ def intersection3(start1, end1, start2, end2, height=None, wrap=False,  # was=Tr
        @raise TypeError: Invalid or non-ellipsoidal B{C{start1}}, B{C{end1}},
                          B{C{start2}} or B{C{end2}} or invalid B{C{equidistant}}.
 
-       @note: For each line specified with an initial bearing, a pseudo-end point
-              is computed as the C{destination} along that bearing at about 1.5
-              times the distance from the start point to an initial gu-/estimate
-              of the intersection point (and between 1/8 and 3/8 of the authalic
-              earth perimeter).
+       @note: For each line specified with an initial bearing, a pseudo-end point is
+              computed as the C{destination} along that bearing at about 1.5 times the
+              distance from the start point to an initial gu-/estimate of the intersection
+              point (and between 1/8 and 3/8 of the authalic earth perimeter).
 
        @see: U{The B{ellipsoidal} case<https://GIS.StackExchange.com/questions/48937/
              calculating-intersection-of-two-circles>} and U{Karney's paper
              <https://ArXiv.org/pdf/1102.1215.pdf>}, pp 20-21, section B{14. MARITIME
              BOUNDARIES} for more details about the iteration algorithm.
     '''
+    kwds = _xkwds(LatLon_and_kwds, LatLon=LatLon)
     return _intersection3(start1, end1, start2, end2, height=height, wrap=wrap,
-                          equidistant=equidistant, tol=tol, LatLon=LatLon, **LatLon_kwds)
+                                        equidistant=equidistant, tol=tol, **kwds)
 
 
 def intersections2(center1, radius1, center2, radius2, height=None, wrap=False,  # was=True
-                   equidistant=None, tol=_TOL_M, LatLon=LatLon, **LatLon_kwds):
+                                     equidistant=None, tol=_TOL_M, **LatLon_and_kwds):
     '''I{Iteratively} compute the intersection points of two circles, each defined
        by an (ellipsoidal) center point and a radius.
 
@@ -189,10 +187,9 @@ def intersections2(center1, radius1, center2, radius2, height=None, wrap=False, 
                            the preferred C{B{center1}.Equidistant}.
        @kwarg tol: Convergence tolerance (C{meter}, same units as B{C{radius1}}
                    and B{C{radius2}}).
-       @kwarg LatLon: Optional class to return the intersection points (L{LatLon})
-                      or C{None}.
-       @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword arguments,
-                           ignored if C{B{LatLon} is None}.
+       @kwarg LatLon_and_kwds: Optional class C{B{LatLon}=}L{LatLon} to return the
+                     intersection points and optionally, additional B{C{LatLon}}
+                     keyword arguments, ignored if C{B{LatLon}=None}.
 
        @return: 2-Tuple of the intersection points, each a B{C{LatLon}} instance
                 or L{LatLon4Tuple}C{(lat, lon, height, datum)} if C{B{LatLon} is
@@ -214,8 +211,9 @@ def intersections2(center1, radius1, center2, radius2, height=None, wrap=False, 
              U{sphere-sphere<https://MathWorld.Wolfram.com/Sphere-SphereIntersection.html>}
              intersections.
     '''
+    kwds = _xkwds(LatLon_and_kwds, LatLon=LatLon)
     return _intersections2(center1, radius1, center2, radius2, height=height, wrap=wrap,
-                           equidistant=equidistant, tol=tol, LatLon=LatLon, **LatLon_kwds)
+                                             equidistant=equidistant, tol=tol, **kwds)
 
 
 def isclockwise(points, datum=_WGS84, wrap=True):
@@ -245,9 +243,9 @@ def isclockwise(points, datum=_WGS84, wrap=True):
 
 
 def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
-              equidistant=None, tol=_TOL_M, LatLon=LatLon, **LatLon_kwds):
-    '''I{Iteratively} locate the closest point on the geodesic between
-       two other (ellispoidal) points.
+                     equidistant=None, tol=_TOL_M, **LatLon_and_kwds):
+    '''I{Iteratively} locate the closest point on the geodesic (line)
+       between two other (ellipsoidal) points.
 
        @arg point: Reference point (C{LatLon}).
        @arg point1: Start point of the geodesic (C{LatLon}).
@@ -265,16 +263,15 @@ def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
                            or function L{pygeodesy.equidistant}) or C{None}
                            for the preferred C{B{point}.Equidistant}.
        @kwarg tol: Convergence tolerance (C{meter}).
-       @kwarg LatLon: Optional class to return the closest point
-                      (L{LatLon}) or C{None}.
-       @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                           arguments, ignored if C{B{LatLon} is None}.
+       @kwarg LatLon_and_kwds: Optional class C{B{LatLon}=}L{LatLon} to return the
+                     closest point and optionally, additional B{C{LatLon}} keyword
+                     arguments, ignored if C{B{LatLon}=None}.
 
-       @return: Closest point, a B{C{LatLon}} instance or if C{B{LatLon}
-                is None}, a L{LatLon4Tuple}C{(lat, lon, height, datum)}.
+       @return: Closest point, a B{C{LatLon}} instance or if C{B{LatLon} is None},
+                a L{LatLon4Tuple}C{(lat, lon, height, datum)}.
 
-       @raise TypeError: Invalid or non-ellipsoidal B{C{point}}, B{C{point1}}
-                         or B{C{point2}} or invalid B{C{equidistant}}.
+       @raise TypeError: Invalid or non-ellipsoidal B{C{point}}, B{C{point1}} or
+                         B{C{point2}} or invalid B{C{equidistant}}.
 
        @raise ValueError: No convergence for the B{C{tol}}.
 
@@ -283,8 +280,9 @@ def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
              <https://ArXiv.org/pdf/1102.1215.pdf>}, pp 20-21, section B{14. MARITIME
              BOUNDARIES} for more details about the iteration algorithm.
     '''
+    kwds = _xkwds(LatLon_and_kwds, LatLon=LatLon)
     return _nearestOn(point, point1, point2, within=within, height=height, wrap=wrap,
-                      equidistant=equidistant, tol=tol, LatLon=LatLon, **LatLon_kwds)
+                                             equidistant=equidistant, tol=tol, **kwds)
 
 
 def perimeterOf(points, closed=False, datum=_WGS84, wrap=True):

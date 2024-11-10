@@ -64,7 +64,7 @@ Karney-based functionality
     <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Intersect.html>} from I{GeographicLib 2.3+}
 
   - L{JacobiConformal} -- U{JacobiConformal
-    <https://geographiclib.sourceforge.io/C++/doc/classGeographicLib_1_1experimental_1_1JacobiConformal.html>}
+    <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1experimental_1_1JacobiConformal.html>}
 
   - L{KTransverseMercator} - U{TransverseMercator
     <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1TransverseMercator.html>}
@@ -165,7 +165,7 @@ from pygeodesy.utily import atan2d, sincos2d, tand, _unrollon,  fabs
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '24.10.14'
+__version__ = '24.11.09'
 
 _2_4_       = '2.4'
 _K_2_0      = _getenv(_PYGEODESY(_xgeographiclib, 1), _2_)

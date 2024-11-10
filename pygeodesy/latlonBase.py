@@ -54,7 +54,7 @@ from contextlib import contextmanager
 from math import asin, cos, degrees, fabs, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '24.10.19'
+__version__ = '24.11.06'
 
 _formy = _MODS.into(formy=__name__)
 
@@ -1505,9 +1505,9 @@ class LatLonBase(_NamedBase):
            @kwarg h: Optional height, overriding this point's height (C{meter}).
            @kwarg Nvector: Optional class to return the C{n-vector} components
                            (C{Nvector}) or C{None}.
-           @kwarg name_Nvector_kwds: Optional C{B{name}=NN} (C{str}) and optional,
-                       additional B{C{Nvector}} keyword arguments, ignored if
-                       C{B{Nvector} is None}.
+           @kwarg name_Nvector_kwds: Optional C{B{name}=NN} (C{str}) and optionally,
+                       additional B{C{Nvector}} keyword arguments, ignored if C{B{Nvector}
+                       is None}.
 
            @return: An named B{C{Nvector}} or if C{B{Nvector} is None} a named
                     L{Vector4Tuple}C{(x, y, z, h)}.

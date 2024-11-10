@@ -39,7 +39,7 @@ from pygeodesy.datums import _ellipsoidal_datum, _WGS84,  _under
 from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.errors import MGRSError, RangeError, _ValueError, \
                             _xkwds_get, _xkwds_pop2
-from pygeodesy.fmath import fdot3, hypot, hypot1,  _operator
+from pygeodesy.fmath import fdot_, fdot3, hypot, hypot1,  _operator
 # from pygeodesy.internals import _under  # from .datums
 from pygeodesy.interns import MISSING, NN, _by_, _COMMASPACE_, _N_, \
                              _NS_, _outside_, _range_, _S_, _scale0_, \
@@ -63,7 +63,7 @@ from math import asinh, atanh, atan2, cos, cosh, degrees, fabs, \
 # import operator as _operator  # from .fmath
 
 __all__ = _ALL_LAZY.utm
-__version__ = '24.10.12'
+__version__ = '24.11.07'
 
 _Bands = 'CDEFGHJKLMNPQRSTUVWXX'  # UTM latitude bands C..X (no
 # I|O) 8° each, covering 80°S to 84°N and X repeated for 80-84°N
@@ -566,12 +566,12 @@ def toUtm8(latlon, lon=None, datum=None, Utm=Utm, falsed=True,
     # easting, northing: Karney 2011 Eq 7-14, 29, 35
     sb, cb = sincos2(b)
 
-    T = tan(a)
+    T   = tan(a)
     T12 = hypot1(T)
-    S = sinh(E.e * atanh(E.e * T / T12))
+    S   = sinh(E.e * atanh(E.e * T / T12))
 
-    T_ = T * hypot1(S) - S * T12
-    H = hypot(T_, cb)
+    T_ = fdot_(T, hypot1(S), -S, T12)
+    H  = hypot(T_, cb)
 
     y = atan2(T_, cb)  # ξ' ksi
     x = asinh(sb / H)  # η' eta

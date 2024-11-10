@@ -104,7 +104,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        24.10.19
+        24.11.07
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -225,10 +225,9 @@
         <span class="summary-sig-arg">end2</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.sphericalNvector.LatLon'&gt;</span>,
-        <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
-      Locate the intersections of two (great circle) lines each defined by 
-      two points or by a start point and an (initial) bearing.</td>
+        <span class="summary-sig-arg">**LatLon_and_kwds</span>)</span><br />
+      Locate an intersection point of two (great circle) lines each defined
+      by two points or by a point and an (initial) bearing.</td>
           <td align="right" valign="top">
             
             
@@ -250,10 +249,9 @@
         <span class="summary-sig-arg">end2</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.sphericalNvector.LatLon'&gt;</span>,
-        <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
-      Locate the intersections of two (great circle) lines each defined by 
-      two points or by a start point and an (initial) bearing.</td>
+        <span class="summary-sig-arg">**LatLon_and_kwds</span>)</span><br />
+      Locate both intersections of two (great circle) lines each defined by
+      two points or by a point and an (initial) bearing.</td>
           <td align="right" valign="top">
             
             
@@ -272,8 +270,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.sphericalNvector-module.html#meanOf" class="summary-sig-name">meanOf</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.sphericalNvector.LatLon'&gt;</span>,
-        <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**LatLon_and_kwds</span>)</span><br />
       Compute the <i>geographic</i> mean of the supplied points.</td>
           <td align="right" valign="top">
             
@@ -383,8 +380,8 @@
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.sphericalNvector.LatLon'&gt;</span>,
         <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
-      Locate a point given two known points and the (initial) bearing from 
-      those points.</td>
+      Locate a point given two known, reference points and the (initial) 
+      bearing from those points.</td>
           <td align="right" valign="top">
             
             
@@ -608,64 +605,29 @@
         <span class="sig-arg">end2</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">LatLon</span>=<span class="sig-default">&lt;class 'pygeodesy.sphericalNvector.LatLon'&gt;</span>,
-        <span class="sig-arg">**LatLon_kwds</span>)</span>
+        <span class="sig-arg">**LatLon_and_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Locate the intersections of two (great circle) lines each defined by 
-  two points or by a start point and an (initial) bearing.</p>
+  <p>Locate an intersection point of two (great circle) lines each defined 
+  by two points or by a point and an (initial) bearing.</p>
   <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>start1</code></strong> - Start point of the first line (<a 
-          href="pygeodesy.sphericalNvector.LatLon-class.html" 
-          class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>end1</code></strong> - End point of the first line (<a 
-          href="pygeodesy.sphericalNvector.LatLon-class.html" 
-          class="link">LatLon</a>) or the initial bearing at the first 
-          start point (compass <code>degrees360</code>).</li>
-        <li><strong class="pname"><code>start2</code></strong> - Start point of the second line (<a 
-          href="pygeodesy.sphericalNvector.LatLon-class.html" 
-          class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>end2</code></strong> - End point of the second line (<a 
-          href="pygeodesy.sphericalNvector.LatLon-class.html" 
-          class="link">LatLon</a>) or the initial bearing at the second 
-          start point (compass <code>degrees360</code>).</li>
-        <li><strong class="pname"><code>height</code></strong> - Optional height at the intersection point, overriding the mean 
-          height (<code>meter</code>).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll 
-          <b><code>start2</code></b> and both <b><code>end*</code></b> 
-          points (<code>bool</code>).</li>
-        <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the intersection point (<a 
-          href="pygeodesy.sphericalNvector.LatLon-class.html" 
-          class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional, additional <b><code>LatLon</code></b> keyword 
-          arguments, ignored if <code><b>LatLon</b> is None</code>.</li>
-    </ul></dd>
     <dt>Returns:</dt>
-        <dd>The intersection point (<b><code>LatLon</code></b>) or if 
-          <code><b>LatLon</b> is None</code>, a cartesian <a 
-          href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+        <dd>The intersection point (<a 
+          href="pygeodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a>) or if <code><b>LatLon</b>=None</code>, a
+          cartesian <a href="pygeodesy.ecef.Ecef9Tuple-class.html" 
           class="link">Ecef9Tuple</a><code>(x, y, z, lat, lon, height, C, 
           M, datum)</code> with <code>C</code> and <code>M</code> if 
           available.</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>start*</code></b> or <b><code>end*</code></b> is not <a
-        href="pygeodesy.sphericalNvector.LatLon-class.html" 
-        class="link">LatLon</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Intersection is ambiguous or infinite or the lines are parallel, 
-        coincident or null.</li>
-    </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a 
         href="pygeodesy.sphericalNvector-module.html#intersection2" 
-        class="link">sphericalNvector.intersection2</a>.
+        class="link">intersection2</a> for further details.
       </p>
 </div></td></tr></table>
 </div>
@@ -682,16 +644,15 @@
         <span class="sig-arg">end2</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">LatLon</span>=<span class="sig-default">&lt;class 'pygeodesy.sphericalNvector.LatLon'&gt;</span>,
-        <span class="sig-arg">**LatLon_kwds</span>)</span>
+        <span class="sig-arg">**LatLon_and_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Locate the intersections of two (great circle) lines each defined by 
-  two points or by a start point and an (initial) bearing.</p>
+  <p>Locate both intersections of two (great circle) lines each defined by 
+  two points or by a point and an (initial) bearing.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -700,30 +661,30 @@
           class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>end1</code></strong> - End point of the first line (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
-          class="link">LatLon</a>) or the initial bearing at the first 
-          start point (compass <code>degrees360</code>).</li>
+          class="link">LatLon</a>) or the bearing at 
+          <b><code>start1</code></b> (compass <code>degrees360</code>).</li>
         <li><strong class="pname"><code>start2</code></strong> - Start point of the second line (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
           class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>end2</code></strong> - End point of the second line (<a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
-          class="link">LatLon</a>) or the initial bearing at the second 
-          start point (compass <code>degrees360</code>).</li>
+          class="link">LatLon</a>) or the bearing at 
+          <b><code>start2</code></b> (compass <code>degrees360</code>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height at the intersection and antipodal point, 
           overriding the mean height (<code>meter</code>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll 
           <b><code>start2</code></b> and both <b><code>end*</code></b> 
           points (<code>bool</code>).</li>
-        <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the intersection and antipodal points 
-          (<a href="pygeodesy.sphericalNvector.LatLon-class.html" 
-          class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional, additional <b><code>LatLon</code></b> keyword 
+        <li><strong class="pname"><code>LatLon_and_kwds</code></strong> - Optional class <code><b>LatLon</b>=</code><a 
+          href="pygeodesy.sphericalNvector.LatLon-class.html" 
+          class="link">LatLon</a> to return the intersection points and 
+          optionally, additional <b><code>LatLon</code></b> keyword 
           arguments, ignored if <code><b>LatLon</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-Tuple <code>(intersection, antipode)</code>, each a 
-          (<b><code>LatLon</code></b>) or if <code><b>LatLon</b> is 
-          None</code>, a cartesian <a 
+          (<b><code>LatLon</code></b>) or if 
+          <code><b>LatLon</b>=None</code>, a cartesian <a 
           href="pygeodesy.ecef.Ecef9Tuple-class.html" 
           class="link">Ecef9Tuple</a><code>(x, y, z, lat, lon, height, C, 
           M, datum)</code> with <code>C</code> and <code>M</code> if 
@@ -754,8 +715,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">meanOf</span>&nbsp;(<span class="sig-arg">points</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">LatLon</span>=<span class="sig-default">&lt;class 'pygeodesy.sphericalNvector.LatLon'&gt;</span>,
-        <span class="sig-arg">**LatLon_kwds</span>)</span>
+        <span class="sig-arg">**LatLon_and_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -772,11 +732,11 @@
         <li><strong class="pname"><code>height</code></strong> - Optional height, overriding the mean height (<code>meter</code>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> 
           <b><code>points</code></b> (<code>bool</code>).</li>
-        <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the mean point (<a 
+        <li><strong class="pname"><code>LatLon_and_kwds</code></strong> - Optional class <code><b>LatLon</b>=</code><a 
           href="pygeodesy.sphericalNvector.LatLon-class.html" 
-          class="link">LatLon</a>).</li>
-        <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional, additional <b><code>LatLon</code></b> keyword 
-          arguments, ignored if <code><b>LatLon</b> is None</code>.</li>
+          class="link">LatLon</a> to return the mean point and optionally, 
+          additional <b><code>LatLon</code></b> keyword arguments, ignored 
+          if <code><b>LatLon</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Point at geographic mean and mean height 
@@ -996,8 +956,8 @@
     </td>
   </tr></table>
   
-  <p>Locate a point given two known points and the (initial) bearing from 
-  those points.</p>
+  <p>Locate a point given two known, reference points and the (initial) 
+  bearing from those points.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -1139,7 +1099,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Oct 22 17:06:19 2024
+    Generated by Epydoc 3.0.1 on Sun Nov 10 11:35:48 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

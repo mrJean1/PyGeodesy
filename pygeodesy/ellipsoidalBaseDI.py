@@ -9,7 +9,7 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import isLatLon, _xsubclassof
 from pygeodesy.constants import EPS, MAX, PI, PI2, PI_4, isnear0, isnear1, \
-                               _EPSqrt as _TOL, _0_0, _0_5, _1_5, _3_0
+                               _EPSqrt as _TOL, _0_0, _0_01, _1_0, _1_5, _3_0
 # from pygeodesy.dms import F_DMS  # _MODS
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase, _TOL_M,  property_RO
 from pygeodesy.errors import _AssertionError, IntersectionError, _IsnotError, \
@@ -34,11 +34,10 @@ from pygeodesy.utily import m2km, unroll180, _unrollon, _unrollon3, \
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.ellipsoidalBaseDI
-__version__ = '24.10.19'
+__version__ = '24.11.04'
 
-_polar__  = 'polar?'
-_B2END    = _1_5  # _intersect3 bearing to pseudo-end point factor
-_TRIPS    =  33   # _intersect3, _intersects2, _nearestOn interations, 6..9 sufficient?
+_polar__ = 'polar?'
+_TRIPS   =  33   # _intersect3, _intersects2, _nearestOn interations, 6..9 sufficient?
 
 
 class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
@@ -52,13 +51,13 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
            method.  See methods L{initialBearingTo} and L{finalBearingTo}
            for more details.
 
-           @arg other: The other point (C{LatLon}).
+           @arg other: The other point (this C{LatLon}).
            @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
                         B{C{other}} point (C{bool}).
 
            @return: A L{Bearing2Tuple}C{(initial, final)}.
 
-           @raise TypeError: The B{C{other}} point is not C{LatLon}.
+           @raise TypeError: If B{C{other}} not this C{LatLon} class.
 
            @raise ValueError: If this and the B{C{other}} point's L{Datum}
                               ellipsoids are not compatible.
@@ -69,13 +68,8 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
     def destination(self, distance, bearing, height=None):
         '''Compute the destination point after having travelled for
            the given distance from this point along a geodesic given
-           by an initial bearing, using this C{Direct} method.  See
-           method L{destination2} for more details.
-
-           @arg distance: Distance (C{meter}).
-           @arg bearing: Initial bearing in (compass C{degrees360}).
-           @kwarg height: Optional height, overriding the default
-                          height (C{meter}, same units as C{distance}).
+           by an initial bearing.  See method L{destination2} for
+           further details.
 
            @return: The destination point (C{LatLon}).
         '''
@@ -84,15 +78,16 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
     def destination2(self, distance, bearing, height=None):
         '''Compute the destination point and the final bearing (reverse
            azimuth) after having travelled for the given distance from
-           this point along a geodesic given by an initial bearing,
-           using this C{Direct} method.
+           this point along a geodesic (line) given by an initial bearing
+           at this point.
 
-           The distance must be in the same units as this point's datum
-           axes, conventionally C{meter}.  The distance is measured on
-           the surface of the ellipsoid, ignoring this point's height.
+           The distance must be in the same units as this point's datum's
+           ellipsoid's axes, conventionally C{meter}.  The distance is
+           measured on the surface of the ellipsoid, ignoring this point's
+           height.
 
            The initial and final bearing (forward and reverse azimuth)
-           are in compass C{degrees360}.
+           are in compass C{degrees360}, clockwise from North.
 
            The destination point's height and datum are set to this
            point's height and datum, unless the former is overridden.
@@ -104,8 +99,7 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
 
            @return: A L{Destination2Tuple}C{(destination, final)}.
         '''
-        r = self._Direct(distance, bearing, self.classof, height)
-        return self._xnamed(r)
+        return self._Direct(distance, bearing, self.classof, height)
 
     def _Direct(self, distance, bearing, LL, height):  # overloaded by I{Vincenty}
         '''(INTERNAL) I{Karney}'s C{Direct} method.
@@ -122,27 +116,26 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
     def _Direct2Tuple(self, LL, height, r):
         '''(INTERNAL) Helper for C{._Direct} result L{Destination2Tuple}.
         '''
-        h = self.height if height is None else height
-        d = LL(*_Wrap.latlon(r.lat, r.lon), height=h, **_xkwds_not(None,
-                                            datum=self.datum, name=self.name,
-                                            epoch=self.epoch, reframe=self.reframe))
-        return Destination2Tuple(d, wrap360(r.final))
+        h =  self._heigHt(height)
+        d = _xkwds_not(None, datum=self.datum, name=self.name,
+                             epoch=self.epoch, reframe=self.reframe)
+        d = LL(*_Wrap.latlon(r.lat, r.lon), height=h, **d)
+        return Destination2Tuple(d, wrap360(r.final), name=self.name)
 
-    def distanceTo(self, other, wrap=False, **unused):  # ignore radius=R_M
+    def distanceTo(self, other, wrap=False, **unused):  # radius=R_M
         '''Compute the distance between this and an other point along
-           a geodesic, using this C{Inverse} method. See method
-           L{distanceTo3} for more details.
+           a geodesic. See method L{distanceTo3} for more details.
 
-           @arg other: The other point (C{LatLon}).
+           @arg other: The other point (this C{LatLon}).
            @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
                         B{C{other}} point (C{bool}).
 
            @return: Distance (C{meter}).
 
-           @raise TypeError: The B{C{other}} point is not C{LatLon}.
+           @raise TypeError: If B{C{other}} not this C{LatLon} class.
 
-           @raise ValueError: If this and the B{C{other}} point's L{Datum}
-                              ellipsoids are not compatible.
+           @raise ValueError: This and the B{C{other}} point's L{Datum}
+                              ellipsoids are incompatible.
         '''
         return self._Inverse(other, wrap, azis=False).distance
 
@@ -151,12 +144,13 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
            a geodesic between this and an other point, using this
            C{Inverse} method.
 
-           The distance is in the same units as this point's datum axes,
-           conventionally meter.  The distance is measured on the surface
-           of the ellipsoid, ignoring this point's height.
+           The distance is in the same units as this point's datum's
+           ellipsoid's axes, conventionally meter.  The distance is
+           measured on the surface of the ellipsoid, ignoring this
+           point's height.
 
            The initial and final bearing (forward and reverse azimuth)
-           are in compass C{degrees360} from North.
+           are in compass C{degrees360}, clockwise from North.
 
            @arg other: Destination point (C{LatLon}).
            @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
@@ -164,18 +158,18 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
 
            @return: A L{Distance3Tuple}C{(distance, initial, final)}.
 
-           @raise TypeError: The B{C{other}} point is not C{LatLon}.
+           @raise TypeError: If B{C{other}} not this C{LatLon} class.
 
-           @raise ValueError: If this and the B{C{other}} point's L{Datum}
+           @raise ValueError: This and the B{C{other}} point's L{Datum}
                               ellipsoids are not compatible.
         '''
         return self._xnamed(self._Inverse(other, wrap))
 
     def finalBearingOn(self, distance, bearing):
         '''Compute the final bearing (reverse azimuth) after having
-           travelled for the given distance along a geodesic given by
-           an initial bearing from this point, using this C{Direct}
-           method.  See method L{destination2} for more details.
+           travelled for the given distance along a geodesic given
+           by an initial bearing from this point.  See method
+           L{destination2} for more details.
 
            @arg distance: Distance (C{meter}).
            @arg bearing: Initial bearing (compass C{degrees360}).
@@ -187,8 +181,7 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
     def finalBearingTo(self, other, wrap=False):
         '''Compute the final bearing (reverse azimuth) after having
            travelled along a geodesic from this point to an other
-           point, using this C{Inverse} method.  See method
-           L{distanceTo3} for more details.
+           point.  See method L{distanceTo3} for more details.
 
            @arg other: The other point (C{LatLon}).
            @kwarg wrap: If C{True}, wrap or I{normalize} and unroll
@@ -196,10 +189,10 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
 
            @return: Final bearing (compass C{degrees360}).
 
-           @raise TypeError: The B{C{other}} point is not C{LatLon}.
+           @raise TypeError: If B{C{other}} not this C{LatLon} class.
 
-           @raise ValueError: If this and the B{C{other}} point's L{Datum}
-                              ellipsoids are not compatible.
+           @raise ValueError: This and the B{C{other}} point's L{Datum}
+                              ellipsoids are incompatible.
         '''
         return self._Inverse(other, wrap).final
 
@@ -209,40 +202,38 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
         '''
         return None  # PYCHOK no cover
 
-    def _g_gl_p3(self, point, other, exact, wrap):
+    def _g_gl_p3(self, start, end, exact, wrap):
         '''(INTERNAL) Helper for methods C{.intersecant2} and C{.plumbTo}.
         '''
-        p  = _unrollon(self, self.others(point=point), wrap=wrap)
+        p  = _unrollon(self, self.others(start=start), wrap=wrap)
         g  =  self.datum.ellipsoid.geodesic_(exact=exact)
-        gl =  g._DirectLine( p, other) if _isDegrees(other) else \
-              g._InverseLine(p, self.others(other), wrap)
+        gl =  g._DirectLine( p, end) if _isDegrees(end) else \
+              g._InverseLine(p, self.others(end=end), wrap)
         return g, gl, p
 
     def initialBearingTo(self, other, wrap=False):
         '''Compute the initial bearing (forward azimuth) to travel
-           along a geodesic from this point to an other point,
-           using this C{Inverse} method.  See method L{distanceTo3}
-           for more details.
+           along a geodesic from this point to an other point.  See
+           method L{distanceTo3} for more details.
 
-           @arg other: The other point (C{LatLon}).
+           @arg other: The other point (this C{LatLon}).
            @kwarg wrap: If C{True}, wrap or I{normalize} and unroll
                         the B{C{other}} point (C{bool}).
 
            @return: Initial bearing (compass C{degrees360}).
 
-           @raise TypeError: The B{C{other}} point is not C{LatLon}.
+           @raise TypeError: If B{C{other}} not this C{LatLon} class.
 
            @raise ValueError: If this and the B{C{other}} point's L{Datum}
-                              ellipsoids are not compatible.
+                              ellipsoids are incompatible.
         '''
         return self._Inverse(other, wrap).initial
 
     def intermediateTo(self, other, fraction, height=None, wrap=False):
         '''Return the point at given fraction along the geodesic between
-           this and an other point, using this C{Direct} and C{Inverse}
-           methods.
+           this and an other point.
 
-           @arg other: The other point (C{LatLon}).
+           @arg other: The other point (this C{LatLon}).
            @arg fraction: Fraction between both points (C{scalar}, 0.0
                           at this and 1.0 at the other point.
            @kwarg height: Optional height, overriding the fractional
@@ -252,12 +243,12 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
 
            @return: Intermediate point (C{LatLon}).
 
-           @raise TypeError: The B{C{other}} point is not C{LatLon}.
+           @raise TypeError: If B{C{other}} not this C{LatLon} class.
 
            @raise UnitError: Invalid B{C{fraction}} or B{C{height}}.
 
-           @raise ValueError: If this and the B{C{other}} point's L{Datum}
-                              ellipsoids are not compatible.
+           @raise ValueError: This and the B{C{other}} point's L{Datum}
+                              ellipsoids are incompatible.
 
            @see: Methods L{distanceTo3}, L{destination}, C{midpointTo} and
                  C{rhumbMidpointTo}.
@@ -273,49 +264,47 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
             r = self.destination(t.distance * f, t.initial, height=h)
         return r
 
-    def intersecant2(self, circle, point, other, exact=False, height=None,  # PYCHOK signature
-                                                 wrap=False, tol=_TOL):
-        '''Compute the intersections of a circle and a geodesic (line) given as
-           two points or as a point and bearing.
+    def intersecant2(self, circle, start, end, exact=False, height=None,  # PYCHOK signature
+                                               wrap=False, tol=_TOL):
+        '''Compute the intersections of a circle and a geodesic (line) given as two
+           points or as a point and a bearing from North.
 
            @arg circle: Radius of the circle centered at this location (C{meter},
-                        conventionally) or a point on the circle (same C{LatLon} class).
-           @arg point: A location on the geodesic (same C{LatLon} class).
-           @arg other: An other point on the geodesic (same C{LatLon} class) or the
-                       (forward) bearing at the B{C{point}} (compass C{degrees}).
+                        conventionally) or a point on the circle (this C{LatLon}).
+           @arg start: Start point of the geodesic (line) (this C{LatLon}).
+           @arg end: End point of the geodesic (line) (this C{LatLon}) or the initial
+                     bearing at the B{C{start}} point (compass C{degrees360}).
            @kwarg exact: Exact C{geodesic...} to use (C{bool} or C{Geodesic...}), see
-                         method L{Ellipsoid.geodesic_}.
+                         method L{geodesic_<Ellipsoid.geodesic_>}.
            @kwarg height: Optional height for the intersection points (C{meter},
                           conventionally) or C{None} for interpolated heights.
-           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the B{C{point}},
-                        B{C{circle}} and/or B{C{other}} (C{bool}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the B{C{circle}},
+                        B{C{start}} and/or B{C{end}} (C{bool}).
            @kwarg tol: Convergence tolerance (C{scalar}).
 
            @return: 2-Tuple of the intersection points (representing a geodesic chord),
-                    each an instance of same C{LatLon} class.  Both points are the same
+                    each an instance of this C{LatLon} class.  Both points are the same
                     instance if the geodesic (line) is tangential to the circle.
 
            @raise IntersectionError: The circle and geodesic do not intersect.
 
-           @raise TypeError: If B{C{point}} is not same C{LatLon} class or B{C{circle}}
-                             or B{C{other}} invalid.
+           @raise TypeError: Invalid B{C{circle}}, B{C{start}} or B{C{end}}.
 
-           @raise UnitError: Invalid B{C{circle}}, B{C{other}}, B{C{exact}} or
-                             B{C{height}}.
+           @raise UnitError: Invalid B{C{circle}}, B{C{end}}, B{C{exact}} or B{C{height}}.
 
            @see: Method L{rhumbIntersecant2<LatLonBase.rhumbIntersecant2>}.
         '''
         try:
-            g, gl, p = self._g_gl_p3(point, other, exact, wrap)
+            g, gl, p = self._g_gl_p3(start, end, exact, wrap)
             r = Radius_(circle=circle) if _isRadius(circle) else \
                 g._Inverse(self, self.others(circle=circle), wrap).s12
 
             P, Q = _MODS.geodesicw._Intersecant2(gl, self.lat, self.lon, r, tol=tol,
                                                                form=_MODS.dms.F_DMS)
-            return self._intersecend2(p, other, wrap, height, g, P, Q,
-                                                              self.intersecant2)
+            return self._intersecend2(p, end, wrap, height, g, P, Q,
+                                                            self.intersecant2)
         except (TypeError, ValueError) as x:
-            raise _xError(x, center=self, circle=circle, point=point, other=other,
+            raise _xError(x, center=self, circle=circle, start=start, end=end,
                                                          exact=exact, wrap=wrap)
 
     def _Inverse(self, other, wrap, **unused):  # azis=False, overloaded by I{Vincenty}
@@ -341,11 +330,15 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
                           compute distances.
            @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the B{C{points}}
                         (C{bool}).
+           @kwarg equidistant: An azimuthal equidistant projection (I{class} or function
+                               L{pygeodesy.equidistant}) or C{None} for the preferred
+                               L{Equidistant<pygeodesy.ellipsoidalBase.Equidistant>}.
+           @kwarg tol: Convergence tolerance (C{meter}, conventionally).
 
            @return: A L{NearestOn8Tuple}C{(closest, distance, fi, j, start, end,
                     initial, final)} with C{distance} in C{meter}, conventionally
                     and with the C{closest}, the C{start} the C{end} point each
-                    an instance of same C{LatLon} class.
+                    an instance of this C{LatLon} class.
 
            @raise PointsError: Insufficient number of B{C{points}}.
 
@@ -406,37 +399,37 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
         return NearestOn8Tuple(c, c3.distance, f, j, s, e, c3.initial, c3.final,
                                iteration=m)  # ._iteration for tests
 
-    def plumbTo(self, point, other, exact=False, height=None,  # PYCHOK signature
-                                    wrap=False, tol=_TOL):
-        '''Compute the I{perpendicular} intersection of a geodesic (line) with
-           a geodesic from this point.
+    def plumbTo(self, start, end, exact=False, height=None,  # PYCHOK signature
+                                  wrap=False, tol=_TOL):
+        '''Compute the intersection of a geodesic from this point I{perpendicular} to
+           a geodesic (line) given as two points or as a point and a bearing from North.
 
-           @arg point: A location (C{LatLon}) on the geodesic (line).
-           @arg other: An other point (C{LatLon}) on the geodesic (line) or the
-                       (forward) bearing at the B{C{point}} (compass C{degrees}).
+           @arg start: Start point of the geodesic (line) (this C{LatLon}).
+           @arg end: End point of the geodesic (line) (this C{LatLon}) or the initial
+                     bearing at the B{C{start}} point (compass C{degrees360}).
            @kwarg exact: Exact C{geodesic...} to use (C{bool} or C{Geodesic...}),
                          see method L{Ellipsoid.geodesic_}.
            @kwarg height: Optional height for the intersection point (C{meter},
                           conventionally) or C{None} for an interpolated height.
-           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the B{C{point}}
-                        and/or B{C{other}} (C{bool}).
+           @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the B{C{start}}
+                        and/or B{C{end}} point (C{bool}).
            @kwarg tol: Convergence tolerance (C{meter}).
 
-           @return: The intersection point, an instance of same C{LatLon} class.
+           @return: The intersection point, an instance of this C{LatLon} class.
 
-           @raise TypeError: If B{C{point}} or B{C{other}} not same C{LatLon} class.
+           @raise TypeError: If B{C{start}} or B{C{end}} not this C{LatLon} class.
 
-           @raise UnitError: Invalid B{C{other}}, B{C{exact}} or B{C{height}}.
+           @raise UnitError: Invalid B{C{end}}, B{C{exact}} or B{C{height}}.
         '''
         try:
-            g, gl, p = self._g_gl_p3(point, other, exact, wrap)
+            g, gl, p = self._g_gl_p3(start, end, exact, wrap)
 
             P = _MODS.geodesicw._PlumbTo(gl, self.lat, self.lon, tol=tol)
             h =  self._havg(p, h=height)
             p =  self.classof(P.lat2, P.lon2, datum=self.datum, height=h)  # name=n
             p._iteration = P.iteration
         except (TypeError, ValueError) as x:
-            raise _xError(x, plumb=self, point=point, other=other,
+            raise _xError(x, plumb=self, start=start, end=end,
                                          exact=exact, wrap=wrap)
         return p
 
@@ -446,6 +439,8 @@ class _Box(object):
 
        @see: Function C{_box4} in .clipy.py.
     '''
+    _1_01 = _1_0 + _0_01  # ~1% margin
+
     def __init__(self, center, distance):
         '''New L{_Box} around point.
 
@@ -454,8 +449,8 @@ class _Box(object):
                           (C{meter}, conventionally)
         '''
         m = Radius_(distance=distance)
-        E = center.ellipsoid()  # XXX see above
-        d = E.m2degrees(m) + _0_5  # some margin
+        E = center.ellipsoid()
+        d = E.m2degrees(m) * self._1_01
         self._N = center.lat + d
         self._S = center.lat - d
         self._E = center.lon + d
@@ -504,7 +499,7 @@ class _Tol(object):
         self._lat = fmean_(lat, *lats) if lats else lat
         self._r   = max(EPS, E.rocMean(self._lat))
         self._m   = max(EPS, tol_m)
-        self._deg = max(EPS, degrees(self._m / self._r))  # avoid m2degrees!
+        self._deg = max(EPS, degrees(self._m / self._r))  # NOT E.m2degrees!
 
     @property_RO
     def degrees(self):
@@ -515,7 +510,7 @@ class _Tol(object):
     def degrees2m(self, deg):
         '''Convert B{C{deg}} to meter at the same C{lat} and earth radius.
         '''
-        return self.radius * radians(deg) / PI2  # avoid degrees2m!
+        return self.radius * radians(deg) / PI2  # NOT E.degrees2m!
 
     def degError(self, Error=_ValueError):
         '''Compose an error with the C{deg}rees minimum.
@@ -523,7 +518,7 @@ class _Tol(object):
         return self.mError(self.degrees2m(self._min), Error=Error)
 
     def done(self, deg):
-        '''Check C{deg} vs. tolerance and previous value.
+        '''Check C{deg} vs tolerance and previous value.
         '''
         if deg < self._deg or deg == self._prev:
             return True
@@ -533,7 +528,7 @@ class _Tol(object):
 
     @property_RO
     def lat(self):
-        '''Get the mean latitude  in C{degrees}.
+        '''Get the mean latitude in C{degrees}.
         '''
         return self._lat
 
@@ -560,8 +555,8 @@ class _Tol(object):
     def reset(self):
         '''Reset tolerances.
         '''
-        self._min  = MAX
-        self._prev = None
+        self._min  = MAX   # delattrof()
+        self._prev = None  # delattrof()
 
 
 def _Equidistant00(equidistant, p1):
@@ -585,7 +580,9 @@ def intersecant2(center, circle, point, other, **exact_height_wrap_tol):
        @arg point: A point of the geodesic (C{LatLon}, as B{C{center}}).
        @arg other: An other point of the geodesic (C{LatLon}, as B{C{center}}) or
                    the (forward) bearing at the B{C{point}} (compass C{degrees}).
-       @kwarg exact_height_wrap_tol: Optional keyword arguments, see below.
+       @kwarg exact_height_wrap_tol: Optional keyword arguments C{B{exact}=False},
+                    C{B{height}=None}, C{B{wrap}=False} and C{B{tol}}, see method
+                    L{intersecant2<LatLonEllipsoidalBaseDI.intersecant2>}.
 
        @raise NotImplementedError: Method C{intersecant2} not available.
 
@@ -601,7 +598,7 @@ def intersecant2(center, circle, point, other, **exact_height_wrap_tol):
 
 
 def _intersect3(s1, end1, s2, end2, height=None, wrap=False,  # MCCABE 16  was=True
-                equidistant=None, tol=_TOL_M, LatLon=None, **LatLon_kwds):
+                          equidistant=None, tol=_TOL_M, LatLon=None, **LatLon_kwds):
     '''(INTERNAL) Intersect two (ellipsoidal) lines, see ellipsoidal method
        L{intersection3}, separated to allow callers to embellish any exceptions.
     '''
@@ -624,7 +621,7 @@ def _intersect3(s1, end1, s2, end2, height=None, wrap=False,  # MCCABE 16  was=T
         # comparison in .sphericaltrigonometry._intb
         b, d = _b_d(s, e, w, t, h=t.height)
         m = s.ellipsoid().R2x * PI_4  # authalic exact
-        d = min(max(d * _B2END, m), m * _3_0)
+        d = min(max(d * _1_5, m), m * _3_0)
         e = s.destination(d, e)
         return b, (_unrollon(s, e) if w else e)
 
@@ -697,7 +694,7 @@ def _intersect3(s1, end1, s2, end2, height=None, wrap=False,  # MCCABE 16  was=T
 
 
 def _intersection3(start1, end1, start2, end2, height=None, wrap=False,  # was=True
-                   equidistant=None, tol=_TOL_M, LatLon=None, **LatLon_kwds):
+                                 **equidistant_tol_LatLon_and_kwds):
     '''(INTERNAL) Iteratively compute the intersection point of two lines,
        each defined by two (ellipsoidal) points or an (ellipsoidal) start
        point and an initial bearing from North.
@@ -706,14 +703,13 @@ def _intersection3(start1, end1, start2, end2, height=None, wrap=False,  # was=T
     s2 =  s1.others(start2=start2)
     try:
         return _intersect3(s1, end1, s2, end2, height=height, wrap=wrap,
-                                          equidistant=equidistant, tol=tol,
-                                               LatLon=LatLon, **LatLon_kwds)
+                                     **equidistant_tol_LatLon_and_kwds)
     except (TypeError, ValueError) as x:
         raise _xError(x, start1=start1, end1=end1, start2=start2, end2=end2)
 
 
 def _intersections2(center1, radius1, center2, radius2, height=None, wrap=False,  # was=True
-                    equidistant=None, tol=_TOL_M, LatLon=None, **LatLon_kwds):
+                                      **equidistant_tol_LatLon_and_kwds):
     '''(INTERNAL) Iteratively compute the intersection points of two circles,
        each defined by an (ellipsoidal) center point and a radius.
     '''
@@ -721,15 +717,14 @@ def _intersections2(center1, radius1, center2, radius2, height=None, wrap=False,
     c2 = c1.others(center2=center2)
     try:
         return _intersects2(c1, radius1, c2, radius2, height=height, wrap=wrap,
-                                                 equidistant=equidistant, tol=tol,
-                                                      LatLon=LatLon, **LatLon_kwds)
+                                         **equidistant_tol_LatLon_and_kwds)
     except (TypeError, ValueError) as x:
         raise _xError(x, center1=center1, radius1=radius1,
                          center2=center2, radius2=radius2)
 
 
 def _intersects2(c1, radius1, c2, radius2, height=None, wrap=False,  # MCCABE 16 was=True
-                 equidistant=None, tol=_TOL_M, LatLon=None, **LatLon_kwds):
+                              equidistant=None, tol=_TOL_M, LatLon=None, **LatLon_kwds):
     '''(INTERNAL) Intersect two (ellipsoidal) circles, see L{_intersections2}
        above, separated to allow callers to embellish any exceptions.
     '''
@@ -771,7 +766,7 @@ def _intersects2(c1, radius1, c2, radius2, height=None, wrap=False,  # MCCABE 16
 
     # gu-/estimate initial intersections, spherically ...
     t1, t2 = _si2(_LLS(c1), r1, _LLS(c2), r2, radius=e.radius,
-                   height=height, wrap=False, too_d=m)  # unrolled already
+                   height=height, too_d=m, wrap=False)  # unrolled already
     h, n = t1.height, t1.name
 
     # ... and iterate as Karney describes, for references
@@ -886,6 +881,7 @@ def _nearestOn3(p, p1, p2, A, within=True, height=None, tol=_TOL_M,
 
 
 __all__ += _ALL_DOCS(LatLonEllipsoidalBaseDI, intersecant2)
+del _1_0, _0_01
 
 # **) MIT License
 #

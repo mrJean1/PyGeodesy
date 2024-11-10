@@ -16,7 +16,7 @@ from pygeodesy.constants import _0_0, _1_0, _90_0, _N_90_0
 # from pygeodesy.dms import F_D, toDMS  # _MODS
 from pygeodesy.errors import _TypeError, _TypesError, _xattr, _xkwds, \
                              _xkwds_item2
-from pygeodesy.fmath import hypot, hypot_
+from pygeodesy.fmath import fdot_, hypot, hypot_
 from pygeodesy.interns import NN, _4_, _azimuth_, _center_, _COMMASPACE_, \
                              _ecef_, _elevation_, _height_, _lat_, _lon_, \
                              _ltp_, _M_, _name_, _up_, _X_, _x_, _xyz_, \
@@ -36,7 +36,7 @@ from pygeodesy.vector3d import Vector3d
 # from math import cos, radians  # from .utily
 
 __all__ = _ALL_LAZY.ltpTuples
-__version__ = '24.08.18'
+__version__ = '24.11.07'
 
 _aer_        = 'aer'
 _alt_        = 'alt'
@@ -126,9 +126,9 @@ class _AbcBase(_NamedBase):
         '''Get the I{local} I{Azimuth, Elevation, slant Range} (AER) components.
 
            @kwarg Aer: Class to return AER (L{Aer}) or C{None}.
-           @kwarg name_Aer_kwds: Optional C{B{name}=NN} (C{str}) and optional,
-                       additional B{L{Aer}} keyword arguments, ignored if
-                       C{B{Aer} is None}.
+           @kwarg name_Aer_kwds: Optional C{B{name}=NN} (C{str}) and optionally,
+                       additional B{L{Aer}} keyword arguments, ignored if C{B{Aer}
+                       is None}.
 
            @return: AER as an L{Aer} instance or if C{B{Aer} is None}, an
                     L{Aer4Tuple}C{(azimuth, elevation, slantrange, ltp)}.
@@ -141,9 +141,9 @@ class _AbcBase(_NamedBase):
         '''Get the I{local} I{East, North, Up} (ENU) components.
 
            @kwarg Enu: Class to return ENU (L{Enu}) or C{None}.
-           @kwarg name_Enu_kwds: Optional C{B{name}=NN} (C{str}) and optional,
-                       additional B{L{Enu}} keyword arguments, ignored if
-                       C{B{Enu} is None}.
+           @kwarg name_Enu_kwds: Optional C{B{name}=NN} (C{str}) and optionally,
+                       additional B{L{Enu}} keyword arguments, ignored if C{B{Enu}
+                       is None}.
 
            @return: ENU as an L{Enu} instance or if C{B{Enu} is None}, an
                     L{Enu4Tuple}C{(east, north, up, ltp)}.
@@ -156,9 +156,9 @@ class _AbcBase(_NamedBase):
         '''Get the I{local} I{North, East, Down} (NED) components.
 
            @kwarg Ned: Class to return NED (L{Ned}) or C{None}.
-           @kwarg name_Ned_kwds: Optional C{B{name}=NN} (C{str}) and optional,
-                       additional B{L{Ned}} keyword arguments, ignored if
-                       C{B{Ned} is None}.
+           @kwarg name_Ned_kwds: Optional C{B{name}=NN} (C{str}) and optionally,
+                       additional B{L{Ned}} keyword arguments, ignored if C{B{Ned}
+                       is None}.
 
            @return: NED as an L{Ned} instance or if C{B{Ned} is None}, an
                     L{Ned4Tuple}C{(north, east, down, ltp)}.
@@ -172,9 +172,9 @@ class _AbcBase(_NamedBase):
 
            @kwarg Xyz: Class to return XYZ (L{XyzLocal}, L{Enu}, L{Ned}, L{Aer})
                        or C{None}.
-           @kwarg name_Xyz_kwds: Optional C{B{name}=NN} (C{str}) and optional,
-                       additional B{C{Xyz}} keyword arguments, ignored if
-                       C{B{Xyz} is None}.
+           @kwarg name_Xyz_kwds: Optional C{B{name}=NN} (C{str}) and optionally,
+                       additional B{C{Xyz}} keyword arguments, ignored if C{B{Xyz}
+                       is None}.
 
            @return: XYZ as an B{C{Xyz}} instance or if C{B{Xyz} is None}, an
                     L{Xyz4Tuple}C{(x, y, z, ltp)}.
@@ -814,9 +814,9 @@ class XyzLocal(_Vector3d):
         '''Get the local I{Azimuth, Elevation, slant Range} components.
 
            @kwarg Aer: Class to return AER (L{Aer}) or C{None}.
-           @kwarg name_Aer_kwds: Optional C{B{name}=NN} (C{str}) and
-                       optional, additional B{C{Aer}} keyword arguments,
-                       ignored if C{B{Aer} is None}.
+           @kwarg name_Aer_kwds: Optional C{B{name}=NN} (C{str}) and optionally,
+                       additional B{C{Aer}} keyword arguments, ignored if C{B{Aer}
+                       is None}.
 
            @return: AER as an L{Aer} instance or if C{B{Aer} is None}, an
                     L{Aer4Tuple}C{(azimuth, elevation, slantrange, ltp)}.
@@ -832,11 +832,11 @@ class XyzLocal(_Vector3d):
                              or C{None}.
            @kwarg ltp: Optional I{local tangent plane} (LTP) (L{Ltp}), overriding
                        this C{ltp}.
-           @kwarg name_Cartesian_kwds: Optional C{B{name}=NN} (C{str}) and optional,
+           @kwarg name_Cartesian_kwds: Optional C{B{name}=NN} (C{str}) and optionally,
                        additional B{C{Cartesian}} keyword arguments, ignored if
                        C{B{Cartesian} is None}.
 
-           @return: A B{C{Cartesian}} instance of if C{B{Cartesian} is None}, an
+           @return: A B{C{Cartesian}} instance or if C{B{Cartesian} is None}, an
                     L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)} with
                     C{M=None}, always.
 
@@ -856,9 +856,9 @@ class XyzLocal(_Vector3d):
         '''Get the local I{East, North, Up} (ENU) components.
 
            @kwarg Enu: Class to return ENU (L{Enu}) or C{None}.
-           @kwarg name_Enu_kwds: Optional C{B{name}=NN} (C{str}) and optional,
-                       additional B{C{Enu}} keyword arguments, ignored if
-                       C{B{Enu} is None}.
+           @kwarg name_Enu_kwds: Optional C{B{name}=NN} (C{str}) and optionally,
+                       additional B{C{Enu}} keyword arguments, ignored if C{B{Enu}
+                       is None}.
 
            @return: ENU as an L{Enu} instance or if C{B{Enu} is None}, an
                     L{Enu4Tuple}C{(east, north, up, ltp)}.
@@ -874,11 +874,11 @@ class XyzLocal(_Vector3d):
                           C{None}.
            @kwarg ltp: Optional I{local tangent plane} (LTP) (L{Ltp}), overriding
                        this ENU/NED/AER/XYZ's LTP.
-           @kwarg name_LatLon_kwds: Optional C{B{name}=NN} (C{str}) and optional,
-                       additional B{C{LatLon}} keyword arguments, ignored if
-                       C{B{LatLon} is None}.
+           @kwarg name_LatLon_kwds: Optional C{B{name}=NN} (C{str}) and optionally,
+                       additional B{C{LatLon}} keyword arguments, ignored if C{B{LatLon}
+                       is None}.
 
-           @return: An B{C{LatLon}} instance of if C{B{LatLon} is None}, an
+           @return: An B{C{LatLon}} instance or if C{B{LatLon} is None}, an
                     L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)} with
                     C{M=None}, always.
 
@@ -913,9 +913,9 @@ class XyzLocal(_Vector3d):
         '''Get the local I{North, East, Down} (Ned) components.
 
            @kwarg Ned: Class to return NED (L{Ned}) or C{None}.
-           @kwarg name_Ned_kwds: Optional C{B{name}=NN} (C{str}) and optional,
-                       additional B{C{Ned}} keyword arguments, ignored if
-                       C{B{Ned} is None}.
+           @kwarg name_Ned_kwds: Optional C{B{name}=NN} (C{str}) and optionally,
+                       additional B{C{Ned}} keyword arguments, ignored if C{B{Ned}
+                       is None}.
 
            @return: NED as an L{Ned} instance or if C{B{Ned} is None}, an
                     L{Ned4Tuple}C{(north, east, down, ltp)}.
@@ -929,9 +929,9 @@ class XyzLocal(_Vector3d):
 
            @kwarg Xyz: Class to return XYZ (L{XyzLocal}, L{Enu}, L{Ned}, L{Aer})
                        or C{None}.
-           @kwarg name_Xyz_kwds: Optional C{B{name}=NN} (C{str}) and optional,
-                       additional B{C{Xyz}} keyword arguments, ignored if
-                       C{B{Xyz} is None}.
+           @kwarg name_Xyz_kwds: Optional C{B{name}=NN} (C{str}) and optionally,
+                       additional B{C{Xyz}} keyword arguments, ignored if C{B{Xyz}
+                       is None}.
 
            @return: XYZ as an B{C{Xyz}} instance or if C{B{Xyz} is None}, an
                     L{Xyz4Tuple}C{(x, y, z, ltp)}.
@@ -1042,9 +1042,9 @@ class Enu(XyzLocal):
            @arg location: The geodetic (C{LatLon}) or geocentric (C{Cartesian},
                           L{Vector3d}) location, like a Point-Of-View.
            @kwarg Uvw: Class to return UWV (L{Uvw}) or C{None}.
-           @kwarg name_Uvw_kwds: Optional C{B{name}=NN} (C{str}) and optional,
-                       additional B{L{Uvw}} keyword arguments, ignored if
-                       C{B{Uvw} is None}.
+           @kwarg name_Uvw_kwds: Optional C{B{name}=NN} (C{str}) and optionally,
+                       additional B{L{Uvw}} keyword arguments, ignored if C{B{Uvw}
+                       is None}.
 
            @return: UVW as a L{Uvw} instance or if C{B{Uvw} is None}, a
                     L{Uvw3Tuple}C{(u, v, w)}.
@@ -1059,10 +1059,10 @@ class Enu(XyzLocal):
             raise _TypeError(location=location, cause=x)
         e, n, u, _ = self.enu4
 
-        t = ca * u - sa * n
-        U = cb * t - sb * e
-        V = cb * e + sb * t
-        W = ca * n + sa * u
+        t = fdot_(ca, u, -sa, n)
+        U = fdot_(cb, t, -sb, e)
+        V = fdot_(cb, e,  sb, t)
+        W = fdot_(ca, n,  sa, u)
 
         n, kwds = _name2__(name_Uvw_kwds, _or_nameof=self)
         return Uvw3Tuple(U, V, W, name=n) if Uvw is None else \
@@ -1185,9 +1185,9 @@ class Local9Tuple(_NamedTuple):
         '''Get the I{local} I{Azimuth, Elevation, slant Range} (AER) components.
 
            @kwarg Aer: Class to return AER (L{Aer}) or C{None}.
-           @kwarg name_Aer_kwds: Optional C{B{name}=NN} (C{str}) and optional,
-                       additional B{L{Aer}} keyword arguments, ignored if
-                       C{B{Aer} is None}.
+           @kwarg name_Aer_kwds: Optional C{B{name}=NN} (C{str}) and optionally,
+                       additional B{L{Aer}} keyword arguments, ignored if C{B{Aer}
+                       is None}.
 
            @return: AER as an L{Aer} instance or if C{B{Aer} is None}, an
                     L{Aer4Tuple}C{(azimuth, elevation, slantrange, ltp)}.
@@ -1201,7 +1201,7 @@ class Local9Tuple(_NamedTuple):
 
            @kwarg Cartesian: Optional class to return C{(x, y, z)} (C{Cartesian})
                              or C{None}.
-           @kwarg name_Cartesian_kwds: Optional C{B{name}=NN} (C{str}) and optional,
+           @kwarg name_Cartesian_kwds: Optional C{B{name}=NN} (C{str}) and optionally,
                        additional B{C{Cartesian}} keyword arguments, ignored if
                        C{B{Cartesian} is None}.
 
@@ -1216,9 +1216,9 @@ class Local9Tuple(_NamedTuple):
         '''Get the I{local} I{East, North, Up} (ENU) components.
 
            @kwarg Enu: Class to return ENU (L{Enu}) or C{None}.
-           @kwarg name_Enu_kwds: Optional C{B{name}=NN} (C{str}) and optional,
-                       additional B{L{Enu}} keyword arguments, ignored if
-                       C{B{Enu} is None}.
+           @kwarg name_Enu_kwds: Optional C{B{name}=NN} (C{str}) and optionally,
+                       additional B{L{Enu}} keyword arguments, ignored if C{B{Enu}
+                       is None}.
 
            @return: ENU as an L{Enu} instance or if C{B{Enu} is None}, an
                     L{Enu4Tuple}C{(east, north, up, ltp)}.
@@ -1232,14 +1232,14 @@ class Local9Tuple(_NamedTuple):
 
            @kwarg LatLon: Optional class to return C{(lat, lon, height)}
                           (C{LatLon}) or C{None}.
-           @kwarg name_LatLon_kwds: Optional C{B{name}=NN} (C{str}) and optional,
-                       additional B{C{LatLon}} keyword arguments, ignored if
-                       C{B{LatLon} is None}.
+           @kwarg name_LatLon_kwds: Optional C{B{name}=NN} (C{str}) and optionally,
+                       additional B{C{LatLon}} keyword arguments, ignored if C{B{LatLon}
+                       is None}.
 
-           @return: An instance of C{B{LatLon}(lat, lon, **B{LatLon_kwds})}
-                    or if C{B{LatLon} is None}, a L{LatLon3Tuple}C{(lat, lon,
-                    height)} respectively L{LatLon4Tuple}C{(lat, lon, height,
-                    datum)} depending on whether C{datum} is un-/specified.
+           @return: An instance of C{B{LatLon}(lat, lon, **B{LatLon_kwds})} or if
+                    C{B{LatLon} is None}, a L{LatLon3Tuple}C{(lat, lon, height)}
+                    respectively L{LatLon4Tuple}C{(lat, lon, height, datum)}
+                    depending on whether C{datum} is un-/specified.
 
            @raise TypeError: Invalid B{C{LatLon}} or B{C{name_LatLon_kwds}}.
         '''
@@ -1249,9 +1249,9 @@ class Local9Tuple(_NamedTuple):
         '''Get the I{local} I{North, East, Down} (NED) components.
 
            @kwarg Ned: Class to return NED (L{Ned}) or C{None}.
-           @kwarg name_Ned_kwds: Optional C{B{name}=NN} (C{str}) and optional,
-                       additional B{L{Ned}} keyword arguments, ignored if
-                       C{B{Ned} is None}.
+           @kwarg name_Ned_kwds: Optional C{B{name}=NN} (C{str}) and optionally,
+                       additional B{L{Ned}} keyword arguments, ignored if C{B{Ned}
+                       is None}.
 
            @return: NED as an L{Ned} instance or if C{B{Ned} is None}, an
                     L{Ned4Tuple}C{(north, east, down, ltp)}.
@@ -1264,9 +1264,9 @@ class Local9Tuple(_NamedTuple):
         '''Get the I{local} I{X, Y, Z} (XYZ) components.
 
            @kwarg Xyz: Class to return XYZ (L{XyzLocal}) or C{None}.
-           @kwarg name_Xyz_kwds: Optional C{B{name}=NN} (C{str}) and optional,
-                       additional B{C{Xyz}} keyword arguments, ignored if
-                       C{B{Xyz} is None}.
+           @kwarg name_Xyz_kwds: Optional C{B{name}=NN} (C{str}) and optionally,
+                       additional B{C{Xyz}} keyword arguments, ignored if C{B{Xyz}
+                       is None}.
 
            @return: XYZ as an B{C{Xyz}} instance or if C{B{Xyz} is None},
                     an L{Xyz4Tuple}C{(x, y, z, ltp)}.
@@ -1324,9 +1324,9 @@ class Uvw(_Vector3d):
            @arg location: The geodetic (C{LatLon}) or geocentric (C{Cartesian},
                           L{Vector3d}) location from where to cast the L{Los}.
            @kwarg Enu: Class to return ENU (L{Enu}) or C{None}.
-           @kwarg name_Enu_kwds: Optional C{B{name}=NN} (C{str}) and optional,
-                       additional B{L{Enu}} keyword arguments, ignored if
-                       C{B{Enu} is None}.
+           @kwarg name_Enu_kwds: Optional C{B{name}=NN} (C{str}) and optionally,
+                       additional B{L{Enu}} keyword arguments, ignored if C{B{Enu}
+                       is None}.
 
            @return: ENU as an L{Enu} instance or if C{B{Enu} is None}, an
                     L{Enu4Tuple}C{(east, north, up, ltp)} with C{ltp=None}.
@@ -1341,10 +1341,10 @@ class Uvw(_Vector3d):
             raise _TypeError(location=location, cause=x)
         u, v, w = self.uvw
 
-        t = cb * u + sb * v
-        E = cb * v - sb * u
-        N = ca * w - sa * t
-        U = ca * t + sa * w
+        t = fdot_(cb, u,  sb, v)
+        E = fdot_(cb, v, -sb, u)
+        N = fdot_(ca, w, -sa, t)
+        U = fdot_(ca, t,  sa, w)
 
         n, kwds = _name2__(name_Enu_kwds, _or_nameof=self)
         return Enu4Tuple(E, N, U, name=n) if Enu is None else \
@@ -1570,15 +1570,14 @@ class Footprint5Tuple(_NamedTuple):
            @kwarg ltp: The I{local tangent plane} (L{Ltp}), overriding this
                        footprint's C{center} or C{frustrum} C{ltp}.
            @kwarg LatLon: Optional I{geodetic} class (C{LatLon}) or C{None}.
-           @kwarg name_LatLon_kwds: Optional C{B{name}=NN} (C{str}) and optional,
-                       additional B{C{LatLon}} keyword arguments, ignored if
-                       C{B{LatLon} is None}.
+           @kwarg name_LatLon_kwds: Optional C{B{name}=NN} (C{str}) and optionally,
+                       additional B{C{LatLon}} keyword arguments, ignored if C{B{LatLon}
+                       is None}.
 
-           @return: A L{Footprint5Tuple} of 5 C{B{LatLon}(lat, lon,
-                    **B{name_LatLon_kwds})} instances or if C{B{LatLon} is None},
-                    5 L{LatLon3Tuple}C{(lat, lon, height)}s respectively
-                    5 L{LatLon4Tuple}C{(lat, lon, height, datum)}s depending
-                    on whether keyword argument C{datum} is un-/specified.
+           @return: A L{Footprint5Tuple} of 5 C{B{LatLon}(lat, lon, **B{name_LatLon_kwds})}
+                    instances or if C{B{LatLon} is None}, 5 L{LatLon3Tuple}C{(lat, lon,
+                    height)}s respectively 5 L{LatLon4Tuple}C{(lat, lon, height, datum)}s
+                    depending on whether keyword argument C{datum} is un-/specified.
 
            @raise TypeError: Invalid B{C{ltp}}, B{C{LatLon}} or B{C{name_LatLon_kwds}}.
 

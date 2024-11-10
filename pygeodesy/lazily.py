@@ -174,8 +174,8 @@ _ALL_INIT = _a(_pygeodesy_abspath_, _version_)
 # __all__ value for most modules, accessible as _ALL_LAZY.<module>
 _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                          albers=_a('AlbersEqualArea', 'AlbersEqualArea2', 'AlbersEqualArea4',
-                                    'AlbersEqualAreaCylindrical', 'AlbersEqualAreaNorth', 'AlbersEqualAreaSouth',
-                                    'AlbersError', 'Albers7Tuple'),
+                                   'AlbersEqualAreaCylindrical', 'AlbersEqualAreaNorth', 'AlbersEqualAreaSouth',
+                                   'AlbersError', 'Albers7Tuple'),
                        auxilats=_a(),  # module only
                       azimuthal=_a('AzimuthalError', 'Azimuthal7Tuple',
                                    'Equidistant', 'EquidistantExact', 'EquidistantGeodSolve', 'EquidistantKarney',
@@ -241,8 +241,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                           fmath=_a('Fdot', 'Fhorner', 'Fhypot', 'Fpolynomial', 'Fpowers', 'Fcbrt', 'Froot', 'Fsqrt',
                                    'bqrt', 'cbrt', 'cbrt2', 'euclid', 'euclid_',
                                    'facos1', 'fasin1', 'fatan', 'fatan1', 'fatan2', 'favg',
-                                   'fdot', 'fdot3', 'fma', 'fmean', 'fmean_', 'fhorner', 'fidw', 'f2mul_', 'fpolynomial',
-                                   'fpowers', 'fprod', 'frandoms', 'frange', 'freduce', 'fremainder',
+                                   'fdot', 'fdot_', 'fdot3', 'fma', 'fmean', 'fmean_', 'fhorner', 'fidw', 'f2mul_',
+                                   'fpolynomial', 'fpowers', 'fprod', 'frandoms', 'frange', 'freduce', 'fremainder',
                                    'hypot', 'hypot_', 'hypot1', 'hypot2', 'hypot2_',
                                    'norm2', 'norm_', 'sqrt0', 'sqrt3', 'sqrt_a', 'zcrt', 'zqrt'),
                           formy=_a('Radical2Tuple',
@@ -511,7 +511,7 @@ class _ALL_MODS(_internals._MODS_Base):
 _internals._MODS = _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '24.10.15'
+__version__ = '24.11.09'
 
 
 def _ALL_OTHER(*objs):

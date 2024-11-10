@@ -33,7 +33,7 @@ from pygeodesy.units import Azimuth, Degrees, Easting, Height, _heigHt, \
 # from math import fabs  # from .karney
 
 __all__ = _ALL_LAZY.css
-__version__ = '24.07.25'
+__version__ = '24.11.06'
 
 
 def _CS0(cs0):
@@ -313,16 +313,15 @@ class CassiniSoldner(_NamedBase):
         self._sb0, self._cb0 = _norm2(s * g.f1, c)
 
     def reverse(self, easting, northing, LatLon=None, **name_LatLon_kwds):
-        '''Convert a Cassini-Soldner location to (ellipsoidal) geodetic
-           lat- and longitude.
+        '''Convert a Cassini-Soldner location to (ellipsoidal) geodetic lat- and longitude.
 
            @arg easting: Easting of the location (C{meter}).
            @arg northing: Northing of the location (C{meter}).
-           @kwarg LatLon: Optional, ellipsoidal class to return the geodetic
-                          location as (C{LatLon}) or C{None}.
-           @kwarg name_LatLon_kwds: Optional name C{B{name}=NN} (C{str}) and
-                       optional, additional B{C{LatLon}} keyword arguments,
-                       ignored if C{B{LatLon} is None}.
+           @kwarg LatLon: Optional, ellipsoidal class to return the geodetic location as
+                          (C{LatLon}) or C{None}.
+           @kwarg name_LatLon_kwds: Optional name C{B{name}=NN} (C{str}) and optionally,
+                       additional B{C{LatLon}} keyword arguments, ignored if C{B{LatLon}
+                       is None}.
 
            @return: Geodetic location B{C{LatLon}} or if C{B{LatLon} is None},
                     a L{LatLon2Tuple}C{(lat, lon)}.

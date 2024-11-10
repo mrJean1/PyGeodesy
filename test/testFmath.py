@@ -4,7 +4,7 @@
 # Test L{fmath} module.
 
 __all__ = ('Tests',)
-__version__ = '24.09.29'
+__version__ = '24.11.09'
 
 from bases import endswith, isPython2, isWindows, startswith, TestsBase
 

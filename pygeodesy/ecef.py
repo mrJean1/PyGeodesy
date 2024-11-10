@@ -86,7 +86,7 @@ from pygeodesy.utily import atan1, atan1d, atan2d, degrees90, degrees180, \
 from math import atan2, cos, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '24.06.12'
+__version__ = '24.10.28'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -383,8 +383,8 @@ class EcefFarrell21(_EcefBase):
             lon = self._polon(y, x, p, **lon00_name)
             # note, phi and lam are swapped on page 29
 
-        except (ValueError, ZeroDivisionError) as e:
-            raise EcefError(x=x, y=y, z=z, cause=e)
+        except (ValueError, ZeroDivisionError) as X:
+            raise EcefError(x=x, y=y, z=z, cause=X)
 
         return Ecef9Tuple(x, y, z, lat, lon, h,
                                    1, None, self.datum,
@@ -638,9 +638,8 @@ class EcefSudano(_EcefBase):
         R = hypot(x, y)  # Rh
         d = e - R
 
-        _a  = fabs
         lat = atan1d(z, R * E.e21)
-        sa, ca = sincos2d(_a(lat))
+        sa, ca = sincos2d(fabs(lat))
         # Sudano's Eq (A-6) and (A-7) refactored/reduced,
         # replacing Rn from Eq (A-4) with n = E.a / ca:
         # N = ca**2 * ((z + E.e2 * n * sa) * ca - R * sa)
@@ -650,32 +649,30 @@ class EcefSudano(_EcefBase):
         #   = ca**2 * (E.e2 * E.a / E.e2s2(sa) - R / ca**2)
         # N / D = (z * ca + (E.e2 * E.a - R) * sa) /
         #         (E.e2 * E.a / E.e2s2(sa) - R / ca**2)
-        _E  = EPS_2
         tol = self.tolerance
         _S2 = Fsum(sa).fsum2f_
-        _rt = sqrt
         for i in range(1, _TRIPS):
             ca2 = _1_0 - sa**2
-            if ca2 < _E:  # PYCHOK no cover
+            if ca2 < EPS_2:  # PYCHOK no cover
                 ca = _0_0
                 break
-            ca = _rt(ca2)
+            ca = sqrt(ca2)
             r = e / E.e2s2(sa) - R / ca2
-            if _a(r) < _E:
+            if fabs(r) < EPS_2:
                 break
             lat = None
-            sa, r = _S2(-z * ca / r, -d * sa / r)
-            if _a(r) < tol:
+            sa, t = _S2(-z * ca / r, -d * sa / r)
+            if fabs(t) < tol:
                 break
         else:
             t = unstr(self.reverse, x=x, y=y, z=z)
             raise EcefError(t, txt=Fmt.no_convergence(r, tol))
 
         if lat is None:
-            lat = copysign0(atan1d(_a(sa), ca), z)
+            lat = copysign0(atan1d(fabs(sa), ca), z)
         lon = self._polon(y, x, R, **lon00_name)
 
-        h = fsumf_(R * ca, _a(z * sa), -E.a * E.e2s(sa))  # use Veness'
+        h = fsumf_(R * ca, fabs(z * sa), -E.a * E.e2s(sa))  # use Veness'
         # because Sudano's Eq (7) doesn't produce the correct height
         # h = (fabs(z) + R - E.a * cos(a + E.e21) * sa / ca) / (ca + sa)
         return Ecef9Tuple(x, y, z, lat, lon, h,

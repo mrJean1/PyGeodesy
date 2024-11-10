@@ -14,7 +14,7 @@ from pygeodesy.props import deprecated_function
 from pygeodesy.units import Number_, Scalar_
 
 __all__ = _ALL_DEPRECATED.deprecated_functions
-__version__ = '24.09.19'
+__version__ = '24.11.07'
 
 _WGS84 = _UTM = object()
 
@@ -32,7 +32,7 @@ def areaof(points, adjust=True, radius=R_M, wrap=True):  # PYCHOK no cover
 
 
 @deprecated_function
-def atand(x):
+def atand(x):  # PYCHOK no cover
     '''DEPRECATED on 2023.09.28, use function L{pygeodesy.atan1d}.'''
     return _MODS.utily.atan1d(x)
 
@@ -124,19 +124,19 @@ def equirectangular3(lat1, lon1, lat2, lon2, **options):  # PYCHOK no cover
 
 
 @deprecated_function
-def excessAbc(A, b, c):
+def excessAbc(A, b, c):  # PYCHOK no cover
     '''DEPRECATED on 2023.04.04, use function L{pygeodesy.excessAbc_}.'''
     return _MODS.formy.excessAbc_(A, b, c)
 
 
 @deprecated_function
-def excessGirard(A, B, C):
+def excessGirard(A, B, C):  # PYCHOK no cover
     '''DEPRECATED on 2023.04.04, use function L{pygeodesy.excessGirard_}.'''
     return _MODS.formy.excessGirard_(A, B, C)
 
 
 @deprecated_function
-def excessLHuilier(a, b, c):
+def excessLHuilier(a, b, c):  # PYCHOK no cover
     '''DEPRECATED on 2023.04.04, use function L{pygeodesy.excessLHuilier_}.'''
     return _MODS.formy.excessLHuilier_(a, b, c)
 
@@ -176,7 +176,7 @@ def falsed2f(falsed=True, Error=ValueError, **name_value):  # PYCHOK no cover
 
 
 @deprecated_function
-def float0(*xs):
+def float0(*xs):  # PYCHOK no cover
     '''DEPRECATED on 2023.04.21, use function L{pygeodesy.float0_}.'''
     return float0_(*xs)
 

@@ -4,7 +4,7 @@
 u'''A pure Python version of I{Karney}'s C++ classes U{GeodesicExact
 <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html>}
 and U{GeodesicLineExact
-<https://geographiclib.sourceforge.io/C++/doc/classGeographicLib_1_1GeodesicLine.html>}.
+<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicLine.html>}.
 
 For more details, see the C++ U{GeographicLib<https://GeographicLib.SourceForge.io/C++/doc/index.html>}
 documentation, especially the U{Class List<https://GeographicLib.SourceForge.io/C++/doc/annotated.html>}
@@ -23,7 +23,7 @@ from pygeodesy.karney import Caps, GeodesicError
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 
 __all__ = _ALL_LAZY.geodesicx + _ALL_DOCS(Caps, GeodesicError)
-__version__ = '24.09.06'
+__version__ = '24.11.02'
 
 # **) MIT License
 #

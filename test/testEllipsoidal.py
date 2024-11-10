@@ -4,7 +4,7 @@
 # Test ellipsoidals earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '24.07.07'
+__version__ = '24.11.02'
 
 from bases import coverage, GeodSolve, geographiclib, isPython35, isPython39, RandomLatLon
 from testLatLon import Tests as _TestsLL
@@ -262,7 +262,7 @@ class Tests(_TestsLL, _TestsV):
         self.test('isclockwise', module.isclockwise(reversed(p)), True)  # polar
 
         # <https://StackOverflow.com/questions/4681737/how-to-calculate-the-area-of-a-polygon-on-the-earths-surface-using-python>
-        # <https://geographiclib.sourceforge.io/cgi-bin/Planimeter?
+        # <https://GeographicLib.SourceForge.io/cgi-bin/Planimeter?
         #        type=polygon&rhumb=geodesic&input=41+-102.05%0D%0A37+-102.05%0D%0A37+-109.05%0D%0A41+-109.05&option=Submit>
         co = LL(41, -102.05), LL(37, -102.05), LL(37, -109.05), LL(41, -109.05)  # State of Colorado
         self.test('areaCO', module.areaOf(co), '2.69154549884e+11', fmt='%.11e', known=True)

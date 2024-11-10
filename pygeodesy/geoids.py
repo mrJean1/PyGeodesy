@@ -15,7 +15,7 @@ The L{GeoidG2012B} and L{GeoidPGM} interpolators both depend on U{scipy
 require those packages to be installed.
 
 In addition, each geoid interpolator needs C{grid knots} (down)loaded from
-a C{geoid} model file, I{specific to the interpolator}, more details below
+a C{geoid} model file, I{specific to the interpolator}.  More details below
 and in the documentation of the interpolator class.  For each interpolator,
 there are several interpolation choices, like I{linear}, I{cubic}, etc.
 
@@ -42,7 +42,7 @@ C{>>> h = ginterpolator(ll)}
 
 or
 
-C{>>> h0, h1, h2, ... = ginterpolator(ll0, ll1, ll2, ...)}
+C{>>> h1, h2, h3, ... = ginterpolator(ll1, ll2, ll3, ...)}
 
 or a list, tuple, generator, etc. of C{LatLon}s
 
@@ -118,7 +118,7 @@ except ImportError:  # Python 3+
     from io import BytesIO as _BytesIO  # PYCHOK expected
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '24.10.11'
+__version__ = '24.11.05'
 
 _assert_         = 'assert'
 _bHASH_          = b'#'
@@ -159,7 +159,7 @@ class _GeoidBase(_HeightBase):
     _smooth   =  0      # used only for RectBivariateSpline
     _stdev    =  None   # fixed in GeoidKarney
     _u2B      =  0      # np.itemsize or undefined
-    _yx_hits  =  None   # cache hits, ala Karney
+    _yx_hits  =  None   # cache hits, ala Karney's
 
 #   _lat_d  = _0_0  # increment, +tive
 #   _lat_lo = _0_0  # lower lat, south
@@ -1621,7 +1621,7 @@ class _PGM(_Gpars):
 
 
 class PGMError(GeoidError):
-    '''Issue parsing or cropping an C{egm*.pgm} geoid dataset.
+    '''An issue while parsing or cropping an C{egm*.pgm} geoid dataset.
     '''
     pass
 

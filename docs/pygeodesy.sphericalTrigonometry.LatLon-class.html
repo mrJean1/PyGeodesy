@@ -162,8 +162,8 @@ sphericalBase.LatLonSphericalBase --+
         <span class="summary-sig-arg">end</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Compute the (signed) distance from this point to the great circle 
-      defined by a start and an end point.</td>
+      Compute the (signed) distance from this point to a great circle from 
+      a start to an end point.</td>
           <td align="right" valign="top">
             
             
@@ -185,7 +185,7 @@ sphericalBase.LatLonSphericalBase --+
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>)</span><br />
       Locate the destination from this point after having travelled the 
-      given distance on the given initial bearing.</td>
+      given distance on a bearing from North.</td>
           <td align="right" valign="top">
             
             
@@ -225,8 +225,8 @@ sphericalBase.LatLonSphericalBase --+
         <span class="summary-sig-arg">bearing</span>,
         <span class="summary-sig-arg">Vector</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.vector3d.Vector3d'&gt;</span>,
         <span class="summary-sig-arg">**Vector_kwds</span>)</span><br />
-      Compute the vector normal to great circle obtained by heading on the 
-      given initial bearing from this point.</td>
+      Compute the vector normal to great circle obtained by heading from 
+      this point on the bearing from North.</td>
           <td align="right" valign="top">
             
             
@@ -292,7 +292,7 @@ sphericalBase.LatLonSphericalBase --+
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the intersection point of two lines, each defined by two 
-      points or a start point and bearing from North.</td>
+      points or a start point and a bearing from North.</td>
           <td align="right" valign="top">
             
             
@@ -317,7 +317,7 @@ sphericalBase.LatLonSphericalBase --+
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">True</span>)</span><br />
       Compute the intersection points of two circles, each defined by a 
-      center point and radius.</td>
+      center point and a radius.</td>
           <td align="right" valign="top">
             
             
@@ -396,7 +396,7 @@ sphericalBase.LatLonSphericalBase --+
         <span class="summary-sig-arg">point2</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">**wrap_adjust_limit</span>)</span><br />
-      Locate the point between two points closest to this point.</td>
+      Locate the point between two other points closest to this point.</td>
           <td align="right" valign="top">
             
             
@@ -501,8 +501,8 @@ sphericalBase.LatLonSphericalBase --+
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">bearing2</span>,
         <span class="summary-sig-arg">**height_wrap</span>)</span><br />
-      Locate a point given this, an other point and the (initial) bearing 
-      at this and at the other point.</td>
+      Locate a point given this, an other point and a bearing from North at
+      both points.</td>
           <td align="right" valign="top">
             
             
@@ -844,8 +844,8 @@ sphericalBase.LatLonSphericalBase --+
     </td>
   </tr></table>
   
-  <p>Compute the (signed) distance from this point to the great circle 
-  defined by a start and an end point.</p>
+  <p>Compute the (signed) distance from this point to a great circle from a
+  start to an end point.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -894,7 +894,7 @@ sphericalBase.LatLonSphericalBase --+
   </tr></table>
   
   <p>Locate the destination from this point after having travelled the 
-  given distance on the given initial bearing.</p>
+  given distance on a bearing from North.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -976,8 +976,8 @@ sphericalBase.LatLonSphericalBase --+
     </td>
   </tr></table>
   
-  <p>Compute the vector normal to great circle obtained by heading on the 
-  given initial bearing from this point.</p>
+  <p>Compute the vector normal to great circle obtained by heading from 
+  this point on the bearing from North.</p>
   <p>Direction of vector is such that initial bearing vector b = c &#215; n, 
   where n is an n-vector representing this point.</p>
   <dl class="fields">
@@ -1117,7 +1117,7 @@ sphericalBase.LatLonSphericalBase --+
   </tr></table>
   
   <p>Compute the intersection point of two lines, each defined by two 
-  points or a start point and bearing from North.</p>
+  points or a start point and a bearing from North.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -1181,7 +1181,7 @@ sphericalBase.LatLonSphericalBase --+
   </tr></table>
   
   <p>Compute the intersection points of two circles, each defined by a 
-  center point and radius.</p>
+  center point and a radius.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -1368,7 +1368,7 @@ sphericalBase.LatLonSphericalBase --+
     </td>
   </tr></table>
   
-  <p>Locate the point between two points closest to this point.</p>
+  <p>Locate the point between two other points closest to this point.</p>
   <p>Distances are approximated by function <a 
   href="pygeodesy.formy-module.html#equirectangular4" 
   class="link">pygeodesy.equirectangular4</a>, subject to the supplied 
@@ -1639,8 +1639,8 @@ sphericalBase.LatLonSphericalBase --+
     </td>
   </tr></table>
   
-  <p>Locate a point given this, an other point and the (initial) bearing at
-  this and at the other point.</p>
+  <p>Locate a point given this, an other point and a bearing from North at 
+  both points.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -1780,7 +1780,7 @@ sphericalBase.LatLonSphericalBase --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Oct 22 17:06:21 2024
+    Generated by Epydoc 3.0.1 on Sun Nov 10 11:35:51 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

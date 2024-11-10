@@ -63,7 +63,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        24.10.11
+        24.11.08
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -357,9 +357,28 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#fdot" class="summary-sig-name">fdot</a>(<span class="summary-sig-arg">a</span>,
         <span class="summary-sig-arg">*b</span>,
-        <span class="summary-sig-arg">**start</span>)</span><br />
+        <span class="summary-sig-arg">**start_f2product_nonfinites</span>)</span><br />
       Return the precision dot product <i class="math">sum(a[i] * b[i] for 
-      ni=0..len(a))</i>.</td>
+      i=0..len(a))</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#fdot_" class="summary-sig-name">fdot_</a>(<span class="summary-sig-arg">*ab</span>,
+        <span class="summary-sig-arg">**start_f2product_nonfinites</span>)</span><br />
+      Return the precision dot product <i class="math">sum(ab[i] * ab[i+1] 
+      for i=0, 2, 4, ... len(ab)-1)</i>.</td>
           <td align="right" valign="top">
             
             
@@ -378,7 +397,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#fdot3" class="summary-sig-name">fdot3</a>(<span class="summary-sig-arg">xs</span>,
         <span class="summary-sig-arg">ys</span>,
         <span class="summary-sig-arg">zs</span>,
-        <span class="summary-sig-arg">start</span>=<span class="summary-sig-default">0</span>)</span><br />
+        <span class="summary-sig-arg">**start_f2product_nonfinites</span>)</span><br />
       Return the precision dot product <i class="math">start + sum(a[i] * 
       b[i] * c[i] for i=0..len(a)-1)</i>.</td>
           <td align="right" valign="top">
@@ -1222,7 +1241,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">fdot</span>&nbsp;(<span class="sig-arg">a</span>,
         <span class="sig-arg">*b</span>,
-        <span class="sig-arg">**start</span>)</span>
+        <span class="sig-arg">**start_f2product_nonfinites</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1230,7 +1249,7 @@
   </tr></table>
   
   <p>Return the precision dot product <i class="math">sum(a[i] * b[i] for 
-  ni=0..len(a))</i>.</p>
+  i=0..len(a))</i>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -1242,11 +1261,15 @@
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a>), all positional.</li>
-        <li><strong class="pname"><code>start</code></strong> - Optional bias <code><b>start</b>=0</code> (<code>scalar</code>, 
+        <li><strong class="pname"><code>start_f2product_nonfinites</code></strong> - Optional bias <code><b>start</b>=0</code> (<code>scalar</code>, 
           an <a href="pygeodesy.fsums.Fsum-class.html" 
           class="link">Fsum</a> or <a 
           href="pygeodesy.fsums.Fsum2Tuple-class.html" 
-          class="link">Fsum2Tuple</a>).</li>
+          class="link">Fsum2Tuple</a>) and settings 
+          <code><b>f2product</b>=None</code> (<code>bool</code>) and 
+          <code><b>nonfinites</b>=True</code> (<code>bool</code>), see 
+          class <a href="pygeodesy.fsums.Fsum-class.html#__init__" 
+          class="link">Fsum</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Dot product (<code>float</code>).</dd>
@@ -1264,6 +1287,38 @@
       </p>
 </div></td></tr></table>
 </div>
+<a name="fdot_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">fdot_</span>&nbsp;(<span class="sig-arg">*ab</span>,
+        <span class="sig-arg">**start_f2product_nonfinites</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the precision dot product <i class="math">sum(ab[i] * ab[i+1] 
+  for i=0, 2, 4, ... len(ab)-1)</i>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>ab</code></strong> - Pairwise values  (each <code>scalar</code>, an <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
+          <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
+          class="link">Fsum2Tuple</a>), all positional.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.fmath-module.html#fdot" 
+        class="link">fdot</a> for further details.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="fdot3"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1274,7 +1329,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">fdot3</span>&nbsp;(<span class="sig-arg">xs</span>,
         <span class="sig-arg">ys</span>,
         <span class="sig-arg">zs</span>,
-        <span class="sig-arg">start</span>=<span class="sig-default">0</span>)</span>
+        <span class="sig-arg">**start_f2product_nonfinites</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1298,10 +1353,15 @@
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a>).</li>
-        <li><strong class="pname"><code>start</code></strong> - Optional bias (<code>scalar</code>, an <a 
-          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
-          <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
-          class="link">Fsum2Tuple</a>).</li>
+        <li><strong class="pname"><code>start_f2product_nonfinites</code></strong> - Optional bias <code><b>start</b>=0</code> (<code>scalar</code>, 
+          an <a href="pygeodesy.fsums.Fsum-class.html" 
+          class="link">Fsum</a> or <a 
+          href="pygeodesy.fsums.Fsum2Tuple-class.html" 
+          class="link">Fsum2Tuple</a>) and settings 
+          <code><b>f2product</b>=None</code> (<code>bool</code>) and 
+          <code><b>nonfinites</b>=True</code> (<code>bool</code>), see 
+          class <a href="pygeodesy.fsums.Fsum-class.html#__init__" 
+          class="link">Fsum</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Dot product (<code>float</code>).</dd>
@@ -2226,7 +2286,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Oct 22 17:06:19 2024
+    Generated by Epydoc 3.0.1 on Sun Nov 10 11:35:48 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

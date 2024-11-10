@@ -22,7 +22,7 @@ from pygeodesy.trf import TRFXform7Tuple as _TRFXform7Tuple
 from pygeodesy.units import Bearing, Int, Lamd, Lat, Lon, Meter, Phid
 
 __all__ = _ALL_DEPRECATED.deprecated_classes
-__version__ = '24.07.02'
+__version__ = '24.11.07'
 
 
 class _Deprecated_NamedTuple(_NamedTuple):
@@ -153,7 +153,7 @@ def HeightIDW3(knots, **kwds):  # PYCHOK no cover
 
 class Lam_(Lamd):
     '''DEPRECATED on 2024.06.15, use class L{Lamd}.'''
-    def __init__(self, *args, **kwds):  # PYCHOK signature
+    def __init__(self, *args, **kwds):  # PYCHOK no cover
         deprecated_class(self.__class__)
         Lamd.__init__(self, *args, **kwds)
 
@@ -172,7 +172,7 @@ class NearestOn4Tuple(_Deprecated_NamedTuple):  # PYCHOK no cover
 
 class Phi_(Phid):
     '''DEPRECATED on 2024.06.15, use class L{Phid}.'''
-    def __init__(self, *args, **kwds):  # PYCHOK signature
+    def __init__(self, *args, **kwds):  # PYCHOK no cover
         deprecated_class(self.__class__)
         Phid.__init__(self, *args, **kwds)
 
@@ -205,22 +205,22 @@ class Rhumb7Tuple(_Deprecated_NamedTuple):
     _Units_ = _Rhumb8Tuple._Units_[:7]
 
     @deprecated_method
-    def toDirect9Tuple(self, **kwds):
+    def toDirect9Tuple(self, **kwds):  # PYCHOK no cover
         return self.toRhumb8Tuple().toDirect9Tuple(self, **kwds)
 
     @deprecated_method
-    def toGDict(self, **kwds):
+    def toGDict(self, **kwds):  # PYCHOK no cover
         return self.toRhumb8Tuple().toGDict(**kwds)
 
     @deprecated_method
-    def toInverse10Tuple(self, **kwds):
+    def toInverse10Tuple(self, **kwds):  # PYCHOK no cover
         return self.toRhumb8Tuple().toInverse10Tuple(self, **kwds)
 
     @deprecated_method
-    def toRhumb8Tuple(self, dflt=NAN):
+    def toRhumb8Tuple(self, dflt=NAN):  # PYCHOK no cover
         return _Rhumb8Tuple(self + (dflt,), name=self.name)
 
-    def _to7Tuple(self):
+    def _to7Tuple(self):  # PYCHOK no cover
         '''(INTERNAL) see L{Rhumb8Tuple._to7Tuple}.
         '''
         return self
@@ -266,7 +266,7 @@ class UtmUps4Tuple(_Deprecated_NamedTuple):  # PYCHOK no cover
 
 class XDist(ADict):
     '''DEPRECATED on 2024.07.02, use class L{XDict}.'''
-    def __init__(self, *args, **kwds):  # PYCHOK signature
+    def __init__(self, *args, **kwds):  # PYCHOK no cover
         deprecated_class(self.__class__)
         ADict.__init__(self, *args, **kwds)
 

@@ -26,7 +26,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, \
 from functools import wraps as _wraps
 
 __all__ = _ALL_LAZY.props
-__version__ = '24.10.19'
+__version__ = '24.11.06'
 
 _class_       = 'class'
 _DNL_         = _NL_ * 2  # PYCHOK used!
@@ -369,7 +369,7 @@ class _property_RO___(_PropertyBase):
         '''
         _PropertyBase.__init__(self, method, self._fget, self._fset_error, doc=doc)
 
-    def _fdel(self, unused):  # PYCHOK no cover
+    def _fdel(self, *unused):  # PYCHOK no cover
         '''Silently ignored, always.
         '''
         pass

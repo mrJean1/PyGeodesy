@@ -24,7 +24,7 @@ from pygeodesy.datums import _ellipsoidal_datum, _mean_radius
 from pygeodesy.errors import _AssertionError, CrossError, crosserrors, \
                              _TypeError, _ValueError, IntersectionError, \
                              _xError, _xkwds, _xkwds_get, _xkwds_pop2
-from pygeodesy.fmath import favg, fdot, fmean, hypot
+from pygeodesy.fmath import favg, fdot, fdot_, fmean, hypot
 from pygeodesy.fsums import Fsum, fsum, fsumf_
 from pygeodesy.formy import antipode_, bearing_, _bearingTo2, excessAbc_, \
                             excessGirard_, excessLHuilier_, opposing_, _radical2, \
@@ -54,7 +54,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, atan2, cos, degrees, fabs, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '24.10.12'
+__version__ = '24.11.07'
 
 _PI_EPS4 = PI - EPS4
 if _PI_EPS4 >= PI:
@@ -182,8 +182,8 @@ class LatLon(LatLonSphericalBase):
         return degrees180(m - d), degrees180(m + d)
 
     def crossTrackDistanceTo(self, start, end, radius=R_M, wrap=False):
-        '''Compute the (signed) distance from this point to
-           the great circle defined by a start and an end point.
+        '''Compute the (signed) distance from this point to a great
+           circle from a start to an end point.
 
            @arg start: Start point of the great circle line (L{LatLon}).
            @arg end: End point of the great circle line (L{LatLon}).
@@ -205,7 +205,7 @@ class LatLon(LatLonSphericalBase):
 
     def destination(self, distance, bearing, radius=R_M, height=None):
         '''Locate the destination from this point after having
-           travelled the given distance on the given initial bearing.
+           travelled the given distance on a bearing from North.
 
            @arg distance: Distance travelled (C{meter}, same units as
                           B{C{radius}}).
@@ -253,7 +253,7 @@ class LatLon(LatLonSphericalBase):
 
     def greatCircle(self, bearing, Vector=Vector3d, **Vector_kwds):
         '''Compute the vector normal to great circle obtained by heading
-           on the given initial bearing from this point.
+           from this point on the bearing from North.
 
            Direction of vector is such that initial bearing vector
            b = c × n, where n is an n-vector representing this point.
@@ -271,8 +271,9 @@ class LatLon(LatLonSphericalBase):
         a, b = self.philam
         sa, ca, sb, cb, st, ct = sincos2_(a, b, Bearing_(bearing))
 
-        return Vector(sb * ct - cb * sa * st,
-                     -cb * ct - sb * sa * st,
+        sa *= st
+        return Vector(fdot_(sb, ct, -cb, sa),
+                     -fdot_(cb, ct,  sb, sa),
                       ca * st, **Vector_kwds)  # XXX .unit()?
 
     def initialBearingTo(self, other, wrap=False, raiser=False):
@@ -341,9 +342,9 @@ class LatLon(LatLonSphericalBase):
                     a = sin(r - t)  # / sr  superflous
                     b = sin(    t)  # / sr  superflous
 
-                    x = a * ca1 * cb1 + b * ca2 * cb2
-                    y = a * ca1 * sb1 + b * ca2 * sb2
-                    z = a * sa1       + b * sa2
+                    x = fdot_(a, ca1 * cb1, b, ca2 * cb2)
+                    y = fdot_(a, ca1 * sb1, b, ca2 * sb2)
+                    z = fdot_(a, sa1,       b, sa2)
 
                     a = atan1d(z, hypot(x, y))
                     b = atan2d(y, x)
@@ -358,7 +359,7 @@ class LatLon(LatLonSphericalBase):
 
     def intersection(self, end1, other, end2, height=None, wrap=False):
         '''Compute the intersection point of two lines, each defined by
-           two points or a start point and bearing from North.
+           two points or a start point and a bearing from North.
 
            @arg end1: End point of this line (L{LatLon}) or the initial
                       bearing at this point (compass C{degrees360}).
@@ -395,7 +396,7 @@ class LatLon(LatLonSphericalBase):
     def intersections2(self, rad1, other, rad2, radius=R_M, eps=_0_0,
                                                 height=None, wrap=True):
         '''Compute the intersection points of two circles, each defined
-           by a center point and radius.
+           by a center point and a radius.
 
            @arg rad1: Radius of the this circle (C{meter} or C{radians},
                       see B{C{radius}}).
@@ -536,7 +537,7 @@ class LatLon(LatLonSphericalBase):
         return r
 
     def nearestOn(self, point1, point2, radius=R_M, **wrap_adjust_limit):
-        '''Locate the point between two points closest to this point.
+        '''Locate the point between two other points closest to this point.
 
            Distances are approximated by function L{pygeodesy.equirectangular4},
            subject to the supplied B{C{options}}.
@@ -679,8 +680,8 @@ class LatLon(LatLonSphericalBase):
         return self._xnamed(_t7Tuple(t, radius))
 
     def triangulate(self, bearing1, other, bearing2, **height_wrap):
-        '''Locate a point given this, an other point and the (initial) bearing
-           at this and at the other point.
+        '''Locate a point given this, an other point and a bearing from
+           North at both points.
 
            @arg bearing1: Bearing at this point (compass C{degrees360}).
            @arg other: The other point (C{LatLon}).
@@ -755,8 +756,8 @@ _T00 = LatLon(0, 0, name='T00')  # reference instance (L{LatLon})
 
 
 def areaOf(points, radius=R_M, wrap=False):  # was=True
-    '''Calculate the area of a (spherical) polygon or composite
-       (with the pointsjoined by great circle arcs).
+    '''Calculate the area of a (spherical) polygon or composite (with the
+       points joined by great circle arcs).
 
        @arg points: The polygon points or clips (L{LatLon}[], L{BooleanFHP}
                     or L{BooleanGH}).
@@ -868,8 +869,8 @@ def _int3d2(s, end, wrap, _i_, Vector, hs):
                                     -(b1 + b2) * _0_5)
     cb21 *= sin(a1 - a2)  # sa21
     sb21 *= sin(a1 + a2)  # sa12
-    x = Vector(sb12 * cb21 - cb12 * sb21,
-               cb12 * cb21 + sb12 * sb21,
+    x = Vector(fdot_(sb12, cb21, -cb12, sb21),
+               fdot_(cb12, cb21,  sb12, sb21),
                cos(a1) * cos(a2) * sin(db))  # ll=start
     return x.unit(), (db, (a2 - a1))  # negated d
 
@@ -882,7 +883,7 @@ def _intdot(ds, a1, b1, a, b, wrap):
 
 def intersecant2(center, circle, point, other, **radius_exact_height_wrap):
     '''Compute the intersections of a circle and a (great circle) line given as
-       two points or as a point and bearing.
+       two points or as a point and a bearing from North.
 
        @arg center: Center of the circle (L{LatLon}).
        @arg circle: Radius of the circle (C{meter}, same units as the earth
@@ -916,7 +917,7 @@ def intersecant2(center, circle, point, other, **radius_exact_height_wrap):
 
 
 def _intersect(start1, end1, start2, end2, height=None, wrap=False,  # in.ellipsoidalBaseDI._intersect3
-                                           LatLon=None, **LatLon_kwds):
+                                           LatLon=LatLon, **LatLon_kwds):
     # (INTERNAL) Intersect two (spherical) lines, see L{intersection}
     # above, separated to allow callers to embellish any exceptions
 
@@ -984,75 +985,68 @@ def _intersect(start1, end1, start2, end2, height=None, wrap=False,  # in.ellips
 
 
 def intersection(start1, end1, start2, end2, height=None, wrap=False,
-                                             LatLon=LatLon, **LatLon_kwds):
-    '''Compute the intersection point of two lines, each defined
-       by two points or a start point and bearing from North.
+                                             **LatLon_and_kwds):
+    '''Compute the intersection point of two lines, each defined by
+       two points or by a start point and a bearing from North.
 
        @arg start1: Start point of the first line (L{LatLon}).
-       @arg end1: End point of the first line (L{LatLon}) or
-                  the initial bearing at the first start point
-                  (compass C{degrees360}).
+       @arg end1: End point of the first line (L{LatLon}) or the bearing
+                  at the first start point (compass C{degrees360}).
        @arg start2: Start point of the second line (L{LatLon}).
-       @arg end2: End point of the second line (L{LatLon}) or
-                  the initial bearing at the second start point
-                  (compass C{degrees360}).
+       @arg end2: End point of the second line (L{LatLon}) or the bearing
+                  at the second start point (compass C{degrees360}).
        @kwarg height: Optional height for the intersection point,
                       overriding the mean height (C{meter}).
-       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll
-                    B{C{start2}} and both B{C{end*}} points (C{bool}).
-       @kwarg LatLon: Optional class to return the intersection
-                      point (L{LatLon}) or C{None}.
-       @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                           arguments, ignored if C{B{LatLon} is None}.
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll B{C{start2}}
+                    and both B{C{end*}} points (C{bool}).
+       @kwarg LatLon_and_kwds: Optional class C{B{LatLon}=}L{LatLon} to use
+                     for the intersection point and optionally additional
+                     B{C{LatLon}} keyword arguments, ignored if C{B{LatLon}
+                     is None}.
 
-       @return: The intersection point as a (B{C{LatLon}}) or if
-                C{B{LatLon} is None} a L{LatLon3Tuple}C{(lat, lon,
-                height)}.  An alternate intersection point might
-                be the L{antipode} to the returned result.
+       @return: The intersection point as a (B{C{LatLon}}) or if C{B{LatLon}
+                is None} a L{LatLon3Tuple}C{(lat, lon, height)}.  An alternate
+                intersection point might be the L{antipode} to the returned result.
 
-       @raise IntersectionError: Ambiguous or infinite intersection
-                                 or colinear, parallel or otherwise
-                                 non-intersecting lines.
+       @raise IntersectionError: Ambiguous or infinite intersection or colinear,
+                                 parallel or otherwise non-intersecting lines.
 
-       @raise TypeError: A B{C{start1}}, B{C{end1}}, B{C{start2}}
-                         or B{C{end2}} point not L{LatLon}.
+       @raise TypeError: A B{C{start1}}, B{C{end1}}, B{C{start2}} or B{C{end2}}
+                         point not L{LatLon}.
 
        @raise ValueError: Invalid B{C{height}} or C{null} line.
     '''
     s1 = _T00.others(start1=start1)
     s2 = _T00.others(start2=start2)
     try:
-        return _intersect(s1, end1, s2, end2, height=height, wrap=wrap,
-                                              LatLon=LatLon, **LatLon_kwds)
+        return _intersect(s1, end1, s2, end2, height=height, wrap=wrap, **LatLon_and_kwds)
     except (TypeError, ValueError) as x:
         raise _xError(x, start1=start1, end1=end1, start2=start2, end2=end2)
 
 
 def intersections2(center1, rad1, center2, rad2, radius=R_M, eps=_0_0,
                                                  height=None, wrap=False,  # was=True
-                                                 LatLon=LatLon, **LatLon_kwds):
-    '''Compute the intersection points of two circles each defined
-       by a center point and a radius.
+                                               **LatLon_and_kwds):
+    '''Compute the intersection points of two circles each defined by a
+       center point and a radius.
 
        @arg center1: Center of the first circle (L{LatLon}).
-       @arg rad1: Radius of the first circle (C{meter} or C{radians},
-                  see B{C{radius}}).
+       @arg rad1: Radius of the first circle (C{meter} or C{radians}, see
+                  B{C{radius}}).
        @arg center2: Center of the second circle (L{LatLon}).
-       @arg rad2: Radius of the second circle (C{meter} or C{radians},
-                  see B{C{radius}}).
+       @arg rad2: Radius of the second circle (C{meter} or C{radians}, see
+                  B{C{radius}}).
        @kwarg radius: Mean earth radius (C{meter} or C{None} if B{C{rad1}},
                       B{C{rad2}} and B{C{eps}} are given in C{radians}).
-       @kwarg eps: Required overlap (C{meter} or C{radians}, see
-                   B{C{radius}}).
+       @kwarg eps: Required overlap (C{meter} or C{radians}, see B{C{radius}}).
        @kwarg height: Optional height for the intersection points (C{meter},
                       conventionally) or C{None} for the I{"radical height"}
                       at the I{radical line} between both centers.
        @kwarg wrap: If C{True}, wrap or I{normalize} and unroll B{C{center2}}
                     (C{bool}).
-       @kwarg LatLon: Optional class to return the intersection
-                      points (L{LatLon}) or C{None}.
-       @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                           arguments, ignored if C{B{LatLon} is None}.
+       @kwarg LatLon_and_kwds: Optional class C{B{LatLon}=}L{LatLon} to use for
+                     the intersection points and optionally additional B{C{LatLon}}
+                     keyword arguments, ignored if C{B{LatLon} is None}.
 
        @return: 2-Tuple of the intersection points, each a B{C{LatLon}}
                 instance or if C{B{LatLon} is None} a L{LatLon3Tuple}C{(lat,
@@ -1077,7 +1071,7 @@ def intersections2(center1, rad1, center2, rad2, radius=R_M, eps=_0_0,
     try:
         return _intersects2(c1, rad1, c2, rad2, radius=radius, eps=eps,
                                                 height=height, wrap=wrap,
-                                                LatLon=LatLon, **LatLon_kwds)
+                                              **LatLon_and_kwds)
     except (TypeError, ValueError) as x:
         raise _xError(x, center1=center1, rad1=rad1,
                          center2=center2, rad2=rad2, wrap=wrap)
@@ -1226,7 +1220,7 @@ def nearestOn3(point, points, closed=False, radius=R_M, wrap=False, adjust=True,
                      (C{degrees}), default C{9 degrees} is about C{1,000 Km} (for
                      (mean spherical earth radius L{R_KM}).
        @kwarg LatLon_and_kwds: Optional class C{B{LatLon}=L{LatLon}} to return the
-                     closest point and optional, additional C{B{LatLon}} keyword
+                     closest point and optionally additional C{B{LatLon}} keyword
                      arguments or specify C{B{LatLon}=None}.
 
        @return: A L{NearestOn3Tuple}C{(closest, distance, angle)} with the
@@ -1331,9 +1325,9 @@ def triangle7(latA, lonA, latB, lonB, latC, lonC, radius=R_M,
                 C{a}, C{b} and C{c} all in C{degrees} and C{area}
                 in I{square} C{meter} or same units as B{C{radius}}
                 I{squared} or if C{B{radius}=0} or C{None}, a
-                L{Triangle8Tuple}C{(A, a, B, b, C, c, D, E)} all in
-                C{radians} with the I{spherical excess} C{E} as the
-                C{unit area} in C{radians}.
+                L{Triangle8Tuple}C{(A, a, B, b, C, c, D, E)} with
+                I{spherical deficit} C{D} and I{spherical excess}
+                C{E} as the C{unit area}, all in C{radians}.
     '''
     t = triangle8_(Phid(latA=latA), Lamd(lonA=lonA),
                    Phid(latB=latB), Lamd(lonB=lonB),

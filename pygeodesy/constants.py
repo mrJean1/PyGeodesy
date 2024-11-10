@@ -10,10 +10,10 @@ L{pygeodesy.isnon0} and L{pygeodesy.remainder}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import _copysign, isbool, iscomplex, isint,  _0_0
+from pygeodesy.basics import _copysign, isbool, iscomplex, isint
 from pygeodesy.errors import _xError, _xError2, _xkwds_get1, _xkwds_item2
 # from pygeodesy.fsums import _isFsum_2Tuple  # _MODS
-# from pygeodesy.internals import _0_0  # from .basics
+from pygeodesy.internals import _0_0, _100_0
 from pygeodesy.interns import _INF_, _NAN_, _UNDER_
 from pygeodesy.lazily import _ALL_MODS as _MODS, _ALL_LAZY
 # from pygeodesy.streprs import Fmt  # from .unitsBase
@@ -26,7 +26,7 @@ except ImportError:  # Python 2-
     _inf, _nan = float(_INF_), float(_NAN_)
 
 __all__ = _ALL_LAZY.constants
-__version__ = '24.10.15'
+__version__ = '24.11.06'
 
 
 def _copysign_0_0(y):
@@ -185,7 +185,7 @@ _32_0    = _float(  32)       # PYCHOK expected
 _60_0    = _float(  60)       # PYCHOK expected
 _64_0    = _float(  64)       # PYCHOK expected
 _90_0    = _float(  90)       # PYCHOK expected
-_100_0   = _float( 100)       # PYCHOK expected
+_100_0   = _float(_100_0)     # PYCHOK expected
 _180_0   = _float( 180)       # PYCHOK expected
 _270_0   = _float( 270)       # PYCHOK expected
 _360_0   = _float( 360)       # PYCHOK expected

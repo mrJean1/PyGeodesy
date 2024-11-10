@@ -27,7 +27,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _PYTHON_X_DEV
 from copy import copy as _copy
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')  _under
-__version__ = '24.10.14'
+__version__ = '24.11.02'
 
 _argument_   = 'argument'
 _box_        = 'box'
@@ -777,7 +777,7 @@ except AttributeError:
         return d
 
 
-# def _xkwds_bool(inst, **kwds):  # no longer in .frechet, .hausdorff, .heights
+# def _xkwds_bool(inst, **kwds):  # unused
 #     '''(INTERNAL) Set applicable C{bool} properties/attributes.
 #     '''
 #     for n, v in kwds.items():
@@ -789,18 +789,18 @@ except AttributeError:
 #             setattr(inst, NN(_UNDER_, n), v)
 
 
-def _xkwds_from(orig, *args, **kwds):
-    '''(INTERNAL) Return the items from C{orig} with the keys
-       from C{kwds} and a value not in C{args} and C{kwds}.
-    '''
-    def _items(orig, args, items):
-        for n, m in items:
-            if n in orig:  # n in (orig.keys() & kwds.keys())
-                t = orig[n]
-                if t is not m and t not in args:
-                    yield n, t
-
-    return _items(orig, args, kwds.items())
+# def _xkwds_from(orig, *args, **kwds):  # unused
+#     '''(INTERNAL) Return the items from C{orig} with the keys
+#        from C{kwds} and a value not in C{args} and C{kwds}.
+#     '''
+#     def _items(orig, args, items):
+#         for n, m in items:
+#             if n in orig:  # n in (orig.keys() & kwds.keys())
+#                 t = orig[n]
+#                 if t is not m and t not in args:
+#                     yield n, t
+#
+#     return _items(orig, args, kwds.items())
 
 
 def _xkwds_get(kwds, **name_default):
@@ -813,14 +813,14 @@ def _xkwds_get(kwds, **name_default):
     raise _xAssertionError(_xkwds_get, kwds, **name_default)
 
 
-def _xkwds_get_(kwds, **names_defaults):
-    '''(INTERNAL) Yield each C{kwds} value or its C{default}
-       in I{case-insensitive, alphabetical} C{name} order.
-    '''
-    if not isinstance(kwds, dict):
-        raise _xAssertionError(_xkwds_get_, kwds)
-    for n, v in _MODS.basics.itemsorted(names_defaults):
-        yield kwds.get(n, v)
+# def _xkwds_get_(kwds, **names_defaults):  # unused
+#     '''(INTERNAL) Yield each C{kwds} value or its C{default}
+#        in I{case-insensitive, alphabetical} C{name} order.
+#     '''
+#     if not isinstance(kwds, dict):
+#         raise _xAssertionError(_xkwds_get_, kwds)
+#     for n, v in _MODS.basics.itemsorted(names_defaults):
+#         yield kwds.get(n, v)
 
 
 def _xkwds_get1(kwds, **name_default):
@@ -844,11 +844,11 @@ def _xkwds_item2(kwds):
     raise _xAssertionError(_xkwds_item2, kwds)
 
 
-def _xkwds_kwds(kwds, **names_defaults):
+def _xkwds_kwds(kwds, **names_defaults):  # in .geodesici  # PYCHOK no cover
     '''(INTERNAL) Return a C{dict} of C{named_defaults} items replaced with C{kwds}.
     '''
     if not isinstance(kwds, dict):
-        raise _xAssertionError(_xkwds_get_, kwds)
+        raise _xAssertionError(_xkwds_kwds, kwds)
     _g = kwds.get
     return dict((n, _g(n, v)) for n, v in names_defaults.items())
 

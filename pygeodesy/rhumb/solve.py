@@ -20,7 +20,7 @@ from pygeodesy.solveBase import _SolveGDictBase, _SolveGDictLineBase
 from pygeodesy.utily import _unrollon, _Wrap, wrap360
 
 __all__ = _ALL_LAZY.rhumb_solve
-__version__ = '24.10.12'
+__version__ = '24.11.07'
 
 
 class _RhumbSolveBase(_SolveGDictBase):
@@ -183,7 +183,7 @@ class RhumbSolve(_RhumbSolveBase):
     def _Inverse(self, ll1, ll2, wrap, **unused):
         '''(INTERNAL) Short-cut version, see .latlonBase.
         '''
-        if wrap:
+        if wrap:  # PYCHOK no cover
             ll2 = _unrollon(ll1, _Wrap.point(ll2))
         return self._GDictInverse(ll1.lat, ll1.lon, ll2.lat, ll2.lon)
 
@@ -201,7 +201,7 @@ class RhumbSolve(_RhumbSolveBase):
     def _InverseLine(self, ll1, ll2, wrap, **name_caps):
         '''(INTERNAL) Short-cut version, see .latlonBase.
         '''
-        if wrap:
+        if wrap:  # PYCHOK no cover
             ll2 = _unrollon(ll1, _Wrap.point(ll2))
         return self.InverseLine(ll1.lat, ll1.lon, ll2.lat, ll2.lon, **name_caps)
 

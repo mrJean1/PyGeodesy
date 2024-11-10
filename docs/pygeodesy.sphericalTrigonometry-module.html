@@ -87,7 +87,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        24.10.12
+        24.11.07
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -174,7 +174,7 @@
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Calculate the area of a (spherical) polygon or composite (with the 
-      pointsjoined by great circle arcs).</td>
+      points joined by great circle arcs).</td>
           <td align="right" valign="top">
             
             
@@ -196,7 +196,7 @@
         <span class="summary-sig-arg">other</span>,
         <span class="summary-sig-arg">**radius_exact_height_wrap</span>)</span><br />
       Compute the intersections of a circle and a (great circle) line given
-      as two points or as a point and bearing.</td>
+      as two points or as a point and a bearing from North.</td>
           <td align="right" valign="top">
             
             
@@ -218,10 +218,9 @@
         <span class="summary-sig-arg">end2</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.sphericalTrigonometry.LatLon'&gt;</span>,
-        <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**LatLon_and_kwds</span>)</span><br />
       Compute the intersection point of two lines, each defined by two 
-      points or a start point and bearing from North.</td>
+      points or by a start point and a bearing from North.</td>
           <td align="right" valign="top">
             
             
@@ -245,8 +244,7 @@
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">0.0</span>,
         <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.sphericalTrigonometry.LatLon'&gt;</span>,
-        <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**LatLon_and_kwds</span>)</span><br />
       Compute the intersection points of two circles each defined by a 
       center point and a radius.</td>
           <td align="right" valign="top">
@@ -378,7 +376,7 @@
         <span class="summary-sig-arg">latC</span>,
         <span class="summary-sig-arg">lonC</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
-        <span class="summary-sig-arg">excess</span>=<span class="summary-sig-default">&lt;function excessAbc_ at 0x7f98a09e5ad0&gt;</span>,
+        <span class="summary-sig-arg">excess</span>=<span class="summary-sig-default">&lt;function excessAbc_ at 0x7fba88ae9c50&gt;</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the angles, sides, and area of a (spherical) triangle.</td>
           <td align="right" valign="top">
@@ -402,7 +400,7 @@
         <span class="summary-sig-arg">lamB</span>,
         <span class="summary-sig-arg">phiC</span>,
         <span class="summary-sig-arg">lamC</span>,
-        <span class="summary-sig-arg">excess</span>=<span class="summary-sig-default">&lt;function excessAbc_ at 0x7f98a09e5ad0&gt;</span>,
+        <span class="summary-sig-arg">excess</span>=<span class="summary-sig-default">&lt;function excessAbc_ at 0x7fba88ae9c50&gt;</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the angles, sides, <i>spherical deficit</i> and <i>spherical 
       excess</i> of a (spherical) triangle.</td>
@@ -535,7 +533,7 @@
   </tr></table>
   
   <p>Calculate the area of a (spherical) polygon or composite (with the 
-  pointsjoined by great circle arcs).</p>
+  points joined by great circle arcs).</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -608,7 +606,7 @@
   </tr></table>
   
   <p>Compute the intersections of a circle and a (great circle) line given 
-  as two points or as a point and bearing.</p>
+  as two points or as a point and a bearing from North.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -661,8 +659,7 @@
         <span class="sig-arg">end2</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">LatLon</span>=<span class="sig-default">&lt;class 'pygeodesy.sphericalTrigonometry.LatLon'&gt;</span>,
-        <span class="sig-arg">**LatLon_kwds</span>)</span>
+        <span class="sig-arg">**LatLon_and_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -670,7 +667,7 @@
   </tr></table>
   
   <p>Compute the intersection point of two lines, each defined by two 
-  points or a start point and bearing from North.</p>
+  points or by a start point and a bearing from North.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -679,24 +676,24 @@
           class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>end1</code></strong> - End point of the first line (<a 
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
-          class="link">LatLon</a>) or the initial bearing at the first 
-          start point (compass <code>degrees360</code>).</li>
+          class="link">LatLon</a>) or the bearing at the first start point 
+          (compass <code>degrees360</code>).</li>
         <li><strong class="pname"><code>start2</code></strong> - Start point of the second line (<a 
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
           class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>end2</code></strong> - End point of the second line (<a 
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
-          class="link">LatLon</a>) or the initial bearing at the second 
-          start point (compass <code>degrees360</code>).</li>
+          class="link">LatLon</a>) or the bearing at the second start point
+          (compass <code>degrees360</code>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height for the intersection point, overriding the mean 
           height (<code>meter</code>).</li>
         <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll 
           <b><code>start2</code></b> and both <b><code>end*</code></b> 
           points (<code>bool</code>).</li>
-        <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the intersection point (<a 
+        <li><strong class="pname"><code>LatLon_and_kwds</code></strong> - Optional class <code><b>LatLon</b>=</code><a 
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
-          class="link">LatLon</a>) or <code>None</code>.</li>
-        <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional, additional <b><code>LatLon</code></b> keyword 
+          class="link">LatLon</a> to use for the intersection point and 
+          optionally additional <b><code>LatLon</code></b> keyword 
           arguments, ignored if <code><b>LatLon</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -735,8 +732,7 @@
         <span class="sig-arg">eps</span>=<span class="sig-default">0.0</span>,
         <span class="sig-arg">height</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">LatLon</span>=<span class="sig-default">&lt;class 'pygeodesy.sphericalTrigonometry.LatLon'&gt;</span>,
-        <span class="sig-arg">**LatLon_kwds</span>)</span>
+        <span class="sig-arg">**LatLon_and_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -768,10 +764,10 @@
           height&quot;</i> at the <i>radical line</i> between both centers.</li>
         <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll 
           <b><code>center2</code></b> (<code>bool</code>).</li>
-        <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the intersection points (<a 
+        <li><strong class="pname"><code>LatLon_and_kwds</code></strong> - Optional class <code><b>LatLon</b>=</code><a 
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
-          class="link">LatLon</a>) or <code>None</code>.</li>
-        <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional, additional <b><code>LatLon</code></b> keyword 
+          class="link">LatLon</a> to use for the intersection points and 
+          optionally additional <b><code>LatLon</code></b> keyword 
           arguments, ignored if <code><b>LatLon</b> is None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -972,8 +968,8 @@
         <li><strong class="pname"><code>LatLon_and_kwds</code></strong> - Optional class <code><b>LatLon</b>=<a 
           href="pygeodesy.sphericalTrigonometry.LatLon-class.html" 
           class="link">LatLon</a></code> to return the closest point and 
-          optional, additional <code><b>LatLon</b></code> keyword arguments
-          or specify <code><b>LatLon</b>=None</code>.</li>
+          optionally additional <code><b>LatLon</b></code> keyword 
+          arguments or specify <code><b>LatLon</b>=None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.NearestOn3Tuple-class.html" 
@@ -1090,7 +1086,7 @@
         <span class="sig-arg">latC</span>,
         <span class="sig-arg">lonC</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
-        <span class="sig-arg">excess</span>=<span class="sig-default">&lt;function excessAbc_ at 0x7f98a09e5ad0&gt;</span>,
+        <span class="sig-arg">excess</span>=<span class="sig-default">&lt;function excessAbc_ at 0x7fba88ae9c50&gt;</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -1138,9 +1134,9 @@
           <code><b>radius</b>=0</code> or <code>None</code>, a <a 
           href="pygeodesy.namedTuples.Triangle8Tuple-class.html" 
           class="link">Triangle8Tuple</a><code>(A, a, B, b, C, c, D, 
-          E)</code> all in <code>radians</code> with the <i>spherical 
-          excess</i> <code>E</code> as the <code>unit area</code> in 
-          <code>radians</code>.</dd>
+          E)</code> with <i>spherical deficit</i> <code>D</code> and 
+          <i>spherical excess</i> <code>E</code> as the <code>unit 
+          area</code>, all in <code>radians</code>.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1157,7 +1153,7 @@
         <span class="sig-arg">lamB</span>,
         <span class="sig-arg">phiC</span>,
         <span class="sig-arg">lamC</span>,
-        <span class="sig-arg">excess</span>=<span class="sig-default">&lt;function excessAbc_ at 0x7f98a09e5ad0&gt;</span>,
+        <span class="sig-arg">excess</span>=<span class="sig-default">&lt;function excessAbc_ at 0x7fba88ae9c50&gt;</span>,
         <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -1231,7 +1227,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Oct 22 17:06:19 2024
+    Generated by Epydoc 3.0.1 on Sun Nov 10 11:35:48 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

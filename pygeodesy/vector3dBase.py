@@ -14,7 +14,7 @@ from pygeodesy.constants import EPS, EPS0, INT0, PI, PI2, _copysignINF, \
                                _float0, isnear0, isnear1, isneg0, \
                                _pos_self, _1_0
 from pygeodesy.errors import CrossError, VectorError, _xcallable, _xError
-from pygeodesy.fmath import euclid_, fdot, hypot_, hypot2_
+from pygeodesy.fmath import euclid_, fdot, fdot_, hypot_, hypot2_  # _MODS.fmath.fma
 from pygeodesy.interns import _coincident_, _colinear_, _COMMASPACE_, _xyz_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedBase, _NotImplemented, _xother3
@@ -28,7 +28,7 @@ from pygeodesy.utily import sincos2,  atan2, fabs
 from math import ceil as _ceil, floor as _floor, trunc as _trunc
 
 __all__ = _ALL_LAZY.vector3dBase
-__version__ = '24.10.12'
+__version__ = '24.11.07'
 
 
 class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
@@ -504,9 +504,9 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
         '''
         X, Y, Z = self.others(other).xyz3
         x, y, z = self.xyz3
-        xyz = ((y * Z - z * Y),
-               (z * X - x * Z),
-               (x * Y - y * X))
+        xyz = (fdot_(y, Z, -z, Y),
+               fdot_(z, X, -x, Z),
+               fdot_(x, Y, -y, X))
 
         if raiser and self.crosserrors and eps0 > 0 \
                   and max(map(fabs, xyz)) < eps0:
@@ -823,11 +823,12 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
         '''
         return self._plus(*_xyz3(self.plus_, other_x, *y_z))
 
-    def rotate(self, axis, theta):
+    def rotate(self, axis, theta, fma=False):
         '''Rotate this vector around an axis by a specified angle.
 
            @arg axis: The axis being rotated around (L{Vector3d}).
            @arg theta: The angle of rotation (C{radians}).
+           @kwarg fma: If C{True}, use fused-multiply-add (C{bool}).
 
            @return: New, rotated vector (L{Vector3d}).
 
@@ -846,17 +847,23 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
             bx, by, bz = r.times(d).xyz3
             sx, sy, sz = r.times(s).xyz3
 
-            x = fdot(p, ax * bx + c,  ax * by - sz, ax * bz + sy)
-            y = fdot(p, ay * bx + sz, ay * by + c,  ay * bz - sx)
-            z = fdot(p, az * bx - sy, az * by + sx, az * bz + c)
+            if fma:
+                _fma = _MODS.fmath.fma
+            else:
+                def _fma(a, b, c):
+                    return a * b + c
+
+            x = fdot(p, _fma(ax, bx,   c), _fma(ax, by, -sz), _fma(ax, bz,  sy))
+            y = fdot(p, _fma(ay, bx,  sz), _fma(ay, by,   c), _fma(ay, bz, -sx))
+            z = fdot(p, _fma(az, bx, -sy), _fma(az, by,  sx), _fma(az, bz,   c))
         else:  # unrotated
             x, y, z = self.xyz3
         return self.classof(x, y, z)
 
     @deprecated_method
-    def rotateAround(self, axis, theta):  # PYCHOK no cover
+    def rotateAround(self, axis, theta):
         '''DEPRECATED, use method C{rotate}.'''
-        return self.rotate(axis, theta)
+        return self.rotate(axis, theta)  # PYCHOK no cover
 
     def times(self, factor):
         '''Multiply this vector by a scalar.

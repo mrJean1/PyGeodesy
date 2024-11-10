@@ -811,9 +811,9 @@ class Ellipsoid(_NamedEnumItem):
 
     eccentricity     = e    # eccentricity
 #   eccentricity2    = e2   # eccentricity squared
-    eccentricity1st2 = e2   # first eccentricity squared
-    eccentricity2nd2 = e22  # second eccentricity squared
-    eccentricity3rd2 = e32  # third eccentricity squared
+    eccentricity1st2 = e2   # first eccentricity squared, signed
+    eccentricity2nd2 = e22  # second eccentricity squared, signed
+    eccentricity3rd2 = e32  # third eccentricity squared, signed
 
     def ecef(self, Ecef=None):
         '''Return U{ECEF<https://WikiPedia.org/wiki/ECEF>} converter.

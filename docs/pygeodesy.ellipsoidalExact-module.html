@@ -84,7 +84,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        24.08.13
+        24.11.06
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -205,11 +205,10 @@
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">equidistant</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">tol</span>=<span class="summary-sig-default">0.001</span>,
-        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.ellipsoidalExact.LatLon'&gt;</span>,
-        <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
-      <i>Iteratively</i> compute the intersection point of two lines, each 
-      defined by two (ellipsoidal) points or by an (ellipsoidal) start 
-      point and an initial bearing from North.</td>
+        <span class="summary-sig-arg">**LatLon_and_kwds</span>)</span><br />
+      <i>Iteratively</i> compute the intersection point of two geodesic 
+      lines, each given as two points or as an start point and a bearing 
+      from North.</td>
           <td align="right" valign="top">
             
             
@@ -233,8 +232,7 @@
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">equidistant</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">tol</span>=<span class="summary-sig-default">0.001</span>,
-        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.ellipsoidalExact.LatLon'&gt;</span>,
-        <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**LatLon_and_kwds</span>)</span><br />
       <i>Iteratively</i> compute the intersection points of two circles, 
       each defined by an (ellipsoidal) center point and a radius.</td>
           <td align="right" valign="top">
@@ -279,10 +277,9 @@
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">equidistant</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">tol</span>=<span class="summary-sig-default">0.001</span>,
-        <span class="summary-sig-arg">LatLon</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.ellipsoidalExact.LatLon'&gt;</span>,
-        <span class="summary-sig-arg">**LatLon_kwds</span>)</span><br />
-      <i>Iteratively</i> locate the closest point on the geodesic between 
-      two other (ellispoidal) points.</td>
+        <span class="summary-sig-arg">**LatLon_and_kwds</span>)</span><br />
+      <i>Iteratively</i> locate the closest point on the geodesic (line) 
+      between two other (ellipsoidal) points.</td>
           <td align="right" valign="top">
             
             
@@ -370,7 +367,9 @@
         <li><strong class="pname"><code>other</code></strong> - An other point of the geodesic (<code>LatLon</code>, as 
           <b><code>center</code></b>) or the (forward) bearing at the 
           <b><code>point</code></b> (compass <code>degrees</code>).</li>
-        <li><strong class="pname"><code>exact_height_wrap_tol</code></strong> - Optional keyword arguments, see below.</li>
+        <li><strong class="pname"><code>exact_height_wrap_tol</code></strong> - Optional keyword arguments <code><b>exact</b>=False</code>, 
+          <code><b>height</b>=None</code>, <code><b>wrap</b>=False</code> 
+          and <code><b>tol</b></code>, see method intersecant2.</li>
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -507,17 +506,16 @@
         <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">equidistant</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">tol</span>=<span class="sig-default">0.001</span>,
-        <span class="sig-arg">LatLon</span>=<span class="sig-default">&lt;class 'pygeodesy.ellipsoidalExact.LatLon'&gt;</span>,
-        <span class="sig-arg">**LatLon_kwds</span>)</span>
+        <span class="sig-arg">**LatLon_and_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p><i>Iteratively</i> compute the intersection point of two lines, each 
-  defined by two (ellipsoidal) points or by an (ellipsoidal) start point 
-  and an initial bearing from North.</p>
+  <p><i>Iteratively</i> compute the intersection point of two geodesic 
+  lines, each given as two points or as an start point and a bearing from 
+  North.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -526,31 +524,31 @@
           class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>end1</code></strong> - End point of the first line (<a 
           href="pygeodesy.ellipsoidalExact.LatLon-class.html" 
-          class="link">LatLon</a>) or the initial bearing at the first 
-          point (compass <code>degrees360</code>).</li>
+          class="link">LatLon</a>) or the initial bearing at 
+          <b><code>start1</code></b> (compass <code>degrees360</code>).</li>
         <li><strong class="pname"><code>start2</code></strong> - Start point of the second line (<a 
           href="pygeodesy.ellipsoidalExact.LatLon-class.html" 
           class="link">LatLon</a>).</li>
         <li><strong class="pname"><code>end2</code></strong> - End point of the second line (<a 
           href="pygeodesy.ellipsoidalExact.LatLon-class.html" 
-          class="link">LatLon</a>) or the initial bearing at the second 
-          point (compass <code>degrees360</code>).</li>
+          class="link">LatLon</a>) or the initial bearing at 
+          <b><code>start2</code></b> (compass <code>degrees360</code>).</li>
         <li><strong class="pname"><code>height</code></strong> - Optional height at the intersection (<code>meter</code>, 
           conventionally) or <code>None</code> for the mean height.</li>
-        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll the 
-          <b><code>start2</code></b> and <b><code>end*</code></b> points 
-          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> and unroll 
+          <b><code>start2</code></b> and both <b><code>end*</code></b> 
+          points (<code>bool</code>).</li>
         <li><strong class="pname"><code>equidistant</code></strong> - An azimuthal equidistant projection (<i>class</i> or function <a 
           href="pygeodesy.azimuthal-module.html#equidistant" 
           class="link">pygeodesy.equidistant</a>) or <code>None</code> for 
           the preferred <code><b>start1</b>.Equidistant</code>.</li>
         <li><strong class="pname"><code>tol</code></strong> - Tolerance for convergence and for skew line distance and length 
           (<code>meter</code>, conventionally).</li>
-        <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the intersection points (<a 
+        <li><strong class="pname"><code>LatLon_and_kwds</code></strong> - Optional class <code><b>LatLon</b>=</code><a 
           href="pygeodesy.ellipsoidalExact.LatLon-class.html" 
-          class="link">LatLon</a>) or <code>None</code>.</li>
-        <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional, additional <b><code>LatLon</code></b> keyword 
-          arguments, ignored if <code><b>LatLon</b> is None</code>.</li>
+          class="link">LatLon</a> to return the intersection points and 
+          optionally, additional <b><code>LatLon</code></b> keyword 
+          arguments, ignored if <code><b>LatLon</b>=None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>An <a href="pygeodesy.namedTuples.Intersection3Tuple-class.html" 
@@ -603,8 +601,7 @@
         <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">equidistant</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">tol</span>=<span class="sig-default">0.001</span>,
-        <span class="sig-arg">LatLon</span>=<span class="sig-default">&lt;class 'pygeodesy.ellipsoidalExact.LatLon'&gt;</span>,
-        <span class="sig-arg">**LatLon_kwds</span>)</span>
+        <span class="sig-arg">**LatLon_and_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -636,11 +633,11 @@
           the preferred <code><b>center1</b>.Equidistant</code>.</li>
         <li><strong class="pname"><code>tol</code></strong> - Convergence tolerance (<code>meter</code>, same units as 
           <b><code>radius1</code></b> and <b><code>radius2</code></b>).</li>
-        <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the intersection points (<a 
+        <li><strong class="pname"><code>LatLon_and_kwds</code></strong> - Optional class <code><b>LatLon</b>=</code><a 
           href="pygeodesy.ellipsoidalExact.LatLon-class.html" 
-          class="link">LatLon</a>) or <code>None</code>.</li>
-        <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional, additional <b><code>LatLon</code></b> keyword 
-          arguments, ignored if <code><b>LatLon</b> is None</code>.</li>
+          class="link">LatLon</a> to return the intersection points and 
+          optionally, additional <b><code>LatLon</code></b> keyword 
+          arguments, ignored if <code><b>LatLon</b>=None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-Tuple of the intersection points, each a 
@@ -731,16 +728,15 @@
         <span class="sig-arg">wrap</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">equidistant</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">tol</span>=<span class="sig-default">0.001</span>,
-        <span class="sig-arg">LatLon</span>=<span class="sig-default">&lt;class 'pygeodesy.ellipsoidalExact.LatLon'&gt;</span>,
-        <span class="sig-arg">**LatLon_kwds</span>)</span>
+        <span class="sig-arg">**LatLon_and_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p><i>Iteratively</i> locate the closest point on the geodesic between 
-  two other (ellispoidal) points.</p>
+  <p><i>Iteratively</i> locate the closest point on the geodesic (line) 
+  between two other (ellipsoidal) points.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -763,11 +759,11 @@
           class="link">pygeodesy.equidistant</a>) or <code>None</code> for 
           the preferred <code><b>point</b>.Equidistant</code>.</li>
         <li><strong class="pname"><code>tol</code></strong> - Convergence tolerance (<code>meter</code>).</li>
-        <li><strong class="pname"><code>LatLon</code></strong> - Optional class to return the closest point (<a 
+        <li><strong class="pname"><code>LatLon_and_kwds</code></strong> - Optional class <code><b>LatLon</b>=</code><a 
           href="pygeodesy.ellipsoidalExact.LatLon-class.html" 
-          class="link">LatLon</a>) or <code>None</code>.</li>
-        <li><strong class="pname"><code>LatLon_kwds</code></strong> - Optional, additional <b><code>LatLon</code></b> keyword 
-          arguments, ignored if <code><b>LatLon</b> is None</code>.</li>
+          class="link">LatLon</a> to return the closest point and 
+          optionally, additional <b><code>LatLon</code></b> keyword 
+          arguments, ignored if <code><b>LatLon</b>=None</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Closest point, a <b><code>LatLon</code></b> instance or if 
@@ -887,7 +883,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Oct 22 17:06:19 2024
+    Generated by Epydoc 3.0.1 on Sun Nov 10 11:35:48 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

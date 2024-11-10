@@ -91,7 +91,7 @@ from pygeodesy.units import _isDegrees, Float_, Int_
 # from math import radians  # from .points
 
 __all__ = _ALL_LAZY.heights
-__version__ = '24.08.24'
+__version__ = '24.11.02'
 
 _error_  = 'error'
 _formy   = _MODS.into(formy=__name__)
@@ -1031,7 +1031,7 @@ class HeightIDWkarney(_HeightIDW):
        <https://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW) and the
        I{angular} distance in C{degrees} from I{Karney}'s U{geographiclib
        <https://PyPI.org/project/geographiclib>} method U{Geodesic.Inverse
-       <https://geographiclib.sourceforge.io/Python/doc/code.html#
+       <https://GeographicLib.SourceForge.io/Python/doc/code.html#
        geographiclib.geodesic.Geodesic.Inverse>}.
     '''
     def __init__(self, knots, beta=2, datum=None, **name__wrap):

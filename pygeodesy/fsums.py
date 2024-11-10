@@ -64,7 +64,7 @@ from math import fabs, isinf, isnan, \
                  ceil as _ceil, floor as _floor  # PYCHOK used! .ltp
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '24.10.22'
+__version__ = '24.11.09'
 
 from pygeodesy.interns import (
   _PLUS_     as _add_op_,  # in .auxilats.auxAngle
@@ -163,9 +163,11 @@ except  ImportError:  # PYCHOK DSPACE! Python 3.12-
 
         _2n_d = None  # redef
 
-    def _fmaX(r, *a_b_c):  # like Python 3.13+ I{Modules/mathmodule.c}:
-        # raise a ValueError for a NAN result from non-NAN C{a_b_c}s or an
-        # OverflowError for a non-NAN non-finite from all finite C{a_b_c}s.
+    def _fmaX(r, *a_b_c):  # PYCHOK no cover
+        # handle non-finite as Python 3.13+ C-function U{math_fma_impl<https://
+        # GitHub.com/python/cpython/blob/main/Modules/mathmodule.c#L2305>}:
+        #  raise a ValueError for a NAN result from non-NAN C{a_b_c}s or an
+        #  OverflowError for a non-NAN non-finite from all finite C{a_b_c}s.
         if isnan(r):
             def _x(x):
                 return not isnan(x)
@@ -212,11 +214,11 @@ except  ImportError:  # PYCHOK DSPACE! Python 3.12-
         return map(_2split3, xs)
 
 
-def f2product(*two):
+def f2product(two=None):
     '''Turn accurate I{TwoProduct} multiplication on or off.
 
-       @arg two: If C{True}, turn I{TwoProduct} on, if C{False} off or
-                 if C{None} or omitted, keep the current setting.
+       @kwarg two: If C{True}, turn I{TwoProduct} on, if C{False} off or
+                   if C{None} or omitted, keep the current setting.
 
        @return: The previous setting (C{bool}).
 
@@ -226,8 +228,8 @@ def f2product(*two):
              equivalent, slower implementation when not available.
     '''
     t = Fsum._f2product
-    if two and two[0] is not None:
-        Fsum._f2product = bool(two[0])
+    if two is not None:
+        Fsum._f2product = bool(two)
     return t
 
 
@@ -318,14 +320,14 @@ def _NonfiniteError(x):
            _ValueError    if isnan(x) else _AssertionError)
 
 
-def nonfiniterrors(*raiser):
+def nonfiniterrors(raiser=None):
     '''Throw C{OverflowError} and C{ValueError} exceptions for or
        handle I{non-finite} C{float}s as C{inf}, C{INF}, C{NINF},
        C{nan} and C{NAN} in summations and multiplications.
 
-       @arg raiser: If C{True}, throw exceptions, if C{False} handle
-                    I{non-finites} or if C{None} or omitted, leave
-                    the setting unchanged.
+       @kwarg raiser: If C{True}, throw exceptions, if C{False} handle
+                      I{non-finites} or if C{None} or omitted, leave
+                      the setting unchanged.
 
        @return: Previous setting (C{bool}).
 
@@ -333,8 +335,8 @@ def nonfiniterrors(*raiser):
               C{nan} and C{NAN} a C{ValueError}.
     '''
     d = Fsum._isfine
-    if raiser and raiser[0] is not None:
-        Fsum._isfine = {} if bool(raiser[0]) else Fsum._nonfinites_isfine_kwds[True]
+    if raiser is not None:
+        Fsum._isfine = {} if bool(raiser) else Fsum._nonfinites_isfine_kwds[True]
     return (False if d is Fsum._nonfinites_isfine_kwds[True] else
          _xkwds_get1(d, _isfine=_isfinite) is _isfinite) if d else True
 
@@ -1171,6 +1173,14 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
         return self._fadd(xs[0], **up) if len(xs) == 1 else \
                self._facc(xs, **up)  # origin=1?
 
+    def _facc_dot(self, n, xs, ys, **kwds):  # in .fmath
+        '''(INTERNAL) Accumulate C{fdot(B{xs}, *B{ys})}.
+        '''
+        if n > 0:
+            _f = Fsum(**kwds)
+            self._facc(_f(x).fmul(y) for x, y in zip(xs, ys))  # PYCHOK attr?
+        return self
+
     def _facc_neg(self, xs, **up_origin):
         '''(INTERNAL) Accumulate more C{xs}, negated.
         '''
@@ -1505,7 +1515,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
 
     def f2mul_(self, *others, **nonfinites):  # in .fmath.f2mul
         '''Return C{B{self} * B{other} * B{other} ...} for all B{C{others}} using cascaded,
-           accurate multiplication like with L{f2product<Fsum.f2product>} set to C{True}.
+           accurate multiplication like with L{f2product<Fsum.f2product>}C{(B{True})}.
 
            @arg others: Multipliers (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}), all
                         positional.
@@ -1522,15 +1532,14 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
     def _f2mul(self, where, *others, **nonfinites_raiser):
         '''(INTERNAL) See methods C{fma} and C{f2mul_}.
         '''
-        f  = self._copy_2(where)
-        ps = f._ps
-        if ps and others:
-            op = where.__name__
-            try:
+        f = self._copy_2(where)
+        if others and f:
+            op, ps = where.__name__, f._ps
+            try:  # as if self.f2product(True)
                 for other in others:  # to pinpoint errors
                     for p in self._ps_other(op, other):
                         pfs   = _2products(p, _2split3s(ps))
-                        ps[:] =  f._ps_acc([], pfs, up=False)
+                        ps[:] =  f._ps_acc([], pfs, update=False)
                 f._update()
             except TypeError as X:
                 raise self._ErrorX(X, op, other)

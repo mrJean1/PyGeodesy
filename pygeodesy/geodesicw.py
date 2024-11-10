@@ -39,7 +39,7 @@ from contextlib import contextmanager
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.geodesicw
-__version__ = '24.10.14'
+__version__ = '24.11.02'
 
 _plumb_ = 'plumb'
 _TRIPS  =  65
@@ -94,14 +94,14 @@ class _gWrapped(_kWrapped):
                 if name:
                     self._name, _ = _name2__(name, _or_nameof=E)
 
-            def ArcDirect(self, lat1, lon1, azi1, a12, outmask=Caps._STD):
+            def ArcDirect(self, lat1, lon1, azi1, a12, outmask=Caps._STD):  # PYCHOK no cover
                 '''Return the C{_Geodesic.ArcDirect} result as L{GDict}.
                 '''
                 with _wargs(self, lat1, lon1, azi1, a12, outmask) as args:
                     d = _Geodesic.ArcDirect(self, *args)
                 return GDict(d)
 
-            def ArcDirectLine(self, lat1, lon1, azi1, a12, caps=Caps._STD_LINE, **name):
+            def ArcDirectLine(self, lat1, lon1, azi1, a12, caps=Caps._STD_LINE, **name):  # PYCHOK no cover
                 '''Return the C{_Geodesic.ArcDirectLine} as I{wrapped} C{GeodesicLine}.
                 '''
                 return self._GenDirectLine(lat1, lon1, azi1, True, a12, caps, **name)
@@ -445,7 +445,7 @@ _wrapped = _gWrapped()  # PYCHOK singleton, .ellipsoids, .test/base.py
 
 class Geodesic(_gWrapped):  # overwritten by 1st instance
     '''I{Wrapper} around I{Karney}'s class U{geographiclib.geodesic.Geodesic
-       <https://geographiclib.sourceforge.io/Python/doc/code.html>}.
+       <https://GeographicLib.SourceForge.io/Python/doc/code.html>}.
     '''
     def __new__(unused, a_ellipsoid=_EWGS84, f=None, **name):
         '''Return a I{wrapped} C{geodesic.Geodesic} instance from I{Karney}'s
@@ -465,7 +465,7 @@ class Geodesic(_gWrapped):  # overwritten by 1st instance
 
 class GeodesicLine(_gWrapped):  # overwritten by 1st instance
     '''I{Wrapper} around I{Karney}'s class U{geographiclib.geodesicline.GeodesicLine
-       <https://geographiclib.sourceforge.io/Python/doc/code.html>}.
+       <https://GeographicLib.SourceForge.io/Python/doc/code.html>}.
     '''
     def __new__(unused, geodesic, lat1, lon1, azi1, caps=Caps._STD_LINE, **name):
         '''Return a I{wrapped} C{geodesicline.GeodesicLine} instance from I{Karney}'s
@@ -519,13 +519,12 @@ def _Intersecant2(gl, lat0, lon0, radius, tol=_TOL, form=F_D):  # MCCABE in LatL
     n  = _DUNDER_nameof(_Intersecant2)[1:]
     _P =  gl.Position
     _I =  gl.geodesic.Inverse
-    _a =  fabs
 
     def _R3(s):
         # radius, intersection, etc. at distance C{s}
         P = _P(s)
         d = _I(lat0, lon0, P.lat2, P.lon2)
-        return _a(d.s12), P, d
+        return fabs(d.s12), P, d
 
     def _bisect2(s, c, Rc, r, tol, _R3):
         _s = Fsum(c).fsumf_
@@ -536,18 +535,20 @@ def _Intersecant2(gl, lat0, lon0, radius, tol=_TOL, form=F_D):  # MCCABE in LatL
                 break
         else:  # b >>> s and c >>> s
             raise ValueError(Fmt.no_convergence(b, s))
-        __2 = _0_5  # Rb > r > Rc
+        # Rb > r > Rc
         for i in range(_TRIPS):  # 47-48
-            s = (b + c) * __2
+            s = (b + c) * _0_5
             R, P, d = _R3(s)
             if Rb > R > r:
                 b, Rb = s, R
             elif Rc < R < r:
                 c, Rc = s, R
-            t = _a(b - c)
-            if t < tol:  # or _a(R - r) < tol:
+#           else:
+#               break
+            t = fabs(b - c)
+            if t < tol:  # or fabs(R - r) < tol:
                 break
-        else:  # t = min(t, _a(R - r))
+        else:  # t = min(t, fabs(R - r))
             raise ValueError(Fmt.no_convergence(t, tol))
         i += C.iteration  # combine iterations
         P.set_(lat0=lat0, lon0=lon0, azi0=d.azi1, iteration=i,
@@ -558,13 +559,13 @@ def _Intersecant2(gl, lat0, lon0, radius, tol=_TOL, form=F_D):  # MCCABE in LatL
     # one the plumb, pseudo-rhumb line to the other
     C = _PlumbTo(gl, lat0, lon0, tol=tol)
     try:
-        a = _a(C.s02)  # distance between centers
+        a = fabs(C.s02)  # distance between centers
         if a < r:
             c =  C.s12  # distance along pseudo-rhumb line
             h = _copysign(r, c)  # past half chord length
             P, p = _bisect2( h, c, a, r, tol, _R3)
             Q, q = _bisect2(-h, c, a, r, tol, _R3)
-            if _a(p - q) < max(EPS, tol):
+            if fabs(p - q) < max(EPS, tol):
                 Q = P
         elif a > r:
             raise ValueError(_too_(Fmt.distant(a)))
