@@ -31,7 +31,7 @@ from contextlib import contextmanager
 # from math import fabs, sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.vector2d
-__version__ = '24.11.07'
+__version__ = '24.11.10'
 
 _cA_        = 'cA'
 _cB_        = 'cB'
@@ -175,7 +175,7 @@ def _circin6(point1, point2, point3, eps=EPS4, useZ=True, dLL3=False, **Vector_k
         C = V(c.x, c.y, c.z, **V_kwds)
         return c, C
 
-    t, p1, p2, p3 = _radii11ABC(point1, point2, point3, useZ=useZ)
+    t, p1, p2, p3 = _radii11ABC4(point1, point2, point3, useZ=useZ)
     V, r1, r2, r3 =  point1.classof, t.rA, t.rB, t.rC
 
     c1, cA = _contact2(t.a, p2, r2, p3, r3, V, _xkwds(Vector_kwds, name=_cA_))
@@ -509,12 +509,12 @@ def radii11(point1, point2, point3, useZ=True):
              U{Tangent Circles<https://MathWorld.Wolfram.com/TangentCircles.html>}.
     '''
     try:
-        return _radii11ABC(point1, point2, point3, useZ=useZ)[0]
+        return _radii11ABC4(point1, point2, point3, useZ=useZ)[0]
     except (TypeError, ValueError) as x:
         raise _xError(x, point1=point1, point2=point2, point3=point3)
 
 
-def _radii11ABC(point1, point2, point3, useZ=True):
+def _radii11ABC4(point1, point2, point3, useZ=True):
     # (INTERNAL) Tangent, Circum, Incircle, Soddy radii, sides and semi-perimeter
     A = _otherV3d(useZ=useZ, point1=point1, NN_OK=False)
     B = _otherV3d(useZ=useZ, point2=point2, NN_OK=False)
@@ -589,7 +589,7 @@ def soddy4(point1, point2, point3, eps=EPS4, useZ=True):
        @see: Functions L{radii11} and L{circum3} and U{Soddy Circles
              <https://MathWorld.Wolfram.com/SoddyCircles.html>}.
     '''
-    t, p1, p2, p3 = _radii11ABC(point1, point2, point3, useZ=useZ)
+    t, p1, p2, p3 = _radii11ABC4(point1, point2, point3, useZ=useZ)
 
     r    =  t.riS
     c, d = _tricenter3d2(p1, t.rA + r,

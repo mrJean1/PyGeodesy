@@ -31,7 +31,7 @@ from pygeodesy.vector3dBase import Vector3dBase
 # from math import fabs, sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '24.11.06'
+__version__ = '24.11.11'
 
 _vector2d = _MODS.into(vector2d=__name__)
 
@@ -272,7 +272,7 @@ class Vector3d(Vector3dBase):
                  Circles<https://MathWorld.Wolfram.com/TangentCircles.html>}.
         '''
         try:
-            return _vector2d._radii11ABC(self, point2, point3, useZ=True)[0]
+            return _vector2d._radii11ABC4(self, point2, point3, useZ=True)[0]
         except (TypeError, ValueError) as x:
             raise _xError(x, point=self, point2=point2, point3=point3)
 

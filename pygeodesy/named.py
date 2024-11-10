@@ -141,6 +141,10 @@ class _Named(object):
     _classnaming = False  # prefixed (C{bool})
 #   _updates     = 0      # OBSOLETE Property/property updates
 
+    def __format__(self, fmt):  # PYCHOK no cover
+        '''Not implemented.'''
+        return _NotImplemented(self, fmt)
+
     def __imatmul__(self, other):  # PYCHOK no cover
         '''Not implemented.'''
         return _NotImplemented(self, other)  # PYCHOK Python 3.5+

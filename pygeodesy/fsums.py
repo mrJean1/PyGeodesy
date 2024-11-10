@@ -64,7 +64,7 @@ from math import fabs, isinf, isnan, \
                  ceil as _ceil, floor as _floor  # PYCHOK used! .ltp
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '24.11.09'
+__version__ = '24.11.10'
 
 from pygeodesy.interns import (
   _PLUS_     as _add_op_,  # in .auxilats.auxAngle
@@ -646,10 +646,6 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
         '''
         f = self._copy_2(self.__floordiv__)
         return f._floordiv(other, _floordiv_op_)
-
-    def __format__(self, *other):  # PYCHOK no cover
-        '''Not implemented.'''
-        return _NotImplemented(self, *other)
 
     def __ge__(self, other):
         '''Return C{(B{self} >= B{other})}, see C{__eq__}.

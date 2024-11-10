@@ -47,14 +47,14 @@ from pygeodesy.units import _isDegrees, _isRadius, Distance_, Lat, Lon, \
                              Height, Radius, Radius_, Scalar, Scalar_
 from pygeodesy.utily import _unrollon, _unrollon3, _Wrap
 # from pygeodesy.vector2d import _circin6, Circin6Tuple, _circum3, circum4_, \
-#                                 Circum3Tuple, _radii11ABC  # _MODS
+#                                 Circum3Tuple, _radii11ABC4  # _MODS
 # from pygeodesy.vector3d import nearestOn6, Vector3d  # _MODS
 
 from contextlib import contextmanager
 from math import asin, cos, degrees, fabs, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '24.11.06'
+__version__ = '24.11.10'
 
 _formy = _MODS.into(formy=__name__)
 
@@ -1142,7 +1142,7 @@ class LatLonBase(_NamedBase):
                  Circles<https://MathWorld.Wolfram.com/TangentCircles.html>}.
         '''
         with _toCartesian3(self, point2, point3, wrap) as cs:
-            return _MODS.vector2d._radii11ABC(*cs, useZ=True)[0]
+            return _MODS.vector2d._radii11ABC4(*cs, useZ=True)[0]
 
     def _rhumb3(self, exact, radius):  # != .sphericalBase._rhumbs3
         '''(INTERNAL) Get the C{rhumb} for this point's datum or for

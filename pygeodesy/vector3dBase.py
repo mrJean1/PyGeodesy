@@ -28,7 +28,7 @@ from pygeodesy.utily import sincos2,  atan2, fabs
 from math import ceil as _ceil, floor as _floor, trunc as _trunc
 
 __all__ = _ALL_LAZY.vector3dBase
-__version__ = '24.11.07'
+__version__ = '24.11.10'
 
 
 class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
@@ -140,10 +140,6 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
     def __floordiv__(self, other):  # PYCHOK no cover
         '''Not implemented.'''
         return _NotImplemented(self, other)
-
-    def __format__(self, *other):  # PYCHOK no cover
-        '''Not implemented.'''
-        return _NotImplemented(self, *other)
 
     def __ge__(self, other):
         '''Is this vector longer than or equal to an other vector?
