@@ -421,47 +421,48 @@ def favg(a, b, f=_0_5, nonfinites=True):
     return float(F)
 
 
-def fdot(a, *b, **start_f2product_nonfinites):
-    '''Return the precision dot product M{sum(a[i] * b[i] for i=0..len(a))}.
+def fdot(xs, *ys, **start_f2product_nonfinites):
+    '''Return the precision dot product M{sum(xs[i] * ys[i] for i in range(len(xs)))}.
 
-       @arg a: Iterable of values (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
-       @arg b: Other values (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}), all
+       @arg xs: Iterable of values (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
+       @arg ys: Other values (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}), all
                positional.
        @kwarg start_f2product_nonfinites: Optional bias C{B{start}=0} (C{scalar}, an
                     L{Fsum} or L{Fsum2Tuple}) and settings C{B{f2product}=None} (C{bool})
-                    and C{B{nonfinites}=True} (C{bool}), see class L{Fsum<Fsum.__init__>}.
+                    and C{B{nonfinites=True}} (C{bool}), see class L{Fsum<Fsum.__init__>}.
 
        @return: Dot product (C{float}).
 
-       @raise LenError: Unequal C{len(B{a})} and C{len(B{b})}.
+       @raise LenError: Unequal C{len(B{xs})} and C{len(B{ys})}.
 
        @see: Class L{Fdot}, U{Algorithm 5.10 B{DotK}
              <https://www.TUHH.De/ti3/paper/rump/OgRuOi05.pdf>} and function
              C{math.sumprod} in Python 3.12 and later.
     '''
-    D = Fdot(a, *b, **_xkwds(start_f2product_nonfinites, nonfinites=True))
+    D = Fdot(xs, *ys, **_xkwds(start_f2product_nonfinites, nonfinites=True))
     return float(D)
 
 
-def fdot_(*ab, **start_f2product_nonfinites):
-    '''Return the precision dot product M{sum(ab[i] * ab[i+1] for i=0, 2, 4, ... len(ab)-1)}.
+def fdot_(*xys, **start_f2product_nonfinites):
+    '''Return the (precision) dot product M{sum(xys[i] * xys[i+1] for i in range(0, len(xys), B{2}))}.
 
-       @arg ab: Pairwise values  (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}), all positional.
+       @arg xys: Pairwise values (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}), all positional.
 
        @see: Function L{fdot} for further details.
+
+       @return: Dot product (C{float}).
     '''
-    return fdot(ab[0::2], *ab[1::2], **start_f2product_nonfinites)
+    return fdot(xys[0::2], *xys[1::2], **start_f2product_nonfinites)
 
 
 def fdot3(xs, ys, zs, **start_f2product_nonfinites):
-    '''Return the precision dot product M{start + sum(a[i] * b[i] * c[i] for i=0..len(a)-1)}.
+    '''Return the (precision) dot product M{start + sum(xs[i] * ys[i] * zs[i] for i in range(len(xs)))}.
 
        @arg xs: Iterable (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
        @arg ys: Iterable (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
        @arg zs: Iterable (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
-       @kwarg start_f2product_nonfinites: Optional bias C{B{start}=0} (C{scalar}, an
-                    L{Fsum} or L{Fsum2Tuple}) and settings C{B{f2product}=None} (C{bool})
-                    and C{B{nonfinites}=True} (C{bool}), see class L{Fsum<Fsum.__init__>}.
+
+       @see: Function L{fdot} for further details.
 
        @return: Dot product (C{float}).
 
@@ -472,15 +473,15 @@ def fdot3(xs, ys, zs, **start_f2product_nonfinites):
         raise LenError(fdot3, xs=n, ys=len(ys), zs=len(zs))
 
     D  = Fdot((), **_xkwds(start_f2product_nonfinites, nonfinites=True))
-    _f = Fsum(f2product=D.f2product(), nonfinites=D.nonfinites())
-    D  = D._facc(_f(x).f2mul_(y, z) for x, y, z in zip(xs, ys, zs))
+    kwds = dict(f2product=D.f2product(), nonfinites=D.nonfinites())
+    _f = Fsum(**kwds)
+    D  = D._facc(_f(x).f2mul_(y, z, **kwds) for x, y, z in zip(xs, ys, zs))
     return float(D)
 
 
 def fhorner(x, *cs, **incx):
-    '''Horner form evaluation of polynomial M{sum(cs[i] * x**i for
-       i=0..n)} with in- or decreasing exponent M{sum(... i=n..0)},
-       where C{n = len(cs) - 1}.
+    '''Horner form evaluation of polynomial M{sum(cs[i] * x**i for i=0..n)} as
+       in- or decreasing exponent M{sum(... i=n..0)}, where C{n = len(cs) - 1}.
 
        @return: Horner sum (C{float}).
 

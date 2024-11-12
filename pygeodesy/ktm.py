@@ -49,8 +49,7 @@ from pygeodesy.constants import INF, _K0_UTM, PI, PI_2, _0_0s, _0_0, \
 from pygeodesy.datums import Datum, _spherical_datum, _WGS84,  _EWGS84
 # from pygeodesy.ellipsoids import _EWGS84  # from .datums
 from pygeodesy.errors import _ValueError, _xkwds_pop2, _Xorder
-from pygeodesy.fmath import hypot, hypot1
-from pygeodesy.fsums import fsum1f_
+from pygeodesy.fmath import fdot_, hypot, hypot1
 from pygeodesy.interns import _COMMASPACE_, _singular_
 from pygeodesy.karney import _atan2d, _diff182, _fix90, _norm180, \
                              _polynomial, _unsigned2
@@ -67,7 +66,7 @@ from cmath import polar
 from math import atan2, asinh, cos, cosh, degrees, fabs, sin, sinh, sqrt, tanh
 
 __all__ = _ALL_LAZY.ktm
-__version__ = '24.08.31'
+__version__ = '24.11.11'
 
 
 class KTMError(_ValueError):
@@ -433,10 +432,10 @@ def _cma(a, b0, b1, Cn):
        @see: CPython function U{_Py_c_prod<https://GitHub.com/python/
              cpython/blob/main/Objects/complexobject.c>}.
 
-       @note: Python function C{cmath.fsum} is no longer available.
+       @note: Python function C{cmath.fsum} no longer exists.
     '''
-    r = fsum1f_(a.real * b0.real, -a.imag * b0.imag, -b1.real, Cn)
-    j = fsum1f_(a.real * b0.imag,  a.imag * b0.real, -b1.imag)
+    r = fdot_(a.real, b0.real, -a.imag, b0.imag, -b1.real, _1_0, start=Cn)
+    j = fdot_(a.real, b0.imag,  a.imag, b0.real, -b1.imag, _1_0)
     return complex(r, j)
 
 
@@ -461,19 +460,18 @@ def _Cyxgk4(E, xi_, eta_, C):
             y0 = complex(Cn)  # +0j
             z0 = complex(Cn * (n * 2))
             n -= 1
-        _c = _cma
         while n > 0:
             Cn =  C[n]
-            y1 = _c(a, y0, y1, Cn)
-            z1 = _c(a, z0, z1, Cn * (n * 2))
+            y1 = _cma(a, y0, y1, Cn)
+            z1 = _cma(a, z0, z1, Cn * (n * 2))
             n -=  1
             Cn =  C[n]
-            y0 = _c(a, y1, y0, Cn)
-            z0 = _c(a, z1, z0, Cn * (n * 2))
+            y0 = _cma(a, y1, y0, Cn)
+            z0 = _cma(a, z1, z0, Cn * (n * 2))
             n -=  1
         # assert n == 0
-        x = _c(s, y0, -x, _0_0)
-        c = _c(c, z0, z1, _1_0)
+        x = _cma(s, y0, -x, _0_0)
+        c = _cma(c, z0, z1, _1_0)
 
         # Gauss-Schreiber to Gauss-Krueger TM
         # C{cmath.polar} handles INF, NAN, etc.

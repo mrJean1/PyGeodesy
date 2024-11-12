@@ -64,7 +64,7 @@ from math import fabs, isinf, isnan, \
                  ceil as _ceil, floor as _floor  # PYCHOK used! .ltp
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '24.11.10'
+__version__ = '24.11.11'
 
 from pygeodesy.interns import (
   _PLUS_     as _add_op_,  # in .auxilats.auxAngle
@@ -1468,7 +1468,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
         try:
             s, r = self._fprs2
             if r:
-                f  =  self._f2mul(self.fma, other1, **nonfinites)
+                f  =  self._f2mul(self.fma, (other1,), **nonfinites)
                 f +=  other2
             elif _residue(other1) or _residue(other2):
                 fs = _2split3s(_fs(op, other1))
@@ -1507,35 +1507,41 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
     @deprecated_method
     def f2mul(self, *others, **raiser):
         '''DEPRECATED on 2024.09.13, use method L{f2mul_<Fsum.f2mul_>}.'''
-        return self._fset(self.f2mul_(*others, **raiser))
+        return self._fset(self.f2mul_(others, **raiser))
 
-    def f2mul_(self, *others, **nonfinites):  # in .fmath.f2mul
+    def f2mul_(self, *others, **f2product_nonfinites):  # in .fmath.f2mul
         '''Return C{B{self} * B{other} * B{other} ...} for all B{C{others}} using cascaded,
            accurate multiplication like with L{f2product<Fsum.f2product>}C{(B{True})}.
 
            @arg others: Multipliers (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}), all
                         positional.
-           @kwarg nonfinites: Use C{B{nonfinites}=True} or C{False}, to override both
-                              L{nonfinites<Fsum.nonfinites>} and the L{nonfiniterrors}
-                              default (C{bool}).
+           @kwarg f2product_nonfinites: Use C{B{f2product=False}} to override the default
+                            C{True} and C{B{nonfinites}=True} or C{False}, to override
+                            settings L{nonfinites<Fsum.nonfinites>} and L{nonfiniterrors}.
 
            @return: The cascaded I{TwoProduct} (L{Fsum} or C{float}).
 
            @see: U{Equations 2.3<https://www.TUHH.De/ti3/paper/rump/OzOgRuOi06.pdf>}
         '''
-        return self._f2mul(self.f2mul_, *others, **nonfinites)
+        return self._f2mul(self.f2mul_, others, **f2product_nonfinites)
 
-    def _f2mul(self, where, *others, **nonfinites_raiser):
+    def _f2mul(self, where, others, f2product=True, **nonfinites_raiser):
         '''(INTERNAL) See methods C{fma} and C{f2mul_}.
         '''
-        f = self._copy_2(where)
+        f = _Psum(self._ps, f2product=f2product, name=where.__name__)
         if others and f:
+            if f.f2product():
+                def _pfs(f, ps):
+                    return _2products(f, _2split3s(ps))
+            else:
+                def _pfs(f, ps):  # PYCHOK redef
+                    return (f * p for p in ps)
+
             op, ps = where.__name__, f._ps
             try:  # as if self.f2product(True)
                 for other in others:  # to pinpoint errors
                     for p in self._ps_other(op, other):
-                        pfs   = _2products(p, _2split3s(ps))
-                        ps[:] =  f._ps_acc([], pfs, update=False)
+                        ps[:] = f._ps_acc([], _pfs(p, ps), update=False)
                 f._update()
             except TypeError as X:
                 raise self._ErrorX(X, op, other)
@@ -2314,11 +2320,11 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
                     return (p * f for f in fs)
 
             for p in ps:
-                for f in _pfs(p, fs):
-                    yield f if _isfine(f) else _nfError(f)
+                for x in _pfs(p, fs):
+                    yield x if _isfine(x) else _nfError(x)
 
-        fs = _psfs(self._ps, factors, **self._isfine)
-        f  = _Psum(self._ps_acc([], fs, up=False), name=op)
+        xs = _psfs(self._ps, factors, **self._isfine)
+        f  = _Psum(self._ps_acc([], xs, up=False), name=op)
         return f
 
     @property_RO
@@ -2789,7 +2795,7 @@ def _xs(xs, _X=_X_ps, _x=float, _isfine=_isfinite,  # defaults for Fsum._facc
     i, x = 0, xs
     try:
         for i, x in enumerate(_xiterable(xs)):
-            if isinstance(x, _Fsum_2Tuple_types):
+            if _isFsum_2Tuple(x):
                 for p in _X(x):
                     yield p if _isfine(p) else _nfError(p)
             else:

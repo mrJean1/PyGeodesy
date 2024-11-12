@@ -3034,7 +3034,6 @@ pygeodesy.ktm._spherical_datum	pygeodesy.datums-module.html#_spherical_datum
 pygeodesy.ktm._diff182	pygeodesy.karney-module.html#_diff182
 pygeodesy.ktm._Xorder	pygeodesy.errors-module.html#_Xorder
 pygeodesy.ktm._fix90	pygeodesy.karney-module.html#_fix90
-pygeodesy.ktm.fsum1f_	pygeodesy.fsums-module.html#fsum1f_
 pygeodesy.ktm.hypot	pygeodesy.fmath-module.html#hypot
 pygeodesy.ktm._sinhcosh2	pygeodesy.ktm-module.html#_sinhcosh2
 pygeodesy.ktm._atan2d	pygeodesy.karney-module.html#_atan2d
@@ -3051,6 +3050,7 @@ pygeodesy.ktm.hypot1	pygeodesy.fmath-module.html#hypot1
 pygeodesy.ktm._Cyxgk4	pygeodesy.ktm-module.html#_Cyxgk4
 pygeodesy.ktm.__all__	pygeodesy.ktm-module.html#__all__
 pygeodesy.ktm._Xs	pygeodesy.ktm-module.html#_Xs
+pygeodesy.ktm.fdot_	pygeodesy.fmath-module.html#fdot_
 pygeodesy.ktm.atan1d	pygeodesy.utily-module.html#atan1d
 pygeodesy.ktm.pairs	pygeodesy.streprs-module.html#pairs
 pygeodesy.ktm._update_all	pygeodesy.props-module.html#_update_all
