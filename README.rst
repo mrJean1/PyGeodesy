@@ -19,7 +19,7 @@ and nearest points, intersections of geodesic, great circle and rhumb lines, cir
 secants, `3-point resections`_, triangulation, trilateration (by intersection, by overlap and in
 3d), conversions and unrolling, among other things.  For more information and further details see the
 documentation_, the descriptions of `Latitude/Longitude`_, Vincenty_ and `Vector-based`_ geodesy, the
-original `JavaScript source`_ or docs_ and *Karney*\'s Python geographiclib_ and C++ GeographicLib_.
+original `JavaScript source`_ or docs_ and *Karney*\'s Python geographiclib_ and C++ `GeographicLib.`_
 
 Also included are modules for conversions to and from `Cassini-Soldner`_, ECEF_ (Earth-Centered,
 Earth-Fixed cartesian), UTM_ (Universal Transverse Mercator and Exact_), UPS_ (Universal Polar
@@ -196,7 +196,7 @@ DEALINGS IN THE SOFTWARE.
 .. _GeoConvert: https://GeographicLib.SourceForge.io/C++/doc/utilities.html
 .. _GeodSolve: https://GeographicLib.SourceForge.io/C++/doc/utilities.html
 .. _geographiclib: https://PyPI.org/project/geographiclib
-.. _GeographicLib: https://GeographicLib.SourceForge.io/C++/doc/index.html
+.. _GeographicLib.: https://GeographicLib.SourceForge.io/C++/doc/index.html
 .. _Geohashes: https://www.Movable-Type.co.UK/scripts/geohash.html
 .. _Geoid: https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.geoids-module.html
 .. _Georefs (WGRS): https://WikiPedia.org/wiki/World_Geographic_Reference_System
