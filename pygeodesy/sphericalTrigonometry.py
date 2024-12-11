@@ -46,15 +46,16 @@ from pygeodesy.sphericalBase import _m2radians, CartesianSphericalBase, \
 # from pygeodesy.streprs import Fmt as _Fmt  # from .points XXX shadowed
 from pygeodesy.units import Bearing_, Height, _isDegrees, _isRadius, Lamd, \
                               Phid, Radius_, Scalar
-from pygeodesy.utily import acos1, asin1, atan1d, atan2d, degrees90, degrees180, \
-                            degrees2m, m2radians, radiansPI2, sincos2_, tan_2, \
-                            unrollPI, _unrollon, _unrollon3, _Wrap, wrap180, wrapPI
+from pygeodesy.utily import acos1, asin1, atan1d, atan2, atan2d, degrees90, \
+                            degrees180, degrees2m, m2radians, radiansPI2, \
+                            sincos2_, tan_2, unrollPI, _unrollon, _unrollon3, \
+                            wrap180, wrapPI, _Wrap
 from pygeodesy.vector3d import sumOf, Vector3d
 
-from math import asin, atan2, cos, degrees, fabs, radians, sin
+from math import asin, cos, degrees, fabs, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '24.11.07'
+__version__ = '24.11.24'
 
 _PI_EPS4 = PI - EPS4
 if _PI_EPS4 >= PI:
@@ -1409,7 +1410,7 @@ __all__ += _ALL_OTHER(Cartesian, LatLon,  # classes
 
 # **) MIT License
 #
-# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

@@ -35,7 +35,7 @@ from pygeodesy.units import Epoch, _isDegrees, Radius_, _1mm as _TOL_M
 # from math import fabs  # from .latlonBase
 
 __all__ = _ALL_LAZY.ellipsoidalBase
-__version__ = '24.11.07'
+__version__ = '24.12.04'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -666,7 +666,7 @@ class LatLonEllipsoidalBase(LatLonBase):
                         B{C{point2}} (C{bool}).
            @kwarg equidistant: An azimuthal equidistant projection (I{class} or function
                                L{pygeodesy.equidistant}) or C{None} for this point's preferred
-                               C{Equidistant}, like L{Equidistant<LatLonEllipsoidalBase.Equistant>}.
+                               C{Equidistant}, like L{Equidistant<LatLonEllipsoidalBase.Equidistant>}.
            @kwarg tol: Convergence tolerance (C{meter}, conventionally).
 
            @return: Closest point (C{LatLon}).
@@ -1148,7 +1148,7 @@ __all__ += _ALL_DOCS(CartesianEllipsoidalBase, LatLonEllipsoidalBase)
 
 # **) MIT License
 #
-# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

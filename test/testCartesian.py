@@ -4,12 +4,12 @@
 # Test cartesians.
 
 __all__ = ('Tests',)
-__version__ = '24.08.18'
+__version__ = '24.12.05'
 
 from bases import GeodSolve, geographiclib, isPython35, TestsBase
 
-from pygeodesy import R_M, classname, Datums, degrees, fstr, Height, modulename, \
-                      rtp2xyz, xyz2rtp, RefFrames, Transforms, XyzLocal  # PYCHOK expected
+from pygeodesy import Aer, R_M, classname, Datums, degrees, Enu, fstr, Height, Local9Tuple, Ltp, \
+                      modulename, Ned, rtp2xyz, xyz2rtp, RefFrames, Transforms, XyzLocal  # PYCHOK expected
 from pygeodesy.cartesianBase import CartesianBase, RadiusThetaPhi3Tuple
 from pygeodesy.ecef import Ecef9Tuple
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, LatLon4Tuple, \
@@ -115,9 +115,15 @@ class Tests(TestsBase):
             self.testReturnType(c.philamheight,      PhiLam3Tuple, 'philamheight')
             self.testReturnType(c.philamheightdatum, PhiLam4Tuple, 'philamheightdatum')
             self.testReturnType(c.latlonheight,      LatLon3Tuple, 'latlonheight')
+            self.testReturnType(c.toAer(),           Aer,          'toAer')
             self.testReturnType(c.toEcef(),          Ecef9Tuple,   'toEcef')
+            self.testReturnType(c.toEnu(),           Enu,          'toEnu')
             self.testReturnType(c.toLatLon(),        Ecef9Tuple if B else LatLon, 'toLatLon')
+            self.testReturnType(c.toLocal(),         Local9Tuple,  'toLLocal')
+            self.testReturnType(c.toLtp(),           Ltp,          'toLtp')
+            self.testReturnType(c.toNed(),           Ned,          'toNed')
             self.testReturnType(c.toNvector(),       Vector4Tuple if B else Nvector, 'toNvector')
+            self.testReturnType(c.toXyz(),           XyzLocal,     'toXyz')
             self.testReturnType(c.xyz,               Vector3Tuple, 'xyz')
             self.testReturnType(c.xyz3,              tuple, 'xyz3')
             c = CartesianBase(c)  # PYCHOK attribute

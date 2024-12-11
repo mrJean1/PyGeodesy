@@ -23,12 +23,12 @@ from pygeodesy.props import deprecated_method, Property, Property_RO, \
                             property_doc_, property_RO, _update_all
 from pygeodesy.streprs import Fmt, strs, unstr
 from pygeodesy.units import Float, Scalar
-from pygeodesy.utily import sincos2,  atan2, fabs
+from pygeodesy.utily import atan2, sincos2,  fabs
 
 from math import ceil as _ceil, floor as _floor, trunc as _trunc
 
 __all__ = _ALL_LAZY.vector3dBase
-__version__ = '24.11.10'
+__version__ = '24.11.24'
 
 
 class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
@@ -900,7 +900,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
 #
 #          @return: A L{PhiLam2Tuple}C{(phi, lam)}.
 #       '''
-#       return _MODS.formy.n_xyz2philam(self.x, self.y, self.z)
+#       return _MODS.nvectorBase.n_xyz2philam(self.x, self.y, self.z)
 
 #   @deprecated_method
 #   def to2ll(self):  # PYCHOK no cover
@@ -908,7 +908,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
 #
 #          @return: A L{LatLon2Tuple}C{(lat, lon)}.
 #       '''
-#       return _MODS.formy.n_xyz2latlon(self.x, self.y, self.z)
+#       return _MODS.nvectorBase.n_xyz2latlon(self.x, self.y, self.z)
 
     @deprecated_method
     def to3xyz(self):  # PYCHOK no cover
@@ -1050,7 +1050,7 @@ __all__ += _ALL_DOCS(Vector3dBase)
 
 # **) MIT License
 #
-# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

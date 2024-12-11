@@ -135,12 +135,12 @@ and McCabe_ using Python 2.7.18 and with Flake8_ using Python 3.11.5, both in 64
 
 For a summary of all *Karney*-based functionality in ``pygeodesy``, see module karney_.
 
-*Last updated: Nov 11, 2024.*
+*Last updated: Dec 12, 2024.*
 
 License
 =======
 
-Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 documentation files (the "Software"), to deal in the Software without restriction, including without limitation

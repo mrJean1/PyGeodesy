@@ -5,7 +5,7 @@ u'''Discrete Sine Transforms (AuxDST) in Python, transcoded from I{Karney}'s C++
 U{DST<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1DST.html>}
 in I{GeographicLib version 2.2+}.
 
-Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2022-2023) and licensed
+Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2022-2024) and licensed
 under the MIT/X11 License.  For more information, see the U{GeographicLib
 <https://GeographicLib.SourceForge.io>} documentation.
 
@@ -274,7 +274,7 @@ __all__ += _ALL_DOCS(AuxDST)
 
 # **) MIT License
 #
-# Copyright (C) 2023-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2023-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

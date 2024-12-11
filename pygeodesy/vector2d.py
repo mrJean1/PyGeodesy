@@ -31,7 +31,7 @@ from contextlib import contextmanager
 # from math import fabs, sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.vector2d
-__version__ = '24.11.10'
+__version__ = '24.11.21'
 
 _cA_        = 'cA'
 _cB_        = 'cB'
@@ -635,10 +635,10 @@ def triaxum5(points, useZ=True):
         b = _1_0_1T * n
         T, R, rk = _np.least_squares3(A, b)
 
-    def _sqrt(x):
-        return sqrt(_1_0 / x) if x else _0_0
+    def _1_sqrt(x):
+        return sqrt(_1_0 / x) if x else _0_0  # INF
 
-    a, b, c = map(_sqrt, T)
+    a, b, c = map(_1_sqrt, T)
     return Triaxum5Tuple(a, b, c, rk, R)
 
 
@@ -871,7 +871,7 @@ def _tri5perturbs(eps, r):
 
 # **) MIT License
 #
-# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

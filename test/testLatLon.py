@@ -4,19 +4,18 @@
 # Test C{LatLon}.
 
 __all__ = ('Tests',)
-__version__ = '24.08.18'
+__version__ = '24.12.05'
 
 from bases import GeodSolve, geographiclib, isPyPy, isPython2, \
                   startswith, TestsBase
 
-from pygeodesy import F_D, F_DM, F_DMS, F_RAD, R_M, R_NM, \
-                      degrees, fstr, Height, isclockwise, isconvex, \
-                      isenclosedBy, isnear0, ispolar, m2km, m2NM, \
-                      IntersectionError, VincentyError  # PYCHOK expected
-from pygeodesy.namedTuples import Bounds2Tuple, \
-                                  LatLon2Tuple, LatLon3Tuple, \
-                                  PhiLam2Tuple, PhiLam3Tuple, \
-                                  Vector3Tuple, Vector4Tuple
+from pygeodesy import Aer, Enu, F_D, F_DM, F_DMS, F_RAD, R_M, R_NM, \
+                      degrees, fstr, Height, isclockwise, isconvex, isenclosedBy, \
+                      isnear0, ispolar, Local9Tuple, Ltp, m2km, m2NM, Ned, \
+                      XyzLocal, IntersectionError, VincentyError  # PYCHOK expected
+from pygeodesy.namedTuples import Bounds2Tuple, LatLon2Tuple, LatLon3Tuple, \
+                                                PhiLam2Tuple, PhiLam3Tuple, \
+                                                Vector3Tuple, Vector4Tuple
 
 
 class Tests(TestsBase):
@@ -430,29 +429,36 @@ class Tests(TestsBase):
         self.test('compassAngleTo', c, 45.0, fmt='%.0f', nt=1)
 
         # check return types
-        self.testReturnType(p.boundsOf(2, 4),       Bounds2Tuple, 'boundsOf')
-        self.testReturnType(p.latlon,               LatLon2Tuple, 'latlon')
-        self.testReturnType(p.latlon2(),            LatLon2Tuple, 'latlon2')
-        self.testReturnType(p.latlonheight,         LatLon3Tuple, 'latlonheight')
-#       self.testReturnType(p.height4(),            Vector4Tuple, 'height4')
-        self.testReturnType(p.isequalTo(p),         bool,         'isequalTo')
-        self.testReturnType(p.philam,               PhiLam2Tuple, 'philam')
-        self.testReturnType(p.philamheight,         PhiLam3Tuple, 'philamheight')
-#       self.testReturnType(p.to2ab(),              PhiLam2Tuple, 'to2ab')
-#       self.testReturnType(p.to3llh(0),            LatLon3Tuple, 'to3llh')
-#       self.testReturnType(p.to3xyz(),             Vector3Tuple, 'to3xyz')
-        self.testReturnType(p.xyz,                  Vector3Tuple, 'xyz')
-        self.testReturnType(p.xyz3,                 tuple, 'xyz3')
-        self.testReturnType(p.xyzh,                 Vector4Tuple, 'xyzh')
+        self.testReturnType(p.boundsOf(2, 4), Bounds2Tuple, 'boundsOf')
+        self.testReturnType(p.latlon,         LatLon2Tuple, 'latlon')
+        self.testReturnType(p.latlon2(),      LatLon2Tuple, 'latlon2')
+        self.testReturnType(p.latlonheight,   LatLon3Tuple, 'latlonheight')
+#       self.testReturnType(p.height4(),      Vector4Tuple, 'height4')
+        self.testReturnType(p.isequalTo(p),   bool,         'isequalTo')
+        self.testReturnType(p.philam,         PhiLam2Tuple, 'philam')
+        self.testReturnType(p.philamheight,   PhiLam3Tuple, 'philamheight')
+#       self.testReturnType(p.to2ab(),        PhiLam2Tuple, 'to2ab')
+#       self.testReturnType(p.to3llh(0),      LatLon3Tuple, 'to3llh')
+#       self.testReturnType(p.to3xyz(),       Vector3Tuple, 'to3xyz')
+        self.testReturnType(p.xyz,            Vector3Tuple, 'xyz')
+        self.testReturnType(p.xyz3,           tuple, 'xyz3')
+        self.testReturnType(p.xyzh,           Vector4Tuple, 'xyzh')
 
-        self.testReturnType(p.compassAngleTo(q),    float, 'compassAngleTo')
-        self.testReturnType(p.cosineLawTo(q),       float, 'cosineLawTo')
-        self.testReturnType(p.euclideanTo(q),       float, 'euclideanTo')
-        self.testReturnType(p.flatLocalTo(q),       float, 'flatLocalTo')
-        self.testReturnType(p.flatPolarTo(q),       float, 'flatPolarTo')
-        self.testReturnType(p.haversineTo(q),       float, 'haversineTo')
-        self.testReturnType(p.hubenyTo(q),          float, 'hubenyTo')
-        self.testReturnType(p.vincentysTo(q),       float, 'vincentysTo')
+        self.testReturnType(p.compassAngleTo(q), float, 'compassAngleTo')
+        self.testReturnType(p.cosineLawTo(q),    float, 'cosineLawTo')
+        self.testReturnType(p.euclideanTo(q),    float, 'euclideanTo')
+        self.testReturnType(p.flatLocalTo(q),    float, 'flatLocalTo')
+        self.testReturnType(p.flatPolarTo(q),    float, 'flatPolarTo')
+        self.testReturnType(p.haversineTo(q),    float, 'haversineTo')
+        self.testReturnType(p.hubenyTo(q),       float, 'hubenyTo')
+        self.testReturnType(p.vincentysTo(q),    float, 'vincentysTo')
+
+        self.testReturnType(p.toAer(),   Aer,      'toAer')
+        self.testReturnType(p.toEnu(),   Enu,      'toEnu')
+        self.testReturnType(p.toLocal(), Local9Tuple, 'toLocal')
+        self.testReturnType(p.toLtp(),   Ltp,      'toLtp')
+        self.testReturnType(p.toNed(),   Ned,      'toNed')
+        self.testReturnType(p.toXyz(),   XyzLocal, 'toXyz')
 
         if not Nv:
             # XXX prec=5 for NvectorBase.toStr vs prec=6 for Vector3Tuple.toStr

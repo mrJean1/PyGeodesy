@@ -11,14 +11,14 @@ and published under the same MIT Licence**, see U{Vector-based geodesy
 '''
 
 # from pygeodesy.basics import map1  # from .namedTuples
-from pygeodesy.constants import EPS, EPS1, EPS_2, R_M, _2_0, _N_2_0
+from pygeodesy.constants import EPS, EPS0, EPS1, EPS_2, R_M, \
+                               _0_0, _1_0, _2_0, _N_2_0
 # from pygeodesy.datums import _spherical_datum  # from .formy
 from pygeodesy.errors import IntersectionError, _ValueError, VectorError, \
                             _xattrs, _xkwds, _xkwds_pop2
-from pygeodesy.fmath import fdot, fidw, hypot_  # PYCHOK fdot shared
+from pygeodesy.fmath import fdot, fidw, hypot  # PYCHOK fdot shared
 from pygeodesy.fsums import Fsum, fsumf_
-from pygeodesy.formy import _isequalTo, n_xyz2latlon, n_xyz2philam, \
-                            _spherical_datum
+from pygeodesy.formy import _isequalTo,  _spherical_datum
 # from pygeodesy.internals import _under  # from .named
 from pygeodesy.interns import NN, _1_, _2_, _3_, _bearing_, _coincident_, \
                              _COMMASPACE_, _distance_, _h_, _insufficient_, \
@@ -26,23 +26,23 @@ from pygeodesy.interns import NN, _1_, _2_, _3_, _bearing_, _coincident_, \
 from pygeodesy.latlonBase import LatLonBase,  _ALL_DOCS, _ALL_LAZY, _MODS
 # from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS  # from .latlonBase
 from pygeodesy.named import _xother3,  _under
-from pygeodesy.namedTuples import Trilaterate5Tuple, Vector3Tuple, \
-                                  Vector4Tuple,  map1
+from pygeodesy.namedTuples import LatLon2Tuple, PhiLam2Tuple, Trilaterate5Tuple, \
+                                  Vector3Tuple, Vector4Tuple,  map1
 from pygeodesy.props import deprecated_method, Property_RO, property_doc_, \
                             property_RO, property_ROnce, _update_all
 from pygeodesy.streprs import Fmt, hstr, unstr
 from pygeodesy.units import Bearing, Height, Radius_, Scalar
-from pygeodesy.utily import sincos2d, _unrollon, _unrollon3
+from pygeodesy.utily import atan2, sincos2d, _unrollon, _unrollon3
 from pygeodesy.vector3d import Vector3d, _xyzhdlln4
 
-from math import fabs, sqrt
+from math import degrees, fabs, sqrt
 
 __all__ = _ALL_LAZY.nvectorBase
-__version__ = '24.10.12'
+__version__ = '24.11.24'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
-    '''Base class for ellipsoidal and spherical C{Nvector}s.
+    '''(INTERNAL) Base class for ellipsoidal and spherical C{Nvector}s.
     '''
     _datum = None         # L{Datum}, overriden
     _h     = Height(h=0)  # height (C{meter})
@@ -51,8 +51,8 @@ class NvectorBase(Vector3d):  # XXX kept private
     def __init__(self, x_xyz, y=None, z=None, h=0, datum=None, **ll_name):
         '''New n-vector normal to the earth's surface.
 
-           @arg x_xyz: X component of vector (C{scalar}) or (3-D) vector
-                       (C{Nvector}, L{Vector3d}, L{Vector3Tuple} or L{Vector4Tuple}).
+           @arg x_xyz: X component of vector (C{scalar}) or (3-D) vector (C{Nvector},
+                       L{Vector3d}, L{Vector3Tuple} or L{Vector4Tuple}).
            @kwarg y: Y component of vector (C{scalar}), required if B{C{x_xyz}} is
                      C{scalar} and same units as B{C{x_xyz}}, ignored otherwise.
            @kwarg z: Z component of vector (C{scalar}), like B{C{y}}.
@@ -159,7 +159,7 @@ class NvectorBase(Vector3d):  # XXX kept private
     def latlon(self):
         '''Get the (geodetic) lat-, longitude in C{degrees} (L{LatLon2Tuple}C{(lat, lon)}).
         '''
-        return n_xyz2latlon(self.x, self.y, self.z, name=self.name)
+        return n_xyz2latlon(self, name=self.name)
 
     @Property_RO
     def latlonheight(self):
@@ -189,7 +189,7 @@ class NvectorBase(Vector3d):  # XXX kept private
     def philam(self):
         '''Get the (geodetic) lat-, longitude in C{radians} (L{PhiLam2Tuple}C{(phi, lam)}).
         '''
-        return n_xyz2philam(self.x, self.y, self.z, name=self.name)
+        return n_xyz2philam(self, name=self.name)
 
     @Property_RO
     def philamheight(self):
@@ -211,89 +211,71 @@ class NvectorBase(Vector3d):  # XXX kept private
 
     @deprecated_method
     def to2ab(self):  # PYCHOK no cover
-        '''DEPRECATED, use property L{philam}.
-
-           @return: A L{PhiLam2Tuple}C{(phi, lam)}.
-        '''
+        '''DEPRECATED, use property L{philam}.'''
         return self.philam
 
     @deprecated_method
     def to3abh(self, height=None):  # PYCHOK no cover
-        '''DEPRECATED, use property L{philamheight} or C{philam.to3Tuple(B{height})}.
-
-           @kwarg height: Optional height, overriding this
-                          n-vector's height (C{meter}).
-
-           @return: A L{PhiLam3Tuple}C{(phi, lam, height)}.
-
-           @raise ValueError: Invalid B{C{height}}.
-        '''
+        '''DEPRECATED, use property L{philamheight} or C{philam.to3Tuple(B{height})}.'''
         return self.philamheight if height in (None, self.h) else \
                self.philam.to3Tuple(height)
 
-    def toCartesian(self, h=None, Cartesian=None, datum=None, **Cartesian_kwds):
+    def toCartesian(self, h=None, Cartesian=None, datum=None, **name_Cartesian_kwds):  # PYCHOK signature
         '''Convert this n-vector to C{Nvector}-based cartesian (ECEF) coordinates.
 
            @kwarg h: Optional height, overriding this n-vector's height (C{meter}).
-           @kwarg Cartesian: Optional class to return the (ECEF) coordinates
-                             (C{Cartesian}).
+           @kwarg Cartesian: Optional class to return the (ECEF) coordinates (C{Cartesian}).
            @kwarg datum: Optional datum (C{Datum}), overriding this datum.
-           @kwarg Cartesian_kwds: Optional, additional B{C{Cartesian}} keyword
-                                  arguments, ignored if C{B{Cartesian} is None}.
+           @kwarg name_Cartesian_kwds: Optional C{B{name}=NN} (C{str}) and optionally, additional
+                       B{C{Cartesian}} keyword arguments, ignored if C{B{Cartesian} is None}.
 
-           @return: The cartesian (ECEF) coordinates (B{C{Cartesian}}) or
-                    if C{B{Cartesian} is None}, an L{Ecef9Tuple}C{(x, y, z,
-                    lat, lon, height, C, M, datum)} with C{C} and C{M} if
-                    available.
+           @return: The (ECEF) coordinates (B{C{Cartesian}}) or if C{B{Cartesian} is None}, an
+                    L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)} with C{C} and C{M}
+                    if available.
 
-           @raise TypeError: Invalid B{C{Cartesian}} or B{C{Cartesian_kwds}}
-                             argument.
+           @raise TypeError: Invalid B{C{Cartesian}} or B{C{name_Cartesian_kwds}} argument.
 
            @raise ValueError: Invalid B{C{h}}.
         '''
-        D = _spherical_datum(datum or self.datum, name=self.name)
-        E =  D.ellipsoid
-        h =  self.h if h is None else Height(h)
+        if h is None:
+            h = self.h
+        elif not isinstance(h, Height):
+            h = Height(h=h, Error=VectorError)
+        _, r, v = self._toEcefDrv3(Cartesian, None, datum, h, **name_Cartesian_kwds)
+        if r is None:
+            r = v.toCartesian(Cartesian, **self._name1__(name_Cartesian_kwds))  # h=0
+        return r
 
-        x, y, z = self.x, self.y, self.z
-        # Kenneth Gade eqn 22
-        n = E.b / hypot_(x * E.a_b, y * E.a_b, z)
-        r = h + n * E.a2_b2
-
-        x *= r
-        y *= r
-        z *= h + n
-
-        if Cartesian is None:
-            r = self.Ecef(D).reverse(x, y, z, M=True)
+    def _toEcefDrv3(self, CC, LL, datum, h, name=NN, **unused):
+        '''(INTERNAL) Helper for methods C{toCartesian} and C{toLatLon}.
+        '''
+        D = self.datum if datum in (None, self.datum) else \
+           _spherical_datum(datum, name=self.name)
+        if LL is None:
+            v = Vector3d(self, name=name or self.name)  # .toVector3d(norm=False)
+            E = D.ellipsoid
+            r = E.a_b  # Kenneth Gade eqn 22
+            n = v.times_(r, r, _1_0).length
+            n = (E.b / n) if n > EPS0 else _0_0
+            r = E.a2_b2 * n + h  # fma
+            v = v.times_(r, r, n + h)
+            r = self.Ecef(D).reverse(v, M=True) if CC is None else None
         else:
-            kwds = _xkwds(Cartesian_kwds, datum=D)  # h=0
-            r = Cartesian(x, y, z, **kwds)
-        return self._xnamed(r)
+            r = v = None
+        return D, r, v
 
     @deprecated_method
     def to2ll(self):  # PYCHOK no cover
-        '''DEPRECATED, use property L{latlon}.
-
-           @return: A L{LatLon2Tuple}C{(lat, lon)}.
-        '''
+        '''DEPRECATED, use property L{latlon}.'''
         return self.latlon
 
     @deprecated_method
     def to3llh(self, height=None):  # PYCHOK no cover
-        '''DEPRECATED, use property C{latlonheight} or C{latlon.to3Tuple(B{height})}.
-
-           @kwarg height: Optional height, overriding this
-                          n-vector's height (C{meter}).
-
-           @return: A L{LatLon3Tuple}C{(lat, lon, height)}.
-
-           @raise ValueError: Invalid B{C{height}}.
-        '''
+        '''DEPRECATED, use property C{latlonheight} or C{latlon.to3Tuple(B{height})}.'''
         return self.latlonheight if height in (None, self.h) else \
                self.latlon.to3Tuple(height)
 
-    def toLatLon(self, height=None, LatLon=None, datum=None, **LatLon_kwds):
+    def toLatLon(self, height=None, LatLon=None, datum=None, **name_LatLon_kwds):
         '''Convert this n-vector to an C{Nvector}-based geodetic point.
 
            @kwarg height: Optional height, overriding this n-vector's
@@ -301,26 +283,26 @@ class NvectorBase(Vector3d):  # XXX kept private
            @kwarg LatLon: Optional class to return the geodetic point
                           (C{LatLon}) or C{None}.
            @kwarg datum: Optional, spherical datum (C{Datum}).
-           @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                               arguments, ignored if C{B{LatLon} is None}.
+           @kwarg name_LatLon_kwds: Optional C{B{name}=NN} (C{str}) and optionally,
+                       additional B{C{LatLon}} keyword arguments, ignored if
+                       C{B{LatLon} is None}.
 
            @return: The geodetic point (C{LatLon}) or if C{B{LatLon} is None},
-                    an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M,
-                    datum)} with C{C} and C{M} if available.
+                    an L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)}
+                    with C{C} and C{M} if available.
 
-           @raise TypeError: Invalid B{C{LatLon}} or B{C{LatLon_kwds}}
-                             argument.
+           @raise TypeError: Invalid B{C{LatLon}} or B{C{name_LatLon_kwds}} argument.
 
            @raise ValueError: Invalid B{C{height}}.
         '''
-        d = _spherical_datum(datum or self.datum, name=self.name)
-        h =  self.h if height is None else Height(height)
-        # use self.Cartesian(Cartesian=None) for better accuracy of the height
-        # than self.Ecef(d).forward(self.lat, self.lon, height=h, M=True)
-        if LatLon is None:
-            r = self.toCartesian(h=h, Cartesian=None, datum=d)
-        else:
-            kwds = _xkwds(LatLon_kwds, height=h, datum=d)
+        h = self.h if height is None else (
+            height if isinstance(height, Height) else
+            Height(height, Error=VectorError))
+        # use the .toCartesian() logic for better height accuracy instead of
+        # r = self.Ecef(D).forward(self.lat, self.lon, height=h, M=True)
+        D, r, _ = self._toEcefDrv3(None, LatLon, datum, h, **name_LatLon_kwds)
+        if r is None:
+            kwds = _xkwds(name_LatLon_kwds, height=h, datum=D)
             r = LatLon(self.lat, self.lon, **self._name1__(kwds))
         return r
 
@@ -349,7 +331,7 @@ class NvectorBase(Vector3d):  # XXX kept private
            @return: The (normalized) vector (L{Vector3d}).
         '''
         v = Vector3d.unit(self) if norm else self
-        return Vector3d(v.x, v.y, v.z, name=self.name)
+        return Vector3d(v, name=self.name)
 
     @deprecated_method
     def to4xyzh(self, h=None):  # PYCHOK no cover
@@ -373,10 +355,6 @@ class NvectorBase(Vector3d):  # XXX kept private
         return self.xyz.to4Tuple(self.h)
 
 
-NorthPole = NvectorBase(0, 0, +1, name='NorthPole')  # North pole (C{Nvector})
-SouthPole = NvectorBase(0, 0, -1, name='SouthPole')  # South pole (C{Nvector})
-
-
 class _N_vector_(NvectorBase):
     '''(INTERNAL) Minimal, low-overhead C{n-vector}.
     '''
@@ -388,16 +366,19 @@ class _N_vector_(NvectorBase):
             self.name = name
 
 
+NorthPole = _N_vector_(0, 0, +1, name='NorthPole')  # North pole
+SouthPole = _N_vector_(0, 0, -1, name='SouthPole')  # South pole
+
+
 class LatLonNvectorBase(LatLonBase):
-    '''(INTERNAL) Base class for n-vector-based ellipsoidal and
-       spherical C{LatLon} classes.
+    '''(INTERNAL) Base class for n-vector-based ellipsoidal and spherical C{LatLon}s.
     '''
 
     def _update(self, updated, *attrs, **setters):  # PYCHOK _Nv=None
         '''(INTERNAL) Zap cached attributes if updated.
 
-           @see: C{ellipsoidalNvector.LatLon} and C{sphericalNvector.LatLon}
-                 for the special case of B{C{_Nv}}.
+           @see: C{ellipsoidalNvector.LatLon} and C{sphericalNvector.LatLon} for
+                 the special case of B{C{_Nv}}.
         '''
         if updated:
             _Nv, setters = _xkwds_pop2(setters, _Nv=None)
@@ -498,10 +479,10 @@ class LatLonNvectorBase(LatLonBase):
            @raise ValueError: Some B{C{points}} coincide or invalid B{C{distance1}},
                               B{C{distance2}}, B{C{distance3}} or B{C{radius}}.
 
-           @see: U{Trilateration<https://WikiPedia.org/wiki/Trilateration>},
-                 Veness' JavaScript U{Trilateration<https://www.Movable-Type.co.UK/
-                 scripts/latlong-vectors.html>} and method C{LatLon.trilaterate5}
-                 of other, non-C{Nvector LatLon} classes.
+           @see: U{Trilateration<https://WikiPedia.org/wiki/Trilateration>}, I{Veness}'
+                 JavaScript U{Trilateration<https://www.Movable-Type.co.UK/scripts/
+                 latlong-vectors.html>} and method C{LatLon.trilaterate5} of other,
+                 non-C{Nvector LatLon} classes.
         '''
         return _trilaterate(self, distance1, self.others(point2=point2), distance2,
                                              self.others(point3=point3), distance3,
@@ -510,16 +491,13 @@ class LatLonNvectorBase(LatLonBase):
 
     def trilaterate5(self, distance1, point2, distance2, point3, distance3,  # PYCHOK signature
                            area=False, eps=EPS1, radius=R_M, wrap=False):
-        '''B{Not implemented} for C{B{area}=True} and falls back to method
-           C{trilaterate} otherwise.
+        '''B{Not implemented} for C{B{area}=True} and falls back to method C{trilaterate}.
 
-           @return: A L{Trilaterate5Tuple}C{(min, minPoint, max, maxPoint, n)}
-                    with a single trilaterated intersection C{minPoint I{is}
-                    maxPoint}, C{min I{is} max} the nearest intersection
-                    margin and count C{n = 1}.
+           @return: A L{Trilaterate5Tuple}C{(min, minPoint, max, maxPoint, n)} with a
+                    single trilaterated intersection C{minPoint I{is} maxPoint}, C{min
+                    I{is} max} the nearest intersection margin and count C{n = 1}.
 
-           @raise NotImplementedError: Keyword argument C{B{area}=True} not
-                                       (yet) supported.
+           @raise NotImplementedError: Keyword argument C{B{area}=True} not (yet) supported.
 
            @see: Method L{trilaterate} for other and more details.
         '''
@@ -538,6 +516,45 @@ class LatLonNvectorBase(LatLonBase):
             return Trilaterate5Tuple(d, t, d, t, 1)  # n = 1
         t = _SPACE_(_no_(_intersection_), Fmt.PAREN(min.__name__, Fmt.f(d, prec=3)))
         raise IntersectionError(area=area, eps=eps, radius=radius, wrap=wrap, txt=t)
+
+
+def n_xyz2latlon(x_xyz, y=0, z=0, **name):
+    '''Convert C{n-vector} to (geodetic) lat- and longitude in C{degrees}.
+
+       @arg x_xyz: X component (C{scalar}) or (3-D) vector (C{Nvector},
+                   L{Vector3d}, L{Vector3Tuple} or L{Vector4Tuple}).
+       @kwarg y: Y component of vector (C{scalar}), required if C{B{x_xyz} is
+                 scalar} and same units as B{C{x_xyz}}, ignored otherwise.
+       @kwarg z: Z component of vector (C{scalar}), like B{C{y}}.
+       @kwarg name: Optional C{B{name}=NN} (C{str}).
+
+       @return: A L{LatLon2Tuple}C{(lat, lon)}.
+
+       @see: Function L{n_xyz2philam}.
+    '''
+    ll = map(degrees, n_xyz2philam(x_xyz, y, z))
+    return LatLon2Tuple(*ll, **name)
+
+
+def n_xyz2philam(x_xyz, y=0, z=0, **name):
+    '''Convert C{n-vector} to (geodetic) lat- and longitude in C{radians}.
+
+       @arg x_xyz: X component (C{scalar}) or (3-D) vector (C{Nvector},
+                   L{Vector3d}, L{Vector3Tuple} or L{Vector4Tuple}).
+       @kwarg y: Y component of vector (C{scalar}), required if C{B{x_xyz} is
+                 scalar} and same units as B{C{x_xyz}}, ignored otherwise.
+       @kwarg z: Z component of vector (C{scalar}), like B{C{y}}.
+       @kwarg name: Optional C{B{name}=NN} (C{str}).
+
+       @return: A L{PhiLam2Tuple}C{(phi, lam)}.
+
+       @see: Function L{n_xyz2latlon}.
+    '''
+    try:
+        x, y, z = x_xyz.xyz
+    except AttributeError:
+        x = x_xyz
+    return PhiLam2Tuple(atan2(z, hypot(x, y)), atan2(y, x), **name)
 
 
 def _nsumOf(nvs, h_None, Vector, Vector_kwds):  # .sphericalNvector, .vector3d
@@ -670,7 +687,7 @@ __all__ += _ALL_DOCS(LatLonNvectorBase, NvectorBase, sumOf)  # classes
 
 # **) MIT License
 #
-# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

@@ -27,7 +27,7 @@ __all__ = (_ALL_DEPRECATED.deprecated_bases +
            _ALL_DEPRECATED.deprecated_classes +
            _ALL_DEPRECATED.deprecated_consterns +
            _ALL_DEPRECATED.deprecated_functions)
-__version__ = '24.11.07'
+__version__ = '24.11.28'
 
 if _unLazy0:
     from pygeodesy.deprecated import bases, datum, nvector, rhumbBase, \
@@ -40,7 +40,7 @@ else:  # lazily import modules and exported attrs
 
 # **) MIT License
 #
-# Copyright (C) 2018-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2018-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

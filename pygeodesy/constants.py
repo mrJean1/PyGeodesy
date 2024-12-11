@@ -348,8 +348,8 @@ def isfinite(obj):
        @arg obj: Value (C{scalar}, C{complex}, an L{Fsum} or
                         L{Fsum2Tuple}).
 
-       @return: C{False} if B{C{obj}} is C{INF}, C{NINF}
-                or C{NAN}, C{True} otherwise.
+       @return: C{False} if B{C{obj}} is C{INF}, C{NINF} or
+                C{NAN}, C{True} otherwise.
 
        @raise TypeError: Non-scalar and non-complex B{C{obj}}.
     '''
@@ -515,7 +515,7 @@ if __name__ == '__main__':
 
 # **) MIT License
 #
-# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

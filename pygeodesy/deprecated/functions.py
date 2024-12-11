@@ -11,10 +11,10 @@ from pygeodesy.interns import NN, _area_, _COMMASPACE_, _negative_, \
 from pygeodesy.lazily import _ALL_DEPRECATED, _ALL_MODS as _MODS
 from pygeodesy.props import deprecated_function
 # from pygeodesy.resections import TriAngle5Tuple as _TriAngle5Tuple  # from .classes
-from pygeodesy.units import Number_, Scalar_
+from pygeodesy.units import _1mm, Number_, Scalar_
 
 __all__ = _ALL_DEPRECATED.deprecated_functions
-__version__ = '24.11.07'
+__version__ = '24.11.28'
 
 _WGS84 = _UTM = object()
 
@@ -295,11 +295,21 @@ def scalar(value, low=EPS, high=1.0, name=_scalar_, Error=ValueError):  # PYCHOK
 
 
 @deprecated_function
-def simplify2(points, pipe, radius=R_M, shortest=False, indices=False, **options):  # PYCHOK no cover
-    '''DEPRECATED, use function L{pygeodesy.simplifyRW}.
-    '''
-    return _MODS.simplify.simplifyRW(points, pipe, radius=radius, shortest=shortest,
-                                                   indices=indices, **options)
+def simplify2(points, pipe=_1mm, **radius_shortest_indices_options):  # PYCHOK no cover
+    '''DEPRECATED, use function L{pygeodesy.simplifyRW}.'''
+    return _MODS.simplify.simplifyRW(points, pipe=pipe, **radius_shortest_indices_options)
+
+
+@deprecated_function
+def simplifyRDPm(points, distance=_1mm, **radius_shortest_indices_options):
+    '''DEPRECATED on 2024.11.28, use function L{pygeodesy.simplifyRDP}C{(points, modified=True, ...)}.'''
+    return _MODS.simplify.simplifyRDP(points, modified=True, distance=distance, **radius_shortest_indices_options)
+
+
+@deprecated_function
+def simplifyVWm(points, area=_1mm, **radius_attr_indices_options):
+    '''DEPRECATED on 2024.11.28, use function L{pygeodesy.simplifyVW}C{(points, modified=True, ...)}.'''
+    return _MODS.simplify.simplifyVW(points, modified=True, area=area, **radius_attr_indices_options)
 
 
 @deprecated_function
@@ -366,7 +376,7 @@ def utmZoneBand2(lat, lon):  # PYCHOK no cover
 
 # **) MIT License
 #
-# Copyright (C) 2018-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2018-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

@@ -49,14 +49,13 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS
 from pygeodesy.karney import _around, _atan2d, Caps, GDict, _fix90, \
                              _K_2_0, _llz2gl, _norm2, _norm180, \
                              _sincos2, _sincos2d
-from pygeodesy.named import Property_RO, _update_all
-# from pygeodesy.props import Property_RO, _update_all  # from .named
-from pygeodesy.utily import atan2d as _atan2d_reverse, sincos2
+from pygeodesy.props import Property_RO, property_ROver, _update_all
+from pygeodesy.utily import atan2, atan2d as _atan2d_reverse, sincos2
 
-from math import atan2, cos, degrees, fabs, floor, radians, sin
+from math import cos, degrees, fabs, floor, radians, sin
 
 __all__ = ()
-__version__ = '24.07.12'
+__version__ = '24.11.24'
 
 _glXs = []  # instances of C{[_]GeodesicLineExact} to be updated
 
@@ -377,11 +376,11 @@ class _GeodesicLineExact(_GeodesicBase):
             lam12 = salp0 * self._H0e2_f1 * fsum1f_(eF.deltaH(ssig2, csig2, dn2),
                                                     -self._H1, sig12)
             if (outmask & Cs.LONG_UNROLL):
-                _a, t = atan2, _copysign_1_0(salp0)  # east-going?
+                t = _copysign_1_0(salp0)  # east-going?
                 tchi1 = t * schi1
                 tchi2 = t * schi2
-                chi12 = t * fsum1f_(_a(ssig1, csig1), -_a(ssig2, csig2),
-                                    _a(tchi2, cchi2), -_a(tchi1, cchi1), sig12)
+                chi12 = t * fsum1f_(atan2(ssig1, csig1), -atan2(ssig2, csig2),
+                                    atan2(tchi2, cchi2), -atan2(tchi1, cchi1), sig12)
                 lon2  = self.lon1 + degrees(chi12 - lam12)
             else:
                 chi12 = atan2(*_sincos12(schi1, cchi1, schi2, cchi2))
@@ -634,6 +633,13 @@ class _GeodesicLineExact(_GeodesicBase):
         # unnecessary because Einv inverts E
         # return -self._eF.deltaEinv(stau1, ctau1)
 
+    @property_ROver
+    def _toProps7(self):
+        '''(INTERNAL) 7-Tuple of C{toStr} properties.
+        '''
+        C = _GeodesicLineExact
+        return C.lat1, C.lon1, C.azi1, C.a13, C.s13, C.caps, C.geodesic
+
     def toStr(self, **prec_sep_name):  # PYCHOK signature
         '''Return this C{GeodesicLineExact} as string.
 
@@ -642,16 +648,14 @@ class _GeodesicLineExact(_GeodesicBase):
 
            @return: C{GeodesicLineExact} (C{str}).
         '''
-        C = _GeodesicLineExact
-        t =  C.lat1, C.lon1, C.azi1, C.a13, C.s13, C.caps, C.geodesic
-        return self._instr(props=t, **prec_sep_name)
+        return self._instr(props=self._toProps7, **prec_sep_name)
 
 
 __all__ += _ALL_DOCS(_GeodesicLineExact)
 
 # **) MIT License
 #
-# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

@@ -803,7 +803,7 @@ __all__ += _ALL_DOCS(_FstatsBase, _FstatsNamed)
 
 # **) MIT License
 #
-# Copyright (C) 2021-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2021-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

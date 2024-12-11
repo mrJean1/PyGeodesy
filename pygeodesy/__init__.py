@@ -243,7 +243,7 @@ and:
 License
 =======
 
-**) U{Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.<https://OpenSource.org/licenses/MIT>}
+**) U{Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.<https://OpenSource.org/licenses/MIT>}
 
 C{Permission is hereby granted, free of charge, to any person obtaining a copy of this software
 and associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -527,7 +527,7 @@ if _init__all__ and not _lazy_import2:  # import and set __all__
     from pygeodesy.mgrs                  import *  # PYCHOK __all__
     from pygeodesy.named                 import *  # PYCHOK __all__
     from pygeodesy.namedTuples           import *  # PYCHOK __all__
-#   from pygeodesy.nvectorBase           import *  # PYCHOK __(_)__ INTERNAL
+    from pygeodesy.nvectorBase           import *  # PYCHOK __(_)__ INTERNAL
     from pygeodesy.osgr                  import *  # PYCHOK __all__
     from pygeodesy.points                import *  # PYCHOK __all__
     from pygeodesy.props                 import *  # PYCHOK __all__
@@ -598,7 +598,7 @@ else:
 
 from pygeodesy.internals import _version2,  _DOT_  # PYCHOK import
 # from pygeodesy.interns import _DOT_  # from .internals
-__version__ = '24.11.11'
+__version__ = '24.12.12'
 # see setup.py for similar logic
 version     = _DOT_(*_version2(__version__, n=3))
 
@@ -606,7 +606,7 @@ del _DOT_, _lazy_import2, _os_path, _sys, _version2
 
 # **) MIT License
 #
-# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

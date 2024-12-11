@@ -141,8 +141,8 @@ object --+
         <span class="summary-sig-arg">geohash</span>,
         <span class="summary-sig-arg">encoded</span>=<span class="summary-sig-default">False</span>)</span><br />
       Get and cache the <code>(lat, lon)</code> for <code>geohash</code>, 
-      see <a href="pygeodesy.geohash-module.html#decode" class="link" 
-      onclick="show_private();">decode</a>.</td>
+      see <a href="pygeodesy.geohash-module.html#decode" 
+      class="link">decode</a>.</td>
           <td align="right" valign="top">
             
             
@@ -163,8 +163,8 @@ object --+
         <span class="summary-sig-arg">lon</span>,
         <span class="summary-sig-arg">decoded</span>=<span class="summary-sig-default">False</span>)</span><br />
       Get and cache the <code>geohash</code> for <code>(lat, lon)</code>, 
-      see <a href="pygeodesy.geohash-module.html#encode" class="link" 
-      onclick="show_private();">encode</a>.</td>
+      see <a href="pygeodesy.geohash-module.html#encode" 
+      class="link">encode</a>.</td>
           <td align="right" valign="top">
             
             
@@ -205,21 +205,26 @@ object --+
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.geohash.Geohashed-class.html#len2" class="summary-name">len2</a>
+        <a href="pygeodesy.geohash.Geohashed-class.html#len2" class="summary-name">len2</a><br />
+      Return 2-tuple <code>(lencoded, ldecoded)</code> with the 
+      <code>len</code>gths of the <code>en-</code> and <code>decoded</code>
+      cache.
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.geohash.Geohashed-class.html#ndigits" class="summary-name">ndigits</a>
+        <a href="pygeodesy.geohash.Geohashed-class.html#ndigits" class="summary-name">ndigits</a><br />
+      Get the rounding (<code>int</code> or <code>None</code>).
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.geohash.Geohashed-class.html#precision" class="summary-name">precision</a>
+        <a href="pygeodesy.geohash.Geohashed-class.html#precision" class="summary-name">precision</a><br />
+      Get the <code>precision</code> (<code>int</code>).
     </td>
   </tr>
   <tr>
@@ -290,8 +295,8 @@ object --+
   </tr></table>
   
   <p>Get and cache the <code>(lat, lon)</code> for <code>geohash</code>, 
-  see <a href="pygeodesy.geohash-module.html#decode" class="link" 
-  onclick="show_private();">decode</a>.</p>
+  see <a href="pygeodesy.geohash-module.html#decode" 
+  class="link">decode</a>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -320,8 +325,8 @@ object --+
   </tr></table>
   
   <p>Get and cache the <code>geohash</code> for <code>(lat, lon)</code>, 
-  see <a href="pygeodesy.geohash-module.html#encode" class="link" 
-  onclick="show_private();">encode</a>.</p>
+  see <a href="pygeodesy.geohash-module.html#encode" 
+  class="link">encode</a>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -348,7 +353,9 @@ object --+
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">len2</h3>
-  
+  <p>Return 2-tuple <code>(lencoded, ldecoded)</code> with the 
+  <code>len</code>gths of the <code>en-</code> and <code>decoded</code> 
+  cache.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">len2(<span class="summary-sig-arg">self</span>)</span>
@@ -374,11 +381,11 @@ cache.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">ndigits</h3>
-  
+  <p>Get the rounding (<code>int</code> or <code>None</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
-        - Get and <i>cache/memoize</i> the <code>property</code> value.
+    <dd class="value"><span class="summary-sig">ndigits(<span class="summary-sig-arg">self</span>)</span>
+        - Get the rounding (<code>int</code> or <code>None</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -398,11 +405,11 @@ cache.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">precision</h3>
-  
+  <p>Get the <code>precision</code> (<code>int</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
-        - Get and <i>cache/memoize</i> the <code>property</code> value.
+    <dd class="value"><span class="summary-sig">precision(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <code>precision</code> (<code>int</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -448,7 +455,7 @@ cache.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Nov 12 14:52:46 2024
+    Generated by Epydoc 3.0.1 on Fri Dec  6 15:33:38 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

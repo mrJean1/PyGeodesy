@@ -64,7 +64,7 @@ from math import fabs, isinf, isnan, \
                  ceil as _ceil, floor as _floor  # PYCHOK used! .ltp
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '24.11.11'
+__version__ = '24.12.02'
 
 from pygeodesy.interns import (
   _PLUS_     as _add_op_,  # in .auxilats.auxAngle
@@ -100,7 +100,7 @@ def _2finite(x, _isfine=_isfinite):  # in .fstats
 
 
 def _2float(index=None, _isfine=_isfinite, **name_x):  # in .fmath, .fstats
-    '''(INTERNAL) Raise C{TypeError} or C{Overflow-/ValueError} if not finite.
+    '''(INTERNAL) Raise C{TypeError} or C{Overflow-/ValueError} if C{x} not finite.
     '''
     n, x = name_x.popitem()  # _xkwds_item2(name_x)
     try:
@@ -233,7 +233,7 @@ def f2product(two=None):
     return t
 
 
-def _Fsumf_(*xs):  # in .auxLat, .ltp, ...
+def _Fsumf_(*xs):  # in .auxLat, ...
     '''(INTERNAL) An C{Fsum(xs)}, all C{scalar}, an L{Fsum} or L{Fsum2Tuple}.
     '''
     return Fsum()._facc_scalarf(xs, up=False)
@@ -401,7 +401,7 @@ def _residue(other):
     return r
 
 
-def _s_r(s, r):
+def _s_r2(s, r):
     '''(INTERNAL) Return C{(s, r)}, I{ordered}.
     '''
     if _isfinite(s):
@@ -412,24 +412,6 @@ def _s_r(s, r):
             r = INT0
     else:
         r = _NONFINITEr
-    return s, r
-
-
-def _2s_r(other):
-    '''(INTERNAL) Return 2-tuple C{(other, r)} with C{other} as C{int},
-       C{float} or C{as-is} and C{r} the residual of C{as-is} or 0.
-    '''
-    if _isFsum_2Tuple(other):
-        s, r = other._fint2
-        if r:
-            s, r = other._nfprs2
-            if r:  # PYCHOK no cover
-                s = other  # L{Fsum} as-is
-    else:
-        r = 0
-        s = other  # C{type} as-is
-        if isint(s, both=True):
-            s = int(s)
     return s, r
 
 
@@ -487,6 +469,24 @@ def _threshold(threshold=_0_0, **kwds):
         return _2finite(threshold)  # PYCHOK None
     except Exception as x:
         raise ResidualError(threshold=threshold, cause=x)
+
+
+def _2tuple2(other):
+    '''(INTERNAL) Return 2-tuple C{(other, r)} with C{other} as C{int},
+       C{float} or C{as-is} and C{r} the residual of C{as-is} or 0.
+    '''
+    if _isFsum_2Tuple(other):
+        s, r = other._fint2
+        if r:
+            s, r = other._nfprs2
+            if r:  # PYCHOK no cover
+                s = other  # L{Fsum} as-is
+    else:
+        r = 0
+        s = other  # C{type} as-is
+        if isint(s, both=True):
+            s = int(s)
+    return s, r
 
 
 class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats, ...
@@ -1579,7 +1579,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
             elif self.is_integer():
                 # return an exact C{int} for C{int}**C{int}
                 i, _ =  self._fint2  # assert _ == 0
-                x, r = _2s_r(other)  # C{int}, C{float} or other
+                x, r = _2tuple2(other)  # C{int}, C{float} or other
                 f = self._Fsum_as(i)._pow_Fsum(other, op, **raiser_RESIDUAL) if r else \
                     self._pow_2_3(i, x,        other, op, **raiser_RESIDUAL)
             else:  # mod[0] is None, power(self, other)
@@ -1645,9 +1645,9 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
 #               Fsum._ps_max = max(Fsum._ps_max, n)
                 if n > 2:
                     r = self._ps_1sum(s)
-                    return Fsum2Tuple(*_s_r(s, r))
+                    return Fsum2Tuple(*_s_r2(s, r))
             if n > 1:  # len(ps) == 2
-                s, r  = _s_r(*_2sum(*ps, **self._isfine))
+                s, r  = _s_r2(*_2sum(*ps, **self._isfine))
                 ps[:] = (r, s) if r else (s,)
             elif ps:  # len(ps) == 1
                 s = ps[0]
@@ -1673,9 +1673,8 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
     def fset_(self, *xs):
         '''Apply C{B{self}.partials = Fsum(*B{xs}).partials}.
 
-           @arg xs: Optional, new values (each C{scalar} or
-                    an L{Fsum} or L{Fsum2Tuple} instance), all
-                    positional.
+           @arg xs: Optional, new values (each C{scalar} or an L{Fsum}
+                    or L{Fsum2Tuple} instance), all positional.
 
            @return: This instance, replaced (C{Fsum}).
 
@@ -1850,7 +1849,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
             s, r = _facc(xs, **facc_kwds)._fprs2
             if _isfinite(s):  # _fsum(_1primed((s, -p, r, -q))
                 d, r = _2sum(s - p, r - q, _isfine=_isOK)
-                r, _ = _s_r(d, r)
+                r, _ = _s_r2(d, r)
             return s, (r if _isfinite(r) else _NONFINITEr)
         else:
             return p, _0_0
@@ -2185,7 +2184,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
                 return s
 
             b = _s(*(b._fprs2 if m is None else b._fint2))
-            x = _s(*_2s_r(x))
+            x = _s(*_2tuple2(x))
 
         try:
             # 0**INF == 0.0, 1**INF == 1.0, -1**2.3 == -(1**2.3)
@@ -2608,7 +2607,7 @@ class Fsum2Tuple(_NamedTuple):  # in .fstats
 
     @Property_RO
     def _Fsum(self):  # this C{Fsum2Tuple} as L{Fsum}, in .fstats
-        s, r = _s_r(*self)
+        s, r = _s_r2(*self)
         ps = (r, s) if r else (s,)
         return _Psum(ps, name=self.name)
 
@@ -2817,7 +2816,7 @@ def _xsum(which, xs, nonfinites=None, primed=0, **floats):  # origin=0
         nonfinites = _xkwds_get1(floats, floats=nonfinites)
     elif nonfinites is None:
         nonfinites =  not nonfiniterrors()
-    fs = _xs(xs, **_x_isfine(nonfinites, which=which))
+    fs = _xs(xs, **_x_isfine(nonfinites, which=which))  # PYCHOK yield
     return _fsum(_1primed(fs) if primed else fs)
 
 
@@ -2848,7 +2847,7 @@ if __name__ == '__main__':
 
 # **) MIT License
 #
-# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

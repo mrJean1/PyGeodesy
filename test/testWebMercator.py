@@ -6,7 +6,7 @@
 __all__ = ('Tests',)
 __version__ = '23.06.12'
 
-from math import log, radians, tan
+from math import log, radians, tan  # as _tan
 from bases import startswith, TestsBase
 
 from pygeodesy import F_D, F_DMS, R_M, R_MA, Datums, \

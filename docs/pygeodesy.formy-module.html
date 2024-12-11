@@ -63,7 +63,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        24.10.14
+        24.12.06
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -92,6 +92,24 @@
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Functions</span></td>
 </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#angle2chord" class="summary-sig-name">angle2chord</a>(<span class="summary-sig-arg">rad</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>)</span><br />
+      Get the chord length of a (central) angle or <i>angular</i> distance.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
@@ -168,6 +186,24 @@
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the initial or final bearing (forward or reverse azimuth) 
       between two (spherical) points.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#chord2angle" class="summary-sig-name">chord2angle</a>(<span class="summary-sig-arg">chord</span>,
+        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>)</span><br />
+      Get the (central) angle from a chord length or distance.</td>
           <td align="right" valign="top">
             
             
@@ -357,7 +393,7 @@
         <span class="summary-sig-arg">lon2</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">**adjust_limit_wrap</span>)</span><br />
-      Compute the distance between two points using the <a 
+      Approximate the distance between two points using the <a 
       href="https://www.Movable-Type.co.UK/scripts/latlong.html#equirectangular"
       target="_top">Equirectangular Approximation / Projection</a>.</td>
           <td align="right" valign="top">
@@ -382,7 +418,7 @@
         <span class="summary-sig-arg">adjust</span>=<span class="summary-sig-default">True</span>,
         <span class="summary-sig-arg">limit</span>=<span class="summary-sig-default">45</span>,
         <span class="summary-sig-arg">wrap</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Compute the distance between two points using the <a 
+      Approximate the distance between two points using the <a 
       href="https://www.Movable-Type.co.UK/scripts/latlong.html#equirectangular"
       target="_top">Equirectangular Approximation / Projection</a>.</td>
           <td align="right" valign="top">
@@ -1039,26 +1075,6 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#latlon2n_xyz" class="summary-sig-name">latlon2n_xyz</a>(<span class="summary-sig-arg">lat</span>,
-        <span class="summary-sig-arg">lon</span>,
-        <span class="summary-sig-arg">**name</span>)</span><br />
-      Convert lat-, longitude to <code>n-vector</code> (<i>normal</i> to 
-      the earth's surface) X, Y and Z components.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#normal" class="summary-sig-name">normal</a>(<span class="summary-sig-arg">lat</span>,
         <span class="summary-sig-arg">lon</span>,
         <span class="summary-sig-arg">**name</span>)</span><br />
@@ -1097,48 +1113,6 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#n_xyz2latlon" class="summary-sig-name">n_xyz2latlon</a>(<span class="summary-sig-arg">x</span>,
-        <span class="summary-sig-arg">y</span>,
-        <span class="summary-sig-arg">z</span>,
-        <span class="summary-sig-arg">**name</span>)</span><br />
-      Convert <code>n-vector</code> components to lat- and longitude in 
-      <code>degrees</code>.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#n_xyz2philam" class="summary-sig-name">n_xyz2philam</a>(<span class="summary-sig-arg">x</span>,
-        <span class="summary-sig-arg">y</span>,
-        <span class="summary-sig-arg">z</span>,
-        <span class="summary-sig-arg">**name</span>)</span><br />
-      Convert <code>n-vector</code> components to lat- and longitude in 
-      <code>radians</code>.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#opposing" class="summary-sig-name">opposing</a>(<span class="summary-sig-arg">bearing1</span>,
         <span class="summary-sig-arg">bearing2</span>,
         <span class="summary-sig-arg">margin</span>=<span class="summary-sig-default">90.0</span>)</span><br />
@@ -1162,26 +1136,6 @@
         <span class="summary-sig-arg">radians2</span>,
         <span class="summary-sig-arg">margin</span>=<span class="summary-sig-default">1.5707963267948966</span>)</span><br />
       Compare the direction of two bearings given in <code>radians</code>.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.formy-module.html#philam2n_xyz" class="summary-sig-name">philam2n_xyz</a>(<span class="summary-sig-arg">phi</span>,
-        <span class="summary-sig-arg">lam</span>,
-        <span class="summary-sig-arg">**name</span>)</span><br />
-      Convert lat-, longitude to <code>n-vector</code> (<i>normal</i> to 
-      the earth's surface) X, Y and Z components.</td>
           <td align="right" valign="top">
             
             
@@ -1330,6 +1284,51 @@
     <span class="table-header">Function Details</span></td>
 </tr>
 </table>
+<a name="angle2chord"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">angle2chord</span>&nbsp;(<span class="sig-arg">rad</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get the chord length of a (central) angle or <i>angular</i> 
+  distance.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>rad</code></strong> - Central angle (<code>radians</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>, conventionally), datum (<a
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>) 
+          or ellipsoid (<a href="pygeodesy.ellipsoids.Ellipsoid-class.html"
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a> or <a 
+          href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>) to use or <code>None</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Chord length (<code>meter</code>, same units as 
+          <b><code>radius</code></b> or if <code><b>radius</b> is 
+          None</code>, <code>radians</code>).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.formy-module.html#chord2angle" 
+        class="link">chord2angle</a>, method <a 
+        href="pygeodesy.sphericalNvector.LatLon-class.html#intermediateChordTo"
+        class="link">intermediateChordTo</a> and <a 
+        href="https://WikiPedia.org/wiki/Great-circle_distance#Relation_between_central_angle_and_chord_length"
+        target="_top">great-circle-distance</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="antipode"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1490,6 +1489,51 @@
         target="_top">Course between two points</a> and <a 
         href="https://web.Archive.org/web/20020630205931/https://MathForum.org/library/drmath/view/55417.html"
         target="_top">Bearing Between Two Points</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="chord2angle"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">chord2angle</span>&nbsp;(<span class="sig-arg">chord</span>,
+        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get the (central) angle from a chord length or distance.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>chord</code></strong> - Length or distance (<code>meter</code>, same units as 
+          <b><code>radius</code></b>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>, conventionally), datum (<a
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>) 
+          or ellipsoid (<a href="pygeodesy.ellipsoids.Ellipsoid-class.html"
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a> or <a 
+          href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>) to use.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Angle (<code>radians</code> with sign of 
+          <b><code>chord</code></b>) or <code>0</code> if 
+          <code><b>radius</b>=0</code>.</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        The angle will exceed <code>PI</code> if <code><b>chord</b> &gt; 
+        <b>radius</b> * 2</code>.
+      </p>
+      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.formy-module.html#angle2chord" 
+        class="link">angle2chord</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -2002,7 +2046,7 @@
     </td>
   </tr></table>
   
-  <p>Compute the distance between two points using the <a 
+  <p>Approximate the distance between two points using the <a 
   href="https://www.Movable-Type.co.UK/scripts/latlong.html#equirectangular"
   target="_top">Equirectangular Approximation / Projection</a>.</p>
   <dl class="fields">
@@ -2060,7 +2104,7 @@
     </td>
   </tr></table>
   
-  <p>Compute the distance between two points using the <a 
+  <p>Approximate the distance between two points using the <a 
   href="https://www.Movable-Type.co.UK/scripts/latlong.html#equirectangular"
   target="_top">Equirectangular Approximation / Projection</a>.</p>
   <p>This approximation is valid for short distance of several hundred Km 
@@ -2086,10 +2130,11 @@
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.namedTuples.Distance4Tuple-class.html" 
           class="link">Distance4Tuple</a><code>(distance2, delta_lat, 
-          delta_lon, unroll_lon2)</code> in <code>degrees squared</code>.</dd>
+          delta_lon, unroll_lon2)</code> with <code>distance2</code> in 
+          <code>degrees squared</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.LimitError-class.html">LimitError</a></strong></code> - If the lat- and/or longitudinal delta exceeds the 
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.LimitError-class.html">LimitError</a></strong></code> - The lat- or longitudinal delta exceeds the 
         <b><code>-limit..limit</code></b> range and <a 
         href="pygeodesy.errors-module.html#limiterrors" 
         class="link">limiterrors</a> is <code>True</code>.</li>
@@ -3539,7 +3584,9 @@
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Method RhumbLine.intersection2.
+        Method <a 
+        href="pygeodesy.rhumb.bases.RhumbLineBase-class.html#intersection2"
+        class="link">RhumbLine.intersection2</a>.
       </p>
       <p><strong>Note:</strong>
         The returned intersections may be near-antipodal.
@@ -3571,9 +3618,9 @@
   <p><i>Conveniently</i> compute the intersections of two circles each 
   defined by a (geodetic) center point and a radius, using either ...</p>
   <p>1) <a href="pygeodesy.vector3d-module.html#intersections2" 
-  class="link" onclick="show_private();">vector3d.intersections2</a> for 
-  <b><code>small</code></b> distances (below 100 Km or about 0.88 degrees) 
-  or if <i>no</i> <b><code>datum</code></b> is specified, or ...</p>
+  class="link">vector3d.intersections2</a> for <b><code>small</code></b> 
+  distances (below 100 Km or about 0.88 degrees) or if <i>no</i> 
+  <b><code>datum</code></b> is specified, or ...</p>
   <p>2) <a 
   href="pygeodesy.sphericalTrigonometry-module.html#intersections2" 
   class="link">sphericalTrigonometry.intersections2</a> for a spherical 
@@ -3790,45 +3837,6 @@
       </p>
 </div></td></tr></table>
 </div>
-<a name="latlon2n_xyz"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">latlon2n_xyz</span>&nbsp;(<span class="sig-arg">lat</span>,
-        <span class="sig-arg">lon</span>,
-        <span class="sig-arg">**name</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Convert lat-, longitude to <code>n-vector</code> (<i>normal</i> to the
-  earth's surface) X, Y and Z components.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lat</code></strong> - Latitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>lon</code></strong> - Longitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>A <a href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
-          class="link">Vector3Tuple</a><code>(x, y, z)</code>.</dd>
-  </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.formy-module.html#philam2n_xyz" 
-        class="link">philam2n_xyz</a>.
-      </p>
-      <p><strong>Note:</strong>
-        These are <code>n-vector</code> x, y and z components, <i>NOT</i> 
-        geocentric ECEF x, y and z coordinates!
-      </p>
-</div></td></tr></table>
-</div>
 <a name="normal"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -3909,80 +3917,6 @@
       </p>
 </div></td></tr></table>
 </div>
-<a name="n_xyz2latlon"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">n_xyz2latlon</span>&nbsp;(<span class="sig-arg">x</span>,
-        <span class="sig-arg">y</span>,
-        <span class="sig-arg">z</span>,
-        <span class="sig-arg">**name</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Convert <code>n-vector</code> components to lat- and longitude in 
-  <code>degrees</code>.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - X component (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>y</code></strong> - Y component (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>z</code></strong> - Z component (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>A <a href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
-          class="link">LatLon2Tuple</a><code>(lat, lon)</code>.</dd>
-  </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.formy-module.html#n_xyz2philam" 
-        class="link">n_xyz2philam</a>.
-      </p>
-</div></td></tr></table>
-</div>
-<a name="n_xyz2philam"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">n_xyz2philam</span>&nbsp;(<span class="sig-arg">x</span>,
-        <span class="sig-arg">y</span>,
-        <span class="sig-arg">z</span>,
-        <span class="sig-arg">**name</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Convert <code>n-vector</code> components to lat- and longitude in 
-  <code>radians</code>.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>x</code></strong> - X component (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>y</code></strong> - Y component (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>z</code></strong> - Z component (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>A <a href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" 
-          class="link">PhiLam2Tuple</a><code>(phi, lam)</code>.</dd>
-  </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.formy-module.html#n_xyz2latlon" 
-        class="link">n_xyz2latlon</a>.
-      </p>
-</div></td></tr></table>
-</div>
 <a name="opposing"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -4052,45 +3986,6 @@
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.formy-module.html#opposing" 
         class="link">opposing</a>.
-      </p>
-</div></td></tr></table>
-</div>
-<a name="philam2n_xyz"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">philam2n_xyz</span>&nbsp;(<span class="sig-arg">phi</span>,
-        <span class="sig-arg">lam</span>,
-        <span class="sig-arg">**name</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Convert lat-, longitude to <code>n-vector</code> (<i>normal</i> to the
-  earth's surface) X, Y and Z components.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>phi</code></strong> - Latitude (<code>radians</code>).</li>
-        <li><strong class="pname"><code>lam</code></strong> - Longitude (<code>radians</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional name (<code>str</code>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>A <a href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
-          class="link">Vector3Tuple</a><code>(x, y, z)</code>.</dd>
-  </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.formy-module.html#latlon2n_xyz" 
-        class="link">latlon2n_xyz</a>.
-      </p>
-      <p><strong>Note:</strong>
-        These are <code>n-vector</code> x, y and z components, <i>NOT</i> 
-        geocentric ECEF x, y and z coordinates!
       </p>
 </div></td></tr></table>
 </div>
@@ -4479,7 +4374,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Nov 12 14:52:45 2024
+    Generated by Epydoc 3.0.1 on Fri Dec  6 15:33:36 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

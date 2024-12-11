@@ -73,20 +73,23 @@ from pygeodesy.interns import NN, _a_, _C_, _datum_, _ellipsoid_, _f_, _height_,
                              _lat_, _lon_, _M_, _name_, _singular_, _SPACE_, \
                              _x_, _xyz_, _y_, _z_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
-from pygeodesy.named import _name__, _name1__, _NamedBase, _NamedTuple, _Pass, _xnamed
+from pygeodesy.named import _name__, _name1__, _NamedBase, _NamedLocal, \
+                            _NamedTuple, _Pass, _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, \
                                   PhiLam2Tuple, Vector3Tuple, Vector4Tuple
-from pygeodesy.props import deprecated_method, Property_RO, property_ROver, property_doc_
+from pygeodesy.props import deprecated_method, Property_RO, property_RO, \
+                            property_ROver, property_doc_
 # from pygeodesy.streprs import Fmt, unstr  # from .fsums
 from pygeodesy.units import _isRadius, Degrees, Height, Int, Lam, Lat, Lon, Meter, \
                              Phi, Scalar, Scalar_
-from pygeodesy.utily import atan1, atan1d, atan2d, degrees90, degrees180, \
+from pygeodesy.utily import atan1, atan1d, atan2, atan2d, degrees90, degrees180, \
                             sincos2, sincos2_, sincos2d, sincos2d_
+# from pygeodesy.vector3d import Vector3d  # _MODS
 
-from math import atan2, cos, degrees, fabs, radians, sqrt
+from math import cos, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '24.10.28'
+__version__ = '24.12.06'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -266,7 +269,7 @@ class _EcefBase(_NamedBase):
         '''(INTERNAL) Get the valid geocentric classes. I{once}.
         '''
         return (Ecef9Tuple,  # overwrite property_ROver
-               _MODS.cartesianBase.CartesianBase)
+               _MODS.vector3d.Vector3d)  # _MODS.cartesianBase.CartesianBase
 
     @Property_RO
     def _isYou(self):
@@ -326,7 +329,8 @@ class EcefFarrell21(_EcefBase):
     def reverse(self, xyz, y=None, z=None, M=None, **lon00_name):  # PYCHOK unused M
         '''Convert from geocentric C{(x, y, z)} to geodetic C{(lat, lon, height)} using
            I{Farrell}'s U{Table 2.1<https://Books.Google.com/books?id=fW4foWASY6wC>},
-           page 29.
+           page 29, aka the I{Heikkinen application} of U{Ferrari's solution
+           <https://WikiPedia.org/wiki/Geographic_coordinate_conversion>}.
 
            @arg xyz: A geocentric (C{Cartesian}, L{Ecef9Tuple}) or C{scalar} ECEF C{x}
                      coordinate (C{meter}).
@@ -366,9 +370,9 @@ class EcefFarrell21(_EcefBase):
             p2 = p**2
             G  = p2 + ez - e2 * (a2 - b2)  # p2 + ez - e4 * a2
             F  = b2 * z2 * 54
-            t  = e4 * p2 * F / G**3
-            t  = cbrt(sqrt(t * (t + _2_0)) + t + _1_0)
-            G *= fsumf_(t , _1_0, _1_0 / t)
+            c  = e4 * p2 * F / G**3
+            s  = cbrt(sqrt(c * (c + _2_0)) + c + _1_0)
+            G *= fsumf_(s , _1_0, _1_0 / s)  # k
             P  = F / (G**2 * _3_0)
             Q  = sqrt(_2_0 * e4 * P + _1_0)
             Q1 = Q +  _1_0
@@ -376,7 +380,7 @@ class EcefFarrell21(_EcefBase):
                                                -P * ez / (Q * Q1),
                                                -P * p2 * _0_5))
             r = p + e2 * r0
-            v = b2 / (sqrt(r**2 + ez) * a)
+            v = b2 / (sqrt(r**2 + ez) * a)  # z0 / z
 
             h   = hypot(r, z) * (_1_0 - v)
             lat = atan1d((e2_ * v + _1_0) * z, p)
@@ -1014,12 +1018,12 @@ class EcefMatrix(_NamedTuple):
         return xyz_
 
 
-class Ecef9Tuple(_NamedTuple):
-    '''9-Tuple C{(x, y, z, lat, lon, height, C, M, datum)} with I{geocentric}
-       C{x}, C{y} and C{z} plus I{geodetic} C{lat}, C{lon} and C{height}, case
-       C{C} (see the C{Ecef*.reverse} methods) and optionally, the rotation
-       matrix C{M} (L{EcefMatrix}) and C{datum}, with C{lat} and C{lon} in
-       C{degrees} and C{x}, C{y}, C{z} and C{height} in C{meter}, conventionally.
+class Ecef9Tuple(_NamedTuple, _NamedLocal):
+    '''9-Tuple C{(x, y, z, lat, lon, height, C, M, datum)} with I{geocentric} C{x},
+       C{y} and C{z} plus I{geodetic} C{lat}, C{lon} and C{height}, case C{C} (see
+       the C{Ecef*.reverse} methods) and optionally, rotation matrix C{M} (L{EcefMatrix})
+       and C{datum}, with C{lat} and C{lon} in C{degrees} and C{x}, C{y}, C{z} and
+       C{height} in C{meter}, conventionally.
     '''
     _Names_ = (_x_,   _y_,   _z_,   _lat_, _lon_, _height_, _C_,  _M_,   _datum_)
     _Units_ = ( Meter, Meter, Meter, Lat,   Lon,   Height,   Int, _Pass, _Pass)
@@ -1034,6 +1038,10 @@ class Ecef9Tuple(_NamedTuple):
     def convertDatum(self, datum2):  # for backward compatibility
         '''DEPRECATED, use method L{toDatum}.'''
         return self.toDatum(datum2)
+
+    @property_RO
+    def _ecef9(self):
+        return self
 
     @Property_RO
     def lam(self):
@@ -1088,11 +1096,18 @@ class Ecef9Tuple(_NamedTuple):
     @Property_RO
     def lonVermeille(self):
         '''Get the longitude in C{degrees [-225..+225]} after U{Vermeille
-           <https://Search.ProQuest.com/docview/639493848>} (2004), p 95.
+           <https://Search.ProQuest.com/docview/639493848>} 2004, p 95.
 
            @see: Property C{lamVermeille}.
         '''
         return Lon(Vermeille=degrees(self.lamVermeille))
+
+    def _ltp_toLocal(self, ltp, Cls_and_kwds, **nam_Cls):  # for C{_NamedLocal}
+        '''(INTERNAL) Invoke C{ltp._xLtp(ltp)._ecef2local}.
+        '''
+        Cls, kwds = self._ltp_toLocal2(Cls_and_kwds, **nam_Cls)  # in ._NamedLocal
+        ltp = self._ltp._xLtp(ltp, self._Ltp)  # both in ._NamedLocal
+        return ltp._ecef2local(self, Cls, kwds)
 
     @Property_RO
     def phi(self):
@@ -1134,13 +1149,13 @@ class Ecef9Tuple(_NamedTuple):
                              L{ellipsoidalNvector.Cartesian}, L{ellipsoidalVincenty.Cartesian},
                              L{sphericalNvector.Cartesian} or L{sphericalTrigonometry.Cartesian})
                              or C{None}.
-           @kwarg Cartesian_kwds: Optional, additional B{C{Cartesian}} keyword arguments, ignored
+           @kwarg Cartesian_kwds: Optionally, additional B{C{Cartesian}} keyword arguments, ignored
                                   if C{B{Cartesian} is None}.
 
-           @return: A C{B{Cartesian}(x, y, z, **B{Cartesian_kwds})} instance or
-                    a L{Vector4Tuple}C{(x, y, z, h)} if C{B{Cartesian} is None}.
+           @return: A B{C{Cartesian}} instance or a L{Vector4Tuple}C{(x, y, z, h)} if C{B{Cartesian}
+                    is None}.
 
-           @raise TypeError: Invalid B{C{Cartesian}} or B{C{Cartesian_kwds}}.
+           @raise TypeError: Invalid B{C{Cartesian}} or B{C{Cartesian_kwds}} item.
         '''
         if Cartesian in (None, Vector4Tuple):
             r = self.xyzh
@@ -1174,17 +1189,15 @@ class Ecef9Tuple(_NamedTuple):
     def toLatLon(self, LatLon=None, **LatLon_kwds):
         '''Return the geodetic C{(lat, lon, height[, datum])} coordinates.
 
-           @kwarg LatLon: Optional class to return C{(lat, lon, height[, datum])}
-                          or C{None}.
-           @kwarg LatLon_kwds: Optional B{C{height}}, B{C{datum}} and other
-                               B{C{LatLon}} keyword arguments.
+           @kwarg LatLon: Optional class to return C{(lat, lon, height[, datum])} or C{None}.
+           @kwarg LatLon_kwds: Optional B{C{height}}, B{C{datum}} and other B{C{LatLon}}
+                               keyword arguments.
 
-           @return: An instance of C{B{LatLon}(lat, lon, **B{LatLon_kwds})}
-                    or if C{B{LatLon} is None}, a L{LatLon3Tuple}C{(lat, lon,
-                    height)} respectively L{LatLon4Tuple}C{(lat, lon, height,
-                    datum)} depending on whether C{datum} is un-/specified.
+           @return: A B{C{LatLon}} instance or if C{B{LatLon} is None}, a L{LatLon4Tuple}C{(lat,
+                    lon, height, datum)} or L{LatLon3Tuple}C{(lat, lon, height)} if C{datum} is
+                    specified or not.
 
-           @raise TypeError: Invalid B{C{LatLon}} or B{C{LatLon_kwds}}.
+           @raise TypeError: Invalid B{C{LatLon}} or B{C{LatLon_kwds}} item.
         '''
         lat, lon, D = self.lat, self.lon, self.datum  # PYCHOK Ecef9Tuple
         kwds = _name1__(LatLon_kwds, _or_nameof=self)
@@ -1202,33 +1215,17 @@ class Ecef9Tuple(_NamedTuple):
         _xdatum(_xattr(r, datum=D), D)
         return r
 
-    def toLocal(self, ltp, Xyz=None, **Xyz_kwds):
-        '''Convert this geocentric to I{local} C{x}, C{y} and C{z}.
-
-           @kwarg ltp: The I{local tangent plane} (LTP) to use (L{Ltp}).
-           @kwarg Xyz: Optional class to return C{x}, C{y} and C{z}
-                       (L{XyzLocal}, L{Enu}, L{Ned}) or C{None}.
-           @kwarg Xyz_kwds: Optional, additional B{C{Xyz}} keyword
-                            arguments, ignored if C{B{Xyz} is None}.
-
-           @return: An B{C{Xyz}} instance or if C{B{Xyz} is None},
-                    a L{Local9Tuple}C{(x, y, z, lat, lon, height,
-                    ltp, ecef, M)} with C{M=None}, always.
-
-           @raise TypeError: Invalid B{C{ltp}}.
-        '''
-        return _MODS.ltp._xLtp(ltp)._ecef2local(self, Xyz, Xyz_kwds)
-
     def toVector(self, Vector=None, **Vector_kwds):
-        '''Return the geocentric C{(x, y, z)} coordinates as vector.
+        '''Return these geocentric C{(x, y, z)} coordinates as vector.
 
-           @kwarg Vector: Optional vector class to return C{(x, y, z)} or
-                          C{None}.
-           @kwarg Vector_kwds: Optional, additional B{C{Vector}} keyword
-                               arguments, ignored if C{B{Vector} is None}.
+           @kwarg Vector: Optional vector class to return C{(x, y, z)} or C{None}.
+           @kwarg Vector_kwds: Optional, additional B{C{Vector}} keyword arguments,
+                               ignored if C{B{Vector} is None}.
 
-           @return: A C{Vector}C{(x, y, z, **Vector_kwds)} instance or a
-                    L{Vector3Tuple}C{(x, y, z)} if C{B{Vector} is None}.
+           @return: A B{C{Vector}} instance or a L{Vector3Tuple}C{(x, y, z)} if
+                    C{B{Vector} is None}.
+
+           @raise TypeError: Invalid B{C{Vector}} or B{C{Vector_kwds}} item.
 
            @see: Propertes C{xyz} and C{xyzh}
         '''
@@ -1316,7 +1313,7 @@ __all__ += _ALL_DOCS(_EcefBase)
 
 # **) MIT License
 #
-# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

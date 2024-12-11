@@ -23,7 +23,7 @@ from math import fabs, sqrt  # pow
 import operator as _operator  # in .datums, .trf, .utm
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '24.11.08'
+__version__ = '24.12.02'
 
 # sqrt(2) - 1 <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142  =  0.41421356237309504880  # ... ~ 3730904090310553 / 9007199254740992
@@ -107,16 +107,18 @@ class Fhypot(Fsum):
                        other settings, see class L{Fsum<Fsum.__init__>} and method
                        L{root<Fsum.root>}.
         '''
+        def _r_X_kwds(power=None, raiser=True, root=2, **kwds):
+            # DEPRECATED keyword argument C{power=2}, use C{root=2}
+            return (root if power is None else power), raiser, kwds
+
         r = None  # _xkwds_pop2 error
         try:
-            r, kwds = _xkwds_pop2(root_name_f2product_nonfinites_RESIDUAL_raiser, root=2)
-            r, kwds = _xkwds_pop2(kwds, power=r)  # for backward compatibility
-            t, kwds = _xkwds_pop2(kwds, raiser=True)
+            r, X, kwds = _r_X_kwds(**root_name_f2product_nonfinites_RESIDUAL_raiser)
             Fsum.__init__(self, **kwds)
             self(_0_0)
             if xs:
-                self._facc_power(r, xs, Fhypot, raiser=t)
-            self._fset(self.root(r, raiser=t))
+                self._facc_power(r, xs, Fhypot, raiser=X)
+            self._fset(self.root(r, raiser=X))
         except Exception as X:
             raise self._ErrorXs(X, xs, root=r)
 
@@ -163,11 +165,11 @@ class Fpowers(Fsum):
                        L{fpow<Fsum.fpow>}.
         '''
         try:
-            t, kwds = _xkwds_pop2(name_f2product_nonfinites_RESIDUAL_raiser, raiser=True)
+            X, kwds = _xkwds_pop2(name_f2product_nonfinites_RESIDUAL_raiser, raiser=True)
             Fsum.__init__(self, **kwds)
             self(_0_0)
             if xs:
-                self._facc_power(power, xs, Fpowers, raiser=t)  # x**0 == 1
+                self._facc_power(power, xs, Fpowers, raiser=X)  # x**0 == 1
         except Exception as X:
             raise self._ErrorXs(X, xs, power=power)
 
@@ -187,12 +189,12 @@ class Froot(Fsum):
                        L{fpow<Fsum.fpow>}.
         '''
         try:
-            raiser, kwds = _xkwds_pop2(name_f2product_nonfinites_RESIDUAL_raiser, raiser=True)
+            X, kwds = _xkwds_pop2(name_f2product_nonfinites_RESIDUAL_raiser, raiser=True)
             Fsum.__init__(self, **kwds)
             self(_0_0)
             if xs:
                 self.fadd(xs)
-            self(self.root(root, raiser=raiser))
+            self(self.root(root, raiser=X))
         except Exception as X:
             raise self._ErrorXs(X, xs, root=root)
 
@@ -425,8 +427,7 @@ def fdot(xs, *ys, **start_f2product_nonfinites):
     '''Return the precision dot product M{sum(xs[i] * ys[i] for i in range(len(xs)))}.
 
        @arg xs: Iterable of values (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
-       @arg ys: Other values (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}), all
-               positional.
+       @arg ys: Other values (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}), all positional.
        @kwarg start_f2product_nonfinites: Optional bias C{B{start}=0} (C{scalar}, an
                     L{Fsum} or L{Fsum2Tuple}) and settings C{B{f2product}=None} (C{bool})
                     and C{B{nonfinites=True}} (C{bool}), see class L{Fsum<Fsum.__init__>}.
@@ -458,9 +459,9 @@ def fdot_(*xys, **start_f2product_nonfinites):
 def fdot3(xs, ys, zs, **start_f2product_nonfinites):
     '''Return the (precision) dot product M{start + sum(xs[i] * ys[i] * zs[i] for i in range(len(xs)))}.
 
-       @arg xs: Iterable (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
-       @arg ys: Iterable (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
-       @arg zs: Iterable (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
+       @arg xs: X values iterable (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
+       @arg ys: Y values iterable (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
+       @arg zs: Z values iterable (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
 
        @see: Function L{fdot} for further details.
 
@@ -1094,7 +1095,7 @@ def zqrt(x):
 
 # **) MIT License
 #
-# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

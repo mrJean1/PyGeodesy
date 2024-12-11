@@ -35,7 +35,7 @@ following exceptions:
  - Evaluating the convergence and scale using the expression for the
    projection or its inverse.
 
-Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2008-2023)
+Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2008-2024)
 and licensed under the MIT/X11 License.  For more information, see the
 U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 '''
@@ -60,13 +60,13 @@ from pygeodesy.props import property_doc_, Property, Property_RO, \
                            _update_all
 # from pygeodesy.streprs import pairs  # from .named
 from pygeodesy.units import Degrees, Scalar_, _1mm as _TOL_10  # PYCHOK used!
-from pygeodesy.utily import atan1d, _loneg, sincos2, sincos2d_
+from pygeodesy.utily import atan1d, atan2, _loneg, sincos2, sincos2d_
 
 from cmath import polar
-from math import atan2, asinh, cos, cosh, degrees, fabs, sin, sinh, sqrt, tanh
+from math import asinh, cos, cosh, degrees, fabs, sin, sinh, sqrt, tanh
 
 __all__ = _ALL_LAZY.ktm
-__version__ = '24.11.11'
+__version__ = '24.11.24'
 
 
 class KTMError(_ValueError):
@@ -148,7 +148,8 @@ class KTransverseMercator(_NamedBase):
         else:
             self.ellipsoid = a_earth
 
-        self.lon0 = lon0
+        if lon0:
+            self.lon0 = lon0
         self.k0 = k0
         if raiser:
             self.raiser = True
@@ -425,9 +426,9 @@ class KTransverseMercator(_NamedBase):
         return _COMMASPACE_.join(pairs(d, **kwds))
 
 
-def _cma(a, b0, b1, Cn):
-    '''(INTERNAL) Compute complex M{a * b0 - b1 + Cn} with complex
-       C{a}, C{b0} and C{b1} and scalar C{Cn}.
+def _cfma(a, b0, b1, Cn):
+    '''(INTERNAL) Complex fused-multiply-add M{a * b0 - b1 + Cn} with
+       complex C{a}, C{b0} and C{b1} and scalar C{Cn}.
 
        @see: CPython function U{_Py_c_prod<https://GitHub.com/python/
              cpython/blob/main/Objects/complexobject.c>}.
@@ -462,16 +463,16 @@ def _Cyxgk4(E, xi_, eta_, C):
             n -= 1
         while n > 0:
             Cn =  C[n]
-            y1 = _cma(a, y0, y1, Cn)
-            z1 = _cma(a, z0, z1, Cn * (n * 2))
+            y1 = _cfma(a, y0, y1, Cn)
+            z1 = _cfma(a, z0, z1, Cn * (n * 2))
             n -=  1
             Cn =  C[n]
-            y0 = _cma(a, y1, y0, Cn)
-            z0 = _cma(a, z1, z0, Cn * (n * 2))
+            y0 = _cfma(a, y1, y0, Cn)
+            z0 = _cfma(a, z1, z0, Cn * (n * 2))
             n -=  1
         # assert n == 0
-        x = _cma(s, y0, -x, _0_0)
-        c = _cma(c, z0, z1, _1_0)
+        x = _cfma(s, y0, -x, _0_0)
+        c = _cfma(c, z0, z1, _1_0)
 
         # Gauss-Schreiber to Gauss-Krueger TM
         # C{cmath.polar} handles INF, NAN, etc.
@@ -611,7 +612,7 @@ if __name__ == '__main__':
 
 # **) MIT License
 #
-# Copyright (C) 2022-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2022-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

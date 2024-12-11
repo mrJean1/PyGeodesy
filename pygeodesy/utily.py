@@ -13,35 +13,36 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.basics import _copysign, isinstanceof, isint, isstr, neg
 from pygeodesy.constants import EPS, EPS0, INF, NAN, PI, PI2, PI_2, R_M, \
                                _M_KM, _M_NM, _M_SM, _0_0, _1__90, _0_5, _1_0, \
-                               _N_1_0, _2__PI, _10_0, _90_0, _N_90_0, _180_0, \
-                               _N_180_0, _360_0, _400_0, _copysign_0_0, \
-                               _float as _F, _isfinite, isnan, isnear0, \
-                               _over, _umod_360, _umod_PI2
+                               _N_1_0, _2__PI, _10_0, _90_0, _180_0, _N_180_0, \
+                               _360_0, _400_0, isnan, isnear0, _copysign_0_0, \
+                               _float, _isfinite, _over, _umod_360, _umod_PI2
 from pygeodesy.errors import _ValueError, _xkwds, _xkwds_get1,  _ALL_LAZY, _MODS
-from pygeodesy.internals import _passargs  # , _MODS?
+from pygeodesy.internals import _passarg, _passargs  # , _MODS?
 from pygeodesy.interns import _edge_, _radians_, _semi_circular_, _SPACE_
 # from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS  # from .errors
 from pygeodesy.units import Degrees, Degrees_, Feet, Float, Lam, Lamd, \
                             Meter, Meter2, Radians, Radians_
 
-from math import acos, asin, atan2, cos, degrees, fabs, radians, sin, tan  # pow
+from math import acos, asin, atan2 as _atan2, cos, degrees, fabs, radians, \
+                 sin, tan as _tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '24.10.12'
+__version__ = '24.11.26'
 
-# read constant name "_M_Unit" as "meter per Unit"
-_M_CHAIN     = _F(  20.1168)     # yard2m(1) * 22
-_M_FATHOM    = _F(   1.8288)     # yard2m(1) * 2 or _M_NM * 1e-3
-_M_FOOT      = _F(   0.3048)     # Int'l (1 / 3.2808398950131 = 10_000 / (254 * 12))
-_M_FOOT_GE   = _F(   0.31608)    # German Fuss (1 / 3.1637560111364)
-_M_FOOT_FR   = _F(   0.3248406)  # French Pied-du-Roi or pied (1 / 3.0784329298739)
-_M_FOOT_USVY = _F(   0.3048006096012192)  # US Survey (1200 / 3937)
-_M_FURLONG   = _F( 201.168)      # 220 * yard2m(1) == 10 * m2chain(1)
-# _M_KM      = _F(1000.0)        # kilo meter
-# _M_NM      = _F(1852.0)        # nautical mile
-# _M_SM      = _F(1609.344)      # statute mile
-_M_TOISE     = _F(   1.9490436)  # French toise, 6 pieds (6 / 3.0784329298739)
-_M_YARD_UK   = _F(   0.9144)     # 254 * 12 * 3 / 10_000 == 3 * ft2m(1) Int'l
+_G_DEG     = _float(_400_0 / _360_0)  # grades per degree
+_G_RAD     = _float(_400_0 /  PI2)    # grades per radian
+_M_CHAIN   = _float(  20.1168)        # meter per yard2m(1) * 22
+_M_FATHOM  = _float(   1.8288)        # meter per yard2m(1) * 2 or _M_NM * 1e-3
+_M_FOOT    = _float(   0.3048)        # meter per Int'l foot, 1 / 3.2808398950131 = 10_000 / (254 * 12)
+_M_FOOT_GE = _float(   0.31608)       # meter per German Fuss, 1 / 3.1637560111364
+_M_FOOT_FR = _float(   0.3248406)     # meter per French Pied-du-Roi or pied, 1 / 3.0784329298739
+_M_FOOT_US = _float(   0.3048006096012192)  # meter per US Survey foot, 1200 / 3937
+_M_FURLONG = _float( 201.168)         # meter per furlong, 220 * yard2m(1) = 10 * m2chain(1)
+# _M_KM    = _float(1000.0)           # meter per kilo meter
+# _M_NM    = _float(1852.0)           # meter per nautical mile
+# _M_SM    = _float(1609.344)         # meter per statute mile
+_M_TOISE   = _float(   1.9490436)     # meter per French toise, 6 pieds = 6 / 3.0784329298739
+_M_YARD_UK = _float(   0.9144)        # meter per yard, 254 * 12 * 3 / 10_000 = 3 * _M_FOOT
 
 
 def _abs1nan(x):
@@ -92,7 +93,7 @@ def atan1(y, x=_1_0):
     '''Return C{atan(B{y} / B{x})} angle in C{radians} M{[-PI/2..+PI/2]}
        using C{atan2} for consistency and to avoid C{ZeroDivisionError}.
     '''
-    return atan2(-y, -x) if x < 0 else atan2(y, x or _0_0)  # -0. to 0.
+    return _atan2(-y, -x) if x < 0 else _atan2(y, x or _0_0)  # -0. to 0.
 
 
 def atan1d(y, x=_1_0):
@@ -102,6 +103,15 @@ def atan1d(y, x=_1_0):
        @see: Function L{pygeodesy.atan2d}.
     '''
     return atan2d(-y, -x) if x < 0 else atan2d(y, x or _0_0)  # -0. to 0.
+
+
+def atan2(y, x):
+    '''Return C{atan2(B{y}, B{x})} in radians M{[-PI..+PI]}.
+
+       @see: I{Karney}'s C++ function U{Math.atan2d
+             <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Math.html>}.
+    '''
+    return _atan2u(y, x, _passarg, PI, PI_2)
 
 
 def atan2b(y, x):
@@ -122,23 +132,30 @@ def atan2d(y, x, reverse=False):
        @see: I{Karney}'s C++ function U{Math.atan2d
              <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Math.html>}.
     '''
+    d = _atan2u(y, x, degrees, _180_0, _90_0)
+    return _azireversed(d) if reverse else d
+
+
+def _atan2u(y, x, _2u, H, Q):  # Half, Quarter turn in units
+    '''(INTERNAL) Helper for functions C{atan2} and C{atan2d}.
+    '''
     if fabs(y) > fabs(x) > 0:
         if y < 0:  # q = 3
-            d = degrees(atan2(x, -y)) - _90_0
+            r = _2u(_atan2(x, -y)) - Q
         else:  # q = 2
-            d = _90_0 - degrees(atan2(x, y))
+            r =  Q - _2u(_atan2(x, y))
     elif isnan(x) or isnan(y):
         return NAN
     elif y:
         if x > 0:  # q = 0
-            d =  degrees(atan2(y, x))
+            r = _2u(_atan2(y, x))
         elif x < 0:  # q = 1
-            d = _copysign(_180_0, y) - degrees(atan2(y, -x))
+            r = _copysign(H, y) - _2u(_atan2(y, -x))
         else:  # x == 0
-            d = _copysign(_90_0, y)
-    else:
-        d = _180_0 if x < 0 else _0_0
-    return _azireversed(d) if reverse else d
+            r = _copysign(Q, y)
+    else:  # preserve signBit(y) like Python's math.atan2
+        r = _copysign(H, y) if x < 0 else _0_0
+    return r
 
 
 def _azireversed(azimuth):  # in .rhumbBase
@@ -162,13 +179,11 @@ def chain2m(chains):
 def circle4(earth, lat):
     '''Get the equatorial or a parallel I{circle of latitude}.
 
-       @arg earth: The earth radius, ellipsoid or datum
-                   (C{meter}, L{Ellipsoid}, L{Ellipsoid2},
-                   L{Datum} or L{a_f2Tuple}).
+       @arg earth: The earth radius (C{meter}), ellipsoid or datum
+                   (L{Ellipsoid}, L{Ellipsoid2}, L{Datum} or L{a_f2Tuple}).
        @arg lat: Geodetic latitude (C{degrees90}, C{str}).
 
-       @return: A L{Circle4Tuple}C{(radius, height, lat, beta)}
-                instance.
+       @return: A L{Circle4Tuple}C{(radius, height, lat, beta)}.
 
        @raise RangeError: Latitude B{C{lat}} outside valid range and
                           L{rangerrors<pygeodesy.rangerrors>} is C{True}.
@@ -181,76 +196,78 @@ def circle4(earth, lat):
     return E.circle4(lat)
 
 
-def cot(rad, **error_kwds):
+def cot(rad, **raiser_kwds):
     '''Return the C{cotangent} of an angle in C{radians}.
 
        @arg rad: Angle (C{radians}).
-       @kwarg error_kwds: Error to raise (C{ValueError}).
+       @kwarg raiser_kwds: Use C{B{raiser}=False} to avoid
+                     ValueErrors or optionally, additional
+                     ValueError keyword argments.
 
        @return: C{cot(B{rad})}.
 
-       @raise ValueError: L{pygeodesy.isnear0}C{(sin(B{rad})}.
+       @raise Error: If L{pygeodesy.isnear0}C{(sin(B{rad})}.
     '''
-    s, c = sincos2(rad)
-    if c:
-        if isnear0(s):
-            raise _valueError(cot, rad, **error_kwds)
-        c = c / s  # /= chokes PyChecker
-    return c
+    try:
+        return _cotu(*sincos2(rad), **raiser_kwds)
+    except ZeroDivisionError:
+        raise _valueError(cot, rad, **raiser_kwds)
 
 
-def cot_(*rads, **error_kwds):
-    '''Return the C{cotangent} of angle(s) in C{radiansresection}.
+def cot_(*rads, **raiser_kwds):
+    '''Return the C{cotangent} of angle(s) in C{radians}.
 
-       @arg rads: One or more angles (C{radians}).
-       @kwarg error_kwds: Error to raise (C{ValueError}).
+       @arg rads: One or more angles (each in C{radians}).
 
        @return: Yield the C{cot(B{rad})} for each angle.
 
-       @raise ValueError: See L{pygeodesy.cot}.
+       @see: Function L{pygeodesy.cot} for further details.
     '''
     try:
         for r in rads:
-            yield cot(r)
-    except ValueError:
-        raise _valueError(cot_, r, **error_kwds)
+            yield _cotu(*sincos2(r), **raiser_kwds)
+    except ZeroDivisionError:
+        raise _valueError(cot_, r, **raiser_kwds)
 
 
-def cotd(deg, **error_kwds):
+def cotd(deg, **raiser_kwds):
     '''Return the C{cotangent} of an angle in C{degrees}.
 
        @arg deg: Angle (C{degrees}).
-       @kwarg error_kwds: Error to raise (C{ValueError}).
+       @kwarg raiser_kwds: Use C{B{raiser}=False} to avoid
+                     ValueErrors or optionally, additional
+                     ValueError keyword argments.
 
        @return: C{cot(B{deg})}.
 
-       @raise ValueError: L{pygeodesy.isnear0}C{(sin(B{deg})}.
+       @raise Error: If L{pygeodesy.isnear0}C{(sin(B{deg})}.
     '''
-    s, c = sincos2d(deg)
-    if c:
-        if isnear0(s):
-            raise _valueError(cotd, deg, **error_kwds)
-        c = c / s  # /= chokes PyChecker
-    elif s < 0:
-        c = -c  # negate-0
-    return c
+    try:
+        return _cotu(*sincos2d(deg), **raiser_kwds)
+    except ZeroDivisionError:
+        raise _valueError(cotd, deg, **raiser_kwds)
 
 
-def cotd_(*degs, **error_kwds):
+def cotd_(*degs, **raiser_kwds):
     '''Return the C{cotangent} of angle(s) in C{degrees}.
 
-       @arg degs: One or more angles (C{degrees}).
-       @kwarg error_kwds: Error to raise (C{ValueError}).
+       @arg degs: One or more angles (each in C{degrees}).
 
        @return: Yield the C{cot(B{deg})} for each angle.
 
-       @raise ValueError: See L{pygeodesy.cotd}.
+       @see: Function L{pygeodesy.cotd} for further details.
     '''
     try:
         for d in degs:
-            yield cotd(d)
-    except ValueError:
-        raise _valueError(cotd_, d, **error_kwds)
+            yield _cotu(*sincos2d(d), **raiser_kwds)
+    except ZeroDivisionError:
+        raise _valueError(cotd_, d, **raiser_kwds)
+
+
+def _cotu(s, c, **raiser_kwds):
+    '''(INTERNAL) Helper for functions C{cot}, C{cotd}, C{cot_} and C{cotd_}.
+    '''
+    return _tanu(c, s, **raiser_kwds)
 
 
 def degrees90(rad):
@@ -290,30 +307,27 @@ def degrees2grades(deg):
 
        @return: Angle (C{grades}).
     '''
-    return Degrees(deg) * _400_0 / _360_0
+    return Float(grades=Degrees(deg) * _G_DEG)
 
 
 def degrees2m(deg, radius=R_M, lat=0):
-    '''Convert an angle to a distance along the equator or
-       along the parallel at an other (geodetic) latitude.
+    '''Convert an angle to a distance along the equator or along a parallel
+       at (geodetic) latitude.
 
        @arg deg: The angle (C{degrees}).
-       @kwarg radius: Mean earth radius, ellipsoid or datum
-                      (C{meter}, L{Ellipsoid}, L{Ellipsoid2},
-                      L{Datum} or L{a_f2Tuple}).
+       @kwarg radius: Mean earth radius (C{meter}), an ellipsoid or datum
+                      (L{Ellipsoid}, L{Ellipsoid2}, L{Datum} or L{a_f2Tuple}).
        @kwarg lat: Parallel latitude (C{degrees90}, C{str}).
 
-       @return: Distance (C{meter}, same units as B{C{radius}}
-                or equatorial and polar radii) or C{0.0} for
-                near-polar B{C{lat}}.
+       @return: Distance (C{meter}, same units as B{C{radius}} or polar and
+                equatorial radii) or C{0.0} for near-polar B{C{lat}}.
 
        @raise RangeError: Latitude B{C{lat}} outside valid range and
                           L{rangerrors<pygeodesy.rangerrors>} is C{True}.
 
        @raise TypeError: Invalid B{C{radius}}.
 
-       @raise ValueError: Invalid B{C{deg}}, B{C{radius}} or
-                          B{C{lat}}.
+       @raise ValueError: Invalid B{C{deg}}, B{C{radius}} or B{C{lat}}.
 
        @see: Function L{radians2m} and L{m2degrees}.
     '''
@@ -349,9 +363,9 @@ def ft2m(feet, usurvey=False, pied=False, fuss=False):
 
        @raise ValueError: Invalid B{C{feet}}.
     '''
-    return Meter(Feet(feet) * (_M_FOOT_USVY if usurvey else
-                              (_M_FOOT_FR   if pied    else
-                              (_M_FOOT_GE   if fuss    else _M_FOOT))))
+    return Meter(Feet(feet) * (_M_FOOT_US if usurvey else
+                              (_M_FOOT_FR if pied    else
+                              (_M_FOOT_GE if fuss    else _M_FOOT))))
 
 
 def furlong2m(furlongs):
@@ -373,7 +387,7 @@ def grades(rad):
 
        @return: Angle (C{grades}).
     '''
-    return Float(grades=Float(rad=rad) * _400_0 / PI2)
+    return Float(grades=Radians(rad) * _G_RAD)
 
 
 def grades400(rad):
@@ -383,7 +397,7 @@ def grades400(rad):
 
        @return: Angle, wrapped (C{grades}).
     '''
-    return Float(grades400=(grades(rad) % _400_0) or _0_0)  # _umod_400
+    return Float(grades400=wrapPI2(rad) * _G_RAD)
 
 
 def grades2degrees(gon):
@@ -393,7 +407,7 @@ def grades2degrees(gon):
 
        @return: Angle (C{degrees}).
     '''
-    return Degrees(Float(gon=gon) * _360_0 / _400_0)
+    return Degrees(Float(gon=gon) / _G_DEG)
 
 
 def grades2radians(gon):
@@ -403,7 +417,7 @@ def grades2radians(gon):
 
        @return: Angle (C{radians}).
     '''
-    return Radians(Float(gon=gon) * PI2 / _400_0)
+    return Radians(Float(gon=gon) / _G_RAD)
 
 
 def km2m(km):
@@ -437,13 +451,12 @@ def m2chain(meter):
 
 
 def m2degrees(distance, radius=R_M, lat=0):
-    '''Convert a distance to an angle along the equator or
-       along the parallel at an other (geodetic) latitude.
+    '''Convert a distance to an angle along the equator or along a parallel
+       at (geodetic) latitude.
 
        @arg distance: Distance (C{meter}, same units as B{C{radius}}).
-       @kwarg radius: Mean earth radius, ellipsoid or datum (C{meter},
-                      an L{Ellipsoid}, L{Ellipsoid2}, L{Datum} or
-                      L{a_f2Tuple}).
+       @kwarg radius: Mean earth radius (C{meter}), an ellipsoid or datum
+                      (L{Ellipsoid}, L{Ellipsoid2}, L{Datum} or L{a_f2Tuple}).
        @kwarg lat: Parallel latitude (C{degrees90}, C{str}).
 
        @return: Angle (C{degrees}) or C{INF} for near-polar B{C{lat}}.
@@ -453,8 +466,7 @@ def m2degrees(distance, radius=R_M, lat=0):
 
        @raise TypeError: Invalid B{C{radius}}.
 
-       @raise ValueError: Invalid B{C{distance}}, B{C{radius}}
-                          or B{C{lat}}.
+       @raise ValueError: Invalid B{C{distance}}, B{C{radius}} or B{C{lat}}.
 
        @see: Function L{m2radians} and L{degrees2m}.
     '''
@@ -492,9 +504,9 @@ def m2ft(meter, usurvey=False, pied=False, fuss=False):
     '''
     # * 3.2808333333333333, US Survey 3937 / 1200
     # * 3.2808398950131235, Int'l 10_000 / (254 * 12)
-    return Float(feet=Meter(meter) / (_M_FOOT_USVY if usurvey else
-                                     (_M_FOOT_FR   if pied    else
-                                     (_M_FOOT_GE   if fuss    else _M_FOOT))))
+    return Float(feet=Meter(meter) / (_M_FOOT_US if usurvey else
+                                     (_M_FOOT_FR if pied    else
+                                     (_M_FOOT_GE if fuss    else _M_FOOT))))
 
 
 def m2furlong(meter):
@@ -534,13 +546,12 @@ def m2NM(meter):
 
 
 def m2radians(distance, radius=R_M, lat=0):
-    '''Convert a distance to an angle along the equator or along the
-       parallel at an other (geodetic) latitude.
+    '''Convert a distance to an angle along the equator or along a parallel
+       at (geodetic) latitude.
 
        @arg distance: Distance (C{meter}, same units as B{C{radius}}).
-       @kwarg radius: Mean earth radius, ellipsoid or datum (C{meter},
-                      an L{Ellipsoid}, L{Ellipsoid2}, L{Datum} or
-                      L{a_f2Tuple}).
+       @kwarg radius: Mean earth radius (C{meter}, an ellipsoid or datum
+                      (L{Ellipsoid}, L{Ellipsoid2}, L{Datum} or L{a_f2Tuple}).
        @kwarg lat: Parallel latitude (C{degrees90}, C{str}).
 
        @return: Angle (C{radians}) or C{INF} for near-polar B{C{lat}}.
@@ -550,8 +561,7 @@ def m2radians(distance, radius=R_M, lat=0):
 
        @raise TypeError: Invalid B{C{radius}}.
 
-       @raise ValueError: Invalid B{C{distance}}, B{C{radius}}
-                          or B{C{lat}}.
+       @raise ValueError: Invalid B{C{distance}}, B{C{radius}} or B{C{lat}}.
 
        @see: Function L{m2degrees} and L{radians2m}.
     '''
@@ -610,26 +620,23 @@ def NM2m(nm):
 
 
 def radians2m(rad, radius=R_M, lat=0):
-    '''Convert an angle to a distance along the equator or
-       along the parallel at an other (geodetic) latitude.
+    '''Convert an angle to a distance along the equator or along a parallel
+       at (geodetic) latitude.
 
        @arg rad: The angle (C{radians}).
-       @kwarg radius: Mean earth radius, ellipsoid or datum
-                      (C{meter}, L{Ellipsoid}, L{Ellipsoid2},
-                      L{Datum} or L{a_f2Tuple}).
+       @kwarg radius: Mean earth radius (C{meter}) or an ellipsoid or datum
+                      (L{Ellipsoid}, L{Ellipsoid2}, L{Datum} or L{a_f2Tuple}).
        @kwarg lat: Parallel latitude (C{degrees90}, C{str}).
 
-       @return: Distance (C{meter}, same units as B{C{radius}}
-                or equatorial and polar radii) or C{0.0} for
-                near-polar B{C{lat}}.
+       @return: Distance (C{meter}, same units as B{C{radius}} or polar and
+                equatorial radii) or C{0.0} for near-polar B{C{lat}}.
 
        @raise RangeError: Latitude B{C{lat}} outside valid range and
                           L{rangerrors<pygeodesy.rangerrors>} is C{True}.
 
        @raise TypeError: Invalid B{C{radius}}.
 
-       @raise ValueError: Invalid B{C{rad}}, B{C{radius}} or
-                          B{C{lat}}.
+       @raise ValueError: Invalid B{C{rad}}, B{C{radius}} or B{C{lat}}.
 
        @see: Function L{degrees2m} and L{m2radians}.
     '''
@@ -832,41 +839,75 @@ def tan_2(rad, **semi):  # edge=1
             _SPACE_(_MODS.streprs.Fmt.SQUARE(**semi), _edge_)
         raise _ValueError(n, rad, txt=_semi_circular_)
 
-    return tan(rad * _0_5) if _isfinite(rad) else NAN
+    return _tan(rad * _0_5) if _isfinite(rad) else NAN
 
 
-def tand(deg, **error_kwds):
+def tan(rad, **raiser_kwds):
+    '''Return the C{tangent} of an angle in C{radians}.
+
+       @arg rad: Angle (C{radians}).
+       @kwarg raiser_kwds: Use C{B{raiser}=False} to avoid
+                     ValueErrors or optionally, additional
+                     ValueError keyword argments.
+
+       @return: C{tan(B{rad})}.
+
+       @raise Error: If L{pygeodesy.isnear0}C{(cos(B{rad})}.
+    '''
+    try:
+        return _tanu(*sincos2(rad), **raiser_kwds)
+    except ZeroDivisionError:
+        raise _valueError(tan, rad, **raiser_kwds)
+
+
+def tan_(*rads, **raiser_kwds):
+    '''Return the C{tangent} of angle(s) in C{radians}.
+
+       @arg rads: One or more angles (each in C{radians}).
+
+       @return: Yield the C{tan(B{rad})} for each angle.
+
+       @see: Function L{pygeodesy.tan} for futher details.
+    '''
+    try:
+        for r in rads:
+            yield _tanu(*sincos2(r), **raiser_kwds)
+    except ZeroDivisionError:
+        raise _valueError(tan_, r, **raiser_kwds)
+
+
+def tand(deg, **raiser_kwds):
     '''Return the C{tangent} of an angle in C{degrees}.
 
        @arg deg: Angle (C{degrees}).
-       @kwarg error_kwds: Error to raise (C{ValueError}).
+       @kwarg raiser_kwds: Use C{B{raiser}=False} to avoid
+                     ValueErrors or optionally, additional
+                     ValueError keyword argments.
 
        @return: C{tan(B{deg})}.
 
-       @raise ValueError: If L{pygeodesy.isnear0}C{(cos(B{deg})}.
+       @raise Error: If L{pygeodesy.isnear0}C{(cos(B{deg})}.
     '''
-    s, c = sincos2d(deg)
-    if s:
-        if isnear0(c):
-            raise _valueError(tand, deg, **error_kwds)
-        s = s / c  # /= chokes PyChecker
-    elif c < 0:
-        s = -s  # negate-0
-    return s
+    try:
+        return _tanu(*sincos2d(deg), **raiser_kwds)
+    except ZeroDivisionError:
+        raise _valueError(tand, deg, **raiser_kwds)
 
 
-def tand_(*degs, **error_kwds):
+def tand_(*degs, **raiser_kwds):
     '''Return the C{tangent} of angle(s) in C{degrees}.
 
-       @arg degs: One or more angles (C{degrees}).
-       @kwarg error_kwds: Error to raise (C{ValueError}).
+       @arg degs: One or more angles (each in C{degrees}).
 
        @return: Yield the C{tan(B{deg})} for each angle.
 
-       @raise ValueError: See L{pygeodesy.tand}.
+       @see: Function L{pygeodesy.tand} for futher details.
     '''
-    for d in degs:
-        yield tand(d, **error_kwds)
+    try:
+        for d in degs:
+            yield _tanu(*sincos2d(d), **raiser_kwds)
+    except ZeroDivisionError:
+        raise _valueError(tand_, d, **raiser_kwds)
 
 
 def tanPI_2_2(rad):
@@ -876,8 +917,20 @@ def tanPI_2_2(rad):
 
        @return: M{tan((rad + PI/2) / 2)} (C{float}).
     '''
-    return tan((rad + PI_2) * _0_5) if _isfinite(rad) else (
-           NAN if isnan(rad) else (_N_90_0 if rad < 0 else _90_0))
+    return _tan((rad + PI_2) * _0_5) if _isfinite(rad) else (
+            NAN if isnan(rad) else _copysign(_90_0, rad))
+
+
+def _tanu(s, c, raiser=True, **unused):
+    '''(INTERNAL) Helper for functions C{_cotu}, C{tan}, C{tan_}, C{tand} and C{tand_}.
+    '''
+    if s:
+        if raiser and isnear0(c):
+            raise ZeroDivisionError()
+        s = _over(s, c)
+    elif c < 0:
+        s = -s  # negate-0
+    return s
 
 
 def toise2m(toises):
@@ -980,11 +1033,11 @@ def unrollPI(rad1, rad2, wrap=True):
     return r, rad2
 
 
-def _valueError(where, x, **kwds):
-    '''(INTERNAL) Return a C{_ValueError}.
+def _valueError(where, x, raiser=True, **kwds):
+    '''(INTERNAL) Return a C{_ValueError} or C{None}.
     '''
     t = _MODS.streprs.Fmt.PAREN(where.__name__, x)
-    return _ValueError(t, **kwds)
+    return _ValueError(t, **kwds) if raiser else None
 
 
 class _Wrap(object):
@@ -1100,8 +1153,7 @@ def wrap90(deg):
 
        @return: Degrees, wrapped (C{degrees90}).
     '''
-    w = wrap180(deg)
-    return (w - _180_0) if w > 90 else ((w + _180_0) if w < -90 else w)
+    return _wrapu(wrap180(deg), _180_0, _90_0)
 
 
 def wrap180(deg):
@@ -1113,9 +1165,9 @@ def wrap180(deg):
     '''
     d =  float(deg)
     w = _umod_360(d)
-    if w > 180:
+    if w > _180_0:
         w -= _360_0
-    elif d < 0 and w == 180:
+    elif d < 0 and w == _180_0:
         w = -w
     return w
 
@@ -1163,8 +1215,7 @@ def wrapPI_2(rad):
 
        @return: Radians, wrapped (C{radiansPI_2}).
     '''
-    w = wrapPI(rad)
-    return (w - PI) if w > PI_2 else ((w + PI) if w < (-PI_2) else w)
+    return _wrapu(wrapPI(rad), PI, PI_2)
 
 
 # def wraplatlon(lat, lon):
@@ -1199,6 +1250,12 @@ def wrap_normal(*normal):
 #     return wrapPI_2(phi), wrapPI(lam)
 
 
+def _wrapu(w, H, Q):
+    '''(INTERNAL) Helper for functions C{wrap180} and C{wrapPI}.
+    '''
+    return (w - H) if w > Q else ((w + H) if w < (-Q) else w)
+
+
 def yard2m(yards):
     '''Convert I{UK} yards to meter.
 
@@ -1212,7 +1269,7 @@ def yard2m(yards):
 
 # **) MIT License
 #
-# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

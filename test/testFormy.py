@@ -4,15 +4,15 @@
 # Test L{formy} module.
 
 __all__ = ('Tests',)
-__version__ = '24.05.28'
+__version__ = '24.11.14'
 
 from bases import TestsBase
 
-from pygeodesy import PI, PI_2, R_M, antipode, bearing, cosineAndoyerLambert, \
-                      cosineForsytheAndoyerLambert as _cosineForsythe_, \
+from pygeodesy import PI, PI_2, R_M, angle2chord, antipode, bearing, cosineAndoyerLambert, \
+                      chord2angle, cosineForsytheAndoyerLambert as _cosineForsythe_, \
                       cosineLaw, Datums, equirectangular, euclidean, \
                       excessAbc_, excessCagnoli_, excessGirard_, excessLHuilier_, \
-                      excessKarney, excessQuad, flatLocal, flatPolar, formy, \
+                      excessKarney, excessQuad, Degrees, flatLocal, flatPolar, formy, \
                       hartzell, haversine, heightOf, heightOrthometric, horizon, hubeny, \
                       IntersectionError, intersection2, intersections2, \
                       isantipode, isantipode_, isnormal, isnormal_, \
@@ -75,6 +75,10 @@ class Tests(TestsBase):
         self.test('hubeny' + t, hubeny, flatLocal, nt=1)
 
     def testFormy(self):
+
+        t = angle2chord(Degrees(90))
+        self.test('angle2chord', angle2chord(PI_2), t, prec=3)
+        self.test('chord2angle', chord2angle(t), PI_2, prec=6)
 
         self.test('antipode1', antipode( 89,  179), (-89.0, -1.0))
         self.test('antipode2', antipode(-89, -179), ( 89.0,  1.0))

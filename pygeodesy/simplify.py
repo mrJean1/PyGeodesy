@@ -1,59 +1,53 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Simplify or linearize a path.
+u'''Simplify or linearize a path of C{LatLon} points.
 
-Each of the I{simplify} functions is based on a different algorithm and
-produces different, simplified results in (very) different run times for
-the same path of C{LatLon} points.
+Each of the 4 I{simplify} functions is based on a different algorithm and
+produces different, simplified results in (very) different run times for the
+same path:
 
-Function L{simplify1} eliminates points based on edge lengths shorter
-than a given tolerance.
+ - Function L{simplify1} eliminates points with edge lengths shorter than
+   the given tolerance.
 
-The functions L{simplifyRDP} and L{simplifyRDPm} use the original,
-respectively modified I{Ramer-Douglas-Peucker} (RDP) algorithm, iteratively
-finding the point farthest from each path edge.  The difference is that
-function L{simplifyRDP} exhaustively searches the most distant point in
-each iteration, while modified L{simplifyRDPm} stops at the first point
-exceeding the distance tolerance.
+ - Function L{simplifyRDP} implements the I{Ramer-Douglas-Peucker} (RDP)
+   algorithm, iteratively finding the point farthest from each path edge.
+   Original RDP exhaustively searches the most distant point in each iteration,
+   I{modified} RDP stops at the first point exceeding the distance tolerance.
 
-Function L{simplifyRW} use the I{Reumann-Witkam} method, sliding a "pipe"
-over each path edge, removing all subsequent points within, closer than
-the pipe radius up to the first point outside the pipe.
+ - Function L{simplifyRW} uses the I{Reumann-Witkam} (RW) method, sliding a
+   "pipe" over each path edge, removing all subsequent points within the pipe
+   radius, up to the first point outside the pipe.
 
-Functions L{simplifyVW} and L{simplifyVWm} are based on the original,
-respectively modified I{Visvalingam-Whyatt} (VW) method using the area of
-the triangle formed by three neigboring points.  Function L{simplifyVW}
-removes only a single point per iteration, while modified L{simplifyVWm}
-eliminates in each iteration all points with a triangular area not
-exceeding the tolerance.
+ - Function L{simplifyVW} provides the I{Visvalingam-Whyatt} (VW) method
+   using the area of the triangle formed by three neigboring points.  Original
+   VW removes only a single point per iteration, I{modified} VW eliminates all
+   points with a triangular area not exceeding the tolerance in each iteration.
 
-Functions L{simplifyRDP}, L{simplifyRDPm} and L{simplifyRW} provide
-keyword argument I{shortest} to specify of the distance between a point
-and a path edge.  If C{True}, use the I{shortest} distance to the path
-edge or edge points, otherwise use the I{perpendicular} distance to
-the extended line through both path edge points.
+Keyword argument I{shortest} of functions L{simplifyRDP} and L{simplifyRW}
+specifies of the distance between a point and a path edge.  If C{True}, use
+the I{shortest} distance to the path edge or edge points, otherwise use the
+I{perpendicular} distance to the (extended) edge through both points.
 
 Keyword argument B{C{radius}} of all fuctions is set to the mean earth
-radius in C{meter}.  Other units can be used, provided that the radius
-and tolerance are always specified in the same units.
+radius in C{meter}, conventionally.  Other units may be used, provided
+that radius and tolerance are specified in the same units.
 
-Use keyword argument C{B{indices}=True} in any function to return a
-list of simplified point I{indices} instead of the simplified points.
-The first and last index are always the first and last original index.
+Use keyword argument C{B{indices}=True} in any function to return a list
+of I{indices} of simplified point instead of the simplified points with
+the first and last index are always the first and last original index.
 
 Finally, any additional keyword arguments B{C{options}} to all functions
 are passed thru to function L{pygeodesy.equirectangular4} to specify the
 distance approximation.
 
-To process C{NumPy} arrays containing rows of lat-, longitude and
-possibly other values, use class L{Numpy2LatLon} to wrap the C{NumPy}
-array into I{on-the-fly-LatLon} points.  Pass the L{Numpy2LatLon}
-instance to any I{simplify} function and the returned result will be
-a C{NumPy} array containing the simplified subset, a partial copy of
-the original C{NumPy} array.  Use keyword argument C{B{indices}=True}
-to return a list of array row indices inlieu of the simplified array
-subset.
+To process C{NumPy} arrays containing rows of lat-, longitude and possibly
+other values, use class L{Numpy2LatLon} to wrap the C{NumPy} array into
+I{on-the-fly-LatLon} points.  Pass the L{Numpy2LatLon} instance to any
+I{simplify} function and the returned result will be a C{NumPy} array
+containing the simplified subset, a partial copy of the original C{NumPy}
+array.  Use keyword argument C{B{indices}=True} to return a list of array
+row indices inlieu of the simplified array subset.
 
 See:
  - U{https://Bost.Ocks.org/mike/simplify}
@@ -75,7 +69,7 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 # from pygeodesy.basics import len2  # from .fmath
 from pygeodesy.constants import EPS, R_M, _1_0
-from pygeodesy.errors import _AttributeError, _ValueError
+from pygeodesy.errors import _AttributeError, _ValueError, _xkwds_pop2
 from pygeodesy.fmath import fdot_, len2, sqrt0
 from pygeodesy.formy import equirectangular4
 from pygeodesy.interns import _small_, _too_
@@ -86,7 +80,7 @@ from pygeodesy.units import _ALL_LAZY, _1mm, Radius_
 from math import degrees, fabs, radians
 
 __all__ = _ALL_LAZY.simplify
-__version__ = '24.11.07'
+__version__ = '24.12.02'
 
 
 # try:
@@ -101,7 +95,7 @@ __version__ = '24.11.07'
 # self is not first method argument" which can't
 # be suppressed with command line option --stdlib
 class _T2(object):
-    '''(INTERNAL) VW 2-tuple (index, area).
+    '''(INTERNAL) VW 2-tuple (index, area2).
     '''
     # __slots__ are no longer space savers, see
     # the comments at the class .points.LatLon_
@@ -115,18 +109,19 @@ class _T2(object):
 class _Sy(object):
     '''(INTERNAL) Simplify state.
     '''
-    d2i2    = None  # d2iP2 or d2iS2
-    d2yxse5 = ()    # 5-tuple
-    eps     = EPS   # system epsilon
-    indices = False
-    n       = 0
-    options = {}
-    pts     = []
-    radius  = R_M   # mean earth radius
-    r       = {}    # RDP indices or VW 2-tuples
-    s2      = EPS   # tolerance squared
-    s2e     = EPS   # sentinel
-    subset  = None  # isNumpy2 or isTuple2
+    d2yxse5  = ()     # 5-tuple
+    eps      = EPS    # system epsilon
+    indices  = False
+    ixs      = set()  # set(indices)
+    n        = 0
+    options  = {}
+    pts      = []
+    radius   = R_M    # mean earth radius
+    s2       = EPS    # tolerance squared
+    s2e      = EPS    # VW sentinel
+    shortest = False  # i.e. perpendicular
+    subset   = None   # isNumpy2 or isTuple2
+    t2s      = []     # list(_T2s)
 
     def __init__(self, points, tolerance, radius, shortest,
                                           indices, **options):
@@ -134,123 +129,99 @@ class _Sy(object):
         '''
         n, self.pts = len2(points)
         if n > 0:
-            self.n = n
-            self.r = {0: True, n-1: True}  # dict to avoid duplicates
+            self.n   = n
+            self.ixs = set((0, n-1))
 
-        if isNumpy2(points) or isTuple2(points):  # NOT self.pts
-            self.subset = points.subset
+        if radius is not R_M:
+            self.radius = Radius_(radius, low=self.eps)
+        # tolerance converted to degrees squared
+        self.s2 = s2 = degrees(tolerance / self.radius)**2
+        if min(s2, tolerance) < self.eps:
+            raise _ValueError(tolerance=tolerance, txt=_too_(_small_))
+        self.s2e = s2 + _1_0  # VW sentinel
+        # assert self.s2e > s2
 
         if indices:
             self.indices = True
-
-        if radius:
-            self.radius = Radius_(radius, low=self.eps)
-        elif self.radius < self.eps:
-            raise _ValueError(radius=radius, txt=_too_(_small_))
-
         if options:
-            self.options = options
-
-        # tolerance converted to degrees squared
-        self.s2 = degrees(tolerance / self.radius)**2
-        if min(self.s2, tolerance) < self.eps:
-            raise _ValueError(tolerance=tolerance, txt=_too_(_small_))
-        self.s2e = self.s2 + 1  # sentinel
-
-        # compute either the shortest or perpendicular distance
-        self.d2i2 = self.d2iS2 if shortest else self.d2iP2  # PYCHOK attr
+            _, self.options = _xkwds_pop2(options, modified=None)
+        if shortest:
+            self.shortest = True
+        if isNumpy2(points) or isTuple2(points):  # NOT self.pts
+            self.subset = points.subset
 
     def d21(self, s, e):
-        '''Set path edge or line thru points[s] to -[e].
+        '''Set path edge or line thru (points[s], -[e]).
         '''
         d21, y21, x21, _ = self.d2yxu4(s, e)
         self.d2yxse5 = d21, y21, x21, s, e
         return d21 > self.eps
 
-    def d2ih2(self, n, m, brk):
-        '''Find the tallest distance among all points[n..m]
-           to points[s] to -[e] exceeding the tolerance.
+    def d2i2(self, m, n, modified):
+        '''Find the tallest distance among all points[m..n]
+           to (points[s], -[e]) exceeding the tolerance.
         '''
         _, _, _, s, _ = self.d2yxse5
-        eps, _d2yxu4 = self.eps, self.d2yxu4
         t2, t = self.s2, 0  # tallest
-        for i in range(n, m):
-            d2, _, _, _ = _d2yxu4(s, i)
+        for i in range(m, n):
+            d2, _, _, _ = self.d2yxu4(s, i)
             if d2 > t2:
                 t2, t = d2, i
-                if brk and d2 > eps:
+                if modified and d2 > self.eps:
                     break
         return t2, t
 
-    def d2iP2(self, n, m, brk):
-        '''Find the tallest I{perpendicular} distance among all
-           points[n..m] to the path edge or line thru points[s]
-           to -[e] exceeding the tolerance.
+    def d2ix2(self, m, n, modified):
+        '''Find the tallest I{perpendicular B{or} shortest} distance
+           among all points[m..n] to the path edge or line through
+           (points[s], -[e]) exceeding the tolerance.
         '''
-        d21, y21, x21, s, _ = self.d2yxse5
-        eps, _d2yxu4 = self.eps, self.d2yxu4
-        t2, t = self.s2, 0  # tallest
-        for i in range(n, m):
-            d2, y01, x01, _ = _d2yxu4(s, i)
-            if d2 > eps:
-                # perpendicular distance squared
-                d2 = (y01 * x21 - x01 * y21)**2 / d21
-                if d2 > t2:
-                    t2, t = d2, i
-                    if brk:
-                        break
-        return t2, t
-
-    def d2iS2(self, n, m, brk):
-        '''Find the tallest I{shortest} distance among all
-           points[n..m] to the path edge or line thru points[s]
-           to -[e] exceeding the tolerance.
-        '''
+        h = not self.shortest
         # point (x, y) on axis rotated by angle a ccw:
         #   x' = y * sin(a) + x * cos(a)
         #   y' = y * cos(a) - x * sin(a)
         #
-        # distance (w) along and perpendicular (h) to
-        # a line thru point (dx, dy) and the origin:
+        # distance along (w) and perpendicular to (h)
+        # a line from the origin to point (dx, dy):
         #   w = (y * dy + x * dx) / hypot(dx, dy)
         #   h = (y * dx - x * dy) / hypot(dx, dy)
-
         d21, y21, x21, s, e = self.d2yxse5
-        eps, _d2yxu4 = self.eps, self.d2yxu4
         t2, t = self.s2, 0  # tallest
-        for i in range(n, m):
-            # distance points[i] to -[s]
-            d2, y01, x01, _ = _d2yxu4(s, i)
-            if d2 > eps:
-                w = fdot_(y01, y21, x01, x21)
-                if w > 0:
-                    if w < d21:
-                        # perpendicular distance squared
-                        d2 = fdot_(y01, x21, -x01, y21)**2 / d21
-                    else:  # distance points[i] to -[e]
-                        d2, _, _, _ = _d2yxu4(e, i)
+        for i in range(m, n):
+            # distance points[s] to -[i], ...
+            d2, y01, x01, _ = self.d2yxu4(s, i)
+            if d2 > self.eps:
+                if h:  # perpendicular distance
+                    d2 = fdot_(y01, x21, -x01, y21)**2 / d21
+                else:
+                    w  = fdot_(y01, y21,  x01, x21)
+                    if w > 0:
+                        if w < d21:  # ... perpendicular ...
+                            d2 = fdot_(y01, x21, -x01, y21)**2 / d21
+                        else:  # ... or points[e] to -[i]
+                            d2, _, _, _ = self.d2yxu4(e, i)
                 if d2 > t2:
                     t2, t = d2, i
-                    if brk:
+                    if modified:
                         break
         return t2, t
 
     def d2yxu4(self, i, j):
-        '''Return distance I{squared}, points[i] to -[j] deltas
-           and the (longitudinal) unrollment.
+        '''Return the distance I{squared}, the deltas and the
+           (longitudinal) unrollment between (points[i], -[j]).
         '''
-        p1, p2= self.pts[i], self.pts[j]
+        p1, p2 = self.pts[i], self.pts[j]
         return equirectangular4(p1.lat, p1.lon,
                                 p2.lat, p2.lon, **self.options)
 
-    def h2t(self, i1, i0, i2):
-        '''Compute the Visvalingam-Whyatt triangular area,
-           points[i0] is the top and points[i1] to -[i2]
-           form the base of the triangle.
+    def h2t(self, i1, i2, i3):
+        '''Compute (double) the triangle area, points[i2] is
+           the top and edge (points[i1], -[i3]) is the base
+           of the triangle.
         '''
-        d21, y21, x21 , _= self.d2yxu4(i1, i2)
+        d21, y21, x21 , _ = self.d2yxu4(i1, i3)
         if d21 > self.eps:
-            d01, y01, x01, _ = self.d2yxu4(i1, i0)
+            d01, y01, x01, _ = self.d2yxu4(i1, i2)
             if d01 > self.eps:
                 h2 = fabs(fdot_(y01, x21, -x01, y21))
                 # triangle height h = h2 / sqrt(d21) and
@@ -258,137 +229,171 @@ class _Sy(object):
                 return h2  # double triangle area
         return 0
 
-    def points(self, r):
-        '''Return the list of simplified points or indices.
+    def rdp(self, modified):
+        '''Ramer-Douglas-Peucker (RDP) simplification of a
+           path of C{LatLon} points.
+
+           @arg modified: Use I{modified} RDP (C{bool}).
         '''
-        r = sorted(r.keys())
+        r, n = self.ixs, self.n
+        if n > 1:
+            s2, se = self.s2, [(0, n-1)]
+            while se:
+                s, e = se.pop()
+                s1 = s + 1
+                if e > s1:
+                    if self.d21(s, e):  # points[] to edge [s, e]
+                        d2, i = self.d2ix2(s1, e, modified)
+                    else:  # points[] to point [s]
+                        d2, i = self.d2i2( s1, e, modified)
+                    if d2 > s2 and i > 0:
+                        se.append((i, e))
+                        if not modified:
+                            se.append((s, i))
+                        r.add(i)
+                    r.add(s)
+        return self.result(r)
+
+    def result(self, r):
+        '''Return the simplified points or indices.
+        '''
+        r = sorted(r)
         if self.indices:
             return list(r)
         elif self.subset:
             return self.subset(r)
         else:
-            return [self.pts[i] for i in r]
+            return list(self.pts[i] for i in r)
 
-    def rdp(self, modified):
-        '''Ramer-Douglas-Peucker (RDP) simplification of a
-           path of C{LatLon} points.
-
-           @arg modified: Use modified RDP (C{bool}).
+    def rw(self):
+        '''Reumann-Witkam simplification.
         '''
-        n, r = self.n, self.r
+        r, n = self.ixs, self.n
         if n > 1:
-            s2,    _d21   = self.s2,   self.d21
-            _d2i2, _d2ih2 = self.d2i2, self.d2ih2
-
-            se = [(0, n-1)]
-            _a = se.append
-            _p = se.pop
-            while se:
-                s, e = _p()
-                s1 = s + 1
-                if e > s1:
-                    if _d21(s, e):  # points[] to edge [s, e]
-                        d2, i = _d2i2(s1, e, modified)
-                    else:  # points[] to point [s]
-                        d2, i = _d2ih2(s1, e, modified)
+            s, e, s2 = 0, 1, self.s2
+            while s < e < n:
+                if self.d21(s, e):
+                    d2, i = self.d2ix2(e + 1, n, True)
+                    r.add(s)
                     if d2 > s2 and i > 0:
-                        r[i] = True
-                        _a((i, e))
-                        if not modified:
-                            _a((s, i))
-                    r[s] = True
+                        r.add(i)
+                        s = e = i
+                    else:
+                        # r.add(n - 1)
+                        break
+                e += 1
+        return self.result(r)
 
-        return self.points(r)
-
-    def rm1(self, m, tol):
-        '''Eliminate one Visvalingam-Whyatt point and recomputes
-           the trangular area of both neighboring points, but
-           removes those too unless the recomputed area exceeds
-           the tolerance.
+    def sy1(self):
+        '''Basic simplification.
         '''
-        _h2t, r = self.h2t, self.r
-
-        r.pop(m)
-        for n in (m, m - 1):
-            while 0 < n < (len(r) - 1):
-                h2 = _h2t(r[n-1].ix, r[n].ix, r[n+1].ix)
-                if h2 > tol:
-                    r[n].h2 = h2
-                    break  # while
-                else:
-                    r.pop(n)
-
-    def rm2(self, tol):
-        '''Eliminate all Visvalingam-Whyatt points with a
-           triangular area not exceeding the tolerance.
-        '''
-        r, _rm1 = self.r, self.rm1
-
-        i = len(r) - 1
-        while i > 1:
-            i -= 1
-            if r[i].h2 <= tol:
-                _rm1(i, tol)
-                i = min(i, len(r) - 1)
+        r, n = self.ixs, self.n
+        if n > 1:
+            s2, i = self.s2, 0
+            for j in range(1, n):
+                d2, _, _, _ = self.d2yxu4(i, j)
+                if d2 > s2:
+                    r.add(j)
+                    i = j
+        return self.result(r)
 
     def vwn(self):
-        '''Initialize Visvalingam-Whyatt as list of 2-tuples
-           _T2(ix, h2) where ix is the points[] index and h2
-           is the triangular area I{(times 2)} of that point.
+        '''Initialize VW as list of 2-tuples _T2(ix, h2) where
+           ix is the points[] index and h2 is the triangular
+           area I{(times 2)} of that point.
         '''
-        n, _h2t, s2e, T2 = self.n, self.h2t, self.s2e, _T2
-
-        self.r = r = []
+        self.t2s = t = []
+        n, T2 = self.n, _T2
         if n > 2:
-            r[:] = [T2(i, _h2t(i-1, i, i+1)) for i in range(1, n-1)]
+            _h2t = self.h2t
+            t[:] = [T2(i, _h2t(i-1, i, i+1)) for i in range(1, n - 1)]
         if n > 1:
-            r.append(T2(n-1, s2e))
+            t.append(T2(n - 1, self.s2e))
         if n > 0:
-            r.insert(0, T2(0, s2e))
-        return len(r)
+            t.insert(0, T2(0, self.s2e))
+        return len(t)
 
     def vwr(self, attr):
-        '''Return the Visvalingam-Whyatt results, optionally
-           including the triangular area (in meters) as
-           attribute attr to each simplified point.
+        '''Return the VW results, optionally including the
+           triangular area (in C{meter}) as attribute C{attr}
+           to each simplified point.
         '''
-        pts, r = self.pts, self.r
+        pts, t = self.pts, self.t2s
 
         # double check the minimal triangular area
-        assert min(t2.h2 for t2 in r) > self.s2 > 0
+        assert min(t2.h2 for t2 in t) > self.s2 > 0
 
-        if attr:  # return the trangular area (actually
+        if attr:  # return each trangular area (actually
             # the sqrt of double the triangular area)
             # converted back from degrees to meter
             if isNumpy2(pts):
                 raise _AttributeError(attr=attr)
-            m = radians(_1_0) * self.radius
-            r[0].h2 = r[-1].h2 = 0  # zap sentinels
-            for t2 in r:  # convert back to meter
+            t[0].h2 = t[-1].h2 = 0  # zap sentinels
+            m = radians(_1_0) * self.radius  # meter
+            for t2 in t:  # convert back to meter
                 setattr(pts[t2.ix], attr, sqrt0(t2.h2) * m)
 
-        # double check for duplicates
-        n = len(r)
-        r = dict((t2.ix, True) for t2 in r)
+        n = len(t)  # double check for duplicates
+        r = set(t2.ix for t2 in t)
         assert len(r) == n
-        return self.points(r)
+        return self.result(r)
+
+    def vwrm(self):
+        '''Keep removing the VW point with the smallest triangular
+           area until that area exceeds the tolerance.
+        '''
+        s2, t = self.s2, self.t2s
+        while len(t) > 2:
+            m2, m = t[1].h2, 1
+            for i in range(2, len(t) - 1):
+                h2 = t[i].h2
+                if h2 < m2:
+                    m2, m = h2, i
+            if m2 > s2:
+                break
+            self.vwrm1(m, 0)
+
+    def vwrm1(self, m, tol):
+        '''Eliminate VW point[m], keep recomputing the trangular
+           area of both neighboring points and removing those
+           too until the recomputed area exceeds C{tol}.
+        '''
+        t, _h2t = self.t2s, self.h2t
+        t.pop(m)
+        for n in (m, m - 1):  # neighbors
+            while 0 < n < (len(t) - 1):
+                h2 = _h2t(t[n-1].ix, t[n].ix, t[n+1].ix)
+                if h2 > tol:
+                    t[n].h2 = h2
+                    break  # while
+                t.pop(n)
+
+    def vwrm2(self, tol):
+        '''Eliminate all VW points with a triangular area not
+           exceeding C{tol}.
+        '''
+        t = self.t2s
+        m = len(t) - 1
+        while m > 1:
+            m -= 1
+            if t[m].h2 <= tol:
+                self.vwrm1(m, tol)
+                m = min(m, len(t) - 1)
 
 
 def simplify1(points, distance=_1mm, radius=R_M, indices=False, **options):
-    '''Basic simplification of a path of C{LatLon} points.
+    '''Basic simplification of a path of C{LatLon} points by eliminating
+       any points closer together than the given I{distance} tolerance.
 
-       Eliminates any points closer together than the given I{distance}
-       tolerance.
-
-       @arg points: Path points (C{LatLon}[]).
+       @arg points: Iterable with the path points (C{LatLon}[]).
        @kwarg distance: Tolerance (C{meter}, same units as B{C{radius}}).
-       @kwarg radius: Mean earth radius (C{meter}).
-       @kwarg indices: If C{True}, return the simplified point indices
-                       instead of the simplified points (C{bool}).
-       @kwarg options: Optional keyword arguments passed thru to
-                       function L{pygeodesy.equirectangular4}.
+       @kwarg radius: Mean earth radius (C{meter}, conventionally).
+       @kwarg indices: If C{True}, return B{C{points}} indices instead
+                       of the simplified points (C{bool}).
+       @kwarg options: Optional keyword arguments passed thru to function
+                       L{pygeodesy.equirectangular4}.
 
-       @return: Simplified points (C{LatLon}[]).
+       @return: Simplified points (C{LatLon}[]) or B{C{points}} indices.
 
        @raise LimitError: Lat- and/or longitudinal delta exceeds the B{C{limit}},
                           see function L{pygeodesy.equirectangular4}.
@@ -396,109 +401,63 @@ def simplify1(points, distance=_1mm, radius=R_M, indices=False, **options):
        @raise ValueError: Tolerance B{C{distance}} or B{C{radius}} too small.
     '''
     S = _Sy(points, distance, radius, True, indices, **options)
-
-    r, n = S.r, S.n
-    if n > 1:
-        s2, _d2yxu4 = S.s2, S.d2yxu4
-
-        i = 0
-        for j in range(1, n):
-            d2, _, _, _= _d2yxu4(i, j)
-            if d2 > s2:
-                r[j] = True
-                i = j
-
-    return S.points(r)
+    return S.sy1()
 
 
 def simplifyRDP(points, distance=_1mm, radius=R_M, shortest=False,
-                                       indices=False, **options):
-    '''I{Ramer-Douglas-Peucker} (RDP) simplification of a path of
-       C{LatLon} points.
-
-       Eliminates any points too close together or closer to an
+                        indices=False, modified=False, **options):
+    '''I{Ramer-Douglas-Peucker} (RDP) simplification of a path of C{LatLon}
+       points by eliminating any points too close together or closer to an
        edge than the given I{distance} tolerance.
 
-       This C{RDP} method exhaustively searches for the point with
-       the largest distance, resulting in worst-case complexity
-       M{O(n**2)} where M{n} is the number of points.
-
-       @arg points: Path points (C{LatLon}[]).
+       @arg points: Iterable with the path points (C{LatLon}[]).
        @kwarg distance: Tolerance (C{meter}, same units as B{C{radius}}).
-       @kwarg radius: Mean earth radius (C{meter}).
+       @kwarg radius: Mean earth radius (C{meter}, conventionally).
        @kwarg shortest: If C{True}, use the I{shortest} otherwise the
                         I{perpendicular} distance (C{bool}).
-       @kwarg indices: If C{True}, return the simplified point indices
-                       instead of the simplified points (C{bool}).
-       @kwarg options: Optional keyword arguments passed thru to
-                       function L{pygeodesy.equirectangular4}.
+       @kwarg indices: If C{True}, return B{C{points}} indices instead
+                       of the simplified points (C{bool}).
+       @kwarg modified: If C{True}, use the C{modified RDP} method (C{bool}),
+                        see the B{note}.
+       @kwarg options: Optional keyword arguments passed thru to function
+                       L{pygeodesy.equirectangular4}.
 
-       @return: Simplified points (C{LatLon}[]).
+       @return: Simplified points (C{LatLon}[]) or B{C{points}} indices.
 
        @raise LimitError: Lat- and/or longitudinal delta exceeds the B{C{limit}},
                           see function L{pygeodesy.equirectangular4}.
 
        @raise ValueError: Tolerance B{C{distance}} or B{C{radius}} too small.
+
+       @note: The original C{RDP} method exhaustively searches for the point
+              with the largest distance (resulting in complexity M{O(n**2)}
+              with M{n} is the number of points).  The B{C{modified}} C{RDP}
+              method stops at the first point farther than the B{C{distance}}
+              tolerance, significantly reducing the run time (but producing
+              results different from the original C{RDP} method).
     '''
     S = _Sy(points, distance, radius, shortest, indices, **options)
-
-    return S.rdp(False)
-
-
-def simplifyRDPm(points, distance=_1mm, radius=R_M, shortest=False,
-                                        indices=False, **options):
-    '''Modified I{Ramer-Douglas-Peucker} (RDPm) simplification of a
-       path of C{LatLon} points.
-
-       Eliminates any points too close together or closer to an edge
-       than the given I{distance} tolerance.
-
-       This C{RDPm} method stops at the first point farther than the
-       given distance tolerance, significantly reducing the run time
-       (but producing results different from the original C{RDP} method).
-
-       @arg points: Path points (C{LatLon}[]).
-       @kwarg distance: Tolerance (C{meter}, same units as B{C{radius}}).
-       @kwarg radius: Mean earth radius (C{meter}).
-       @kwarg shortest: If C{True}, use the I{shortest} otherwise the
-                        I{perpendicular} distance (C{bool}).
-       @kwarg indices: If C{True}, return the simplified point indices
-                       instead of the simplified points (C{bool}).
-       @kwarg options: Optional keyword arguments passed thru to
-                       function L{pygeodesy.equirectangular4}.
-
-       @return: Simplified points (C{LatLon}[]).
-
-       @raise LimitError: Lat- and/or longitudinal delta exceeds the B{C{limit}},
-                          see function L{pygeodesy.equirectangular4}.
-
-       @raise ValueError: Tolerance B{C{distance}} or B{C{radius}} too small.
-    '''
-    S = _Sy(points, distance, radius, shortest, indices, **options)
-
-    return S.rdp(True)
+    return S.rdp(bool(modified))
 
 
 def simplifyRW(points, pipe=_1mm, radius=R_M, shortest=False,
                                   indices=False, **options):
-    '''I{Reumann-Witkam} (RW) simplification of a path of C{LatLon}
-       points.
-
-       Eliminates any points too close together or within the given
+    '''I{Reumann-Witkam} (RW) simplification of a path of C{LatLon} points
+       by eliminating any points too close together or within the given
        I{pipe} tolerance along an edge.
 
-       @arg points: Path points (C{LatLon}[]).
+       @arg points: Iterable with the path points (C{LatLon}[]).
        @kwarg pipe: Pipe radius, half-width (C{meter}, same units as
                     B{C{radius}}).
-       @kwarg radius: Mean earth radius (C{meter}).
+       @kwarg radius: Mean earth radius (C{meter}, conventionally).
        @kwarg shortest: If C{True}, use the I{shortest} otherwise the
                         I{perpendicular} distance (C{bool}).
-       @kwarg indices: If C{True}, return the simplified point indices
-                       instead of the simplified points (C{bool}).
-       @kwarg options: Optional keyword arguments passed thru to
-                       function L{pygeodesy.equirectangular4}.
+       @kwarg indices: If C{True}, return B{C{points}} indices instead
+                       of the simplified points (C{bool}).
+       @kwarg options: Optional keyword arguments passed thru to function
+                       L{pygeodesy.equirectangular4}.
 
-       @return: Simplified points (C{LatLon}[]).
+       @return: Simplified points (C{LatLon}[]) or B{C{points}} indices.
 
        @raise LimitError: Lat- and/or longitudinal delta exceeds the B{C{limit}},
                           see function L{pygeodesy.equirectangular4}.
@@ -506,127 +465,56 @@ def simplifyRW(points, pipe=_1mm, radius=R_M, shortest=False,
        @raise ValueError: Tolerance B{C{pipe}} or B{C{radius}} too small.
     '''
     S = _Sy(points, pipe, radius, shortest, indices, **options)
-
-    n, r = S.n, S.r
-    if n > 1:
-        s2, _d21, _d2i2 = S.s2, S.d21, S.d2i2
-
-        s, e = 0, 1
-        while s < e < n:
-            if _d21(s, e):
-                d2, i = _d2i2(e + 1, n, True)
-                if d2 > s2 and i > 0:
-                    r[s] = r[i] = True
-                    s, e = i, i + 1
-                else:
-                    r[s] = True  # r[n-1] = True
-                    break  # while loop
-            else:  # drop points[e]
-                e += 1
-
-    return S.points(r)
+    return S.rw()
 
 
-def simplifyVW(points, area=_1mm, radius=R_M, attr=None,
-                                  indices=False, **options):
-    '''I{Visvalingam-Whyatt} (VW) simplification of a path of
-       C{LatLon} points.
-
-       Eliminates any points too close together or with a triangular
+def simplifyVW(points, area=_1mm, radius=R_M, indices=False,
+                       attr=None, modified=False, **options):
+    '''I{Visvalingam-Whyatt} (VW) simplification of a path of C{LatLon}
+       points by eliminating any points too close or with a triangular
        area not exceeding the given I{area} tolerance I{squared}.
 
-       This C{VW} method exhaustively searches for the single point
-       with the smallest triangular area, resulting in worst-case
-       complexity M{O(n**2)} where M{n} is the number of points.
-
-       @arg points: Path points (C{LatLon}[]).
+       @arg points: Iterable with the path points (C{LatLon}[]).
        @kwarg area: Tolerance (C{meter}, same units as B{C{radius}}).
-       @kwarg radius: Mean earth radius (C{meter}).
-       @kwarg attr: Optional, points attribute to save the area value
-                    (C{str}).
-       @kwarg indices: If C{True}, return the simplified point indices
-                       instead of the simplified points (C{bool}).
-       @kwarg options: Optional keyword arguments passed thru to
-                       function L{pygeodesy.equirectangular4}.
+       @kwarg radius: Mean earth radius (C{meter}, conventionally).
+       @kwarg indices: If C{True}, return B{C{points}} indices instead
+                       of the simplified points (C{bool}).
+       @kwarg attr: Optional, B{C{points}} attribute to save the area
+                    value (C{str}).
+       @kwarg modified: If C{True}, use the C{modified VW} method (C{bool}),
+                        see the B{note}.
+       @kwarg options: Optional keyword arguments passed thru to function
+                       L{pygeodesy.equirectangular4}.
 
-       @return: Simplified points (C{LatLon}[]).
+       @return: Simplified points (C{LatLon}[]) or B{C{points}} indices.
 
-       @raise AttributeError: If an B{C{attr}} is specified for I{Numpy2}
-                              B{C{points}}.
+       @raise AttributeError: An B{C{attr}} isinvalid for I{Numpy2} B{C{points}}.
 
        @raise LimitError: Lat- and/or longitudinal delta exceeds the B{C{limit}},
                           see function L{pygeodesy.equirectangular4}.
 
        @raise ValueError: Tolerance B{C{area}} or B{C{radius}} too small.
+
+       @note: The original C{VW} method exhaustively searches for the point
+              with the smallest triangular I{area} (resulting in complexity
+              M{O(n**2)} with M{n} the number of points).  The B{C{modified}}
+              C{VW} method removes I{all} points with a triangular I{area}
+              below the tolerance in each iteration, significantly reducing
+              the run time (but producing results different from the original
+              C{VW} method).
     '''
     S = _Sy(points, area, radius, False, indices, **options)
-
     if S.vwn() > 2:
-        # remove any points too close or
-        # with a zero triangular area
-        S.rm2(0)
-
-        r, s2, s2e = S.r, S.s2, S.s2e
-        # keep removing the point with the smallest
-        # area until latter exceeds the tolerance
-        while len(r) > 2:
-            m, m2 = 0, s2e
-            for i in range(1, len(r) - 1):
-                h2 = r[i].h2
-                if h2 < m2:
-                    m, m2 = i, h2
-            if m2 > s2:
-                break
-            S.rm1(m, 0)
-
-    return S.vwr(attr)
-
-
-def simplifyVWm(points, area=_1mm, radius=R_M, attr=None,
-                                   indices=False, **options):
-    '''I{Modified Visvalingam-Whyatt} (VWm) simplification of a path
-       of C{LatLon} points.
-
-       Eliminates any points too close together or with a triangular
-       area not exceeding the given area tolerance I{squared}.
-
-       This C{VWm} method removes all points with a triangular area
-       below the tolerance in each iteration, significantly reducing
-       the run time (but producing results different from the
-       original C{VW} method).
-
-       @arg points: Path points (C{LatLon}[]).
-       @kwarg area: Tolerance (C{meter}, same units as B{C{radius}}).
-       @kwarg radius: Mean earth radius (C{meter}).
-       @kwarg attr: Optional, points attribute to save the area value
-                    (C{str}).
-       @kwarg indices: If C{True}, return the simplified point indices
-                       instead of the simplified points (C{bool}).
-       @kwarg options: Optional keyword arguments passed thru to
-                       function L{pygeodesy.equirectangular4}.
-
-       @return: Simplified points (C{LatLon}[]).
-
-       @raise AttributeError: If an B{C{attr}} is specified for I{Numpy2}
-                              B{C{points}}.
-
-       @raise LimitError: Lat- and/or longitudinal delta exceeds the B{C{limit}},
-                          see function L{pygeodesy.equirectangular4}.
-
-       @raise ValueError: Tolerance B{C{area}} or B{C{radius}} too small.
-    '''
-    S = _Sy(points, area, radius, False, indices, **options)
-
-    if S.vwn() > 2:
-        # remove all points with an area
-        # not exceeding the tolerance
-        S.rm2(S.s2)
-
+        if modified:
+            S.vwrm2(S.s2)
+        else:
+            S.vwrm2(0)
+            S.vwrm()
     return S.vwr(attr)
 
 # **) MIT License
 #
-# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

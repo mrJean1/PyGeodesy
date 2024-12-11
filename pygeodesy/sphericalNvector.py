@@ -55,13 +55,13 @@ from pygeodesy.sphericalBase import _m2radians, CartesianSphericalBase, \
                                     _intersecant2, LatLonSphericalBase, \
                                     _radians2m,  Datums
 from pygeodesy.units import Bearing, Bearing_, _isDegrees, Radius, Scalar
-from pygeodesy.utily import atan2, degrees360, fabs, sincos2, sincos2_, \
-                            sincos2d, _unrollon, _Wrap
+from pygeodesy.utily import atan2, degrees360, sincos2, sincos2_, sincos2d, \
+                           _unrollon, _Wrap,  fabs
 
-# from math import atan2, fabs  # from utily
+# from math import fabs  # from utily
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '24.11.07'
+__version__ = '24.11.24'
 
 _lines_ = 'lines'
 
@@ -1201,7 +1201,7 @@ __all__ += _ALL_OTHER(Cartesian, LatLon, Nvector,  # classes
 
 # **) MIT License
 #
-# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

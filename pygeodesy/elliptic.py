@@ -24,7 +24,7 @@ Following is a copy of I{Karney}'s U{EllipticFunction.hpp
 <https://GeographicLib.SourceForge.io/C++/doc/EllipticFunction_8hpp_source.html>}
 file C{Header}.
 
-Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2008-2023)
+Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2008-2024)
 and licensed under the MIT/X11 License.  For more information, see the
 U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 
@@ -93,13 +93,13 @@ from pygeodesy.named import _Named, _NamedTuple,  _ALL_LAZY, Fmt, unstr
 from pygeodesy.props import _allPropertiesOf_n, Property_RO, _update_all
 # from pygeodesy.streprs import Fmt, unstr  # from .named
 from pygeodesy.units import Scalar, Scalar_
-# from pygeodesy.utily import sincos2 as _sincos2  # from .karney
+from pygeodesy.utily import atan2  # sincos2 as _sincos2
 
-from math import asin, asinh, atan, atan2, ceil, cosh, fabs, floor, \
-                 radians, sin, sinh, sqrt, tan, tanh
+from math import asin, asinh, atan, ceil, cosh, fabs, floor, radians, \
+                 sin, sinh, sqrt, tan, tanh  # tan as _tan
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '24.10.14'
+__version__ = '24.11.26'
 
 _TolRD  =  zqrt(EPS * 0.002)
 _TolRF  =  zqrt(EPS * 0.030)
@@ -1246,7 +1246,7 @@ def _RJ(inst, x, y, z, p, *over):
 
 # **) MIT License
 #
-# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

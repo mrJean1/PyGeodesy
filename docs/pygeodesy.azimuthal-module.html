@@ -91,11 +91,11 @@
   class="link">EquidistantExact</a> and <a 
   href="pygeodesy.azimuthal.GnomonicExact-class.html" 
   class="link">GnomonicExact</a> are based on exact geodesic classes <a 
-  href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" class="link" 
-  onclick="show_private();">GeodesicExact</a> and <a 
-  href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html" class="link" 
-  onclick="show_private();">GeodesicLineExact</a>, Python versions of 
-  <i>Charles Karney</i>'s C++ original <a 
+  href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
+  class="link">GeodesicExact</a> and <a 
+  href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html" 
+  class="link">GeodesicLineExact</a>, Python versions of <i>Charles 
+  Karney</i>'s C++ original <a 
   href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html"
   target="_top">GeodesicExact</a>, respectively <a 
   href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicLineExact.html"
@@ -134,7 +134,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        24.11.07
+        24.11.24
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -144,6 +144,14 @@
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Classes</span></td>
 </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.azimuthal._AzimuthalBase-class.html" class="summary-name">_AzimuthalBase</a><br />
+      (INTERNAL) Base class for azimuthal projections.
+    </td>
+  </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
@@ -199,15 +207,45 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.azimuthal._AzimuthalGeodesic-class.html" class="summary-name">_AzimuthalGeodesic</a><br />
+      (INTERNAL) Base class for azimuthal projections using the 
+        <i>wrapped</i> <a 
+        href="https://GeographicLib.SourceForge.io/Python/doc/code.html" 
+        target="_top">geodesic.Geodesic and geodesicline.GeodesicLine</a> 
+        or the <i>exact</i> geodesic classes <a 
+        href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
+        class="link">GeodesicExact</a> and <a 
+        href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html" 
+        class="link">GeodesicLineExact</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.azimuthal._EquidistantBase-class.html" class="summary-name">_EquidistantBase</a><br />
+      (INTERNAL) Base for classes <a 
+        href="pygeodesy.azimuthal.EquidistantExact-class.html" 
+        class="link">EquidistantExact</a>, <a 
+        href="pygeodesy.azimuthal.EquidistantGeodSolve-class.html" 
+        class="link">EquidistantGeodSolve</a> and <a 
+        href="pygeodesy.azimuthal.EquidistantKarney-class.html" 
+        class="link">EquidistantKarney</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.azimuthal.EquidistantExact-class.html" class="summary-name">EquidistantExact</a><br />
       Azimuthal equidistant projection, a Python version of 
         <i>Karney</i>'s C++ class <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AzimuthalEquidistant.html"
         target="_top">AzimuthalEquidistant</a>, based on exact geodesic 
         classes <a href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
-        class="link" onclick="show_private();">GeodesicExact</a> and <a 
+        class="link">GeodesicExact</a> and <a 
         href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html" 
-        class="link" onclick="show_private();">GeodesicLineExact</a>.
+        class="link">GeodesicLineExact</a>.
     </td>
   </tr>
 <tr>
@@ -256,15 +294,29 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.azimuthal._GnomonicBase-class.html" class="summary-name">_GnomonicBase</a><br />
+      (INTERNAL) Base for classes <a 
+        href="pygeodesy.azimuthal.GnomonicExact-class.html" 
+        class="link">GnomonicExact</a>, <a 
+        href="pygeodesy.azimuthal.GnomonicGeodSolve-class.html" 
+        class="link">GnomonicGeodSolve</a> and <a 
+        href="pygeodesy.azimuthal.GnomonicKarney-class.html" 
+        class="link">GnomonicKarney</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.azimuthal.GnomonicExact-class.html" class="summary-name">GnomonicExact</a><br />
       Azimuthal gnomonic projection, a Python version of <i>Karney</i>'s 
         C++ class <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Gnomonic.html"
         target="_top">Gnomonic</a>, based on exact geodesic classes <a 
-        href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" class="link"
-        onclick="show_private();">GeodesicExact</a> and <a 
+        href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
+        class="link">GeodesicExact</a> and <a 
         href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html" 
-        class="link" onclick="show_private();">GeodesicLineExact</a>.
+        class="link">GeodesicLineExact</a>.
     </td>
   </tr>
 <tr>
@@ -496,8 +548,8 @@
         <li><code><strong class='fraise'><a href="pygeodesy.azimuthal.AzimuthalError-class.html">AzimuthalError</a></strong></code> - Invalid <b><code>lat0</code></b> or <b><code>lon0</code></b> or 
         (spherical) <b><code>datum</code></b>.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.GeodesicError-class.html">GeodesicError</a></strong></code> - Issue with <a 
-        href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" class="link"
-        onclick="show_private();">GeodesicExact</a>, <a 
+        href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
+        class="link">GeodesicExact</a>, <a 
         href="pygeodesy.geodsolve.GeodesicSolve-class.html" 
         class="link">GeodesicSolve</a> or <i>Karney</i>'s wrapped 
         <code>Geodesic</code>.</li>
@@ -569,8 +621,8 @@
         <li><code><strong class='fraise'><a href="pygeodesy.azimuthal.AzimuthalError-class.html">AzimuthalError</a></strong></code> - Invalid <b><code>lat0</code></b> or <b><code>lon0</code></b> or 
         (spherical) <b><code>datum</code></b>.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.GeodesicError-class.html">GeodesicError</a></strong></code> - Issue with <a 
-        href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" class="link"
-        onclick="show_private();">GeodesicExact</a>, <a 
+        href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
+        class="link">GeodesicExact</a>, <a 
         href="pygeodesy.geodsolve.GeodesicSolve-class.html" 
         class="link">GeodesicSolve</a> or <i>Karney</i>'s wrapped 
         <code>Geodesic</code>.</li>
@@ -611,7 +663,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Nov 12 14:52:45 2024
+    Generated by Epydoc 3.0.1 on Fri Dec  6 15:33:36 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

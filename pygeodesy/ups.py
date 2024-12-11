@@ -40,16 +40,16 @@ from pygeodesy.props import deprecated_method, property_doc_, \
                             Property_RO, _update_all
 # from pygeodesy.streprs import Fmt  # from .utmupsBase
 from pygeodesy.units import Float, Float_, Meter, Lat
-from pygeodesy.utily import atan1d, degrees180, sincos2d
+from pygeodesy.utily import atan1d, atan2, degrees180, sincos2d
 from pygeodesy.utmupsBase import Fmt, _LLEB, _hemi, _parseUTMUPS5, _to4lldn, \
                                 _to3zBhp, _to3zll, _UPS_BANDS as _Bands, \
                                 _UPS_LAT_MAX, _UPS_LAT_MIN, _UPS_ZONE, \
                                 _UPS_ZONE_STR, UtmUpsBase
 
-from math import atan2, fabs, radians, tan
+from math import fabs, radians, tan  # as _tan
 
 __all__ = _ALL_LAZY.ups
-__version__ = '24.10.14'
+__version__ = '24.11.26'
 
 _BZ_UPS  = _getPYGEODESY('UPS_POLES', _std_) == _std_
 _Falsing =  Meter(2000e3)  # false easting and northing (C{meter})
@@ -509,7 +509,7 @@ def upsZoneBand5(lat, lon, strict=True, **name):
 
 # **) MIT License
 #
-# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

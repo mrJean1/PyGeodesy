@@ -5,7 +5,7 @@ u'''Class L{AuxLat} transcoded to Python from I{Karney}'s C++ class U{AuxLatitud
 <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AuxLatitude.html>}
 in I{GeographicLib version 2.2+}.
 
-Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2022-2023) and licensed
+Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2022-2024) and licensed
 under the MIT/X11 License.  For more information, see the U{GeographicLib
 <https://GeographicLib.SourceForge.io>} documentation.
 
@@ -17,7 +17,7 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.auxilats.auxAngle import AuxAngle, AuxBeta, AuxChi, _AuxClass, \
                                         AuxMu, AuxPhi, AuxTheta, AuxXi
-from pygeodesy.auxilats.auxily import Aux, _sc, _sn,  atan1
+from pygeodesy.auxilats.auxily import Aux, _sc, _sn
 from pygeodesy.auxilats._CX_Rs import _Rdict, _Rtuple
 from pygeodesy.basics import _reverange, _xinstanceof,  _passarg
 from pygeodesy.constants import INF, MAX_EXP, MIN_EXP, NAN, PI_2, PI_4, _EPSqrt, \
@@ -37,9 +37,9 @@ from pygeodesy.karney import _2cos2x, _polynomial,  _ALL_DOCS, cbrt
 # from pygeodesy.named import _name__  # from .datums
 from pygeodesy.props import Property, Property_RO, _update_all
 from pygeodesy.units import _isDegrees, _isRadius, Degrees, Meter
-# from pygeodesy.utily import atan1  # from .auxily
+from pygeodesy.utily import atan1, atan2
 
-from math import asinh, atan2, copysign, cosh, fabs, sin, sinh, sqrt
+from math import asinh, copysign, cosh, fabs, sin, sinh, sqrt
 try:
     from math import exp2 as _exp2
 except ImportError:  # Python 3.11-
@@ -847,7 +847,7 @@ __all__ += _ALL_DOCS(AuxLat)
 
 # **) MIT License
 #
-# Copyright (C) 2023-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2023-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

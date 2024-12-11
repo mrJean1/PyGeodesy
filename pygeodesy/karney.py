@@ -165,7 +165,7 @@ from pygeodesy.utily import atan2d, sincos2d, tand, _unrollon,  fabs
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '24.11.09'
+__version__ = '24.11.26'
 
 _2_4_       = '2.4'
 _K_2_0      = _getenv(_PYGEODESY(_xgeographiclib, 1), _2_)
@@ -1011,7 +1011,7 @@ def _tand(x):
     try:
         return _wrapped.Math.tand(x)
     except AttributeError:
-        return tand(x)
+        return tand(x)  # Error=None
 
 
 def _unroll2(lon1, lon2, wrap=False):  # see .ellipsoidalBaseDI._intersects2
@@ -1039,7 +1039,7 @@ __all__ += _ALL_DOCS(_CapsBase)
 
 # **) MIT License
 #
-# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

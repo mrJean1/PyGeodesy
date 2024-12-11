@@ -59,62 +59,59 @@
 </table>
 <!-- ==================== MODULE DESCRIPTION ==================== -->
 <h1 class="epydoc">Module simplify</h1><p class="nomargin-top"></p>
-<p>Simplify or linearize a path.</p>
-  <p>Each of the <i>simplify</i> functions is based on a different 
+<p>Simplify or linearize a path of <code>LatLon</code> points.</p>
+  <p>Each of the 4 <i>simplify</i> functions is based on a different 
   algorithm and produces different, simplified results in (very) different 
-  run times for the same path of <code>LatLon</code> points.</p>
-  <p>Function <a href="pygeodesy.simplify-module.html#simplify1" 
-  class="link">simplify1</a> eliminates points based on edge lengths 
-  shorter than a given tolerance.</p>
-  <p>The functions <a href="pygeodesy.simplify-module.html#simplifyRDP" 
-  class="link">simplifyRDP</a> and <a 
-  href="pygeodesy.simplify-module.html#simplifyRDPm" 
-  class="link">simplifyRDPm</a> use the original, respectively modified 
-  <i>Ramer-Douglas-Peucker</i> (RDP) algorithm, iteratively finding the 
-  point farthest from each path edge.  The difference is that function <a 
+  run times for the same path:</p>
+  <ul>
+    <li>
+      Function <a href="pygeodesy.simplify-module.html#simplify1" 
+      class="link">simplify1</a> eliminates points with edge lengths 
+      shorter than the given tolerance.
+    </li>
+    <li>
+      Function <a href="pygeodesy.simplify-module.html#simplifyRDP" 
+      class="link">simplifyRDP</a> implements the 
+      <i>Ramer-Douglas-Peucker</i> (RDP) algorithm, iteratively finding the
+      point farthest from each path edge. Original RDP exhaustively 
+      searches the most distant point in each iteration, <i>modified</i> 
+      RDP stops at the first point exceeding the distance tolerance.
+    </li>
+    <li>
+      Function <a href="pygeodesy.simplify-module.html#simplifyRW" 
+      class="link">simplifyRW</a> uses the <i>Reumann-Witkam</i> (RW) 
+      method, sliding a &quot;pipe&quot; over each path edge, removing all 
+      subsequent points within the pipe radius, up to the first point 
+      outside the pipe.
+    </li>
+    <li>
+      Function <a href="pygeodesy.simplify-module.html#simplifyVW" 
+      class="link">simplifyVW</a> provides the <i>Visvalingam-Whyatt</i> 
+      (VW) method using the area of the triangle formed by three neigboring
+      points.  Original VW removes only a single point per iteration, 
+      <i>modified</i> VW eliminates all points with a triangular area not 
+      exceeding the tolerance in each iteration.
+    </li>
+  </ul>
+  <p>Keyword argument <i>shortest</i> of functions <a 
   href="pygeodesy.simplify-module.html#simplifyRDP" 
-  class="link">simplifyRDP</a> exhaustively searches the most distant point
-  in each iteration, while modified <a 
-  href="pygeodesy.simplify-module.html#simplifyRDPm" 
-  class="link">simplifyRDPm</a> stops at the first point exceeding the 
-  distance tolerance.</p>
-  <p>Function <a href="pygeodesy.simplify-module.html#simplifyRW" 
-  class="link">simplifyRW</a> use the <i>Reumann-Witkam</i> method, sliding
-  a &quot;pipe&quot; over each path edge, removing all subsequent points 
-  within, closer than the pipe radius up to the first point outside the 
-  pipe.</p>
-  <p>Functions <a href="pygeodesy.simplify-module.html#simplifyVW" 
-  class="link">simplifyVW</a> and <a 
-  href="pygeodesy.simplify-module.html#simplifyVWm" 
-  class="link">simplifyVWm</a> are based on the original, respectively 
-  modified <i>Visvalingam-Whyatt</i> (VW) method using the area of the 
-  triangle formed by three neigboring points.  Function <a 
-  href="pygeodesy.simplify-module.html#simplifyVW" 
-  class="link">simplifyVW</a> removes only a single point per iteration, 
-  while modified <a href="pygeodesy.simplify-module.html#simplifyVWm" 
-  class="link">simplifyVWm</a> eliminates in each iteration all points with
-  a triangular area not exceeding the tolerance.</p>
-  <p>Functions <a href="pygeodesy.simplify-module.html#simplifyRDP" 
-  class="link">simplifyRDP</a>, <a 
-  href="pygeodesy.simplify-module.html#simplifyRDPm" 
-  class="link">simplifyRDPm</a> and <a 
+  class="link">simplifyRDP</a> and <a 
   href="pygeodesy.simplify-module.html#simplifyRW" 
-  class="link">simplifyRW</a> provide keyword argument <i>shortest</i> to 
-  specify of the distance between a point and a path edge.  If 
-  <code>True</code>, use the <i>shortest</i> distance to the path edge or 
-  edge points, otherwise use the <i>perpendicular</i> distance to the 
-  extended line through both path edge points.</p>
+  class="link">simplifyRW</a> specifies of the distance between a point and
+  a path edge.  If <code>True</code>, use the <i>shortest</i> distance to 
+  the path edge or edge points, otherwise use the <i>perpendicular</i> 
+  distance to the (extended) edge through both points.</p>
   <p>Keyword argument <b><code>radius</code></b> of all fuctions is set to 
-  the mean earth radius in <code>meter</code>.  Other units can be used, 
-  provided that the radius and tolerance are always specified in the same 
+  the mean earth radius in <code>meter</code>, conventionally.  Other units
+  may be used, provided that radius and tolerance are specified in the same
   units.</p>
   <p>Use keyword argument <code><b>indices</b>=True</code> in any function 
-  to return a list of simplified point <i>indices</i> instead of the 
-  simplified points. The first and last index are always the first and last
-  original index.</p>
+  to return a list of <i>indices</i> of simplified point instead of the 
+  simplified points with the first and last index are always the first and 
+  last original index.</p>
   <p>Finally, any additional keyword arguments <b><code>options</code></b> 
   to all functions are passed thru to function <a 
-  href="pygeodesy.formy-module.html#equirectangular4" 
+  href="pygeodesy.geohash-module.html#equirectangular4" 
   class="link">pygeodesy.equirectangular4</a> to specify the distance 
   approximation.</p>
   <p>To process <code>NumPy</code> arrays containing rows of lat-, 
@@ -188,7 +185,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        24.11.07
+        24.12.02
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -209,7 +206,9 @@
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">**options</span>)</span><br />
-      Basic simplification of a path of <code>LatLon</code> points.</td>
+      Basic simplification of a path of <code>LatLon</code> points by 
+      eliminating any points closer together than the given <i>distance</i>
+      tolerance.</td>
           <td align="right" valign="top">
             
             
@@ -230,32 +229,12 @@
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">modified</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">**options</span>)</span><br />
       <i>Ramer-Douglas-Peucker</i> (RDP) simplification of a path of 
-      <code>LatLon</code> points.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.simplify-module.html#simplifyRDPm" class="summary-sig-name">simplifyRDPm</a>(<span class="summary-sig-arg">points</span>,
-        <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">0.001</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
-        <span class="summary-sig-arg">shortest</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">**options</span>)</span><br />
-      Modified <i>Ramer-Douglas-Peucker</i> (RDPm) simplification of a path
-      of <code>LatLon</code> points.</td>
+      <code>LatLon</code> points by eliminating any points too close 
+      together or closer to an edge than the given <i>distance</i> 
+      tolerance.</td>
           <td align="right" valign="top">
             
             
@@ -278,7 +257,8 @@
         <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">**options</span>)</span><br />
       <i>Reumann-Witkam</i> (RW) simplification of a path of 
-      <code>LatLon</code> points.</td>
+      <code>LatLon</code> points by eliminating any points too close 
+      together or within the given <i>pipe</i> tolerance along an edge.</td>
           <td align="right" valign="top">
             
             
@@ -297,34 +277,14 @@
           <td><span class="summary-sig"><a href="pygeodesy.simplify-module.html#simplifyVW" class="summary-sig-name">simplifyVW</a>(<span class="summary-sig-arg">points</span>,
         <span class="summary-sig-arg">area</span>=<span class="summary-sig-default">0.001</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
-        <span class="summary-sig-arg">attr</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">attr</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">modified</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">**options</span>)</span><br />
       <i>Visvalingam-Whyatt</i> (VW) simplification of a path of 
-      <code>LatLon</code> points.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.simplify-module.html#simplifyVWm" class="summary-sig-name">simplifyVWm</a>(<span class="summary-sig-arg">points</span>,
-        <span class="summary-sig-arg">area</span>=<span class="summary-sig-default">0.001</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
-        <span class="summary-sig-arg">attr</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">indices</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">**options</span>)</span><br />
-      <i>Modified Visvalingam-Whyatt</i> (VWm) simplification of a path of 
-      <code>LatLon</code> points.</td>
+      <code>LatLon</code> points by eliminating any points too close or 
+      with a triangular area not exceeding the given <i>area</i> tolerance 
+      <i>squared</i>.</td>
           <td align="right" valign="top">
             
             
@@ -378,29 +338,30 @@
     </td>
   </tr></table>
   
-  <p>Basic simplification of a path of <code>LatLon</code> points.</p>
-  <p>Eliminates any points closer together than the given <i>distance</i> 
+  <p>Basic simplification of a path of <code>LatLon</code> points by 
+  eliminating any points closer together than the given <i>distance</i> 
   tolerance.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - Path points (<code>LatLon</code>[]).</li>
+        <li><strong class="pname"><code>points</code></strong> - Iterable with the path points (<code>LatLon</code>[]).</li>
         <li><strong class="pname"><code>distance</code></strong> - Tolerance (<code>meter</code>, same units as 
           <b><code>radius</code></b>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
-        <li><strong class="pname"><code>indices</code></strong> - If <code>True</code>, return the simplified point indices instead
-          of the simplified points (<code>bool</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>, conventionally).</li>
+        <li><strong class="pname"><code>indices</code></strong> - If <code>True</code>, return <b><code>points</code></b> indices 
+          instead of the simplified points (<code>bool</code>).</li>
         <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments passed thru to function <a 
-          href="pygeodesy.formy-module.html#equirectangular4" 
+          href="pygeodesy.geohash-module.html#equirectangular4" 
           class="link">pygeodesy.equirectangular4</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Simplified points (<code>LatLon</code>[]).</dd>
+        <dd>Simplified points (<code>LatLon</code>[]) or 
+          <b><code>points</code></b> indices.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds the 
         <b><code>limit</code></b>, see function <a 
-        href="pygeodesy.formy-module.html#equirectangular4" 
+        href="pygeodesy.geohash-module.html#equirectangular4" 
         class="link">pygeodesy.equirectangular4</a>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <b><code>distance</code></b> or 
         <b><code>radius</code></b> too small.</li>
@@ -420,6 +381,7 @@
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
         <span class="sig-arg">shortest</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">indices</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">modified</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">**options</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -428,97 +390,49 @@
   </tr></table>
   
   <p><i>Ramer-Douglas-Peucker</i> (RDP) simplification of a path of 
-  <code>LatLon</code> points.</p>
-  <p>Eliminates any points too close together or closer to an edge than the
-  given <i>distance</i> tolerance.</p>
-  <p>This <code>RDP</code> method exhaustively searches for the point with 
-  the largest distance, resulting in worst-case complexity <i 
-  class="math">O(n**2)</i> where <i class="math">n</i> is the number of 
-  points.</p>
+  <code>LatLon</code> points by eliminating any points too close together 
+  or closer to an edge than the given <i>distance</i> tolerance.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - Path points (<code>LatLon</code>[]).</li>
+        <li><strong class="pname"><code>points</code></strong> - Iterable with the path points (<code>LatLon</code>[]).</li>
         <li><strong class="pname"><code>distance</code></strong> - Tolerance (<code>meter</code>, same units as 
           <b><code>radius</code></b>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>, conventionally).</li>
         <li><strong class="pname"><code>shortest</code></strong> - If <code>True</code>, use the <i>shortest</i> otherwise the 
           <i>perpendicular</i> distance (<code>bool</code>).</li>
-        <li><strong class="pname"><code>indices</code></strong> - If <code>True</code>, return the simplified point indices instead
-          of the simplified points (<code>bool</code>).</li>
+        <li><strong class="pname"><code>indices</code></strong> - If <code>True</code>, return <b><code>points</code></b> indices 
+          instead of the simplified points (<code>bool</code>).</li>
+        <li><strong class="pname"><code>modified</code></strong> - If <code>True</code>, use the <code>modified RDP</code> method 
+          (<code>bool</code>), see the <b>note</b>.</li>
         <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments passed thru to function <a 
-          href="pygeodesy.formy-module.html#equirectangular4" 
+          href="pygeodesy.geohash-module.html#equirectangular4" 
           class="link">pygeodesy.equirectangular4</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Simplified points (<code>LatLon</code>[]).</dd>
+        <dd>Simplified points (<code>LatLon</code>[]) or 
+          <b><code>points</code></b> indices.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds the 
         <b><code>limit</code></b>, see function <a 
-        href="pygeodesy.formy-module.html#equirectangular4" 
+        href="pygeodesy.geohash-module.html#equirectangular4" 
         class="link">pygeodesy.equirectangular4</a>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <b><code>distance</code></b> or 
         <b><code>radius</code></b> too small.</li>
     </ul></dd>
   </dl>
-</td></tr></table>
-</div>
-<a name="simplifyRDPm"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">simplifyRDPm</span>&nbsp;(<span class="sig-arg">points</span>,
-        <span class="sig-arg">distance</span>=<span class="sig-default">0.001</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
-        <span class="sig-arg">shortest</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">indices</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">**options</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Modified <i>Ramer-Douglas-Peucker</i> (RDPm) simplification of a path 
-  of <code>LatLon</code> points.</p>
-  <p>Eliminates any points too close together or closer to an edge than the
-  given <i>distance</i> tolerance.</p>
-  <p>This <code>RDPm</code> method stops at the first point farther than 
-  the given distance tolerance, significantly reducing the run time (but 
-  producing results different from the original <code>RDP</code> 
-  method).</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - Path points (<code>LatLon</code>[]).</li>
-        <li><strong class="pname"><code>distance</code></strong> - Tolerance (<code>meter</code>, same units as 
-          <b><code>radius</code></b>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
-        <li><strong class="pname"><code>shortest</code></strong> - If <code>True</code>, use the <i>shortest</i> otherwise the 
-          <i>perpendicular</i> distance (<code>bool</code>).</li>
-        <li><strong class="pname"><code>indices</code></strong> - If <code>True</code>, return the simplified point indices instead
-          of the simplified points (<code>bool</code>).</li>
-        <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments passed thru to function <a 
-          href="pygeodesy.formy-module.html#equirectangular4" 
-          class="link">pygeodesy.equirectangular4</a>.</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Simplified points (<code>LatLon</code>[]).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds the 
-        <b><code>limit</code></b>, see function <a 
-        href="pygeodesy.formy-module.html#equirectangular4" 
-        class="link">pygeodesy.equirectangular4</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <b><code>distance</code></b> or 
-        <b><code>radius</code></b> too small.</li>
-    </ul></dd>
-  </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Note:</strong>
+        The original <code>RDP</code> method exhaustively searches for the 
+        point with the largest distance (resulting in complexity <i 
+        class="math">O(n**2)</i> with <i class="math">n</i> is the number 
+        of points).  The <b><code>modified</code></b> <code>RDP</code> 
+        method stops at the first point farther than the 
+        <b><code>distance</code></b> tolerance, significantly reducing the 
+        run time (but producing results different from the original 
+        <code>RDP</code> method).
+      </p>
+</div></td></tr></table>
 </div>
 <a name="simplifyRW"></a>
 <div>
@@ -540,31 +454,31 @@
   </tr></table>
   
   <p><i>Reumann-Witkam</i> (RW) simplification of a path of 
-  <code>LatLon</code> points.</p>
-  <p>Eliminates any points too close together or within the given 
-  <i>pipe</i> tolerance along an edge.</p>
+  <code>LatLon</code> points by eliminating any points too close together 
+  or within the given <i>pipe</i> tolerance along an edge.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - Path points (<code>LatLon</code>[]).</li>
+        <li><strong class="pname"><code>points</code></strong> - Iterable with the path points (<code>LatLon</code>[]).</li>
         <li><strong class="pname"><code>pipe</code></strong> - Pipe radius, half-width (<code>meter</code>, same units as 
           <b><code>radius</code></b>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>, conventionally).</li>
         <li><strong class="pname"><code>shortest</code></strong> - If <code>True</code>, use the <i>shortest</i> otherwise the 
           <i>perpendicular</i> distance (<code>bool</code>).</li>
-        <li><strong class="pname"><code>indices</code></strong> - If <code>True</code>, return the simplified point indices instead
-          of the simplified points (<code>bool</code>).</li>
+        <li><strong class="pname"><code>indices</code></strong> - If <code>True</code>, return <b><code>points</code></b> indices 
+          instead of the simplified points (<code>bool</code>).</li>
         <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments passed thru to function <a 
-          href="pygeodesy.formy-module.html#equirectangular4" 
+          href="pygeodesy.geohash-module.html#equirectangular4" 
           class="link">pygeodesy.equirectangular4</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Simplified points (<code>LatLon</code>[]).</dd>
+        <dd>Simplified points (<code>LatLon</code>[]) or 
+          <b><code>points</code></b> indices.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds the 
         <b><code>limit</code></b>, see function <a 
-        href="pygeodesy.formy-module.html#equirectangular4" 
+        href="pygeodesy.geohash-module.html#equirectangular4" 
         class="link">pygeodesy.equirectangular4</a>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <b><code>pipe</code></b> or <b><code>radius</code></b> 
         too small.</li>
@@ -582,8 +496,9 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">simplifyVW</span>&nbsp;(<span class="sig-arg">points</span>,
         <span class="sig-arg">area</span>=<span class="sig-default">0.001</span>,
         <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
-        <span class="sig-arg">attr</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">indices</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">attr</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">modified</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">**options</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -592,101 +507,52 @@
   </tr></table>
   
   <p><i>Visvalingam-Whyatt</i> (VW) simplification of a path of 
-  <code>LatLon</code> points.</p>
-  <p>Eliminates any points too close together or with a triangular area not
-  exceeding the given <i>area</i> tolerance <i>squared</i>.</p>
-  <p>This <code>VW</code> method exhaustively searches for the single point
-  with the smallest triangular area, resulting in worst-case complexity <i 
-  class="math">O(n**2)</i> where <i class="math">n</i> is the number of 
-  points.</p>
+  <code>LatLon</code> points by eliminating any points too close or with a 
+  triangular area not exceeding the given <i>area</i> tolerance 
+  <i>squared</i>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - Path points (<code>LatLon</code>[]).</li>
+        <li><strong class="pname"><code>points</code></strong> - Iterable with the path points (<code>LatLon</code>[]).</li>
         <li><strong class="pname"><code>area</code></strong> - Tolerance (<code>meter</code>, same units as 
           <b><code>radius</code></b>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
-        <li><strong class="pname"><code>attr</code></strong> - Optional, points attribute to save the area value 
-          (<code>str</code>).</li>
-        <li><strong class="pname"><code>indices</code></strong> - If <code>True</code>, return the simplified point indices instead
-          of the simplified points (<code>bool</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>, conventionally).</li>
+        <li><strong class="pname"><code>indices</code></strong> - If <code>True</code>, return <b><code>points</code></b> indices 
+          instead of the simplified points (<code>bool</code>).</li>
+        <li><strong class="pname"><code>attr</code></strong> - Optional, <b><code>points</code></b> attribute to save the area 
+          value (<code>str</code>).</li>
+        <li><strong class="pname"><code>modified</code></strong> - If <code>True</code>, use the <code>modified VW</code> method 
+          (<code>bool</code>), see the <b>note</b>.</li>
         <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments passed thru to function <a 
-          href="pygeodesy.formy-module.html#equirectangular4" 
+          href="pygeodesy.geohash-module.html#equirectangular4" 
           class="link">pygeodesy.equirectangular4</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Simplified points (<code>LatLon</code>[]).</dd>
+        <dd>Simplified points (<code>LatLon</code>[]) or 
+          <b><code>points</code></b> indices.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>AttributeError</strong></code> - If an <b><code>attr</code></b> is specified for <i>Numpy2</i> 
+        <li><code><strong class='fraise'>AttributeError</strong></code> - An <b><code>attr</code></b> isinvalid for <i>Numpy2</i> 
         <b><code>points</code></b>.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds the 
         <b><code>limit</code></b>, see function <a 
-        href="pygeodesy.formy-module.html#equirectangular4" 
+        href="pygeodesy.geohash-module.html#equirectangular4" 
         class="link">pygeodesy.equirectangular4</a>.</li>
         <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <b><code>area</code></b> or <b><code>radius</code></b> 
         too small.</li>
     </ul></dd>
   </dl>
-</td></tr></table>
-</div>
-<a name="simplifyVWm"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">simplifyVWm</span>&nbsp;(<span class="sig-arg">points</span>,
-        <span class="sig-arg">area</span>=<span class="sig-default">0.001</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
-        <span class="sig-arg">attr</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">indices</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">**options</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p><i>Modified Visvalingam-Whyatt</i> (VWm) simplification of a path of 
-  <code>LatLon</code> points.</p>
-  <p>Eliminates any points too close together or with a triangular area not
-  exceeding the given area tolerance <i>squared</i>.</p>
-  <p>This <code>VWm</code> method removes all points with a triangular area
-  below the tolerance in each iteration, significantly reducing the run 
-  time (but producing results different from the original <code>VW</code> 
-  method).</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>points</code></strong> - Path points (<code>LatLon</code>[]).</li>
-        <li><strong class="pname"><code>area</code></strong> - Tolerance (<code>meter</code>, same units as 
-          <b><code>radius</code></b>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>).</li>
-        <li><strong class="pname"><code>attr</code></strong> - Optional, points attribute to save the area value 
-          (<code>str</code>).</li>
-        <li><strong class="pname"><code>indices</code></strong> - If <code>True</code>, return the simplified point indices instead
-          of the simplified points (<code>bool</code>).</li>
-        <li><strong class="pname"><code>options</code></strong> - Optional keyword arguments passed thru to function <a 
-          href="pygeodesy.formy-module.html#equirectangular4" 
-          class="link">pygeodesy.equirectangular4</a>.</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>Simplified points (<code>LatLon</code>[]).</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>AttributeError</strong></code> - If an <b><code>attr</code></b> is specified for <i>Numpy2</i> 
-        <b><code>points</code></b>.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.LimitError-class.html">LimitError</a></strong></code> - Lat- and/or longitudinal delta exceeds the 
-        <b><code>limit</code></b>, see function <a 
-        href="pygeodesy.formy-module.html#equirectangular4" 
-        class="link">pygeodesy.equirectangular4</a>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Tolerance <b><code>area</code></b> or <b><code>radius</code></b> 
-        too small.</li>
-    </ul></dd>
-  </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>Note:</strong>
+        The original <code>VW</code> method exhaustively searches for the 
+        point with the smallest triangular <i>area</i> (resulting in 
+        complexity <i class="math">O(n**2)</i> with <i class="math">n</i> 
+        the number of points).  The <b><code>modified</code></b> 
+        <code>VW</code> method removes <i>all</i> points with a triangular 
+        <i>area</i> below the tolerance in each iteration, significantly 
+        reducing the run time (but producing results different from the 
+        original <code>VW</code> method).
+      </p>
+</div></td></tr></table>
 </div>
 <br />
 <!-- ==================== NAVIGATION BAR ==================== -->
@@ -720,7 +586,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Nov 12 14:52:45 2024
+    Generated by Epydoc 3.0.1 on Fri Dec  6 15:33:36 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

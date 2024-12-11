@@ -15,26 +15,26 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.basics import map1, map2, _zip,  _ALL_LAZY
 from pygeodesy.constants import EPS, EPS0, EPS02, INT0, PI, PI2, PI_2, PI_4, \
                                _0_0, _0_5, _1_0, _N_1_0, _2_0, _N_2_0, _4_0, \
-                               _16_0, _180_0, _360_0, _copysign_0_0, isnear0, \
-                               _over, _umod_360
+                               _16_0, _180_0, _360_0, isnear0, _over, _umod_360
 from pygeodesy.errors import _and, _or, TriangleError, _ValueError, _xcallable, \
                              _xkwds, _xkwds_pop2
 from pygeodesy.fmath import favg, Fdot, fidw, fmean, hypot, hypot2_
 from pygeodesy.fsums import _Fsumf_, fsumf_, fsum1, fsum1f_
 from pygeodesy.interns import _a_, _A_, _area_, _b_, _B_, _c_, _C_, _coincident_, \
-                              _colinear_, _d_, _eps_, _invalid_, _negative_, _not_, \
+                              _colinear_, _d_, _invalid_, _negative_, _not_, \
                               _rIn_, _SPACE_
 # from pygeodesy.lazily import _ALL_LAZY  # from .basics
 from pygeodesy.named import _NamedTuple, _Pass,  Fmt
 # from pygeodesy.streprs import Fmt  # from .named
 from pygeodesy.units import Degrees, Distance, Radians
-from pygeodesy.utily import acos1, asin1, sincos2, sincos2_, sincos2d, sincos2d_
+from pygeodesy.utily import acos1, asin1, atan2, sincos2, sincos2_, \
+                            sincos2d, sincos2d_
 from pygeodesy.vector3d import _otherV3d, Vector3d
 
-from math import cos, atan2, degrees, fabs, radians, sin, sqrt
+from math import cos, degrees, fabs, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.resections
-__version__ = '24.11.04'
+__version__ = '24.11.27'
 
 _concyclic_ = 'concyclic'
 _PA_        = 'PA'
@@ -340,7 +340,8 @@ def pierlot(point1, point2, point3, alpha12, alpha23, useZ=False, eps=EPS,
     def _cot(s, c):  # -eps < I{approximate} cotangent < eps
         if eps > 0:
             return c / (min(s, -eps) if s < 0 else max(s, eps))
-        raise ValueError(_SPACE_(_eps_, _not_, _positive_))
+        t = Fmt.PARENSPACED(eps=eps)
+        raise ValueError(_SPACE_(t, _not_, _positive_))
 
     B1, B2, B3 = _B3(useZ, point1, point2, point3)
     try:
@@ -352,7 +353,7 @@ def pierlot(point1, point2, point3, alpha12, alpha23, useZ=False, eps=EPS,
                              alpha12=alpha12, alpha23=alpha23, eps=eps, cause=x)
 
 
-def _pierlot3(B1, B2, B3, a12, a23, useZ, cot):
+def _pierlot3(B1, B2, B3, a12, a23, useZ, _cot):
     '''(INTERNAL) Shared L{pierlot} and L{pierlotx}.
     '''
     x1_, y1_, _ = B1.minus(B2).xyz3
@@ -364,14 +365,14 @@ def _pierlot3(B1, B2, B3, a12, a23, useZ, cot):
     #       = (1 - (c12 * c23) / (s12 * s23)) / (c12 * s23 + s12 * c23) / (s12 * s23)
     #       = (s12 * s23 - c12 * c23) / (c12 * s23 + s12 * c23)
     #       =  c31 / s31
-    cot31 = cot(fsum1f_(c12 * s23,  s12 * c23),  # s31
-                fsum1f_(s12 * s23, -c12 * c23))  # c31
+    cot31 = _cot(fsum1f_(c12 * s23,  s12 * c23),  # s31
+                 fsum1f_(s12 * s23, -c12 * c23))  # c31
 
     K = _Fsumf_(x3_ * x1_,  cot31 * (y3_ * x1_),
                 y3_ * y1_, -cot31 * (x3_ * y1_))
     if K:
-        cot12 = cot(s12, c12)
-        cot23 = cot(s23, c23)
+        cot12 = _cot(s12, c12)
+        cot23 = _cot(s23, c23)
 
         # x12 = x1_ + cot12 * y1_
         # y12 = y1_ - cot12 * x1_
@@ -449,7 +450,7 @@ def pierlotx(point1, point2, point3, alpha1, alpha2, alpha3, useZ=False,
 
     def _cot(s, c):  # I{exact} cotangent
         try:
-            return (c / s) if c else _copysign_0_0(s)
+            return (c / s)  # if c else _copysign_0_0(s)
         except ZeroDivisionError:
             raise ValueError(_or(_coincident_, _colinear_))
 
@@ -465,7 +466,7 @@ def pierlotx(point1, point2, point3, alpha1, alpha2, alpha3, useZ=False,
                              alpha1=alpha1, alpha2=alpha2, alpha3=alpha3, cause=x)
 
 
-def _pierlotx3(a_z_Bs, useZ, cot, Cs):
+def _pierlotx3(a_z_Bs, useZ, _cot, Cs):
     '''(INTERNAL) Core of L{pierlotx}.
     '''
     (a12, z12, B1), \
@@ -481,14 +482,14 @@ def _pierlotx3(a_z_Bs, useZ, cot, Cs):
         a23,     B2, B3 = a12,     B3, B2
     else:
         Cs(4)
-        return _pierlot3(B1, B2, B3, a12, a23, useZ, cot)
+        return _pierlot3(B1, B2, B3, a12, a23, useZ, _cot)
 
     x1_, y1_, _ = B1.minus(B3).xyz3
     x2_, y2_, _ = B2.minus(B3).xyz3
 
     K = _Fsumf_(y1_ * x2_, -x1_ * y2_)
     if K:
-        cot23 = cot(*sincos2d(a23))
+        cot23 = _cot(*sincos2d(a23))
 
         # x23 = x2_ + cot23 * y2_
         # y23 = y2_ - cot23 * x2_
@@ -1018,7 +1019,7 @@ def _zidw(x, y, useZ, *ABC):
 
 # **) MIT License
 #
-# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

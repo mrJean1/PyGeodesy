@@ -69,7 +69,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        24.10.12
+        24.11.26
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -305,7 +305,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#cot" class="summary-sig-name">cot</a>(<span class="summary-sig-arg">rad</span>,
-        <span class="summary-sig-arg">**error_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**raiser_kwds</span>)</span><br />
       Return the <code>cotangent</code> of an angle in 
       <code>radians</code>.</td>
           <td align="right" valign="top">
@@ -324,9 +324,9 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#cot_" class="summary-sig-name">cot_</a>(<span class="summary-sig-arg">*rads</span>,
-        <span class="summary-sig-arg">**error_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**raiser_kwds</span>)</span><br />
       Return the <code>cotangent</code> of angle(s) in 
-      <code>radiansresection</code>.</td>
+      <code>radians</code>.</td>
           <td align="right" valign="top">
             
             
@@ -343,7 +343,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#cotd" class="summary-sig-name">cotd</a>(<span class="summary-sig-arg">deg</span>,
-        <span class="summary-sig-arg">**error_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**raiser_kwds</span>)</span><br />
       Return the <code>cotangent</code> of an angle in 
       <code>degrees</code>.</td>
           <td align="right" valign="top">
@@ -362,7 +362,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#cotd_" class="summary-sig-name">cotd_</a>(<span class="summary-sig-arg">*degs</span>,
-        <span class="summary-sig-arg">**error_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**raiser_kwds</span>)</span><br />
       Return the <code>cotangent</code> of angle(s) in 
       <code>degrees</code>.</td>
           <td align="right" valign="top">
@@ -452,8 +452,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#degrees2m" class="summary-sig-name">degrees2m</a>(<span class="summary-sig-arg">deg</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">lat</span>=<span class="summary-sig-default">0</span>)</span><br />
-      Convert an angle to a distance along the equator or along the 
-      parallel at an other (geodetic) latitude.</td>
+      Convert an angle to a distance along the equator or along a parallel 
+      at (geodetic) latitude.</td>
           <td align="right" valign="top">
             
             
@@ -633,8 +633,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#m2degrees" class="summary-sig-name">m2degrees</a>(<span class="summary-sig-arg">distance</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">lat</span>=<span class="summary-sig-default">0</span>)</span><br />
-      Convert a distance to an angle along the equator or along the 
-      parallel at an other (geodetic) latitude.</td>
+      Convert a distance to an angle along the equator or along a parallel 
+      at (geodetic) latitude.</td>
           <td align="right" valign="top">
             
             
@@ -742,8 +742,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#m2radians" class="summary-sig-name">m2radians</a>(<span class="summary-sig-arg">distance</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">lat</span>=<span class="summary-sig-default">0</span>)</span><br />
-      Convert a distance to an angle along the equator or along the 
-      parallel at an other (geodetic) latitude.</td>
+      Convert a distance to an angle along the equator or along a parallel 
+      at (geodetic) latitude.</td>
           <td align="right" valign="top">
             
             
@@ -831,8 +831,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#radians2m" class="summary-sig-name">radians2m</a>(<span class="summary-sig-arg">rad</span>,
         <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">lat</span>=<span class="summary-sig-default">0</span>)</span><br />
-      Convert an angle to a distance along the equator or along the 
-      parallel at an other (geodetic) latitude.</td>
+      Convert an angle to a distance along the equator or along a parallel 
+      at (geodetic) latitude.</td>
           <td align="right" valign="top">
             
             
@@ -1043,8 +1043,44 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#tan" class="summary-sig-name">tan</a>(<span class="summary-sig-arg">rad</span>,
+        <span class="summary-sig-arg">**raiser_kwds</span>)</span><br />
+      Return the <code>tangent</code> of an angle in <code>radians</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#tan_" class="summary-sig-name">tan_</a>(<span class="summary-sig-arg">*rads</span>,
+        <span class="summary-sig-arg">**raiser_kwds</span>)</span><br />
+      Return the <code>tangent</code> of angle(s) in <code>radians</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#tand" class="summary-sig-name">tand</a>(<span class="summary-sig-arg">deg</span>,
-        <span class="summary-sig-arg">**error_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**raiser_kwds</span>)</span><br />
       Return the <code>tangent</code> of an angle in <code>degrees</code>.</td>
           <td align="right" valign="top">
             
@@ -1062,7 +1098,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#tand_" class="summary-sig-name">tand_</a>(<span class="summary-sig-arg">*degs</span>,
-        <span class="summary-sig-arg">**error_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**raiser_kwds</span>)</span><br />
       Return the <code>tangent</code> of angle(s) in <code>degrees</code>.</td>
           <td align="right" valign="top">
             
@@ -1515,7 +1551,7 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>earth</code></strong> - The earth radius, ellipsoid or datum (<code>meter</code>, <a 
+        <li><strong class="pname"><code>earth</code></strong> - The earth radius (<code>meter</code>), ellipsoid or datum (<a 
           href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
           class="link">Ellipsoid</a>, <a 
           href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
@@ -1528,7 +1564,7 @@
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.ellipsoids.Circle4Tuple-class.html" 
           class="link">Circle4Tuple</a><code>(radius, height, lat, 
-          beta)</code> instance.</dd>
+          beta)</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Latitude <b><code>lat</code></b> outside valid range and <a 
@@ -1548,7 +1584,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">cot</span>&nbsp;(<span class="sig-arg">rad</span>,
-        <span class="sig-arg">**error_kwds</span>)</span>
+        <span class="sig-arg">**raiser_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1561,13 +1597,14 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>rad</code></strong> - Angle (<code>radians</code>).</li>
-        <li><strong class="pname"><code>error_kwds</code></strong> - Error to raise (<code>ValueError</code>).</li>
+        <li><strong class="pname"><code>raiser_kwds</code></strong> - Use <code><b>raiser</b>=False</code> to avoid ValueErrors or 
+          optionally, additional ValueError keyword argments.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>cot(<b>rad</b>)</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - <a href="pygeodesy.constants-module.html#isnear0" 
+        <li><code><strong class='fraise'>Error</strong></code> - If <a href="pygeodesy.constants-module.html#isnear0" 
         class="link">pygeodesy.isnear0</a><code>(sin(<b>rad</b>)</code>.</li>
     </ul></dd>
   </dl>
@@ -1581,7 +1618,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">cot_</span>&nbsp;(<span class="sig-arg">*rads</span>,
-        <span class="sig-arg">**error_kwds</span>)</span>
+        <span class="sig-arg">**raiser_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1589,22 +1626,20 @@
   </tr></table>
   
   <p>Return the <code>cotangent</code> of angle(s) in 
-  <code>radiansresection</code>.</p>
+  <code>radians</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>rads</code></strong> - One or more angles (<code>radians</code>).</li>
-        <li><strong class="pname"><code>error_kwds</code></strong> - Error to raise (<code>ValueError</code>).</li>
+        <li><strong class="pname"><code>rads</code></strong> - One or more angles (each in <code>radians</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Yield the <code>cot(<b>rad</b>)</code> for each angle.</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - See <a href="pygeodesy.utily-module.html#cot" 
-        class="link">pygeodesy.cot</a>.</li>
-    </ul></dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.utily-module.html#cot" 
+        class="link">pygeodesy.cot</a> for further details.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="cotd"></a>
 <div>
@@ -1614,7 +1649,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">cotd</span>&nbsp;(<span class="sig-arg">deg</span>,
-        <span class="sig-arg">**error_kwds</span>)</span>
+        <span class="sig-arg">**raiser_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1627,13 +1662,14 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - Angle (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>error_kwds</code></strong> - Error to raise (<code>ValueError</code>).</li>
+        <li><strong class="pname"><code>raiser_kwds</code></strong> - Use <code><b>raiser</b>=False</code> to avoid ValueErrors or 
+          optionally, additional ValueError keyword argments.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>cot(<b>deg</b>)</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - <a href="pygeodesy.constants-module.html#isnear0" 
+        <li><code><strong class='fraise'>Error</strong></code> - If <a href="pygeodesy.constants-module.html#isnear0" 
         class="link">pygeodesy.isnear0</a><code>(sin(<b>deg</b>)</code>.</li>
     </ul></dd>
   </dl>
@@ -1647,7 +1683,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">cotd_</span>&nbsp;(<span class="sig-arg">*degs</span>,
-        <span class="sig-arg">**error_kwds</span>)</span>
+        <span class="sig-arg">**raiser_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1659,18 +1695,16 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>degs</code></strong> - One or more angles (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>error_kwds</code></strong> - Error to raise (<code>ValueError</code>).</li>
+        <li><strong class="pname"><code>degs</code></strong> - One or more angles (each in <code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Yield the <code>cot(<b>deg</b>)</code> for each angle.</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - See <a href="pygeodesy.utily-module.html#cotd" 
-        class="link">pygeodesy.cotd</a>.</li>
-    </ul></dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.utily-module.html#cotd" 
+        class="link">pygeodesy.cotd</a> for further details.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="degrees90"></a>
 <div>
@@ -1791,13 +1825,13 @@
     </td>
   </tr></table>
   
-  <p>Convert an angle to a distance along the equator or along the parallel
-  at an other (geodetic) latitude.</p>
+  <p>Convert an angle to a distance along the equator or along a parallel 
+  at (geodetic) latitude.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - The angle (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius, ellipsoid or datum (<code>meter</code>, <a 
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>), an ellipsoid or datum (<a
           href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
           class="link">Ellipsoid</a>, <a 
           href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
@@ -1809,7 +1843,7 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as 
-          <b><code>radius</code></b> or equatorial and polar radii) or 
+          <b><code>radius</code></b> or polar and equatorial radii) or 
           <code>0.0</code> for near-polar <b><code>lat</code></b>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -2109,14 +2143,14 @@
     </td>
   </tr></table>
   
-  <p>Convert a distance to an angle along the equator or along the parallel
-  at an other (geodetic) latitude.</p>
+  <p>Convert a distance to an angle along the equator or along a parallel 
+  at (geodetic) latitude.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>distance</code></strong> - Distance (<code>meter</code>, same units as 
           <b><code>radius</code></b>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius, ellipsoid or datum (<code>meter</code>, an <a 
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>), an ellipsoid or datum (<a
           href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
           class="link">Ellipsoid</a>, <a 
           href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
@@ -2324,14 +2358,14 @@
     </td>
   </tr></table>
   
-  <p>Convert a distance to an angle along the equator or along the parallel
-  at an other (geodetic) latitude.</p>
+  <p>Convert a distance to an angle along the equator or along a parallel 
+  at (geodetic) latitude.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>distance</code></strong> - Distance (<code>meter</code>, same units as 
           <b><code>radius</code></b>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius, ellipsoid or datum (<code>meter</code>, an <a 
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>, an ellipsoid or datum (<a 
           href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
           class="link">Ellipsoid</a>, <a 
           href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
@@ -2499,14 +2533,14 @@
     </td>
   </tr></table>
   
-  <p>Convert an angle to a distance along the equator or along the parallel
-  at an other (geodetic) latitude.</p>
+  <p>Convert an angle to a distance along the equator or along a parallel 
+  at (geodetic) latitude.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>rad</code></strong> - The angle (<code>radians</code>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius, ellipsoid or datum (<code>meter</code>, <a 
-          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>) or an ellipsoid or datum 
+          (<a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
           class="link">Ellipsoid</a>, <a 
           href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
           class="link">Ellipsoid2</a>, <a 
@@ -2517,7 +2551,7 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as 
-          <b><code>radius</code></b> or equatorial and polar radii) or 
+          <b><code>radius</code></b> or polar and equatorial radii) or 
           <code>0.0</code> for near-polar <b><code>lat</code></b>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -2871,6 +2905,71 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="tan"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">tan</span>&nbsp;(<span class="sig-arg">rad</span>,
+        <span class="sig-arg">**raiser_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the <code>tangent</code> of an angle in 
+  <code>radians</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>rad</code></strong> - Angle (<code>radians</code>).</li>
+        <li><strong class="pname"><code>raiser_kwds</code></strong> - Use <code><b>raiser</b>=False</code> to avoid ValueErrors or 
+          optionally, additional ValueError keyword argments.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>tan(<b>rad</b>)</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>Error</strong></code> - If <a href="pygeodesy.constants-module.html#isnear0" 
+        class="link">pygeodesy.isnear0</a><code>(cos(<b>rad</b>)</code>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="tan_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">tan_</span>&nbsp;(<span class="sig-arg">*rads</span>,
+        <span class="sig-arg">**raiser_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the <code>tangent</code> of angle(s) in 
+  <code>radians</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>rads</code></strong> - One or more angles (each in <code>radians</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Yield the <code>tan(<b>rad</b>)</code> for each angle.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.utily-module.html#tan" 
+        class="link">pygeodesy.tan</a> for futher details.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="tand"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -2879,7 +2978,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">tand</span>&nbsp;(<span class="sig-arg">deg</span>,
-        <span class="sig-arg">**error_kwds</span>)</span>
+        <span class="sig-arg">**raiser_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2892,13 +2991,14 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - Angle (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>error_kwds</code></strong> - Error to raise (<code>ValueError</code>).</li>
+        <li><strong class="pname"><code>raiser_kwds</code></strong> - Use <code><b>raiser</b>=False</code> to avoid ValueErrors or 
+          optionally, additional ValueError keyword argments.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>tan(<b>deg</b>)</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - If <a href="pygeodesy.constants-module.html#isnear0" 
+        <li><code><strong class='fraise'>Error</strong></code> - If <a href="pygeodesy.constants-module.html#isnear0" 
         class="link">pygeodesy.isnear0</a><code>(cos(<b>deg</b>)</code>.</li>
     </ul></dd>
   </dl>
@@ -2912,7 +3012,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">tand_</span>&nbsp;(<span class="sig-arg">*degs</span>,
-        <span class="sig-arg">**error_kwds</span>)</span>
+        <span class="sig-arg">**raiser_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2924,18 +3024,16 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>degs</code></strong> - One or more angles (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>error_kwds</code></strong> - Error to raise (<code>ValueError</code>).</li>
+        <li><strong class="pname"><code>degs</code></strong> - One or more angles (each in <code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Yield the <code>tan(<b>deg</b>)</code> for each angle.</dd>
-    <dt>Raises:</dt>
-    <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - See <a href="pygeodesy.utily-module.html#tand" 
-        class="link">pygeodesy.tand</a>.</li>
-    </ul></dd>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.utily-module.html#tand" 
+        class="link">pygeodesy.tand</a> for futher details.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="tanPI_2_2"></a>
 <div>
@@ -3354,7 +3452,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Nov 12 14:52:45 2024
+    Generated by Epydoc 3.0.1 on Fri Dec  6 15:33:36 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

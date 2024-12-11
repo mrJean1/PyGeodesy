@@ -67,12 +67,13 @@ from pygeodesy.props import deprecated_function, deprecated_method, \
                             property_doc_, property_RO
 # from pygeodesy.streprs import Fmt  # from .points
 from pygeodesy.units import Number_, Scalar_
-from pygeodesy.utily import atan2b, atan2d, sincos2, sincos2d, unroll180, wrap180
+from pygeodesy.utily import atan2, atan2b, atan2d, sincos2, sincos2d, \
+                            unroll180, wrap180
 
-from math import atan2, cos, degrees, fabs, radians, tan
+from math import cos, degrees, fabs, radians, tan as _tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '24.10.12'
+__version__ = '24.11.26'
 
 _antipodal_to_ = _SPACE_(_antipodal_, _to_)
 
@@ -383,7 +384,7 @@ def _sincos22(sa):
 def _sincostan3r(a, f):
     # I{Reduced} 3-tuple C{(sin(B{a}), cos(B{a}), tan(B{a}))}
     if a:  # see L{sincostan3}
-        t = (_1_0 - f) * tan(a)
+        t = (_1_0 - f) * _tan(a)
         if t:
             c = _1_0 / hypot1(t)
             s =  c * t
@@ -567,7 +568,7 @@ __all__ += _ALL_DOCS(Cartesian, LatLon, intersecant2,  # from .ellipsoidalBaseDI
 
 # **) MIT License
 #
-# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

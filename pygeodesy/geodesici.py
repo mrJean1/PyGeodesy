@@ -51,12 +51,12 @@ from pygeodesy.solveBase import _SolveCapsBase,  pairs
 # from pygeodesy.streprs import Fmt, unstr  # from .ellipsoids
 from pygeodesy.units import Azimuth as Azi, Degrees, Float, Int, \
                            _isDegrees,  Lat, Lon, Meter, Meter_
-from pygeodesy.utily import sincos2,  atan2, fabs, radians
+from pygeodesy.utily import atan2, sincos2,  fabs, radians
 
-# from math import atan2, ceil as _ceil, fabs, radians  # .fsums, .utily
+# from math import ceil as _ceil, fabs, radians  # .fsums, .utily
 
 __all__ = _ALL_LAZY.geodesici
-__version__ = '24.10.22'
+__version__ = '24.11.24'
 
 _0t     =  0,  # int
 _1_1t   = -1, +1
@@ -1774,7 +1774,7 @@ if __name__ == '__main__':  # MCCABE 14
 
 # **) MIT License
 #
-# Copyright (C) 2024-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2024-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

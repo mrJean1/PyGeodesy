@@ -7,7 +7,7 @@ I{Charles Karney}'s C++ class U{JacobiConformal<https://GeographicLib.SourceForg
 classGeographicLib_1_1JacobiConformal.html#details>} to pure Python and miscellaneous classes
 L{BetaOmega2Tuple}, L{BetaOmega3Tuple}, L{Jacobi2Tuple} and L{TriaxialError}.
 
-Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2008-2023).  For more information,
+Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2008-2024).  For more information,
 see the U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 
 @see: U{Geodesics on a triaxial ellipsoid<https://WikiPedia.org/wiki/Geodesics_on_an_ellipsoid#
@@ -53,13 +53,13 @@ from pygeodesy.props import Property_RO, property_ROver
 # from pygeodesy.streprs import Fmt  # from .datums
 from pygeodesy.units import Degrees, Float, Height_, Meter, Meter2, Meter3, \
                             Radians, Radius, Scalar_
-from pygeodesy.utily import asin1, atan2d, km2m, m2km, SinCos2, sincos2d_
+from pygeodesy.utily import asin1, atan2, atan2d, km2m, m2km, SinCos2, sincos2d_
 from pygeodesy.vector3d import _otherV3d, Vector3d,  _ALL_LAZY, _MODS
 
-from math import atan2, fabs, sqrt
+from math import fabs, sqrt
 
 __all__ = _ALL_LAZY.triaxials
-__version__ = '24.10.15'
+__version__ = '24.11.24'
 
 _not_ordered_ = _not_('ordered')
 _omega_       = 'omega'
@@ -213,7 +213,7 @@ class Triaxial_(_NamedEnumItem):
                             C{meter}) or an other L{Triaxial} or L{Triaxial_} instance.
            @kwarg b: Middle, C{Y} semi-axis (C{meter}, same units as B{C{a}}), required
                      if C{B{a_triaxial} is scalar}, ignored otherwise.
-           @kwarg c: Small, C{Z} semi-axis (C{meter}, B{C{b}}).
+           @kwarg c: Small, C{Z} semi-axis (C{meter}, like B{C{b}}).
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @raise TriaxialError: Invalid semi-axis or -axes.
@@ -396,8 +396,10 @@ class Triaxial_(_NamedEnumItem):
            @raise TriaxialError: Non-cartesian B{C{xyz}}, invalid B{C{eps}}, no convergence in
                   root finding or validation failed.
 
-           @see: Methods L{Triaxial.normal3d} and L{Ellipsoid.height4} and I{Eberly}'s U{Distance from a
-                 Point to ...<https://www.GeometricTools.com/Documentation/DistancePointEllipseEllipsoid.pdf>}.
+           @see: Methods L{Triaxial.normal3d} and L{Ellipsoid.height4}, I{Eberly}'s U{Distance from a Point to ...
+                 <https://www.GeometricTools.com/Documentation/DistancePointEllipseEllipsoid.pdf>} and I{Bektas}'
+                 U{Shortest Distance from a Point to Triaxial Ellipsoid<https://www.ResearchGate.net/publication/
+                 272149005_SHORTEST_DISTANCE_FROM_A_POINT_TO_TRIAXIAL_ELLIPSOID>}.
         '''
         v, r = _otherV3d_(x_xyz, y, z), self.isSpherical
 
@@ -420,7 +422,7 @@ class Triaxial_(_NamedEnumItem):
                 raise TriaxialError(x=x, y=y, z=z, cause=e)
             if h > 0 and self.sideOf(v, eps=EPS0) < 0:
                 h = -h  # inside
-        n = _name__(name, name__=self.height4)
+        n = _name__(name, name__=self.height4)  # _DUNDER_nameof
         return Vector4Tuple(x, y, z, h, iteration=i, name=n)
 
     @Property_RO
@@ -863,7 +865,8 @@ class Triaxial(Triaxial_):
         return BetaOmega3Tuple(Radians(beta=a), Radians(omega=b), h, **name)
 
     def reverseCartesian(self, x_xyz, y=None, z=None, h=0, normal=True, eps=_EPS2e4, **name):
-        '''"Unproject" a cartesian on to a cartesion I{off} this triaxial's surface.
+        '''Unproject" a cartesian I{on} this triaxial's surface to a cartesion I{off}
+           this triaxial's surface.
 
            @arg x_xyz: X component (C{scalar}) or a cartesian (C{Cartesian},
                        L{Ecef9Tuple}, L{Vector3d}, L{Vector3Tuple} or L{Vector4Tuple}).
@@ -871,7 +874,7 @@ class Triaxial(Triaxial_):
                        ignored otherwise.
            @kwarg z: Z component (C{scalar}), like B{C{y}}.
            @arg h: Height above or below this triaxial's surface (C{meter}, same units
-                   as the axes).
+                   as this triaxial's axes).
            @kwarg normal: If C{True}, the height is C{normal} to the surface, otherwise
                           C{radially} to the center of this triaxial (C{bool}).
            @kwarg eps: Tolerance for on-surface test (C{scalar}), see method L{Triaxial.sideOf}.
@@ -941,7 +944,7 @@ class JacobiConformal(Triaxial):
        by C{sqrt(B{a}**2 - B{c}**2) / (2 * B{b})} so that the customary results are
        returned in the case of an ellipsoid of revolution.
 
-       Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2014-2023) and
+       Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2014-2024) and
        licensed under the MIT/X11 License.
 
        @note: This constructor can I{not be used to specify a sphere}, see alternate
@@ -1278,8 +1281,8 @@ def hartzell4(pov, los=False, tri_biax=_WGS84, **name):
         v, h, i = _hartzell3(pov, los, T)
     except Exception as x:
         raise TriaxialError(pov=pov, los=los, tri_biax=tri_biax, cause=x)
-    return Vector4Tuple(v.x, v.y, v.z, h, iteration=i,  # _DUNDER_nameof
-                                          name=_name__(name, name__=hartzell4))
+    n = _name__(name, name__=hartzell4)  # _DUNDER_nameof
+    return Vector4Tuple(v.x, v.y, v.z, h, iteration=i, name=n)
 
 
 def _hypot2_1(x, y, z=0):
@@ -1319,8 +1322,8 @@ def _plumbTo3(px, py, E, eps=EPS):  # in .ellipsoids.Ellipsoid.height4
     b2 = b - a * E.a_b
     tx = ty = _SQRT2_2
     for i in range(16):  # max 5
-        ex = a2 * tx**3
-        ey = b2 * ty**3
+        ex = tx**3 * a2
+        ey = ty**3 * b2
 
         qx = px - ex
         qy = py - ey
@@ -1529,13 +1532,17 @@ if __name__ == '__main__':
     from pygeodesy import printf
     from pygeodesy.interns import _COMMA_, _NL_, _NLATvar_
 
+    t = Triaxial_(6378388.0, 6378318.0, 6356911.9461)
+    t = t.height4(3909863.9271, 3909778.123, 3170932.5016)
+    printf('# Bektas: %r', t)
+
     # __doc__ of this file, force all into registery
     t = [NN] + Triaxials.toRepr(all=True, asorted=True).split(_NL_)
     printf(_NLATvar_.join(i.strip(_COMMA_) for i in t))
 
 # **) MIT License
 #
-# Copyright (C) 2022-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2022-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

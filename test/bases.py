@@ -43,7 +43,7 @@ __all__ = ('coverage', 'GeodSolve', 'geographiclib',  # constants
            'numpy', 'PyGeodesy_dir', 'PythonX', 'scipy', 'test_dir',
            'RandomLatLon', 'TestsBase',  # classes
            'secs2str', 'tilde', 'type2str', 'versions')  # functions
-__version__ = '24.11.06'
+__version__ = '24.12.05'
 
 try:
     if float(_getenv('PYGEODESY_COVERAGE', '0')) > 0:
@@ -437,7 +437,7 @@ def prefix2(prev):  # in .run
     '''Get time prefix and time stamp.
     '''
     t = time()
-    p = '%7.3f ' % ((t - prev),)
+    p = '%8.3f ' % ((t - prev),)
     p = p.replace('  0.', '   .')
     return p, t
 
@@ -571,7 +571,7 @@ if internals._is_DUNDER_main(__name__):
 
 # **) MIT License
 #
-# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

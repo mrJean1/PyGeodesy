@@ -4,23 +4,24 @@
 # Test L{utily} module.
 
 __all__ = ('Tests',)
-__version__ = '23.10.21'
+__version__ = '24.11.26'
 
 from bases import TestsBase, geographiclib
 
 from pygeodesy import EPS, INF, NEG0, NINF, PI, PI2, PI_2, PI3_2, \
-                      acre2ha, acre2m2, atan1, atan2d, chain2m, cot_, cotd_, \
+                      acre2ha, acre2m2, atan1, atan2d, chain2m, cot, cot_, cotd, cotd_, \
                       degrees90, degrees180, degrees360, degrees2m, \
-                      fathom2m, ft2m, furlong2m, \
+                      fathom2m, fstr, ft2m, furlong2m, \
                       grades400, degrees2grades, grades2degrees, grades2radians, \
                       isPoints2, map1, \
                       m2chain, m2degrees, m2fathom, m2ft, m2furlong, m2toise, m2yard, \
                       radiansPI, radiansPI2, radiansPI_2, \
-                      sincos2, sincos2d, sincostan3, tan_2, unroll180, \
+                      sincos2, sincos2d, sincostan3, \
+                      tan, tan_, tan_2, tand, tand_, toise2m, unroll180, \
                       wrap90, wrap180, wrap360, wrapPI, wrapPI2, wrapPI_2, \
-                      toise2m, yard2m, fstr  # DEPRECATED, use fstr
+                      yard2m  # DEPRECATED, use fstr
 
-from math import cos, fabs, radians, sin, tan
+from math import cos, fabs, radians, sin, tan as _tan
 
 if geographiclib:
     from geographiclib.geomath import Math
@@ -32,7 +33,7 @@ else:
 
 class Tests(TestsBase):
 
-    def testUtily(self):
+    def testUtily(self):  # MCCABE 14
 
         # Python 2.6.9 on Travis Ubuntu 14.04 produces -0.0
 
@@ -164,7 +165,7 @@ class Tests(TestsBase):
         self.test('atan1', atan1(0, NEG0), '0.0')
 
         e = d = g = f = t = 0
-        for a in range(-1000, 1000, 2):
+        for a in range(-1000, 1000, 1):
             a *= 0.47
             r = radians(a)
             sr, cr = sin(r), cos(r)
@@ -181,18 +182,28 @@ class Tests(TestsBase):
                 f = max(f, fabs(sd - s), fabs(cd - c))
 
         if sr:  # coverage
+            self.test('cot  ', cot(r), cr / sr, prec=12, nl=1)
             c, _ = cot_(r, r)  # PYCHOK .next() or __next__()
-            self.test('cot_ ', c, cr / sr, prec=12, nl=1)
+            self.test('cot_ ', c, cr / sr, prec=12)
         if sd:  # coverage
+            self.test('cotd ', cotd(a), cd / sd, prec=12, nl=1)
             c, _ = cotd_(a, a)  # PYCHOK .next() or __next__()
             self.test('cotd_', c, cd / sd, prec=12)
         EPS_ = EPS * 8
         self.test('sincos2',  e, EPS_, known=e < EPS_, nl=1)
         self.test('sincos2d', d, EPS_, known=d < EPS_)
         if Math:
-            self.test('Matan2d ', t, EPS,  known=t < EPS, nl=1)
+            self.test('Matan2d ', t, EPS_, known=t < EPS, nl=1)
             self.test('Msincosd', g, EPS_, known=g < EPS_)
             self.test('sincos*d', f, EPS_, known=f < EPS_)
+        if cr:  # coverage
+            self.test('tan  ', tan(r), sr / cr, prec=12, nl=1)
+            t, _ = tan_(r, r)  # PYCHOK .next() or __next__()
+            self.test('tan_ ', t, sr / cr, prec=12)
+        if cd:  # coverage
+            self.test('tand ', tand(a), sd / cd, prec=12, nl=1)
+            t, _ = tand_(a, a)  # PYCHOK .next() or __next__()
+            self.test('tand_', t, sd / cd, prec=12)
 
         # <https://www.CivilGeo.com/when-a-foot-isnt-really-a-foot/>
         self.test('iFt2m', ft2m( 614963.91), 187441, fmt='%.0f', nl=1)
@@ -241,7 +252,7 @@ class Tests(TestsBase):
 
         f = sincostan3.__name__ + '(%+.4f)'
         for a in (0, NEG0, PI_2, -PI_2, PI, -PI, PI3_2, -PI_2, PI2, -PI2):
-            t = map1(_fin, sin(a), cos(a), tan(a))
+            t = map1(_fin, sin(a), cos(a), _tan(a))
             self.test(f % (a,), sincostan3(a), t, known=True)  # =a in (PI3_2, PI2)
 
 

@@ -63,11 +63,9 @@
   <p>Classes <a href="pygeodesy.epsg.Epsg-class.html" class="link">Epsg</a>
   and <a href="pygeodesy.epsg.EPSGError-class.html" 
   class="link">EPSGError</a> and functions to <a 
-  href="pygeodesy.epsg-module.html#encode" class="link" 
-  onclick="show_private();">encode</a> and <a 
-  href="pygeodesy.epsg-module.html#decode2" class="link" 
-  onclick="show_private();">decode2</a> (<a href="https://EPSG.org" 
-  target="_top">EPSG</a>) codes from and to <a 
+  href="pygeodesy.epsg-module.html#encode" class="link">encode</a> and <a 
+  href="pygeodesy.epsg-module.html#decode2" class="link">decode2</a> (<a 
+  href="https://EPSG.org" target="_top">EPSG</a>) codes from and to <a 
   href="https://WikiPedia.org/wiki/Universal_Transverse_Mercator_coordinate_system"
   target="_top">UTM</a> and <a 
   href="https://WikiPedia.org/wiki/Universal_polar_stereographic_coordinate_system"
@@ -109,6 +107,53 @@
     </td>
   </tr>
 </table>
+<!-- ==================== FUNCTIONS ==================== -->
+<a name="section-Functions"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Functions</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.epsg-module.html#decode2" class="summary-sig-name">decode2</a>(<span class="summary-sig-arg">epsg</span>)</span><br />
+      Determine the UTM/USP zone and hemisphere from a given <a 
+      href="https://EPSG.org" target="_top">EPSG</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.epsg-module.html#encode" class="summary-sig-name">encode</a>(<span class="summary-sig-arg">zone</span>,
+        <span class="summary-sig-arg">hemipole</span>=<span class="summary-sig-default">''</span>,
+        <span class="summary-sig-arg">band</span>=<span class="summary-sig-default">''</span>)</span><br />
+      Determine the <a href="https://EPSG.org" target="_top">EPSG</a> code 
+      for a given UTM/UPS zone number, hemisphere/pole and/or Band.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
 <!-- ==================== VARIABLES ==================== -->
 <a name="section-Variables"></a>
 <table class="summary" border="1" cellpadding="3"
@@ -125,6 +170,103 @@
     </td>
   </tr>
 </table>
+<!-- ==================== FUNCTION DETAILS ==================== -->
+<a name="section-FunctionDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Function Details</span></td>
+</tr>
+</table>
+<a name="decode2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">decode2</span>&nbsp;(<span class="sig-arg">epsg</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Determine the UTM/USP zone and hemisphere from a given <a 
+  href="https://EPSG.org" target="_top">EPSG</a>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>epsg</code></strong> - The EPSG (<a href="pygeodesy.epsg.Epsg-class.html" 
+          class="link">Epsg</a>, <code>str</code> or <code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.namedTuples.UtmUps2Tuple-class.html" 
+          class="link">UtmUps2Tuple</a><code>(zone, hemipole)</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.epsg.EPSGError-class.html">EPSGError</a></strong></code> - Invalid <b><code>epsg</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Coverage of UPS as zone <code>0</code> follows <i>Karney</i>'s 
+        function <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1UTMUPS.html"
+        target="_top">UTMUPS::DecodeEPSG</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="encode"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">encode</span>&nbsp;(<span class="sig-arg">zone</span>,
+        <span class="sig-arg">hemipole</span>=<span class="sig-default">''</span>,
+        <span class="sig-arg">band</span>=<span class="sig-default">''</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Determine the <a href="https://EPSG.org" target="_top">EPSG</a> code 
+  for a given UTM/UPS zone number, hemisphere/pole and/or Band.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>zone</code></strong> - The (longitudinal) UTM zone (<code>int</code>, 1..60) or UPS zone
+          (<code>int</code>, 0) or UTM zone with/-out <i>latitudinal</i> 
+          Band letter (<code>str</code>, '01C'..'60X') or UPS zone 
+          with/-out <i>polar</i> Band letter (<code>str</code>, '00A', 
+          '00B', '00Y' or '00Z').</li>
+        <li><strong class="pname"><code>hemipole</code></strong> - UTM/UPS hemisphere or UPS projection top/center pole 
+          (<code>str</code>, <code>'N[orth]'</code> or 
+          <code>'S[outh]'</code>).</li>
+        <li><strong class="pname"><code>band</code></strong> - Optional <i>latitudinal</i> UTM or <i>polar</i> UPS Band letter 
+          (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>EPSG</code> code (<a href="pygeodesy.epsg.Epsg-class.html" 
+          class="link">Epsg</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.epsg.EPSGError-class.html">EPSGError</a></strong></code> - Invalid <b><code>zone</code></b>, <b><code>hemipole</code></b> or 
+        <b><code>band</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Coverage of UPS as zone <code>0</code> follows <i>Karney</i>'s 
+        function <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1UTMUPS.html"
+        target="_top">UTMUPS::EncodeEPSG</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
        bgcolor="#a0c0ff" cellspacing="0">
@@ -156,7 +298,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Nov 12 14:52:45 2024
+    Generated by Epydoc 3.0.1 on Fri Dec  6 15:33:36 2024
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

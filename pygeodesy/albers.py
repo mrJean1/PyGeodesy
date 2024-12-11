@@ -32,13 +32,13 @@ from pygeodesy.named import _name2__, _NamedBase, _NamedTuple, _Pass
 from pygeodesy.props import deprecated_Property_RO, Property_RO, _update_all
 from pygeodesy.streprs import Fmt, strs, unstr
 from pygeodesy.units import Bearing, Float_, Lat, Lat_, Lon, Meter, Scalar_
-from pygeodesy.utily import atan1, atan1d, degrees360, sincos2, sincos2d, \
-                            sincos2d_
+from pygeodesy.utily import atan1, atan1d, atan2, degrees360, sincos2, \
+                            sincos2d, sincos2d_
 
-from math import atan2, atanh, degrees, fabs, radians, sqrt
+from math import atanh, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '24.10.15'
+__version__ = '24.11.24'
 
 _k1_    = 'k1'
 _NUMIT  =   8  # XXX 4?
@@ -834,7 +834,7 @@ __all__ += _ALL_DOCS(_AlbersBase)
 
 # **) MIT License
 #
-# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

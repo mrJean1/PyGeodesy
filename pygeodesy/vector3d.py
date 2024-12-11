@@ -20,7 +20,7 @@ from pygeodesy.iters import PointsIter,  Fmt
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _name__, _name2__, _xnamed, _xotherError
 from pygeodesy.namedTuples import Intersection3Tuple, NearestOn2Tuple, \
-                                  NearestOn6Tuple, Vector3Tuple  # Vector4Tuple
+                                  NearestOn6Tuple, _v2Cls, Vector3Tuple  # Vector4Tuple
 # from pygeodesy.nvectorBase import _nsumOf  # _MODS
 # from pygeodesy.streprs import Fmt  # from .iters
 from pygeodesy.units import _fi_j2, _isDegrees, Radius, Radius_
@@ -31,7 +31,7 @@ from pygeodesy.vector3dBase import Vector3dBase
 # from math import fabs, sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '24.11.11'
+__version__ = '24.11.22'
 
 _vector2d = _MODS.into(vector2d=__name__)
 
@@ -302,6 +302,17 @@ class Vector3d(Vector3dBase):
            @see: Function L{pygeodesy.soddy4}.
         '''
         return _vector2d.soddy4(self, point2, point3, eps=eps, useZ=True)
+
+    def toCartesian(self, Cartesian, **Cartesian_kwds):
+        '''Return this C{Vector3d} as a C{Cartesian}.
+
+           @arg Cartesian: The C{Cartesian} class to use.
+           @kwarg Cartesian_kwds: Optional, additional C{Cartesian}
+                                  keyword arguments.
+
+           @return: The C{B{Cartesian}} instance.
+        '''
+        return _v2Cls(self, Cartesian, Cartesian_kwds)
 
     def trilaterate2d2(self, radius, center2, radius2, center3, radius3, eps=EPS4, z=INT0):
         '''Trilaterate this and two other circles, each given as a (2-D) center
@@ -902,7 +913,7 @@ __all__ += _ALL_DOCS(intersections2, sumOf, Vector3dBase)
 
 # **) MIT License
 #
-# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

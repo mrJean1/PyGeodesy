@@ -51,19 +51,19 @@ from pygeodesy.props import deprecated_method, property_doc_, \
                             Property_RO
 from pygeodesy.streprs import Fmt, unstr
 from pygeodesy.units import Band, Int, Lat, Lon, Meter, Zone
-from pygeodesy.utily import atan1, degrees90, degrees180, sincos2
+from pygeodesy.utily import atan1, atan2, degrees90, degrees180, sincos2
 from pygeodesy.utmupsBase import _hemi, _LLEB, _parseUTMUPS5, _to4lldn, \
                                  _to3zBhp, _to3zll, _UPS_LATS, _UPS_ZONE, \
                                  _UTM_LAT_MAX, _UTM_ZONE_MAX, \
                                  _UTM_LAT_MIN, _UTM_ZONE_MIN, \
                                  _UTM_ZONE_OFF_MAX, UtmUpsBase
 
-from math import asinh, atanh, atan2, cos, cosh, degrees, fabs, \
-                 radians, sin, sinh, tan, tanh
+from math import asinh, atanh, cos, cosh, degrees, fabs, radians, \
+                 sin, sinh, tan, tanh  # tan as _tan
 # import operator as _operator  # from .fmath
 
 __all__ = _ALL_LAZY.utm
-__version__ = '24.11.07'
+__version__ = '24.11.26'
 
 _Bands = 'CDEFGHJKLMNPQRSTUVWXX'  # UTM latitude bands C..X (no
 # I|O) 8° each, covering 80°S to 84°N and X repeated for 80-84°N
@@ -733,7 +733,7 @@ def utmZoneBand5(lat, lon, cmoff=False, **name):
 
 # **) MIT License
 #
-# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

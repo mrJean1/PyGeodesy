@@ -8,10 +8,11 @@ are all instances of some C{Named...Tuple} class, all sub-classes
 of C{_NamedTuple} defined in C{pygeodesy.named}.
 '''
 
-from pygeodesy.basics import isinstanceof, map1, _xinstanceof
+from pygeodesy.basics import isinstanceof, issubclassof, map1, _xinstanceof
+# from pygeodesy.cartesianBase import CartesianBase  # _MODS
 # from pygeodesy.constants import INT0  # from .units
 # from pygeodesy.dms import toDMS  # _MODS
-from pygeodesy.errors import _xattr, _xkwds, _xkwds_not,  _ALL_LAZY, _MODS
+from pygeodesy.errors import _TypeError, _xattr, _xkwds, _xkwds_not
 from pygeodesy.interns import NN, _1_, _2_, _a_, _A_, _area_, _angle_, _b_, _B_, \
                              _band_, _c_, _C_, _D_, _datum_, _distance_, _E_, \
                              _easting_, _end_, _fi_, _gamma_, _h_, _height_, \
@@ -19,8 +20,8 @@ from pygeodesy.interns import NN, _1_, _2_, _a_, _A_, _area_, _angle_, _b_, _B_,
                              _n_, _northing_, _number_, _outside_, _phi_, \
                              _point_, _precision_, _points_, _radius_, _scale_, \
                              _start_, _x_, _y_, _z_, _zone_
-# from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS  # from .errors
-from pygeodesy.named import _NamedTuple, _Pass
+# from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS  # from .named
+from pygeodesy.named import _NamedTuple, _Pass,  _ALL_LAZY, _MODS
 from pygeodesy.props import deprecated_property_RO, property_RO
 from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, FIx, \
                             Height, Int, Lam, Lat, Lon, Meter, Meter2, \
@@ -28,7 +29,7 @@ from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, FIx, \
                             Radius, Scalar, Str,  INT0
 
 __all__ = _ALL_LAZY.namedTuples
-__version__ = '24.08.18'
+__version__ = '24.11.22'
 
 # __DUNDER gets mangled in class
 _closest_     = 'closest'
@@ -636,6 +637,17 @@ class Vector2Tuple(_NamedTuple):
     _Names_ = (_x_,    _y_)
     _Units_ = ( Scalar, Scalar)
 
+    def toCartesian(self, Cartesian, **Cartesian_kwds):
+        '''Return this C{Vector2Tuple} as a C{Cartesian}.
+
+           @arg Cartesian: The C{Cartesian} class to use.
+           @kwarg Cartesian_kwds: Optional, additional C{Cartesian}
+                                  keyword arguments.
+
+           @return: The C{B{Cartesian}} instance with C{z=0}.
+        '''
+        return _v2Cls(self.xyz, Cartesian, Cartesian_kwds)
+
     def to3Tuple(self, z=INT0, **name):
         '''Extend this L{Vector2Tuple} to a L{Vector3Tuple}.
 
@@ -649,6 +661,18 @@ class Vector2Tuple(_NamedTuple):
         '''
         return self._xtend(Vector3Tuple, z, **name)
 
+    @property_RO
+    def xyz(self):
+        '''Get X, Y and Z=0 components (C{Vector3Tuple}).
+        '''
+        return Vector3Tuple(*self.xyz3)
+
+    @property_RO
+    def xyz3(self):
+        '''Get X, Y and Z=0 components as C{3-tuple}.
+        '''
+        return self.x, self.y, INT0
+
 
 class Vector3Tuple(_NamedTuple):
     '''3-Tuple C{(x, y, z)} of (geocentric) components, all in
@@ -656,6 +680,17 @@ class Vector3Tuple(_NamedTuple):
     '''
     _Names_ = (_x_,    _y_,    _z_)
     _Units_ = ( Scalar, Scalar, Scalar)
+
+    def toCartesian(self, Cartesian, **Cartesian_kwds):
+        '''Return this C{Vector3Tuple} as a C{Cartesian}.
+
+           @arg Cartesian: The C{Cartesian} class to use.
+           @kwarg Cartesian_kwds: Optional, additional C{Cartesian}
+                                  keyword arguments.
+
+           @return: The C{B{Cartesian}} instance.
+        '''
+        return _v2Cls(self, Cartesian, Cartesian_kwds)
 
     def to4Tuple(self, h=INT0, **name):
         '''Extend this L{Vector3Tuple} to a L{Vector4Tuple}.
@@ -690,6 +725,17 @@ class Vector4Tuple(_NamedTuple):  # .nvector.py
     _Names_ = (_x_,    _y_,    _z_,    _h_)
     _Units_ = ( Scalar, Scalar, Scalar, Height)
 
+    def toCartesian(self, Cartesian, **Cartesian_kwds):
+        '''Return this C{Vector4Tuple} as a C{Cartesian}.
+
+           @arg Cartesian: The C{Cartesian} class to use.
+           @kwarg Cartesian_kwds: Optional, additional C{Cartesian}
+                                  keyword arguments.
+
+           @return: The C{B{Cartesian}} instance.
+        '''
+        return _v2Cls(self, Cartesian, Cartesian_kwds)
+
     def to3Tuple(self):
         '''Reduce this L{Vector4Tuple} to a L{Vector3Tuple}.
 
@@ -701,7 +747,7 @@ class Vector4Tuple(_NamedTuple):  # .nvector.py
     def xyz(self):
         '''Get X, Y and Z components (L{Vector3Tuple}).
         '''
-        return Vector3Tuple(*self[:3])
+        return Vector3Tuple(*self.xyz)
 
     @property_RO
     def xyz3(self):
@@ -710,9 +756,14 @@ class Vector4Tuple(_NamedTuple):  # .nvector.py
         return tuple(self[:3])
 
 
+def _v2Cls(v, Cls, Cartesian_kwds):  # in .vector3d
+    if issubclassof(Cls, _MODS.cartesianBase.CartesianBase):  # _MODS.vector3d.Vector3d)
+        return Cls(v, **Cartesian_kwds)
+    raise _TypeError(Cartesian=Cls, **Cartesian_kwds)
+
 # **) MIT License
 #
-# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

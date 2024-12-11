@@ -4,7 +4,7 @@
 # Test L{triaxials} module.
 
 __all__ = ('Tests',)
-__version__ = '24.08.19'
+__version__ = '24.11.21'
 
 from bases import numpy, random, startswith, TestsBase
 
@@ -204,7 +204,7 @@ class Tests(TestsBase):
 
         E = Ellipsoids.WGS84  # earth as testFormy
 
-        # <http://OJS.BBWPublisher.com/index.php/JWA/article/view/74>
+        # <http://OJS.BBWPublisher.com/index.php/JWA/article/view/74>  # Bektas
         T = Triaxial(6378388, 6378318, 6356911.9461, name='Test')  # a - b = 70
         self.test(n, repr(T), "Triaxial(name='Test', a=6378388, b=6378318, c=6356911.9461, e2ab=", known=startswith)
         U = Triaxial_(T.c, T.a, T.b, name='Un')
@@ -266,8 +266,11 @@ class Tests(TestsBase):
         d = p.toDegrees(form=F_DMS)
         self.test(n, d, "('29°51′37.43″', '40°01′02.98″', 12918.032538)", known=True)  # (30°01′38.2729″, 40°01′05.2057″)
 
-        T = Triaxial(3, 2, 1)  # Eberly
         n = T.height4.__name__
+        t = T.height4(3909863.9271, 3909778.123, 3170932.5016)  # Bektas
+        self.test(n, t, '(3909251.554667, 3909165.750567, 3170432.501602, 999.999996)', nl=1)
+
+        T = Triaxial(3, 2, 1)  # Eberly
         p = T.height4(2, 4, 3)
         self.test(n, p.toStr(prec=6), '(1.206423, 1.61288, 0.433517, 3.593736)', nl=1)
         self.test(n, p.iteration, p.iteration)

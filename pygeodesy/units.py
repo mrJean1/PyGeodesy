@@ -27,7 +27,7 @@ from pygeodesy.unitsBase import Float, Int, _NamedUnit, Radius, Str,  Fmt, fstr
 from math import degrees, isnan, radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '24.11.06'
+__version__ = '24.11.14'
 
 
 class Float_(Float):
@@ -798,36 +798,36 @@ class Zone(Int):
         return Int_.__new__(cls, arg=arg, name=name, **Error_name_arg)
 
 
-_ScalarU =  Float, Float_, Scalar, Scalar_
-_Degrees = (Azimuth, Bearing, Bearing_, Degrees, Degrees_) + _ScalarU
-_Meters  = (Distance, Distance_, Meter, Meter_) + _ScalarU
-_Radians = (Radians, Radians_) + _ScalarU  # PYCHOK unused
+_Degrees = (Azimuth, Bearing, Bearing_, Degrees, Degrees_)
+_Meters  = (Distance, Distance_, Meter, Meter_)
+_Radians = (Radians, Radians_)  # PYCHOK unused
 _Radii   = _Meters + (Radius, Radius_)
+_ScalarU =  Float, Float_, Scalar, Scalar_
 
 
-def _isDegrees(obj):
+def _isDegrees(obj, iscalar=True):
     # Check for valid degrees types.
-    return isinstance(obj, _Degrees) or _isScalar(obj)
+    return isinstance(obj, _Degrees) or (iscalar and _isScalar(obj))
 
 
-def _isHeight(obj):
+def _isHeight(obj, iscalar=True):
     # Check for valid height types.
-    return isinstance(obj, _Meters) or _isScalar(obj)
+    return isinstance(obj, _Meters) or (iscalar and _isScalar(obj))
 
 
-def _isMeter(obj):
+def _isMeter(obj, iscalar=True):
     # Check for valid meter types.
-    return isinstance(obj, _Meters) or _isScalar(obj)
+    return isinstance(obj, _Meters) or (iscalar and _isScalar(obj))
 
 
-def _isRadius(obj):
+def _isRadius(obj, iscalar=True):
     # Check for valid earth radius types.
-    return isinstance(obj, _Radii) or _isScalar(obj)
+    return isinstance(obj, _Radii) or (iscalar and _isScalar(obj))
 
 
-def _isScalar(obj):
+def _isScalar(obj, iscalar=True):
     # Check for pure scalar types.
-    return isscalar(obj) and not isinstance(obj, _NamedUnit)
+    return isinstance(obj, _ScalarU) or (iscalar and isscalar(obj) and not isinstance(obj, _NamedUnit))
 
 
 def _toUnit(Unit, arg, name=NN, **Error):
@@ -872,7 +872,7 @@ __all__ += _ALL_DOCS(_NamedUnit)
 
 # **) MIT License
 #
-# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

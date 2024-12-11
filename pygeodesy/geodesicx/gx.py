@@ -8,7 +8,7 @@ Class L{GeodesicExact} follows the naming, methods and return values
 of class C{Geodesic} from I{Karney}'s Python U{geographiclib
 <https://GitHub.com/geographiclib/geographiclib-python>}.
 
-Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2008-2023)
+Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2008-2024)
 and licensed under the MIT/X11 License.  For more information, see the
 U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 '''
@@ -58,12 +58,13 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
 from pygeodesy.props import deprecated_Property, Property, Property_RO, property_RO
 # from pygeodesy.streprs import Fmt  # from .fmath
-from pygeodesy.utily import atan2d as _atan2d_reverse, _unrollon, _Wrap, wrap360
+from pygeodesy.utily import atan2, atan2d as _atan2d_reverse, _unrollon, \
+                           _Wrap, wrap360
 
-from math import atan2, copysign, cos, degrees, fabs, radians, sqrt
+from math import copysign, cos, degrees, fabs, radians, sqrt
 
 __all__ = ()
-__version__ = '24.08.13'
+__version__ = '24.11.24'
 
 _MAXIT1 = 20
 _MAXIT2 = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
@@ -1346,7 +1347,7 @@ __all__ += _ALL_DOCS(GeodesicExact, GeodesicLineExact)
 
 # **) MIT License
 #
-# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

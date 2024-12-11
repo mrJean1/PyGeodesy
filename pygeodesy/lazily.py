@@ -45,7 +45,7 @@ except ImportError as x:  # Python 2.6-
 
 _a0                = ()  # PYCHOK empty tuple
 _asSPACED_         = ' as '
-_FOR_DOCS          = _getPYGEODESY('_FOR_DOCS')  # for epydoc ...
+_FOR_DOCS          = _getPYGEODESY('FOR_DOCS')  # for epydoc ...
 _init__all__       = _FOR_DOCS or _getPYGEODESY('_init__all__', _DUNDER_all_) == _DUNDER_all_  # PYCHOK exported
 _lazily_           = 'lazily'
 _PYTHON_X_DEV      =  getattr(_sys.flags, 'dev_mode', False)  # PYCHOK Python 3.2+
@@ -246,7 +246,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'hypot', 'hypot_', 'hypot1', 'hypot2', 'hypot2_',
                                    'norm2', 'norm_', 'sqrt0', 'sqrt3', 'sqrt_a', 'zcrt', 'zqrt'),
                           formy=_a('Radical2Tuple',
-                                   'antipode', 'antipode_', 'bearing', 'bearing_',
+                                   'angle2chord', 'antipode', 'antipode_', 'bearing', 'bearing_', 'chord2angle',
                                    'compassAngle', 'cosineForsytheAndoyerLambert', 'cosineForsytheAndoyerLambert_',
                                    'cosineAndoyerLambert', 'cosineAndoyerLambert_', 'cosineLaw', 'cosineLaw_',
                                    'equirectangular', 'equirectangular4', 'euclidean', 'euclidean_',
@@ -255,8 +255,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'flatLocal', 'flatLocal_', 'flatPolar', 'flatPolar_',
                                    'hartzell', 'haversine', 'haversine_', 'heightOf', 'heightOrthometric', 'horizon', 'hubeny', 'hubeny_',
                                    'intersection2', 'intersections2', 'isantipode', 'isantipode_', 'isnormal', 'isnormal_',
-                                   'latlon2n_xyz', 'normal', 'normal_', 'n_xyz2latlon', 'n_xyz2philam',
-                                   'opposing', 'opposing_', 'philam2n_xyz', 'radical2',
+                                   'normal', 'normal_', 'opposing', 'opposing_', 'radical2',
                                    'thomas', 'thomas_', 'vincentys', 'vincentys_'),
                         frechet=_a('Frechet', 'FrechetDegrees', 'FrechetError', 'FrechetRadians',
                                    'FrechetCosineAndoyerLambert', 'FrechetCosineForsytheAndoyerLambert',
@@ -297,7 +296,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'isNumpy2', 'isPoints2', 'isTuple2', 'iterNumpy2', 'iterNumpy2over'),
                          karney=_a('Area3Tuple', 'Caps', 'Direct9Tuple', 'GDict', 'Inverse10Tuple', 'Rhumb8Tuple'),
                             ktm=_a('KTMError', 'KTransverseMercator'),
-                     latlonBase=_a(),  # module only
+                     latlonBase=_a('latlon2n_xyz', 'philam2n_xyz'),
                          lazily=_a('LazyAttributeError', 'LazyImportError', 'isLazy'),
                             lcc=_a('Conic', 'Conics', 'Lcc', 'LCCError', 'toLcc'),
                             ltp=_a('Attitude', 'AttitudeError', 'ChLV', 'ChLVa', 'ChLVe', 'Frustum',
@@ -322,7 +321,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'Reverse4Tuple', 'Triangle7Tuple', 'Triangle8Tuple', 'Trilaterate5Tuple',
                                    'UtmUps2Tuple', 'UtmUps5Tuple', 'UtmUps8Tuple', 'UtmUpsLatLon5Tuple',
                                    'Vector2Tuple', 'Vector3Tuple', 'Vector4Tuple'),
-                    nvectorBase=_a('NorthPole', 'SouthPole'),
+                    nvectorBase=_a('NorthPole', 'SouthPole', 'n_xyz2latlon', 'n_xyz2philam'),
                            osgr=_a('Osgr', 'OSGRError', 'parseOSGR', 'toOsgr'),
                          points=_a('LatLon_', 'LatLon2psxy', 'Numpy2LatLon', 'Shape2Tuple', 'Tuple2LatLon',
                                    'areaOf', 'boundsOf', 'centroidOf', 'fractional',
@@ -344,7 +343,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                   sphericalBase=_a(),  # module only
                sphericalNvector=_a(),  # module only
           sphericalTrigonometry=_a(),  # module only
-                       simplify=_a('simplify1', 'simplifyRDP', 'simplifyRDPm', 'simplifyRW', 'simplifyVW', 'simplifyVWm'),
+                       simplify=_a('simplify1', 'simplifyRDP', 'simplifyRW', 'simplifyVW'),
                       solveBase=_a(),  # module only
                         streprs=_a('anstr', 'attrs', 'enstr2', 'fstr', 'fstrzs', 'hstr', 'instr',
                                    'lrstrip', 'pairs', 'reprs', 'strs', 'unstr'),
@@ -373,7 +372,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'm2km', 'm2NM', 'm2radians', 'm2SM', 'm2toise', 'm2yard', 'NM2m',
                                    'radians', 'radiansPI', 'radiansPI2', 'radiansPI_2', 'radians2m',
                                    'sincos2', 'SinCos2', 'sincos2_', 'sincos2d', 'sincos2d_', 'sincostan3', 'SM2m',
-                                   'tand', 'tand_', 'tan_2', 'tanPI_2_2', 'toise2m', 'truncate',
+                                   'tan', 'tan_', 'tand', 'tand_', 'tan_2', 'tanPI_2_2', 'toise2m', 'truncate',
                                    'unroll180', 'unrollPI',
                                    'wrap90', 'wrap180', 'wrap360', 'wrapPI_2', 'wrapPI', 'wrapPI2', 'wrap_normal',
                                    'yard2m'),
@@ -409,7 +408,8 @@ _ALL_DEPRECATED = _NamedEnum_RO(_name='_ALL_DEPRECATED',
                                          'false2f', 'falsed2f', 'float0', 'fStr', 'fStrzs', 'Fsum2product',
                                          'hypot3', 'inStr', 'isenclosedby', 'istuplist',
                                          'joined', 'joined_', 'nearestOn3', 'nearestOn4',
-                                         'parseUTM', 'perimeterof', 'polygon', 'scalar', 'simplify2',
+                                         'parseUTM', 'perimeterof', 'polygon',
+                                         'scalar', 'simplify2', 'simplifyRDPm', 'simplifyVWm',
                                          'tienstra', 'toUtm', 'triAngle4',
                                          'unsign0', 'unStr', 'utmZoneBand2'),
                    deprecated_nvector=_a('LatLonNvectorBase', 'Nvector', 'sumOf', 'NorthPole', 'SouthPole'),)
@@ -511,7 +511,7 @@ class _ALL_MODS(_internals._MODS_Base):
 _internals._MODS = _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '24.11.09'
+__version__ = '24.11.28'
 
 
 def _ALL_OTHER(*objs):
@@ -899,7 +899,7 @@ if _is_DUNDER_main(__name__):  # PYCHOK no cover
 
 # **) MIT License
 #
-# Copyright (C) 2018-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2018-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

@@ -14,19 +14,20 @@ from pygeodesy.interns import NN, _0_, _0to9_, MISSING, _BAR_, _COMMASPACE_, \
                              _DOT_, _E_, _ELLIPSIS_, _EQUAL_, _H_, _LR_PAIRS, \
                              _N_, _name_, _not_scalar_, _PERCENT_, _SPACE_, \
                              _STAR_, _UNDER_
-from pygeodesy.interns import _convergence_, _distant_, _e_, _eps_, _exceeds_, \
-                              _EQUALSPACED_, _f_, _F_, _g_, _limit_, _no_, \
-                              _tolerance_  # PYCHOK used!
+from pygeodesy.interns import _convergence_, _distant_, _e_, _exceeds_, \
+                              _EQUALSPACED_, _f_, _F_, _g_, _limit_, \
+                              _no_, _tolerance_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 
 from math import fabs, log10 as _log10
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '24.10.14'
+__version__ = '24.11.26'
 
 _at_        = 'at'         # PYCHOK used!
 _EN_PREC    =  6           # max MGRS/OSGR precision, 1 micrometer
 _EN_WIDE    =  5           # number of MGRS/OSGR units, log10(_100km)
+_eps_       = 'eps'        # PYCHOK used!
 _OKd_       = '._-'        # acceptable name characters
 _PAREN_g    = '(%g)'       # PYCHOK used!
 _RESIDUAL_  = 'RESIDUAL'   # PYCHOK used!
@@ -190,6 +191,9 @@ _DOTSTAR_ = Fmt.DOT(_STAR_)
 _Gg     = (Fmt.G, Fmt.g)
 _FfEeGg = (Fmt.F, Fmt.f, Fmt.E, Fmt.e) + _Gg  # float formats
 _Fspec_ = NN('[%[<flags>][<width>]', _DOTSTAR_, ']', _BAR_.join(_FfEeGg))  # in testStreprs
+
+del _convergence_, _distant_, _e_, _eps_, _exceeds_, _EQUALSPACED_,\
+    _f_, _F_, _g_, _limit_, _PAREN_g, _RESIDUAL_
 
 
 def anstr(name, OKd=_OKd_, sub=_UNDER_):
@@ -598,9 +602,10 @@ def _xzipairs(names, values, sep=_COMMASPACE_, fmt=NN, pair_fmt=Fmt.COLON):
         raise _ValueError(names=names, values=values, cause=x)
     return (fmt % (t,)) if fmt else t  # enc
 
+
 # **) MIT License
 #
-# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

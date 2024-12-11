@@ -4,7 +4,7 @@ u'''Class L{AuxDLat} transcoded to Python from I{Karney}'s C++ class U{DAuxLatit
 <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1DAuxLatitude.html>}
 in I{GeographicLib version 2.2+}.
 
-Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2022-2023) and licensed
+Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2022-2024) and licensed
 under the MIT/X11 License.  For more information, see the U{GeographicLib
 <https://GeographicLib.SourceForge.io>} documentation.
 '''
@@ -12,7 +12,7 @@ under the MIT/X11 License.  For more information, see the U{GeographicLib
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.auxilats.auxily import Aux, _Datan, _Dasinh, _Dm, _sc, _sn, \
-                                      atan1, AuxError
+                                      AuxError
 from pygeodesy.auxilats.auxLat import AuxLat,  _ALL_DOCS
 from pygeodesy.basics import map1, _reverange
 from pygeodesy.constants import INF, NAN, isfinite, isinf, isnan, _0_0, _0_5, \
@@ -21,12 +21,12 @@ from pygeodesy.elliptic import Elliptic as _Ef,  Fsum
 # from pygeodesy.errors import AuxError  # from .auxilats.auxily
 # from pygeodesy.fsums import Fsum  # from .elliptic
 # from pygeodesy.lazily import _ALL_DOCS  # from .auxilats.auxLat
-# from pygeodesy.utily import atan1  # from .auxilats.auxily
+from pygeodesy.utily import atan1, atan2  # from .auxilats.auxily
 
-from math import atan2, cos, sin, sqrt
+from math import cos, sin, sqrt
 
 __all__ = ()
-__version__ = '24.06.16'
+__version__ = '24.11.24'
 
 
 class AuxDLat(AuxLat):
@@ -282,7 +282,7 @@ __all__ += _ALL_DOCS(AuxDLat)
 
 # **) MIT License
 #
-# Copyright (C) 2023-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2023-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

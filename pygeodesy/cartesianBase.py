@@ -24,32 +24,32 @@ from pygeodesy.fsums import fsumf_,  Fmt
 from pygeodesy.interns import _COMMASPACE_, _datum_, _no_, _phi_
 from pygeodesy.interns import _ellipsoidal_, _spherical_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
-from pygeodesy.named import _name2__, _Pass
+from pygeodesy.named import _name2__, _NamedLocal, _Pass
 from pygeodesy.namedTuples import LatLon4Tuple, _NamedTupleTo , Vector3Tuple, \
                                   Vector4Tuple,  Bearing2Tuple  # PYCHOK .sphericalBase
 # from pygeodesy.nvectorBase import _N_vector  # _MODS
 from pygeodesy.props import deprecated_method, Property, Property_RO, property_doc_, \
-                            property_RO, property_ROnce, _update_all
+                            property_RO, _update_all
 # from pygeodesy,resections import cassini, collins5, pierlot, pierlotx, \
 #                                  tienstra7  # _MODS
 # from pygeodesy.streprs import Fmt  # from .fsums
 # from pygeodesy.triaxials import Triaxial_  # _MODS
 from pygeodesy.units import Degrees, Height, _heigHt, _isMeter, Meter, Radians
-from pygeodesy.utily import acos1, sincos2d, sincos2_,  atan2, degrees, radians
+from pygeodesy.utily import acos1, atan2, sincos2d, sincos2_,  degrees, radians
 from pygeodesy.vector3d import Vector3d, _xyzhdlln4
 # from pygeodesy.vector3dBase import _xyz3  # _MODS
 # from pygeodesy import ltp  # _MODS
 
-# from math import atan2, degrees, fabs, radians, sqrt  # from .fmath, .utily
+# from math import degrees, fabs, radians, sqrt  # from .fmath, .utily
 
 __all__ = _ALL_LAZY.cartesianBase
-__version__ = '24.11.06'
+__version__ = '24.12.04'
 
 _r_     = 'r'
 _theta_ = 'theta'
 
 
-class CartesianBase(Vector3d):
+class CartesianBase(Vector3d, _NamedLocal):
     '''(INTERNAL) Base class for ellipsoidal and spherical C{Cartesian}.
     '''
     _datum  = None  # L{Datum}, to be overriden
@@ -211,12 +211,6 @@ class CartesianBase(Vector3d):
             r = Cartesian(*c, **kwds)
         return r.renamed(n) if n else r
 
-    @property_ROnce
-    def Ecef(self):
-        '''Get the ECEF I{class} (L{EcefKarney}), I{once}.
-        '''
-        return _MODS.ecef.EcefKarney
-
     @Property_RO
     def _ecef9(self):
         '''(INTERNAL) Helper for L{toEcef}, L{toLocal} and L{toLtp} (L{Ecef9Tuple}).
@@ -231,14 +225,14 @@ class CartesianBase(Vector3d):
 
     def hartzell(self, los=False, earth=None):
         '''Compute the intersection of a Line-Of-Sight from this cartesian Point-Of-View
-           (pov) and this cartesian's ellipsoid surface.
+           (pov) and this cartesian's C{datum} ellipsoid surface.
 
            @kwarg los: Line-Of-Sight, I{direction} to the ellipsoid (L{Los}, L{Vector3d}),
                        C{True} for the I{normal, plumb} onto the surface or I{False} or
                        C{None} to point to the center of the ellipsoid.
            @kwarg earth: The earth model (L{Datum}, L{Ellipsoid}, L{Ellipsoid2}, L{a_f2Tuple}
                          or C{scalar} radius in C{meter}), overriding this cartesian's
-                         C{datum} ellipsoid.
+                         datum.
 
            @return: The intersection (C{Cartesian}) with C{.height} set to the distance to
                     this C{pov}.
@@ -284,7 +278,8 @@ class CartesianBase(Vector3d):
         return r
 
     def height3(self, earth=None, height=None, **Cartesian_and_kwds):
-        '''Compute the cartesian at a height above or below this certesian's ellipsoid.
+        '''Compute the cartesian at a height above or below this certesian's
+           C{datum} ellipsoid surface.
 
            @kwarg earth: A datum, ellipsoid, triaxial ellipsoid or earth radius,
                          I{overriding} this cartesian's datum (L{Datum}, L{Ellipsoid},
@@ -410,12 +405,6 @@ class CartesianBase(Vector3d):
         '''Get this cartesian's (geodetic) lat-, longitude in C{degrees} with height and datum (L{LatLon4Tuple}C{(lat, lon, height, datum)}).
         '''
         return self.toEcef().latlonheightdatum
-
-    @Property_RO
-    def _Ltp(self):
-        '''(INTERNAL) Cache for L{toLtp}.
-        '''
-        return _MODS.ltp.Ltp(self._ecef9, ecef=self.Ecef(self.datum), name=self.name)
 
     @Property_RO
     def _N_vector(self):
@@ -696,8 +685,8 @@ class CartesianBase(Vector3d):
     def toEcef(self):
         '''Convert this cartesian to I{geodetic} (lat-/longitude) coordinates.
 
-           @return: An L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
-                    C, M, datum)} with C{C} and C{M} if available.
+           @return: An L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)}
+                    with C{C} and C{M} if available.
 
            @raise EcefError: A C{.datum} or an ECEF issue.
         '''
@@ -706,18 +695,16 @@ class CartesianBase(Vector3d):
     def toLatLon(self, datum=None, height=None, LatLon=None, **LatLon_kwds):  # see .ecef.Ecef9Tuple.toDatum
         '''Convert this cartesian to a I{geodetic} (lat-/longitude) point.
 
-           @kwarg datum: Optional datum (L{Datum}, L{Ellipsoid}, L{Ellipsoid2}
-                         or L{a_f2Tuple}).
-           @kwarg height: Optional height, overriding the converted height
-                          (C{meter}), only if C{B{LatLon} is not None}.
-           @kwarg LatLon: Optional class to return the geodetic point
-                          (C{LatLon}) or C{None}.
-           @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword
-                               arguments, ignored if C{B{LatLon} is None}.
+           @kwarg datum: Optional datum (L{Datum}, L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}).
+           @kwarg height: Optional height, overriding the converted height (C{meter}), only if
+                          C{B{LatLon} is not None}.
+           @kwarg LatLon: Optional class to return the geodetic point (C{LatLon}) or C{None}.
+           @kwarg LatLon_kwds: Optional, additional B{C{LatLon}} keyword arguments, ignored if
+                               C{B{LatLon} is None}.
 
-           @return: The geodetic point (B{C{LatLon}}) or if C{B{LatLon}
-                    is None}, an L{Ecef9Tuple}C{(x, y, z, lat, lon, height,
-                    C, M, datum)} with C{C} and C{M} if available.
+           @return: The geodetic point (B{C{LatLon}}) or if C{B{LatLon}is None}, an
+                    L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)} with C{C}
+                    and C{M} if available.
 
            @raise TypeError: Invalid B{C{datum}} or B{C{LatLon_kwds}}.
         '''
@@ -734,32 +721,6 @@ class CartesianBase(Vector3d):
                                    **_xkwds(LatLon_kwds, name=r.name))
         _xdatum(r.datum, d)
         return r
-
-    def toLocal(self, Xyz=None, ltp=None, **Xyz_kwds):
-        '''Convert this I{geocentric} cartesian to I{local} C{X}, C{Y} and C{Z}.
-
-           @kwarg Xyz: Optional class to return C{X}, C{Y} and C{Z} (L{XyzLocal},
-                       L{Enu}, L{Ned}) or C{None}.
-           @kwarg ltp: The I{local tangent plane} (LTP) to use, overriding this
-                       cartesian's LTP (L{Ltp}).
-           @kwarg Xyz_kwds: Optional, additional B{C{Xyz}} keyword arguments,
-                            ignored if C{B{Xyz} is None}.
-
-           @return: An B{C{Xyz}} instance or a L{Local9Tuple}C{(x, y, z, lat, lon,
-                    height, ltp, ecef, M)} if C{B{Xyz} is None} (with C{M=None}).
-
-           @raise TypeError: Invalid B{C{ltp}}.
-        '''
-        return _MODS.ltp._toLocal(self, ltp, Xyz, Xyz_kwds)  # self._ecef9
-
-    def toLtp(self, Ecef=None, **name):
-        '''Return the I{local tangent plane} (LTP) for this cartesian.
-
-           @kwarg Ecef: Optional ECEF I{class} (L{EcefKarney}, ...
-                        L{EcefYou}), overriding this cartesian's C{Ecef}.
-           @kwarg name: Optional C{B{name}=NN} (C{str}).
-        '''
-        return _MODS.ltp._toLtp(self, Ecef, self._ecef9, name)  # self._Ltp
 
     def toNvector(self, Nvector=None, datum=None, **name_Nvector_kwds):
         '''Convert this cartesian to C{n-vector} components, I{including height}.
@@ -1030,7 +991,7 @@ __all__ += _ALL_DOCS(CartesianBase)
 
 # **) MIT License
 #
-# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

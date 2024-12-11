@@ -15,6 +15,7 @@ standard Python C{namedtuple}s.
 
 from pygeodesy.basics import isidentifier, iskeyword, isstr, itemsorted, len2, \
                             _xcopy, _xdup, _xinstanceof, _xsubclassof, _zip
+# from pygeodesy.ecef import EcefKarney  # _MODS
 from pygeodesy.errors import _AssertionError, _AttributeError, _incompatible, \
                              _IndexError, _KeyError, LenError, _NameError, \
                              _NotImplementedError, _TypeError, _TypesError, \
@@ -28,14 +29,16 @@ from pygeodesy.interns import MISSING, NN, _AT_, _COLON_, _COLONSPACE_, _COMMA_,
                              _NL_, _NN_, _no_, _other_, _s_, _SPACE_, _std_, \
                              _UNDER_, _vs_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
+# from pygeodesy.ltp import Ltp, _toLocal, _toLtp  # _MODS
+# from pygeodesy.ltpTuples import Aer, Enu, Ned  # _MODS
 from pygeodesy.props import _allPropertiesOf_n, deprecated_method, _hasProperty, \
                             _update_all, property_doc_, Property_RO, property_RO, \
-                            _update_attrs
+                            _update_attrs, property_ROver
 from pygeodesy.streprs import attrs, Fmt, lrstrip, pairs, reprs, unstr
 # from pygeodesy.units import _toUnit  # _MODS
 
 __all__ = _ALL_LAZY.named
-__version__ = '24.10.14'
+__version__ = '24.12.05'
 
 _COMMANL_           = _COMMA_ + _NL_
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
@@ -896,6 +899,148 @@ class _NamedEnumItem(_NamedBase):
                 raise _AssertionError(t)
 
 
+class _NamedLocal(object):
+    '''(INTERNAL) Base class for C{CartesianBase}, C{Ecef9Tuple} and C{LatLonBase}.
+     '''
+
+    @property_ROver
+    def Ecef(self):
+        '''Get the ECEF I{class} (L{EcefKarney}), I{once}.
+        '''
+        return _MODS.ecef.EcefKarney
+
+    @property_RO
+    def _ecef9(self):
+        '''I{Must be overloaded}.'''
+        notOverloaded(self)
+
+    @Property_RO
+    def _Ltp(self):
+        '''(INTERNAL) Cache this instance' LTP (L{Ltp}).
+        '''
+        return self._ltp.Ltp(self._ecef9, ecef=self.Ecef(self.datum), name=self.name)
+
+    @property_ROver
+    def _ltp(self):
+        '''(INTERNAL) Get module L{pygeodesy.ltp}, I{once}.
+        '''
+        return _MODS.ltp
+
+    def _ltp_toLocal(self, ltp, Cls_and_kwds, **nam_Cls):  # overloaded in C{Ecef9Tuple}
+        '''(INTERNAL) Invoke C{ltp._toLocal}.
+        '''
+        Cls, kwds = self._ltp_toLocal2(Cls_and_kwds, **nam_Cls)
+        return self._ltp._toLocal(self, ltp, Cls, kwds)  # self._ecef9
+
+    def _ltp_toLocal2(self, Cls_and_kwds, _None=None, **nam_Cls):
+        '''(INTERNAL) Return 2-tuple C{(Cls, kwds)}.
+        '''
+        Cls, kwds = _xkwds_pop2(Cls_and_kwds, **nam_Cls)
+        if Cls is not _None:  # validate Cls
+            n, LoC = _xkwds_item2(nam_Cls)
+            if LoC is not Cls:
+                _xsubclassof(LoC, **{n: Cls})
+        return Cls, kwds
+
+    @property_ROver
+    def _ltpTuples(self):
+        '''(INTERNAL) Get module L{pygeodesy.ltpTuples}, I{once}.
+        '''
+        return _MODS.ltpTuples
+
+    def toAer(self, ltp=None, **Aer_and_kwds):
+        '''Convert this instance to I{local} I{Azimuth, Elevation, slant Range} (AER) components.
+
+           @kwarg ltp: The I{local tangent plane} (LTP) to use (L{Ltp}), overriding this
+                       instance' L{LTP<pygeodesy.named._NamedLocal.toLtp>}.
+           @kwarg Aer_and_kwds: Optional AER class C{B{Aer}=}L{Aer<pygeodesy.ltpTuples.Aer>}
+                      to use and optionally, additional B{C{Aer}} keyword arguments.
+
+           @return: An B{C{Aer}} instance.
+
+           @raise TypeError: Invalid B{C{ltp}}.
+
+           @see: Method L{toLocal<pygeodesy.named._NamedLocal.toLocal>}.
+        '''
+        return self._ltp_toLocal(ltp, Aer_and_kwds, Aer=self._ltpTuples.Aer)
+
+    def toEnu(self, ltp=None, **Enu_and_kwds):
+        '''Convert this instance to I{local} I{East, North, Up} (ENU) components.
+
+           @kwarg ltp: The I{local tangent plane} (LTP) to use (L{Ltp}), overriding this
+                       instance' L{LTP<pygeodesy.named._NamedLocal.toLtp>}.
+           @kwarg Enu_and_kwds: Optional ENU class C{B{Enu}=}L{Enu<pygeodesy.ltpTuples.Enu>}
+                      to use and optionally, additional B{C{Enu}} keyword arguments.
+
+           @return: An B{C{Enu}} instance.
+
+           @raise TypeError: Invalid B{C{ltp}}.
+
+           @see: Method L{toLocal<pygeodesy.named._NamedLocal.toLocal>}.
+        '''
+        return self._ltp_toLocal(ltp, Enu_and_kwds, Enu=self._ltpTuples.Enu)
+
+    def toLocal(self, Xyz=None, ltp=None, **Xyz_kwds):
+        '''Convert this instance to I{local} components in a I{local tangent plane} (LTP)
+
+           @kwarg Xyz: Optional I{local} components class (L{XyzLocal}, L{Aer},
+                       L{Enu}, L{Ned}) or C{None}.
+           @kwarg ltp: The I{local tangent plane} (LTP) to use (L{Ltp}), overriding this
+                       cartesian's L{LTP<pygeodesy.named._NamedLocal.toLtp>}.
+           @kwarg Xyz_kwds: Optionally, additional B{C{Xyz}} keyword arguments, ignored
+                            if C{B{Xyz} is None}.
+
+           @return: An B{C{Xyz}} instance or a L{Local9Tuple}C{(x, y, z, lat, lon,
+                    height, ltp, ecef, M)} if C{B{Xyz} is None} (with C{M=None}).
+
+           @raise TypeError: Invalid B{C{ltp}}.
+        '''
+        return self._ltp_toLocal(ltp, Xyz_kwds, Xyz=Xyz, _None=Xyz)
+
+    def toLtp(self, Ecef=None, **name):
+        '''Return the I{local tangent plane} (LTP) for this instance.
+
+           @kwarg Ecef: Optional ECEF I{class} (L{EcefKarney}, ... L{EcefYou}), overriding
+                        this instance' L{Ecef<pygeodesy.named._NamedLocal.Ecef>}.
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
+
+           @return: An B{C{Ltp}} instance.
+        '''
+        return self._ltp._toLtp(self, Ecef, self._ecef9, name)  # needs self.Ecef and self._Ltp
+
+    def toNed(self, ltp=None, **Ned_and_kwds):
+        '''Convert this instance to I{local} I{North, East, Down} (NED) components.
+
+           @kwarg ltp: The I{local tangent plane} (LTP) to use (L{Ltp}), overriding this
+                       instance' L{LTP<pygeodesy.named._NamedLocal.toLtp>}.
+           @kwarg Ned_and_kwds: Optional NED class C{B{Ned}=}L{Ned<pygeodesy.ltpTuples.Ned>}
+                      to use and optionally, additional B{C{Ned}} keyword arguments.
+
+           @return: An B{C{Ned}} instance.
+
+           @raise TypeError: Invalid B{C{ltp}}.
+
+           @see: Method L{toLocal<pygeodesy.named._NamedLocal.toLocal>}.
+        '''
+        return self._ltp_toLocal(ltp, Ned_and_kwds, Ned=self._ltpTuples.Ned)
+
+    def toXyz(self, ltp=None, **Xyz_and_kwds):
+        '''Convert this instance to I{local} I{X, Y, Z} (XYZ) components.
+
+           @kwarg ltp: The I{local tangent plane} (LTP) to use (L{Ltp}), overriding this
+                       instance' L{LTP<pygeodesy.named._NamedLocal.toLtp>}.
+           @kwarg Xyz_and_kwds: Optional XYZ class C{B{Xyz}=}L{Xyz<pygeodesy.ltpTuples.XyzLocal>}
+                      to use and optionally, additional B{C{Xyz}} keyword arguments.
+
+           @return: An B{C{Xyz}} instance.
+
+           @raise TypeError: Invalid B{C{ltp}}.
+
+           @see: Method L{toLocal<pygeodesy.named._NamedLocal.toLocal>}.
+        '''
+        return self._ltp_toLocal(ltp, Xyz_and_kwds, Xyz=self._ltpTuples.XyzLocal)
+
+
 # from pygeodesy.props import _NamedProperty
 
 
@@ -1450,11 +1595,12 @@ def _xvalid(name, underOK=False):
 __all__ += _ALL_DOCS(_Named,
                      _NamedBase,  # _NamedDict,
                      _NamedEnum, _NamedEnumItem,
+                     _NamedLocal,
                      _NamedTuple)
 
 # **) MIT License
 #
-# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

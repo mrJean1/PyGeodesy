@@ -217,7 +217,6 @@ _ellipsoidal_         = 'ellipsoidal'        # PYCHOK OK
 _encode_              = 'encode'             # PYCHOK OK
 _end_                 = 'end'                # PYCHOK OK
 _epoch_               = 'epoch'              # PYCHOK OK
-_eps_                 = 'eps'                # PYCHOK OK
 _EQUAL_          = Str_('=')                 # PYCHOK OK
 _EQUALSPACED_    = Str_(' = ')               # PYCHOK OK
 _Error_               = 'Error'              # PYCHOK OK
@@ -441,7 +440,7 @@ _LR_PAIRS  = {_LANGLE_:  _RANGLE_,
 
 __all__ = (_NN_,  # NOT MISSING!
             Str_.__name__)  # classes
-__version__ = '24.10.19'
+__version__ = '24.11.27'
 
 if __name__ == '__main__':
 
@@ -464,7 +463,7 @@ if __name__ == '__main__':
 
 # **) MIT License
 #
-# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

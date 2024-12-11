@@ -4,7 +4,7 @@
 u'''A Python version of part of I{Karney}'s C++ module U{GeodesicExactC4
 <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExactC4.html>}.
 
-Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2008-2023)
+Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2008-2024)
 and licensed under the MIT/X11 License.  For more information, see the
 U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 '''
@@ -1676,7 +1676,7 @@ del _g, _Gfloats, _f, _f2
 
 # **) MIT License
 #
-# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

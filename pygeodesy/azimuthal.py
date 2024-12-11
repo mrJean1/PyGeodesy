@@ -64,13 +64,13 @@ from pygeodesy.props import deprecated_Property_RO, Property_RO, \
 from pygeodesy.streprs import Fmt, _fstrLL0, unstr
 from pygeodesy.units import Azimuth, Easting, Lat_, Lon_, Northing, \
                             Scalar, Scalar_
-from pygeodesy.utily import asin1, atan1, atan2b, atan2d, sincos2, \
-                            sincos2d, sincos2d_
+from pygeodesy.utily import asin1, atan1, atan2, atan2b, atan2d, \
+                            sincos2, sincos2d, sincos2d_
 
-from math import acos, atan2, degrees, fabs, sin, sqrt
+from math import acos, degrees, fabs, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '24.11.07'
+__version__ = '24.11.24'
 
 _EPS_K         = _EPStol * _0_1  # Karney's eps_ or _EPSmin * _0_1?
 _over_horizon_ = 'over horizon'
@@ -1119,7 +1119,7 @@ __all__ += _ALL_DOCS(_AzimuthalBase, _AzimuthalGeodesic, _EquidistantBase, _Gnom
 
 # **) MIT License
 #
-# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

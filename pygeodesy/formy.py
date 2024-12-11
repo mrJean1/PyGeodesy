@@ -6,12 +6,12 @@ u'''Formulary of basic geodesy functions and approximations.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-# from pygeodesy.basics import W_args_kwds_count2
+# from pygeodesy.basics import _args_kwds_count2, _copysign  # from .constants
 # from pygeodesy.cartesianBase import CartesianBase  # _MODS
 from pygeodesy.constants import EPS, EPS0, EPS1, PI, PI2, PI3, PI_2, R_M, \
                                _0_0s, float0_, isnon0, remainder, _umod_PI2, \
                                _0_0, _0_125, _0_25, _0_5, _1_0, _2_0, _4_0, \
-                               _32_0, _90_0, _180_0, _360_0
+                               _32_0, _90_0, _180_0, _360_0,  _copysign
 from pygeodesy.datums import Datum, Ellipsoid, _ellipsoidal_datum, \
                             _mean_radius, _spherical_datum, _WGS84,  _EWGS84
 # from pygeodesy.ellipsoids import Ellipsoid, _EWGS84  # from .datums
@@ -26,28 +26,45 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _name__, _name2__, _NamedTuple, _xnamed, \
                             _DUNDER_nameof
 from pygeodesy.namedTuples import Bearing2Tuple, Distance4Tuple, LatLon2Tuple, \
-                                  Intersection3Tuple, PhiLam2Tuple, Vector3Tuple
+                                  Intersection3Tuple, PhiLam2Tuple
 # from pygeodesy.streprs import Fmt, unstr  # from .fsums
 # from pygeodesy.triaxials import _hartzell3  # _MODS
-from pygeodesy.units import _isHeight, _isRadius, Bearing, Degrees_, Distance, \
-                             Distance_, Height, Lamd, Lat, Lon, Meter_,  Phid, \
-                             Radians, Radians_, Radius, Radius_, Scalar, _100km
-from pygeodesy.utily import acos1, atan2b, atan2d, degrees2m, _loneg, m2degrees, \
-                            tan_2, sincos2, sincos2_, sincos2d_, _Wrap
+from pygeodesy.units import _isDegrees, _isHeight, _isRadius, Bearing, Degrees_, \
+                             Distance, Distance_, Height, Lamd, Lat, Lon, Meter_, \
+                             Phid, Radians, Radians_, Radius, Radius_, Scalar, _100km
+from pygeodesy.utily import acos1, atan2, atan2b, degrees2m, _loneg, m2degrees, \
+                            tan_2, sincos2, sincos2_, _Wrap
 # from pygeodesy.vector3d import _otherV3d  # _MODS
 # from pygeodesy.vector3dBase import _xyz_y_z3  # _MODS
 # from pygeodesy import ellipsoidalExact, ellipsoidalKarney, vector3d, \
 #                       sphericalNvector, sphericalTrigonometry  # _MODS
 
 from contextlib import contextmanager
-from math import asin, atan, atan2, cos, degrees, fabs, radians, sin, sqrt  # pow
+from math import asin, atan, cos, degrees, fabs, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '24.10.14'
+__version__ = '24.12.06'
 
 _RADIANS2 = (PI / _180_0)**2  # degrees- to radians-squared
 _ratio_   = 'ratio'
 _xline_   = 'xline'
+
+
+def angle2chord(rad, radius=R_M):
+    '''Get the chord length of a (central) angle or I{angular} distance.
+
+       @arg rad: Central angle (C{radians}).
+       @kwarg radius: Mean earth radius (C{meter}, conventionally), datum (L{Datum}) or ellipsoid
+                      (L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}) to use or C{None}.
+
+       @return: Chord length (C{meter}, same units as B{C{radius}} or if C{B{radius} is None}, C{radians}).
+
+       @see: Function L{chord2angle}, method L{intermediateChordTo<sphericalNvector.LatLon.intermediateChordTo>} and
+             U{great-circle-distance<https://WikiPedia.org/wiki/Great-circle_distance#Relation_between_central_angle_and_chord_length>}.
+    '''
+    d = _isDegrees(rad, iscalar=False)
+    r =  sin((radians(rad) if d else rad) / _2_0) * _2_0
+    return (degrees(r) if d else r) if radius is None else (_mean_radius(radius) * r)
 
 
 def _anti2(a, b, n_2, n, n2):
@@ -159,6 +176,30 @@ def _bearingTo2(p1, p2, wrap=False):  # for points.ispolar, sphericalTrigonometr
     return Bearing2Tuple(degrees(bearing_(*t, final=False, wrap=wrap)),
                          degrees(bearing_(*t, final=True,  wrap=wrap)),
                          name__=_bearingTo2)
+
+
+def chord2angle(chord, radius=R_M):
+    '''Get the (central) angle from a chord length or distance.
+
+       @arg chord: Length or distance (C{meter}, same units as B{C{radius}}).
+       @kwarg radius: Mean earth radius (C{meter}, conventionally), datum (L{Datum}) or
+                      ellipsoid (L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}) to use.
+
+       @return: Angle (C{radians} with sign of B{C{chord}}) or C{0} if C{B{radius}=0}.
+
+       @note: The angle will exceed C{PI} if C{B{chord} > B{radius} * 2}.
+
+       @see: Function L{angle2chord}.
+    '''
+    m = _mean_radius(radius)
+    r =  fabs(chord / (m * _2_0)) if m > 0 else _0_0
+    if r:
+        i = int(r)
+        if i > 0:
+            r -= i
+            i *= PI
+        r = asin(r) + i
+    return _copysign(r * _2_0, chord)
 
 
 def compassAngle(lat1, lon1, lat2, lon2, adjust=True, wrap=False):
@@ -424,7 +465,7 @@ def _ellipsoidal(earth, where):
 
 
 def equirectangular(lat1, lon1, lat2, lon2, radius=R_M, **adjust_limit_wrap):
-    '''Compute the distance between two points using the U{Equirectangular Approximation
+    '''Approximate the distance between two points using the U{Equirectangular Approximation
        / Projection<https://www.Movable-Type.co.UK/scripts/latlong.html#equirectangular>}.
 
        @arg lat1: Start latitude (C{degrees}).
@@ -449,14 +490,14 @@ def equirectangular(lat1, lon1, lat2, lon2, radius=R_M, **adjust_limit_wrap):
 
 
 def _equirectangular(lat1, lon1, lat2, lon2, **adjust_limit_wrap):
-    '''(INTERNAL) Helper for the L{frechet._FrechetMeterRadians}
-       and L{hausdorff._HausdorffMeterRedians} classes.
+    '''(INTERNAL) Helper for classes L{frechet._FrechetMeterRadians} and
+       L{hausdorff._HausdorffMeterRedians}.
     '''
     return equirectangular4(lat1, lon1, lat2, lon2, **adjust_limit_wrap).distance2 * _RADIANS2
 
 
 def equirectangular4(lat1, lon1, lat2, lon2, adjust=True, limit=45, wrap=False):
-    '''Compute the distance between two points using the U{Equirectangular Approximation
+    '''Approximate the distance between two points using the U{Equirectangular Approximation
        / Projection<https://www.Movable-Type.co.UK/scripts/latlong.html#equirectangular>}.
 
        This approximation is valid for short distance of several hundred Km or Miles, see
@@ -473,10 +514,10 @@ def equirectangular4(lat1, lon1, lat2, lon2, adjust=True, limit=45, wrap=False):
        @kwarg wrap: If C{True}, wrap or I{normalize} and unroll B{C{lat2}} and B{C{lon2}}
                     (C{bool}).
 
-       @return: A L{Distance4Tuple}C{(distance2, delta_lat, delta_lon, unroll_lon2)}
-                in C{degrees squared}.
+       @return: A L{Distance4Tuple}C{(distance2, delta_lat, delta_lon, unroll_lon2)} with
+                C{distance2} in C{degrees squared}.
 
-       @raise LimitError: If the lat- and/or longitudinal delta exceeds the B{C{-limit..limit}}
+       @raise LimitError: The lat- or longitudinal delta exceeds the B{C{-limit..limit}}
                           range and L{limiterrors<pygeodesy.limiterrors>} is C{True}.
 
        @see: U{Local, flat earth approximation<https://www.EdWilliams.org/avform.htm#flat>},
@@ -485,7 +526,10 @@ def equirectangular4(lat1, lon1, lat2, lon2, adjust=True, limit=45, wrap=False):
              L{thomas} and L{vincentys} and methods L{Ellipsoid.distance2}, C{LatLon.distanceTo*}
              and C{LatLon.equirectangularTo}.
     '''
-    d_lon,  lat2, ulon2 = _Wrap.latlon3(lon1, lat2, lon2, wrap)
+    if wrap:
+        d_lon, lat2, ulon2 = _Wrap.latlon3(lon1, lat2, lon2, wrap)
+    else:
+        d_lon,       ulon2 = (lon2 - lon1), lon2
     d_lat = lat2 - lat1
 
     if limit and limit > 0 and limiterrors():
@@ -996,18 +1040,16 @@ def hartzell(pov, los=False, earth=_WGS84, **name_LatLon_and_kwds):
 
 def haversine(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
     '''Compute the distance between two (spherical) points using the
-       U{Haversine<https://www.Movable-Type.co.UK/scripts/latlong.html>}
-       formula.
+       U{Haversine<https://www.Movable-Type.co.UK/scripts/latlong.html>} formula.
 
        @arg lat1: Start latitude (C{degrees}).
        @arg lon1: Start longitude (C{degrees}).
        @arg lat2: End latitude (C{degrees}).
        @arg lon2: End longitude (C{degrees}).
-       @kwarg radius: Mean earth radius (C{meter}), datum (L{Datum})
-                      or ellipsoid (L{Ellipsoid}, L{Ellipsoid2} or
-                      L{a_f2Tuple}) to use.
-       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll
-                    B{C{lat2}} and B{C{lon2}} (C{bool}).
+       @kwarg radius: Mean earth radius (C{meter}), datum (L{Datum}) or ellipsoid
+                      (L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}) to use.
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll B{C{lat2}} and
+                    B{C{lon2}} (C{bool}).
 
        @return: Distance (C{meter}, same units as B{C{radius}}).
 
@@ -1026,9 +1068,8 @@ def haversine(lat1, lon1, lat2, lon2, radius=R_M, wrap=False):
 
 
 def haversine_(phi2, phi1, lam21):
-    '''Compute the I{angular} distance between two (spherical) points
-       using the U{Haversine<https://www.Movable-Type.co.UK/scripts/latlong.html>}
-       formula.
+    '''Compute the I{angular} distance between two (spherical) points using the
+       U{Haversine<https://www.Movable-Type.co.UK/scripts/latlong.html>} formula.
 
        @arg phi2: End latitude (C{radians}).
        @arg phi1: Start latitude (C{radians}).
@@ -1395,24 +1436,6 @@ def isnormal_(phi, lam, eps=0):
     return (PI_2 - fabs(phi)) >= eps and (PI - fabs(lam)) >= eps
 
 
-def latlon2n_xyz(lat, lon, **name):
-    '''Convert lat-, longitude to C{n-vector} (I{normal} to the
-       earth's surface) X, Y and Z components.
-
-       @arg lat: Latitude (C{degrees}).
-       @arg lon: Longitude (C{degrees}).
-       @kwarg name: Optional C{B{name}=NN} (C{str}).
-
-       @return: A L{Vector3Tuple}C{(x, y, z)}.
-
-       @see: Function L{philam2n_xyz}.
-
-       @note: These are C{n-vector} x, y and z components,
-              I{NOT} geocentric ECEF x, y and z coordinates!
-    '''
-    return _2n_xyz(name, *sincos2d_(lat, lon))
-
-
 def _normal2(a, b, n_2, n, n2):
     '''(INTERNAL) Helper for C{normal} and C{normal_}.
     '''
@@ -1458,44 +1481,6 @@ def normal_(phi, lam, **name):
                           name=_name__(name, name__=normal_))
 
 
-def _2n_xyz(name, sa, ca, sb, cb):  # name always **name
-    '''(INTERNAL) Helper for C{latlon2n_xyz} and C{philam2n_xyz}.
-    '''
-    # Kenneth Gade eqn 3, but using right-handed
-    # vector x -> 0°E,0°N, y -> 90°E,0°N, z -> 90°N
-    return Vector3Tuple(ca * cb, ca * sb, sa, **name)
-
-
-def n_xyz2latlon(x, y, z, **name):
-    '''Convert C{n-vector} components to lat- and longitude in C{degrees}.
-
-       @arg x: X component (C{scalar}).
-       @arg y: Y component (C{scalar}).
-       @arg z: Z component (C{scalar}).
-       @kwarg name: Optional C{B{name}=NN} (C{str}).
-
-       @return: A L{LatLon2Tuple}C{(lat, lon)}.
-
-       @see: Function L{n_xyz2philam}.
-    '''
-    return LatLon2Tuple(atan2d(z, hypot(x, y)), atan2d(y, x), **name)
-
-
-def n_xyz2philam(x, y, z, **name):
-    '''Convert C{n-vector} components to lat- and longitude in C{radians}.
-
-       @arg x: X component (C{scalar}).
-       @arg y: Y component (C{scalar}).
-       @arg z: Z component (C{scalar}).
-       @kwarg name: Optional C{B{name}=NN} (C{str}).
-
-       @return: A L{PhiLam2Tuple}C{(phi, lam)}.
-
-       @see: Function L{n_xyz2latlon}.
-    '''
-    return PhiLam2Tuple(atan2(z, hypot(x, y)), atan2(y, x), **name)
-
-
 def _opposes(d, m, n, n2):
     '''(INTERNAL) Helper for C{opposing} and C{opposing_}.
     '''
@@ -1534,24 +1519,6 @@ def opposing_(radians1, radians2, margin=PI_2):
     '''
     m = Radians_(margin=margin, low=EPS0, high=PI_2)
     return _opposes(radians2 - radians1, m, PI, PI2)
-
-
-def philam2n_xyz(phi, lam, **name):
-    '''Convert lat-, longitude to C{n-vector} (I{normal} to the
-       earth's surface) X, Y and Z components.
-
-       @arg phi: Latitude (C{radians}).
-       @arg lam: Longitude (C{radians}).
-       @kwarg name: Optional name (C{str}).
-
-       @return: A L{Vector3Tuple}C{(x, y, z)}.
-
-       @see: Function L{latlon2n_xyz}.
-
-       @note: These are C{n-vector} x, y and z components,
-              I{NOT} geocentric ECEF x, y and z coordinates!
-    '''
-    return _2n_xyz(name, *sincos2_(phi, lam))
 
 
 def _Propy(func, nargs, kwds):
@@ -1649,7 +1616,7 @@ def _radistance(inst):
 def _scale_deg(lat1, lat2):  # degrees
     # scale factor cos(mean of lats) for delta lon
     m = fabs(lat1 + lat2) * _0_5
-    return cos(radians(m)) if m < 90 else _0_0
+    return cos(radians(m)) if m < _90_0 else _0_0
 
 
 def _scale_rad(phi1,  phi2):  # radians, by .frechet, .hausdorff, .heights
@@ -1810,7 +1777,7 @@ def vincentys_(phi2, phi1, lam21):
 
 # **) MIT License
 #
-# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

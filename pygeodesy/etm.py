@@ -17,7 +17,7 @@ Following is a copy of I{Karney}'s U{TransverseMercatorExact.hpp
 <https://GeographicLib.SourceForge.io/C++/doc/TransverseMercatorExact_8hpp_source.html>}
 file C{Header}.
 
-Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2008-2023) and licensed
+Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2008-2024) and licensed
 under the MIT/X11 License.  For more information, see the U{GeographicLib<https://
 GeographicLib.SourceForge.io>} documentation.
 
@@ -86,14 +86,14 @@ from pygeodesy.props import deprecated_method, deprecated_property_RO, \
                             property_doc_,  _allPropertiesOf_n
 from pygeodesy.streprs import Fmt, pairs, unstr
 from pygeodesy.units import Degrees, Scalar_
-from pygeodesy.utily import atan1d, atan2d, _loneg, sincos2
+from pygeodesy.utily import atan1d, atan2, atan2d, _loneg, sincos2
 from pygeodesy.utm import _cmlon, _LLEB, _parseUTM5, _toBand, _toXtm8, \
                           _to7zBlldfn, Utm, UTMError
 
-from math import asinh, atan2, degrees, radians, sinh, sqrt
+from math import asinh, degrees, radians, sinh, sqrt
 
 __all__ = _ALL_LAZY.etm
-__version__ = '24.11.04'
+__version__ = '24.11.24'
 
 _OVERFLOW = _1_EPS**2  # ~2e+31
 _TAYTOL   =  pow(EPS,  0.6)
@@ -1197,7 +1197,7 @@ if __name__ == '__main__':  # MCCABE 16
 
 # **) MIT License
 #
-# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

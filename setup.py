@@ -26,7 +26,7 @@
 from setuptools import setup
 
 __all__ = ()
-__version__ = '24.09.27'
+__version__ = '24.11.29'
 
 
 def _c2(*names):
@@ -62,13 +62,13 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode', 'are
              'ellipsoidal-latitude-beta', 'ellipsoidal-longitude-omega', 'elliptic',
              'ENU', 'EPSG', 'equal-area', 'equidistant', 'equirectangular', 'ETM', 'ETRF',
              'Euclidean', 'even-odd-rule', 'ExactTM', 'excess',
-             'Farrell', 'Farrell-Barth', 'Field-Of-View', 'flattening', 'fma', 'fmath',
-             'footprint', 'Forster', 'Forster-Hormann-Popa', 'Forsythe', 'FOV',
+             'Farrell', 'Farrell-Barth', 'Ferrari-solution', 'Field-Of-View', 'flattening',
+             'fma', 'fmath', 'footprint', 'Forster', 'Forster-Hormann-Popa', 'Forsythe', 'FOV',
              'fractional', 'Frechet', 'Fréchet', 'frustum', 'Fsum', 'fused-multiply-add',
              'GARS', 'geocentric', 'GeoConvert', 'GeodesicExact', 'geodesy', 'geodetic', 'GeodSolve', 'GeodTest',
              'geographiclib', 'Geohash', 'geoid', 'geoidHeight', 'GeoidHeights',
              'georef', 'Girard', 'gnomonic', 'gons', 'grades', 'gradians', 'Greiner', 'Greiner-Hormann',
-             'Hartzell', 'Hausdorff', 'Haversine', 'heading', 'height', 'Heron',
+             'Hartzell', 'Hausdorff', 'Haversine', 'heading', 'height', 'Heikkinen', 'Heron',
              'Hodgman', 'horizon', 'Hormann', 'Hubeny',
              'IDW', 'incenter', 'incirle', 'infix_@_operator', 'inradius', 'intermediate', 'interpolate',
              'intersect', 'intersection', 'intersection3d', 'intersections', 'IntersectTool',

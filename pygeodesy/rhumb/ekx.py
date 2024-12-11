@@ -16,7 +16,7 @@ the background information on U{Rhumb lines<https://GeographicLib.SourceForge.io
 the utily U{RhumbSolve<https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve.1.html>} and U{Online
 rhumb line calculations<https://GeographicLib.SourceForge.io/cgi-bin/RhumbSolve>}.
 
-Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2014-2022) and licensed under the MIT/X11
+Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2014-2024) and licensed under the MIT/X11
 License.  For more information, see the U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 '''
 # make sure int/int division yields float quotient
@@ -40,10 +40,10 @@ from pygeodesy.rhumb.bases import RhumbBase, RhumbLineBase, \
                                   Caps, _update_all_rls, _WGS84
 from pygeodesy.utily import atan1, sincos2_
 
-from math import asinh, atan, cos, cosh, radians, sin, sinh, sqrt, tan
+from math import asinh, atan, cos, cosh, radians, sin, sinh, sqrt, tan  # as _tan
 
 __all__ = _ALL_LAZY.rhumb_ekx
-__version__ = '24.06.11'
+__version__ = '24.11.26'
 
 
 class Rhumb(RhumbBase):
@@ -547,7 +547,7 @@ __all__ += _ALL_DOCS(Caps)
 
 # **) MIT License
 #
-# Copyright (C) 2022-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2022-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

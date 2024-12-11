@@ -90,10 +90,10 @@ from pygeodesy.units import Bearing_, Distance, Float, Float_, Height, Lamd, Lat
                             Meter2, Meter3, Phi, Phid, Radius, Radius_, Scalar
 from pygeodesy.utily import atan1, atan1d, atan2b, degrees90, m2radians, radians2m, sincos2d
 
-from math import asinh, atan, atanh, cos, degrees, exp, fabs, radians, sin, sinh, sqrt, tan
+from math import asinh, atan, atanh, cos, degrees, exp, fabs, radians, sin, sinh, sqrt, tan  # as _tan
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '24.10.15'
+__version__ = '24.11.26'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -660,8 +660,7 @@ class Ellipsoid(_NamedEnumItem):
 
            @arg lat: Geodetic latitude (C{degrees90}, C{str}).
 
-           @return: A L{Circle4Tuple}C{(radius, height, lat, beta)}
-                    instance.
+           @return: A L{Circle4Tuple}C{(radius, height, lat, beta)}.
 
            @raise RangeError: Latitude B{C{lat}} outside valid range and
                               L{rangerrors<pygeodesy.rangerrors>} is C{True}.
@@ -2427,7 +2426,7 @@ if __name__ == '__main__':
 
 # **) MIT License
 #
-# Copyright (C) 2016-2024 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),
