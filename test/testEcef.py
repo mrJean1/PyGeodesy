@@ -4,9 +4,9 @@
 # Test L{ecef} module.
 
 __all__ = ('Tests',)
-__version__ = '24.12.04'
+__version__ = '24.12.12'
 
-from bases import GeodSolve, TestsBase, startswith
+from bases import bits_mach2, GeodSolve, TestsBase, startswith
 
 from pygeodesy import Datums, EcefError, EcefFarrell21, EcefFarrell22, EcefKarney, \
                       EcefMatrix, EcefSudano, EcefVeness, EcefYou, Ellipsoids, \
@@ -241,8 +241,9 @@ class Tests(TestsBase):
         self.test('toLocal', t, '(0.0, 0.0, -0.0, 48.833, 2.333, 0.0, Ltp' if ll.isEllipsoidal
                            else '(0.0, -0.0, 0.0, 48.833, 2.333, 0.0, Ltp', known=startswith)
         t = e.toAer()
-        self.test('toAer', t, '[23.434, -85.849, 0.0]' if ll.isEllipsoidal
-                         else '[178.349, 41.155, 0.0]')
+        self.test('toAer', t, ('[5.708, -86.135, 0.0]'   if bits_mach2[0] == 32 else
+                               '[23.434, -85.849, 0.0]') if ll.isEllipsoidal
+                         else  '[178.349, 41.155, 0.0]')
         t = e.toEnu()
         self.test('toEnu', t, '[0.0, 0.0, -0.0]' if ll.isEllipsoidal
                          else '[0.0, -0.0, 0.0]')

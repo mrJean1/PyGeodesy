@@ -37,13 +37,13 @@ _SPACE_   = interns._SPACE_
 _TILDE_   = interns._TILDE_
 _HOME_dir = dirname(PyGeodesy_dir or _TILDE_) or _TILDE_
 
-__all__ = ('coverage', 'GeodSolve', 'geographiclib',  # constants
+__all__ = ('bits_mach2', 'coverage', 'GeodSolve', 'geographiclib',
            'isiOS', 'ismacOS', 'isNix', 'isPyPy',  # 'isIntelPython'
            'isPython2', 'isPython3', 'isPython37', 'isPython39', 'isWindows',
            'numpy', 'PyGeodesy_dir', 'PythonX', 'scipy', 'test_dir',
            'RandomLatLon', 'TestsBase',  # classes
            'secs2str', 'tilde', 'type2str', 'versions')  # functions
-__version__ = '24.12.05'
+__version__ = '24.12.12'
 
 try:
     if float(_getenv('PYGEODESY_COVERAGE', '0')) > 0:
@@ -84,6 +84,7 @@ endswith   = str.endswith
 startswith = str.startswith
 
 v2 = sys.version_info[:2]
+bits_mach2 = internals._MODS.bits_machine2
 # isiOS is used by some tests known to fail on iOS only
 isiOS      = internals._isiOS()  # public
 ismacOS    = internals._ismacOS()  # public

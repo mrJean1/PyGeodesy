@@ -44,7 +44,7 @@ from pygeodesy.vector3d import _ALL_LAZY, Vector3d
 # from math import fabs, floor as _floor  # from .fmath, .fsums
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '24.12.06'
+__version__ = '24.12.12'
 
 _height0_ = _height_ + _0_
 _narrow_  = 'narrow'
@@ -480,13 +480,12 @@ class LocalCartesian(_NamedBase):
            @raise TypeError: Invalid B{C{Xyz}} or B{C{name_Xyz_kwds}} item.
         '''
         _xinstanceof(Ecef9Tuple, ecef=ecef)
-        ltp = self
-        if ecef.datum != ltp.datum:
-            ecef = ecef.toDatum(ltp.datum)
+        if ecef.datum != self.datum:
+            ecef = ecef.toDatum(self.datum)
         n, kwds = _name2__(name_Xyz_kwds, _or_nameof=ecef)
-        x, y, z =  self.M.rotate(ecef.xyz, *ltp._t0_xyz)
+        x, y, z =  self.M.rotate(ecef.xyz, *self._t0_xyz)
         r = Local9Tuple(x, y, z, ecef.lat, ecef.lon, ecef.height,
-                                 ltp, ecef, None, name=n)
+                                 self, ecef, None, name=n)
         if Xyz:
             _xsubclassof(*_XyzLocals4, Xyz=Xyz)  # Vector3d
             r = r.toXyz(Xyz=Xyz, name=n, **kwds)
