@@ -241,7 +241,7 @@ class Tests(TestsBase):
         self.test('toLocal', t, '(0.0, 0.0, -0.0, 48.833, 2.333, 0.0, Ltp' if ll.isEllipsoidal
                            else '(0.0, -0.0, 0.0, 48.833, 2.333, 0.0, Ltp', known=startswith)
         t = e.toAer()
-        self.test('toAer', t, ('[5.708, -86.135, 0.0]'   if bits_mach2[0] == 32 else
+        self.test('toAer', t, ('[5.708, -86.135, 0.0]'   if bits_mach2[0] == '32bit' else
                                '[23.434, -85.849, 0.0]') if ll.isEllipsoidal
                          else  '[178.349, 41.155, 0.0]')
         t = e.toEnu()
