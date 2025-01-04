@@ -1102,12 +1102,12 @@ class Ecef9Tuple(_NamedTuple, _NamedLocal):
         '''
         return Lon(Vermeille=degrees(self.lamVermeille))
 
-    def _ltp_toLocal(self, ltp, Cls_and_kwds, **nam_Cls):  # for C{_NamedLocal}
+    def _ltp_toLocal(self, ltp, Xyz_kwds, **Xyz):  # overloads C{_NamedLocal}'s
         '''(INTERNAL) Invoke C{ltp._xLtp(ltp)._ecef2local}.
         '''
-        Cls, kwds = self._ltp_toLocal2(Cls_and_kwds, **nam_Cls)  # in ._NamedLocal
-        ltp = self._ltp._xLtp(ltp, self._Ltp)  # both in ._NamedLocal
-        return ltp._ecef2local(self, Cls, kwds)
+        Xyz_ = self._ltp_toLocal2(Xyz_kwds, **Xyz)  # in ._NamedLocal
+        ltp  = self._ltp._xLtp(ltp, self._Ltp)  # both in ._NamedLocal
+        return ltp._ecef2local(self, *Xyz_)
 
     @Property_RO
     def phi(self):

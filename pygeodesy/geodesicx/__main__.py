@@ -5,7 +5,7 @@ u'''Print L{geodesicx} version, etc. using C{python -m pygeodesy.geodesicx}.
 '''
 
 __all__ = ()
-__version__ = '24.09.06'
+__version__ = '24.12.31'
 
 
 def _main(**C4order):  # PYCHOK no cover
@@ -23,11 +23,10 @@ def _main(**C4order):  # PYCHOK no cover
         gX = GeodesicExact(**C4order)
         cs = geodesicx.gx._C4coeffs(gX.C4order)
         n  = len(cs)
-        u  = n         if numpy else len(set(cs))
-        z  = cs.nbytes if numpy else _sizeof(cs)
+        u  = n if numpy else len(set(cs))
         p  = dict(C4order=gX.C4order, C4n=n, C4u=u,
                   C4u_n=_fper(u, n), C4x=len(gX._C4x),
-                  C4t=type(cs).__name__, C4z=z)
+                  C4t=type(cs).__name__, C4z=_sizeof(cs))
         p  = list(_EQUAL_(*t) for t in p.items())
         if numpy:
             p.append(_name_version(numpy))

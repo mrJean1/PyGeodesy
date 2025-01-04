@@ -60,20 +60,24 @@
 <!-- ==================== MODULE DESCRIPTION ==================== -->
 <h1 class="epydoc">Module geoids</h1><p class="nomargin-top"></p>
 <p>Geoid models and geoid height interpolations.</p>
-  <p>Classes <a href="pygeodesy.geoids.GeoidG2012B-class.html" 
+  <p>Classes <a href="pygeodesy.geoids.GeoidEGM96-class.html" 
+  class="link">GeoidEGM96</a>, <a 
+  href="pygeodesy.geoids.GeoidG2012B-class.html" 
   class="link">GeoidG2012B</a>, <a 
   href="pygeodesy.geoids.GeoidKarney-class.html" 
   class="link">GeoidKarney</a> and <a 
   href="pygeodesy.geoids.GeoidPGM-class.html" class="link">GeoidPGM</a> to 
   interpolate the height of various <a 
   href="https://WikiPedia.org/wiki/Geoid" target="_top">geoid</a>s at 
-  <code>LatLon</code> locations or separate lat-/longitudes using different
+  <code>LatLon</code> locations or separate lat-/longitudes using various 
   interpolation methods and <code>geoid</code> model files.</p>
   <p><a href="pygeodesy.geoids.GeoidKarney-class.html" 
   class="link">GeoidKarney</a> is a transcoding of <i>Charles Karney</i>'s 
   C++ class <a 
   href="https://GeographicLib.SourceForge.io/C++/doc/geoid.html" 
-  target="_top">Geoid</a> to pure Python. The <a 
+  target="_top">Geoid</a> to pure Python.</p>
+  <p>The <a href="pygeodesy.geoids.GeoidEGM96-class.html" 
+  class="link">GeoidEGM96</a>, <a 
   href="pygeodesy.geoids.GeoidG2012B-class.html" 
   class="link">GeoidG2012B</a> and <a 
   href="pygeodesy.geoids.GeoidPGM-class.html" class="link">GeoidPGM</a> 
@@ -88,7 +92,9 @@
   <h1 class="heading">Typical usage</h1>
     <ol start="1">
       <li>
-        Choose one of the interpolator classes <a 
+        Choose an interpolator class <a 
+        href="pygeodesy.geoids.GeoidEGM96-class.html" 
+        class="link">GeoidEGM96</a>, <a 
         href="pygeodesy.geoids.GeoidG2012B-class.html" 
         class="link">GeoidG2012B</a>, <a 
         href="pygeodesy.geoids.GeoidKarney-class.html" 
@@ -99,8 +105,8 @@
         the <code>grid knots</code>.  See the documentation of the 
         interpolator class for references to available <code>grid</code> 
         models.
-        <p><code>&gt;&gt;&gt; from pygeodesy import GeoidG2012B  # or 
-        -Karney or -PGM as GeoidXyz</code></p>
+        <p><code>&gt;&gt;&gt; from pygeodesy import GeoidEGM96  # or 
+        -G2012B, -Karney or -PGM as GeoidXyz</code></p>
       </li>
       <li>
         Instantiate an interpolator with the <code>geoid</code> model file 
@@ -109,7 +115,7 @@
         **options)</code></p>
       </li>
       <li>
-        Get the interpolated geoid height of other <code>LatLon</code> 
+        Get the interpolated geoid height of <code>LatLon</code> 
         location(s) with
         <p><code>&gt;&gt;&gt; ll = LatLon(1, 2, ...)</code></p>
         <p><code>&gt;&gt;&gt; h = ginterpolator(ll)</code></p>
@@ -120,12 +126,16 @@
         <p><code>&gt;&gt;&gt; hs = ginterpolator(lls)</code></p>
       </li>
       <li>
-        For separate lat- and longitudes invoke the <code>.height</code> 
+        For separate lat- and longitudes invoke the <code>height</code> 
         method as
         <p><code>&gt;&gt;&gt; h = ginterpolator.height(lat, lon)</code></p>
         <p>or as 2 lists, 2 tuples, etc.</p>
         <p><code>&gt;&gt;&gt; hs = ginterpolator.height(lats, 
         lons)</code></p>
+        <p>or for several positionals use the <code>height_</code> 
+        method</p>
+        <p><code>&gt;&gt;&gt; h1, h2, ... = ginterpolator.height_(lat1, 
+        lon1, lat2, lon2, ...)</code></p>
       </li>
       <li>
         An example is in <a 
@@ -138,7 +148,9 @@
 <div class="fields">      <strong>Notes:</strong>
       <ul class="nomargin-top">
         <li>
-        Classes <a href="pygeodesy.geoids.GeoidG2012B-class.html" 
+        Classes <a href="pygeodesy.geoids.GeoidEGM96-class.html" 
+        class="link">GeoidEGM96</a>, <a 
+        href="pygeodesy.geoids.GeoidG2012B-class.html" 
         class="link">GeoidG2012B</a> and <a 
         href="pygeodesy.geoids.GeoidPGM-class.html" 
         class="link">GeoidPGM</a> require both <a 
@@ -165,7 +177,11 @@
         href="https://GeographicLib.SourceForge.io/C++/doc/geoid.html" 
         target="_top">Geoid height</a> and <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/geoid.html#geoidinst"
-        target="_top">Installing the Geoid datasets</a>, <a 
+        target="_top">Installing the Geoid datasets</a>, World Geodetic 
+        System 1984 (WG84) and <a 
+        href="https://earth-info.NGA.mil/index.php?dir=wgs84&amp;action=wgs84"
+        target="_top">Earth Gravitational Model 96 (EGM96) Data and 
+        Apps</a>, <a 
         href="https://docs.SciPy.org/doc/scipy/reference/interpolate.html" 
         target="_top">SciPy</a> interpolation <a 
         href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.RectBivariateSpline.html"
@@ -185,7 +201,7 @@
         Level</a>.
       </p>
       <p><strong>Version:</strong>
-        24.11.05
+        24.12.31
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -215,6 +231,23 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.geoids.GeoidEGM96-class.html" class="summary-name">GeoidEGM96</a><br />
+      Geoid height interpolator for the EGM96 <a 
+        href="https://earth-info.NGA.mil" target="_top">15 Minute 
+        Interpolation Grid</a> based on <code>SciPy</code> interpolation <a
+        
+        href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.RectBivariateSpline.html"
+        target="_top">RectBivariateSpline</a>, <a 
+        href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
+        target="_top">interp2d</a> or <a 
+        href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.bisplrep.html"
+        target="_top">bisplrep/-ev</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.geoids.GeoidG2012B-class.html" class="summary-name">GeoidG2012B</a><br />
       Geoid height interpolator for <a 
         href="https://www.NGS.NOAA.gov/GEOID/GEOID12B/" 
@@ -230,13 +263,14 @@
         href="https://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_PRVI.shtml" 
         target="_top">Puerto Rico and U.S. Virgin Islands</a> and <a 
         href="https://www.NGS.NOAA.gov/GEOID/GEOID12B/GEOID12B_AS.shtml" 
-        target="_top">American Samoa</a> based on <code>SciPy</code> <a 
+        target="_top">American Samoa</a> based on <code>SciPy</code> 
+        interpolation <a 
         href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.RectBivariateSpline.html"
         target="_top">RectBivariateSpline</a>, <a 
         href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
         target="_top">interp2d</a> or <a 
         href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.bisplrep.html"
-        target="_top">bisplrep/-ev</a> interpolation.
+        target="_top">bisplrep/-ev</a>.
     </td>
   </tr>
 <tr>
@@ -439,7 +473,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Dec 12 15:50:53 2024
+    Generated by Epydoc 3.0.1 on Fri Jan  3 23:17:56 2025
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

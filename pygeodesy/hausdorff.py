@@ -4,7 +4,6 @@
 u'''Hausdorff distances.
 
 Classes L{Hausdorff}, L{HausdorffDegrees}, L{HausdorffRadians},
-L{HausdorffCosineAndoyerLambert}, L{HausdorffCosineForsytheAndoyerLambert},
 L{HausdorffCosineLaw}, L{HausdorffDistanceTo}, L{HausdorffEquirectangular},
 L{HausdorffEuclidean}, L{HausdorffFlatLocal}, L{HausdorffFlatPolar},
 L{HausdorffHaversine}, L{HausdorffHubeny}, L{HausdorffKarney},
@@ -85,7 +84,7 @@ from pygeodesy import unitsBase as _unitsBase  # _Str_..., _xUnit, _xUnits
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff
-__version__ = '24.06.15'
+__version__ = '24.12.31'
 
 
 class HausdorffError(PointsError):
@@ -171,7 +170,7 @@ class Hausdorff(_Named):
         return self._hausdorff_(point2s, False, early, self.distance)
 
     def distance(self, point1, point2):
-        '''Return the distance between B{C{point1}} and B{C{point2s}},
+        '''Return the distance between B{C{point1}} and B{C{point2}},
            subject to the supplied optional keyword arguments, see
            property C{kwds}.
         '''
@@ -341,7 +340,7 @@ class _HausdorffMeterRadians(Hausdorff):
         return self._hausdorff_(point2s, True, early, _formy._radistance(self))
 
     @Property
-    def _func_(self):
+    def _func_(self):  # see _formy._radistance
         '''(INTERNAL) I{Must be overloaded}.'''
         self._notOverloaded(**self.kwds)
 
@@ -350,69 +349,22 @@ class _HausdorffMeterRadians(Hausdorff):
         return _formy._Propy(func, 3, self.kwds)
 
 
-class HausdorffCosineAndoyerLambert(_HausdorffMeterRadians):
-    '''Compute the C{Hausdorff} distance based on the I{angular} distance
-       in C{radians} from function L{pygeodesy.cosineAndoyerLambert}.
-    '''
-    def __init__(self, point1s, **seed_name__datum_wrap):
-        '''New L{HausdorffCosineAndoyerLambert} calculator.
-
-           @kwarg seed_name__datum_wrap: Optional C{B{seed}=None} and
-                             C{B{name}=NN} and keyword arguments for
-                             function L{pygeodesy.cosineAndoyerLambert}.
-
-           @see: L{Hausdorff.__init__} for details about B{C{point1s}},
-                 B{C{seed}}, B{C{name}} and other exceptions.
-        '''
-        Hausdorff.__init__(self, point1s, **seed_name__datum_wrap)
-        self._func  = _formy.cosineAndoyerLambert
-        self._func_ = _formy.cosineAndoyerLambert_
-
-    if _FOR_DOCS:
-        directed  = Hausdorff.directed
-        symmetric = Hausdorff.symmetric
-
-
-class HausdorffCosineForsytheAndoyerLambert(_HausdorffMeterRadians):
-    '''Compute the C{Hausdorff} distance based on the I{angular} distance
-       in C{radians} from function L{pygeodesy.cosineForsytheAndoyerLambert}.
-    '''
-    def __init__(self, point1s, **seed_name__datum_wrap):
-        '''New L{HausdorffCosineForsytheAndoyerLambert} calculator.
-
-           @kwarg seed_name__datum_wrap: Optional C{B{seed}=None} and
-                             C{B{name}=NN} and keyword arguments for function
-                             L{pygeodesy.cosineForsytheAndoyerLambert}.
-
-           @see: L{Hausdorff.__init__} for details about B{C{point1s}},
-                 B{C{seed}}, B{C{name}} and other exceptions.
-        '''
-        Hausdorff.__init__(self, point1s, **seed_name__datum_wrap)
-        self._func  = _formy.cosineForsytheAndoyerLambert
-        self._func_ = _formy.cosineForsytheAndoyerLambert_
-
-    if _FOR_DOCS:
-        directed  = Hausdorff.directed
-        symmetric = Hausdorff.symmetric
-
-
 class HausdorffCosineLaw(_HausdorffMeterRadians):
-    '''Compute the C{Hausdorff} distance based on the I{angular}
-       distance in C{radians} from function L{pygeodesy.cosineLaw_}.
+    '''Compute the C{Hausdorff} distance with function L{pygeodesy.cosineLaw_}.
 
        @note: See note at function L{pygeodesy.vincentys_}.
     '''
-    def __init__(self, point1s, **seed_name__radius_wrap):
+    def __init__(self, point1s, **seed_name__corr_earth_wrap):
         '''New L{HausdorffCosineLaw} calculator.
 
-           @kwarg seed_name__radius_wrap: Optional C{B{seed}=None} and
-                             C{B{name}=NN} and keyword arguments for
-                             function L{pygeodesy.cosineLaw}.
+           @kwarg seed_name__corr_earth_wrap: Optional C{B{seed}=None} and
+                       C{B{name}=NN} and keyword arguments for function
+                       L{pygeodesy.cosineLaw}.
 
            @see: L{Hausdorff.__init__} for details about B{C{point1s}},
                  B{C{seed}}, B{C{name}} and other exceptions.
         '''
-        Hausdorff.__init__(self, point1s, **seed_name__radius_wrap)
+        Hausdorff.__init__(self, point1s, **seed_name__corr_earth_wrap)
         self._func  = _formy.cosineLaw
         self._func_ = _formy.cosineLaw_
 
@@ -422,8 +374,7 @@ class HausdorffCosineLaw(_HausdorffMeterRadians):
 
 
 class HausdorffDistanceTo(Hausdorff):
-    '''Compute the C{Hausdorff} distance based on the distance from the
-       points' C{LatLon.distanceTo} method, conventionally in C{meter}.
+    '''Compute the C{Hausdorff} distance the points' C{LatLon.distanceTo} method.
     '''
     _units = _unitsBase._Str_meter
 
@@ -460,8 +411,7 @@ class HausdorffDistanceTo(Hausdorff):
 
 
 class HausdorffEquirectangular(Hausdorff):
-    '''Compute the C{Hausdorff} distance based on the C{equirectangular} distance
-       in C{radians squared} like function L{pygeodesy.equirectangular}.
+    '''Compute the C{Hausdorff} distance with function L{pygeodesy.equirectangular}.
     '''
     _units = _unitsBase._Str_degrees2
 
@@ -486,8 +436,7 @@ class HausdorffEquirectangular(Hausdorff):
 
 
 class HausdorffEuclidean(_HausdorffMeterRadians):
-    '''Compute the C{Hausdorff} distance based on the C{Euclidean}
-       distance in C{radians} from function L{pygeodesy.euclidean_}.
+    '''Compute the C{Hausdorff} distance with function L{pygeodesy.euclidean_}.
     '''
     def __init__(self, point1s, **seed_name__adjust_radius_wrap):
         '''New L{HausdorffEuclidean} calculator.
@@ -509,8 +458,7 @@ class HausdorffEuclidean(_HausdorffMeterRadians):
 
 
 class HausdorffExact(Hausdorff):
-    '''Compute the C{Hausdorff} distance based on the I{angular}
-       distance in C{degrees} from method L{GeodesicExact}C{.Inverse}.
+    '''Compute the C{Hausdorff} distance with method L{GeodesicExact}C{.Inverse}.
     '''
     _units = _unitsBase._Str_degrees
 
@@ -539,8 +487,7 @@ class HausdorffExact(Hausdorff):
 
 
 class HausdorffFlatLocal(_HausdorffMeterRadians):
-    '''Compute the C{Hausdorff} distance based on the I{angular} distance in
-       C{radians squared} like function L{pygeodesy.flatLocal_}/L{pygeodesy.hubeny_}.
+    '''Compute the C{Hausdorff} distance with function L{pygeodesy.flatLocal_}/L{pygeodesy.hubeny_}.
     '''
     _units = _unitsBase._Str_radians2
 
@@ -566,8 +513,7 @@ class HausdorffFlatLocal(_HausdorffMeterRadians):
 
 
 class HausdorffFlatPolar(_HausdorffMeterRadians):
-    '''Compute the C{Hausdorff} distance based on the I{angular}
-       distance in C{radians} from function L{pygeodesy.flatPolar_}.
+    '''Compute the C{Hausdorff} distance with function L{pygeodesy.flatPolar_}.
     '''
     _wrap = False
 
@@ -591,8 +537,7 @@ class HausdorffFlatPolar(_HausdorffMeterRadians):
 
 
 class HausdorffHaversine(_HausdorffMeterRadians):
-    '''Compute the C{Hausdorff} distance based on the I{angular}
-       distance in C{radians} from function L{pygeodesy.haversine_}.
+    '''Compute the C{Hausdorff} distance with function L{pygeodesy.haversine_}.
 
        @note: See note under L{HausdorffVincentys}.
     '''
@@ -627,11 +572,10 @@ class HausdorffHubeny(HausdorffFlatLocal):  # for Karl Hubeny
 
 
 class HausdorffKarney(Hausdorff):
-    '''Compute the C{Hausdorff} distance based on the I{angular}
-       distance in C{degrees} from I{Karney}'s U{geographiclib
-       <https://PyPI.org/project/geographiclib>} U{Geodesic
-       <https://GeographicLib.SourceForge.io/Python/doc/code.html>}
-       Inverse method.
+    '''Compute the C{Hausdorff} distance with I{Karney}'s U{geographiclib
+       <https://PyPI.org/project/geographiclib>} U{geodesic.Geodesic
+       <https://GeographicLib.SourceForge.io/Python/doc/code.html>}C{.Inverse}
+       method.
     '''
     _units = _unitsBase._Str_degrees
 
@@ -659,8 +603,7 @@ class HausdorffKarney(Hausdorff):
 
 
 class HausdorffThomas(_HausdorffMeterRadians):
-    '''Compute the C{Hausdorff} distance based on the I{angular}
-       distance in C{radians} from function L{pygeodesy.thomas_}.
+    '''Compute the C{Hausdorff} distance with function L{pygeodesy.thomas_}.
     '''
     def __init__(self, point1s, **seed_name__datum_wrap):
         '''New L{HausdorffThomas} calculator.
@@ -682,8 +625,7 @@ class HausdorffThomas(_HausdorffMeterRadians):
 
 
 class HausdorffVincentys(_HausdorffMeterRadians):
-    '''Compute the C{Hausdorff} distance based on the I{angular}
-       distance in C{radians} from function L{pygeodesy.vincentys_}.
+    '''Compute the C{Hausdorff} distance with function L{pygeodesy.vincentys_}.
 
        @note: See note at function L{pygeodesy.vincentys_}.
     '''

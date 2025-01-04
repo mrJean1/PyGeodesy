@@ -4,7 +4,7 @@
 # Test L{geoids} interpolators.
 
 __all__ = ('Tests',)
-__version__ = '23.05.23'
+__version__ = '24.12.29'
 
 import warnings  # PYCHOK expected
 # RuntimeWarning: numpy.ufunc size changed, may indicate binary
@@ -14,7 +14,7 @@ warnings.filterwarnings('ignore')  # or 'error'
 
 from bases import coverage, scipy, PyGeodesy_dir, TestsBase
 
-from pygeodesy import fstr, len2, egmGeoidHeights, Fwelford, \
+from pygeodesy import fstr, len2, egmGeoidHeights, Fwelford, GeoidEGM96, \
                       GeoidError, GeoidG2012B, GeoidKarney, GeoidPGM, \
                       LatLon_, NN, RangeError, reprs
 from pygeodesy.interns import _DOT_
@@ -273,13 +273,13 @@ class Tests(TestsBase):
 #               lon -= 360
             yield lat, lon, t5[h]
 
-    def testGeoid(self, G, grid, llh3, crop=None, eps=None, kind=None):  # MCCABE 18
+    def testGeoid(self, G, grid, llh3, eps=None, kind=None, **crop):  # MCCABE 18
         # test geoid G(grid) for (lat, lon, height, eps)
         if scipy or G is GeoidKarney:
             e_max = 0
             if not eps:
                 eps = self._epsHeight
-            with G(grid, kind=kind or self._kind, crop=crop) as g:
+            with G(grid, kind=kind or self._kind, **crop) as g:
                 f = self.failed - self.known
                 w = Fwelford()
                 s = '%s.height(%%s) kind %s' % (g, g.kind)
@@ -391,14 +391,16 @@ if __name__ == '__main__':  # PYCHOK internal error?
             gs.insert(0, g)
             break
 
-    if not gs:  # look for ../testGeoids/egm*.pgm
+    if not gs:  # look for ../testGeoids/egm*.pgm, etc.
         from glob import glob
         gs = glob(_os_path.join(PyGeodesy_dir, '../testGeoids/egm*.pgm')) \
-           + glob(_os_path.join(PyGeodesy_dir, '../testGeoids/g*u0.bin'))
+           + glob(_os_path.join(PyGeodesy_dir, '../testGeoids/g*u0.bin')) \
+           + glob(_os_path.join(PyGeodesy_dir, '../testGeoids/WW*.GRD'))
 
     if gs:  # test one or more geoids/grids
         for g in gs:
             g_ = g.lower()
+            G  = None
 
             if g_.endswith('.pgm',):
                 # Karney or PGM geoids .../egm*.pgm
@@ -412,9 +414,18 @@ if __name__ == '__main__':  # PYCHOK internal error?
                     except ImportError as x:
                         t.skip(str(x), n=231)
 
-            elif g_.endswith('g2012bu0.bin'):
-                try:  # .../G2012B/CONUS/g2012bu0.bin
-                    t.testGeoid(GeoidG2012B, g,
+            elif g_.endswith('g2012bu0.bin'):  # .../G2012B/CONUS/g2012bu0.bin
+                G, eps = GeoidG2012B, None
+
+            elif g.endswith('.GRD'):
+                G, eps = GeoidEGM96, 1.5
+
+            elif g:
+                t.test('geoid', repr(g), "'.GRD', '.pgm' or '.bin'")
+
+            if G:
+                try:
+                    t.testGeoid(G, g,
                         # centers of g2012bu*.bin grids
                         ((41,  -95.0, -30.312),
                          (49, -120.5, -16.112),
@@ -424,13 +435,10 @@ if __name__ == '__main__':  # PYCHOK internal error?
                          (33, -120.5, -39.554),
                          (33, -103.5, -21.917),
                          (33,  -86.5, -29.001),
-                         (33,  -69.5, -46.725)))
-                    # t.testGeoid(GeoidG2012B, g, *t.dat5llhs3(g, hIndex=4))
+                         (33,  -69.5, -46.725)), eps=eps)
+                    # t.testGeoid(G, g, *t.dat5llhs3(g, hIndex=4))
                 except ImportError as x:
                     t.skip(str(x), n=30)
-
-            elif not g_.endswith('.bin'):
-                t.test('geoid', repr(g), "'.pgm' or '.bin'")
 
         t.results()
     else:

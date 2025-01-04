@@ -141,10 +141,12 @@
         <a href="pygeodesy.datums-module.html#Transforms" class="summary-name">Transforms</a> = <code title="Transforms.OSGB36: Transform(name='OSGB36', tx=-446.45, ty=125.16, tz=\
 -542.06, s1=1.0, rx=-7.2819e-07, ry=-1.1975e-06, rz=-4.0826e-06, s=20.\
 489, sx=-0.1502, sy=-0.247, sz=-0.8421),
+Transforms.NAD83: Transform(name='NAD83', tx=1.004, ty=-1.91, tz=-0.51\
+5, s1=1.0, rx=1.2945e-07, ry=1.6484e-09, rz=5.333e-08, s=-0.0015, sx=0\
+.0267, sy=0.00034, sz=0.011),
 Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
 .0, rx=0.0, ry=0.0, rz=0.0, s=0.0, sx=0.0, sy=0.0, sz=0.0),
-Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
-, s1=1.0, rx=0.0, ry=0.0, rz=0.0, s=0.0, sx=0.0, sy=0.0, sz=0.0)">Transforms.OSGB36: Transform(name='OSGB36', tx=-4<code class="variable-ellipsis">...</code></code><br />
+...">Transforms.OSGB36: Transform(name='OSGB36', tx=-4<code class="variable-ellipsis">...</code></code><br />
       Some pre-defined <a href="pygeodesy.datums.Transform-class.html" 
       class="link">Transform</a>s, all <i>lazily</i> instantiated.
     </td>
@@ -153,14 +155,15 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.datums-module.html#Datums" class="summary-name">Datums</a> = <code title="Datums.OSGB36: Datum(name='OSGB36', ellipsoid=Ellipsoids.Airy1830, tra\
+        <a href="pygeodesy.datums-module.html#Datums" class="summary-name">Datums</a> = <code title="Datums.Sphere: Datum(name='Sphere', ellipsoid=Ellipsoids.Sphere, trans\
+form=Transforms.WGS84),
+Datums.NAD83: Datum(name='NAD83', ellipsoid=Ellipsoids.GRS80, transfor\
+m=Transforms.NAD83),
+Datums.OSGB36: Datum(name='OSGB36', ellipsoid=Ellipsoids.Airy1830, tra\
 nsform=Transforms.OSGB36),
-Datums.GRS80: Datum(name='GRS80', ellipsoid=Ellipsoids.GRS80, transfor\
-m=Transforms.WGS84),
 Datums.WGS84: Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transfor\
 m=Transforms.WGS84),
-Datums.Sphere: Datum(name='Sphere', ellipsoid=Ellipsoids.Sphere, trans\
-form=Transforms.WGS84)">Datums.OSGB36: Datum(name='OSGB36', ellipsoid=Ellipso<code class="variable-ellipsis">...</code></code><br />
+...">Datums.Sphere: Datum(name='Sphere', ellipsoid=Ellipso<code class="variable-ellipsis">...</code></code><br />
       Some pre-defined <a href="pygeodesy.datums.Datum-class.html" 
       class="link">Datum</a>s, all <i>lazily</i> instantiated.
     </td>
@@ -545,10 +548,12 @@ form=Transforms.WGS84)">Datums.OSGB36: Datum(name='OSGB36', ellipsoid=Ellipso<co
 Transforms.OSGB36: Transform(name='OSGB36', tx=-446.45, ty=125.16, tz=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 -542.06, s1=1.0, rx=-7.2819e-07, ry=-1.1975e-06, rz=-4.0826e-06, s=20.<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 489, sx=-0.1502, sy=-0.247, sz=-0.8421),
+Transforms.NAD83: Transform(name='NAD83', tx=1.004, ty=-1.91, tz=-0.51<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+5, s1=1.0, rx=1.2945e-07, ry=1.6484e-09, rz=5.333e-08, s=-0.0015, sx=0<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+.0267, sy=0.00034, sz=0.011),
 Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 .0, rx=0.0, ry=0.0, rz=0.0, s=0.0, sx=0.0, sy=0.0, sz=0.0),
-Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-, s1=1.0, rx=0.0, ry=0.0, rz=0.0, s=0.0, sx=0.0, sy=0.0, sz=0.0)
+<code class="variable-ellipsis">...</code>
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -567,14 +572,15 @@ Transforms.Identity: Transform(name='Identity', tx=0.0, ty=0.0, tz=0.0<span clas
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
+Datums.Sphere: Datum(name='Sphere', ellipsoid=Ellipsoids.Sphere, trans<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+form=Transforms.WGS84),
+Datums.NAD83: Datum(name='NAD83', ellipsoid=Ellipsoids.GRS80, transfor<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+m=Transforms.NAD83),
 Datums.OSGB36: Datum(name='OSGB36', ellipsoid=Ellipsoids.Airy1830, tra<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 nsform=Transforms.OSGB36),
-Datums.GRS80: Datum(name='GRS80', ellipsoid=Ellipsoids.GRS80, transfor<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-m=Transforms.WGS84),
 Datums.WGS84: Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transfor<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
 m=Transforms.WGS84),
-Datums.Sphere: Datum(name='Sphere', ellipsoid=Ellipsoids.Sphere, trans<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-form=Transforms.WGS84)
+<code class="variable-ellipsis">...</code>
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -612,7 +618,7 @@ form=Transforms.WGS84)
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Dec 12 15:50:52 2024
+    Generated by Epydoc 3.0.1 on Fri Jan  3 23:17:56 2025
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

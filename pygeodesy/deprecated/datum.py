@@ -11,11 +11,11 @@ from pygeodesy.ellipsoids import Ellipsoid, Ellipsoids, Curvature2Tuple
 from pygeodesy.lazily import _ALL_DEPRECATED, _ALL_OTHER
 
 __all__ = _ALL_DEPRECATED.deprecated_datum
-__version__ = '24.06.15'
+__version__ = '24.12.31'
 
-assert _ALL_OTHER(Curvature2Tuple, Datum,  Ellipsoid,  Transform) + \
-            tuple(_.name for _ in (Datums, Ellipsoids, Transforms,
-                    R_FM, R_KM, R_M, R_MA, R_MB, R_NM, R_SM, R_VM)) == __all__
+assert _ALL_OTHER(Curvature2Tuple, Datum,  Ellipsoid,  Transform) + tuple(_.name for _ in
+                                  (Datums, Ellipsoids, Transforms,
+                                   R_FM, R_KM, R_M, R_MA, R_MB, R_NM, R_SM, R_VM)) == __all__
 
 # **) MIT License
 #

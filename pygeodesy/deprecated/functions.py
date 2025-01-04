@@ -14,7 +14,7 @@ from pygeodesy.props import deprecated_function
 from pygeodesy.units import _1mm, Number_, Scalar_
 
 __all__ = _ALL_DEPRECATED.deprecated_functions
-__version__ = '24.11.28'
+__version__ = '24.12.31'
 
 _WGS84 = _UTM = object()
 
@@ -82,6 +82,30 @@ def collins(pointA, pointB, pointC, alpha, beta, **useZ_Clas_and_kwds):
 def copysign(x, y):  # PYCHOK no cover
     '''DEPRECATED, use function L{pygeodesy.copysign0}.'''
     return _MODS.basics.copysign0(x, y)
+
+
+@deprecated_function
+def cosineAndoyerLambert(lat1, lon1, lat2, lon2, **datum_wrap):
+    '''DEPRECATED on 2024.12.31, use function L{pygeodesy.cosineLaw} with C{B{corr}=1}.'''
+    return _MODS.formy.cosineLaw(lat1, lon1, lat2, lon2, corr=1, **datum_wrap)
+
+
+@deprecated_function
+def cosineAndoyerLambert_(phi2, phi1, lam21, **datum):
+    '''DEPRECATED on 2024.12.31, use function L{pygeodesy.cosineLaw_} with C{B{corr}=1}.'''
+    return _MODS.formy.cosineLaw_(phi2, phi1, lam21, corr=1, **datum)
+
+
+@deprecated_function
+def cosineForsytheAndoyerLambert(lat1, lon1, lat2, lon2, **datum_wrap):
+    '''DEPRECATED on 2024.12.31, use function L{pygeodesy.cosineLaw} with C{B{corr}=2}.'''
+    return _MODS.formy.cosineLaw(lat1, lon1, lat2, lon2, corr=2, **datum_wrap)
+
+
+@deprecated_function
+def cosineForsytheAndoyerLambert_(phi2, phi1, lam21, **datum):
+    '''DEPRECATED on 2024.12.31, use function L{pygeodesy.cosineLaw_} with C{B{corr}=2}.'''
+    return _MODS.formy.cosineLaw_(phi2, phi1, lam21, corr=2, **datum)
 
 
 @deprecated_function

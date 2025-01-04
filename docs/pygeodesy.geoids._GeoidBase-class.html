@@ -75,7 +75,7 @@
 <dl><dt>Known Subclasses:</dt>
 <dd>
       <ul class="subclass-list">
-<li><a href="pygeodesy.geoids.GeoidG2012B-class.html">GeoidG2012B</a></li><li>, <a href="pygeodesy.geoids.GeoidKarney-class.html">GeoidKarney</a></li><li>, <a href="pygeodesy.geoids.GeoidPGM-class.html">GeoidPGM</a></li>  </ul>
+<li><a href="pygeodesy.geoids.GeoidEGM96-class.html">GeoidEGM96</a></li><li>, <a href="pygeodesy.geoids.GeoidG2012B-class.html">GeoidG2012B</a></li><li>, <a href="pygeodesy.geoids.GeoidKarney-class.html">GeoidKarney</a></li><li>, <a href="pygeodesy.geoids.GeoidPGM-class.html">GeoidPGM</a></li>  </ul>
 </dd></dl>
 
 <hr />
@@ -118,7 +118,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.geoids._GeoidBase-class.html#__call__" class="summary-sig-name">__call__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">*llis</span>,
         <span class="summary-sig-arg">**wrap_H</span>)</span><br />
-      Interpolate the geoid height for one or several locations.</td>
+      Interpolate the geoid (or orthometric) height for one or more 
+      locations.</td>
           <td align="right" valign="top">
             
             
@@ -243,6 +244,26 @@
         <span class="summary-sig-arg">lons</span>,
         <span class="summary-sig-arg">**wrap</span>)</span><br />
       Interpolate the geoid height for one or several lat-/longitudes.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geoids._GeoidBase-class.html#height_" class="summary-sig-name">height_</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">*latlons</span>,
+        <span class="summary-sig-arg">**wrap</span>)</span><br />
+      Interpolate the geoid height for each <i class="math">(latlons[i], 
+      latlons[i+1]) pair for i in range(0, len(latlons), <b>2</b>)</i>.</td>
           <td align="right" valign="top">
             
             
@@ -672,22 +693,24 @@
     </td>
   </tr></table>
   
-  <p>Interpolate the geoid height for one or several locations.</p>
+  <p>Interpolate the geoid (or orthometric) height for one or more 
+  locations.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>llis</code></strong> - One or more locations (<code>LatLon</code>s), all positional.</li>
+        <li><strong class="pname"><code>llis</code></strong> - One or several locations (each <code>LatLon</code>), all 
+          positional.</li>
         <li><strong class="pname"><code>wrap_H</code></strong> - Keyword arguments <code><b>wrap</b>=False</code> 
           (<code>bool</code>) and <code><b>H</b>=False</code> 
-          (<code>bool</code>).  If <code><b>wrap</b> is True</code>, wrap 
+          (<code>bool</code>).  Use <code><b>wrap</b>=True</code> to wrap 
           or <i>normalize</i> all <b><code>llis</code></b> locations.  If 
           <code><b>H</b> is True</code>, return the <i>orthometric</i> 
           height instead of the <i>geoid</i> height at each location.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A single interpolated geoid (or orthometric) height 
-          (<code>float</code>) or a list or tuple of interpolated geoid (or
-          orthometric) heights (<code>float</code>s).</dd>
+        <dd>A single geoid (or orthometric) height (<code>float</code>) or a 
+          list or tuple of geoid (or orthometric) heights (each 
+          <code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.geoids.GeoidError-class.html">GeoidError</a></strong></code> - Insufficient number of <b><code>llis</code></b>, an invalid 
@@ -699,7 +722,7 @@
         <li><code><strong class='fraise'><a href="pygeodesy.errors.SciPyWarning-class.html">SciPyWarning</a></strong></code> - A <code>scipy</code> warning as exception.</li>
     </ul></dd>
     <dt>Overrides:
-        <a href="pygeodesy.heights._HeightBase-class.html#__call__">heights._HeightBase.__call__</a>
+        <a href="pygeodesy.heights._HeightNamed-class.html#__call__">heights._HeightNamed.__call__</a>
     </dt>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
@@ -813,20 +836,17 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lats</code></strong> - Latitude or latitudes (<code>degrees</code> or 
-          <code>degrees</code>s).</li>
-        <li><strong class="pname"><code>lons</code></strong> - Longitude or longitudes (<code>degrees</code> or 
-          <code>degrees</code>s).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> all 
-          <b><code>lats</code></b> and <b><code>lons</code></b> locations 
-          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>lats</code></strong> - Latitude or latitudes (each <code>degrees</code>).</li>
+        <li><strong class="pname"><code>lons</code></strong> - Longitude or longitudes (each <code>degrees</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Use <code><b>wrap</b>=True</code> to wrap or <i>normalize</i> all
+          <b><code>lats</code></b> and <b><code>lons</code></b>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A single interpolated geoid height (<code>float</code>) or a list
-          of interpolated geoid heights (<code>float</code>s).</dd>
+        <dd>A single geoid height (<code>float</code>) or a list of geoid 
+          heights (each <code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.geoids.GeoidError-class.html">GeoidError</a></strong></code> - Insufficient or non-matching number of <b><code>lats</code></b> and
+        <li><code><strong class='fraise'><a href="pygeodesy.geoids.GeoidError-class.html">GeoidError</a></strong></code> - Insufficient or unequal number of <b><code>lats</code></b> and 
         <b><code>lons</code></b>.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - A <b><code>lat</code></b> or <b><code>lon</code></b> is outside 
         this geoid's lat- or longitude range.</li>
@@ -834,10 +854,46 @@
         <li><code><strong class='fraise'><a href="pygeodesy.errors.SciPyWarning-class.html">SciPyWarning</a></strong></code> - A <code>scipy</code> warning as exception.</li>
     </ul></dd>
     <dt>Overrides:
-        <a href="pygeodesy.heights._HeightBase-class.html#height">heights._HeightBase.height</a>
+        <a href="pygeodesy.heights._HeightNamed-class.html#height">heights._HeightNamed.height</a>
     </dt>
   </dl>
 </td></tr></table>
+</div>
+<a name="height_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">height_</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">*latlons</span>,
+        <span class="sig-arg">**wrap</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Interpolate the geoid height for each <i class="math">(latlons[i], 
+  latlons[i+1]) pair for i in range(0, len(latlons), <b>2</b>)</i>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>latlons</code></strong> - Alternating lat-/longitude pairs (each <code>degrees</code>), all
+          positional.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A tuple of geoid heights (each <code>float</code>).</dd>
+    <dt>Overrides:
+        <a href="pygeodesy.heights._HeightNamed-class.html#height_">heights._HeightNamed.height_</a>
+    </dt>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <a href="pygeodesy.geoids._GeoidBase-class.html#height" 
+        class="link">height</a> for further details.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="highest"></a>
 <div>
@@ -1021,8 +1077,8 @@
         <li><strong class="pname"><code>lon</code></strong> - The longitude (<code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A 1- or 2-character <code>str</code> if outside or an empty 
-          <code>str</code> if inside.</dd>
+        <dd>A 1- or 2-character <code>str</code> if outside, an empty 
+          <code>str</code> otherwise.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1540,7 +1596,7 @@ available/applicable).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Dec 12 15:50:55 2024
+    Generated by Epydoc 3.0.1 on Fri Jan  3 23:17:58 2025
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

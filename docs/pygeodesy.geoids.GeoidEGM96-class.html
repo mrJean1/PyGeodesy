@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.geoids.GeoidEGM96</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        <a href="pygeodesy.geoids-module.html">Module&nbsp;geoids</a> ::
+        Class&nbsp;GeoidEGM96
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.geoids.GeoidEGM96-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class GeoidEGM96</h1><p class="nomargin-top"></p>
+<pre class="base-tree">
+      object --+                
+               |                
+    <a href="pygeodesy.named._Named-class.html">named._Named</a> --+            
+                   |            
+<a href="pygeodesy.heights._HeightNamed-class.html">heights._HeightNamed</a> --+        
+                       |        
+     <a href="pygeodesy.heights._HeightBase-class.html">heights._HeightBase</a> --+    
+                           |    
+                  <a href="pygeodesy.geoids._GeoidBase-class.html">_GeoidBase</a> --+
+                               |
+                              <strong class="uidshort">GeoidEGM96</strong>
+</pre>
+
+<hr />
+<p>Geoid height interpolator for the EGM96 <a 
+  href="https://earth-info.NGA.mil" target="_top">15 Minute Interpolation 
+  Grid</a> based on <code>SciPy</code> interpolation <a 
+  href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.RectBivariateSpline.html"
+  target="_top">RectBivariateSpline</a>, <a 
+  href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
+  target="_top">interp2d</a> or <a 
+  href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.bisplrep.html"
+  target="_top">bisplrep/-ev</a>.</p>
+  <p>Use only the <code>WW15MGH.GRD</code> file, unzipped from the EGM96 <a
+  href="https://earth-info.NGA.mil/index.php?dir=wgs84&amp;action=wgs84" 
+  target="_top">15 Minute Interpolation Grid</a> download.</p>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Instance Methods</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geoids.GeoidEGM96-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">EGM96_grd</span>,
+        <span class="summary-sig-arg">datum</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="summary-sig-arg">kind</span>=<span class="summary-sig-default">3</span>,
+        <span class="summary-sig-arg">smooth</span>=<span class="summary-sig-default">0</span>,
+        <span class="summary-sig-arg">**name_crop</span>)</span><br />
+      New <a href="pygeodesy.geoids.GeoidEGM96-class.html" 
+      class="link">GeoidEGM96</a> interpolator.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geoids.GeoidEGM96-class.html#__call__" class="summary-sig-name">__call__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">*llis</span>,
+        <span class="summary-sig-arg">**wrap_H</span>)</span><br />
+      Interpolate the geoid (or orthometric) height for one or more 
+      locations.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geoids.GeoidEGM96-class.html#height" class="summary-sig-name">height</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">lats</span>,
+        <span class="summary-sig-arg">lons</span>,
+        <span class="summary-sig-arg">**wrap</span>)</span><br />
+      Interpolate the geoid height for one or several lat-/longitudes.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.geoids._GeoidBase-class.html">_GeoidBase</a></code></b>:
+      <code><a href="pygeodesy.geoids._GeoidBase-class.html#__enter__">__enter__</a></code>,
+      <code><a href="pygeodesy.geoids._GeoidBase-class.html#__exit__">__exit__</a></code>,
+      <code><a href="pygeodesy.geoids._GeoidBase-class.html#__repr__">__repr__</a></code>,
+      <code><a href="pygeodesy.geoids._GeoidBase-class.html#__str__">__str__</a></code>,
+      <code><a href="pygeodesy.geoids._GeoidBase-class.html#center">center</a></code>,
+      <code><a href="pygeodesy.geoids._GeoidBase-class.html#close">close</a></code>,
+      <code><a href="pygeodesy.geoids._GeoidBase-class.html#height_">height_</a></code>,
+      <code><a href="pygeodesy.geoids._GeoidBase-class.html#highest">highest</a></code>,
+      <code><a href="pygeodesy.geoids._GeoidBase-class.html#loweright">loweright</a></code>,
+      <code><a href="pygeodesy.geoids._GeoidBase-class.html#lowerleft">lowerleft</a></code>,
+      <code><a href="pygeodesy.geoids._GeoidBase-class.html#lowerright">lowerright</a></code>,
+      <code><a href="pygeodesy.geoids._GeoidBase-class.html#lowest">lowest</a></code>,
+      <code><a href="pygeodesy.geoids._GeoidBase-class.html#outside">outside</a></code>,
+      <code><a href="pygeodesy.geoids._GeoidBase-class.html#toStr">toStr</a></code>,
+      <code><a href="pygeodesy.geoids._GeoidBase-class.html#upperleft">upperleft</a></code>,
+      <code><a href="pygeodesy.geoids._GeoidBase-class.html#upperright">upperright</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#__format__">__format__</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#__imatmul__">__imatmul__</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#__matmul__">__matmul__</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#__rmatmul__">__rmatmul__</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#dup">dup</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#methodname">methodname</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#renamed">renamed</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#toRepr">toRepr</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__delattr__</code>,
+      <code>__getattribute__</code>,
+      <code>__hash__</code>,
+      <code>__new__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__setattr__</code>,
+      <code>__sizeof__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Properties</span></td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.geoids._GeoidBase-class.html">_GeoidBase</a></code></b>:
+      <code><a href="pygeodesy.geoids._GeoidBase-class.html#closed">closed</a></code>,
+      <code><a href="pygeodesy.geoids._GeoidBase-class.html#cropped">cropped</a></code>,
+      <code><a href="pygeodesy.geoids._GeoidBase-class.html#dtype">dtype</a></code>,
+      <code><a href="pygeodesy.geoids._GeoidBase-class.html#endian">endian</a></code>,
+      <code><a href="pygeodesy.geoids._GeoidBase-class.html#hits">hits</a></code>,
+      <code><a href="pygeodesy.geoids._GeoidBase-class.html#kind">kind</a></code>,
+      <code><a href="pygeodesy.geoids._GeoidBase-class.html#knots">knots</a></code>,
+      <code><a href="pygeodesy.geoids._GeoidBase-class.html#mean">mean</a></code>,
+      <code><a href="pygeodesy.geoids._GeoidBase-class.html#nBytes">nBytes</a></code>,
+      <code><a href="pygeodesy.geoids._GeoidBase-class.html#name">name</a></code>,
+      <code><a href="pygeodesy.geoids._GeoidBase-class.html#pgm">pgm</a></code>,
+      <code><a href="pygeodesy.geoids._GeoidBase-class.html#sizeB">sizeB</a></code>,
+      <code><a href="pygeodesy.geoids._GeoidBase-class.html#smooth">smooth</a></code>,
+      <code><a href="pygeodesy.geoids._GeoidBase-class.html#stdev">stdev</a></code>,
+      <code><a href="pygeodesy.geoids._GeoidBase-class.html#u2B">u2B</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.heights._HeightBase-class.html">heights._HeightBase</a></code></b>:
+      <code><a href="pygeodesy.heights._HeightBase-class.html#numpy">numpy</a></code>,
+      <code><a href="pygeodesy.heights._HeightBase-class.html#scipy">scipy</a></code>,
+      <code><a href="pygeodesy.heights._HeightBase-class.html#scipy_interpolate">scipy_interpolate</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.heights._HeightNamed-class.html">heights._HeightNamed</a></code></b>:
+      <code><a href="pygeodesy.heights._HeightNamed-class.html#datum">datum</a></code>,
+      <code><a href="pygeodesy.heights._HeightNamed-class.html#kmin">kmin</a></code>,
+      <code><a href="pygeodesy.heights._HeightNamed-class.html#wrap">wrap</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#classnaming">classnaming</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#iteration">iteration</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named">named</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named2">named2</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named3">named3</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named4">named4</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#sizeof">sizeof</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Method Details</span></td>
+</tr>
+</table>
+<a name="__init__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">EGM96_grd</span>,
+        <span class="sig-arg">datum</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="sig-arg">kind</span>=<span class="sig-default">3</span>,
+        <span class="sig-arg">smooth</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">**name_crop</span>)</span>
+    <br /><em class="fname">(Constructor)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>New <a href="pygeodesy.geoids.GeoidEGM96-class.html" 
+  class="link">GeoidEGM96</a> interpolator.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>EGM96_grd</code></strong> - An <code>EGM96_grd</code> grid file name (<code>.GRD</code>).</li>
+        <li><strong class="pname"><code>datum</code></strong> - Optional grid datum (<a href="pygeodesy.datums.Datum-class.html" 
+          class="link">Datum</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a> or <a 
+          href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>), overriding <code>WGS84</code>.</li>
+        <li><strong class="pname"><code>kind</code></strong> - <code>scipy.interpolate</code> order (<code>int</code>), use 1..5
+          for <a 
+          href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.RectBivariateSpline.html"
+          target="_top">RectBivariateSpline</a> or -1, -3 or -5 for <a 
+          href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.bisplrep.html"
+          target="_top">bisplrep/-ev</a> or <a 
+          href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
+          target="_top">interp2d</a> <code>linear</code>, 
+          <code>cubic</code> respectively <code>quintic</code>, see note 
+          for more details.</li>
+        <li><strong class="pname"><code>smooth</code></strong> - Smoothing factor for <code><b>kind</b>=1..5</code> only 
+          (<code>int</code>).</li>
+        <li><strong class="pname"><code>name_crop</code></strong> - Optional geoid <code><b>name</b>=NN</code> (<code>str</code>) and
+          UNSUPPORTED keyword argument <code><b>crop</b>=None</code>.</li>
+    </ul></dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.geoids.GeoidError-class.html">GeoidError</a></strong></code> - Invalid <b><code>crop</code></b>, <b><code>kind</code></b> or 
+        <b><code>smooth</code></b> or a ECM96 grid file 
+        <b><code>ECM96_grd</code></b> issue.</li>
+        <li><code><strong class='fraise'>ImportError</strong></code> - Package <code>numpy</code> or <code>scipy</code> not found or not 
+        installed.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.LenError-class.html">LenError</a></strong></code> - Grid file <b><code>EGM96_grd</code></b> axis mismatch.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.SciPyError-class.html">SciPyError</a></strong></code> - A <code>scipy</code> issue.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.SciPyWarning-class.html">SciPyWarning</a></strong></code> - A <code>scipy</code> warning as exception.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>datum</code></b>.</li>
+    </ul></dd>
+    <dt>Overrides:
+        object.__init__
+    </dt>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Specify <code><b>kind</b>=-1, -3 or -5</code> to use 
+        <code>scipy.interpolate.interp2d</code> before or 
+        <code>scipy.interpolate.bisplrep/-ev</code> since 
+        <code>Scipy</code> version 1.14.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="__call__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__call__</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">*llis</span>,
+        <span class="sig-arg">**wrap_H</span>)</span>
+    <br /><em class="fname">(Call operator)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Interpolate the geoid (or orthometric) height for one or more 
+  locations.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>llis</code></strong> - One or several locations (each <code>LatLon</code>), all 
+          positional.</li>
+        <li><strong class="pname"><code>wrap_H</code></strong> - Keyword arguments <code><b>wrap</b>=False</code> 
+          (<code>bool</code>) and <code><b>H</b>=False</code> 
+          (<code>bool</code>).  Use <code><b>wrap</b>=True</code> to wrap 
+          or <i>normalize</i> all <b><code>llis</code></b> locations.  If 
+          <code><b>H</b> is True</code>, return the <i>orthometric</i> 
+          height instead of the <i>geoid</i> height at each location.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A single geoid (or orthometric) height (<code>float</code>) or a 
+          list or tuple of geoid (or orthometric) heights (each 
+          <code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.geoids.GeoidError-class.html">GeoidError</a></strong></code> - Insufficient number of <b><code>llis</code></b>, an invalid 
+        <b><code>lli</code></b> or the <code>egm*.pgm</code> geoid file is 
+        closed.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - An <b><code>lli</code></b> is outside this geoid's lat- or 
+        longitude range.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.SciPyError-class.html">SciPyError</a></strong></code> - A <code>scipy</code> issue.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.SciPyWarning-class.html">SciPyWarning</a></strong></code> - A <code>scipy</code> warning as exception.</li>
+    </ul></dd>
+    <dt>Overrides:
+        <a href="pygeodesy.heights._HeightNamed-class.html#__call__">heights._HeightNamed.__call__</a>
+    </dt>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        To obtain <i>orthometric</i> heights, each <b><code>llis</code></b>
+        location must have an ellipsoid <code>height</code> or 
+        <code>h</code> attribute, otherwise <code>height=0</code> is used.
+      </p>
+      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.formy-module.html#heightOrthometric" 
+        class="link">pygeodesy.heightOrthometric</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="height"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">height</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">lats</span>,
+        <span class="sig-arg">lons</span>,
+        <span class="sig-arg">**wrap</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Interpolate the geoid height for one or several lat-/longitudes.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lats</code></strong> - Latitude or latitudes (each <code>degrees</code>).</li>
+        <li><strong class="pname"><code>lons</code></strong> - Longitude or longitudes (each <code>degrees</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Use <code><b>wrap</b>=True</code> to wrap or <i>normalize</i> all
+          <b><code>lats</code></b> and <b><code>lons</code></b>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A single geoid height (<code>float</code>) or a list of geoid 
+          heights (each <code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.geoids.GeoidError-class.html">GeoidError</a></strong></code> - Insufficient or unequal number of <b><code>lats</code></b> and 
+        <b><code>lons</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - A <b><code>lat</code></b> or <b><code>lon</code></b> is outside 
+        this geoid's lat- or longitude range.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.SciPyError-class.html">SciPyError</a></strong></code> - A <code>scipy</code> issue.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.SciPyWarning-class.html">SciPyWarning</a></strong></code> - A <code>scipy</code> warning as exception.</li>
+    </ul></dd>
+    <dt>Overrides:
+        <a href="pygeodesy.heights._HeightNamed-class.html#height">heights._HeightNamed.height</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">PyGeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Fri Jan  3 23:17:58 2025
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

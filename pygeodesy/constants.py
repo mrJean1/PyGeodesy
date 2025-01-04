@@ -26,7 +26,7 @@ except ImportError:  # Python 2-
     _inf, _nan = float(_INF_), float(_NAN_)
 
 __all__ = _ALL_LAZY.constants
-__version__ = '24.11.06'
+__version__ = '24.12.22'
 
 
 def _copysign_0_0(y):
@@ -182,6 +182,7 @@ _9_0     = _float(   9)       # PYCHOK expected
 _10_0    = _float(  10)       # PYCHOK expected
 _16_0    = _float(  16)       # PYCHOK expected
 _32_0    = _float(  32)       # PYCHOK expected
+_45_0    = _float(  45)       # PYCHOK expected
 _60_0    = _float(  60)       # PYCHOK expected
 _64_0    = _float(  64)       # PYCHOK expected
 _90_0    = _float(  90)       # PYCHOK expected
@@ -189,7 +190,6 @@ _100_0   = _float(_100_0)     # PYCHOK expected
 _180_0   = _float( 180)       # PYCHOK expected
 _270_0   = _float( 270)       # PYCHOK expected
 _360_0   = _float( 360)       # PYCHOK expected
-_400_0   = _float( 400)       # PYCHOK expected
 _720_0   = _float( 720)       # PYCHOK expected
 _1000_0  = _float(1000)       # PYCHOK expected
 _3600_0  = _float(3600)       # PYCHOK expected

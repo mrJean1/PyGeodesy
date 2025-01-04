@@ -23,7 +23,7 @@ from math import fabs, sqrt  # pow
 import operator as _operator  # in .datums, .trf, .utm
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '24.12.02'
+__version__ = '24.12.31'
 
 # sqrt(2) - 1 <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142  =  0.41421356237309504880  # ... ~ 3730904090310553 / 9007199254740992
@@ -834,7 +834,7 @@ if _MODS.sys_version_info2 < (3, 8):  # PYCHOK no cover
         '''
         return float(_Hypot(*xs))
 
-elif _MODS.sys_version_info2 < (3, 10):
+elif _MODS.sys_version_info2 < (3, 10):  # PYCHOK no cover
     # In Python 3.8 and 3.9 C{math.hypot} is inaccurate, see
     # U{agdhruv<https://GitHub.com/geopy/geopy/issues/466>},
     # U{cffk<https://Bugs.Python.org/issue43088>} and module

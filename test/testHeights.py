@@ -4,7 +4,7 @@
 # Test L{heights} interpolators.
 
 __all__ = ('Tests',)
-__version__ = '23.05.14'
+__version__ = '24.12.31'
 
 import warnings  # PYCHOK expected
 # RuntimeWarning: numpy.ufunc size changed, may indicate binary
@@ -14,9 +14,8 @@ warnings.filterwarnings('ignore')  # or 'error'
 
 from bases import coverage, geographiclib, startswith, TestsBase
 
-from pygeodesy import Datums, fstr, HeightError, SciPyError, \
-                      HeightCubic, HeightIDWcosineAndoyerLambert, \
-                      HeightIDWcosineForsytheAndoyerLambert, HeightIDWcosineLaw, \
+from pygeodesy import Datums, fstr, SciPyError, HeightError, \
+                      HeightIDWcosineLaw, HeightCubic, \
                       HeightIDWdistanceTo, HeightIDWequirectangular, \
                       HeightIDWeuclidean, HeightIDWexact, HeightIDWflatLocal, \
                       HeightIDWflatPolar, HeightIDWhaversine, HeightIDWhubeny, \
@@ -48,6 +47,8 @@ class Tests(TestsBase):
         self.test(H.__name__+'(float)', type(h), float)
         h2 = interpolator.height(lli.lat, lli.lon)
         self.test(H.__name__+'(latlon)', h2 == h, True)
+        h2 = interpolator.height_(lli.lat, lli.lon)
+        self.test(H.__name__+'_(tuple)', h2 == (h,), True)
         hs = interpolator(*kts)  # return tuple
         self.test(H.__name__+'(tuple)', type(hs), tuple)
         self.test(H.__name__+'(tuple-float)', type(hs[0]), float)
@@ -73,16 +74,17 @@ class Tests(TestsBase):
 
     def testIDW(self, IDW, kts, lli, expected, **kwds):
         interpolator = IDW(kts, **kwds)
-        self.testCopy(interpolator)
         kt = kts[2]
         expected1 = '%.1f' % (kt.height,)
         kwdstr = '(%s)' % (_kwdstr(kwds),)
         h = interpolator(lli)  # return scalar
         k = False  # f = float(expected)
-        self.test(IDW.__name__+kwdstr, h, expected, fmt='%.9f', known=k)
+        self.test(IDW.__name__+kwdstr, h, expected, fmt='%.9f', known=k, nl=1)
         self.test(IDW.__name__+'(float)', type(h), float)
         h2 = interpolator.height(lli.lat, lli.lon)
         self.test(IDW.__name__+'(latlon)', h2 == h, True)
+        h2 = interpolator.height_(lli.lat, lli.lon)
+        self.test(IDW.__name__+'_(tuple)', h2 == (h,), True)
         h = interpolator(kt)  # return scalar
         t = '%s, %s' % (expected, expected1)
         self.test(IDW.__name__+kwdstr, h, expected1, fmt='%.1f', known=k)
@@ -99,6 +101,7 @@ class Tests(TestsBase):
         self.test(IDW.__name__+'(list', type(hs), list)
         self.test(IDW.__name__+'(list-float)', type(hs[0]), float)
         self.test(IDW.__name__+'(list-float)', type(hs[1]), float)
+        self.testCopy(interpolator)
         self.testHeightError(interpolator, 'beta')
 
         if coverage:
@@ -111,10 +114,10 @@ class Tests(TestsBase):
               LatLon(1, 0.5, 5), LatLon(0.5, 1.4, 7), LatLon(1.2, 1, 7)
         lli = LatLon(1, 1)
 #       self.testIDW(HeightIDW,                kts, lli, '6.142945781', adjust=True)
-        self.testIDW(HeightIDWcosineAndoyerLambert,         kts, lli, '6.111157919', wrap=False)  # XXX 6.108538037
-        self.testIDW(HeightIDWcosineForsytheAndoyerLambert, kts, lli, '6.111158354', wrap=False)  # XXX 6.108538037
         self.testIDW(HeightIDWcosineLaw,       kts, lli, '6.108538037', wrap=True)
         self.testIDW(HeightIDWcosineLaw,       kts, lli, '6.108538037', wrap=False)
+        self.testIDW(HeightIDWcosineLaw,       kts, lli, '6.111157919', corr=1, wrap=False)  # XXX 6.108538037
+        self.testIDW(HeightIDWcosineLaw,       kts, lli, '6.111158354', corr=2, wrap=False)  # XXX 6.108538037
         self.testIDW(HeightIDWdistanceTo,      kts, lli, '6.108538037')
 #       self.testIDW(HeightIDW2,               kts, lli, '6.108538529', adjust=True, wrap=False)
         self.testIDW(HeightIDWequirectangular, kts, lli, '6.860459007', adjust=True, wrap=True)  # XXX 6.108538529
@@ -143,10 +146,10 @@ class Tests(TestsBase):
         self.test('intersection', lli, '02.64932°N, 002.550079°E, +2.50m', nt=1)  # mean height
 
 #       self.testIDW(HeightIDW,                kts, lli, '2.592748835', adjust=True)
-        self.testIDW(HeightIDWcosineAndoyerLambert,         kts, lli, '2.592742781', wrap=False)  # XXX 2.592742938
-        self.testIDW(HeightIDWcosineForsytheAndoyerLambert, kts, lli, '2.592742781', wrap=False)  # XXX 2.592742938
         self.testIDW(HeightIDWcosineLaw,       kts, lli, '2.592742938', wrap=True)
         self.testIDW(HeightIDWcosineLaw,       kts, lli, '2.592742938', wrap=False)
+        self.testIDW(HeightIDWcosineLaw,       kts, lli, '2.592742781', corr=1, wrap=False)  # XXX 2.592742938
+        self.testIDW(HeightIDWcosineLaw,       kts, lli, '2.592742781', corr=2, wrap=False)  # XXX 2.592742938
 #       self.testIDW(HeightIDW2,               kts, lli, '2.592743455', adjust=True, wrap=False)
         self.testIDW(HeightIDWequirectangular, kts, lli, '2.689429914', adjust=True, wrap=True)  # XXX 2.592743455
 #       self.testIDW(HeightIDW2,               kts, lli, '2.592732915', adjust=False, wrap=False)
@@ -185,9 +188,9 @@ class Tests(TestsBase):
             lats, lons = zip(*[(ll.lat, ll.lon) for ll in kts])
 
             self.testHeight(HeightCubic,              kts, lli, '3.000000000', lats, lons)
-            self.testHeight(HeightIDWcosineAndoyerLambert,         kts, lli, '2.401661864', lats, lons)  # 2.402157442
-            self.testHeight(HeightIDWcosineForsytheAndoyerLambert, kts, lli, '2.401661859', lats, lons)  # 2.402157442
             self.testHeight(HeightIDWcosineLaw,       kts, lli, '2.402157442', lats, lons)
+            self.testHeight(HeightIDWcosineLaw,       kts, lli, '2.401661864', lats, lons, corr=1)  # 2.402157442
+            self.testHeight(HeightIDWcosineLaw,       kts, lli, '2.401661859', lats, lons, corr=2)  # 2.402157442
             self.testHeight(HeightIDWequirectangular, kts, lli, '2.469718302', lats, lons)  # 2.402157181
             self.testHeight(HeightIDWeuclidean,       kts, lli, '2.409288552', lats, lons)
             self.testHeight(HeightIDWexact,           kts, lli, '2.402157442', lats, lons)

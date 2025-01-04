@@ -60,16 +60,18 @@
 <!-- ==================== MODULE DESCRIPTION ==================== -->
 <h1 class="epydoc">Module utily</h1><p class="nomargin-top"></p>
 <p>Various utility functions.</p>
-  <p>After <i>(C) Chris Veness 2011-2024</i> published under the same MIT 
-  Licence**, see <a 
+  <p>After <i>Karney</i>'s C++ <a 
+  href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Math.html"
+  target="_top">Math</a> class and <i>Veness</i>' <a 
   href="https://www.Movable-Type.co.UK/scripts/latlong.html" 
   target="_top">Latitude/Longitude</a> and <a 
   href="https://www.Movable-Type.co.UK/scripts/latlong-vectors.html" 
-  target="_top">Vector-based geodesy</a>.</p>
+  target="_top">Vector-based geodesy</a> and published under the same MIT 
+  Licence**.</p>
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        24.11.26
+        24.12.23
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -229,10 +231,29 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#atan2" class="summary-sig-name">atan2</a>(<span class="summary-sig-arg">y</span>,
+        <span class="summary-sig-arg">x</span>)</span><br />
+      Return <code>atan2(<b>y</b>, <b>x</b>)</code> in radians <i 
+      class="math">[-PI..+PI]</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#atan2b" class="summary-sig-name">atan2b</a>(<span class="summary-sig-arg">y</span>,
         <span class="summary-sig-arg">x</span>)</span><br />
       Return <code>atan2(<b>y</b>, <b>x</b>)</code> in degrees <i 
-      class="math">[0..+360]</i>.</td>
+      class="math">[0..+360], counter-clockwise</i>.</td>
           <td align="right" valign="top">
             
             
@@ -325,8 +346,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#cot_" class="summary-sig-name">cot_</a>(<span class="summary-sig-arg">*rads</span>,
         <span class="summary-sig-arg">**raiser_kwds</span>)</span><br />
-      Return the <code>cotangent</code> of angle(s) in 
-      <code>radians</code>.</td>
+      Yield the <code>cotangent</code> of angle(s) in <code>radians</code>.</td>
           <td align="right" valign="top">
             
             
@@ -363,8 +383,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#cotd_" class="summary-sig-name">cotd_</a>(<span class="summary-sig-arg">*degs</span>,
         <span class="summary-sig-arg">**raiser_kwds</span>)</span><br />
-      Return the <code>cotangent</code> of angle(s) in 
-      <code>degrees</code>.</td>
+      Yield the <code>cotangent</code> of angle(s) in <code>degrees</code>.</td>
           <td align="right" valign="top">
             
             
@@ -596,8 +615,59 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#ha2acre" class="summary-sig-name">ha2acre</a>(<span class="summary-sig-arg">ha</span>)</span><br />
+      Convert hectare to acre.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#ha2m2" class="summary-sig-name">ha2m2</a>(<span class="summary-sig-arg">ha</span>)</span><br />
+      Convert hectare to <i>square</i> meter.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#km2m" class="summary-sig-name">km2m</a>(<span class="summary-sig-arg">km</span>)</span><br />
       Convert kilo meter to meter (m).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#m2acre" class="summary-sig-name">m2acre</a>(<span class="summary-sig-arg">meter2</span>)</span><br />
+      Convert <i>square</i> meter to acres.</td>
           <td align="right" valign="top">
             
             
@@ -690,6 +760,23 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#m2furlong" class="summary-sig-name">m2furlong</a>(<span class="summary-sig-arg">meter</span>)</span><br />
       Convert meter to furlongs.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#m2ha" class="summary-sig-name">m2ha</a>(<span class="summary-sig-arg">meter2</span>)</span><br />
+      Convert <i>square</i> meter to hectare.</td>
           <td align="right" valign="top">
             
             
@@ -936,7 +1023,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#sincos2_" class="summary-sig-name">sincos2_</a>(<span class="summary-sig-arg">*rads</span>)</span><br />
-      Return the <code>sine</code> and <code>cosine</code> of angle(s) in 
+      Yield the <code>sine</code> and <code>cosine</code> of angle(s) in 
       <code>radians</code>.</td>
           <td align="right" valign="top">
             
@@ -973,7 +1060,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#sincos2d_" class="summary-sig-name">sincos2d_</a>(<span class="summary-sig-arg">*degs</span>)</span><br />
-      Return the <code>sine</code> and <code>cosine</code> of angle(s) in 
+      Yield the <code>sine</code> and <code>cosine</code> of angle(s) in 
       <code>degrees</code>.</td>
           <td align="right" valign="top">
             
@@ -993,6 +1080,24 @@
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#sincostan3" class="summary-sig-name">sincostan3</a>(<span class="summary-sig-arg">rad</span>)</span><br />
       Return the <code>sine</code>, <code>cosine</code> and 
       <code>tangent</code> of an angle in <code>radians</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#sincostan3d" class="summary-sig-name">sincostan3d</a>(<span class="summary-sig-arg">deg</span>)</span><br />
+      Return the <code>sine</code>, <code>cosine</code> and 
+      <code>tangent</code> of an angle in <code>degrees</code>.</td>
           <td align="right" valign="top">
             
             
@@ -1063,7 +1168,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#tan_" class="summary-sig-name">tan_</a>(<span class="summary-sig-arg">*rads</span>,
         <span class="summary-sig-arg">**raiser_kwds</span>)</span><br />
-      Return the <code>tangent</code> of angle(s) in <code>radians</code>.</td>
+      Yield the <code>tangent</code> of angle(s) in <code>radians</code>.</td>
           <td align="right" valign="top">
             
             
@@ -1099,7 +1204,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#tand_" class="summary-sig-name">tand_</a>(<span class="summary-sig-arg">*degs</span>,
         <span class="summary-sig-arg">**raiser_kwds</span>)</span><br />
-      Return the <code>tangent</code> of angle(s) in <code>degrees</code>.</td>
+      Yield the <code>tangent</code> of angle(s) in <code>degrees</code>.</td>
           <td align="right" valign="top">
             
             
@@ -1450,6 +1555,27 @@
       </p>
 </div></td></tr></table>
 </div>
+<a name="atan2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">atan2</span>&nbsp;(<span class="sig-arg">y</span>,
+        <span class="sig-arg">x</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return <code>atan2(<b>y</b>, <b>x</b>)</code> in radians <i 
+  class="math">[-PI..+PI]</i>.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
 <a name="atan2b"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1466,7 +1592,7 @@
   </tr></table>
   
   <p>Return <code>atan2(<b>y</b>, <b>x</b>)</code> in degrees <i 
-  class="math">[0..+360]</i>.</p>
+  class="math">[0..+360], counter-clockwise</i>.</p>
   <dl class="fields">
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -1625,7 +1751,7 @@
     </td>
   </tr></table>
   
-  <p>Return the <code>cotangent</code> of angle(s) in 
+  <p>Yield the <code>cotangent</code> of angle(s) in 
   <code>radians</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
@@ -1633,7 +1759,7 @@
         <li><strong class="pname"><code>rads</code></strong> - One or more angles (each in <code>radians</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Yield the <code>cot(<b>rad</b>)</code> for each angle.</dd>
+        <dd>Yield <code>cot(<b>rad</b>)</code> for each angle.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.utily-module.html#cot" 
@@ -1690,7 +1816,7 @@
     </td>
   </tr></table>
   
-  <p>Return the <code>cotangent</code> of angle(s) in 
+  <p>Yield the <code>cotangent</code> of angle(s) in 
   <code>degrees</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
@@ -1698,7 +1824,7 @@
         <li><strong class="pname"><code>degs</code></strong> - One or more angles (each in <code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Yield the <code>cot(<b>deg</b>)</code> for each angle.</dd>
+        <dd>Yield <code>cotd(<b>deg</b>)</code> for each angle.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.utily-module.html#cotd" 
@@ -2069,6 +2195,64 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="ha2acre"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">ha2acre</span>&nbsp;(<span class="sig-arg">ha</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert hectare to acre.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>ha</code></strong> - Value in hectare (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Value in acres (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>ha</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="ha2m2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">ha2m2</span>&nbsp;(<span class="sig-arg">ha</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert hectare to <i>square</i> meter.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>ha</code></strong> - Value in hectare (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Value in <code>meter^2</code> (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>ha</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="km2m"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -2094,6 +2278,35 @@
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>km</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="m2acre"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">m2acre</span>&nbsp;(<span class="sig-arg">meter2</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert <i>square</i> meter to acres.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>meter2</code></strong> - Value in <code>meter^2</code> (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Value in acres (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>meter2</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -2280,6 +2493,35 @@
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>meter</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="m2ha"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">m2ha</span>&nbsp;(<span class="sig-arg">meter2</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert <i>square</i> meter to hectare.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>meter2</code></strong> - Value in <code>meter^2</code> (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Value in hectare (<code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>meter2</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -2726,7 +2968,7 @@
     </td>
   </tr></table>
   
-  <p>Return the <code>sine</code> and <code>cosine</code> of angle(s) in 
+  <p>Yield the <code>sine</code> and <code>cosine</code> of angle(s) in 
   <code>radians</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
@@ -2734,11 +2976,11 @@
         <li><strong class="pname"><code>rads</code></strong> - One or more angles (<code>radians</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Yield the <code>sin(<b>rad</b>)</code> and 
+        <dd>Yield <code>sin(<b>rad</b>)</code> and 
           <code>cos(<b>rad</b>)</code> for each angle.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        function <a href="pygeodesy.utily-module.html#sincos2" 
+        Function <a href="pygeodesy.utily-module.html#sincos2" 
         class="link">sincos2</a>.
       </p>
 </div></td></tr></table>
@@ -2796,7 +3038,7 @@
     </td>
   </tr></table>
   
-  <p>Return the <code>sine</code> and <code>cosine</code> of angle(s) in 
+  <p>Yield the <code>sine</code> and <code>cosine</code> of angle(s) in 
   <code>degrees</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
@@ -2804,8 +3046,8 @@
         <li><strong class="pname"><code>degs</code></strong> - One or more angles (<code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Yield the <code>sin(<b>deg</b>)</code> and 
-          <code>cos(<b>deg</b>)</code> for each angle.</dd>
+        <dd>Yield <code>sind(<b>deg</b>)</code> and 
+          <code>cosd(<b>deg</b>)</code> for each angle.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.utily-module.html#sincos2d" 
@@ -2841,6 +3083,37 @@
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.utily-module.html#sincos2" 
         class="link">sincos2</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="sincostan3d"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">sincostan3d</span>&nbsp;(<span class="sig-arg">deg</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the <code>sine</code>, <code>cosine</code> and 
+  <code>tangent</code> of an angle in <code>degrees</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>deg</code></strong> - Angle (<code>degrees</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>3-Tuple (<code>sind(<b>deg</b>)</code>, 
+          <code>cosd(<b>deg</b>)</code>, <code>tand(<b>deg</b>)</code>).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.utily-module.html#sincos2d" 
+        class="link">sincos2d</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -2954,7 +3227,7 @@
     </td>
   </tr></table>
   
-  <p>Return the <code>tangent</code> of angle(s) in 
+  <p>Yield the <code>tangent</code> of angle(s) in 
   <code>radians</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
@@ -2962,7 +3235,7 @@
         <li><strong class="pname"><code>rads</code></strong> - One or more angles (each in <code>radians</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Yield the <code>tan(<b>rad</b>)</code> for each angle.</dd>
+        <dd>Yield <code>tan(<b>rad</b>)</code> for each angle.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.utily-module.html#tan" 
@@ -3019,7 +3292,7 @@
     </td>
   </tr></table>
   
-  <p>Return the <code>tangent</code> of angle(s) in 
+  <p>Yield the <code>tangent</code> of angle(s) in 
   <code>degrees</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
@@ -3027,7 +3300,7 @@
         <li><strong class="pname"><code>degs</code></strong> - One or more angles (each in <code>degrees</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Yield the <code>tan(<b>deg</b>)</code> for each angle.</dd>
+        <dd>Yield <code>tand(<b>deg</b>)</code> for each angle.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.utily-module.html#tand" 
@@ -3381,8 +3654,7 @@
           class="link">wrap180</a>, <a 
           href="pygeodesy.utily-module.html#wrapPI" class="link">wrapPI</a>
           or if <code>None</code>, leave lat- and longitude 
-          <i>unchanged</i>. Do not supply any value to get the current 
-          setting.</li>
+          <i>unchanged</i>. To get the current setting, do not specify.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The previous <a href="pygeodesy.utily-module.html#wrap_normal" 
@@ -3452,7 +3724,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Dec 12 15:50:53 2024
+    Generated by Epydoc 3.0.1 on Fri Jan  3 23:17:57 2025
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

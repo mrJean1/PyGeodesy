@@ -22,7 +22,7 @@ from pygeodesy.trf import TRFXform7Tuple as _TRFXform7Tuple
 from pygeodesy.units import Bearing, Int, Lamd, Lat, Lon, Meter, Phid
 
 __all__ = _ALL_DEPRECATED.deprecated_classes
-__version__ = '24.11.07'
+__version__ = '24.12.31'
 
 
 class _Deprecated_NamedTuple(_NamedTuple):
@@ -111,6 +111,62 @@ def Fn_rt(root, *xs, **name_RESIDUAL_raiser):  # PYCHOK no cover
             Froot.__init__(self, root, *xs, **name_RESIDUAL_raiser)
 
 
+def FrechetCosineAndoyerLambert(point1s, **kwds):  # PYCHOK no cover
+    '''DEPRECATED on 2024.12.31, use class L{FrechetCosineLaw} with C{B{corr}=1}.'''
+    FrechetCosineLaw = _MODS.frechet.FrechetCosineLaw
+
+    class FrechetCosineAndoyerLambert(FrechetCosineLaw):
+        '''DEPRECATED on 2024.12.31, use class L{FrechetCosineLaw} with C{B{corr}=1}.
+        '''
+        def __init__(self, point1s, **seed_name__radius_wrap):
+            deprecated_class(self.__class__)
+            FrechetCosineLaw.__init__(self, point1s, corr=1, **seed_name__radius_wrap)
+
+    return FrechetCosineAndoyerLambert(point1s, **kwds)
+
+
+def FrechetCosineForsytheAndoyerLambert(point1s, **kwds):  # PYCHOK no cover
+    '''DEPRECATED on 2024.12.31, use class L{FrechetCosineLaw} with C{B{corr}=2}.'''
+    FrechetCosineLaw = _MODS.frechet.FrechetCosineLaw
+
+    class FrechetCosineForsytheAndoyerLambert(FrechetCosineLaw):
+        '''DEPRECATED on 2024.12.31, use class L{FrechetCosineLaw} with C{B{corr}=w}.
+        '''
+        def __init__(self, point1s, **seed_name__radius_wrap):
+            deprecated_class(self.__class__)
+            FrechetCosineLaw.__init__(self, point1s, corr=2, **seed_name__radius_wrap)
+
+    return FrechetCosineForsytheAndoyerLambert(point1s, **kwds)
+
+
+def HausdorffCosineAndoyerLambert(point1s, **kwds):  # PYCHOK no cover
+    '''DEPRECATED on 2024.12.31, use class L{HausdorffCosineLaw} with C{B{corr}=1}.'''
+    HausdorffCosineLaw = _MODS.hausdorff.HausdorffCosineLaw
+
+    class HausdorffCosineAndoyerLambert(HausdorffCosineLaw):
+        '''DEPRECATED on 2024.12.31, use class L{HausdorffCosineLaw} with C{B{corr}=1}.
+        '''
+        def __init__(self, point1s, **seed_name__radius_wrap):
+            deprecated_class(self.__class__)
+            HausdorffCosineLaw.__init__(self, point1s, corr=1, **seed_name__radius_wrap)
+
+    return HausdorffCosineAndoyerLambert(point1s, **kwds)
+
+
+def HausdorffCosineForsytheAndoyerLambert(point1s, **kwds):  # PYCHOK no cover
+    '''DEPRECATED on 2024.12.31, use class L{HausdorffCosineLaw} with C{B{corr}=2}.'''
+    HausdorffCosineLaw = _MODS.hausdorff.HausdorffCosineLaw
+
+    class HausdorffCosineForsytheAndoyerLambert(HausdorffCosineLaw):
+        '''DEPRECATED on 2024.12.31, use class L{HausdorffCosineLaw} with C{B{corr}=2}
+        '''
+        def __init__(self, point1s, **seed_name__radius_wrap):
+            deprecated_class(self.__class__)
+            HausdorffCosineLaw.__init__(self, point1s, corr=2, **seed_name__radius_wrap)
+
+    return HausdorffCosineForsytheAndoyerLambert(point1s, **kwds)
+
+
 def HeightIDW(knots, **kwds):  # PYCHOK no cover
     '''DEPRECATED, use class L{HeightIDWeuclidean}.'''
     HeightIDWeuclidean = _MODS.heights.HeightIDWeuclidean
@@ -149,6 +205,34 @@ def HeightIDW3(knots, **kwds):  # PYCHOK no cover
             HeightIDWhaversine.__init__(self, knots, beta=beta, wrap=wrap, name=name)
 
     return HeightIDW3(knots, **kwds)
+
+
+def HeightIDWcosineAndoyerLambert(knots, **kwds):  # PYCHOK no cover
+    '''DEPRECATED on 2024.12.31, use class L{HeightIDWcosineLaw} with C{B{corr}=1}.'''
+    HeightIDWcosineLaw = _MODS.heights.HeightIDWcosineLaw
+
+    class HeightIDWcosineAndoyerLambert(HeightIDWcosineLaw):
+        '''DEPRECATED on 2024.12.31, use class L{HeightIDWcosineLaw} with C{B{corr}=1}.
+        '''
+        def __init__(self, knots, **beta_name__datum_wrap):
+            deprecated_class(self.__class__)
+            HeightIDWcosineLaw.__init__(self, knots, corr=1, **beta_name__datum_wrap)
+
+    return HeightIDWcosineAndoyerLambert(knots, **kwds)
+
+
+def HeightIDWcosineForsytheAndoyerLambert(knots, **kwds):  # PYCHOK no cover
+    '''DEPRECATED on 2024.12.31, use class L{HeightIDWcosineLaw} with C{B{corr}=2}.'''
+    HeightIDWcosineLaw = _MODS.heights.HeightIDWcosineLaw
+
+    class HeightIDWcosineForsytheAndoyerLambert(HeightIDWcosineLaw):
+        '''DEPRECATED on 2024.12.31, use class L{HeightIDWcosineLaw} with C{B{corr}=2}.
+        '''
+        def __init__(self, knots, **beta_name__datum_wrap):
+            deprecated_class(self.__class__)
+            HeightIDWcosineLaw.__init__(self, knots, corr=2, **beta_name__datum_wrap)
+
+    return HeightIDWcosineForsytheAndoyerLambert(knots, **kwds)
 
 
 class Lam_(Lamd):

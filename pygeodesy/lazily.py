@@ -36,7 +36,7 @@ from pygeodesy.interns import NN, _attribute_, _by_, _COLONSPACE_, _COMMASPACE_,
                              _doesn_t_exist_, _DOT_, _DUNDER_all_, _EQUALSPACED_, \
                              _from_, _HASH_, _immutable_, _line_, _module_, _no_, \
                              _not_, _or_, _pygeodesy_abspath_, _pygeodesy_,  _sys, \
-                             _SUB_PACKAGES, _UNDER_, _version_, _intern  # function
+                             _SUB_PACKAGES, _UNDER_, _version_,  _intern  # function
 try:
     from importlib import import_module
 except ImportError as x:  # Python 2.6-
@@ -184,10 +184,10 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'equidistant', 'gnomonic'),
                          basics=_a('clips', 'copysign0', 'copytype', 'halfs2',
                                    'int1s', 'isbool', 'isCartesian', 'isclass', 'iscomplex', 'isDEPRECATED', 'isfloat',
-                                   'isidentifier', 'isinstanceof', 'isint', 'isiterable', 'isiterablen', 'iskeyword',
-                                   'isLatLon', 'islistuple', 'isNvector', 'isodd', 'isscalar', 'issequence', 'isstr',
-                                   'issubclassof', 'itemsorted',
-                                   'len2', 'map1', 'map2', 'neg', 'neg_',
+                                   'isidentifier', 'isinstanceof', 'isint', 'isiterable', 'isiterablen', 'isiterabletype',
+                                   'iskeyword', 'isLatLon', 'islistuple', 'isNvector', 'isodd',
+                                   'isscalar', 'issequence', 'isstr', 'issubclassof', 'itemsorted',
+                                   'len2', 'map1', 'map2', 'max2', 'min2', 'neg', 'neg_',
                                    'signBit', 'signOf', 'splice', 'str2ub', 'ub2str', 'unsigned0'),
                        booleans=_a('BooleanFHP', 'BooleanGH', 'LatLonFHP', 'LatLonGH',
                                    'isBoolean'),
@@ -246,9 +246,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'hypot', 'hypot_', 'hypot1', 'hypot2', 'hypot2_',
                                    'norm2', 'norm_', 'sqrt0', 'sqrt3', 'sqrt_a', 'zcrt', 'zqrt'),
                           formy=_a('Radical2Tuple',
-                                   'angle2chord', 'antipode', 'antipode_', 'bearing', 'bearing_', 'chord2angle',
-                                   'compassAngle', 'cosineForsytheAndoyerLambert', 'cosineForsytheAndoyerLambert_',
-                                   'cosineAndoyerLambert', 'cosineAndoyerLambert_', 'cosineLaw', 'cosineLaw_',
+                                   'angle2chord', 'antipode', 'antipode_', 'bearing', 'bearing_',
+                                   'chord2angle', 'compassAngle', 'cosineLaw', 'cosineLaw_',
                                    'equirectangular', 'equirectangular4', 'euclidean', 'euclidean_',
                                    'excessAbc_', 'excessCagnoli_', 'excessGirard_', 'excessLHuilier_',
                                    'excessKarney', 'excessKarney_', 'excessQuad', 'excessQuad_',
@@ -257,12 +256,10 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'intersection2', 'intersections2', 'isantipode', 'isantipode_', 'isnormal', 'isnormal_',
                                    'normal', 'normal_', 'opposing', 'opposing_', 'radical2',
                                    'thomas', 'thomas_', 'vincentys', 'vincentys_'),
-                        frechet=_a('Frechet', 'FrechetDegrees', 'FrechetError', 'FrechetRadians',
-                                   'FrechetCosineAndoyerLambert', 'FrechetCosineForsytheAndoyerLambert',
-                                   'FrechetCosineLaw', 'FrechetDistanceTo', 'FrechetEquirectangular',
-                                   'FrechetEuclidean', 'FrechetExact', 'FrechetFlatLocal', 'FrechetFlatPolar',
-                                   'FrechetHaversine', 'FrechetHubeny', 'FrechetKarney', 'FrechetThomas',
-                                   'FrechetVincentys', 'Frechet6Tuple',
+                        frechet=_a('Frechet', 'FrechetDegrees', 'FrechetError', 'FrechetRadians', 'FrechetCosineLaw',
+                                   'FrechetDistanceTo', 'FrechetEquirectangular', 'FrechetEuclidean', 'FrechetExact',
+                                   'FrechetFlatLocal', 'FrechetFlatPolar', 'FrechetHaversine', 'FrechetHubeny', 'FrechetKarney',
+                                   'FrechetThomas', 'FrechetVincentys', 'Frechet6Tuple',
                                    'frechet_'),
                          fstats=_a('Fcook', 'Flinear', 'Fwelford'),
                           fsums=_a('Fsum', 'DivMod2Tuple', 'Fsum2Tuple', 'ResidualError',
@@ -275,20 +272,16 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'GeodesicAreaExact', 'GeodesicExact', 'GeodesicLineExact', 'PolygonArea'),
                       geodsolve=_a('GeodesicSolve', 'GeodesicLineSolve', 'GeodSolve12Tuple'),
                         geohash=_a('Geohash', 'Geohashed', 'GeohashError', 'Neighbors8Dict', 'Resolutions2Tuple', 'Sizes3Tuple'),
-                         geoids=_a('GeoidError', 'GeoidG2012B', 'GeoidKarney', 'GeoidPGM', 'egmGeoidHeights',
+                         geoids=_a('GeoidError', 'GeoidEGM96', 'GeoidG2012B', 'GeoidKarney', 'GeoidPGM', 'egmGeoidHeights',
                                    'PGMError', 'GeoidHeight5Tuple'),
-                      hausdorff=_a('Hausdorff', 'HausdorffDegrees', 'HausdorffError', 'HausdorffRadians',
-                                   'HausdorffCosineAndoyerLambert', 'HausdorffCosineForsytheAndoyerLambert',
-                                   'HausdorffCosineLaw', 'HausdorffDistanceTo', 'HausdorffEquirectangular',
-                                   'HausdorffEuclidean', 'HausdorffExact', 'HausdorffFlatLocal', 'HausdorffFlatPolar',
-                                   'HausdorffHaversine', 'HausdorffHubeny', 'HausdorffKarney', 'HausdorffThomas',
-                                   'HausdorffVincentys', 'Hausdorff6Tuple',
+                      hausdorff=_a('Hausdorff', 'HausdorffDegrees', 'HausdorffError', 'HausdorffRadians', 'HausdorffCosineLaw',
+                                   'HausdorffDistanceTo', 'HausdorffEquirectangular', 'HausdorffEuclidean', 'HausdorffExact',
+                                   'HausdorffFlatLocal', 'HausdorffFlatPolar', 'HausdorffHaversine', 'HausdorffHubeny',
+                                   'HausdorffKarney', 'HausdorffThomas', 'HausdorffVincentys', 'Hausdorff6Tuple',
                                    'hausdorff_', 'randomrangenerator'),
-                        heights=_a('HeightCubic', 'HeightError',
-                                   'HeightIDWcosineAndoyerLambert', 'HeightIDWcosineForsytheAndoyerLambert',
-                                   'HeightIDWcosineLaw', 'HeightIDWdistanceTo', 'HeightIDWequirectangular',
-                                   'HeightIDWeuclidean', 'HeightIDWexact', 'HeightIDWflatLocal', 'HeightIDWflatPolar',
-                                   'HeightIDWhaversine', 'HeightIDWhubeny', 'HeightIDWkarney', 'HeightIDWthomas',
+                        heights=_a('HeightCubic', 'HeightError', 'HeightIDWcosineLaw', 'HeightIDWdistanceTo',
+                                   'HeightIDWequirectangular', 'HeightIDWeuclidean', 'HeightIDWexact', 'HeightIDWflatLocal',
+                                   'HeightIDWflatPolar', 'HeightIDWhaversine', 'HeightIDWhubeny', 'HeightIDWkarney', 'HeightIDWthomas',
                                    'HeightIDWvincentys', 'HeightLinear', 'HeightLSQBiSpline', 'HeightSmoothBiSpline'),
                       internals=_internals.__all__,
                         interns=_interns.__all__,
@@ -361,17 +354,16 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'Radius_', 'Scalar', 'Scalar_', 'Zone'),
                       unitsBase=_a('Float', 'Int', 'Radius', 'Str'),
                             ups=_a('Ups', 'UPSError', 'parseUPS5', 'toUps8', 'upsZoneBand5'),
-                          utily=_a('acos1', 'acre2ha', 'acre2m2', 'asin1', 'atan1', 'atan1d', 'atan2b', 'atan2d',
+                          utily=_a('acos1', 'acre2ha', 'acre2m2', 'asin1', 'atan1', 'atan1d', 'atan2', 'atan2b', 'atan2d',
                                    'chain2m', 'circle4', 'cot', 'cot_', 'cotd', 'cotd_',
                                    'degrees', 'degrees90', 'degrees180', 'degrees360', 'degrees2grades', 'degrees2m',
-#                                                                                      'degrees2grades as degrees2gons',
-                                   'fathom2m', 'ft2m', 'furlong2m',
+                                   'fathom2m', 'ft2m', 'furlong2m',                  # 'degrees2grades as degrees2gons',
                                    'grades', 'grades400', 'grades2degrees', 'grades2radians',
 #                                  'grades as gons', 'grades400 as gons400', 'grades2degrees as gons2degrees', 'grades2radians as gons2radians',
-                                   'km2m', 'm2chain', 'm2degrees', 'm2fathom', 'm2ft', 'm2furlong',
-                                   'm2km', 'm2NM', 'm2radians', 'm2SM', 'm2toise', 'm2yard', 'NM2m',
+                                   'ha2acre', 'ha2m2', 'km2m', 'm2acre', 'm2chain', 'm2degrees', 'm2fathom', 'm2ft', 'm2furlong',
+                                   'm2ha', 'm2km', 'm2NM', 'm2radians', 'm2SM', 'm2toise', 'm2yard', 'NM2m',
                                    'radians', 'radiansPI', 'radiansPI2', 'radiansPI_2', 'radians2m',
-                                   'sincos2', 'SinCos2', 'sincos2_', 'sincos2d', 'sincos2d_', 'sincostan3', 'SM2m',
+                                   'sincos2', 'SinCos2', 'sincos2_', 'sincos2d', 'sincos2d_', 'sincostan3', 'sincostan3d', 'SM2m',
                                    'tan', 'tan_', 'tand', 'tand_', 'tan_2', 'tanPI_2_2', 'toise2m', 'truncate',
                                    'unroll180', 'unrollPI',
                                    'wrap90', 'wrap180', 'wrap360', 'wrapPI_2', 'wrapPI', 'wrapPI2', 'wrap_normal',
@@ -393,7 +385,10 @@ _ALL_DEPRECATED = _NamedEnum_RO(_name='_ALL_DEPRECATED',
                                          'rhumbaux', 'rhumbBase', 'rhumbsolve', 'rhumbx'),  # ... names
                      deprecated_bases=_a('LatLonHeightBase', 'points2'),
                    deprecated_classes=_a('ClipCS3Tuple', 'EasNorExact4Tuple', 'EcefCartesian', 'Fn_rt',
-                                         'HeightIDW', 'HeightIDW2', 'HeightIDW3', 'Helmert7Tuple',
+                                         'FrechetCosineAndoyerLambert', 'FrechetCosineForsytheAndoyerLambert',
+                                         'HausdorffCosineAndoyerLambert', 'HausdorffCosineForsytheAndoyerLambert',
+                                         'HeightIDW', 'HeightIDW2', 'HeightIDW3', 'HeightIDWcosineAndoyerLambert',
+                                         'HeightIDWcosineForsytheAndoyerLambert', 'Helmert7Tuple',
                                          'Lam_', 'LatLonExact4Tuple', 'NearestOn4Tuple', 'Ned3Tuple',
                                          'Phi_', 'RefFrameError', 'Rhumb7Tuple', 'RhumbOrder2Tuple',
                                          'Transform7Tuple', 'TriAngle4Tuple', 'UtmUps4Tuple', 'XDist'),
@@ -403,6 +398,8 @@ _ALL_DEPRECATED = _NamedEnum_RO(_name='_ALL_DEPRECATED',
                                          'R_FM', 'R_KM', 'R_M', 'R_MA', 'R_MB', 'R_NM', 'R_SM', 'R_VM'),
                  deprecated_functions=_a('anStr', 'areaof', 'atand', 'bounds',  # most of the DEPRECATED functions, except ellipsoidal ...
                                          'clipCS3', 'clipDMS', 'clipStr', 'collins', 'copysign',  # ... and spherical flavors
+                                         'cosineAndoyerLambert', 'cosineAndoyerLambert_',
+                                         'cosineForsytheAndoyerLambert', 'cosineForsytheAndoyerLambert_',
                                          'decodeEPSG2', 'encodeEPSG', 'enStr2', 'equirectangular_', 'equirectangular3',
                                          'excessAbc', 'excessGirard', 'excessLHuilier',
                                          'false2f', 'falsed2f', 'float0', 'fStr', 'fStrzs', 'Fsum2product',
@@ -511,7 +508,7 @@ class _ALL_MODS(_internals._MODS_Base):
 _internals._MODS = _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '24.11.28'
+__version__ = '24.12.31'
 
 
 def _ALL_OTHER(*objs):
@@ -546,6 +543,17 @@ def _all_deprecates():
     return _D
 
 _ALL_DEPRECATES = _Dict()  # PYCHOK _ALL_DEPRECATED.imports()
+
+
+def _all_enums():
+    '''(INTERNAL) Yield all C{(mod_, tuple)} pairs for C{__init__._all}.
+    '''
+    # assert _init__all__
+    for mod_t in _ALL_LAZY.enums():
+        yield mod_t
+    if _FOR_DOCS:
+        for mod_t in _ALL_DEPRECATED.enums():
+            yield mod_t
 
 
 def _all_imports():

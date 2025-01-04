@@ -37,7 +37,7 @@ from math import copysign as _copysign
 # import inspect as _inspect  # _MODS
 
 __all__ = _ALL_LAZY.basics
-__version__ = '24.11.02'
+__version__ = '24.12.31'
 
 _below_           = 'below'
 _list_tuple_types = (list, tuple)
@@ -362,25 +362,48 @@ def isint(obj, both=False):
     return False
 
 
-def isiterable(obj):
+def isiterable(obj, strict=False):
     '''Is B{C{obj}}ect C{iterable}?
 
        @arg obj: The object (any C{type}).
+       @kwarg strict: If C{True}, check class attributes (C{bool}).
 
        @return: C{True} if C{iterable}, C{False} otherwise.
     '''
     # <https://PyPI.org/project/isiterable/>
-    return hasattr(obj, '__iter__')  # map, range, set
+    return isiterabletype(obj) if strict else hasattr(obj, '__iter__')  # map, range, set
 
 
-def isiterablen(obj):
+def isiterablen(obj, strict=False):
     '''Is B{C{obj}}ect C{iterable} and has C{len}gth?
 
        @arg obj: The object (any C{type}).
+       @kwarg strict: If C{True}, check class attributes (C{bool}).
 
        @return: C{True} if C{iterable} with C{len}gth, C{False} otherwise.
     '''
-    return hasattr(obj, '__len__') and hasattr(obj, '__getitem__')
+    _has = isiterabletype if strict else hasattr
+    return _has(obj, '__len__') and _has(obj, '__getitem__')
+
+
+def isiterabletype(obj, method='__iter__'):
+    '''Is B{C{obj}}ect an instance of an C{iterable} class or type?
+
+       @arg obj: The object (any C{type}).
+       @kwarg method: The name of the required method (C{str}).
+
+       @return: The C{base-class} if C{iterable}, C{None} otherwise.
+    '''
+    try:  # <https://StackOverflow.com/questions/73568964>
+        for b in type(obj).__mro__[:-1]:  # ignore C{object}
+            try:
+                if callable(b.__dict__[method]):
+                    return b
+            except (AttributeError, KeyError):
+                pass
+    except (AttributeError, TypeError):
+        pass
+    return None
 
 
 try:
@@ -558,7 +581,7 @@ def map1(fun1, *xs):  # XXX map_
     return tuple(map(fun1, xs))
 
 
-def map2(fun, *xs):
+def map2(fun, *xs, **strict):
     '''Like Python's B{C{map}} but returning a C{tuple} of results.
 
        Unlike Python 2's built-in L{map}, Python 3+ L{map} returns a
@@ -568,10 +591,39 @@ def map2(fun, *xs):
 
        @arg fun: Function (C{callable}).
        @arg xs: Arguments (C{all positional}).
+       @kwarg strict: See U{Python 3.14+ map<https://docs.Python.org/
+                      3.14/library/functions.html#map>} (C{bool}).
 
        @return: Function results (C{tuple}).
     '''
-    return tuple(map(fun, *xs))
+    return tuple(map(fun, *xs, **strict) if strict else map(fun, *xs))
+
+
+def max2(*xs):
+    '''Return 2-tuple C{(max(xs), xs.index(max(xs)))}.
+    '''
+    return _max2min2(xs, max, max2)
+
+
+def _max2min2(xs, _m, _m2):
+    '''(INTERNAL) Helper for C{max2} and C{min2}.
+    '''
+    if len(xs) == 1:
+        x = xs[0]
+        if isiterable(x) or isiterablen(x):
+            x, i = _m2(*x)
+        else:
+            i = 0
+    else:
+        x = _m(xs)  # max or min
+        i =  xs.index(x)
+    return x, i
+
+
+def min2(*xs):
+    '''Return 2-tuple C{(min(xs), xs.index(min(xs)))}.
+    '''
+    return _max2min2(xs, min, min2)
 
 
 def neg(x, neg0=None):

@@ -3,8 +3,8 @@
 
 u'''Named, I{Local Tangent Plane} (LTP) tuples.
 
-Local coordinate classes L{XyzLocal}, L{Enu}, L{Ned} and L{Aer}
-and local coordinate tuples L{Local9Tuple}, L{Xyz4Tuple}, L{Enu4Tuple},
+Local coordinate classes L{XyzLocal}, L{Enu}, L{Ned} and L{Aer} and
+local coordinate tuples L{Local9Tuple}, L{Xyz4Tuple}, L{Enu4Tuple},
 L{Ned4Tuple}, L{Aer4Tuple}, L{ChLV9Tuple}, L{ChLVEN2Tuple},
 L{ChLVYX2Tuple}, L{ChLVyx2Tuple} and L{Footprint5Tuple}.
 

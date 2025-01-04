@@ -8,7 +8,7 @@ __version__ = '24.09.04'
 
 from bases import endswith, GeodSolve, geographiclib, startswith, TestsBase
 
-from pygeodesy import fsum_, karney, LatLon_, unroll180, wrap180
+from pygeodesy import fsum_, karney, LatLon_, sincos2d, unroll180, wrap180
 from pygeodesy.constants import _0_0, _100_0, _360_0
 
 # some tests from <https://PyPI.org/project/geographiclib>
@@ -159,6 +159,14 @@ class Tests(TestsBase):
 
     def testMath(self):
         self.subtitle(karney, 'Math')
+
+        if geographiclib:
+            _sincosd = karney._wrapped.Math.sincosd
+            for d in range(-360, 391, 15):
+                s, c = sincos2d(d)
+                S, C = _sincosd(d)
+                self.test('sin(%s)' % (d,), s, S, known=abs(s - S) < 8e-16)
+                self.test('cos(%s)' % (d,), c, c)
 
         # compare geomath.Math.AngDiff with mimicked _diff182
         _diff = karney._diff182

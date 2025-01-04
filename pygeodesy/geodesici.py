@@ -28,8 +28,8 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.basics import _copy, _enumereverse, map1, \
                              _xinstanceof, _xor
 from pygeodesy.constants import EPS, INF, INT0, PI, PI2, PI_4, \
-                               _0_0, _0_5, _1_0, _1_5, _2_0, \
-                               _3_0, _64_0, _90_0, isfinite, \
+                               _0_0, _0_5, _1_0, _1_5, _2_0, _3_0, \
+                               _45_0, _64_0, _90_0, isfinite, \
                                _EPSjam  # PYCHOK used!
 from pygeodesy.ellipsoids import _EWGS84,  Fmt, unstr
 from pygeodesy.errors import GeodesicError, IntersectionError, _an, \
@@ -56,7 +56,7 @@ from pygeodesy.utily import atan2, sincos2,  fabs, radians
 # from math import ceil as _ceil, fabs, radians  # .fsums, .utily
 
 __all__ = _ALL_LAZY.geodesici
-__version__ = '24.11.24'
+__version__ = '24.12.22'
 
 _0t     =  0,  # int
 _1_1t   = -1, +1
@@ -1214,7 +1214,7 @@ class Intersector(_IntersectBase):
         return X if X is None else self._In5T(glA, glB, X, X)
 
     def _obliqDist4(self):
-        zx = 45.0
+        zx = _45_0
         if self.f:
             _abs, _cjD5 = fabs, self._conjDist5
 

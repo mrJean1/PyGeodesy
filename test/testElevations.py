@@ -4,7 +4,7 @@
 # Test L{elevations} module.
 
 __all__ = ('Tests',)
-__version__ = '25.09.25'
+__version__ = '24.09.25'
 
 from bases import ismacOS, isPython2, isPython3, TestsBase
 

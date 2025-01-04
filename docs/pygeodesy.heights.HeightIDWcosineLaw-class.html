@@ -75,10 +75,9 @@
 <hr />
 <p>Height interpolator using <a 
   href="https://WikiPedia.org/wiki/Inverse_distance_weighting" 
-  target="_top">Inverse Distance Weighting</a> (IDW) and the <i>angular</i>
-  distance in <code>radians</code> from function <a 
-  href="pygeodesy.formy-module.html#cosineLaw_" 
-  class="link">pygeodesy.cosineLaw_</a>.</p>
+  target="_top">Inverse Distance Weighting</a> (IDW) and function <a 
+  href="pygeodesy.formy-module.html#cosineLaw" 
+  class="link">pygeodesy.cosineLaw</a>.</p>
 
 <hr />
 <div class="fields">      <p><strong>Note:</strong>
@@ -103,7 +102,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.heights.HeightIDWcosineLaw-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">knots</span>,
         <span class="summary-sig-arg">beta</span>=<span class="summary-sig-default">2</span>,
-        <span class="summary-sig-arg">**name__radius_wrap</span>)</span><br />
+        <span class="summary-sig-arg">**name__corr_earth_datum_radius_wrap</span>)</span><br />
       New <a href="pygeodesy.heights.HeightIDWcosineLaw-class.html" 
       class="link">HeightIDWcosineLaw</a> interpolator.</td>
           <td align="right" valign="top">
@@ -156,6 +155,9 @@
   </tr>
   <tr>
     <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.heights._HeightNamed-class.html">_HeightNamed</a></code></b>:
+      <code><a href="pygeodesy.heights._HeightNamed-class.html#height_">height_</a></code>
+      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
       <code><a href="pygeodesy.named._Named-class.html#__format__">__format__</a></code>,
       <code><a href="pygeodesy.named._Named-class.html#__imatmul__">__imatmul__</a></code>,
@@ -249,7 +251,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">knots</span>,
         <span class="sig-arg">beta</span>=<span class="sig-default">2</span>,
-        <span class="sig-arg">**name__radius_wrap</span>)</span>
+        <span class="sig-arg">**name__corr_earth_datum_radius_wrap</span>)</span>
     <br /><em class="fname">(Constructor)</em>
   </h3>
   </td><td align="right" valign="top"
@@ -262,7 +264,7 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>name__radius_wrap</code></strong> - Optional <code><b>name</b>=NN</code> for this height interpolator
+        <li><strong class="pname"><code>name__corr_earth_datum_radius_wrap</code></strong> - Optional <code><b>name</b>=NN</code> for this height interpolator
           (<code>str</code>) and any keyword arguments for function <a 
           href="pygeodesy.formy-module.html#cosineLaw" 
           class="link">pygeodesy.cosineLaw</a>.</li>
@@ -318,7 +320,7 @@
         class="link">pygeodesy.fidw</a> issue.</li>
     </ul></dd>
     <dt>Overrides:
-        <a href="pygeodesy.heights._HeightIDW-class.html#__call__">_HeightIDW.__call__</a>
+        <a href="pygeodesy.heights._HeightNamed-class.html#__call__">_HeightNamed.__call__</a>
     </dt>
   </dl>
 </td></tr></table>
@@ -344,26 +346,25 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lats</code></strong> - Latitude or latitudes (<code>degrees</code> or 
-          <code>degrees</code>s).</li>
-        <li><strong class="pname"><code>lons</code></strong> - Longitude or longitudes (<code>degrees</code> or 
-          <code>degrees</code>s).</li>
-        <li><strong class="pname"><code>wrap</code></strong> - If <code>True</code>, wrap or <i>normalize</i> all 
-          <b><code>lats</code></b> and <b><code>lons</code></b> 
-          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>lats</code></strong> - Latitude or latitudes (each <code>degrees</code>).</li>
+        <li><strong class="pname"><code>lons</code></strong> - Longitude or longitudes (each <code>degrees</code>).</li>
+        <li><strong class="pname"><code>wrap</code></strong> - Keyword argument <code><b>wrap</b>=False</code> 
+          (<code>bool</code>).  Use <code><b>wrap</b>=True</code> to wrap 
+          or <i>normalize</i> all <b><code>lats</code></b> and 
+          <b><code>lons</code></b>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A single interpolated height (<code>float</code>) or a list of 
-          interpolated heights (<code>float</code>s).</dd>
+          interpolated heights (each <code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.heights.HeightError-class.html">HeightError</a></strong></code> - Insufficient or non-matching number of <b><code>lats</code></b> and
+        <li><code><strong class='fraise'><a href="pygeodesy.heights.HeightError-class.html">HeightError</a></strong></code> - Insufficient or unequal number of <b><code>lats</code></b> and 
         <b><code>lons</code></b> or a <a 
         href="pygeodesy.fmath-module.html#fidw" 
         class="link">pygeodesy.fidw</a> issue.</li>
     </ul></dd>
     <dt>Overrides:
-        <a href="pygeodesy.heights._HeightIDW-class.html#height">_HeightIDW.height</a>
+        <a href="pygeodesy.heights._HeightNamed-class.html#height">_HeightNamed.height</a>
     </dt>
   </dl>
 </td></tr></table>
@@ -400,7 +401,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Dec 12 15:50:55 2024
+    Generated by Epydoc 3.0.1 on Fri Jan  3 23:17:59 2025
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

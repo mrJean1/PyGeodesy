@@ -66,14 +66,10 @@
   class="link">FrechetDegrees</a>, <a 
   href="pygeodesy.frechet.FrechetRadians-class.html" 
   class="link">FrechetRadians</a>, <a 
-  href="pygeodesy.frechet.FrechetCosineAndoyerLambert-class.html" 
-  class="link">FrechetCosineAndoyerLambert</a>, <a 
-  href="pygeodesy.frechet.FrechetCosineForsytheAndoyerLambert-class.html" 
-  class="link">FrechetCosineForsytheAndoyerLambert</a>, <a 
   href="pygeodesy.frechet.FrechetCosineLaw-class.html" 
   class="link">FrechetCosineLaw</a>, <a 
   href="pygeodesy.frechet.FrechetDistanceTo-class.html" 
-  class="link">FrechetDistanceTo</a>&lt; <a 
+  class="link">FrechetDistanceTo</a>, <a 
   href="pygeodesy.frechet.FrechetEquirectangular-class.html" 
   class="link">FrechetEquirectangular</a>, <a 
   href="pygeodesy.frechet.FrechetEuclidean-class.html" 
@@ -177,7 +173,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        24.06.15
+        24.12.31
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -225,31 +221,8 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.frechet.FrechetCosineAndoyerLambert-class.html" class="summary-name">FrechetCosineAndoyerLambert</a><br />
-      Compute the <code>Frechet</code> distance based on the 
-        <i>angular</i> distance in <code>radians</code> from function <a 
-        href="pygeodesy.formy-module.html#cosineAndoyerLambert" 
-        class="link">pygeodesy.cosineAndoyerLambert</a>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.frechet.FrechetCosineForsytheAndoyerLambert-class.html" class="summary-name">FrechetCosineForsytheAndoyerLambert</a><br />
-      Compute the <code>Frechet</code> distance based on the 
-        <i>angular</i> distance in <code>radians</code> from function <a 
-        href="pygeodesy.formy-module.html#cosineForsytheAndoyerLambert" 
-        class="link">pygeodesy.cosineForsytheAndoyerLambert</a>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
         <a href="pygeodesy.frechet.FrechetCosineLaw-class.html" class="summary-name">FrechetCosineLaw</a><br />
-      Compute the <code>Frechet</code> distance based on the 
-        <i>angular</i> distance in <code>radians</code> from function <a 
+      Compute the <code>Frechet</code> distance with functionn <a 
         href="pygeodesy.formy-module.html#cosineLaw" 
         class="link">pygeodesy.cosineLaw</a>.
     </td>
@@ -259,9 +232,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.frechet.FrechetDistanceTo-class.html" class="summary-name">FrechetDistanceTo</a><br />
-      Compute the <code>Frechet</code> distance based on the distance 
-        from the point1s' <code>LatLon.distanceTo</code> method, 
-        conventionally in <code>meter</code>.
+      Compute the <code>Frechet</code> distance with the point1s' 
+        <code>LatLon.distanceTo</code> method.
     </td>
   </tr>
 <tr>
@@ -269,9 +241,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.frechet.FrechetEquirectangular-class.html" class="summary-name">FrechetEquirectangular</a><br />
-      Compute the <code>Frechet</code> distance based on the 
-        <i>equirectangular</i> distance in <code>radians squared</code> 
-        like function <a href="pygeodesy.formy-module.html#equirectangular"
+      Compute the <code>Frechet</code> distance with function <a 
+        href="pygeodesy.formy-module.html#equirectangular" 
         class="link">pygeodesy.equirectangular</a>.
     </td>
   </tr>
@@ -280,8 +251,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.frechet.FrechetEuclidean-class.html" class="summary-name">FrechetEuclidean</a><br />
-      Compute the <code>Frechet</code> distance based on the 
-        <i>Euclidean</i> distance in <code>radians</code> from function <a 
+      Compute the <code>Frechet</code> distance with function <a 
         href="pygeodesy.formy-module.html#euclidean" 
         class="link">pygeodesy.euclidean</a>.
     </td>
@@ -291,8 +261,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.frechet.FrechetExact-class.html" class="summary-name">FrechetExact</a><br />
-      Compute the <code>Frechet</code> distance based on the 
-        <i>angular</i> distance in <code>degrees</code> from method <a 
+      Compute the <code>Frechet</code> distance with method <a 
         href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
         class="link">GeodesicExact</a><code>.Inverse</code>.
     </td>
@@ -302,9 +271,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.frechet.FrechetFlatLocal-class.html" class="summary-name">FrechetFlatLocal</a><br />
-      Compute the <code>Frechet</code> distance based on the 
-        <i>angular</i> distance in <code>radians squared</code> like 
-        function <a href="pygeodesy.formy-module.html#flatLocal_" 
+      Compute the <code>Frechet</code> distance with function <a 
+        href="pygeodesy.formy-module.html#flatLocal_" 
         class="link">pygeodesy.flatLocal_</a>/<a 
         href="pygeodesy.formy-module.html#flatLocal" 
         class="link">pygeodesy.hubeny</a>.
@@ -315,8 +283,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.frechet.FrechetFlatPolar-class.html" class="summary-name">FrechetFlatPolar</a><br />
-      Compute the <code>Frechet</code> distance based on the 
-        <i>angular</i> distance in <code>radians</code> from function <a 
+      Compute the <code>Frechet</code> distance with function <a 
         href="pygeodesy.formy-module.html#flatPolar_" 
         class="link">flatPolar_</a>.
     </td>
@@ -326,8 +293,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.frechet.FrechetHaversine-class.html" class="summary-name">FrechetHaversine</a><br />
-      Compute the <code>Frechet</code> distance based on the 
-        <i>angular</i> distance in <code>radians</code> from function <a 
+      Compute the <code>Frechet</code> distance with function <a 
         href="pygeodesy.geohash-module.html#haversine_" 
         class="link">pygeodesy.haversine_</a>.
     </td>
@@ -337,9 +303,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.frechet.FrechetHubeny-class.html" class="summary-name">FrechetHubeny</a><br />
-      Compute the <code>Frechet</code> distance based on the 
-        <i>angular</i> distance in <code>radians squared</code> like 
-        function <a href="pygeodesy.formy-module.html#flatLocal_" 
+      Compute the <code>Frechet</code> distance with function <a 
+        href="pygeodesy.formy-module.html#flatLocal_" 
         class="link">pygeodesy.flatLocal_</a>/<a 
         href="pygeodesy.formy-module.html#flatLocal" 
         class="link">pygeodesy.hubeny</a>.
@@ -350,12 +315,11 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.frechet.FrechetKarney-class.html" class="summary-name">FrechetKarney</a><br />
-      Compute the <code>Frechet</code> distance based on the 
-        <i>angular</i> distance in <code>degrees</code> from 
-        <i>Karney</i>'s <a href="https://PyPI.org/project/geographiclib" 
+      Compute the <code>Frechet</code> distance with <i>Karney</i>'s <a 
+        href="https://PyPI.org/project/geographiclib" 
         target="_top">geographiclib</a> <a 
         href="https://GeographicLib.SourceForge.io/Python/doc/code.html" 
-        target="_top">geodesic.Geodesic</a> <code>Inverse</code> method.
+        target="_top">geodesic.Geodesic</a><code>.Inverse</code> method.
     </td>
   </tr>
 <tr>
@@ -363,8 +327,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.frechet.FrechetThomas-class.html" class="summary-name">FrechetThomas</a><br />
-      Compute the <code>Frechet</code> distance based on the 
-        <i>angular</i> distance in <code>radians</code> from function <a 
+      Compute the <code>Frechet</code> distance with function <a 
         href="pygeodesy.formy-module.html#thomas_" 
         class="link">pygeodesy.thomas_</a>.
     </td>
@@ -374,8 +337,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.frechet.FrechetVincentys-class.html" class="summary-name">FrechetVincentys</a><br />
-      Compute the <code>Frechet</code> distance based on the 
-        <i>angular</i> distance in <code>radians</code> from function <a 
+      Compute the <code>Frechet</code> distance with function <a 
         href="pygeodesy.geohash-module.html#vincentys_" 
         class="link">pygeodesy.vincentys_</a>.
     </td>
@@ -551,7 +513,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Dec 12 15:50:53 2024
+    Generated by Epydoc 3.0.1 on Fri Jan  3 23:17:56 2025
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

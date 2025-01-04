@@ -3,46 +3,52 @@
 
 u'''Various utility functions.
 
-After I{(C) Chris Veness 2011-2024} published under the same MIT Licence**, see
-U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>} and
-U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
+After I{Karney}'s C++ U{Math<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Math.html>}
+class and I{Veness}' U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}
+and U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}
+and published under the same MIT Licence**.
 '''
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import _copysign, isinstanceof, isint, isstr, neg
+from pygeodesy.basics import _copysign, isinstanceof, isint, isstr
 from pygeodesy.constants import EPS, EPS0, INF, NAN, PI, PI2, PI_2, R_M, \
-                               _M_KM, _M_NM, _M_SM, _0_0, _1__90, _0_5, _1_0, \
-                               _N_1_0, _2__PI, _10_0, _90_0, _180_0, _N_180_0, \
-                               _360_0, _400_0, isnan, isnear0, _copysign_0_0, \
-                               _float, _isfinite, _over, _umod_360, _umod_PI2
+                               _M_KM, _M_NM, _M_SM, _0_0, _1__90, _0_5, _2__PI, \
+                               _1_0, _N_1_0, _10_0, _90_0, _180_0, _360_0, \
+                               _copysign_0_0, _float, _isfinite, isnan, isnear0, \
+                               _over, _umod_360, _umod_PI2
 from pygeodesy.errors import _ValueError, _xkwds, _xkwds_get1,  _ALL_LAZY, _MODS
-from pygeodesy.internals import _passarg, _passargs  # , _MODS?
+from pygeodesy.internals import _passargs
 from pygeodesy.interns import _edge_, _radians_, _semi_circular_, _SPACE_
 # from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS  # from .errors
 from pygeodesy.units import Degrees, Degrees_, Feet, Float, Lam, Lamd, \
-                            Meter, Meter2, Radians, Radians_
+                            Meter, Meter2, Radians  # Radians_
 
 from math import acos, asin, atan2 as _atan2, cos, degrees, fabs, radians, \
                  sin, tan as _tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '24.11.26'
+__version__ = '24.12.23'
 
-_G_DEG     = _float(_400_0 / _360_0)  # grades per degree
-_G_RAD     = _float(_400_0 /  PI2)    # grades per radian
-_M_CHAIN   = _float(  20.1168)        # meter per yard2m(1) * 22
-_M_FATHOM  = _float(   1.8288)        # meter per yard2m(1) * 2 or _M_NM * 1e-3
-_M_FOOT    = _float(   0.3048)        # meter per Int'l foot, 1 / 3.2808398950131 = 10_000 / (254 * 12)
-_M_FOOT_GE = _float(   0.31608)       # meter per German Fuss, 1 / 3.1637560111364
-_M_FOOT_FR = _float(   0.3248406)     # meter per French Pied-du-Roi or pied, 1 / 3.0784329298739
-_M_FOOT_US = _float(   0.3048006096012192)  # meter per US Survey foot, 1200 / 3937
-_M_FURLONG = _float( 201.168)         # meter per furlong, 220 * yard2m(1) = 10 * m2chain(1)
-# _M_KM    = _float(1000.0)           # meter per kilo meter
-# _M_NM    = _float(1852.0)           # meter per nautical mile
-# _M_SM    = _float(1609.344)         # meter per statute mile
-_M_TOISE   = _float(   1.9490436)     # meter per French toise, 6 pieds = 6 / 3.0784329298739
-_M_YARD_UK = _float(   0.9144)        # meter per yard, 254 * 12 * 3 / 10_000 = 3 * _M_FOOT
+_G_DEG     = _float(  400.0 / _360_0)  # grades per degree
+_G_RAD     = _float(  400.0 /  PI2)    # grades per radian
+_M_ACRE    = _float( 4046.8564224)     # square meter per acre, chain2m(1) * furlong2m(1)
+_M_CHAIN   = _float(   20.1168)        # meter per yard2m(1) * 22
+_M_FATHOM  = _float(    1.8288)        # meter per yard2m(1) * 2 or _M_NM * 1e-3
+_M_FOOT    = _float(    0.3048)        # meter per Int'l foot, 1 / 3.280_839_895_0131 = 10_000 / (254 * 12)
+_M_FOOT_GE = _float(    0.31608)       # meter per German Fuss, 1 / 3.163_756_011_1364
+_M_FOOT_FR = _float(    0.3248406)     # meter per French Pied-du-Roi or pied, 1 / 3.078_432_929_8739
+_M_FOOT_US = _float(    0.3048006096012192)  # meter per US Survey foot, 1_200 / 3_937
+_M_FURLONG = _float(  201.168)         # meter per furlong, 220 * yard2m(1) = 10 * m2chain(1)
+_M_HA      = _float(10000.0)           # square meter per hectare, 100 * 100
+# _M_KM    = _float( 1000.0)           # meter per kilo meter
+# _M_NM    = _float( 1852.0)           # meter per nautical mile
+# _M_SM    = _float( 1609.344)         # meter per statute mile
+_M_TOISE   = _float(    1.9490436)     # meter per French toise, 6 pieds = 6 / 3.078_432_929_8739
+_M_YARD_UK = _float(    0.9144)        # meter per yard, 254 * 12 * 3 / 10_000 = 3 * _M_FOOT
+# sqrt(3) <https://WikiPedia.org/wiki/Square_root_of_3>
+_COS_30,  _SIN_30 = 0.86602540378443864676, _0_5  # sqrt(3) / 2
+_COS_45 = _SIN_45 = 0.70710678118654752440  # sqrt(2) / 2
 
 
 def _abs1nan(x):
@@ -66,8 +72,7 @@ def acre2ha(acres):
 
        @raise ValueError: Invalid B{C{acres}}.
     '''
-    # 0.40468564224 == acre2m2(1) / 10_000
-    return Float(ha=Float(acres) * 0.40468564224)
+    return m2ha(acre2m2(acres))
 
 
 def acre2m2(acres):
@@ -79,8 +84,7 @@ def acre2m2(acres):
 
        @raise ValueError: Invalid B{C{acres}}.
     '''
-    # 4046.8564224 == chain2m(1) * furlong2m(1)
-    return Meter2(Float(acres) * 4046.8564224)
+    return Meter2(Float(acres=acres) * _M_ACRE)
 
 
 def asin1(x):
@@ -93,7 +97,7 @@ def atan1(y, x=_1_0):
     '''Return C{atan(B{y} / B{x})} angle in C{radians} M{[-PI/2..+PI/2]}
        using C{atan2} for consistency and to avoid C{ZeroDivisionError}.
     '''
-    return _atan2(-y, -x) if x < 0 else _atan2(y, x or _0_0)  # -0. to 0.
+    return _atan1u(y, x, atan2)
 
 
 def atan1d(y, x=_1_0):
@@ -102,27 +106,35 @@ def atan1d(y, x=_1_0):
 
        @see: Function L{pygeodesy.atan2d}.
     '''
-    return atan2d(-y, -x) if x < 0 else atan2d(y, x or _0_0)  # -0. to 0.
+    return _atan1u(y, x, atan2d)
 
 
-def atan2(y, x):
-    '''Return C{atan2(B{y}, B{x})} in radians M{[-PI..+PI]}.
-
-       @see: I{Karney}'s C++ function U{Math.atan2d
-             <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Math.html>}.
+def _atan1u(y, x, _2u):
+    '''(INTERNAL) Helper for functions C{atan1} and C{atan1d}.
     '''
-    return _atan2u(y, x, _passarg, PI, PI_2)
+    if x < 0:
+        x = -x
+        y = -y
+    return _2u(y, x or _0_0)
+
+
+atan2 = _atan2
+'''Return C{atan2(B{y}, B{x})} in radians M{[-PI..+PI]}.
+
+   @see: I{Karney}'s C++ function U{Math.atan2d
+         <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Math.html>}.
+'''
 
 
 def atan2b(y, x):
-    '''Return C{atan2(B{y}, B{x})} in degrees M{[0..+360]}.
+    '''Return C{atan2(B{y}, B{x})} in degrees M{[0..+360], counter-clockwise}.
 
        @see: Function L{pygeodesy.atan2d}.
     '''
     b = atan2d(y, x)
     if b < 0:
         b += _360_0
-    return b
+    return b or _0_0  # unsigned-0
 
 
 def atan2d(y, x, reverse=False):
@@ -132,36 +144,14 @@ def atan2d(y, x, reverse=False):
        @see: I{Karney}'s C++ function U{Math.atan2d
              <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Math.html>}.
     '''
-    d = _atan2u(y, x, degrees, _180_0, _90_0)
+    d = degrees(_atan2(y, x))  # preserves signed-0
     return _azireversed(d) if reverse else d
 
 
-def _atan2u(y, x, _2u, H, Q):  # Half, Quarter turn in units
-    '''(INTERNAL) Helper for functions C{atan2} and C{atan2d}.
+def _azireversed(azi):  # in .rhumbBase
+    '''(INTERNAL) Return the I{reverse} B{C{azi}} in degrees M{[-180..+180]}.
     '''
-    if fabs(y) > fabs(x) > 0:
-        if y < 0:  # q = 3
-            r = _2u(_atan2(x, -y)) - Q
-        else:  # q = 2
-            r =  Q - _2u(_atan2(x, y))
-    elif isnan(x) or isnan(y):
-        return NAN
-    elif y:
-        if x > 0:  # q = 0
-            r = _2u(_atan2(y, x))
-        elif x < 0:  # q = 1
-            r = _copysign(H, y) - _2u(_atan2(y, -x))
-        else:  # x == 0
-            r = _copysign(Q, y)
-    else:  # preserve signBit(y) like Python's math.atan2
-        r = _copysign(H, y) if x < 0 else _0_0
-    return r
-
-
-def _azireversed(azimuth):  # in .rhumbBase
-    '''(INTERNAL) Return the I{reverse} B{C{azimuth}} in degrees M{[-180..+180]}.
-    '''
-    return azimuth + (_N_180_0 if azimuth > 0 else _180_0)
+    return azi - _copysign(_180_0, azi)
 
 
 def chain2m(chains):
@@ -215,11 +205,11 @@ def cot(rad, **raiser_kwds):
 
 
 def cot_(*rads, **raiser_kwds):
-    '''Return the C{cotangent} of angle(s) in C{radians}.
+    '''Yield the C{cotangent} of angle(s) in C{radians}.
 
        @arg rads: One or more angles (each in C{radians}).
 
-       @return: Yield the C{cot(B{rad})} for each angle.
+       @return: Yield C{cot(B{rad})} for each angle.
 
        @see: Function L{pygeodesy.cot} for further details.
     '''
@@ -249,11 +239,11 @@ def cotd(deg, **raiser_kwds):
 
 
 def cotd_(*degs, **raiser_kwds):
-    '''Return the C{cotangent} of angle(s) in C{degrees}.
+    '''Yield the C{cotangent} of angle(s) in C{degrees}.
 
        @arg degs: One or more angles (each in C{degrees}).
 
-       @return: Yield the C{cot(B{deg})} for each angle.
+       @return: Yield C{cotd(B{deg})} for each angle.
 
        @see: Function L{pygeodesy.cotd} for further details.
     '''
@@ -420,6 +410,30 @@ def grades2radians(gon):
     return Radians(Float(gon=gon) / _G_RAD)
 
 
+def ha2acre(ha):
+    '''Convert hectare to acre.
+
+       @arg ha: Value in hectare (C{scalar}).
+
+       @return: Value in acres (C{float}).
+
+       @raise ValueError: Invalid B{C{ha}}.
+    '''
+    return m2acre(ha2m2(ha))
+
+
+def ha2m2(ha):
+    '''Convert hectare to I{square} meter.
+
+       @arg ha: Value in hectare (C{scalar}).
+
+       @return: Value in C{meter^2} (C{float}).
+
+       @raise ValueError: Invalid B{C{ha}}.
+    '''
+    return Meter2(Float(ha=ha) * _M_HA)
+
+
 def km2m(km):
     '''Convert kilo meter to meter (m).
 
@@ -438,6 +452,18 @@ def _loneg(lon):
     return _180_0 - lon
 
 
+def m2acre(meter2):
+    '''Convert I{square} meter to acres.
+
+       @arg meter2: Value in C{meter^2} (C{scalar}).
+
+       @return: Value in acres (C{float}).
+
+       @raise ValueError: Invalid B{C{meter2}}.
+    '''
+    return Float(acre=Meter2(meter2) / _M_ACRE)
+
+
 def m2chain(meter):
     '''Convert meter to I{UK} chains.
 
@@ -447,7 +473,7 @@ def m2chain(meter):
 
        @raise ValueError: Invalid B{C{meter}}.
     '''
-    return Float(chain=Meter(meter) / _M_CHAIN)  # * 0.049709695378986715
+    return Float(chain=Meter(meter) / _M_CHAIN)  # * 0.049_709_695_378_986_715
 
 
 def m2degrees(distance, radius=R_M, lat=0):
@@ -485,7 +511,7 @@ def m2fathom(meter):
        @see: Function L{m2toise}, U{Fathom<https://WikiPedia.org/wiki/Fathom>}
              and U{Klafter<https://WikiPedia.org/wiki/Klafter>}.
     '''
-    return Float(fathom=Meter(meter) / _M_FATHOM)  # * 0.546806649
+    return Float(fathom=Meter(meter) / _M_FATHOM)  # * 0.546_806_649
 
 
 def m2ft(meter, usurvey=False, pied=False, fuss=False):
@@ -502,8 +528,8 @@ def m2ft(meter, usurvey=False, pied=False, fuss=False):
 
        @raise ValueError: Invalid B{C{meter}}.
     '''
-    # * 3.2808333333333333, US Survey 3937 / 1200
-    # * 3.2808398950131235, Int'l 10_000 / (254 * 12)
+    # * 3.280_833_333_333_3333, US Survey 3_937 / 1_200
+    # * 3.280_839_895_013_1235, Int'l 10_000 / (254 * 12)
     return Float(feet=Meter(meter) / (_M_FOOT_US if usurvey else
                                      (_M_FOOT_FR if pied    else
                                      (_M_FOOT_GE if fuss    else _M_FOOT))))
@@ -518,7 +544,19 @@ def m2furlong(meter):
 
        @raise ValueError: Invalid B{C{meter}}.
     '''
-    return Float(furlong=Meter(meter) / _M_FURLONG)  # * 0.00497096954
+    return Float(furlong=Meter(meter) / _M_FURLONG)  # * 0.004_970_969_54
+
+
+def m2ha(meter2):
+    '''Convert I{square} meter to hectare.
+
+       @arg meter2: Value in C{meter^2} (C{scalar}).
+
+       @return: Value in hectare (C{float}).
+
+       @raise ValueError: Invalid B{C{meter2}}.
+    '''
+    return Float(ha=Meter2(meter2) / _M_HA)
 
 
 def m2km(meter):
@@ -542,7 +580,7 @@ def m2NM(meter):
 
        @raise ValueError: Invalid B{C{meter}}.
     '''
-    return Float(NM=Meter(meter) / _M_NM)  # * 5.39956804e-4
+    return Float(NM=Meter(meter) / _M_NM)  # * 5.399_568_04e-4
 
 
 def m2radians(distance, radius=R_M, lat=0):
@@ -578,7 +616,7 @@ def m2SM(meter):
 
        @raise ValueError: Invalid B{C{meter}}.
     '''
-    return Float(SM=Meter(meter) / _M_SM)  # * 6.21369949e-4 == 1 / 1609.344
+    return Float(SM=Meter(meter) / _M_SM)  # * 6.213_699_49e-4 == 1 / 1_609.344
 
 
 def m2toise(meter):
@@ -592,7 +630,7 @@ def m2toise(meter):
 
        @see: Function L{m2fathom}.
     '''
-    return Float(toise=Meter(meter) / _M_TOISE)  # * 0.513083632632119
+    return Float(toise=Meter(meter) / _M_TOISE)  # * 0.513_083_632_632_119
 
 
 def m2yard(meter):
@@ -604,7 +642,7 @@ def m2yard(meter):
 
        @raise ValueError: Invalid B{C{meter}}.
     '''
-    return Float(yard=Meter(meter) / _M_YARD_UK)  # * 1.0936132983377078
+    return Float(yard=Meter(meter) / _M_YARD_UK)  # * 1.093_613_298_337_707_8
 
 
 def NM2m(nm):
@@ -680,20 +718,25 @@ def radiansPI_2(deg):
     return wrapPI_2(radians(deg))
 
 
-def _sin0cos2(q, r, sign):
-    '''(INTERNAL) 2-tuple (C{sin(r), cos(r)}) in quadrant C{0 <= B{q} <= 3}
-       and C{sin} zero I{signed} with B{C{sign}}.
+def _sin0cos2(q, r, sign, a, Q):  # Quarter turn
+    '''(INTERNAL) 2-tuple (C{sin(r), cos(r)}) in quadrant C{0 <= B{q} <= 3} and
+       C{sin} zero I{signed} with B{C{sign}}, like Karney's U{Math.sind and .cosd
+       <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Math.html>}
     '''
     if r < PI_2:
-        s, c = sin(r), cos(r)
-        t = s, c, -s, -c, s
-    else:  # r == PI_2
-        t = _1_0, _0_0, _N_1_0, _0_0, _1_0
-#   else:  # r == 0, testUtility failures
-#       t = _0_0, _1_0, _0_0, _N_1_0, _0_0
+        s = sin(r)
+        if (a * 2) == Q:
+            s, c = _copysign(_SIN_45, s), _COS_45
+        elif (a * 3) == Q:
+            s, c = _copysign(_SIN_30, s), _COS_30
+        else:
+            c = cos(r)
+    else:
+        s, c = _1_0, _0_0
+    t  = s, c, -s, -c, s
 #   q &= 3
-    s = t[q]     or _copysign_0_0(sign)
-    c = t[q + 1] or _0_0
+    s  = t[q]     or _copysign_0_0(sign)
+    c  = t[q + 1] or _0_0
     return s, c
 
 
@@ -705,8 +748,8 @@ def SinCos2(x):
        @return: 2-Tuple (C{sin(B{x})}, C{cos(B{x})}).
     '''
     return sincos2d(x) if isinstanceof(x, Degrees, Degrees_) else (
-           sincos2(x)  if isinstanceof(x, Radians, Radians_) else
-           sincos2(float(x)))  # assume C{radians}
+#          sincos2(x)  if isinstanceof(x, Radians, Radians_) else
+           sincos2(Radians(x)))  # assume C{radians}
 
 
 def sincos2(rad):
@@ -727,20 +770,21 @@ def sincos2(rad):
         q = int(rad * _2__PI)  # int(math.floor)
         if q < 0:
             q -= 1
-        t = _sin0cos2(q & 3, rad - q * PI_2, rad)
+        r =  rad - q * PI_2
+        t = _sin0cos2(q & 3, r, rad, fabs(r), PI_2)
     else:
         t =  NAN, NAN
     return t
 
 
 def sincos2_(*rads):
-    '''Return the C{sine} and C{cosine} of angle(s) in C{radians}.
+    '''Yield the C{sine} and C{cosine} of angle(s) in C{radians}.
 
        @arg rads: One or more angles (C{radians}).
 
-       @return: Yield the C{sin(B{rad})} and C{cos(B{rad})} for each angle.
+       @return: Yield C{sin(B{rad})} and C{cos(B{rad})} for each angle.
 
-       @see: function L{sincos2}.
+       @see: Function L{sincos2}.
     '''
     for r in rads:
         s, c = sincos2(r)
@@ -770,20 +814,20 @@ def sincos2d(deg, **adeg):
             q -= 1
         d = deg - q * _90_0
         if adeg:
-            t = _xkwds_get1(adeg, adeg=_0_0)
-            d = _MODS.karney._around(d + t)
-        t = _sin0cos2(q & 3, radians(d), deg)
+            a = _xkwds_get1(adeg, adeg=_0_0)
+            d = _MODS.karney._around(d + a)
+        t = _sin0cos2(q & 3, radians(d), deg, fabs(d), _90_0)
     else:
         t =  NAN, NAN
     return t
 
 
 def sincos2d_(*degs):
-    '''Return the C{sine} and C{cosine} of angle(s) in C{degrees}.
+    '''Yield the C{sine} and C{cosine} of angle(s) in C{degrees}.
 
        @arg degs: One or more angles (C{degrees}).
 
-       @return: Yield the C{sin(B{deg})} and C{cos(B{deg})} for each angle.
+       @return: Yield C{sind(B{deg})} and C{cosd(B{deg})} for each angle.
 
        @see: Function L{sincos2d}.
     '''
@@ -802,9 +846,25 @@ def sincostan3(rad):
 
        @see: Function L{sincos2}.
     '''
-    s, c = sincos2(float(rad))
-    t = NAN if s is NAN else (_over(s, c) if s else neg(s, neg0=c < 0))
-    return s, c, t
+    return _sincostan3(*sincos2(float(rad)))
+
+
+def _sincostan3(s, c):
+    '''(INTERNAL) Helper for C{sincostan3} and C{sincostan3d}.
+    '''
+    return s, c, _tanu(s, c, raiser=False)
+
+
+def sincostan3d(deg):
+    '''Return the C{sine}, C{cosine} and C{tangent} of an angle in C{degrees}.
+
+       @arg deg: Angle (C{degrees}).
+
+       @return: 3-Tuple (C{sind(B{deg})}, C{cosd(B{deg})}, C{tand(B{deg})}).
+
+       @see: Function L{sincos2d}.
+    '''
+    return _sincostan3(*sincos2d(float(deg)))
 
 
 def SM2m(sm):
@@ -861,11 +921,11 @@ def tan(rad, **raiser_kwds):
 
 
 def tan_(*rads, **raiser_kwds):
-    '''Return the C{tangent} of angle(s) in C{radians}.
+    '''Yield the C{tangent} of angle(s) in C{radians}.
 
        @arg rads: One or more angles (each in C{radians}).
 
-       @return: Yield the C{tan(B{rad})} for each angle.
+       @return: Yield C{tan(B{rad})} for each angle.
 
        @see: Function L{pygeodesy.tan} for futher details.
     '''
@@ -895,11 +955,11 @@ def tand(deg, **raiser_kwds):
 
 
 def tand_(*degs, **raiser_kwds):
-    '''Return the C{tangent} of angle(s) in C{degrees}.
+    '''Yield the C{tangent} of angle(s) in C{degrees}.
 
        @arg degs: One or more angles (each in C{degrees}).
 
-       @return: Yield the C{tan(B{deg})} for each angle.
+       @return: Yield C{tand(B{deg})} for each angle.
 
        @see: Function L{pygeodesy.tand} for futher details.
     '''
@@ -922,12 +982,16 @@ def tanPI_2_2(rad):
 
 
 def _tanu(s, c, raiser=True, **unused):
-    '''(INTERNAL) Helper for functions C{_cotu}, C{tan}, C{tan_}, C{tand} and C{tand_}.
+    '''(INTERNAL) Helper for functions C{_cotu}, C{sincostan3},
+       C{sincostan3d}, C{tan}, C{tan_}, C{tand} and C{tand_}.
     '''
-    if s:
+    if s is NAN or isnan(s):
+        s = NAN
+    elif s:
         if raiser and isnear0(c):
             raise ZeroDivisionError()
-        s = _over(s, c)
+        s = _over(s, c) if fabs(s) != fabs(c) else \
+            _copysign(_1_0, (-s) if c < 0 else s)
     elif c < 0:
         s = -s  # negate-0
     return s
@@ -1234,7 +1298,7 @@ def wrap_normal(*normal):
                     lat- and longitude individually by L{wrap90} or
                     L{wrapPI_2} respectively L{wrap180}, L{wrapPI} or
                     if C{None}, leave lat- and longitude I{unchanged}.
-                    Do not supply any value to get the current setting.
+                    To get the current setting, do not specify.
 
        @return: The previous L{wrap_normal} setting (C{bool} or C{None}).
     '''

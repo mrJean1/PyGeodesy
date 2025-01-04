@@ -85,6 +85,65 @@
   <td align="left" colspan="2" class="table-header">
     <span class="table-header">Instance Methods</span></td>
 </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.heights._HeightNamed-class.html#__call__" class="summary-sig-name">__call__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">*llis</span>,
+        <span class="summary-sig-arg">**wrap</span>)</span><br />
+      Interpolate the height for one or several locations.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="height"></a><span class="summary-sig-name">height</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">lats</span>,
+        <span class="summary-sig-arg">lons</span>,
+        <span class="summary-sig-arg">**wrap</span>)</span><br />
+      <i>Must be overloaded</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.heights._HeightNamed-class.html#height_" class="summary-sig-name">height_</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">*latlons</span>,
+        <span class="summary-sig-arg">**wrap</span>)</span><br />
+      Interpolate the height for each <i class="math">(latlons[i], 
+      latlons[i+1]) pair for i in range(0, len(latlons), <b>2</b>)</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
   <tr>
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
@@ -173,6 +232,88 @@
     </td>
   </tr>
 </table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Method Details</span></td>
+</tr>
+</table>
+<a name="__call__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__call__</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">*llis</span>,
+        <span class="sig-arg">**wrap</span>)</span>
+    <br /><em class="fname">(Call operator)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Interpolate the height for one or several locations.  <i>Must be 
+  overloaded</i>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>llis</code></strong> - One or more locations (each <code>LatLon</code>), all positional.</li>
+        <li><strong class="pname"><code>wrap</code></strong> - If <code><b>wrap</b>=True</code> to wrap or <i>normalize</i> all 
+          <b><code>llis</code></b> locations (<code>bool</code>), 
+          overriding the <b><code>knots</code></b>' setting.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A single interpolated height (<code>float</code>) or a list or 
+          tuple of interpolated heights (each <code>float</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.heights.HeightError-class.html">HeightError</a></strong></code> - Insufficient number of <b><code>llis</code></b> or an invalid 
+        <b><code>lli</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.SciPyError-class.html">SciPyError</a></strong></code> - A <code>scipy</code> issue.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.SciPyWarning-class.html">SciPyWarning</a></strong></code> - A <code>scipy</code> warning as exception.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="height_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">height_</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">*latlons</span>,
+        <span class="sig-arg">**wrap</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Interpolate the height for each <i class="math">(latlons[i], 
+  latlons[i+1]) pair for i in range(0, len(latlons), <b>2</b>)</i>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>latlons</code></strong> - Alternating lat-/longitude pairs (each <code>degrees</code>), all
+          positional.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A tuple of interpolated heights (each <code>float</code>).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <code>height</code> for further details.
+      </p>
+</div></td></tr></table>
+</div>
+<br />
 <!-- ==================== PROPERTY DETAILS ==================== -->
 <a name="section-PropertyDetails"></a>
 <table class="details" border="1" cellpadding="3"
@@ -289,7 +430,7 @@ href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Dec 12 15:50:55 2024
+    Generated by Epydoc 3.0.1 on Fri Jan  3 23:17:59 2025
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

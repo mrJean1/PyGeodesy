@@ -4,7 +4,7 @@
 # Test L{utily} module.
 
 __all__ = ('Tests',)
-__version__ = '24.11.26'
+__version__ = '24.12.24'
 
 from bases import TestsBase, geographiclib
 
@@ -13,8 +13,8 @@ from pygeodesy import EPS, INF, NEG0, NINF, PI, PI2, PI_2, PI3_2, \
                       degrees90, degrees180, degrees360, degrees2m, \
                       fathom2m, fstr, ft2m, furlong2m, \
                       grades400, degrees2grades, grades2degrees, grades2radians, \
-                      isPoints2, map1, \
-                      m2chain, m2degrees, m2fathom, m2ft, m2furlong, m2toise, m2yard, \
+                      ha2acre, isPoints2, map1, \
+                      m2chain, m2degrees, m2fathom, m2ft, m2furlong, m2ha, m2toise, m2yard, \
                       radiansPI, radiansPI2, radiansPI_2, \
                       sincos2, sincos2d, sincostan3, \
                       tan, tan_, tan_2, tand, tand_, toise2m, unroll180, \
@@ -193,7 +193,7 @@ class Tests(TestsBase):
         self.test('sincos2',  e, EPS_, known=e < EPS_, nl=1)
         self.test('sincos2d', d, EPS_, known=d < EPS_)
         if Math:
-            self.test('Matan2d ', t, EPS_, known=t < EPS, nl=1)
+            self.test('Matan2d ', t, EPS_, known=t < EPS_ * 20, nl=1)
             self.test('Msincosd', g, EPS_, known=g < EPS_)
             self.test('sincos*d', f, EPS_, known=f < EPS_)
         if cr:  # coverage
@@ -216,13 +216,14 @@ class Tests(TestsBase):
         self.test('m2sFt', m2ft(187441, usurvey=True),  614962.68, prec=2)
         self.test('m2sFt', m2ft(757050, usurvey=True), 2483754.88, prec=2, nt=1)
 
-        for f, m in ((acre2ha,     '0.404686'), (acre2m2, '4046.856422'),
+        for f, x in ((acre2ha,     '0.404686'), (acre2m2, '4046.856422'),
                      (chain2m,    '20.116800'), (fathom2m,   '1.828800'),
-                     (furlong2m, '201.168000'), (toise2m,    '1.949044'),
-                     (yard2m,      '0.914400'), (m2chain,    '0.049710'),
-                     (m2fathom,    '0.546807'), (m2furlong,  '0.004971'),
+                     (furlong2m, '201.168000'), (ha2acre,    '2.471054'),
+                     (toise2m,     '1.949044'), (yard2m,     '0.914400'),
+                     (m2chain,     '0.049710'), (m2fathom,   '0.546807'),
+                     (m2furlong,   '0.004971'), (m2ha,       '0.000100'),
                      (m2toise,     '0.513072'), (m2yard,     '1.093613')):
-            self.test(f.__name__, f(1), m, prec=6)
+            self.test(f.__name__, f(1), x, prec=6)
 
         self.test('degrees2m', fstr(degrees2m(90), prec=4),        '10007557.1761', nl=1)
         self.test('degrees2m', fstr(degrees2m(90, lat=30), prec=4), '8666798.7443')

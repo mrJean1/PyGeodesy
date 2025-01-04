@@ -926,21 +926,21 @@ class _NamedLocal(object):
         '''
         return _MODS.ltp
 
-    def _ltp_toLocal(self, ltp, Cls_and_kwds, **nam_Cls):  # overloaded in C{Ecef9Tuple}
+    def _ltp_toLocal(self, ltp, Xyz_kwds, **Xyz):  # overloaded in C{Ecef9Tuple}
         '''(INTERNAL) Invoke C{ltp._toLocal}.
         '''
-        Cls, kwds = self._ltp_toLocal2(Cls_and_kwds, **nam_Cls)
-        return self._ltp._toLocal(self, ltp, Cls, kwds)  # self._ecef9
+        Xyz_ = self._ltp_toLocal2(Xyz_kwds, **Xyz)
+        return self._ltp._toLocal(self, ltp, *Xyz_)  # self._ecef9
 
-    def _ltp_toLocal2(self, Cls_and_kwds, _None=None, **nam_Cls):
-        '''(INTERNAL) Return 2-tuple C{(Cls, kwds)}.
+    def _ltp_toLocal2(self, Xyz_kwds, _None=None, **Xyz):
+        '''(INTERNAL) Return 2-tuple C{(Xyz_Class, Xyz_kwds)}.
         '''
-        Cls, kwds = _xkwds_pop2(Cls_and_kwds, **nam_Cls)
-        if Cls is not _None:  # validate Cls
-            n, LoC = _xkwds_item2(nam_Cls)
-            if LoC is not Cls:
-                _xsubclassof(LoC, **{n: Cls})
-        return Cls, kwds
+        C, _ = Xyz_ = _xkwds_pop2(Xyz_kwds, **Xyz)
+        if C is not _None:  # validate C
+            n, X = _xkwds_item2(Xyz)
+            if X is not C:
+                _xsubclassof(X, **{n: C})
+        return Xyz_
 
     @property_ROver
     def _ltpTuples(self):

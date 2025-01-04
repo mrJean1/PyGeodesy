@@ -4,21 +4,17 @@
 # Test L{hausdorff} distances.  Very slow with coverage!
 
 __all__ = ('Tests',)
-__version__ = '23.03.27'
+__version__ = '24.12.31'
 
 from bases import GeodSolve, geographiclib, isPython3, isWindows, \
                   TestsBase
 
-from pygeodesy import Datums, fstr, hausdorff_, \
-                      HausdorffCosineAndoyerLambert, \
-                      HausdorffCosineForsytheAndoyerLambert, \
+from pygeodesy import Datums, fstr, hausdorff_, HausdorffCosineLaw, \
                       HausdorffDegrees, HausdorffDistanceTo, \
-                      HausdorffRadians, HausdorffCosineLaw, \
                       HausdorffEquirectangular, HausdorffEuclidean, \
-                      HausdorffExact, HausdorffFlatLocal, \
-                      HausdorffFlatPolar, HausdorffHaversine, \
-                      HausdorffHubeny, HausdorffKarney, \
-                      HausdorffThomas, HausdorffVincentys, \
+                      HausdorffExact, HausdorffFlatLocal, HausdorffFlatPolar, \
+                      HausdorffHaversine, HausdorffHubeny, HausdorffKarney, \
+                      HausdorffRadians, HausdorffThomas, HausdorffVincentys, \
                       LatLon_, randomrangenerator
 
 
@@ -115,14 +111,11 @@ if __name__ == '__main__':  # MCCABE 13
         t.test4(HausdorffRadians_, *_4((0.69813, 22,  6,  90, 0.31697),
                                        (0.83776, 38, 36, 150, 0.30206)))
 
-        t.test4(HausdorffCosineAndoyerLambert, *_4((0.501, 35, 3,  90, 0.21184),
-                                                   (0.501, 35, 3, 150, 0.20084)))
-
-        t.test4(HausdorffCosineForsytheAndoyerLambert, *_4((0.501, 35, 3,  90, 0.21184),
-                                                           (0.501, 35, 3, 150, 0.20084)))
-
         t.test4(HausdorffCosineLaw, *_4((0.50097, 35, 3,  90, 0.212),
                                         (0.50097, 35, 3, 150, 0.20099)))
+        for c in (1, 2):
+            t.test4(HausdorffCosineLaw, *_4((0.501, 35, 3,  90, 0.21184),
+                                            (0.501, 35, 3, 150, 0.20084)), corr=c)
 
         t.test4(HausdorffEquirectangular, *_4((0.25113, 35,  3,  90, 0.05965),
                                               (0.25113, 35,  3, 150, 0.05532)))
@@ -168,14 +161,11 @@ if __name__ == '__main__':  # MCCABE 13
         t.test4(HausdorffRadians_, *_4((0.89012, 10, 50,  90, 0.2779),
                                        (0.89012, 10, 50, 150, 0.25005)))
 
-        t.test4(HausdorffCosineAndoyerLambert, *_4((0.52412, 74, 45,  90, 0.18171),
-                                                   (0.52412, 74, 45, 150, 0.16541)))
-
-        t.test4(HausdorffCosineForsytheAndoyerLambert, *_4((0.52412, 74, 45,  90, 0.18171),
-                                                           (0.52412, 74, 45, 150, 0.16541)))
-
         t.test4(HausdorffCosineLaw, *_4((0.52674, 74, 45,  90, 0.18192),
                                         (0.52674, 74, 45, 150, 0.16555)))
+        for c in (1, 2):
+            t.test4(HausdorffCosineLaw, *_4((0.52412, 74, 45,  90, 0.18171),
+                                            (0.52412, 74, 45, 150, 0.16541)), corr=c)
 
         t.test4(HausdorffEquirectangular, *_4((0.30982, 40, 0,  90, 0.04843),
                                               (0.30982, 40, 0, 150, 0.04072)))
@@ -221,14 +211,11 @@ if __name__ == '__main__':  # MCCABE 13
         t.test4(HausdorffRadians_, *_4((0.88139, 61, 7,  90, 0.32211),
                                        (0.88139, 61, 7, 150, 0.28013)))
 
-        t.test4(HausdorffCosineAndoyerLambert, *_4((0.56263, 49, 29,  90, 0.19764),
-                                                   (0.56263, 49, 29, 150, 0.17591)))
-
-        t.test4(HausdorffCosineForsytheAndoyerLambert, *_4((0.56263, 49, 29,  90, 0.19764),
-                                                           (0.56263, 49, 29, 150, 0.17591)))
-
         t.test4(HausdorffCosineLaw, *_4((0.56202, 49, 29,  90, 0.19776),
                                         (0.56202, 49, 29, 150, 0.176)))
+        for c in (1, 2):
+            t.test4(HausdorffCosineLaw, *_4((0.56263, 49, 29,  90, 0.19764),
+                                            (0.56263, 49, 29, 150, 0.17591)), corr=c)
 
         t.test4(HausdorffEquirectangular, *_4((0.33016, 49, 29,  90, 0.06075),
                                               (0.33016, 49, 29, 150, 0.04918)))

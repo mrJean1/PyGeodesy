@@ -3,14 +3,13 @@
 
 u'''Height interpolations at C{LatLon} points from known C{knots}.
 
-Classes L{HeightCubic}, L{HeightIDWcosineAndoyerLambert},
-L{HeightIDWcosineForsytheAndoyerLambert}, L{HeightIDWcosineLaw},
-L{HeightIDWdistanceTo}, L{HeightIDWequirectangular}, L{HeightIDWeuclidean},
-L{HeightIDWflatLocal}, L{HeightIDWflatPolar}, L{HeightIDWhaversine},
-L{HeightIDWhubeny}, L{HeightIDWkarney}, L{HeightIDWthomas}, L{HeightIDWvincentys},
-L{HeightLinear}, L{HeightLSQBiSpline} and L{HeightSmoothBiSpline}
-to interpolate the height of C{LatLon} locations or separate
-lat-/longitudes from a set of C{LatLon} points with I{known heights}.
+Classes L{HeightCubic}, L{HeightIDWcosineLaw}, L{HeightIDWdistanceTo},
+L{HeightIDWequirectangular}, L{HeightIDWeuclidean}, L{HeightIDWflatLocal},
+L{HeightIDWflatPolar}, L{HeightIDWhaversine}, L{HeightIDWhubeny},
+L{HeightIDWkarney}, L{HeightIDWthomas}, L{HeightIDWvincentys}, L{HeightLinear},
+L{HeightLSQBiSpline} and L{HeightSmoothBiSpline} to interpolate the height of
+C{LatLon} locations or separate lat-/longitudes from a set of C{LatLon} points
+with I{known heights}.
 
 Typical usage
 =============
@@ -29,7 +28,7 @@ arguments to select different interpolation options
 
 C{>>> hinterpolator = HeightXyz(knots, **options)}
 
-4. Get the interpolated height of other C{LatLon} location(s) with
+4. Get the interpolated height of C{LatLon} location(s) with
 
 C{>>> ll = LatLon(1, 2, ...)}
 
@@ -43,13 +42,17 @@ or a list, tuple, generator, etc. of C{LatLon}s
 
 C{>>> hs = hinterpolator(lls)}
 
-5. For separate lat- and longitudes invoke the C{.height} method
+5. For separate lat- and longitudes invoke the C{height} method as
 
 C{>>> h = hinterpolator.height(lat, lon)}
 
 or as 2 lists, 2 tuples, etc.
 
 C{>>> hs = hinterpolator.height(lats, lons)}
+
+or for several positionals use the C{height_} method
+
+C{>>> h1, h2, ... = hinterpolator.height_(lat1, lon1, lat2, lon2, ...)}
 
 @note: Classes L{HeightCubic} and L{HeightLinear} require package U{numpy
        <https://PyPI.org/project/numpy>}, classes L{HeightLSQBiSpline} and
@@ -68,15 +71,15 @@ C{>>> hs = hinterpolator.height(lats, lons)}
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import isscalar, len2, map1, map2, _xnumpy, _xscipy
+from pygeodesy.basics import isscalar, len2, map1, min2, _xnumpy, _xscipy
 from pygeodesy.constants import EPS, PI, PI_2, PI2, _0_0, _90_0, _180_0
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.errors import _AssertionError, LenError, PointsError, \
                              _SciPyIssue, _xattr, _xkwds, _xkwds_get, _xkwds_item2
 # from pygeodesy.fmath import fidw  # _MODS
-# from pygeodesy.formy import cosineAndoyerLambert, cosineForsytheAndoyerLambert, \
-#                             cosineLaw, equirectangular4, euclidean, flatLocal, \
-#                             flatPolar, haversine, thomas, vincentys  # _MODS.into
+# from pygeodesy.formy import cosineLaw, cosineLawAL, cosineLawFAL, equirectangular4, \
+#                             euclidean, flatLocal, flatPolar, haversine, thomas, \
+#                             vincentys  # _MODS.into
 # from pygeodesy.internals import _version2  # _MODS
 from pygeodesy.interns import NN, _COMMASPACE_, _insufficient_, _NOTEQUAL_, \
                              _PLUS_, _scipy_, _SPACE_, _STAR_
@@ -91,7 +94,7 @@ from pygeodesy.units import _isDegrees, Float_, Int_
 # from math import radians  # from .points
 
 __all__ = _ALL_LAZY.heights
-__version__ = '24.11.02'
+__version__ = '24.12.31'
 
 _error_  = 'error'
 _formy   = _MODS.into(formy=__name__)
@@ -163,15 +166,15 @@ def _xyhs(wrap=False, _lat=_90_0, _lon=_180_0, **name_lls):
     # map (lat, lon, h) to (x, y, h) in radians, offset
     # x as 0 <= lon <= PI2 and y as 0 <= lat <= PI
     name, lls = _xkwds_item2(name_lls)
-    _r,  _w   =  radians, _Wrap._latlonop(wrap)
+    _w,  _r   = _Wrap._latlonop(wrap), radians
     try:
         for i, ll in enumerate(lls):
             y, x = _w(ll.lat, ll.lon)
             yield max(_0_0, _r(x + _lon)), \
                   max(_0_0, _r(y + _lat)), ll.height
-    except Exception as e:
+    except Exception as x:
         i = Fmt.INDEX(name, i)
-        raise HeightError(i, ll, cause=e)
+        raise HeightError(i, ll, cause=x)
 
 
 class _HeightNamed(_Named):  # in .geoids
@@ -181,21 +184,39 @@ class _HeightNamed(_Named):  # in .geoids
     _Error =  HeightError
     _kmin  =  2        # min number of knots
 
-    _LLis  =  LatLon_  # ._height class
+    _LLiC  =  LatLon_  # ._height class
     _np_sp =  None     # (numpy, scipy)
     _wrap  =  None     # wrap knots and llis
 
+    def __call__(self, *llis, **wrap):  # PYCHOK no cover
+        '''Interpolate the height for one or several locations.  I{Must be overloaded}.
+
+           @arg llis: One or more locations (each C{LatLon}), all positional.
+           @kwarg wrap: If C{B{wrap}=True} to wrap or I{normalize} all B{C{llis}}
+                        locations (C{bool}), overriding the B{C{knots}}' setting.
+
+           @return: A single interpolated height (C{float}) or a list or tuple of
+                    interpolated heights (each C{float}).
+
+           @raise HeightError: Insufficient number of B{C{llis}} or an invalid B{C{lli}}.
+
+           @raise SciPyError: A C{scipy} issue.
+
+           @raise SciPyWarning: A C{scipy} warning as exception.
+        '''
+        self._notOverloaded(callername='__call__', *llis, **wrap)
+
     def _as_lls(self, lats, lons):  # in .geoids
-        LLis, d = self._LLis, self.datum
+        LLiC, d = self._LLiC, self.datum
         if _isDegrees(lats) and _isDegrees(lons):
-            llis = LLis(lats, lons, datum=d)
+            llis = LLiC(lats, lons, datum=d)
         else:
             n, lats = len2(lats)
             m, lons = len2(lons)
             if n != m:  # format a LenError, but raise self._Error
                 e = LenError(self.__class__, lats=n, lons=m, txt=None)
                 raise self._Error(str(e))
-            llis = [LLis(*t, datum=d) for t in zip(lats, lons)]
+            llis = [LLiC(*t, datum=d) for t in zip(lats, lons)]
         return llis
 
     @property_RO
@@ -203,6 +224,24 @@ class _HeightNamed(_Named):  # in .geoids
         '''Get the C{datum} setting or the default (L{Datum}).
         '''
         return self._datum
+
+    def height(self, lats, lons, **wrap):  # PYCHOK no cover
+        '''I{Must be overloaded}.'''
+        self._notOverloaded(lats, lons, **wrap)
+
+    def height_(self, *latlons, **wrap):
+        '''Interpolate the height for each M{(latlons[i], latlons[i+1]) pair
+           for i in range(0, len(latlons), B{2})}.
+
+           @arg latlons: Alternating lat-/longitude pairs (each C{degrees}),
+                         all positional.
+
+           @see: Method C{height} for further details.
+
+           @return: A tuple of interpolated heights (each C{float}).
+        '''
+        lls = self._as_lls(latlons[0::2], latlons[1::2])
+        return tuple(self(lls, **wrap))
 
     @property_RO
     def kmin(self):
@@ -224,26 +263,6 @@ class _HeightBase(_HeightNamed):  # in .geoids
                    -2: _linear_,  # for backward compatibility
                    -3: 'cubic',
                    -5: 'quintic'}
-
-    def __call__(self, *llis, **wrap):  # PYCHOK no cover
-        '''Interpolate the height for one or several locations.  I{Must be overloaded}.
-
-           @arg llis: One or more locations (C{LatLon}s), all positional.
-           @kwarg wrap: If C{True}, wrap or I{normalize} all B{C{llis}}
-                        locations (C{bool}), overriding the B{C{knots}}
-                        setting.
-
-           @return: A single interpolated height (C{float}) or a list
-                    or tuple of interpolated heights (C{float}s).
-
-           @raise HeightError: Insufficient number of B{C{llis}} or
-                               an invalid B{C{lli}}.
-
-           @raise SciPyError: A C{scipy} issue.
-
-           @raise SciPyWarning: A C{scipy} warning as exception.
-        '''
-        self._notOverloaded(callername='__call__', *llis, **wrap)
 
     def _as_xyllis4(self, llis, **wrap):
         # convert lli C{LatLon}s to tuples or C{NumPy} arrays of
@@ -282,26 +301,25 @@ class _HeightBase(_HeightNamed):  # in .geoids
         _ev = _ev[1:].split(None, 4)
         return Fmt.PAREN(_ev['sfb'.index(_ev[0][0])])
 
-    def height(self, lats, lons, **wrap):  # PYCHOK no cover
-        '''Interpolate the height for one or several lat-/longitudes.  I{Must be overloaded}.
+    def height(self, lats, lons, **wrap):
+        '''Interpolate the height for one or several lat-/longitudes.
 
-           @arg lats: Latitude or latitudes (C{degrees} or C{degrees}s).
-           @arg lons: Longitude or longitudes (C{degrees} or C{degrees}s).
-           @kwarg wrap: If C{True}, wrap or I{normalize} all B{C{lats}}
-                        and B{C{lons}} locationts (C{bool}), overriding
-                        the B{C{knots}}  setting.
+           @arg lats: Latitude or latitudes (each C{degrees}).
+           @arg lons: Longitude or longitudes (each C{degrees}).
+           @kwarg wrap: Kewyord argument C{B{wrap}=False} (C{bool}).  Use C{True} to
+                        wrap or I{normalize} all B{C{lats}} and B{C{lons}} locationts,
+                        overriding the B{C{knots}}' setting.
 
-           @return: A single interpolated height (C{float}) or a list of
-                    interpolated heights (C{float}s).
+           @return: A single interpolated height (C{float}) or a list of interpolated
+                    heights (each C{float}).
 
-           @raise HeightError: Insufficient or non-matching number of
-                               B{C{lats}} and B{C{lons}}.
+           @raise HeightError: Insufficient or unequal number of B{C{lats}} and B{C{lons}}.
 
            @raise SciPyError: A C{scipy} issue.
 
            @raise SciPyWarning: A C{scipy} warning as exception.
         '''
-        lls = self._as_lls(lats, lons)
+        lls = self._as_lls(lats, lons)  # dup of _HeightIDW.height
         return self(lls, **wrap)  # __call__(ll) or __call__(lls)
 
     def _interp2d(self, xs, ys, hs, kind=-3):
@@ -488,11 +506,9 @@ class HeightLSQBiSpline(_HeightBase):
             m, w = len2(w)
             if m != n:
                 raise LenError(HeightLSQBiSpline, weight=m, knots=n)
-            w = map2(float, w)
-            m = min(w)
+            m, i = min2(*map(float, w))
             if m <= 0:  # PYCHOK no cover
-                w = Fmt.INDEX(weight=w.index(m))
-                raise HeightError(w, m)
+                raise HeightError(Fmt.INDEX(weight=i), m)
         try:
             if not EPS < low < (PI_2 - EPS):  # 1e-4 like SciPy example
                 raise HeightError(low=low)
@@ -663,9 +679,9 @@ class _HeightIDW(_HeightNamed):
         try:
             for i, k in enumerate(self._knots):
                 yield _f(y, x, k.lat, k.lon, **kwds)
-        except Exception as e:
+        except Exception as x:
             i = Fmt.INDEX(knots=i)
-            raise HeightError(i, k, cause=e)
+            raise HeightError(i, k, cause=x)
 
     def _distancesTo(self, _To):
         '''(INTERNAL) Yield distances C{_To}.
@@ -673,25 +689,26 @@ class _HeightIDW(_HeightNamed):
         try:
             for i, k in enumerate(self._knots):
                 yield _To(k)
-        except Exception as e:
+        except Exception as x:
             i = Fmt.INDEX(knots=i)
-            raise HeightError(i, k, cause=e)
+            raise HeightError(i, k, cause=x)
 
     def height(self, lats, lons, **wrap):
         '''Interpolate the height for one or several lat-/longitudes.
 
-           @arg lats: Latitude or latitudes (C{degrees} or C{degrees}s).
-           @arg lons: Longitude or longitudes (C{degrees} or C{degrees}s).
-           @kwarg wrap: If C{True}, wrap or I{normalize} all B{C{lats}}
-                        and B{C{lons}} (C{bool}).
+           @arg lats: Latitude or latitudes (each C{degrees}).
+           @arg lons: Longitude or longitudes (each C{degrees}).
+           @kwarg wrap: Keyword argument C{B{wrap}=False} (C{bool}).  Use
+                        C{B{wrap}=True} to wrap or I{normalize} all B{C{lats}}
+                        and B{C{lons}}.
 
            @return: A single interpolated height (C{float}) or a list of
-                    interpolated heights (C{float}s).
+                    interpolated heights (each C{float}).
 
-           @raise HeightError: Insufficient or non-matching number of B{C{lats}}
+           @raise HeightError: Insufficient or unequal number of B{C{lats}}
                                and B{C{lons}} or a L{pygeodesy.fidw} issue.
         '''
-        lls = self._as_lls(lats, lons)
+        lls = self._as_lls(lats, lons)  # dup of _HeightBase.height
         return self(lls, **wrap)  # __call__(ll) or __call__(lls)
 
     @Property_RO
@@ -753,69 +770,23 @@ class _HeightIDW(_HeightNamed):
         return _xkwds_get(self._kwds, wrap=self._wrap)
 
 
-class HeightIDWcosineAndoyerLambert(_HeightIDW):
-    '''Height interpolator using U{Inverse Distance Weighting
-       <https://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW)
-       and the I{angular} distance in C{radians} from function
-       L{pygeodesy.cosineAndoyerLambert_}.
-    '''
-    def __init__(self, knots, beta=2, **name__datum_wrap):
-        '''New L{HeightIDWcosineAndoyerLambert} interpolator.
-
-           @kwarg name__datum_wrap: Optional C{B{name}=NN} for this height
-                        interpolator (C{str}) and any keyword arguments for
-                        function L{pygeodesy.cosineAndoyerLambert}.
-
-           @see: L{Here<_HeightIDW.__init__>} for further details.
-        '''
-        _HeightIDW.__init__(self, knots, beta=beta, **name__datum_wrap)
-        self._func = _formy.cosineAndoyerLambert
-
-    if _FOR_DOCS:
-        __call__ = _HeightIDW.__call__
-        height   = _HeightIDW.height
-
-
-class HeightIDWcosineForsytheAndoyerLambert(_HeightIDW):
-    '''Height interpolator using U{Inverse Distance Weighting
-       <https://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW)
-       and the I{angular} distance in C{radians} from function
-       L{pygeodesy.cosineForsytheAndoyerLambert_}.
-    '''
-    def __init__(self, knots, beta=2, **name__datum_wrap):
-        '''New L{HeightIDWcosineForsytheAndoyerLambert} interpolator.
-
-           @kwarg name__datum_wrap: Optional C{B{name}=NN} for this height
-                        interpolator (C{str}) and any keyword arguments for
-                        function L{pygeodesy.cosineForsytheAndoyerLambert}.
-
-           @see: L{Here<_HeightIDW.__init__>} for further details.
-        '''
-        _HeightIDW.__init__(self, knots, beta=beta, **name__datum_wrap)
-        self._func = _formy.cosineForsytheAndoyerLambert
-
-    if _FOR_DOCS:
-        __call__ = _HeightIDW.__call__
-        height   = _HeightIDW.height
-
-
 class HeightIDWcosineLaw(_HeightIDW):
     '''Height interpolator using U{Inverse Distance Weighting
-       <https://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW) and the
-       I{angular} distance in C{radians} from function L{pygeodesy.cosineLaw_}.
+       <https://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW)
+       and function L{pygeodesy.cosineLaw}.
 
        @note: See note at function L{pygeodesy.vincentys_}.
     '''
-    def __init__(self, knots, beta=2, **name__radius_wrap):
+    def __init__(self, knots, beta=2, **name__corr_earth_datum_radius_wrap):
         '''New L{HeightIDWcosineLaw} interpolator.
 
-           @kwarg name__radius_wrap: Optional C{B{name}=NN} for this height
-                        interpolator (C{str}) and any keyword arguments for
-                        function L{pygeodesy.cosineLaw}.
+           @kwarg name__corr_earth_datum_radius_wrap: Optional C{B{name}=NN}
+                        for this height interpolator (C{str}) and any keyword
+                        arguments for function L{pygeodesy.cosineLaw}.
 
            @see: L{Here<_HeightIDW.__init__>} for further details.
         '''
-        _HeightIDW.__init__(self, knots, beta=beta, **name__radius_wrap)
+        _HeightIDW.__init__(self, knots, beta=beta, **name__corr_earth_datum_radius_wrap)
         self._func = _formy.cosineLaw
 
     if _FOR_DOCS:
@@ -826,8 +797,7 @@ class HeightIDWcosineLaw(_HeightIDW):
 class HeightIDWdistanceTo(_HeightIDW):
     '''Height interpolator using U{Inverse Distance Weighting
        <https://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW)
-       and the distance from the points' C{LatLon.distanceTo} method,
-       conventionally in C{meter}.
+       and the points' C{LatLon.distanceTo} method.
     '''
     def __init__(self, knots, beta=2, **name__distanceTo_kwds):
         '''New L{HeightIDWdistanceTo} interpolator.
@@ -847,12 +817,12 @@ class HeightIDWdistanceTo(_HeightIDW):
         # use knots[0] class and datum to create compatible points
         # in ._as_lls instead of class LatLon_ and datum None
         self._datum = ks0.datum
-        self._LLis  = ks0.classof  # type(ks0)
+        self._LLiC  = ks0.classof  # type(ks0)
 
     def _distances(self, x, y):
         '''(INTERNAL) Yield distances to C{(x, y)}.
         '''
-        kwds, ll = self._kwds, self._LLis(y, x)
+        kwds, ll = self._kwds, self._LLiC(y, x)
 
         def _To(k):
             return k.distanceTo(ll, **kwds)
@@ -866,9 +836,8 @@ class HeightIDWdistanceTo(_HeightIDW):
 
 class HeightIDWequirectangular(_HeightIDW):
     '''Height interpolator using U{Inverse Distance Weighting
-       <https://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW) and
-       the I{angular} distance in C{radians squared} like function
-       L{pygeodesy.equirectangular4}.
+       <https://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW)
+       and function L{pygeodesy.equirectangular4}.
     '''
     def __init__(self, knots, beta=2, **name__adjust_limit_wrap):  # XXX beta=1
         '''New L{HeightIDWequirectangular} interpolator.
@@ -898,8 +867,8 @@ class HeightIDWequirectangular(_HeightIDW):
 
 class HeightIDWeuclidean(_HeightIDW):
     '''Height interpolator using U{Inverse Distance Weighting
-       <https://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW) and the
-       I{angular} distance in C{radians} from function L{pygeodesy.euclidean_}.
+       <https://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW)
+       and function L{pygeodesy.euclidean_}.
     '''
     def __init__(self, knots, beta=2, **name__adjust_radius_wrap):
         '''New L{HeightIDWeuclidean} interpolator.
@@ -921,8 +890,7 @@ class HeightIDWeuclidean(_HeightIDW):
 class HeightIDWexact(_HeightIDW):
     '''Height interpolator using U{Inverse Distance Weighting
        <https://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW)
-       and the I{angular} distance in C{degrees} from method
-       L{GeodesicExact.Inverse}.
+       and method L{GeodesicExact.Inverse}.
     '''
     def __init__(self, knots, beta=2, datum=None, **name__wrap):
         '''New L{HeightIDWexact} interpolator.
@@ -949,9 +917,8 @@ class HeightIDWexact(_HeightIDW):
 
 class HeightIDWflatLocal(_HeightIDW):
     '''Height interpolator using U{Inverse Distance Weighting
-       <https://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW)
-       and the I{angular} distance in C{radians squared} like function
-       L{pygeodesy.flatLocal_}/L{pygeodesy.hubeny_}.
+       <https://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW) and
+       the function L{pygeodesy.flatLocal_}/L{pygeodesy.hubeny_}.
     '''
     def __init__(self, knots, beta=2, **name__datum_hypot_scaled_wrap):
         '''New L{HeightIDWflatLocal}/L{HeightIDWhubeny} interpolator.
@@ -974,8 +941,7 @@ class HeightIDWflatLocal(_HeightIDW):
 class HeightIDWflatPolar(_HeightIDW):
     '''Height interpolator using U{Inverse Distance Weighting
        <https://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW)
-       and the I{angular} distance in C{radians} from function
-       L{pygeodesy.flatPolar_}.
+       and function L{pygeodesy.flatPolar_}.
     '''
     def __init__(self, knots, beta=2, **name__radius_wrap):
         '''New L{HeightIDWflatPolar} interpolator.
@@ -996,8 +962,8 @@ class HeightIDWflatPolar(_HeightIDW):
 
 class HeightIDWhaversine(_HeightIDW):
     '''Height interpolator using U{Inverse Distance Weighting
-       <https://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW) and the
-       I{angular} distance in C{radians} from function L{pygeodesy.haversine_}.
+       <https://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW)
+       and function L{pygeodesy.haversine_}.
 
        @note: See note at function L{pygeodesy.vincentys_}.
     '''
@@ -1028,11 +994,10 @@ class HeightIDWhubeny(HeightIDWflatLocal):  # for Karl Hubeny
 
 class HeightIDWkarney(_HeightIDW):
     '''Height interpolator using U{Inverse Distance Weighting
-       <https://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW) and the
-       I{angular} distance in C{degrees} from I{Karney}'s U{geographiclib
-       <https://PyPI.org/project/geographiclib>} method U{Geodesic.Inverse
-       <https://GeographicLib.SourceForge.io/Python/doc/code.html#
-       geographiclib.geodesic.Geodesic.Inverse>}.
+       <https://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW) and
+       I{Karney}'s U{geographiclib<https://PyPI.org/project/geographiclib>}
+       method U{geodesic.Geodesic.Inverse<https://GeographicLib.SourceForge.io/
+       Python/doc/code.html#geographiclib.geodesic.Geodesic.Inverse>}.
     '''
     def __init__(self, knots, beta=2, datum=None, **name__wrap):
         '''New L{HeightIDWkarney} interpolator.
@@ -1062,8 +1027,8 @@ class HeightIDWkarney(_HeightIDW):
 
 class HeightIDWthomas(_HeightIDW):
     '''Height interpolator using U{Inverse Distance Weighting
-       <https://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW) and the
-       I{angular} distance in C{radians} from function L{pygeodesy.thomas_}.
+       <https://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW)
+       and function L{pygeodesy.thomas_}.
     '''
     def __init__(self, knots, beta=2, **name__datum_wrap):
         '''New L{HeightIDWthomas} interpolator.
@@ -1084,8 +1049,8 @@ class HeightIDWthomas(_HeightIDW):
 
 class HeightIDWvincentys(_HeightIDW):
     '''Height interpolator using U{Inverse Distance Weighting
-       <https://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW) and the
-       I{angular} distance in C{radians} from function L{pygeodesy.vincentys_}.
+       <https://WikiPedia.org/wiki/Inverse_distance_weighting>} (IDW)
+       and function L{pygeodesy.vincentys_}.
 
        @note: See note at function L{pygeodesy.vincentys_}.
     '''

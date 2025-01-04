@@ -67,7 +67,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        24.11.02
+        24.12.31
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -372,7 +372,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#isiterable" class="summary-sig-name">isiterable</a>(<span class="summary-sig-arg">obj</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#isiterable" class="summary-sig-name">isiterable</a>(<span class="summary-sig-arg">obj</span>,
+        <span class="summary-sig-arg">strict</span>=<span class="summary-sig-default">False</span>)</span><br />
       Is <b><code>obj</code></b>ect <code>iterable</code>?</td>
           <td align="right" valign="top">
             
@@ -389,9 +390,29 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#isiterablen" class="summary-sig-name">isiterablen</a>(<span class="summary-sig-arg">obj</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#isiterablen" class="summary-sig-name">isiterablen</a>(<span class="summary-sig-arg">obj</span>,
+        <span class="summary-sig-arg">strict</span>=<span class="summary-sig-default">False</span>)</span><br />
       Is <b><code>obj</code></b>ect <code>iterable</code> and has 
       <code>len</code>gth?</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#isiterabletype" class="summary-sig-name">isiterabletype</a>(<span class="summary-sig-arg">obj</span>,
+        <span class="summary-sig-arg">method</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">__iter__</code><code class="variable-quote">'</code></span>)</span><br />
+      Is <b><code>obj</code></b>ect an instance of an <code>iterable</code>
+      class or type?</td>
           <td align="right" valign="top">
             
             
@@ -629,9 +650,44 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.basics-module.html#map2" class="summary-sig-name">map2</a>(<span class="summary-sig-arg">fun</span>,
-        <span class="summary-sig-arg">*xs</span>)</span><br />
+        <span class="summary-sig-arg">*xs</span>,
+        <span class="summary-sig-arg">**strict</span>)</span><br />
       Like Python's <b><code>map</code></b> but returning a 
       <code>tuple</code> of results.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="max2"></a><span class="summary-sig-name">max2</span>(<span class="summary-sig-arg">*xs</span>)</span><br />
+      Return 2-tuple <code>(max(xs), xs.index(max(xs)))</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="min2"></a><span class="summary-sig-name">min2</span>(<span class="summary-sig-arg">*xs</span>)</span><br />
+      Return 2-tuple <code>(min(xs), xs.index(min(xs)))</code>.</td>
           <td align="right" valign="top">
             
             
@@ -1118,7 +1174,8 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">isiterable</span>&nbsp;(<span class="sig-arg">obj</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isiterable</span>&nbsp;(<span class="sig-arg">obj</span>,
+        <span class="sig-arg">strict</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1130,6 +1187,7 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
+        <li><strong class="pname"><code>strict</code></strong> - If <code>True</code>, check class attributes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>True</code> if <code>iterable</code>, <code>False</code> 
@@ -1144,7 +1202,8 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">isiterablen</span>&nbsp;(<span class="sig-arg">obj</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isiterablen</span>&nbsp;(<span class="sig-arg">obj</span>,
+        <span class="sig-arg">strict</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1157,10 +1216,40 @@
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
+        <li><strong class="pname"><code>strict</code></strong> - If <code>True</code>, check class attributes (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>True</code> if <code>iterable</code> with 
           <code>len</code>gth, <code>False</code> otherwise.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="isiterabletype"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isiterabletype</span>&nbsp;(<span class="sig-arg">obj</span>,
+        <span class="sig-arg">method</span>=<span class="sig-default"><code class="variable-quote">'</code><code class="variable-string">__iter__</code><code class="variable-quote">'</code></span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Is <b><code>obj</code></b>ect an instance of an <code>iterable</code> 
+  class or type?</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>obj</code></strong> - The object (any <code>type</code>).</li>
+        <li><strong class="pname"><code>method</code></strong> - The name of the required method (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>The <code>base-class</code> if <code>iterable</code>, 
+          <code>None</code> otherwise.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -1501,7 +1590,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">map2</span>&nbsp;(<span class="sig-arg">fun</span>,
-        <span class="sig-arg">*xs</span>)</span>
+        <span class="sig-arg">*xs</span>,
+        <span class="sig-arg">**strict</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1520,6 +1610,9 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>fun</code></strong> - Function (<code>callable</code>).</li>
         <li><strong class="pname"><code>xs</code></strong> - Arguments (<code>all positional</code>).</li>
+        <li><strong class="pname"><code>strict</code></strong> - See <a 
+          href="https://docs.Python.org/3.14/library/functions.html#map" 
+          target="_top">Python 3.14+ map</a> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Function results (<code>tuple</code>).</dd>
@@ -1738,7 +1831,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Dec 12 15:50:52 2024
+    Generated by Epydoc 3.0.1 on Fri Jan  3 23:17:56 2025
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
