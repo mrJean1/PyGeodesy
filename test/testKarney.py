@@ -4,7 +4,7 @@
 # Test L{karney} module and wrappers.
 
 __all__ = ('Tests',)
-__version__ = '24.09.04'
+__version__ = '25.01.05'
 
 from bases import endswith, GeodSolve, geographiclib, startswith, TestsBase
 
@@ -160,7 +160,7 @@ class Tests(TestsBase):
     def testMath(self):
         self.subtitle(karney, 'Math')
 
-        if geographiclib:
+        if geographiclib and karney._wrapped.Math:
             _sincosd = karney._wrapped.Math.sincosd
             for d in range(-360, 391, 15):
                 s, c = sincos2d(d)
