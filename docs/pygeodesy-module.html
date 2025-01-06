@@ -581,7 +581,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        24.12.31
+        25.01.05
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -9338,7 +9338,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fe75872fd50&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fdd2095de50&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -9346,6 +9346,24 @@
       target="_top">early breaking</a> and <a 
       href="https://Publik.TUWien.ac.AT/files/PubDat_247739.pdf" 
       target="_top">random sampling</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#hav" class="summary-sig-name">hav</a>(<span class="summary-sig-arg">rad</span>)</span><br />
+      Return the <a href="https://WikiPedia.org/wiki/Haversine_formula" 
+      target="_top">haversine</a> of an angle.</td>
           <td align="right" valign="top">
             
             
@@ -12891,7 +12909,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#sincos2d" class="summary-sig-name">sincos2d</a>(<span class="summary-sig-arg">deg</span>,
-        <span class="summary-sig-arg">**adeg</span>)</span><br />
+        <span class="summary-sig-arg">adeg</span>=<span class="summary-sig-default">0.0</span>)</span><br />
       Return the <code>sine</code> and <code>cosine</code> of an angle in 
       <code>degrees</code>.</td>
           <td align="right" valign="top">
@@ -14485,7 +14503,7 @@ ygeodesy'"><code class="variable-quote">'</code><code class="variable-string">/U
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'24.12.31'">'24.12.31'</code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'25.1.5'">'25.1.5'</code><br />
       Normalized <code>PyGeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -22795,7 +22813,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fe75872fd50&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fdd2095de50&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -22848,6 +22866,32 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
         <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>distance</code></b> or <b><code>point</code></b> is not
         callable.</li>
     </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="hav"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">hav</span>&nbsp;(<span class="sig-arg">rad</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the <a href="https://WikiPedia.org/wiki/Haversine_formula" 
+  target="_top">haversine</a> of an angle.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>rad</code></strong> - Angle (<code>radians</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>sin(<b>rad</b> / 2)**2</code>.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -24918,7 +24962,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
     <dt>Returns:</dt>
         <dd><code>True</code> if <code>(abs(<b>lat</b>) + <b>eps</b>) &lt;= 
           90</code> and <code>(abs(<b>lon</b>) + <b>eps</b>) &lt;= 
-          180</code>, <code>False</code> othwerwise.</dd>
+          180</code>, <code>False</code> otherwise.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Functions <a href="pygeodesy.formy-module.html#isnormal_" 
@@ -29582,7 +29626,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">sincos2d</span>&nbsp;(<span class="sig-arg">deg</span>,
-        <span class="sig-arg">**adeg</span>)</span>
+        <span class="sig-arg">adeg</span>=<span class="sig-default">0.0</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -33356,7 +33400,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Jan  3 23:17:56 2025
+    Generated by Epydoc 3.0.1 on Mon Jan  6 10:46:23 2025
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

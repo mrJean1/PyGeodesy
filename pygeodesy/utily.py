@@ -17,7 +17,7 @@ from pygeodesy.constants import EPS, EPS0, INF, NAN, PI, PI2, PI_2, R_M, \
                                _1_0, _N_1_0, _10_0, _90_0, _180_0, _360_0, \
                                _copysign_0_0, _float, _isfinite, isnan, isnear0, \
                                _over, _umod_360, _umod_PI2
-from pygeodesy.errors import _ValueError, _xkwds, _xkwds_get1,  _ALL_LAZY, _MODS
+from pygeodesy.errors import _ValueError, _xkwds,  _ALL_LAZY, _MODS
 from pygeodesy.internals import _passargs
 from pygeodesy.interns import _edge_, _radians_, _semi_circular_, _SPACE_
 # from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS  # from .errors
@@ -28,7 +28,7 @@ from math import acos, asin, atan2 as _atan2, cos, degrees, fabs, radians, \
                  sin, tan as _tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '24.12.23'
+__version__ = '25.01.05'
 
 _G_DEG     = _float(  400.0 / _360_0)  # grades per degree
 _G_RAD     = _float(  400.0 /  PI2)    # grades per radian
@@ -434,6 +434,16 @@ def ha2m2(ha):
     return Meter2(Float(ha=ha) * _M_HA)
 
 
+def hav(rad):
+    '''Return the U{haversine<https://WikiPedia.org/wiki/Haversine_formula>} of an angle.
+
+       @arg rad: Angle (C{radians}).
+
+       @return: C{sin(B{rad} / 2)**2}.
+    '''
+    return sin(rad * _0_5)**2
+
+
 def km2m(km):
     '''Convert kilo meter to meter (m).
 
@@ -792,7 +802,7 @@ def sincos2_(*rads):
         yield c
 
 
-def sincos2d(deg, **adeg):
+def sincos2d(deg, adeg=_0_0):
     '''Return the C{sine} and C{cosine} of an angle in C{degrees}.
 
        @arg deg: Angle (C{degrees}).
@@ -814,8 +824,7 @@ def sincos2d(deg, **adeg):
             q -= 1
         d = deg - q * _90_0
         if adeg:
-            a = _xkwds_get1(adeg, adeg=_0_0)
-            d = _MODS.karney._around(d + a)
+            d = _MODS.karney._around(d + adeg)
         t = _sin0cos2(q & 3, radians(d), deg, fabs(d), _90_0)
     else:
         t =  NAN, NAN
@@ -1182,7 +1191,7 @@ class _Wrap(object):
         '''
         if wrap and self._normal is not None:
             lat, lon = ll.latlon
-            if fabs(lon) > 180 or fabs(lat) > 90:
+            if fabs(lon) > _180_0 or fabs(lat) > _90_0:
                 _n = self.latlon
                 ll = ll.copy(name=_n.__name__)
                 ll.latlon = _n(lat, lon)

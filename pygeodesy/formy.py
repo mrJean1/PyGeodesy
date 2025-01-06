@@ -32,7 +32,7 @@ from pygeodesy.namedTuples import Bearing2Tuple, Distance4Tuple, LatLon2Tuple, \
 from pygeodesy.units import _isDegrees, _isHeight, _isRadius, Bearing, Degrees_, \
                              Distance, Distance_, Height, Lamd, Lat, Lon, Meter_, \
                              Phid, Radians, Radians_, Radius, Radius_, Scalar, _100km
-from pygeodesy.utily import acos1, asin1, atan2, atan2b, degrees2m, _loneg, \
+from pygeodesy.utily import acos1, asin1, atan2, atan2b, degrees2m, hav, _loneg, \
                             m2degrees, tan_2, sincos2, sincos2_, _Wrap
 # from pygeodesy.vector3d import _otherV3d  # _MODS
 # from pygeodesy.vector3dBase import _xyz_y_z3  # _MODS
@@ -43,7 +43,7 @@ from contextlib import contextmanager
 from math import atan, cos, degrees, fabs, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '24.12.31'
+__version__ = '25.01.05'
 
 _RADIANS2 =  radians(_1_0)**2  # degree to radians-squared
 _ratio_   = 'ratio'
@@ -328,9 +328,9 @@ def cosineLaw_(phi2, phi1, lam21, corr=0, earth=None, datum=_WGS84):
                     b = -2 * d
                     e = 30 * s2r
 
-                    c  = fdot_(30, r, cr, s, e, _0_5)  # 8 * r**2 / tan(r)
-                    t  = fdot_( a, x, b,  y, e,  y**2, -c, x**2, d, x * y) * _0_125
-                    r += fdot_(-r, x, sr, y * 3, t, f) * f
+                    c  = fdot_(30, r,  cr, s,  e, _0_5)  # 8 * r**2 / tan(r)
+                    t  = fdot_( a, x,  b,  y,  e,  y**2,  -c, x**2,  d, x * y) * _0_125
+                    r += fdot_(-r, x,  sr, y * 3,  t, f) * f
             else:
                 raise _ValueError(corr=corr)
     return r
@@ -985,10 +985,7 @@ def haversine_(phi2, phi1, lam21):
 
        @note: See note at function L{vincentys_}.
     '''
-    def _hsin(rad):
-        return sin(rad * _0_5)**2
-
-    h = _hsin(phi2 - phi1) + cos(phi1) * cos(phi2) * _hsin(lam21)  # haversine
+    h = hav(phi2 - phi1) + cos(phi1) * cos(phi2) * hav(lam21)  # haversine
     return atan2(sqrt0(h), sqrt0(_1_0 - h)) * _2_0  # == asin1(sqrt(h)) * 2
 
 
@@ -1311,11 +1308,11 @@ def isnormal(lat, lon, eps=0):
        @kwarg eps: Optional tolerance C{degrees}).
 
        @return: C{True} if C{(abs(B{lat}) + B{eps}) <= 90} and
-                C{(abs(B{lon}) + B{eps}) <= 180}, C{False} othwerwise.
+                C{(abs(B{lon}) + B{eps}) <= 180}, C{False} otherwise.
 
        @see: Functions L{isnormal_} and L{normal}.
     '''
-    return (_90_0 - fabs(lat)) >= eps and _loneg(fabs(lon)) >= eps
+    return _loneg(fabs(lon)) >= eps and (_90_0 - fabs(lat)) >= eps  # co-latitude
 
 
 def isnormal_(phi, lam, eps=0):

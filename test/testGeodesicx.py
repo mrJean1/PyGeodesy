@@ -5,7 +5,7 @@
 # and Python C{geographiclib} tests.
 
 __all__ = ('Tests',)
-__version__ = '24.06.26'
+__version__ = '25.01.05'
 
 from bases import _fLate, GeodSolve, geographiclib, isPython2, TestsBase
 
@@ -217,7 +217,7 @@ class Tests(TestsBase):
         self.test('lat2',      g.lat2,     37.976217, prec=6, known=int(g.lat2)==37)  # == 37°58′34.3812″N  37°58'41.2236"
         self.test('lon2',      g.lon2,     18.344820, prec=6, known=int(g.lon2)==18)  # == 18°20′41.3520″E  18°20'56.6279"
         self.test('s12',       g.s12, 1012790.599291, prec=6,  # varies 5+ meter        vs    Table 6  sAX 1,012,443.9063
-                                                              known=1012789<g.s12<1012796)
+                                                              known=1012789<g.s12<1012798)
         self.test('at',        g.at,      270.005437, prec=6, known=int(g.at)  ==270)
         self.test('iteration', g.iteration, 128, known=True)
 

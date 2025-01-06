@@ -438,6 +438,7 @@ pygeodesy.len2	pygeodesy-module.html#len2
 pygeodesy.fsumf_	pygeodesy-module.html#fsumf_
 pygeodesy.xyz2rtp	pygeodesy-module.html#xyz2rtp
 pygeodesy.euclidean_	pygeodesy-module.html#euclidean_
+pygeodesy.hav	pygeodesy-module.html#hav
 pygeodesy.Transforms	pygeodesy-module.html#Transforms
 pygeodesy.equirectangular3	pygeodesy-module.html#equirectangular3
 pygeodesy.equirectangular4	pygeodesy-module.html#equirectangular4
@@ -2162,6 +2163,7 @@ pygeodesy.formy.hartzell	pygeodesy.formy-module.html#hartzell
 pygeodesy.formy.euclidean	pygeodesy.formy-module.html#euclidean
 pygeodesy.formy._bearingTo2	pygeodesy.formy-module.html#_bearingTo2
 pygeodesy.formy.hypot2	pygeodesy.fmath-module.html#hypot2
+pygeodesy.formy.hav	pygeodesy.utily-module.html#hav
 pygeodesy.formy._scale_rad	pygeodesy.formy-module.html#_scale_rad
 pygeodesy.formy._xattr	pygeodesy.errors-module.html#_xattr
 pygeodesy.formy.bearing	pygeodesy.formy-module.html#bearing
@@ -4359,6 +4361,7 @@ pygeodesy.utily.unrollPI	pygeodesy.utily-module.html#unrollPI
 pygeodesy.utily.degrees2grades	pygeodesy.utily-module.html#degrees2grades
 pygeodesy.utily.yard2m	pygeodesy.utily-module.html#yard2m
 pygeodesy.utily.degrees180	pygeodesy.utily-module.html#degrees180
+pygeodesy.utily.hav	pygeodesy.utily-module.html#hav
 pygeodesy.utily.acos1	pygeodesy.utily-module.html#acos1
 pygeodesy.utily._tanu	pygeodesy.utily-module.html#_tanu
 pygeodesy.utily.cotd	pygeodesy.utily-module.html#cotd
@@ -4433,7 +4436,6 @@ pygeodesy.utily.tand	pygeodesy.utily-module.html#tand
 pygeodesy.utily.wrap_normal	pygeodesy.utily-module.html#wrap_normal
 pygeodesy.utily.m2km	pygeodesy.utily-module.html#m2km
 pygeodesy.utily._passargs	pygeodesy.internals-module.html#_passargs
-pygeodesy.utily._xkwds_get1	pygeodesy.errors-module.html#_xkwds_get1
 pygeodesy.utily.sincos2d_	pygeodesy.utily-module.html#sincos2d_
 pygeodesy.utily.m2ha	pygeodesy.utily-module.html#m2ha
 pygeodesy.utily.circle4	pygeodesy.utily-module.html#circle4

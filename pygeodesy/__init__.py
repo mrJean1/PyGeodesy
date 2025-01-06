@@ -598,7 +598,7 @@ else:
 
 from pygeodesy.internals import _version2,  _DOT_  # PYCHOK import
 # from pygeodesy.interns import _DOT_  # from .internals
-__version__ = '24.12.31'
+__version__ = '25.01.05'
 # see setup.py for similar logic
 version     = _DOT_(*_version2(__version__, n=3))
 

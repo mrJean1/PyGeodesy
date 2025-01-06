@@ -360,9 +360,10 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'fathom2m', 'ft2m', 'furlong2m',                  # 'degrees2grades as degrees2gons',
                                    'grades', 'grades400', 'grades2degrees', 'grades2radians',
 #                                  'grades as gons', 'grades400 as gons400', 'grades2degrees as gons2degrees', 'grades2radians as gons2radians',
-                                   'ha2acre', 'ha2m2', 'km2m', 'm2acre', 'm2chain', 'm2degrees', 'm2fathom', 'm2ft', 'm2furlong',
-                                   'm2ha', 'm2km', 'm2NM', 'm2radians', 'm2SM', 'm2toise', 'm2yard', 'NM2m',
-                                   'radians', 'radiansPI', 'radiansPI2', 'radiansPI_2', 'radians2m',
+                                   'ha2acre', 'ha2m2', 'hav', 'km2m',
+                                   'm2acre', 'm2chain', 'm2degrees', 'm2fathom', 'm2ft', 'm2furlong',
+                                   'm2ha', 'm2km', 'm2NM', 'm2radians', 'm2SM', 'm2toise', 'm2yard',
+                                   'NM2m', 'radians', 'radiansPI', 'radiansPI2', 'radiansPI_2', 'radians2m',
                                    'sincos2', 'SinCos2', 'sincos2_', 'sincos2d', 'sincos2d_', 'sincostan3', 'sincostan3d', 'SM2m',
                                    'tan', 'tan_', 'tand', 'tand_', 'tan_2', 'tanPI_2_2', 'toise2m', 'truncate',
                                    'unroll180', 'unrollPI',
@@ -508,7 +509,7 @@ class _ALL_MODS(_internals._MODS_Base):
 _internals._MODS = _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '24.12.31'
+__version__ = '25.01.05'
 
 
 def _ALL_OTHER(*objs):
