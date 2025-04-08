@@ -5,7 +5,7 @@ u'''Print L{geodesicx} version, etc. using C{python -m pygeodesy.geodesicx}.
 '''
 
 __all__ = ()
-__version__ = '24.12.31'
+__version__ = '25.04.04'
 
 
 def _main(**C4order):  # PYCHOK no cover
@@ -44,7 +44,7 @@ def _main(**C4order):  # PYCHOK no cover
         print(_usage(__file__))
 
 
-from sys import argv  # .internals._isPyChecker
+from sys import argv  # .internals._isPyChOK
 _main(C4order=int(argv[1])) if len(argv) == 2 and argv[1].isdigit() else _main()
 
 # % python3.13 -m pygeodesy.geodesicx 30

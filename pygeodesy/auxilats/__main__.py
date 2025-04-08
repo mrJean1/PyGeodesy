@@ -5,7 +5,7 @@ u'''Print L{auxilats} version, etc. using C{python -m pygeodesy.auxilats}.
 '''
 
 __all__ = ()
-__version__ = '24.09.04'
+__version__ = '25.04.04'
 
 
 def _main(**ALorder):  # PYCHOK no cover
@@ -36,7 +36,7 @@ def _main(**ALorder):  # PYCHOK no cover
         print(_usage(__file__))
 
 
-from sys import argv  # .internals._isPyChecker
+from sys import argv  # .internals._isPyChOK
 _main(ALorder=int(argv[1])) if len(argv) == 2 and argv[1].isdigit() else _main()
 
 # % python3.12 -m pygeodesy.auxilats 8

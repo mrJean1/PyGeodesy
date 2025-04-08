@@ -23,13 +23,16 @@
 # <https://setuptools.ReadTheDocs.io/en/latest/setuptools.html#developer-s-guide>
 # <https://setuptools.ReadTheDocs.io/en/latest/setuptools.html#test-build-package-and-run-a-unittest-suite>
 
+from os import getenv
 from setuptools import setup
 
 __all__ = ()
-__version__ = '24.12.15'
+__version__ = '25.01.16'
+
+_PACKAGE = 'pygeodesy'  # 'PyGeodesy'
 
 
-def _c2(*names):
+def _c(*names):
     return ' :: '.join(names)
 
 
@@ -46,7 +49,8 @@ def _version():
         for t in f.readlines():
             if t.startswith('__version__'):
                 v = t.split('=')[-1].strip().strip('\'"')
-                return '.'.join(map(str, map(int, v.split('.'))))
+                c = getenv('PYGEODESY_DIST_RC', '')
+                return '.'.join(map(str, map(int, v.split('.')))) + c
 
 
 _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode', 'area', 'attitude',
@@ -68,7 +72,7 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode', 'are
              'GARS', 'geocentric', 'GeoConvert', 'GeodesicExact', 'geodesy', 'geodetic', 'GeodSolve', 'GeodTest',
              'geographiclib', 'Geohash', 'geoid', 'geoidHeight', 'GeoidHeights',
              'georef', 'Girard', 'gnomonic', 'gons', 'grades', 'gradians', 'Greiner', 'Greiner-Hormann',
-             'Hartzell', 'Hausdorff', 'Haversine', 'heading', 'height', 'Heikkinen', 'Heron',
+             'Hartzell', 'Hausdorff', 'Haversine', 'heading', 'hectare', 'height', 'Heikkinen', 'Heron',
              'Hodgman', 'horizon', 'Hormann', 'Hubeny',
              'IDW', 'incenter', 'incirle', 'infix_@_operator', 'inradius', 'intermediate', 'interpolate',
              'intersect', 'intersection', 'intersection3d', 'intersections', 'IntersectTool',
@@ -86,7 +90,7 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode', 'are
              'perimeter', 'Peucker', 'Pierlot', 'pitch', 'plumb', 'Point-Of-View', 'polar', 'Popa', 'POV',
              'precision-cubic-root', 'precision-hypotenuse', 'precision-powers',
              'precision-running-summation', 'precision-square-root', 'precision-summation',
-             'prolate', 'Pseudo-Mercator', 'PyGeodesy', 'PyInstaller', 'PyPy', 'quartic',
+             'prolate', 'Pseudo-Mercator', _PACKAGE, 'PyInstaller', 'PyPy', 'quartic',
              'radical', 'radii', 'radius', 'Ramer', 'Ramer-Douglas-Peucker', 'Rectifying',
              'Reduced', 'resect', 'resection', 'Rey-Jer', 'Reumann', 'Reumann-Witkam', 'rhumb', 'RhumbSolve',
              'running-linear-regression', 'running-statistics', 'running-stats', 'running-summation',
@@ -104,7 +108,7 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode', 'are
              'Web-Mercator', 'Welford', 'WGRS', 'WGS', 'Whyatt', 'Wildberger', 'Witkam', 'winding-number',
              'XYZ', 'yaw', 'You', 'zenzi-cubic', 'zenzi-quartic')
 
-setup(name='PyGeodesy',
+setup(name=_PACKAGE,
       packages=['pygeodesy', 'pygeodesy.auxilats', 'pygeodesy.deprecated', 'pygeodesy.geodesicx', 'pygeodesy.rhumb'],
       description='Pure Python geodesy tools',
       version=_version(),
@@ -120,32 +124,32 @@ setup(name='PyGeodesy',
 
       long_description=_long_description(),
 
-      package_data={'pygeodesy': ['LICENSE']},
+      package_data={_PACKAGE: ['LICENSE']},
 
       test_suite='test.TestSuite',
 
       zip_safe=False,
 
       # <https://PyPI.org/pypi?%3Aaction=list_classifiers>
-      classifiers=[_c2('Development Status', '5 - Production/Stable'),
-                   _c2('Environment', 'Console'),
-                   _c2('Intended Audience', 'Developers'),
-                   _c2('License', 'OSI Approved', 'MIT License'),
-                   _c2('Operating System', 'OS Independent'),
-                   _c2('Programming Language', 'Python'),
-#                  _c2('Programming Language', 'Python', '2.6'),
-                   _c2('Programming Language', 'Python', '2.7'),
-#                  _c2('Programming Language', 'Python', '3.5'),
-#                  _c2('Programming Language', 'Python', '3.6'),
-#                  _c2('Programming Language', 'Python', '3.7'),
-#                  _c2('Programming Language', 'Python', '3.8'),
-#                  _c2('Programming Language', 'Python', '3.9'),
-                   _c2('Programming Language', 'Python', '3.10'),
-                   _c2('Programming Language', 'Python', '3.11'),
-                   _c2('Programming Language', 'Python', '3.12'),
-                   _c2('Programming Language', 'Python', '3.13'),
-                   _c2('Topic', 'Software Development'),
-                   _c2('Topic', 'Scientific/Engineering', 'GIS'),
+      classifiers=[_c('Development Status', '5 - Production/Stable'),
+                   _c('Environment', 'Console'),
+                   _c('Intended Audience', 'Developers'),
+                   _c('License', 'OSI Approved', 'MIT License'),
+                   _c('Operating System', 'OS Independent'),
+                   _c('Programming Language', 'Python'),
+#                  _c('Programming Language', 'Python', '2.6'),
+                   _c('Programming Language', 'Python', '2.7'),
+#                  _c('Programming Language', 'Python', '3.5'),
+#                  _c('Programming Language', 'Python', '3.6'),
+#                  _c('Programming Language', 'Python', '3.7'),
+#                  _c('Programming Language', 'Python', '3.8'),
+#                  _c('Programming Language', 'Python', '3.9'),
+                   _c('Programming Language', 'Python', '3.10'),
+                   _c('Programming Language', 'Python', '3.11'),
+                   _c('Programming Language', 'Python', '3.12'),
+                   _c('Programming Language', 'Python', '3.13'),
+                   _c('Topic', 'Software Development'),
+                   _c('Topic', 'Scientific/Engineering', 'GIS'),
       ],  # PYCHOK indent
 
 #     download_url='https://GitHub.com/mrJean1/PyGeodesy',

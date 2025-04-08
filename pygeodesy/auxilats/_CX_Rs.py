@@ -11,8 +11,10 @@ MIT/X11 License.  For more information, see <https:#GeographicLib.SourceForge.io
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.constants import _floats
+# from pygeodesy.basics import _splituple  # _MODS
+from pygeodesy.constants import _floats as _Cs
 from pygeodesy.errors import _AssertionError,  _MODS
+# from pygeodesy.internals import _sizeof  # _MODS
 from pygeodesy.interns import NN, MISSING, _COMMA_, _duplicate_, _NL_, \
                              _QUOTE3_, _SLASH_,  _ELLIPSIS4_  # PYCHOK used!
 # from pygeodesy.lazily import _ALL_MODS as _MODS  # from .errors
@@ -20,7 +22,7 @@ from pygeodesy.named import ADict,  Property_RO
 # from pygeodesy.props import Property_RO  # from .named
 
 __all__ = ()
-__version__ = '24.09.04'
+__version__ = '25.01.15'
 
 
 class _Rcoeffs(ADict):
@@ -31,17 +33,19 @@ class _Rcoeffs(ADict):
         '''
         try:
             if not isinstance(coeffs, dict):
-                raise _RdictError(coeffs=type(coeffs))
+                raise _RsError(coeffs=type(coeffs))
             n = 0
             for k, d in coeffs.items():
+                if not isinstance(k, _Rkey):
+                    raise _RsError(k=type(k))
                 if not isinstance(d, _Rdict):
-                    raise _RdictError(k=k, d=type(d))
+                    raise _RsError(k=k, d=type(d))
                 n += d.n
 
             ADict.__init__(self, coeffs)
             self.set_(ALorder=ALorder, n=n)  # in .validate
         except Exception as x:
-            raise _RdictError(ALorder=ALorder, cause=x)
+            raise _RsError(ALorder=ALorder, cause=x)
 
     def bnuz4(self):  # in .auxilats.__main__  # PYCHOK no cover
         # get C{(strB, number, unique, floatB)} rationals
@@ -53,8 +57,8 @@ class _Rcoeffs(ADict):
             t  =  R._tuple
             z += _zB(t)  # Float
             # assert R.Rdict is None
-            n += len(t)
-            u += sum(1 for f in t if f in _floats)
+            n +=  len(t)
+            u +=  sum(1 for f in t if f in _Cs)
         return b, n, (n - u), z
 
     def items(self):  # string-ify keys  # PYCHOK no cover
@@ -74,48 +78,48 @@ class _Rcoeffs(ADict):
 #       for R in self._Rtuples():
 #           assert isinstance(R, _Rtuple)
         if aL != a or lenAux != n:
-            raise _RdictError(aL=aL, ALorder=a, lenAux=lenAux, n=n)
+            raise _RsError(aL=aL, ALorder=a, lenAux=lenAux, n=n)
         return self
 
 
 class _Rdict(dict):  # in ._CX_#, .auxLat, .rhumb.aux_
     '''(INTERNAL) Dict of C{_Rtuple}s.
     '''
-    n = 0  # sum(R.k_n_k[1] for r in Rtuples)
+    n = 0  # sum(R.k_n_k[1] for R in Rtuples)
 
     def __init__(self, nt, *Rtuples):
         '''New C{_Rdict}.
         '''
         if not Rtuples:
-            raise _RdictError(Rtuples=MISSING)
+            raise _RsError(Rtuples=MISSING)
 
         for R in Rtuples:
             if not isinstance(R, _Rtuple):
-                raise _RdictError(R, R=type(R))
+                raise _RsError(R, R=type(R))
             k, n, _ = R.k_n_rs
             if k in self:
-                raise _RdictError(_duplicate_, k=k)
+                raise _RsError(_duplicate_, k=k)
             R.Rdict = self
             self[k] = R  # overwritten in self._floatuple
             self.n += n
         if self.n != nt:
-            raise _RdictError(n=n, nt=nt)
+            raise _RsError(n=n, nt=nt)
 
     def _floats(self, rs):
         # yield floats from a string of comma-separated rationals
         def _p_q(p=NN, q=1, *x):
             return (NN if x else p), q
 
-        _get = _floats.get
-        for r in NN(*rs.split()).split(_COMMA_):
+        _get = _Cs.get
+        for r in _MODS.basics._splituple(rs):
             p, q = _p_q(*r.split(_SLASH_))
             if p:
                 f = int(p) / int(q)  # fractions.Fraction?
                 if not isinstance(f, float):
-                    raise _RdictError(rs, f=f, p=p, q=q, r=r)
-                yield _get(f, f)  # from .constants?
+                    raise _RsError(rs, f=f, p=p, q=q, r=r)
+                yield _get(f, f)  # from .constants
             else:
-                raise _RdictError(rs, r=r)
+                raise _RsError(rs, r=r)
 
     def _floatuple(self, Rtuple):
         # return a tuple of floats from an C{_Rtuple}
@@ -125,13 +129,24 @@ class _Rdict(dict):  # in ._CX_#, .auxLat, .rhumb.aux_
         # @see: <https://StackOverflow.com/questions/10632839/>
         #       and <https://realPython.com/python-flatten-list/>
         if len(t) != n:
-            raise _RdictError(*rs, len=len(t), n=n)
-        self[k] = t
+            raise _RsError(*rs, len=len(t), n=n)
+        self[k] = t  # replace _Rtuple with tuple instance
         return t
 
 
-class _RdictError(_AssertionError):
-    '''(INTERNAL) For C{_Rdict} issues.
+class _Rkey(int):
+    '''(INTERNAL) For C{_Rcoeffs}, C{_Rdict} and C{_Rtuple} keys.
+    '''
+    def __new__(cls, k):
+        if not isinstance(k, int):
+            raise _RsError(k=type(k))
+        if not 0 <= k <= 8:  # 0.._MODS.auxilats.auxily.Aux.N + 2
+            raise _RsError(k=k)
+        return int.__new__(cls, k)
+
+
+class _RsError(_AssertionError):
+    '''(INTERNAL) For C{_Rcoeffs}, C{_Rdict or} C{_Rtuple} issues.
     '''
     def __init__(self, *rs, **kwds_cause):  # PYCHOK no cover
         if rs:
@@ -147,7 +162,7 @@ class _RdictError(_AssertionError):
 class _Rtuple(list):  # MUST be list, NOT tuple!
     '''(INTERNAL) I{Pseudo-tuple} of float rationals used in C{_Rdict}s.
     '''
-    Rdict  = None
+    Rdict  = None  # set by _Rdict.__init__
     k_n_rs = None, 0, ()
 
     def __init__(self, k, n, *rs):
@@ -156,16 +171,18 @@ class _Rtuple(list):  # MUST be list, NOT tuple!
            where C{p} and C{q} are C{int} digits only.
         '''
         try:
+            if not isinstance(k, _Rkey):
+                raise _RsError(k=type(k))
+            if not (isinstance(n, int) and n > 0):
+                raise _RsError(n=type(n))
             if not rs:
-                raise _RdictError(rs=MISSING)
+                raise _RsError(rs=MISSING)
             for t in rs:
                 if not isinstance(t, str):
-                    raise _RdictError(rs=type(t))
-            if not (isinstance(n, int) and n > 0):
-                raise _RdictError(n=type(n))
+                    raise _RsError(rs=type(t))
             self.k_n_rs = k, n, rs
         except Exception as x:
-            raise _RdictError(*rs, k=k, n=n, cause=x)
+            raise _RsError(*rs, k=k, n=n, cause=x)
 
     def __getitem__(self, i):
         return self._tuple[i]
@@ -183,21 +200,21 @@ class _Rtuple(list):  # MUST be list, NOT tuple!
         # this C{_Rlist} with the C{tuple} values
         # for the initial __getitem__ retrieval[s]
         try:
-            k, n, rs = self.k_n_rs
+            k, n, rs = self.k_n_rs  # for except ...
             t = self.Rdict._floatuple(self)
-            self[:] = t  # MUST copy into self!
+#           self[:] = t  # MUST copy into self!
         except Exception as x:
             if len(rs) > 1 and _QUOTE3_ in str(x):
                 rs = rs[0], _ELLIPSIS4_
-            raise _RdictError(k=k, n=n, rs=rs, cause=x)
+            raise _RsError(k=k, n=n, rs=rs, cause=x)
         del self.Rdict, self.k_n_rs  # trash refs
         return t
 
     def append(self, arg):
-        raise _RdictError(append=arg)
+        raise _RsError(append=arg)
 
     def extend(self, arg):
-        raise _RdictError(extend=arg)
+        raise _RsError(extend=arg)
 
 # **) MIT License
 #

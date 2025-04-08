@@ -23,7 +23,7 @@ from math import fabs, sqrt  # pow
 import operator as _operator  # in .datums, .trf, .utm
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '24.12.31'
+__version__ = '25.01.09'
 
 # sqrt(2) - 1 <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142  =  0.41421356237309504880  # ... ~ 3730904090310553 / 9007199254740992
@@ -981,7 +981,7 @@ def _root(x, p, where):
             raise ValueError(_negative_)
     except Exception as X:
         raise _xError(X, unstr(where, x))
-    return _0_0
+    return _0_0 if p else _1_0
 
 
 def sqrt0(x, Error=None):

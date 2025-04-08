@@ -18,7 +18,7 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.auxilats.auxAngle import AuxAngle, AuxBeta, AuxChi, _AuxClass, \
                                         AuxMu, AuxPhi, AuxTheta, AuxXi
 from pygeodesy.auxilats.auxily import Aux, _sc, _sn
-from pygeodesy.auxilats._CX_Rs import _Rdict, _Rtuple
+from pygeodesy.auxilats._CX_Rs import _Rdict, _Rkey, _Rtuple
 from pygeodesy.basics import _reverange, _xinstanceof,  _passarg
 from pygeodesy.constants import INF, MAX_EXP, MIN_EXP, NAN, PI_2, PI_4, _EPSqrt, \
                                _0_0, _0_0s, _0_1, _0_5, _1_0, _2_0, _3_0, _360_0, \
@@ -48,7 +48,7 @@ except ImportError:  # Python 3.11-
         return pow(_2_0, x)
 
 __all__ = ()
-__version__ = '24.09.03'
+__version__ = '25.01.15'
 
 _TRIPS = 1024  # XXX 2 or 3?
 
@@ -829,16 +829,16 @@ def _Newton(tphi, Zeta, _toZeta, **name):
 
 
 _AR2Coeffs = _Rdict(18,
-    _Rtuple(4, 4, '4/315,  4/105,  4/15,  -1/3'),
-    _Rtuple(6, 6, '4/1287, 4/693,  4/15,   4/105, 4/315, -1/3'),
-    _Rtuple(8, 8, '4/3315, 4/2145, 4/1287, 4/693, 4/315,  4/105, 4/15, -1/3'))
+    _Rtuple(_Rkey(4), 4, '4/315,  4/105,  4/15,  -1/3'),
+    _Rtuple(_Rkey(6), 6, '4/1287, 4/693,  4/15,   4/105, 4/315, -1/3'),
+    _Rtuple(_Rkey(8), 8, '4/3315, 4/2145, 4/1287, 4/693, 4/315,  4/105, 4/15, -1/3'))
 
 _RRCoeffs = _Rdict(9,
-    _Rtuple(4, 2,  '1/64,    1/4'),
-    _Rtuple(6, 3,  '1/256,   1/64,  1/4'),
-    _Rtuple(8, 4, '25/16384, 1/256, 1/64, 1/4'))  # PYCHOK used!
+    _Rtuple(_Rkey(4), 2,  '1/64,    1/4'),
+    _Rtuple(_Rkey(6), 3,  '1/256,   1/64,  1/4'),
+    _Rtuple(_Rkey(8), 4, '25/16384, 1/256, 1/64, 1/4'))  # PYCHOK used!
 
-del _Rdict, _Rtuple
+del _Rdict, _Rkey, _Rtuple
 # assert set(_AR2Coeffs.keys()) == set(_RRCoeffs.keys())
 
 # AuxLat._Lmax = max(_AR2Coeffs.keys())  # == max(ALorder)

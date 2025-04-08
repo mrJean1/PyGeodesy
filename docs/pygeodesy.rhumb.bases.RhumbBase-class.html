@@ -97,6 +97,27 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.rhumb.bases.RhumbBase-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">a_earth</span>,
+        <span class="summary-sig-arg">f</span>,
+        <span class="summary-sig-arg">exact</span>,
+        <span class="summary-sig-arg">TMorder_name</span>)</span><br />
+      New <code>RhumbAux</code> or <code>Rhumb</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.rhumb.bases.RhumbBase-class.html#ArcDirect" class="summary-sig-name">ArcDirect</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lat1</span>,
         <span class="summary-sig-arg">lon1</span>,
@@ -189,6 +210,28 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.rhumb.bases.RhumbBase-class.html#Line" class="summary-sig-name">Line</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">lat1</span>,
+        <span class="summary-sig-arg">lon1</span>,
+        <span class="summary-sig-arg">azi12</span>,
+        <span class="summary-sig-arg">**caps_name</span>)</span><br />
+      Define a <code>RhumbLine</code> in terms of the <i>direct</i> rhumb 
+      problem to compute several points on a single rhumb line.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.rhumb.bases.RhumbBase-class.html#Inverse" class="summary-sig-name">Inverse</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lat1</span>,
         <span class="summary-sig-arg">lon1</span>,
@@ -245,49 +288,6 @@
         <span class="summary-sig-arg">**caps_name</span>)</span><br />
       Define a <code>RhumbLine</code> in terms of the <i>inverse</i> rhumb 
       problem.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.rhumb.bases.RhumbBase-class.html#Line" class="summary-sig-name">Line</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">lat1</span>,
-        <span class="summary-sig-arg">lon1</span>,
-        <span class="summary-sig-arg">azi12</span>,
-        <span class="summary-sig-arg">**caps_name</span>)</span><br />
-      Define a <code>RhumbLine</code> in terms of the <i>direct</i> rhumb 
-      problem to compute several points on a single rhumb line.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.rhumb.bases.RhumbBase-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">a_earth</span>,
-        <span class="summary-sig-arg">f</span>,
-        <span class="summary-sig-arg">exact</span>,
-        <span class="summary-sig-arg">TMorder_name</span>)</span><br />
-      New <code>RhumbAux</code> or <code>Rhumb</code>.</td>
           <td align="right" valign="top">
             
             
@@ -397,24 +397,6 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.rhumb.bases.RhumbBase-class.html#RAorder" class="summary-name">RAorder</a><br />
-      Get the <i>Rhumb Area</i> order, <code>None</code> always.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a href="pygeodesy.rhumb.bases.RhumbBase-class.html#TMorder" class="summary-name">TMorder</a><br />
-      Get the <a href="pygeodesy.ktm.KTransverseMercator-class.html" 
-      class="link">KTransverseMercator</a> order (<code>int</code>, 4, 5, 
-      6, 7 or 8).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
         <a href="pygeodesy.rhumb.bases.RhumbBase-class.html#a" class="summary-name">a</a><br />
       Get the <code>ellipsoid</code>'s equatorial radius, semi-axis 
       (<code>meter</code>).
@@ -424,7 +406,25 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.rhumb.bases.RhumbBase-class.html#equatoradius" class="summary-name">equatoradius</a><br />
+      Get the <code>ellipsoid</code>'s equatorial radius, semi-axis 
+      (<code>meter</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.rhumb.bases.RhumbBase-class.html#b" class="summary-name">b</a><br />
+      Get the <code>ellipsoid</code>'s polar radius, semi-axis 
+      (<code>meter</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.rhumb.bases.RhumbBase-class.html#polaradius" class="summary-name">polaradius</a><br />
       Get the <code>ellipsoid</code>'s polar radius, semi-axis 
       (<code>meter</code>).
     </td>
@@ -452,15 +452,6 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.rhumb.bases.RhumbBase-class.html#equatoradius" class="summary-name">equatoradius</a><br />
-      Get the <code>ellipsoid</code>'s equatorial radius, semi-axis 
-      (<code>meter</code>).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
         <a href="pygeodesy.rhumb.bases.RhumbBase-class.html#exact" class="summary-name">exact</a><br />
       Get the <i>exact</i> option (<code>bool</code>).
     </td>
@@ -477,14 +468,6 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.rhumb.bases.RhumbBase-class.html#f_max" class="summary-name">f_max</a><br />
-      Get the <i>max.</i> flattening (<code>float</code>).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
         <a href="pygeodesy.rhumb.bases.RhumbBase-class.html#flattening" class="summary-name">flattening</a><br />
       Get the <code>ellipsoid</code>'s flattening (<code>float</code>).
     </td>
@@ -493,9 +476,26 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.rhumb.bases.RhumbBase-class.html#polaradius" class="summary-name">polaradius</a><br />
-      Get the <code>ellipsoid</code>'s polar radius, semi-axis 
-      (<code>meter</code>).
+        <a href="pygeodesy.rhumb.bases.RhumbBase-class.html#f_max" class="summary-name">f_max</a><br />
+      Get the <i>max.</i> flattening (<code>float</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.rhumb.bases.RhumbBase-class.html#RAorder" class="summary-name">RAorder</a><br />
+      Get the <i>Rhumb Area</i> order, <code>None</code> always.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.rhumb.bases.RhumbBase-class.html#TMorder" class="summary-name">TMorder</a><br />
+      Get the <a href="pygeodesy.ktm.KTransverseMercator-class.html" 
+      class="link">KTransverseMercator</a> order (<code>int</code>, 4, 5, 
+      6, 7 or 8).
     </td>
   </tr>
   <tr>
@@ -530,6 +530,33 @@
     <span class="table-header">Method Details</span></td>
 </tr>
 </table>
+<a name="__init__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">a_earth</span>,
+        <span class="sig-arg">f</span>,
+        <span class="sig-arg">exact</span>,
+        <span class="sig-arg">TMorder_name</span>)</span>
+    <br /><em class="fname">(Constructor)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>New <code>RhumbAux</code> or <code>Rhumb</code>.</p>
+  <dl class="fields">
+    <dt>Overrides:
+        object.__init__
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
 <a name="ArcDirect"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -699,6 +726,49 @@
       </p>
 </div></td></tr></table>
 </div>
+<a name="Line"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">Line</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">lat1</span>,
+        <span class="sig-arg">lon1</span>,
+        <span class="sig-arg">azi12</span>,
+        <span class="sig-arg">**caps_name</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Define a <code>RhumbLine</code> in terms of the <i>direct</i> rhumb 
+  problem to compute several points on a single rhumb line.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat1</code></strong> - Latitude of the first point (<code>degrees90</code>).</li>
+        <li><strong class="pname"><code>lon1</code></strong> - Longitude of the first point (<code>degrees180</code>).</li>
+        <li><strong class="pname"><code>azi12</code></strong> - Azimuth of the rhumb line (compass <code>degrees</code>).</li>
+        <li><strong class="pname"><code>caps_name</code></strong> - Optional keyword arguments <code><b>name</b>=NN</code> and 
+          <code><b>caps</b>=Caps.STANDARD</code>, a bit-or'ed combination 
+          of Caps values specifying the required capabilities. Include 
+          <code>Caps.LINE_OFF</code> if updates to the 
+          <b><code>rhumb</code></b> should <i>not</i> be reflected in this 
+          rhumb line.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <code>RhumbLine...</code> instance and invoke its method 
+          <code>.Position</code> to compute each point.</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Updates to this rhumb are reflected in the returned rhumb line, 
+        unless <code><b>caps</b> |= Caps.LINE_OFF</code>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="Inverse"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -808,76 +878,6 @@
       </p>
 </div></td></tr></table>
 </div>
-<a name="Line"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">Line</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">lat1</span>,
-        <span class="sig-arg">lon1</span>,
-        <span class="sig-arg">azi12</span>,
-        <span class="sig-arg">**caps_name</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Define a <code>RhumbLine</code> in terms of the <i>direct</i> rhumb 
-  problem to compute several points on a single rhumb line.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>lat1</code></strong> - Latitude of the first point (<code>degrees90</code>).</li>
-        <li><strong class="pname"><code>lon1</code></strong> - Longitude of the first point (<code>degrees180</code>).</li>
-        <li><strong class="pname"><code>azi12</code></strong> - Azimuth of the rhumb line (compass <code>degrees</code>).</li>
-        <li><strong class="pname"><code>caps_name</code></strong> - Optional keyword arguments <code><b>name</b>=NN</code> and 
-          <code><b>caps</b>=Caps.STANDARD</code>, a bit-or'ed combination 
-          of Caps values specifying the required capabilities. Include 
-          <code>Caps.LINE_OFF</code> if updates to the 
-          <b><code>rhumb</code></b> should <i>not</i> be reflected in this 
-          rhumb line.</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd>A <code>RhumbLine...</code> instance and invoke its method 
-          <code>.Position</code> to compute each point.</dd>
-  </dl>
-<div class="fields">      <p><strong>Note:</strong>
-        Updates to this rhumb are reflected in the returned rhumb line, 
-        unless <code><b>caps</b> |= Caps.LINE_OFF</code>.
-      </p>
-</div></td></tr></table>
-</div>
-<a name="__init__"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">a_earth</span>,
-        <span class="sig-arg">f</span>,
-        <span class="sig-arg">exact</span>,
-        <span class="sig-arg">TMorder_name</span>)</span>
-    <br /><em class="fname">(Constructor)</em>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>New <code>RhumbAux</code> or <code>Rhumb</code>.</p>
-  <dl class="fields">
-    <dt>Overrides:
-        object.__init__
-    </dt>
-  </dl>
-</td></tr></table>
-</div>
 <a name="toStr"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -923,60 +923,6 @@
     <span class="table-header">Property Details</span></td>
 </tr>
 </table>
-<a name="RAorder"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">RAorder</h3>
-  <p>Get the <i>Rhumb Area</i> order, <code>None</code> always.</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">RAorder(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>Rhumb Area</i> order, <code>None</code> always.
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="TMorder"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">TMorder</h3>
-  <p>Get the <a href="pygeodesy.ktm.KTransverseMercator-class.html" 
-  class="link">KTransverseMercator</a> order (<code>int</code>, 4, 5, 6, 7 
-  or 8).</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">TMorder(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <a href="pygeodesy.ktm.KTransverseMercator-class.html" 
-class="link">KTransverseMercator</a> order (<code>int</code>, 4, 5, 6, 7 or
-8).
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">TMorder(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">order</span>)</span>
-        - Set the <a href="pygeodesy.ktm.KTransverseMercator-class.html" 
-class="link">KTransverseMercator</a> order (<code>int</code>, 4, 5, 6, 7 or
-8).
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
 <a name="a"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1003,12 +949,64 @@ class="link">KTransverseMercator</a> order (<code>int</code>, 4, 5, 6, 7 or
   </dl>
 </td></tr></table>
 </div>
+<a name="equatoradius"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">equatoradius</h3>
+  <p>Get the <code>ellipsoid</code>'s equatorial radius, semi-axis 
+  (<code>meter</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">a(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <code>ellipsoid</code>'s equatorial radius, semi-axis 
+(<code>meter</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="b"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">b</h3>
+  <p>Get the <code>ellipsoid</code>'s polar radius, semi-axis 
+  (<code>meter</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">b(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <code>ellipsoid</code>'s polar radius, semi-axis 
+(<code>meter</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="polaradius"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">polaradius</h3>
   <p>Get the <code>ellipsoid</code>'s polar radius, semi-axis 
   (<code>meter</code>).</p>
   <dl class="fields">
@@ -1088,32 +1086,6 @@ class="link">a_f2Tuple</a>) or (equatorial) radius and flattening (2-tuple
   </dl>
 </td></tr></table>
 </div>
-<a name="equatoradius"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">equatoradius</h3>
-  <p>Get the <code>ellipsoid</code>'s equatorial radius, semi-axis 
-  (<code>meter</code>).</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">a(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <code>ellipsoid</code>'s equatorial radius, semi-axis 
-(<code>meter</code>).
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
 <a name="exact"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1162,26 +1134,6 @@ class="link">a_f2Tuple</a>) or (equatorial) radius and flattening (2-tuple
   </dl>
 </td></tr></table>
 </div>
-<a name="f_max"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">f_max</h3>
-  <p>Get the <i>max.</i> flattening (<code>float</code>).</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">f_max(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>max.</i> flattening (<code>float</code>).
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">f_max(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">f_max</span>)</span>
-        - Set the <i>max.</i> flattening, not to exceed (<code>float</code>).
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
 <a name="flattening"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1206,24 +1158,72 @@ class="link">a_f2Tuple</a>) or (equatorial) radius and flattening (2-tuple
   </dl>
 </td></tr></table>
 </div>
-<a name="polaradius"></a>
+<a name="f_max"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
-  <h3 class="epydoc">polaradius</h3>
-  <p>Get the <code>ellipsoid</code>'s polar radius, semi-axis 
-  (<code>meter</code>).</p>
+  <h3 class="epydoc">f_max</h3>
+  <p>Get the <i>max.</i> flattening (<code>float</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">b(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <code>ellipsoid</code>'s polar radius, semi-axis 
-(<code>meter</code>).
+    <dd class="value"><span class="summary-sig">f_max(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <i>max.</i> flattening (<code>float</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">f_max(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">f_max</span>)</span>
+        - Set the <i>max.</i> flattening, not to exceed (<code>float</code>).
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="RAorder"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">RAorder</h3>
+  <p>Get the <i>Rhumb Area</i> order, <code>None</code> always.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">RAorder(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <i>Rhumb Area</i> order, <code>None</code> always.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
         <span class="summary-sig-arg">val</span>)</span>
         - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="TMorder"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">TMorder</h3>
+  <p>Get the <a href="pygeodesy.ktm.KTransverseMercator-class.html" 
+  class="link">KTransverseMercator</a> order (<code>int</code>, 4, 5, 6, 7 
+  or 8).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">TMorder(<span class="summary-sig-arg">self</span>)</span>
+        - Get the <a href="pygeodesy.ktm.KTransverseMercator-class.html" 
+class="link">KTransverseMercator</a> order (<code>int</code>, 4, 5, 6, 7 or
+8).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">TMorder(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">order</span>)</span>
+        - Set the <a href="pygeodesy.ktm.KTransverseMercator-class.html" 
+class="link">KTransverseMercator</a> order (<code>int</code>, 4, 5, 6, 7 or
+8).
     </dd>
     <dt>Delete Method:</dt>
     <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
@@ -1264,7 +1264,7 @@ class="link">a_f2Tuple</a>) or (equatorial) radius and flattening (2-tuple
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Jan 11 15:36:24 2025
+    Generated by Epydoc 3.0.1 on Tue Apr  8 14:39:51 2025
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

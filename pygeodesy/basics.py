@@ -37,7 +37,7 @@ from math import copysign as _copysign
 # import inspect as _inspect  # _MODS
 
 __all__ = _ALL_LAZY.basics
-__version__ = '24.12.31'
+__version__ = '25.01.17'
 
 _below_           = 'below'
 _list_tuple_types = (list, tuple)
@@ -207,6 +207,22 @@ def _enumereverse(iterable):
         yield j, iterable[j]
 
 
+try:
+    from math import gcd as _gcd
+except ImportError:  # 3.4-
+
+    def _gcd(a, b):  # PYCHOK redef
+        # <https://WikiPedia.org/wiki/Greatest_common_divisor>
+        a, b = int(a), int(b)
+        if b > a:
+            a, b = b, a
+#       if b <= 0:
+#           return 1
+        while b:
+            a, b = b, (a % b)
+        return a
+
+
 def halfs2(str2):
     '''Split a string in 2 halfs.
 
@@ -220,6 +236,15 @@ def halfs2(str2):
     if r or not h:
         raise _ValueError(str2=str2, txt=_odd_)
     return str2[:h], str2[h:]
+
+
+def _integer_ratio2(x):  # PYCHOK no cover
+    '''(INTERNAL) Return C{B{x}.as_interger_ratio()}.
+    '''
+    try:  # int.as_integer_ratio in 3.8+
+        return  x.as_integer_ratio()
+    except (AttributeError, OverflowError, TypeError, ValueError):
+        return (x if isint(x) else float(x)), 1
 
 
 def int1s(x):  # PYCHOK no cover
@@ -371,7 +396,7 @@ def isiterable(obj, strict=False):
        @return: C{True} if C{iterable}, C{False} otherwise.
     '''
     # <https://PyPI.org/project/isiterable/>
-    return isiterabletype(obj) if strict else hasattr(obj, '__iter__')  # map, range, set
+    return bool(isiterabletype(obj)) if strict else hasattr(obj, '__iter__')  # map, range, set
 
 
 def isiterablen(obj, strict=False):
@@ -383,7 +408,7 @@ def isiterablen(obj, strict=False):
        @return: C{True} if C{iterable} with C{len}gth, C{False} otherwise.
     '''
     _has = isiterabletype if strict else hasattr
-    return _has(obj, '__len__') and _has(obj, '__getitem__')
+    return bool(_has(obj, '__len__') and _has(obj, '__getitem__'))
 
 
 def isiterabletype(obj, method='__iter__'):
@@ -763,9 +788,13 @@ def _splituple(strs, *sep_splits):  # in .mgrs, ...
     '''(INTERNAL) Split a C{comma}- or C{whitespace}-separated
        string into a C{tuple} of stripped C{str}ings.
     '''
-    t = (strs.split(*sep_splits) if sep_splits else
-         strs.replace(_COMMA_, _SPACE_).split()) if strs else ()
-    return tuple(s.strip() for s in t if s)
+    if sep_splits:
+        t = (t.strip() for t in strs.split(*sep_splits))
+    else:
+        t = strs.strip()
+        if t:
+            t = t.replace(_COMMA_, _SPACE_).split()
+    return tuple(t) if t else ()
 
 
 def unsigned0(x):

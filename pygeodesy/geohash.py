@@ -17,14 +17,13 @@ U{Geohashes<https://www.Movable-Type.co.UK/scripts/geohash.html>}.
       U{geohash-js<https://GitHub.com/DaveTroy/geohash-js>}.
 '''
 
-from pygeodesy.basics import isstr, map2
+from pygeodesy.basics import isstr, map2, _splituple
 from pygeodesy.constants import EPS, R_M, _0_0, _0_5, _180_0, _360_0, \
                                _90_0, _N_90_0, _N_180_0  # PYCHOK used!
 from pygeodesy.errors import _ValueError, _xkwds, _xStrError
 # from pygeodesy import formy as _formy  # _MODS
-from pygeodesy.interns import NN, _COMMA_, _DOT_, _E_, _height_, _N_, _NE_, \
-                             _NW_, _radius_, _S_, _SE_, _SPACE_, _SW_, _W_, \
-                             _width_  # _INV_
+from pygeodesy.interns import NN, _DOT_, _E_, _height_, _N_, _NE_, _NW_, \
+                             _radius_, _S_, _SE_, _SW_, _W_, _width_  # _INV_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _name__, _NamedDict, _NamedTuple, nameof, _xnamed
 from pygeodesy.namedTuples import Bounds2Tuple, Bounds4Tuple, LatLon2Tuple, \
@@ -38,7 +37,7 @@ from pygeodesy.units import Degrees_, Int, Lat_, Lon_, Meter, Precision_, Str
 from math import fabs, ldexp, log10, radians
 
 __all__ = _ALL_LAZY.geohash
-__version__ = '24.10.12'
+__version__ = '25.01.15'
 
 _formy   = _MODS.into(formy=__name__)
 _MASK5   =  16, 8, 4, 2, 1  # PYCHOK used!
@@ -290,7 +289,7 @@ class Geohash(Str):
             if isinstance(lat_ghll, Geohash):
                 gh, ll = str(lat_ghll), lat_ghll.latlon
             elif isstr(lat_ghll):  # "lat, lon" or "geohash"
-                ll = lat_ghll.replace(_COMMA_, _SPACE_).split()
+                ll = _splituple(lat_ghll)
                 if len(ll) > 1:
                     gh, ll = _GH.encode2(ll[0], ll[1], precision, eps)
                 else:

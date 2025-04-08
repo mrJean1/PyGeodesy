@@ -429,8 +429,8 @@ _SW_       = _S_  + _W_   # PYCHOK negative ones
 _DDOT_     = Str_(_DOT_   * 2)  # PYCHOK OK
 # _DEQUAL_ = Str_(_EQUAL_ * 2)  # PYCHOK OK
 # _DNL_    = Str_(_NL_    * 2)  # PYCHOK OK
-# _DSLASH_ = Str_(_SLASH_ * 2)  # PYCHOK OK
-# _DSTAR_  = Str_(_STAR_  * 2)  # PYCHOK OK
+_DSLASH_   = Str_(_SLASH_ * 2)  # PYCHOK OK
+_DSTAR_    = Str_(_STAR_  * 2)  # PYCHOK OK
 _DUNDER_   = Str_(_UNDER_ * 2)  # PYCHOK OK
 
 _LR_PAIRS  = {_LANGLE_:  _RANGLE_,
@@ -440,7 +440,7 @@ _LR_PAIRS  = {_LANGLE_:  _RANGLE_,
 
 __all__ = (_NN_,  # NOT MISSING!
             Str_.__name__)  # classes
-__version__ = '24.11.27'
+__version__ = '25.01.12'
 
 if __name__ == '__main__':
 

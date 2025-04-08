@@ -89,7 +89,7 @@ courtesy of SBFRF.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import len2, min2, isodd, ub2str as _ub2str
+from pygeodesy.basics import len2, min2, isodd, _splituple, ub2str as _ub2str
 from pygeodesy.constants import EPS, _float as _F, _1_0, _N_90_0, _180_0, \
                                      _N_180_0, _360_0
 from pygeodesy.datums import Datums, _ellipsoidal_datum, _WGS84
@@ -105,7 +105,6 @@ from pygeodesy.interns import NN, _COLONSPACE_, _COMMASPACE_, _E_, _height_, \
                              _in_, _kind_, _lat_, _lon_, _mean_, _N_, _n_a_, \
                              _numpy_, _on_, _outside_, _S_, _s_, _scipy_, \
                              _SPACE_, _stdev_, _tbd_, _W_, _width_, _4_
-from pygeodesy.interns import _COMMA_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS
 from pygeodesy.named import _name__, _Named, _NamedTuple
 # from pygeodesy.namedTuples import LatLon3Tuple  # _MODS
@@ -126,7 +125,7 @@ except ImportError:  # Python 3+
     from io import BytesIO as _BytesIO  # PYCHOK expected
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '24.12.31'
+__version__ = '25.01.15'
 
 _assert_    = 'assert'
 _bHASH_     = b'#'
@@ -912,8 +911,7 @@ def _I(i):
 def _T(cs):
     '''(INTERNAL) Cache a tuple of single C{int} constants.
     '''
-    cs = cs.replace(_COMMA_, _SPACE_).strip()
-    return tuple(map(_I, cs.split()))
+    return tuple(map(_I, _splituple(cs)))
 
 _T0s12 = (_I(0),) * 12  # PYCHOK _T('0, 0, ..., 0')
 

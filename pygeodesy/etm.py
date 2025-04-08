@@ -93,7 +93,7 @@ from pygeodesy.utm import _cmlon, _LLEB, _parseUTM5, _toBand, _toXtm8, \
 from math import asinh, degrees, radians, sinh, sqrt
 
 __all__ = _ALL_LAZY.etm
-__version__ = '24.11.24'
+__version__ = '25.01.12'
 
 _OVERFLOW = _1_EPS**2  # ~2e+31
 _TAYTOL   =  pow(EPS,  0.6)
@@ -196,7 +196,7 @@ class Etm(Utm):
     def _toLLEB(self, unfalse=True, **unused):  # PYCHOK signature
         '''(INTERNAL) Compute (ellipsoidal) lat- and longitude.
         '''
-        xTM, d = self.exactTM, self.datum
+        d, xTM = self.datum, self.exactTM
         # double check that this and exactTM's ellipsoid match
         if xTM._E != d.ellipsoid:  # PYCHOK no cover
             t = repr(d.ellipsoid)
@@ -1022,7 +1022,7 @@ class ExactTransverseMercator(_NamedBase):
             g_k += atan1d(tau), degrees(lam)
         return g_k  # or (g, k, lat, lon)
 
-_allPropertiesOf_n(22, ExactTransverseMercator, Property_RO)  # PYCHOK assert
+_allPropertiesOf_n(22, ExactTransverseMercator, Property_RO)  # PYCHOK assert _ROs = ...
 del _0_1, _allPropertiesOf_n, EPS, _1_EPS, _EWGS84
 
 

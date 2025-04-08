@@ -43,7 +43,7 @@ __all__ = ('bits_mach2', 'coverage', 'GeodSolve', 'geographiclib',
            'numpy', 'PyGeodesy_dir', 'PythonX', 'scipy', 'test_dir',
            'RandomLatLon', 'TestsBase',  # classes
            'secs2str', 'tilde', 'type2str', 'versions')  # functions
-__version__ = '24.12.12'
+__version__ = '25.01.08'
 
 try:
     if float(_getenv('PYGEODESY_COVERAGE', '0')) > 0:
@@ -492,7 +492,7 @@ def versions():
     if not vs:
 
         vs =  internals._Pythonarchine(sep=_SPACE_)
-        vs = 'PyGeodesy', PyGeodesy_version, vs
+        vs = 'pygeodesy', PyGeodesy_version, vs
         for t in (coverage, geographiclib, numpy, scipy):
             if t:  # .internals._name_version
                 vs += _name_version(t),
@@ -556,7 +556,7 @@ if internals._is_DUNDER_main(__name__):
     print(versions())
 
 # % python3.13 -m test.bases
-# PyGeodesy 24.10.24 Python 3.13.0 64bit arm64 coverage 7.6.1 geographiclib 2.0 Math 2 macOS 14.6.1 isLazy 1
+# pygeodesy 25.1.5 Python 3.13.1 64bit arm64 coverage 7.6.1 geographiclib 2.0 Math 2 macOS 14.6.1 isLazy 1
 
 # % python3.12 -m test.bases
 # PyGeodesy 24.10.24 Python 3.12.7 64bit arm64 coverage 7.6.1 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 Math 2 macOS 14.6.1 isLazy 1
@@ -568,7 +568,8 @@ if internals._is_DUNDER_main(__name__):
 # PyGeodesy 24.10.24 Python 3.10.8 64bit arm64 coverage 7.6.1 geographiclib 2.0 numpy 1.23.3 scipy 1.9.1 Math 2 macOS 14.4.1 isLazy 1 -W ignore
 
 # % python2 -m test.bases
-# PyGeodesy 24.5.12 Python 2.7.18 64bit arm64_x86_64 coverage 5.5 geographiclib 1.50 numpy 1.16.6 scipy 1.2.2 macOS 10.16
+# pygeodesy 25.1.5 Python 2.7.18 64bit arm64_x86_64 coverage 5.5 geographiclib 1.50 numpy 1.16.6 scipy 1.2.2 macOS 10.16
+
 
 # **) MIT License
 #

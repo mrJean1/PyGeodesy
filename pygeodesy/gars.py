@@ -14,14 +14,13 @@ Transcoded from I{Charles Karney}'s C++ class U{GARS
       (GARS)<https://Earth-Info.NGA.mil/GandG/coordsys/grids/gars.html>}.
 '''
 
-# from pygeodesy.basics import isstr  # from .named
+from pygeodesy.basics import isstr, _splituple
 from pygeodesy.constants import _off90, _1_over, _0_5, \
                                 _1_0  # PYCHOK used!
 from pygeodesy.errors import _ValueError, _xkwds, _xStrError
-from pygeodesy.interns import NN, _0to9_, _AtoZnoIO_, _COMMA_, \
-                             _INV_, _SPACE_
+from pygeodesy.interns import NN, _0to9_, _AtoZnoIO_, _INV_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
-from pygeodesy.named import _name__,  Fmt, isstr, Property_RO
+from pygeodesy.named import _name__,  Fmt, Property_RO
 from pygeodesy.namedTuples import LatLon2Tuple, LatLonPrec3Tuple
 # from pygeodesy.props import Property_RO  # from .named
 # from pygeodesy.streprs import Fmt  # from .named
@@ -30,7 +29,7 @@ from pygeodesy.units import Int_, Lat, Lon, Precision_, Scalar_, Str
 from math import floor
 
 __all__ = _ALL_LAZY.gars
-__version__ = '24.08.13'
+__version__ = '25.01.15'
 
 _Digits  = _0to9_
 _LatLen  =    2
@@ -136,7 +135,7 @@ class Garef(Str):
             if isinstance(lat_gll, Garef):
                 g, ll, p = str(lat_gll), lat_gll.latlon, lat_gll.precision
             elif isstr(lat_gll):
-                ll = lat_gll.replace(_COMMA_, _SPACE_).split()
+                ll = _splituple(lat_gll)
                 if len(ll) > 1:
                     g, ll, p = _encode3(ll[0], ll[1], precision)
                 else:

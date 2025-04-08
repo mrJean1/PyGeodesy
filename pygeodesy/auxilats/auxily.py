@@ -15,6 +15,7 @@ under the MIT/X11 License.  For more information, see the U{GeographicLib
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 # from pygeodesy import auxilats  # _MODS
+from pygeodesy.auxilats._CX_Rs import _Rkey
 from pygeodesy.constants import INF, NAN, isinf, isnan, _0_0, _0_5, _1_0, \
                                _copysign_1_0, _over, _1_over
 from pygeodesy.errors import AuxError
@@ -26,19 +27,19 @@ from pygeodesy.utily import atan1
 from math import asinh, copysign
 
 __all__ = ()
-__version__ = '24.09.03'
+__version__ = '25.01.15'
 
 
 class Aux(object):
     '''Enum-style Aux names.
     '''
     _coeffs    = {}
-    GEOGRAPHIC = PHI   = GEODETIC = 0
-    PARAMETRIC = BETA  = REDUCED  = 1
-    GEOCENTRIC = THETA = 2  # all ...
-    RECTIFYING = MU    = 3  # use n^2
-    CONFORMAL  = CHI   = 4  # use n
-    AUTHALIC   = XI    = 5  # use n
+    GEOGRAPHIC = PHI   =  GEODETIC = _Rkey(0)
+    PARAMETRIC = BETA  =  REDUCED  = _Rkey(1)
+    GEOCENTRIC = THETA = _Rkey(2)  # all ...
+    RECTIFYING = MU    = _Rkey(3)  # use n^2
+    CONFORMAL  = CHI   = _Rkey(4)  # use n
+    AUTHALIC   = XI    = _Rkey(5)  # use n
     N  = 6
     N2 = 36
 
@@ -228,6 +229,7 @@ def _sn(tx):
 
 
 __all__ += _ALL_DOCS(Aux.__class__)
+del _Rkey
 
 # **) MIT License
 #

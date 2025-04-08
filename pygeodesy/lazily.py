@@ -32,7 +32,7 @@ from pygeodesy import internals as _internals, interns as _interns, \
 # from pygeodesy.errors import _error_init, _xkwds_item2  # _ALL_MODS
 from pygeodesy.internals import _caller3, _DUNDER_nameof, _getPYGEODESY, _headof, \
                                 _is_DUNDER_main, printf, _tailof, _versions
-from pygeodesy.interns import NN, _attribute_, _by_, _COLONSPACE_, _COMMASPACE_, \
+from pygeodesy.interns import NN, _1_, _attribute_, _by_, _COLONSPACE_, _COMMASPACE_, \
                              _doesn_t_exist_, _DOT_, _DUNDER_all_, _EQUALSPACED_, \
                              _from_, _HASH_, _immutable_, _line_, _module_, _no_, \
                              _not_, _or_, _pygeodesy_abspath_, _pygeodesy_,  _sys, \
@@ -64,7 +64,7 @@ class LazyAttributeError(AttributeError):
 
 
 class LazyImportError(ImportError):
-    '''Raised if C{lazy import} is not supported, disabled or failed some other way.
+    '''Raised if C{lazy import} is not supported, disabled or failed.
     '''
     def __init__(self, *args, **kwds):
         _ALL_MODS.errors._error_init(ImportError, self, args, **kwds)
@@ -485,7 +485,7 @@ class _ALL_MODS(_internals._MODS_Base):
                 mod, dun = self.errors._xkwds_item2(mod_DUNDER_name)
                 _mod = _UNDER_(NN, mod)
                 d =  self.getmodule(dun)  # '__main__' OK
-                i = _getattribute(d, _mod, dun)
+                i = _getmodattr(d, _mod, dun)
                 assert isinstance(i, _Into)
                 m =  self.getmodule(mod)
                 setattr(d, _mod, m)  # overwrite C{d._mod}
@@ -509,7 +509,7 @@ class _ALL_MODS(_internals._MODS_Base):
 _internals._MODS = _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '25.01.05'
+__version__ = '25.01.25'
 
 
 def _ALL_OTHER(*objs):
@@ -592,7 +592,7 @@ def _getattras(attr_as):  # test/testDeprecated
     return as_ or a_.rstrip(_DOT_)
 
 
-def _getattribute(m, name, mod=_pygeodesy_):
+def _getmodattr(m, name, mod=_pygeodesy_):
     '''(INTERNAL) Get attr C{m.name}.
     '''
     try:
@@ -691,7 +691,7 @@ def _lazy_import2(pack):  # MCCABE 14
             if t not in sub_packages:  # invalid module package
                 raise LazyImportError(_DOT_(mod, _DUNDER_package_), t)
             if attr:  # get mod.attr
-                v = _getattribute(v, attr, mod)
+                v = _getmodattr(v, attr, mod)
 
         elif name in (_DUNDER_all_,):  # XXX _DUNDER_dir_, _DUNDER_members_?
             v = _ALL_INIT + tuple(imports.keys())
@@ -785,11 +785,11 @@ def _lazy_init2(pack):
     '''(INTERNAL) Initialize lazy import and set globals C{isLazy} and C{_unLazy0}.
 
        @arg pack: The name of the package (C{str}) performing the imports,
-                  to help resolving relative imports, usually C{__package__}.
+                  to resolve relative imports, usually C{__package__}.
 
        @return: 2-Tuple C{(package, parent)} with the importing C{package}
                 for easy reference within itself and its name aka the
-                C{parent}, same as B{C{pack}}.
+                C(package)'s C{parent}, same as B{C{pack}}.
 
        @raise LazyImportError: Lazy import not supported or not enabled,
                                an import failed or the package name is
@@ -799,12 +799,9 @@ def _lazy_init2(pack):
     '''
     global isLazy, _unLazy0
 
-    z = _getPYGEODESY('LAZY_IMPORT', None)
-    if z is None:  # not set, but ...
-        isLazy = 1  # ... default on 3.7+
-    else:
-        z = z.strip()  # like PYTHONVERBOSE et.al.
-        isLazy = int(z) if z.isdigit() else (1 if z else 0)
+    z = _getPYGEODESY('LAZY_IMPORT', _1_)  # 1 default on 3.7+
+    z =  z.strip()  # like PYTHONVERBOSE et.al.
+    isLazy = int(z) if z.isdigit() else (1 if z else 0)
 
     _unLazy0 = _unlazy or not isLazy  # pre-3.7 or w/o lazy import
 

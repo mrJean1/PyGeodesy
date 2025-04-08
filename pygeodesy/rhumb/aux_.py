@@ -32,7 +32,7 @@ from pygeodesy.auxilats.auxAngle import AuxMu, AuxPhi,  hypot
 from pygeodesy.auxilats.auxDLat import AuxDLat, _DClenshaw
 # from pygeodesy.auxilats.auxDST import AuxDST  # _MODS
 from pygeodesy.auxilats.auxily import _Dlam, _Dp0Dpsi
-from pygeodesy.auxilats._CX_Rs import _Rdict, _Rtuple
+from pygeodesy.auxilats._CX_Rs import _Rdict, _Rkey, _Rtuple
 from pygeodesy.basics import copysign0, _reverange,  _xkwds_get1
 from pygeodesy.constants import EPS_2, MANT_DIG, PI4, isinf, \
                                _0_0, _4_0, _720_0, _log2, _over
@@ -48,7 +48,7 @@ from pygeodesy.rhumb.bases import RhumbBase, RhumbLineBase, \
 from math import ceil as _ceil, fabs, radians
 
 __all__ = _ALL_LAZY.rhumb_aux_
-__version__ = '24.09.02'
+__version__ = '25.01.15'
 
 # DIGITS = (sizeof(real) * 8) bits
 #        = (ctypes.sizeof(ctypes.c_double(1.0)) * 8) bits
@@ -314,25 +314,25 @@ def _RAseries(auxD):
 
 
 _RACoeffs = _Rdict(110,  # Rhumb Area Coefficients in matrix Q
- _Rtuple(4, 10,  # GEOGRAPHICLIB_RHUMBAREA_ORDER == 4
+ _Rtuple(_Rkey(4), 10,  # GEOGRAPHICLIB_RHUMBAREA_ORDER == 4
     '596/2025, -398/945, 22/45, -1/3',
     '1543/4725, -118/315, 1/5',
     '152/945, -17/315',
     '5/252'),
- _Rtuple(5, 15,  # GEOGRAPHICLIB_RHUMBAREA_ORDER == 5
+ _Rtuple(_Rkey(5), 15,  # GEOGRAPHICLIB_RHUMBAREA_ORDER == 5
     '-102614/467775, 596/2025, -398/945, 22/45, -1/3',
     '-24562/155925, 1543/4725, -118/315, 1/5',
     '-38068/155925, 152/945, -17/315',
     '-752/10395, 5/252',
     '-101/17325'),
- _Rtuple(6, 21,  # GEOGRAPHICLIB_RHUMBAREA_ORDER == 6
+ _Rtuple(_Rkey(6), 21,  # GEOGRAPHICLIB_RHUMBAREA_ORDER == 6
     '138734126/638512875, -102614/467775, 596/2025, -398/945, 22/45, -1/3',
     '17749373/425675250, -24562/155925, 1543/4725, -118/315, 1/5',
     '1882432/8513505, -38068/155925, 152/945, -17/315',
     '268864/2027025, -752/10395, 5/252',
     '62464/2027025, -101/17325',
     '11537/4054050'),
- _Rtuple(7, 28,  # GEOGRAPHICLIB_RHUMBAREA_ORDER == 7
+ _Rtuple(_Rkey(7), 28,  # GEOGRAPHICLIB_RHUMBAREA_ORDER == 7
     '-565017322/1915538625, 138734126/638512875, -102614/467775, 596/2025, -398/945, 22/45, -1/3',
     '-1969276/58046625, 17749373/425675250, -24562/155925, 1543/4725, -118/315, 1/5',
     '-58573784/638512875, 1882432/8513505, -38068/155925, 152/945, -17/315',
@@ -340,7 +340,7 @@ _RACoeffs = _Rdict(110,  # Rhumb Area Coefficients in matrix Q
     '-112832/1447875, 62464/2027025, -101/17325',
     '-4096/289575, 11537/4054050',
     '-311/525525'),
- _Rtuple(8, 36,  # GEOGRAPHICLIB_RHUMBAREA_ORDER == 8
+ _Rtuple(_Rkey(8), 36,  # GEOGRAPHICLIB_RHUMBAREA_ORDER == 8
     '188270561816/488462349375, -565017322/1915538625, 138734126/638512875, -102614/467775, 596/2025, -398/945, 22/45, -1/3',
     '2332829602/23260111875, -1969276/58046625, 17749373/425675250, -24562/155925, 1543/4725, -118/315, 1/5',
     '-41570288/930404475, -58573784/638512875, 1882432/8513505, -38068/155925, 152/945, -17/315',
@@ -350,7 +350,7 @@ _RACoeffs = _Rdict(110,  # Rhumb Area Coefficients in matrix Q
     '4193792/723647925, -311/525525',
     '1097653/1929727800')
 )
-del _Rdict, _Rtuple
+del _Rdict, _Rkey, _Rtuple
 
 __all__ += _ALL_DOCS(Caps)
 

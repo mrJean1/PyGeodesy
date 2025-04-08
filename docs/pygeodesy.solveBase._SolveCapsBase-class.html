@@ -228,14 +228,6 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.solveBase._SolveCapsBase-class.html#Exact" class="summary-name">Exact</a><br />
-      Get the Solve's <code>exact</code> setting (<code>bool</code>).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
         <a href="pygeodesy.solveBase._SolveCapsBase-class.html#a" class="summary-name">a</a><br />
       Get the <i>equatorial</i> radius, semi-axis (<code>meter</code>).
     </td>
@@ -252,6 +244,14 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.solveBase._SolveCapsBase-class.html#Exact" class="summary-name">Exact</a><br />
+      Get the Solve's <code>exact</code> setting (<code>bool</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.solveBase._SolveCapsBase-class.html#ellipsoid" class="summary-name">ellipsoid</a><br />
       Get the ellipsoid (<code>Ellipsoid</code>).
     </td>
@@ -260,7 +260,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.solveBase._SolveCapsBase-class.html#f" class="summary-name">f</a><br />
+        <a href="pygeodesy.solveBase._SolveCapsBase-class.html#flattening" class="summary-name">flattening</a><br />
       Get the <code>ellipsoid</code>'s <i>flattening</i> 
       (<code>scalar</code>), <i class="math">(a - b) / a</i>, 
       <code>0</code> for spherical, negative for prolate.
@@ -270,7 +270,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.solveBase._SolveCapsBase-class.html#flattening" class="summary-name">flattening</a><br />
+        <a href="pygeodesy.solveBase._SolveCapsBase-class.html#f" class="summary-name">f</a><br />
       Get the <code>ellipsoid</code>'s <i>flattening</i> 
       (<code>scalar</code>), <i class="math">(a - b) / a</i>, 
       <code>0</code> for spherical, negative for prolate.
@@ -454,27 +454,6 @@
     <span class="table-header">Property Details</span></td>
 </tr>
 </table>
-<a name="Exact"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">Exact</h3>
-  <p>Get the Solve's <code>exact</code> setting (<code>bool</code>).</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">Exact(<span class="summary-sig-arg">self</span>)</span>
-        - Get the Solve's <code>exact</code> setting (<code>bool</code>).
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">Exact(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">Exact</span>)</span>
-        - Set the Solve's <code>exact</code> setting (<code>bool</code>), if 
-<code>True</code> use <i>exact</i> version.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
 <a name="a"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -523,6 +502,27 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="Exact"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">Exact</h3>
+  <p>Get the Solve's <code>exact</code> setting (<code>bool</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">Exact(<span class="summary-sig-arg">self</span>)</span>
+        - Get the Solve's <code>exact</code> setting (<code>bool</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">Exact(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">Exact</span>)</span>
+        - Set the Solve's <code>exact</code> setting (<code>bool</code>), if 
+<code>True</code> use <i>exact</i> version.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="ellipsoid"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -547,12 +547,12 @@
   </dl>
 </td></tr></table>
 </div>
-<a name="f"></a>
+<a name="flattening"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
-  <h3 class="epydoc">f</h3>
+  <h3 class="epydoc">flattening</h3>
   <p>Get the <code>ellipsoid</code>'s <i>flattening</i> 
   (<code>scalar</code>), <i class="math">(a - b) / a</i>, <code>0</code> 
   for spherical, negative for prolate.</p>
@@ -575,12 +575,12 @@ prolate.
   </dl>
 </td></tr></table>
 </div>
-<a name="flattening"></a>
+<a name="f"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
-  <h3 class="epydoc">flattening</h3>
+  <h3 class="epydoc">f</h3>
   <p>Get the <code>ellipsoid</code>'s <i>flattening</i> 
   (<code>scalar</code>), <i class="math">(a - b) / a</i>, <code>0</code> 
   for spherical, negative for prolate.</p>
@@ -761,7 +761,7 @@ prints a message around each <code>RhumbSolve</code> invokation.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Jan 11 15:36:24 2025
+    Generated by Epydoc 3.0.1 on Tue Apr  8 14:39:51 2025
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

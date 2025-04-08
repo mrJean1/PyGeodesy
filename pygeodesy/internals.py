@@ -345,11 +345,12 @@ def _isNix():  # in test/bases
     return _MODS.nix2[0]
 
 
-def _isPyChecker():  # PYCHOK no cover
-    '''(INTERNAL) Is C{PyChecker} running? (C{bool}).
+def _isPyChOK():  # PYCHOK no cover
+    '''(INTERNAL) Is C{PyChecker} running? (C{bool})
     '''
     # .../pychecker/checker.py --limit 0 --stdlib pygeodesy/<mod>/<name>.py
-    return _sys.argv[0].endswith('/pychecker/checker.py')
+    return _sys.argv[0].endswith('/pychecker/checker.py') or \
+            bool(_getPYGEODESY('PYCHOK'))
 
 
 def _isPyPy():  # in test/bases
@@ -701,7 +702,7 @@ def _versions(sep=_SPACE_):
 
 
 __all__ = tuple(map(_DUNDER_nameof, (machine, print_, printf)))
-__version__ = '24.11.06'
+__version__ = '25.04.04'
 
 if _is_DUNDER_main(__name__):  # PYCHOK no cover
 
@@ -714,7 +715,7 @@ if _is_DUNDER_main(__name__):  # PYCHOK no cover
     _main()
 
 # % python3 -m pygeodesy.internals
-# pygeodesy 24.11.11 Python 3.13.0 64bit arm64 macOS 14.6.1 _isfrozen False isLazy 1
+# pygeodesy 25.4.4 Python 3.13.2 64bit arm64 macOS 15.4 _isfrozen False isLazy 1
 
 # **) MIT License
 #
