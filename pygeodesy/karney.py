@@ -165,7 +165,7 @@ from pygeodesy.utily import atan2d, sincos2d, tand, _unrollon,  fabs
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '24.11.26'
+__version__ = '25.04.08'
 
 _2_4_       = '2.4'
 _K_2_0      = _getenv(_PYGEODESY(_xgeographiclib, 1), _2_)
@@ -880,9 +880,9 @@ except ImportError:  # Python 3.12-
             s, t, _ = _sum3(s * x, t * x, c)
         return s + t
 
-#   def _poly_fma(x, *cs):
+#   def _poly_fma(x, s, *cs):
 #       S = Fhorner(x, *cs, incx=False)
-#       return float(S)
+#       return float(S + s)
 
 def _polynomial(x, cs, i, j):  # PYCHOK shared
     '''(INTERNAL) Like C++ C{GeographicLib.Math.hpp.polyval} but with a
@@ -893,8 +893,8 @@ def _polynomial(x, cs, i, j):  # PYCHOK shared
     if (i + 1) < j <= len(cs):  # load _Rtuple._tuple
         try:
             r = _wrapped.Math.polyval(j - i - 1, cs, i, x)
-        except AttributeError:
-            r = _poly_fma(x, *cs[i:j])
+        except AttributeError:  # no .Math
+            r = _poly_fma(x, _0_0, *cs[slice(i, j)])  # NOT *c[i:j]?
     else:
         r = cs[i]
     return float(r)
