@@ -22,7 +22,7 @@ from pygeodesy.named import ADict,  Property_RO
 # from pygeodesy.props import Property_RO  # from .named
 
 __all__ = ()
-__version__ = '25.01.15'
+__version__ = '25.04.08'
 
 
 class _Rcoeffs(ADict):
@@ -187,6 +187,10 @@ class _Rtuple(list):  # MUST be list, NOT tuple!
     def __getitem__(self, i):
         return self._tuple[i]
 
+    if _MODS.sys_version_info2 < (3, 0):
+        def __getslice__(self, i, j):
+            return self._tuple[slice(i, j)]
+
     def __iter__(self):
         return iter(self._tuple)
 
@@ -195,14 +199,12 @@ class _Rtuple(list):  # MUST be list, NOT tuple!
 
     @Property_RO
     def _tuple(self):
-        # build the C{tuple} once, replace C{_Rdict}
-        # item at C{key} with the C{tuple} and fill
-        # this C{_Rlist} with the C{tuple} values
-        # for the initial __getitem__ retrieval[s]
+        # build the C{tuple} I{once} and replace
+        # C{_Rdict[key]} item with the C{tuple}
         try:
             k, n, rs = self.k_n_rs  # for except ...
             t = self.Rdict._floatuple(self)
-#           self[:] = t  # MUST copy into self!
+#           self[:] = t  # MUST copy into self?
         except Exception as x:
             if len(rs) > 1 and _QUOTE3_ in str(x):
                 rs = rs[0], _ELLIPSIS4_
