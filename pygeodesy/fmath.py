@@ -1,19 +1,21 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Utilities using precision floating point summation.
+u'''Utilities for precision floating point summation, multiplication,
+C{fused-multiply-add}, polynomials, roots, etc.
 '''
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import _copysign, copysign0, isbool, isint, isscalar, \
-                              len2, map1, _xiterable
+                              len2, map1, _xiterable,  typename
 from pygeodesy.constants import EPS0, EPS02, EPS1, NAN, PI, PI_2, PI_4, \
                                _0_0, _0_125, _1_6th, _0_25, _1_3rd, _0_5, _1_0, \
                                _1_5, _copysign_0_0, isfinite, remainder
 from pygeodesy.errors import _IsnotError, LenError, _TypeError, _ValueError, \
                              _xError, _xkwds, _xkwds_pop2, _xsError
 from pygeodesy.fsums import _2float, Fsum, fsum, _isFsum_2Tuple,  Fmt, unstr
+# from pygeodesy.internals import typename  # from .basics
 from pygeodesy.interns import MISSING, _negative_, _not_scalar_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.streprs import Fmt, unstr  # from .fsums
@@ -23,10 +25,10 @@ from math import fabs, sqrt  # pow
 import operator as _operator  # in .datums, .trf, .utm
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '25.01.09'
+__version__ = '25.04.18'
 
 # sqrt(2) - 1 <https://WikiPedia.org/wiki/Square_root_of_2>
-_0_4142  =  0.41421356237309504880  # ... ~ 3730904090310553 / 9007199254740992
+_0_4142  =  0.41421356237309504880  # ~ 3_730_904_090_310_553 / 9_007_199_254_740_992
 _2_3rd   = _1_3rd * 2
 _h_lt_b_ = 'abs(h) < abs(b)'
 
@@ -294,9 +296,8 @@ def euclid(x, y):
        @see: Function L{euclid_}.
     '''
     x, y = abs(x), abs(y)  # NOT fabs!
-    if y > x:
-        x, y = y, x
-    return x + y * _0_4142  # * _0_5 before 20.10.02
+    return (x + y * _0_4142) if x > y else \
+           (y + x * _0_4142)  # * _0_5 before 20.10.02
 
 
 def euclid_(*xs):
@@ -656,7 +657,7 @@ def fpowers(x, n, alts=0):
        @raise ValueError: Non-finite B{C{x}} or invalid B{C{n}}.
     '''
     if not isint(n):
-        raise _IsnotError(int.__name__, n=n)
+        raise _IsnotError(typename(int), n=n)
     elif n < 1:
         raise _ValueError(n=n)
 
@@ -736,7 +737,7 @@ def frange(start, number, step=1):
              numpy/reference/generated/numpy.arange.html>}.
     '''
     if not isint(number):
-        raise _IsnotError(int.__name__, number=number)
+        raise _IsnotError(typename(int), number=number)
     for i in range(number):
         yield start + (step * i)
 

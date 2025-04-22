@@ -13,21 +13,20 @@ standard Python C{namedtuple}s.
 @see: Module L{pygeodesy.namedTuples} for (most of) the C{Named-Tuples}.
 '''
 
-from pygeodesy.basics import isidentifier, iskeyword, isstr, itemsorted, len2, \
-                            _xcopy, _xdup, _xinstanceof, _xsubclassof, _zip
+from pygeodesy.basics import isbool, isidentifier, iskeyword, isstr, itemsorted, \
+                             len2, _xcopy, _xdup, _xinstanceof, _xsubclassof, _zip
 # from pygeodesy.ecef import EcefKarney  # _MODS
 from pygeodesy.errors import _AssertionError, _AttributeError, _incompatible, \
                              _IndexError, _KeyError, LenError, _NameError, \
                              _NotImplementedError, _TypeError, _TypesError, \
                              _UnexpectedError, UnitError, _ValueError, \
                              _xattr, _xkwds, _xkwds_item2, _xkwds_pop2
-from pygeodesy.internals import _caller3, _DUNDER_nameof, _getPYGEODESY, _isPyPy, \
-                                _sizeof, _under
+from pygeodesy.internals import _caller3, _envPYGEODESY, _isPyPy, _sizeof, \
+                                 typename, _under
 from pygeodesy.interns import MISSING, NN, _AT_, _COLON_, _COLONSPACE_, _COMMA_, \
-                             _COMMASPACE_, _doesn_t_exist_, _DOT_, _DUNDER_, \
-                             _DUNDER_name_, _EQUAL_, _exists_, _immutable_, _name_, \
-                             _NL_, _NN_, _no_, _other_, _s_, _SPACE_, _std_, \
-                             _UNDER_, _vs_
+                             _COMMASPACE_, _DNAME_, _doesn_t_exist_, _DOT_, _DUNDER_, \
+                             _EQUAL_, _exists_, _immutable_, _name_, _NL_, _NN_, \
+                             _no_, _other_, _s_, _SPACE_, _std_, _UNDER_, _vs_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.ltp import Ltp, _toLocal, _toLtp  # _MODS
 # from pygeodesy.ltpTuples import Aer, Enu, Ned  # _MODS
@@ -38,7 +37,7 @@ from pygeodesy.streprs import attrs, Fmt, lrstrip, pairs, reprs, unstr
 # from pygeodesy.units import _toUnit  # _MODS
 
 __all__ = _ALL_LAZY.named
-__version__ = '24.12.05'
+__version__ = '25.04.14'
 
 _COMMANL_           = _COMMA_ + _NL_
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
@@ -49,7 +48,7 @@ _MRO_               = 'MRO'
 _name               = _under(_name_)
 _Names_             = '_Names_'
 _registered_        = 'registered'  # PYCHOK used!
-_std_NotImplemented = _getPYGEODESY('NOTIMPLEMENTED', NN).lower() == _std_
+_std_NotImplemented = _envPYGEODESY('NOTIMPLEMENTED', NN).lower() == _std_
 _such_              = 'such'
 _Units_             = '_Units_'
 _UP                 =  2
@@ -94,7 +93,7 @@ class ADict(dict):
         '''(INTERNAL) Create an C{AttributeError}.
         '''
         if _DOT_ not in name:  # NOT classname(self)!
-            name = _DOT_(self.__class__.__name__, name)
+            name = _DOT_(self.typename, name)
         return _AttributeError(item=name, txt=_doesn_t_exist_)
 
     @property_RO
@@ -116,11 +115,16 @@ class ADict(dict):
             dict.update(self, items)
         return self  # in RhumbLineBase.Intersecant2, _PseudoRhumbLine.Position
 
+    def _toL(self):
+        '''(INTERNAL) Get items as list.
+        '''
+        return list(_EQUAL_(*t) for t in self.items())  # _kwdstr
+
     def toRepr(self, **prec_fmt):
         '''Like C{repr(dict)} but with C{name} prefix and with
            C{floats} formatted by function L{pygeodesy.fstr}.
         '''
-        n = _xattr(self, name=NN) or self.__class__.__name__
+        n = _xattr(self, name=NN) or self.typename
         return Fmt.PAREN(n, self._toT(_EQUAL_, **prec_fmt))
 
     def toStr(self, **prec_fmt):
@@ -134,6 +138,12 @@ class ADict(dict):
         '''
         kwds = _xkwds(kwds, prec=6, fmt=Fmt.F, sep=sep)
         return _COMMASPACE_.join(pairs(itemsorted(self), **kwds))
+
+    @property_RO
+    def typename(self):
+        '''Get this C{ADict}'s type name (C{str}).
+        '''
+        return type(self).__name__  # typename(type(self))
 
 
 class _Named(object):
@@ -294,7 +304,7 @@ class _Named(object):
 
            @arg which: The method (C{callable}).
         '''
-        return _DOT_(self.classname, which.__name__ if callable(which) else _NN_)
+        return _DOT_(self.classname, typename(which) if callable(which) else _NN_)
 
     @property_doc_(''' the name (C{str}).''')
     def name(self):
@@ -314,7 +324,7 @@ class _Named(object):
         elif n != m:
             n =  repr(n)
             c =  self.classname
-            t = _DOT_(c, Fmt.PAREN(self.rename.__name__, n))
+            t = _DOT_(c, Fmt.PAREN(typename(self.rename), n))
             n = _DOT_(c, Fmt.EQUALSPACED(name=n))
             m =  Fmt.PAREN(_SPACE_('was', repr(m)))
             n = _SPACE_(n, m)
@@ -362,7 +372,7 @@ class _Named(object):
     def named4(self):
         '''Get the C{package.module.class} name I{and/or} the name or C{""} (C{str}).
         '''
-        return _xjoined_(_DOT_(self.__module__, self.__class__.__name__),  self.name)
+        return _xjoined_(_DOT_(self.__module__, self.typename),  self.name)
 
     def _notImplemented(self, *args, **kwds):
         '''(INTERNAL) See function L{notImplemented}.
@@ -425,6 +435,12 @@ class _Named(object):
 #          @see: Function L{pygeodesy.unstr}.
 #       '''
 #       return _DOT_(self, unstr(which, *args, **kwds))
+
+    @property_RO
+    def typename(self):
+        '''Get this object's type name (C{str}).
+        '''
+        return type(self).__name__  # typename(type(self))
 
     def _xnamed(self, inst, name=NN, **force):
         '''(INTERNAL) Set the instance' C{.name = self.name}.
@@ -586,7 +602,7 @@ class _NamedDict(ADict, _Named):
     def _KeyError(self, key, *value):  # PYCHOK no cover
         '''(INTERNAL) Create a C{KeyError}.
         '''
-        n = self.name or self.__class__.__name__
+        n = self.name or self.typename
         t = Fmt.SQUARE(n, key)
         if value:
             t = Fmt.EQUALSPACED(t, *value)
@@ -622,7 +638,7 @@ class _NamedEnum(_NamedDict):
            @arg Classes: Additional, acceptable classes or C{type}s.
         '''
         self._item_Classes = (Class,) + Classes
-        n = _name__(**name) or NN(Class.__name__, _s_)  # _DUNDER_nameof
+        n = _name__(**name) or NN(typename(Class), _s_)
         if n and _xvalid(n, underOK=True):
             _Named.name.fset(self, n)  # see _Named.name
 
@@ -695,7 +711,7 @@ class _NamedEnum(_NamedDict):
         '''
         if all:  # instantiate any remaining L{_LazyNamedEnumItem}
             _isa = isinstance
-            for n, p in tuple(self.__class__.__dict__.items()):
+            for n, p in tuple(type(self).__dict__.items()):
                 if _isa(p, _LazyNamedEnumItem):
                     _ = getattr(self, n)
         return itemsorted(self) if asorted else ADict.items(self)
@@ -731,7 +747,7 @@ class _NamedEnum(_NamedDict):
         '''
         if item is all or item is any:
             _ = self.items(all=True)
-            n = item.__name__
+            n = typename(item)
         else:
             try:
                 n = item.name
@@ -1288,7 +1304,7 @@ class _NamedTuple(tuple, _Named):
                 t = Fmt.SQUARE(_Units_=i)  # PYCHOK no cover
                 raise _TypeError(self._DOT_(t), u)
 
-        self.__class__._validated = True
+        type(self)._validated = True
 
     def _xtend(self, xTuple, *items, **name):
         '''(INTERNAL) Extend this C{Named-Tuple} with C{items} to an other B{C{xTuple}}.
@@ -1297,7 +1313,7 @@ class _NamedTuple(tuple, _Named):
         if len(xTuple._Names_)       != (len(self._Names_) + len(items)) or \
                xTuple._Names_[:len(self)] != self._Names_:  # PYCHOK no cover
             c = NN(self.classname,  repr(self._Names_))
-            x = NN(xTuple.__name__, repr(xTuple._Names_))
+            x = NN(typename(xTuple), repr(xTuple._Names_))
             raise TypeError(_SPACE_(c, _vs_, x))
         t = self + items
         return xTuple(t, name=self._name__(name))  # .reUnit(*self._Units_)
@@ -1357,7 +1373,7 @@ def classname(inst, prefixed=None):
        @return: The B{C{inst}}'s C{[module.]class} name (C{str}).
     '''
     if prefixed is None:
-        prefixed = getattr(inst, classnaming.__name__, prefixed)
+        prefixed = getattr(inst, typename(classnaming), prefixed)
     return modulename(inst.__class__, prefixed=prefixed)
 
 
@@ -1369,7 +1385,7 @@ def classnaming(prefixed=None):
        @return: Previous class naming setting (C{bool}).
     '''
     t = _Named._classnaming
-    if prefixed in (True, False):
+    if isbool(prefixed):
         _Named._classnaming = prefixed
     return t
 
@@ -1385,9 +1401,9 @@ def modulename(clas, prefixed=None):  # in .basics._xversion
        @return: The B{C{class}}'s C{[module.]class} name (C{str}).
     '''
     try:
-        n = clas.__name__
+        n = typename(clas)
     except AttributeError:
-        n = clas if isstr(clas) else _DUNDER_name_
+        n = clas if isstr(clas) else _DNAME_
     if prefixed or (classnaming() if prefixed is None else False):
         try:
             m =  clas.__module__.rsplit(_DOT_, 1)
@@ -1406,7 +1422,7 @@ def modulename(clas, prefixed=None):  # in .basics._xversion
 #     if name:  # is given
 #         n = _name__(**name) if isinstance(name, dict) else str(name)
 #     elif name__ is not None:
-#         n = getattr(name__, _DUNDER_name_, NN)  # _xattr(name__, __name__=NN)
+#         n = getattr(name__, _DNAME_, NN)  # _xattr(name__, __name__=NN)
 #     else:
 #         n = name  # NN or None or {} or any False type
 #     if _or_nameof is not None and not n:
@@ -1443,7 +1459,7 @@ def _name2__(name=NN, name__=None, _or_nameof=None, **kwds):
         else:
             n = str(name)
     elif name__ is not None:
-        n = _DUNDER_nameof(name__, NN)
+        n = typename(name__, NN)
     else:
         n = name if name is None else NN
     if _or_nameof is not None and not n:
@@ -1461,7 +1477,7 @@ def nameof(inst):
     n = _xattr(inst, name=NN)
     if not n:  # and isinstance(inst, property):
         try:
-            n = inst.fget.__name__
+            n = typename(inst.fget)
         except AttributeError:
             n = NN
     return n
@@ -1470,7 +1486,7 @@ def nameof(inst):
 def _notDecap(where):
     '''De-Capitalize C{where.__name__}.
     '''
-    n = where.__name__
+    n = typename(where)
     c = n[3].lower()  # len(_not_)
     return NN(n[:3], _SPACE_, c, n[4:])
 
@@ -1478,8 +1494,8 @@ def _notDecap(where):
 def _notError(inst, name, args, kwds):  # PYCHOK no cover
     '''(INTERNAL) Format an error message.
     '''
-    n = _DOT_(classname(inst, prefixed=True), _DUNDER_nameof(name, name))
-    m = _COMMASPACE_.join(modulename(c, prefixed=True) for c in inst.__class__.__mro__[1:-1])
+    n = _DOT_(classname(inst, prefixed=True), typename(name, name))
+    m = _COMMASPACE_.join(modulename(c, prefixed=True) for c in type(inst).__mro__[1:-1])
     return _COMMASPACE_(unstr(n, *args, **kwds), Fmt.PAREN(_MRO_, m))
 
 

@@ -371,6 +371,12 @@
     </li>
     </ul>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.karney.Caps-class.html">pygeodesy.karney.Caps</a></strong>:
+      <em class="summary"><i>Enum</i>-style masks to be bit-<code>or</code>'ed to specify 
+        <code>geodesic</code>, <code>rhumb</code> or <code>-lines</code> 
+        capabilities (<code>caps</code>) and method results 
+        (<code>outmask</code>).</em>
+    </li>
     <li> <strong class="uidlink">_abcoll.Container</strong>
     <ul>
     <li> <strong class="uidlink">_abcoll.Sequence</strong>:
@@ -1179,7 +1185,7 @@
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.latlonBase.LatLonBase-class.html">pygeodesy.latlonBase.LatLonBase</a></strong>:
       <em class="summary">(INTERNAL) Base class for ellipsoidal and spherical 
-        <code>LatLon</code>s.</em>
+        <code>satLon</code>s.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html">pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase</a></strong>:
       <em class="summary">(INTERNAL) Base class for ellipsoidal <code>LatLon</code>s.</em>
@@ -1241,7 +1247,7 @@
     </ul>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.bases.LatLonHeightBase-class.html">pygeodesy.deprecated.bases.LatLonHeightBase</a></strong>:
-      <em class="summary">'DEPRECATED on 2021.02.10, use (INTERNAL) class <a 
+      <em class="summary">DEPRECATED on 2021.02.10, use (INTERNAL) class <a 
         href="pygeodesy.latlonBase.LatLonBase-class.html" 
         class="link">pygeodesy.latlonBase.LatLonBase</a>.</em>
     </li>
@@ -2261,7 +2267,7 @@
         <code>FIx</code>, the recursion depth <code>r</code>, the number of
         distances computed <code>n</code> and the <a 
         href="pygeodesy.named._NamedTuple-class.html#units" 
-        class="link">units</a> class or class or name of the distance 
+        class="link">units</a> class or name of the distance 
         <code>units</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.fsums.Fsum2Tuple-class.html">pygeodesy.fsums.Fsum2Tuple</a></strong>:
@@ -3211,7 +3217,7 @@
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.latlonBase.LatLonBase-class.html">pygeodesy.latlonBase.LatLonBase</a></strong>:
       <em class="summary">(INTERNAL) Base class for ellipsoidal and spherical 
-        <code>LatLon</code>s.</em>
+        <code>satLon</code>s.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html">pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase</a></strong>:
       <em class="summary">(INTERNAL) Base class for ellipsoidal <code>LatLon</code>s.</em>
@@ -3273,7 +3279,7 @@
     </ul>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.bases.LatLonHeightBase-class.html">pygeodesy.deprecated.bases.LatLonHeightBase</a></strong>:
-      <em class="summary">'DEPRECATED on 2021.02.10, use (INTERNAL) class <a 
+      <em class="summary">DEPRECATED on 2021.02.10, use (INTERNAL) class <a 
         href="pygeodesy.latlonBase.LatLonBase-class.html" 
         class="link">pygeodesy.latlonBase.LatLonBase</a>.</em>
     </li>
@@ -3317,12 +3323,12 @@
     </ul>
     </li>
     <li> <strong class="uidlink">pygeodesy.karney._kWrapped</strong>:
-      <em class="summary">'(INTERNAL) Wrapper for some of <i>Karney</i>'s <a 
+      <em class="summary">(INTERNAL) Wrapper for some of <i>Karney</i>'s <a 
         href="https://PyPI.org/project/geographiclib" 
         target="_top">geographiclib</a> classes.</em>
     <ul>
     <li> <strong class="uidlink">pygeodesy.geodesicw._gWrapped</strong>:
-      <em class="summary">'(INTERNAL) Wrapper for some of <i>Karney</i>'s <a 
+      <em class="summary">(INTERNAL) Wrapper for some of <i>Karney</i>'s <a 
         href="https://PyPI.org/project/geographiclib" 
         target="_top">geographiclib</a> classes.</em>
     <ul>
@@ -3409,7 +3415,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.XDist-class.html">pygeodesy.deprecated.classes.XDist</a></strong>:
       <em class="summary">DEPRECATED on 2024.07.02, use class <a 
-        href="pygeodesy.geodesici.XDict-class.html" class="link">XDict</a>.</em>
+        href="pygeodesy.named.ADict-class.html" class="link">ADict</a>.</em>
     </li>
     <li> <strong class="uidlink">pygeodesy.named._NamedDict</strong>:
       <em class="summary">(INTERNAL) Named <code>dict</code> with key <i>and</i> attribute 
@@ -3963,7 +3969,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         <code>FIx</code>, the recursion depth <code>r</code>, the number of
         distances computed <code>n</code> and the <a 
         href="pygeodesy.named._NamedTuple-class.html#units" 
-        class="link">units</a> class or class or name of the distance 
+        class="link">units</a> class or name of the distance 
         <code>units</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.fsums.Fsum2Tuple-class.html">pygeodesy.fsums.Fsum2Tuple</a></strong>:
@@ -4616,7 +4622,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Apr  9 11:05:51 2025
+    Generated by Epydoc 3.0.1 on Tue Apr 22 12:33:03 2025
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

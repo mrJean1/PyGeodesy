@@ -63,7 +63,7 @@ which maintains accuracy near C{phi = pi/2}.  Such changes are noted in the code
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import map1, neg, neg_, _xinstanceof
+from pygeodesy.basics import _isin, map1, neg, neg_, _xinstanceof
 from pygeodesy.constants import EPS, EPS02, PI_2, PI_4, _K0_UTM, \
                              _1_EPS, _0_0, _0_1, _0_5, _1_0, _2_0, \
                              _3_0, _90_0, isnear0, isnear90
@@ -74,9 +74,9 @@ from pygeodesy.datums import _ellipsoidal_datum, _WGS84,  _EWGS84
 # from pygeodesy.errors import _incompatible  # from .named
 # from pygeodesy.fsums import Fsum  # from .fmath
 from pygeodesy.fmath import cbrt, hypot, hypot1, hypot2,  Fsum
-from pygeodesy.interns import _COMMASPACE_, _near_, _SPACE_, _spherical_
-from pygeodesy.karney import _K_2_4, _copyBit, _diff182, _fix90, \
-                             _norm2, _norm180, _tand, _unsigned2
+from pygeodesy.interns import _COMMASPACE_, _DMAIN_, _near_, _SPACE_, _spherical_
+from pygeodesy.karney import _K_2_4, _copyBit, _diff182, _fix90, _norm2, \
+                            _norm180, _tand, _unsigned2
 # from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS  # from .named
 from pygeodesy.named import callername, _incompatible, _NamedBase, \
                            _ALL_LAZY, _MODS
@@ -93,7 +93,7 @@ from pygeodesy.utm import _cmlon, _LLEB, _parseUTM5, _toBand, _toXtm8, \
 from math import asinh, degrees, radians, sinh, sqrt
 
 __all__ = _ALL_LAZY.etm
-__version__ = '25.01.12'
+__version__ = '25.04.14'
 
 _OVERFLOW = _1_EPS**2  # ~2e+31
 _TAYTOL   =  pow(EPS,  0.6)
@@ -268,7 +268,7 @@ class ExactTransverseMercator(_NamedBase):
             self.raiser = True
 
         TM = ExactTransverseMercator
-        if datum not in (TM._datum, TM._E, None):
+        if not _isin(datum, None, TM._datum, TM._E):
             self.datum = datum  # invokes ._resets
         if lon0 or lon0 != TM._lon0:
             self.lon0 = lon0
@@ -1101,7 +1101,7 @@ def toEtm8(latlon, lon=None, datum=None, Etm=Etm, falsed=True,
                         n, latlon, d.exactTM, Error=ETMError)
 
 
-if __name__ == '__main__':  # MCCABE 16
+if __name__ == _DMAIN_:  # MCCABE 16
 
     def _main():
 

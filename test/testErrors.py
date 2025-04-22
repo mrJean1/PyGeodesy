@@ -42,7 +42,7 @@ class Tests(TestsBase):
         self.test(InvalidError.__name__, repr(e).replace(',)', ')'), "RangeError('one (2) or zero (1): outside')")
         e = InvalidError(two=2, Error=ValueError)  # coverage
 
-        e = IsnotError(int.__name__, float.__name__, _None=None)
+        e = IsnotError(int, float, _None=None)
         self.test(IsnotError.__name__, e, '_None (None): not an int or float')
         self.test(IsnotError.__name__, repr(e).replace(',)', ')'), "TypeError('_None (None): not an int or float')")
 

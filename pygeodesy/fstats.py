@@ -9,12 +9,13 @@ multiplication.
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import isscalar, isodd, _xinstanceof, \
-                            _xiterable, _xsubclassof, _zip
+                            _xiterable, _xsubclassof, _zip,  typename
 from pygeodesy.constants import _0_0, _1_0, _2_0, _3_0, _4_0, _6_0
 from pygeodesy.errors import _ValueError, _xError, _xkwds_item2, \
                              _xsError
 from pygeodesy.fmath import Fsqrt,  Fmt
 from pygeodesy.fsums import _2finite, Fsum, _iadd_op_, _isFsum_2Tuple
+# from pygeodesy.internals import typename  # from .basics
 from pygeodesy.interns import _odd_, _SPACE_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _name__, _Named, _NotImplemented, \
@@ -23,7 +24,7 @@ from pygeodesy.named import _name__, _Named, _NotImplemented, \
 # from pygeodesy.streprs import Fmt  # from .fmath
 
 __all__ = _ALL_LAZY.fstats
-__version__ = '24.10.08'
+__version__ = '25.04.14'
 
 
 def _sampled(n, sample):
@@ -53,7 +54,7 @@ class _FstatsNamed(_Named):
         '''Sum of this and an other instance, a C{scalar}, an L{Fsum}
            or L{Fsum2Tuple}.
         '''
-        f  = self.copy(name=self.__add__.__name__)  # PYCHOK expected
+        f  = self.copy(name__=self.__add__)  # PYCHOK expected
         f += other
         return f
 
@@ -742,7 +743,7 @@ class Flinear(_FstatsNamed):
            @see: Method C{Flinear.fadd} for further details.
         '''
         if isodd(len(x_ys)):
-            t = _SPACE_(_odd_, len.__name__)
+            t = _SPACE_(_odd_, typename(len))
             raise _ValueError(t, len(x_ys))
         return self.fadd(x_ys[0::2], x_ys[1::2], **sample)
 

@@ -69,16 +69,18 @@ en/how-to-deal-with-etrs89-datum-and-time-dependent-transformation-parameters-45
 @var RefFrames.WGS84g1762: RefFrame(name='WGS84g1762', epoch=2005, datum=Datums.GRS80) .Xforms=(0, 0)
 '''
 
-from pygeodesy.basics import map1, neg, isidentifier, isstr, _xinstanceof, _xscalar
+from pygeodesy.basics import _isin, map1, neg, isidentifier, isstr, _xinstanceof, \
+                             _xscalar,  typename
 from pygeodesy.constants import _float as _F, _0_0s, _0_0, _0_001, _0_5, _1_0
 from pygeodesy.datums import Datums, _earth_datum, _equall, _GDA2020_, _Names7, \
                             _negastr, Transform, _WGS84,  _EWGS84, _operator
 # from pygeodesy.ellipsoids import _EWGS84  # from .datums
 from pygeodesy.errors import TRFError, _xattr, _xellipsoidall, _xkwds, _xkwds_item2
+# from pygeodesy.internals import typename  # from .basics
 from pygeodesy.interns import MISSING, NN, _AT_, _COMMASPACE_, _conversion_, \
-                             _datum_, _DOT_, _exists_, _invalid_, _MINUS_, \
-                             _NAD83_, _no_, _PLUS_, _reframe_, _s_, _SPACE_, \
-                             _STAR_, _to_, _vs_, _WGS84_, _x_, _intern as _i
+                             _datum_, _DMAIN_, _DOT_, _exists_, _invalid_, _MINUS_, \
+                             _NAD83_, _no_, _PLUS_, _reframe_, _s_, _SPACE_, _to_, \
+                             _STAR_, _vs_, _WGS84_, _x_, _intern as _i
 # from pygeodesy.lazily import _ALL_LAZY  # from .units
 from pygeodesy.named import ADict, classname, _lazyNamedEnumItem as _lazy, _name2__, \
                            _Named, _NamedEnum, _NamedEnumItem, _NamedTuple,  Fmt, unstr
@@ -91,7 +93,7 @@ from math import ceil as _ceil, fabs
 # import operator as _operator  # from .datums
 
 __all__ = _ALL_LAZY.trf
-__version__ = '24.10.14'
+__version__ = '25.04.14'
 
 _EP0CH    =  Epoch(0, low=0)
 _Es       = {_EP0CH: _EP0CH}  # L{Epoch}s, deleted below
@@ -176,9 +178,9 @@ class RefFrame(_NamedEnumItem):
 
            @raise TypeError: Invalid B{C{datum}}.
         '''
-        if datum in (_GRS80, None):
+        if _isin(datum, None, _GRS80):
             pass
-        elif datum in (_WGS84, _EWGS84):
+        elif _isin(datum, _WGS84, _EWGS84):
             self._datum = _WGS84
         else:
             _earth_datum(self, datum, raiser=_datum_)
@@ -1062,8 +1064,8 @@ def _toRefFrame(point, reframe2, reframe=None, epoch=None,
     e2 =  e1 if epoch2 is None else Epoch(epoch2=epoch2)
     t0 = _toTransform0(r1.name, e1, reframe2.name, e2)
     if t0 is None:
-        t = _SPACE_(RefFrame.__name__, _AT_(r1.name, e1),
-                           _to_, _AT_(reframe2.name, e2))
+        t = _SPACE_(typename(RefFrame), _AT_(r1.name, e1),
+                            _to_, _AT_(reframe2.name, e2))
         raise TRFError(_no_(_conversion_), txt=t)
 
     name, LatLon_kwds = _name2__(name_LatLon_kwds)
@@ -1732,7 +1734,7 @@ trfXform(_WGS84g1150_,  _ITRF2000_, epoch=_E(2004), xform=_P_0_0s, rates=_P_0_0s
 
 del _E, _Es, _i, _P, _P_0_0s, _R, _Rs, _X, _Xs
 
-if __name__ == '__main__':
+if __name__ == _DMAIN_:
 
     def _main():
         from pygeodesy.basics import _args_kwds_names
@@ -1740,8 +1742,8 @@ if __name__ == '__main__':
         from pygeodesy import printf
         from time import localtime
 
-        D = date2epoch.__name__
-        E = epoch2date.__name__
+        D = typename(date2epoch)
+        E = typename(epoch2date)
         y = localtime()[0]
         for m in range(1, 13):
             for d in (1, 15, _mDays[m] - 1, _mDays[m]):

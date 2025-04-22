@@ -18,7 +18,7 @@ from pygeodesy.constants import EPS, EPS0, INF, NAN, PI, PI2, PI_2, R_M, \
                                _copysign_0_0, _float, _isfinite, isnan, isnear0, \
                                _over, _umod_360, _umod_PI2
 from pygeodesy.errors import _ValueError, _xkwds,  _ALL_LAZY, _MODS
-from pygeodesy.internals import _passargs
+from pygeodesy.internals import _passargs, typename
 from pygeodesy.interns import _edge_, _radians_, _semi_circular_, _SPACE_
 # from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS  # from .errors
 from pygeodesy.units import Degrees, Degrees_, Feet, Float, Lam, Lamd, \
@@ -28,7 +28,7 @@ from math import acos, asin, atan2 as _atan2, cos, degrees, fabs, radians, \
                  sin, tan as _tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '25.01.05'
+__version__ = '25.04.14'
 
 _G_DEG     = _float(  400.0 / _360_0)  # grades per degree
 _G_RAD     = _float(  400.0 /  PI2)    # grades per radian
@@ -1109,7 +1109,7 @@ def unrollPI(rad1, rad2, wrap=True):
 def _valueError(where, x, raiser=True, **kwds):
     '''(INTERNAL) Return a C{_ValueError} or C{None}.
     '''
-    t = _MODS.streprs.Fmt.PAREN(where.__name__, x)
+    t = _MODS.streprs.Fmt.PAREN(typename(where), x)
     return _ValueError(t, **kwds) if raiser else None
 
 
@@ -1193,7 +1193,7 @@ class _Wrap(object):
             lat, lon = ll.latlon
             if fabs(lon) > _180_0 or fabs(lat) > _90_0:
                 _n = self.latlon
-                ll = ll.copy(name=_n.__name__)
+                ll = ll.copy(name=typename(_n))
                 ll.latlon = _n(lat, lon)
         return ll
 

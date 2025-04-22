@@ -10,7 +10,7 @@ and published under the same MIT Licence**, see U{Vector-based geodesy
 <https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
 '''
 
-# from pygeodesy.basics import map1  # from .namedTuples
+from pygeodesy.basics import _isin, map1
 from pygeodesy.constants import EPS, EPS0, EPS1, EPS_2, R_M, \
                                _0_0, _1_0, _2_0, _N_2_0
 # from pygeodesy.datums import _spherical_datum  # from .formy
@@ -27,7 +27,7 @@ from pygeodesy.latlonBase import LatLonBase,  _ALL_DOCS, _ALL_LAZY, _MODS
 # from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS  # from .latlonBase
 from pygeodesy.named import _xother3,  _under
 from pygeodesy.namedTuples import LatLon2Tuple, PhiLam2Tuple, Trilaterate5Tuple, \
-                                  Vector3Tuple, Vector4Tuple,  map1
+                                  Vector3Tuple, Vector4Tuple
 from pygeodesy.props import deprecated_method, Property_RO, property_doc_, \
                             property_RO, property_ROnce, _update_all
 from pygeodesy.streprs import Fmt, hstr, unstr
@@ -38,7 +38,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdlln4
 from math import degrees, fabs, sqrt
 
 __all__ = _ALL_LAZY.nvectorBase
-__version__ = '24.11.24'
+__version__ = '25.04.14'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -217,7 +217,7 @@ class NvectorBase(Vector3d):  # XXX kept private
     @deprecated_method
     def to3abh(self, height=None):  # PYCHOK no cover
         '''DEPRECATED, use property L{philamheight} or C{philam.to3Tuple(B{height})}.'''
-        return self.philamheight if height in (None, self.h) else \
+        return self.philamheight if _isin(height, None, self.h) else \
                self.philam.to3Tuple(height)
 
     def toCartesian(self, h=None, Cartesian=None, datum=None, **name_Cartesian_kwds):  # PYCHOK signature
@@ -249,7 +249,7 @@ class NvectorBase(Vector3d):  # XXX kept private
     def _toEcefDrv3(self, CC, LL, datum, h, name=NN, **unused):
         '''(INTERNAL) Helper for methods C{toCartesian} and C{toLatLon}.
         '''
-        D = self.datum if datum in (None, self.datum) else \
+        D = self.datum if _isin(datum, None, self.datum) else \
            _spherical_datum(datum, name=self.name)
         if LL is None:
             v = Vector3d(self, name=name or self.name)  # .toVector3d(norm=False)
@@ -272,7 +272,7 @@ class NvectorBase(Vector3d):  # XXX kept private
     @deprecated_method
     def to3llh(self, height=None):  # PYCHOK no cover
         '''DEPRECATED, use property C{latlonheight} or C{latlon.to3Tuple(B{height})}.'''
-        return self.latlonheight if height in (None, self.h) else \
+        return self.latlonheight if _isin(height, None, self.h) else \
                self.latlon.to3Tuple(height)
 
     def toLatLon(self, height=None, LatLon=None, datum=None, **name_LatLon_kwds):
@@ -336,7 +336,7 @@ class NvectorBase(Vector3d):  # XXX kept private
     @deprecated_method
     def to4xyzh(self, h=None):  # PYCHOK no cover
         '''DEPRECATED, use property L{xyzh} or C{xyz.to4Tuple(B{h})}.'''
-        return self.xyzh if h in (None, self.h) else Vector4Tuple(
+        return self.xyzh if _isin(h, None, self.h) else Vector4Tuple(
                self.x, self.y, self.z, h, name=self.name)
 
     def unit(self, ll=None):

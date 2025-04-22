@@ -5,23 +5,22 @@ u'''Print L{auxilats} version, etc. using C{python -m pygeodesy.auxilats}.
 '''
 
 __all__ = ()
-__version__ = '25.04.04'
+__version__ = '25.04.14'
 
 
 def _main(**ALorder):  # PYCHOK no cover
 
     try:
-        from pygeodesy import auxilats
+        from pygeodesy import ADict, auxilats
         from pygeodesy.internals import _fper, _name_version, \
                                          printf, _versions
-        from pygeodesy.interns import _COMMASPACE_, _EQUAL_
+        from pygeodesy.interns import _COMMASPACE_
 
         A  = auxilats.AuxLat(**ALorder)
         Cx = A._CXcoeffs  # PropertyRO: Adict of _Rdicts
         b, n, u, z = Cx.bnuz4()
-        p = dict(ALorder=A.ALorder,CXb=b, CXb_z=_fper(b, z),
-                            CXn=n, CXu=u, CXu_n=_fper(u, n))
-        p = list(_EQUAL_(*t) for t in p.items())
+        p  = ADict(ALorder=A.ALorder, CXb=b, CXb_z=_fper(b, z),
+                               CXn=n, CXu=u, CXu_n=_fper(u, n))._toL()
         try:
             import geographiclib
             p.append(_name_version(geographiclib))
@@ -38,6 +37,9 @@ def _main(**ALorder):  # PYCHOK no cover
 
 from sys import argv  # .internals._isPyChOK
 _main(ALorder=int(argv[1])) if len(argv) == 2 and argv[1].isdigit() else _main()
+
+# % python3.13 -m pygeodesy.auxilats
+# pygeodesy.auxilats 25.04.14: ALorder=6, CXb=11099, CXb_z=64.1%, CXn=522, CXu=448, CXu_n=85.8%, geographiclib 2.0 (pygeodesy 25.4.24 Python 3.13.3 64bit arm64 macOS 15.4)
 
 # % python3.12 -m pygeodesy.auxilats 8
 # pygeodesy.auxilats 24.09.04: ALorder=8, CXb=20310, CXb_z=71.5%, CXn=888, CXu=780, CXu_n=87.8%, geographiclib 2.0 (pygeodesy 24.9.9 Python 3.12.5 64bit arm64 macOS 14.6.1)

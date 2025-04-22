@@ -14,14 +14,14 @@ A pure Python implementation, partially transcoded from C++ class U{UTMUPS
 <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1UTMUPS.html>}
 by I{Charles Karney}.
 '''
-# from pygeodesy.basics import map1  # from .namedTuples
+from pygeodesy.basics import _isin, map1
 # from pygeodesy.datums import _WGS84  # from .utmupsBase
 from pygeodesy.errors import _IsnotError, RangeError, _ValueError, _xkwds_pop2
 from pygeodesy.interns import NN, _easting_, _MGRS_, _northing_, _NS_, \
                              _outside_, _range_, _SPACE_, _UPS_, _UTM_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import modulename
-from pygeodesy.namedTuples import UtmUps5Tuple, UtmUps8Tuple,  map1
+from pygeodesy.namedTuples import UtmUps5Tuple, UtmUps8Tuple
 # from pygeodesy.streprs import Fmt  # from .utmupsBase
 from pygeodesy.units import Northing, _100km
 from pygeodesy.ups import parseUPS5, toUps8, Ups, UPSError, upsZoneBand5
@@ -31,7 +31,7 @@ from pygeodesy.utmupsBase import Fmt, _to4lldn, _to3zBhp, _UPS_ZONE, \
                                 _UTMUPS_ZONE_MAX, _WGS84
 
 __all__ = _ALL_LAZY.utmups
-__version__ = '24.06.11'
+__version__ = '25.04.14'
 
 _MGRS_TILE = _100km  # in .mgrs.Mgrs.tile
 
@@ -179,7 +179,7 @@ def UtmUps(zone, hemipole, easting, northing, band=NN, datum=_WGS84, falsed=True
              <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1UTMUPS.html>}.
     '''
     z, B, hp = _to3zBhp(zone, band, hemipole=hemipole)
-    U = Ups if z in (_UPS_ZONE, _UPS_ZONE_STR) else Utm
+    U = Ups if _isin(z, _UPS_ZONE, _UPS_ZONE_STR) else Utm
     return U(z, hp, easting, northing, band=B, datum=datum, falsed=falsed, **name)
 
 

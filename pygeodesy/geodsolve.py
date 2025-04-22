@@ -9,10 +9,10 @@ Set env variable C{PYGEODESY_GEODSOLVE} to the (fully qualified) path
 of the C{GeodSolve} executable.
 '''
 
-from pygeodesy.basics import _xinstanceof
+from pygeodesy.basics import _xinstanceof  # typename
 # from pygeodesy.constants import NAN, _0_0  # from .karney
 # from pygeodesy.geodesicx import GeodesicAreaExact  # _MODS
-from pygeodesy.interns import NN, _UNDER_
+from pygeodesy.interns import _DMAIN_, NN, _UNDER_
 from pygeodesy.karney import Caps, GeodesicError, GeodSolve12Tuple, \
                             _sincos2d, _Xables,  _0_0, NAN
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
@@ -23,7 +23,7 @@ from pygeodesy.solveBase import _SolveGDictBase, _SolveGDictLineBase
 from pygeodesy.utily import _unrollon, _Wrap, wrap360
 
 __all__ = _ALL_LAZY.geodsolve
-__version__ = '24.11.02'
+__version__ = '25.04.14'
 
 
 class _GeodesicSolveBase(_SolveGDictBase):
@@ -32,7 +32,7 @@ class _GeodesicSolveBase(_SolveGDictBase):
     _Error         =  GeodesicError
     _Names_Direct  = \
     _Names_Inverse =  GeodSolve12Tuple._Names_
-    _Xable_name    = _Xables.GeodSolve.__name__
+    _Xable_name    = _Xables.GeodSolve.__name__  # typename
     _Xable_path    = _Xables.GeodSolve()
 
     @Property_RO
@@ -140,8 +140,9 @@ class GeodesicSolve(_GeodesicSolveBase):
            @arg azi1: Azimuth at the first point (compass C{degrees}).
            @kwarg caps_name: Optional C{B{name}=NN} (C{str}) and keyword
                        argument C{B{caps}=Caps.ALL}, bit-or'ed combination
-                       of L{Caps} values specifying the capabilities the
-                       L{GeodesicLineSolve} instance should possess.
+                       of L{Caps<pygeodesy.karney.Caps>} values specifying
+                       the capabilities the L{GeodesicLineSolve} instance
+                       should possess.
 
            @return: A L{GeodesicLineSolve} instance.
 
@@ -191,8 +192,9 @@ class GeodesicSolve(_GeodesicSolveBase):
            @arg lon2: Longitude of the second point (C{degrees}).
            @kwarg caps_name: Optional C{B{name}=NN} (C{str}) and keyword
                        argument C{B{caps}=Caps.ALL}, bit-or'ed combination
-                       of L{Caps} values specifying the capabilities the
-                       L{GeodesicLineSolve} instance should possess.
+                       of L{Caps<pygeodesy.karney.Caps>} values specifying
+                       the capabilities the L{GeodesicLineSolve} instance
+                       should possess.
 
            @return: A L{GeodesicLineSolve} instance.
 
@@ -231,16 +233,15 @@ class GeodesicLineSolve(_GeodesicSolveBase, _SolveGDictLineBase):
            @arg lat1: Latitude of the first point (C{degrees}).
            @arg lon1: Longitude of the first point (C{degrees}).
            @arg azi1: Azimuth at the first points (compass C{degrees}).
-           @kwarg caps: Bit-or'ed combination of L{Caps} values specifying the
-                        capabilities the L{GeodesicLineSolve} instance should possess,
-                        C{B{caps}=Caps.ALL} always.  Include C{Caps.LINE_OFF} if
-                        updates to the B{C{geodesic}} should I{not} be reflected in
-                        this L{GeodesicLineSolve} instance.
+           @kwarg caps: Bit-or'ed combination of L{Caps<pygeodesy.karney.Caps>} values
+                        specifying the capabilities the L{GeodesicLineSolve} instance
+                        should possess, C{B{caps}=Caps.ALL} always.  Include C{Caps.LINE_OFF}
+                        if updates to the B{C{geodesic}} should I{not be reflected} in this
+                        L{GeodesicLineSolve} instance.
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
-           @raise GeodesicError: Invalid path for the C{GeodSolve} executable
-                                 or isn't the C{GeodSolve} executable, see
-                                 property C{geodesic.GeodSolve}.
+           @raise GeodesicError: Invalid path for the C{GeodSolve} executable or isn't the
+                                 C{GeodSolve} executable, see property C{geodesic.GeodSolve}.
 
            @raise TypeError: Invalid B{C{geodesic}}.
         '''
@@ -384,7 +385,7 @@ class GeodesicLineSolve(_GeodesicSolveBase, _SolveGDictLineBase):
 
 __all__ += _ALL_DOCS(_GeodesicSolveBase)
 
-if __name__ == '__main__':
+if __name__ == _DMAIN_:
 
     def _main():
         from pygeodesy import printf

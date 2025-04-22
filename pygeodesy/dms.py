@@ -62,11 +62,11 @@ U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.ht
 '''
 
 from pygeodesy.basics import copysign0, isLatLon, isodd, issequence, isstr, \
-                             neg as _neg  # in .ups
+                             neg as _neg,  typename  # in .ups
 from pygeodesy.constants import _umod_360, _0_0, _0_5, _60_0, _360_0, _3600_0
 from pygeodesy.errors import ParseError, RangeError, _TypeError, _ValueError, \
-                            _parseX, rangerrors, _xError, _xkwds,  _getPYGEODESY
-# from pygeodesy.internals import _getPYGEODESY  # from .errors
+                            _parseX, rangerrors, _xError, _xkwds,  _envPYGEODESY
+# from pygeodesy.internals import _envPYGEODESY, typename  # from .errors
 from pygeodesy.interns import NN, _COMMA_, _d_, _DASH_, _deg_, _degrees_, _DOT_, \
                              _0_, _e_, _E_, _EW_, _f_, _F_, _g_, _MINUS_, _N_, \
                              _NE_, _NS_, _NSEW_, _NW_, _PERCENTDOTSTAR_, _PLUS_, \
@@ -86,7 +86,7 @@ except ImportError:  # Python 3+
     from string import ascii_letters as _LETTERS
 
 __all__ = _ALL_LAZY.dms
-__version__ = '24.10.18'
+__version__ = '25.04.14'
 
 _beyond_      = 'beyond'
 _deg_min_     = 'deg+min'
@@ -100,7 +100,7 @@ F_D_,  F_DM_,  F_DMS_,  F_DEG_,  F_MIN_,  F_SEC_,  F_D60_,  F__E_,  F__F_,  F__G
 F_D__, F_DM__, F_DMS__, F_DEG__, F_MIN__, F_SEC__, F_D60__, F__E__, F__F__, F__G__, F_RAD__ = (NN(
  _PLUS_, _)  for _ in _F_s)
 del _F_s
-_F_DMS  = _getPYGEODESY('FMT_FORM') or F_DMS
+_F_DMS  = _envPYGEODESY('FMT_FORM') or F_DMS
 
 _F_case = {F_D:   F_D,   F_DEG: F_D,   _degrees_: F_D,  # unsigned _F_s
            F_DM:  F_DM,  F_MIN: F_DM,  _deg_min_: F_DM,
@@ -348,7 +348,7 @@ def compassPoint(bearing, prec=3):
         p = _MODS.units.Precision_(prec, low=1, high=4) \
              if prec != 3 else int(prec)
         m =  2 << p
-        w = 32 // m  # if m in (4, 8, 16, 32)
+        w = 32 // m  # if _isin(m, 4, 8, 16, 32)
         # not round(b), half-even rounding in Python 3+, but
         # round-away-from-zero as int(b + copysign0(_0_5, b))
         w *= int(b * m / _360_0 + _0_5) % m
@@ -483,7 +483,7 @@ def _latlonDMS_sep2(where, sep=None, **kwds):
         i = _MODS.inters
         k =  Fmt.EQUAL(sep=repr(sep))
         k = _SPACE_(i._keyword_, i._arg_, k, i._of_)
-        n =  where.__name__
+        n =  typename(where)
         t = _latlonDMS_sep2.__doc__ % (sep, n)
         _MODS.props._throwarning(k, n, t)
     return sep, kwds
@@ -670,7 +670,7 @@ def _DDDMMSS6(t, S):
         # check [D]DDMMSS form and compass point
         X = _EW_ if isodd(n) else _NS_
         if not (P in X or (S in X and (P.isdigit() or P == _DOT_))):
-            t =  parseDDDMMSS.__name__[5 if isodd(n) else 6:]
+            t =  typename(parseDDDMMSS)[(5 if isodd(n) else 6):]
             t = _SPACE_('form', t, 'applies', _DASH_.join(X))
             raise ParseError(t)
     else:

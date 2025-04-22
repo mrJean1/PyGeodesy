@@ -66,13 +66,14 @@ breaking} and C{random sampling} as in U{Abdel Aziz Taha, Allan Hanbury
 Analysis Machine Intelligence (PAMI), vol 37, no 11, pp 2153-2163, Nov 2015.
 '''
 
+# from pygeodesy.basics import _isin  # from .datums
 from pygeodesy.constants import INF, NINF, _0_0
-from pygeodesy.datums import _ellipsoidal_datum, _WGS84
+from pygeodesy.datums import _ellipsoidal_datum, _WGS84,  _isin
 from pygeodesy.errors import PointsError, _xattr, _xcallable, _xkwds, _xkwds_get
-import pygeodesy.formy as _formy
+# from pygeodesy import formy as _formy  # _MODS.into
 from pygeodesy.interns import NN, _i_, _j_, _units_
-# from pygeodesy.iters import points2 as _points  # from .points
-from pygeodesy.lazily import _ALL_LAZY, _FOR_DOCS
+# from pygeodesy.iters import points2 as _points2  # from .points
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS
 from pygeodesy.named import _name2__, _Named, _NamedTuple, _Pass
 # from pygeodesy.namedTuples import PhiLam2Tuple  # from .points
 from pygeodesy.points import _distanceTo,  PhiLam2Tuple, points2 as _points2, radians
@@ -84,7 +85,9 @@ from pygeodesy import unitsBase as _unitsBase  # _Str_..., _xUnit, _xUnits
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff
-__version__ = '24.12.31'
+__version__ = '25.04.21'
+
+_formy = _MODS.into(formy=__name__)
 
 
 class HausdorffError(PointsError):
@@ -149,7 +152,7 @@ class Hausdorff(_Named):
         '''(INTERNAL) Set the datum.
         '''
         d = datum or _xattr(self._model[0], datum=datum)
-        if d not in (None, self._datum):  # PYCHOK no cover
+        if not _isin(d, None, self._datum):  # PYCHOK no cover
             self._datum = _ellipsoidal_datum(d, name=self.name)
 
     def directed(self, point2s, early=True):
@@ -658,13 +661,13 @@ def _hausdorff_(ps1, ps2, both, early, seed, units, distance, point):
     # chance of an early break in the inner j loop
     rr = randomrangenerator(seed) if seed else range
 
-    hd = NINF
-    hi = hj = m = mn = 0
+    hd =  NINF
+    mn =  m = hi = hj = 0
     md = _0_0
 
     # forward or forward and backward
     for fb in range(2 if both else 1):
-        n = len(ps2)
+        ji, n = False, len(ps2)
         for i in rr(len(ps1)):
             p1 = point(ps1[i])
             dh, dj = INF, 0
@@ -678,13 +681,14 @@ def _hausdorff_(ps1, ps2, both, early, seed, units, distance, point):
             else:  # no early break
                 if hd < dh:
                     hd = dh
-                    if fb:
-                        hi, hj = dj, i
-                    else:
-                        hi, hj = i, dj
+                    hi =  i
+                    hj = dj
+                    ji = fb
                 md += dh
                 mn += 1
             m += 1
+        if ji:  # swap indices
+            hi, hj = hj, hi
         # swap model and target
         ps1, ps2 = ps2, ps1
 

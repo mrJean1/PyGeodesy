@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 u'''A pure Python implementation of geodesy tools for various ellipsoidal and spherical earth
-models using precision trigonometric, vector-based, exact, elliptic, iterative and approximate
+models using precision exact, elliptic, trigonometric, vector-based, iterative and approximate
 methods for geodetic (lat-/longitude), geocentric (U{ECEF<https://WikiPedia.org/wiki/ECEF>}
 cartesian) and certain U{triaxial ellipsoidal<https://GeographicLib.SourceForge.io/1.44/triaxial.html>}
 coordinates.
@@ -17,14 +17,7 @@ and a geocentric B{C{Cartesian}} class with methods and functions to compute dis
 forward and reverse azimuth, initial and final bearing, intermediate and nearest points, intersections of geodesic,
 great circle and rhumb lines, circle intersections and secants, U{3-point resections
 <https://WikiPedia.org/wiki/Position_resection_and_intersection>}, triangulation, trilateration (by intersection,
-by overlap and in 3-D), conversions and unrolling, among other things.  For more information and further details see
-the U{documentation<https://mrJean1.GitHub.io/PyGeodesy>}, the descriptions of U{Latitude/Longitude
-<https://www.Movable-Type.co.UK/scripts/latlong.html>}, U{Vincenty
-<https://www.Movable-Type.co.UK/scripts/latlong-vincenty.html>} and U{Vector-based
-<https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>} geodesy, the original U{JavaScript source
-<https://GitHub.com/ChrisVeness/geodesy>} or U{docs<https://www.Movable-Type.co.UK/scripts/geodesy/docs>}
-and I{Karney}'s Python U{geographiclib<https://PyPI.org/project/geographiclib>} and C++ U{GeographicLib
-<https://GeographicLib.SourceForge.io/C++/doc/index.html>}.
+by overlap and in 3-D), conversions and unrolling, among other things.
 
 Also included are modules for conversions to and from U{Cassini-Soldner
 <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1CassiniSoldner.html>},
@@ -55,11 +48,20 @@ points (or a U{NumPy array<https://docs.SciPy.org/doc/numpy/reference/generated/
 including implementations of the U{Ramer-Douglas-Peucker<https://WikiPedia.org/wiki/
 Ramer-Douglas-Peucker_algorithm>}, the U{Visvalingam-Whyatt<https://hydra.Hull.ac.UK/
 resources/hull:8338>} and the U{Reumann-Witkam<https://psimpl.SourceForge.net/reumann-witkam.html>}
-algorithms and modified versions of the former.  Other classes provide I{boolean} operations between
-(composite) polygons or U{interpolate <https://docs.SciPy.org/doc/scipy/reference/interpolate.html>}
-the L{height<pygeodesy.heights>} of C{LatLon} points and L{Geoid<pygeodesy.geoids>} models, compute
-various U{Fréchet<https://WikiPedia.org/wiki/Frechet_distance>} or U{Hausdorff<https://WikiPedia.org/
-wiki/Hausdorff_distance>} distances.
+algorithms and modified versions of the former.
+
+Plus modules and classes to U{interpolate<https://docs.SciPy.org/doc/scipy/reference/interpolate.html>} the
+L{height<pygeodesy.heights>} of C{LatLon} points and L{Geoid<pygeodesy.geoids>} models, compute various U{Fréchet
+<https://WikiPedia.org/wiki/Frechet_distance>} or U{Hausdorff<https://WikiPedia.org/wiki/Hausdorff_distance>}
+distances or perform I{boolean} operations between (composite) polygons.
+
+For further details see the U{documentation<https://mrJean1.GitHub.io/PyGeodesy>}, the descriptions of
+U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}, U{Vincenty
+<https://www.Movable-Type.co.UK/scripts/latlong-vincenty.html>} and U{Vector-based
+<https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>} geodesy, the original U{JavaScript source
+<https://GitHub.com/ChrisVeness/geodesy>} or U{docs<https://www.Movable-Type.co.UK/scripts/geodesy/docs>}
+and I{Karney}'s Python U{geographiclib<https://PyPI.org/project/geographiclib>} and C++ U{GeographicLib
+<https://GeographicLib.SourceForge.io/C++/doc/index.html>}.
 
 Installation
 ============
@@ -83,15 +85,16 @@ Dependencies
 ============
 
 Installation of I{Karney}'s Python package U{geographiclib<https://PyPI.org/project/geographiclib>}
-is optional, but required to use modules L{ellipsoidalKarney} and L{css}, L{azimuthal} classes
-L{EquidistantKarney} and L{GnomonicKarney} and the L{HeightIDWkarney} interpolator.
+is optional, but required for module L{ellipsoidalKarney}, L{azimuthal} classes L{EquidistantKarney}
+and L{GnomonicKarney} and the L{HeightIDWkarney} interpolator.
 
 Both U{numpy<https://PyPI.org/project/numpy>} and U{scipy<https://PyPI.org/project/scipy>} must be
 installed for most L{Geoid...<pygeodesy.geoids>} and L{Height...<pygeodesy.heights>} interpolators,
 except L{GeoidKarney} and the L{HeightIDW...<pygeodesy.heights>} ones.
 
-Functions and C{LatLon} methods L{circin6}, L{circum3}, L{circum4_}, L{soddy4}, L{trilaterate3d2} do and
-C{trilaterate5} and modules L{auxilats} and L{rhumb} may require U{numpy<https://PyPI.org/project/numpy>}.
+Functions and C{LatLon} methods L{circin6}, L{circum3}, L{circum4_} and L{soddy4} and functions
+L{triaxum5} and L{trilaterate3d2} require U{numpy<https://PyPI.org/project/numpy>} to be installed,
+modules L{auxilats} and L{rhumb} may need U{numpy<https://PyPI.org/project/numpy>}.
 
 Modules L{ellipsoidalGeodSolve} and L{geodsolve} and L{azimuthal} classes L{EquidistantGeodSolve}
 and L{GnomonicGeodSolve} depend on I{Karney}'s C++ utility U{GeodSolve
@@ -122,7 +125,7 @@ C{epydoc --html --no-private --no-source --name=pygeodesy --url=... -v pygeodesy
 Tests
 =====
 
-The tests ran with Python 3.13.2 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0),
+The tests ran with Python 3.13.3 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0),
 Python 3.12.7 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0,
 U{numpy<https://PyPI.org/project/numpy>} 2.1.0, U{scipy<https://PyPI.org/project/scipy>} 1.14.1,
 U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.3,
@@ -140,20 +143,20 @@ U{GeoConvert<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.3,
 U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.3,
 U{IntersectTool<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.3 and
 U{RhumbSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.3), all in 64-bit on
-macOS 15.4 Sequoia.
+macOS 15.4.1 Sequoia.
 
 All tests ran with and without C{lazy import} for Python 3 and with command line option C{-W default} and
 env variable C{PYGEODESY_WARNINGS=on} for all Python versions.  The results of those tests are included in
 the distribution files.
 
 Test coverage has been measured with U{coverage<https://PyPI.org/project/coverage>} 7.6.1 using Python
-3.13.2, 3.12.7, 3.11.5 and 3.10.8.  The complete coverage report in HTML and a PDF summary are included in
+3.13.3, 3.12.7, 3.11.5 and 3.10.8.  The complete coverage report in HTML and a PDF summary are included in
 the distribution files.
 
-Python 3.13.2, 3.12.7, 3.11.5 and 3.10.8 run on Apple M1 Silicon (C{arm64}), I{natively}.  Python 2.7.18 runs
+Python 3.13.3, 3.12.7, 3.11.5 and 3.10.8 run on Apple M4 Si (C{arm64}), I{natively}.  Python 2.7.18 runs
 on Intel (C{x86_64}) or Intel I{emulation} ("C{arm64_x86_64}", see function L{machine<pygeodesy.machine>}).
 
-The tests also ran with Python 3.13.2 (and U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0) on
+The tests also ran with Python 3.13.3 (and U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0) on
 U{Debian 12<https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>} in 64-bit only, with Python 3.12.5 (and
 U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0) on U{Windows 2019Server
 <https://CI.AppVeyor.com/project/mrJean1/pygeodesy>} in 64-bit only and with Python 2.7.18 (and U{geographiclib
@@ -163,7 +166,7 @@ in 64- and 32-bit.
 A single-File and single-Directory application with C{pygeodesy} has been bundled using U{PyInstaller
 <https://PyPI.org/project/pyinstaller>} 3.4 and 64-bit Python 3.7.3 on macOS 10.13.6 High Sierra.
 
-Previously, the tests were run with Python 3.13.0-1, 3.12.0-6, 3.11.2-4, 3.10.1-7, 3.9.6, 3.9.1, 3.8.7, 3.7.1, 2.7.15,
+Previously, the tests were run with Python 3.13.0-2, 3.12.0-6, 3.11.2-4, 3.10.1-7, 3.9.6, 3.9.1, 3.8.7, 3.7.1, 2.7.15,
 U{PyPy<https://PyPy.org>} 7.3.12 (Python 3.10.12), 7.3.1 (Python 3.6.9) and U{PyPy<https://PyPy.org>} 7.1.1 (Python
 2.7.13) (and U{geographiclib <https://PyPI.org/project/geographiclib>} 1.52, U{numpy<https://PyPI.org/project/numpy>}
 1.16.3, 1.16.4, 1.16.6, 1.19.0, 1.19.4, 1.19.5 or 1.22.4 and U{scipy<https://PyPI.org/project/scipy>} 1.2.1, 1.4.1,
@@ -187,7 +190,7 @@ All Python source code has been statically U{checked<https://GitHub.com/ActiveSt
 Python/546532_PyChecker_postprocessor>} with U{PyChecker<https://PyPI.org/project/pychecker>}, U{PyFlakes
 <https://PyPI.org/project/pyflakes>}, U{PyCodeStyle<https://PyPI.org/project/pycodestyle>} (formerly Pep8) and
 U{McCabe<https://PyPI.org/project/mccabe>} using Python 2.7.18 and with U{Flake8<https://PyPI.org/project/flake8>}
-using Python 3.11.5, both in 64-bit on macOS 15.4 Sequoia.
+using Python 3.11.5, both in 64-bit on macOS 15.4.1 Sequoia.
 
 For a summary of all I{Karney}-based functionality in C{pygeodesy}, see module U{karney
 <https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html>}.
@@ -583,7 +586,7 @@ if _init__all__ and not _lazy_import2:  # import and set __all__
                     raise ImportError('missing %s%s: %s' % (_attribute_, s, t))
                 ns.extend(attrs)
 # XXX       if ps:  # check that mod is a _pygeodesy_ module
-# XXX           m = globalocals[mod]  # assert(_DUNDER_nameof(m) == mod)
+# XXX           m = globalocals[mod]  # assert(typename(m) == mod)
 # XXX           f = getattr(m, _dunder_file_, _NN)
 # XXX           d = _os_path.dirname(_os_path.abspath(f)) if f else pygeodesy_abspath
 # XXX           p = getattr(m, _dunder_package_, _NN) or _pygeodesy_
@@ -599,7 +602,7 @@ else:
 
 from pygeodesy.internals import _version2,  _DOT_  # PYCHOK import
 # from pygeodesy.interns import _DOT_  # from .internals
-__version__ = '25.04.08'
+__version__ = '25.04.25'
 # see setup.py for similar logic
 version     = _DOT_(*_version2(__version__, n=3))
 

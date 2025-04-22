@@ -27,7 +27,7 @@ and U{Ordnance Survey National Grid<https://WikiPedia.org/wiki/Ordnance_Survey_N
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import halfs2, isbool, isfloat, map1, \
-                            _splituple, _xsubclassof
+                            _splituple, _xsubclassof,  typename
 from pygeodesy.constants import _1_0, _10_0,  _N_2_0  # PYCHOK used!
 from pygeodesy.datums import Datums, _ellipsoidal_datum, _WGS84
 # from pygeodesy.dms import parseDMS2   # _MODS
@@ -36,9 +36,10 @@ from pygeodesy.errors import _parseX, _TypeError, _ValueError, \
                              _xkwds, _xkwds_get, _xkwds_pop2
 from pygeodesy.fmath import Fdot, fpowers
 from pygeodesy.fsums import _Fsumf_
+# from pygeodesy.internals import typename  # from .basics
 from pygeodesy.interns import MISSING, NN, _A_, _COLON_, _COMMA_, \
-                             _COMMASPACE_, _DOT_, _ellipsoidal_, \
-                             _latlon_, _not_, _SPACE_
+                             _COMMASPACE_, _DMAIN_, _DOT_, _not_, \
+                             _ellipsoidal_, _latlon_, _SPACE_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _name2__, _NamedBase, nameof
 from pygeodesy.namedTuples import EasNor2Tuple, LatLon2Tuple, \
@@ -53,7 +54,7 @@ from pygeodesy.utily import degrees90, degrees180, sincostan3, truncate
 from math import cos, fabs, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '24.11.06'
+__version__ = '25.04.12'
 
 _equivalent_ = 'equivalent'
 _OSGR_       = 'OSGR'
@@ -336,7 +337,7 @@ class Osgr(_NamedBase):
             else:  # PYCHOK no cover
                 t =  str(self)
                 t =  Fmt.PAREN(self.classname, repr(t))
-                t = _DOT_(t, self.toLatLon.__name__)
+                t = _DOT_(t, typename(self.toLatLon))
                 t =  unstr(t, eps=eps, kTM=kTM)
                 raise OSGRError(Fmt.no_convergence(m), txt=t)
 
@@ -493,11 +494,11 @@ def _ll2LatLon3(ll, LatLon, datum, LatLon_kwds):
     '''
     n = nameof(ll)
     if LatLon is None:
-        r = _ll2datum(ll, datum, LatLonDatum3Tuple.__name__)
+        r = _ll2datum(ll, datum, typename(LatLonDatum3Tuple))
         r =  LatLonDatum3Tuple(r.lat, r.lon, r.datum, name=n)
     else:  # must be ellipsoidal
         _xsubclassof(_LLEB, LatLon=LatLon)
-        r = _ll2datum(ll, datum, LatLon.__name__)
+        r = _ll2datum(ll, datum, typename(LatLon))
         r =  LatLon(r.lat, r.lon, datum=r.datum, **_xkwds(LatLon_kwds, name=n))
     if r._iteration != ll._iteration:
         r._iteration = ll._iteration
@@ -670,7 +671,7 @@ def toOsgr(latlon, lon=None, kTM=False, datum=_WGS84, Osgr=Osgr,  # MCCABE 14
     return r
 
 
-if __name__ == '__main__':
+if __name__ == _DMAIN_:
 
     from pygeodesy import printf
     from random import random, seed

@@ -5,9 +5,9 @@ u'''Mostly INTERNAL functions, except L{machine}, L{print_} and L{printf}.
 '''
 # from pygeodesy.basics import isiterablen, ubstr  # _MODS
 # from pygeodesy.errors import _AttributeError, _error_init, _UnexpectedError, _xError2  # _MODS
-from pygeodesy.interns import NN, _BAR_, _COLON_, _DASH_, _DOT_, _ELLIPSIS_, _EQUALSPACED_, \
-                             _immutable_, _NL_, _pygeodesy_, _PyPy__, _python_, _QUOTE1_, \
-                             _QUOTE2_, _s_, _SPACE_, _sys, _UNDER_
+from pygeodesy.interns import _BAR_, _COLON_, _DASH_, _DMAIN_, _DOT_, _ELLIPSIS_, _EQUALSPACED_, \
+                              _immutable_, _NL_, NN, _pygeodesy_, _PyPy__, _python_, _QUOTE1_, \
+                              _QUOTE2_, _s_, _SPACE_, _sys, _UNDER_
 from pygeodesy.interns import _COMMA_, _Python_  # PYCHOK used!
 # from pygeodesy.streprs import anstr, pairs, unstr  # _MODS
 
@@ -24,26 +24,20 @@ _SIsecs   = 'fs', 'ps', 'ns', 'us', 'ms', 'sec'  # reversed
 _Windows_ = 'Windows'
 
 
-def _DUNDER_nameof(inst, *dflt):
-    '''(INTERNAL) Get the DUNDER C{.__name__} attr.
+def typename(obj, *dflt):
+    '''Get the C{obj.__name__}, the C{dflt} or its outer C{type.__name__} or C{NN} (C{str}).
     '''
     try:
-        return inst.__name__
-    except AttributeError:
+        return obj.__name__
+    except (AttributeError, ImportError):  # LazyImportError
         pass
-    return dflt[0] if dflt else inst.__class__.__name__
-
-
-def _DUNDER_nameof_(*names__):  # in .errors._IsnotError
-    '''(INTERNAL) Yield the _DUNDER_nameof or name.
-    '''
-    return map(_DUNDER_nameof, names__, names__)
+    return dflt[0] if dflt else typename(type(obj), NN)
 
 
 def _Property_RO(method):
     '''(INTERNAL) Can't import L{props.Property_RO}, I{recursively}.
     '''
-    name = _DUNDER_nameof(method)
+    name = typename(method)
 
     def _del(inst, *unused):  # PYCHOK no cover
         inst.__dict__.pop(name, None)
@@ -138,7 +132,7 @@ class _MODS_Base(object):
     def name(self):
         '''Get this name (C{str}).
         '''
-        return _DUNDER_nameof(self.__class__)
+        return typename(self.__class__)
 
     @_Property_RO
     def nix2(self):  # PYCHOK no cover
@@ -286,6 +280,12 @@ def _enquote(strs, quote=_QUOTE2_, white=NN):  # in .basics, .solveBase
     return strs
 
 
+def _envPYGEODESY(which, dflt=NN):
+    '''(INTERNAL) Return an C{PYGEODESY_...} ENV value or C{dflt}.
+    '''
+    return _getenv(_PYGEODESY_ENV(which), dflt)
+
+
 def _fper(p, q, per=_100_0, prec=1):
     '''Format a percentage C{B{p} * B{per} / B{q}} (C{str}).
     '''
@@ -293,12 +293,6 @@ def _fper(p, q, per=_100_0, prec=1):
 
 
 _getenv = _MODS.os.getenv  # PYCHOK in .lazily, ...
-
-
-def _getPYGEODESY(which, dflt=NN):
-    '''(INTERNAL) Return an C{PYGEODESY_...} ENV value or C{dflt}.
-    '''
-    return _getenv(_PYGEODESY(which), dflt)
 
 
 def _headof(name):
@@ -318,12 +312,6 @@ def _isAppleSi():  # PYCHOK no cover
     '''(INTERNAL) Is this C{macOS on Apple Silicon}? (C{bool})
     '''
     return _ismacOS() and machine().startswith(_arm64_)
-
-
-def _is_DUNDER_main(name):
-    '''(INTERNAL) Return C{bool(name == '__main__')}.
-    '''
-    return name == '__main__'
 
 
 def _isiOS():  # in test/bases
@@ -350,7 +338,7 @@ def _isPyChOK():  # PYCHOK no cover
     '''
     # .../pychecker/checker.py --limit 0 --stdlib pygeodesy/<mod>/<name>.py
     return _sys.argv[0].endswith('/pychecker/checker.py') or \
-            bool(_getPYGEODESY('PYCHOK'))
+            bool(_envPYGEODESY('PYCHOK'))
 
 
 def _isPyPy():  # in test/bases
@@ -407,9 +395,9 @@ def machine():
 
 
 def _name_version(pkg):
-    '''(INTERNAL) Return C{pskg.__name__ + ' ' + .__version__}.
+    '''(INTERNAL) Return C{pkg.__name__ + ' ' + .__version__}.
     '''
-    return _SPACE_(pkg.__name__, pkg.__version__)
+    return _SPACE_(typename(pkg), pkg.__version__)  # _DVERSION_
 
 
 def _osversion2(sep=NN):  # in .lazily, test/bases.versions
@@ -510,14 +498,10 @@ def _print7(nl=0, nt=0, prec=6, prefix=NN, sep=_SPACE_, file=_sys.stdout,
     return prefix, end, file, flush, prec, sep, kwds
 
 
-def _PYGEODESY(which, i=0):
+def _PYGEODESY_ENV(which):
     '''(INTERNAL) Return an ENV C{str} C{PYGEODESY_...}.
     '''
-    try:
-        w = which.__name__.lstrip(_UNDER_)[i:]
-    except AttributeError:
-        w = which
-    return _UNDER_(_pygeodesy_, w).upper()
+    return _UNDER_(_pygeodesy_, typename(which, which)).upper()
 
 
 def _Pythonarchine(sep=NN):  # in .lazily, test/bases versions
@@ -613,7 +597,7 @@ def _tailof(name):
     return name[i:] if i > 0 else name
 
 
-def _under(name):  # PYCHOK in .datums, .auxilats, .ups, .utm, .utmupsBase, ...
+def _under(name):  # PYCHOK in .datums, .auxilats, .geodesicw, .ups, .utm, .utmupsBase, ...
     '''(INTERNAL) Prefix C{name} with an I{underscore}.
     '''
     return name if name.startswith(_UNDER_) else NN(_UNDER_, name)
@@ -643,7 +627,7 @@ def _usage(file_py, *args, **opts_help):  # in .etm, .geodesici  # PYCHOK no cov
 
         args = _help(**opts_help) or (tuple(_opts(**opts_help)) + args)
 
-    u = _COLON_(_DUNDER_nameof(_usage)[1:], NN)
+    u = _COLON_(typename(_usage)[1:], NN)
     return _SPACE_(u, *_usage_argv(file_py, *args))
 
 
@@ -656,7 +640,7 @@ def _usage_argv(argv0, *args):
           .replace(o.sep,      _DOT_).strip()
     b =  o.path.basename(argv0)
     b, x = o.path.splitext(b)
-    if x == '.py' and not _is_DUNDER_main(b):
+    if x == '.py' and b != _DMAIN_:
         m = _DOT_(m or _pygeodesy_, b)
     p = NN(_python_, _MODS.sys_version_info2[0])
     return (p, '-m', _enquote(m)) + args
@@ -701,10 +685,10 @@ def _versions(sep=_SPACE_):
     return sep.join(l7) if sep else l7  # 5- or 6-list
 
 
-__all__ = tuple(map(_DUNDER_nameof, (machine, print_, printf)))
-__version__ = '25.04.04'
+__all__ = tuple(map(typename, (machine, print_, printf, typename)))
+__version__ = '25.04.14'
 
-if _is_DUNDER_main(__name__):  # PYCHOK no cover
+if __name__ == _DMAIN_:
 
     def _main():
         from pygeodesy import _isfrozen, isLazy
@@ -715,7 +699,7 @@ if _is_DUNDER_main(__name__):  # PYCHOK no cover
     _main()
 
 # % python3 -m pygeodesy.internals
-# pygeodesy 25.4.4 Python 3.13.2 64bit arm64 macOS 15.4 _isfrozen False isLazy 1
+# pygeodesy 25.4.14 Python 3.13.2 64bit arm64 macOS 15.4 _isfrozen False isLazy 1
 
 # **) MIT License
 #

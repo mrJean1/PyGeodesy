@@ -7,34 +7,36 @@ class C{LatLonEllipsoidalBaseDI} and functions.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import isLatLon, _xsubclassof
+# from pygeodesy.azimuthal import _Equidistants  # _MODS
+from pygeodesy.basics import isLatLon, _xsubclassof,  typename
 from pygeodesy.constants import EPS, MAX, PI, PI2, PI_4, isnear0, isnear1, \
                                _EPSqrt as _TOL, _0_0, _0_01, _1_0, _1_5, _3_0
 # from pygeodesy.dms import F_DMS  # _MODS
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase, _TOL_M,  property_RO
-from pygeodesy.errors import _AssertionError, IntersectionError, _IsnotError, \
-                             _or, _ValueError, _xellipsoidal, _xError, _xkwds_not
+from pygeodesy.errors import _AssertionError, IntersectionError, _IsnotError, _or, \
+                             _ValueError, _xellipsoidal, _xError, _xkwds_not
 from pygeodesy.fmath import favg, fmean_
 from pygeodesy.fsums import Fmt, fsumf_
 from pygeodesy.formy import _isequalTo, opposing, _radical2
-from pygeodesy.interns import _antipodal_, _concentric_, _ellipsoidal_, \
-                              _exceed_PI_radians_, _low_, _near_, \
-                              _SPACE_, _too_
+# from pygeodesy.geodesicw import _Intersecant2, _PlumbTo  # _MODS
+# from pygeodesy.internals import typename  # from .basics
+from pygeodesy.interns import _antipodal_, _concentric_, _ellipsoidal_, _low_, \
+                              _exceed_PI_radians_, _near_, _SPACE_, _too_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
-from pygeodesy.namedTuples import Bearing2Tuple, Destination2Tuple, \
-                                  Intersection3Tuple, NearestOn2Tuple, \
-                                  NearestOn8Tuple, _LL4Tuple
+from pygeodesy.namedTuples import Bearing2Tuple, Destination2Tuple, Intersection3Tuple, \
+                                  NearestOn2Tuple, NearestOn8Tuple, _LL4Tuple
 # from pygeodesy.props import property_RO  # from .ellipsoidalBase
+# from pygeodesy.sphericalNvector import _intersects2  # _MODS
+# from pygeodesy.sphericalTrigonometry import _intersect, LatLon  # _MODS
 # from pygeodesy.streprs import Fmt  # from .fsums
-from pygeodesy.units import _fi_j2, _isDegrees, _isHeight, _isRadius, \
-                             Radius_, Scalar
-from pygeodesy.utily import m2km, unroll180, _unrollon, _unrollon3, \
-                           _Wrap, wrap360
+from pygeodesy.units import _fi_j2, _isDegrees, _isHeight, _isRadius, Radius_, Scalar
+from pygeodesy.utily import m2km, unroll180, _unrollon, _unrollon3, _Wrap, wrap360
+# from pygeodesy.vector3d import _intersects2, _intersect3d3, _nearestOn2, Vector3d  # _MODS
 
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.ellipsoidalBaseDI
-__version__ = '24.11.04'
+__version__ = '25.04.21'
 
 _polar__ = 'polar?'
 _TRIPS   =  33   # _intersect3, _intersects2, _nearestOn interations, 6..9 sufficient?
@@ -390,7 +392,7 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
 
         f, j = _fi_j2(f, len(Ps))  # like .vector3d.nearestOn6
 
-        n = self.nearestOn8.__name__  # _DUNDER_nameof
+        n = typename(self)
         c.rename(n)
         if s is not c:
             s = s.copy(name=n)

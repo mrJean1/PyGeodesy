@@ -51,10 +51,13 @@ or by converting to anothor datum:
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.constants import EPS, EPS0, _0_0, _1_0, _2_0, _3_0, _4_0, _6_0
+# from pygeodesy.ecef import EcefVeness  # _MODS
 from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, _nearestOn
 from pygeodesy.ellipsoidalBaseDI import LatLonEllipsoidalBaseDI, \
                                        _intersection3, _intersections2, \
                                        _TOL_M, intersecant2
+# from pygeodesy.ellipsoidalExact import areaOf, perimeterOf  # _MODS
+# from pygeodesy.ellipsoidalKarney import areaOf, perimeterOf  # _MODS
 from pygeodesy.errors import _and, _ValueError, _xkwds
 from pygeodesy.fmath import Fpolynomial, hypot, hypot1
 from pygeodesy.interns import _ambiguous_, _antipodal_, _COLONSPACE_, \
@@ -73,7 +76,7 @@ from pygeodesy.utily import atan2, atan2b, atan2d, sincos2, sincos2d, \
 from math import cos, degrees, fabs, radians, tan as _tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '24.11.26'
+__version__ = '25.04.21'
 
 _antipodal_to_ = _SPACE_(_antipodal_, _to_)
 

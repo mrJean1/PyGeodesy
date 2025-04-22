@@ -43,7 +43,7 @@ from pygeodesy.utily import atan1, sincos2_
 from math import asinh, atan, cos, cosh, radians, sin, sinh, sqrt, tan  # as _tan
 
 __all__ = _ALL_LAZY.rhumb_ekx
-__version__ = '24.11.26'
+__version__ = '25.04.12'
 
 
 class Rhumb(RhumbBase):
@@ -263,11 +263,11 @@ class RhumbLine(RhumbLineBase):
            @kwarg lat1: Latitude of the start point (C{degrees90}).
            @kwarg lon1: Longitude of the start point (C{degrees180}).
            @kwarg azi12: Azimuth of this rhumb line (compass C{degrees}).
-           @kwarg caps_name: Optional keyword arguments C{B{name}=NN} and
-                       C{B{caps}=0}, a bit-or'ed combination of L{Caps}
-                       values specifying the required capabilities.  Include
-                       C{Caps.LINE_OFF} if updates to the B{C{rhumb}} should
-                       I{not} be reflected in this rhumb line.
+           @kwarg caps_name: Optional keyword arguments C{B{name}=NN} and C{B{caps}=0},
+                       a bit-or'ed combination of L{Caps<pygeodesy.karney.Caps>} values
+                       specifying the required capabilities.  Include C{Caps.LINE_OFF}
+                       if updates to the B{C{rhumb}} should I{not be reflected} in this
+                       rhumb line.
         '''
         RhumbLineBase.__init__(self, rhumb, lat1, lon1, azi12, **caps_name)
 

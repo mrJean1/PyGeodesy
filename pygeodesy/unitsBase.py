@@ -4,8 +4,9 @@
 u'''Basic C{Float}, C{Int} and C{Str}ing units classes.
 '''
 
-from pygeodesy.basics import isstr, issubclassof, _xsubclassof
+from pygeodesy.basics import _isin, isstr, issubclassof, _xsubclassof,  typename
 from pygeodesy.errors import _IsnotError, _UnexpectedError, UnitError, _XError
+# from pygeodesy.internals import typename  # from .basics
 from pygeodesy.interns import NN, _degrees_, _degrees2_, _invalid_, _meter_, \
                              _radians_, _radians2_, _radius_, _UNDER_, _units_, \
                              _std_  # PYCHOK used!
@@ -15,7 +16,7 @@ from pygeodesy.named import modulename, _Named,  property_doc_
 from pygeodesy.streprs import Fmt, fstr
 
 __all__ = _ALL_LAZY.unitsBase
-__version__ = '24.08.13'
+__version__ = '25.04.14'
 
 
 class _NamedUnit(_Named):
@@ -49,7 +50,7 @@ class _NamedUnit(_Named):
         elif name:
             pass
         elif name__ is not None:
-            name = name__.__name__
+            name = typename(name__)
         return name, arg
 
     @staticmethod  # PYCHOK unused suffix
@@ -84,7 +85,7 @@ class _NamedUnit(_Named):
     def std_repr(self, std):
         '''Set the representation (C{True} or C{"std"} for standard).
         '''
-        self._std_repr = std in (True, _std_)
+        self._std_repr = _isin(std, True, _std_)
 
     def _toRepr(self, value):
         '''(INTERNAL) Representation "<name> (<value>)" or "<classname>(<value>)".

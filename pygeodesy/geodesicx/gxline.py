@@ -55,7 +55,7 @@ from pygeodesy.utily import atan2, atan2d as _atan2d_reverse, sincos2
 from math import cos, degrees, fabs, floor, radians, sin
 
 __all__ = ()
-__version__ = '24.11.24'
+__version__ = '25.04.12'
 
 _glXs = []  # instances of C{[_]GeodesicLineExact} to be updated
 
@@ -185,8 +185,8 @@ class _GeodesicLineExact(_GeodesicBase):
 
            @arg a12: Spherical arc length from the first point to the
                      second point (C{degrees}).
-           @kwarg outmask: Bit-or'ed combination of L{Caps} values specifying
-                           the quantities to be returned.
+           @kwarg outmask: Bit-or'ed combination of L{Caps<pygeodesy.karney.Caps>}
+                           values specifying the quantities to be returned.
 
            @return: A L{GDict} with up to 12 items C{lat1, lon1, azi1, lat2,
                     lon2, azi2, m12, a12, s12, M12, M21, S12} with C{lat1},
@@ -571,8 +571,8 @@ class _GeodesicLineExact(_GeodesicBase):
         '''Find the position on the line given B{C{s12}}.
 
            @arg s12: Distance from this this line's first point (C{meter}).
-           @kwarg outmask: Bit-or'ed combination of L{Caps} values specifying
-                           the quantities to be returned.
+           @kwarg outmask: Bit-or'ed combination of L{Caps<pygeodesy.karney.Caps>}
+                           values specifying the quantities to be returned.
 
            @return: A L{GDict} with up to 12 items C{lat1, lon1, azi1, lat2,
                     lon2, azi2, m12, a12, s12, M12, M21, S12} with C{lat1},

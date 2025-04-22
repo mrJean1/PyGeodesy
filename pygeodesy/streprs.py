@@ -5,11 +5,11 @@ u'''Floating point and other formatting utilities.
 '''
 
 from pygeodesy.basics import isint, islistuple, isscalar, isstr, itemsorted, \
-                            _zip, _0_0
+                            _zip, _0_0,  typename
 # from pygeodesy.constants import _0_0
 from pygeodesy.errors import _or, _IsnotError, _TypeError, _ValueError, \
                              _xkwds_get, _xkwds_item2
-from pygeodesy.internals import _DUNDER_nameof
+# from pygeodesy.internals import typename  # from .basics
 from pygeodesy.interns import NN, _0_, _0to9_, MISSING, _BAR_, _COMMASPACE_, \
                              _DOT_, _E_, _ELLIPSIS_, _EQUAL_, _H_, _LR_PAIRS, \
                              _N_, _name_, _not_scalar_, _PERCENT_, _SPACE_, \
@@ -22,7 +22,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from math import fabs, log10 as _log10
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '24.11.26'
+__version__ = '25.04.14'
 
 _at_        = 'at'         # PYCHOK used!
 _EN_PREC    =  6           # max MGRS/OSGR precision, 1 micrometer
@@ -82,7 +82,7 @@ class Fstr(str):
            @raise ValueError: Invalid B{C{arg}}.
         '''
         def _error(arg):
-            n = _DOT_(Fstr.__name__, self.name or self)
+            n = _DOT_(typename(Fstr), self.name or self)
             return _SPACE_(n, _PERCENT_, repr(arg))
 
         prec = 6  # default std %f and %F
@@ -105,7 +105,7 @@ class _Sub(str):
     '''
     # see .ellipsoidalNvector.LatLon.deltaTo
     def __call__(self, *Classes):
-        t = _or(*(C.__name__ for C in Classes))
+        t = _or(*map(typename, Classes))
         return  str.__mod__(self, t or MISSING)
 
 
@@ -148,9 +148,10 @@ class Fmt(object):
     zone          = _Fmt('%02d')  # .epsg, .mgrs, .utmupsBase
 
     def __init__(self):
-        for n, a in self.__class__.__dict__.items():
+        for n, a in type(self).__dict__.items():
             if isinstance(a, (Fstr, _Fmt)):
                 setattr(a, _name_, n)
+        self.__name__ = typename(type(self))
 
     def __call__(self, obj, prec=9):
         '''Return C{str(B{obj})} or C{repr(B{obj})}.
@@ -182,15 +183,14 @@ class Fmt(object):
         '''
         return self.ANGLE(_SPACE_((text or inst), _at_, hex(id(inst))))
 
-Fmt          = Fmt()  # PYCHOK singleton
-Fmt.__name__ = Fmt.__class__.__name__
+Fmt = Fmt()  # PYCHOK singleton
 
-_DOTSTAR_ = Fmt.DOT(_STAR_)
+_DOTSTAR_ = Fmt.DOT(_STAR_)  # in _streprs above
 # formats %G and %g drop all trailing zeros and the
 # decimal point, making the float appear as an int
-_Gg     = (Fmt.G, Fmt.g)
-_FfEeGg = (Fmt.F, Fmt.f, Fmt.E, Fmt.e) + _Gg  # float formats
-_Fspec_ = NN('[%[<flags>][<width>]', _DOTSTAR_, ']', _BAR_.join(_FfEeGg))  # in testStreprs
+_Gg       = (Fmt.G, Fmt.g)
+_FfEeGg   = (Fmt.F, Fmt.f, Fmt.E, Fmt.e) + _Gg  # float formats
+_Fspec_   = NN('[%[<flags>][<width>]', _DOTSTAR_, ']', _BAR_.join(_FfEeGg))  # in testStreprs
 
 del _convergence_, _distant_, _e_, _eps_, _exceeds_, _EQUALSPACED_,\
     _f_, _F_, _g_, _limit_, _PAREN_g, _RESIDUAL_
@@ -561,14 +561,14 @@ def unstr(where, *args, **kwds_):
         t  =  reprs(args, fmt=g) if args else ()
     if kwds:
         t += pairs(itemsorted(kwds), fmt=g)
-    n = where if isstr(where) else _DUNDER_nameof(where)  # _NN_
+    n = where if isstr(where) else typename(where)  # _NN_
     if C and hasattr(C, n):
         try:  # bound method of class C?
             where = where.__func__
         except AttributeError:
             pass  # method of C?
         if getattr(C, n, None) is where:
-            n = _DOT_(_DUNDER_nameof(C), n)
+            n = _DOT_(typename(C), n)
     return Fmt.PAREN(n, _COMMASPACE_.join(t))
 
 

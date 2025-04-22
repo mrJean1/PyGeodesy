@@ -15,7 +15,7 @@ and the Albers Conical Equal-Area examples on pp 291-294.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import neg, neg_
+from pygeodesy.basics import _isin, neg, neg_
 from pygeodesy.constants import EPS0, EPS02, _EPSqrt as _TOL, \
                                _0_0, _0_5, _1_0, _N_1_0, _2_0, \
                                _N_2_0, _4_0, _6_0, _90_0, _N_90_0
@@ -38,10 +38,10 @@ from pygeodesy.utily import atan1, atan1d, atan2, degrees360, sincos2, \
 from math import atanh, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '24.11.24'
+__version__ = '25.04.14'
 
 _k1_    = 'k1'
-_NUMIT  =   8  # XXX 4?
+_NUMIT  =   9  # XXX 4?
 _NUMIT0 =  41  # XXX 21?
 _TERMS  =  31  # XXX 16?
 _TOL0   =  sqrt3(_TOL)
@@ -115,7 +115,7 @@ class _AlbersBase(_NamedBase):
         '''(INTERNAL) New C{AlbersEqualArea...} instance.
         '''
         qZ = self._qZ
-        if datum not in (None, self._datum):
+        if not _isin(datum, None, self._datum):
             self._datum = _ellipsoidal_datum(datum, **name)
             qZ = _qZx(self)
         elif qZ is None:
@@ -143,10 +143,8 @@ class _AlbersBase(_NamedBase):
         ca2, ta2 = _ct2(sa2, ca2)
 
         par1 = fabs(ta1 - ta2) < EPS02  # ta1 == ta2
-        if par1 or polar:
-            ta0, C = ta2, _1_0
-        else:
-            ta0, C = self._ta0C2(ca1, sa1, ta1, ca2, sa2, ta2)
+        ta0, C = (ta2, _1_0) if par1 or polar else \
+                  self._ta0C2(ca1, sa1, ta1, ca2, sa2, ta2)
 
         self._lat0 = _Lat(lat0=self._sign * atan1d(ta0))
         self._m02  =  m02 = _1_x21(E.f1 * ta0)
@@ -155,8 +153,8 @@ class _AlbersBase(_NamedBase):
             self._polar = True
 #           self._nrho0 = self._m0 = _0_0
         else:  # m0 = nrho0 / E.a
-            self._m0    = sqrt(m02)
-            self._nrho0 = self._m0 * E.a
+            self._m0    = t = sqrt(m02)
+            self._nrho0 = t * E.a
         t = self._txi0  = self._txif(ta0)
         h = hypot1(t)
         s = self._sxi0  = t / h
@@ -476,12 +474,13 @@ class _AlbersBase(_NamedBase):
         axi, bxi, sxi = self._a_b_sxi3((ca1, sa1, ta1, scb12),
                                        (ca2, sa2, ta2, scb22))
 
-        dsxi = ((esa12 / esa1_2) + _DatanheE(sa2, sa1, E)) * dsn_2 / self._qx
-        C = _Fsum1f_(sxi * dtb12 / dsxi, scb22, scb12).fover(scb22 * scb12 * _2_0)
+        dsxi  = ((esa12 / esa1_2) + _DatanheE(sa2, sa1, E)) * dsn_2 / self._qx
+        C     = _Fsum1f_(sxi * dtb12 / dsxi, scb22, scb12).fover(scb22 * scb12 * _2_0)
 
         S     = _Fsum1f_(sa1, sa2, sa12)
         axi  *= (S * e2 + _1).fover(S + _1, raiser=False)
-        bxi  *= _Fsum1f_(sa1, sa2, esa12).fover(esa1_2) * e2 + _D2atanheE(sa1, sa2, E) * E.e21
+        bxi  *= _Fsum1f_(  sa1, sa2, esa12).fover(esa1_2) * e2 + \
+                _D2atanheE(sa1, sa2, E) * E.e21
         s1_qZ = (axi * self._qZ - bxi) * dsn_2 / dtb12
         ta0   =  self._ta0(s1_qZ, (ta1 + ta2) * _0_5, E)
         return ta0, C
@@ -489,23 +488,19 @@ class _AlbersBase(_NamedBase):
     def _tanf(self, txi):  # in .Ellipsoid.auxAuthalic
         '''(INTERNAL) Function M{tan-phi from tan-xi}.
         '''
-        tol = _tol(_TOL, txi)
-        e2  =  self.ellipsoid.e2
-        qx  =  self._qx
-
-        ta    =  txi
-        _Ta2  =  Fsum(ta).fsum2f_
-        _txif =  self._txif
-        _1    = _1_0
+        e2   =  self.ellipsoid.e2
+        ta   =  txi
+        tol  = _tol(_TOL, ta)
+        _Ta2 =  Fsum(ta).fsum2f_
         for self._iteration in range(1, _NUMIT):  # max 2, mean 1.99
             # dtxi / dta = (scxi / sca)^3 * 2 * (1 - e^2)
             #            / (qZ * (1 - e^2 * sa^2)^2)
-            ta2  =  ta**2
-            sca2 = _1 + ta2
-            txia = _txif(ta)
-            s3qx =  sqrt3(sca2 / (txia**2 + _1)) * qx  # * _1_x21(txia)
-            eta2 = (_1 - e2 * ta2 / sca2)**2
-            ta, d = _Ta2((txi - txia) * s3qx * eta2)
+            ta2   =  ta**2
+            sca2  = _1_0 + ta2
+            txia  =  self._txif(ta)
+            s3    =  sqrt3(sca2 / (txia**2 + _1_0))  # * _1_x21(txia)
+            s3   *= (e2 * ta2 / sca2 - _1_0)**2 * self._qx
+            ta, d = _Ta2((txi - txia) * s3)
             if fabs(d) < tol:
                 return ta
         raise AlbersError(Fmt.no_convergence(d, tol), txt=repr(self))
@@ -546,20 +541,18 @@ class _AlbersBase(_NamedBase):
         '''(INTERNAL) Function M{tan-xi from tan-phi}.
         '''
         E   =  self.ellipsoid
-        _1  = _1_0
-
         ca2 = _1_x21(ta)
         sa  =  sqrt(ca2) * fabs(ta)  # enforce odd parity
-        sa1 = _1 + sa
+        sa1 = _1_0 + sa
 
         es1    =  sa  * E.e2
-        es1m1  =  sa1 * (_1 - es1)
-        es1p1  =  sa1 / (_1 + es1)
-        es2m1  = _1   -  sa * es1
+        es1m1  =  sa1 * (_1_0 - es1)
+        es1p1  =  sa1 / (_1_0 + es1)
+        es2m1  = _1_0 -    sa * es1
         es2m1a =  es2m1 * E.e21  # e2m
-        s =  sqrt((ca2 / (es1p1 * es2m1a) + _atanheE(ca2 / es1m1, E))
-                       * (es1m1 / es2m1a  + _atanheE(es1p1, E)))
-        t = _Fsum1f_(sa / es2m1, _atanheE(sa, E)).fover(s)
+        s  = ca2 / (es1p1 * es2m1a) + _atanheE(ca2 / es1m1, E)
+        s *=        es1m1 / es2m1a  + _atanheE(      es1p1, E)
+        t  = _Fsum1f_( sa / es2m1,    _atanheE(         sa, E)).fover(sqrt(s))
         return neg(t) if ta < 0 else t
 
 

@@ -13,8 +13,8 @@ and L{ChLVe} and L{Ltp}, L{ChLV}, L{LocalError}, L{Attitude} and L{Frustum}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import _args_kwds_names, map1, map2, _xinstanceof, \
-                             _xsubclassof   # .datums
+from pygeodesy.basics import _args_kwds_names, _isin, map1, map2, _xinstanceof, \
+                             _xsubclassof,  typename   # .datums
 from pygeodesy.constants import EPS, INT0, _umod_360, _0_0, _0_01, _0_5, _1_0, \
                                _2_0, _60_0, _90_0, _100_0, _180_0, _3600_0, \
                                _N_1_0  # PYCHOK used!
@@ -25,6 +25,7 @@ from pygeodesy.errors import _NotImplementedError, _ValueError, _xattr, \
                              _xkwds, _xkwds_get, _xkwds_pop2
 from pygeodesy.fmath import fabs, fdot, fdot_, Fhorner
 from pygeodesy.fsums import _floor, fsumf_
+# from pygeodesy.internals import typename  # from .basics
 from pygeodesy.interns import _0_, _COMMASPACE_, _DOT_, _ecef_, _height_, _M_, \
                               _invalid_, _lat0_, _lon0_, _name_, _too_
 # from pygeodesy.lazily import _ALL_LAZY  # from vector3d
@@ -44,7 +45,7 @@ from pygeodesy.vector3d import _ALL_LAZY, Vector3d
 # from math import fabs, floor as _floor  # from .fmath, .fsums
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '24.12.12'
+__version__ = '25.04.14'
 
 _height0_ = _height_ + _0_
 _narrow_  = 'narrow'
@@ -714,7 +715,7 @@ class _ChLV(object):
         '''
         if bool(M):  # PYCHOK no cover
             m =  self.forward if fw else self.reverse  # PYCHOK attr
-            n = _DOT_(self.__class__.__name__, m.__name__)
+            n = _DOT_(*map1(typename, type(self), m))
             raise _NotImplementedError(unstr(n, M=M), txt=None)
         t = Y_X_h_lat_lon_h + (self, self._t0, None)  # PYCHOK _t0
         return ChLV9Tuple(t, name=name)
@@ -776,8 +777,8 @@ class _ChLV(object):
     def _falsing2(LV95):
         '''(INTERNAL) Get the C{LV95} or C{LV03} falsing.
         '''
-        return _ChLV._95_falsing if LV95 in (True, 95) else (
-               _ChLV._03_falsing if LV95 in (False, 3) else ChLVYX2Tuple(0, 0))
+        return _ChLV._95_falsing if _isin(LV95, True, 95) else (
+               _ChLV._03_falsing if _isin(LV95, False, 3) else ChLVYX2Tuple(0, 0))
 
     @staticmethod
     def _llh2abh_3(lat, lon, h):
@@ -1079,7 +1080,7 @@ def _toLocal(inst, ltp, Xyz, Xyz_kwds):
 def _toLtp(inst, Ecef, ecef9, name):
     '''(INTERNAL) Helper for C{CartesianBase.toLtp}, C{ecef.toLtp} and C{latLonBase.toLtp}.
     '''
-    return inst._Ltp if (not name) and Ecef in (None, inst.Ecef) else \
+    return inst._Ltp if (not name) and _isin(Ecef, None, inst.Ecef) else \
                  Ltp(ecef9, ecef=Ecef(inst.datum), name=inst._name__(name))
 
 

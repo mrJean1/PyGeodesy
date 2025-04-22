@@ -13,15 +13,16 @@ but with modified C{precision} and extended with C{height} and C{radius}.
 @see: U{World Geographic Reference System
       <https://WikiPedia.org/wiki/World_Geographic_Reference_System>}.
 '''
-# from pygeodesy.basics import isstr  # from .named
+from pygeodesy.basics import isstr,  typename
 from pygeodesy.constants import INT0, _float, _off90, _0_001, \
                                _0_5, _1_0, _2_0, _60_0, _1000_0
 from pygeodesy.dms import parse3llh
 from pygeodesy.errors import _ValueError, _xattr, _xStrError
+# from pygeodesy.internals import typename  # from .basics
 from pygeodesy.interns import NN, _0to9_, _AtoZnoIO_, _COMMA_, \
                              _height_, _INV_, _radius_, _SPACE_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
-from pygeodesy.named import _name2__, nameof,  isstr, Property_RO
+from pygeodesy.named import _name2__, nameof,  Property_RO
 from pygeodesy.namedTuples import LatLon2Tuple, LatLonPrec3Tuple
 # from pygeodesy.props import Property_RO  # from .named
 from pygeodesy.streprs import Fmt, _0wd
@@ -32,7 +33,7 @@ from pygeodesy.utily import ft2m, m2ft, m2NM
 from math import floor
 
 __all__ = _ALL_LAZY.wgrs
-__version__ = '24.11.06'
+__version__ = '25.04.14'
 
 _Base    =  10
 _BaseLen =  4
@@ -86,7 +87,7 @@ def _2geostr2(georef):
         return g, _2Precision(p - 1)
 
     except (AttributeError, TypeError, ValueError) as x:
-        raise WGRSError(Georef.__name__, georef, cause=x)
+        raise WGRSError(typename(Georef), georef, cause=x)
 
 
 def _2Precision(precision):
@@ -300,7 +301,7 @@ def decode5(georef, center=True):
         return Radius(NM / m2NM(1), name=g_n, Error=WGRSError)
 
     def _split2(g, Unit, _2m):
-        n = Unit.__name__
+        n = typename(Unit)
         i = max(g.find(n[0]), g.rfind(n[0]))
         if i > _BaseLen:
             return g[:i], _2m(int(g[i+1:]), _SPACE_(georef, n))

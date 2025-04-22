@@ -10,17 +10,18 @@ U{https://www.Movable-Type.co.UK/scripts/latlong-vectors.html} and
 U{https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html}.
 '''
 
-# from pygeodesy.basics import _xinstanceof  # from .datums
+from pygeodesy.basics import _isin, _xinstanceof,  typename
 from pygeodesy.constants import EPS, EPS0, INT0, PI2, _isfinite, isnear0, \
                                _0_0, _1_0, _N_1_0, _2_0, _4_0, _6_0
 from pygeodesy.datums import Datum, _earth_ellipsoid, _spherical_datum, \
-                             Transform, _WGS84,  _xinstanceof
+                             Transform, _WGS84
 # from pygeodesy.ecef import EcefKarney  # _MODS
 from pygeodesy.errors import _IsnotError, _TypeError, _ValueError, _xattr, \
                              _xdatum, _xkwds, _xkwds_get, _xkwds_pop2
 from pygeodesy.fmath import cbrt, hypot, hypot_, hypot2,  fabs, sqrt  # hypot
 # from pygeodesy.formy import _hartzell  # _MODS
 from pygeodesy.fsums import fsumf_,  Fmt
+# from pygeodesy.internals import typename  # from .basics
 from pygeodesy.interns import _COMMASPACE_, _datum_, _no_, _phi_
 from pygeodesy.interns import _ellipsoidal_, _spherical_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
@@ -30,8 +31,7 @@ from pygeodesy.namedTuples import LatLon4Tuple, _NamedTupleTo , Vector3Tuple, \
 # from pygeodesy.nvectorBase import _N_vector  # _MODS
 from pygeodesy.props import deprecated_method, Property, Property_RO, property_doc_, \
                             property_RO, _update_all
-# from pygeodesy,resections import cassini, collins5, pierlot, pierlotx, \
-#                                  tienstra7  # _MODS
+# from pygeodesy import resections as _resections  # _MODS.into
 # from pygeodesy.streprs import Fmt  # from .fsums
 # from pygeodesy.triaxials import Triaxial_  # _MODS
 from pygeodesy.units import Degrees, Height, _heigHt, _isMeter, Meter, Radians
@@ -43,10 +43,11 @@ from pygeodesy.vector3d import Vector3d, _xyzhdlln4
 # from math import degrees, fabs, radians, sqrt  # from .fmath, .utily
 
 __all__ = _ALL_LAZY.cartesianBase
-__version__ = '24.12.04'
+__version__ = '25.04.21'
 
-_r_     = 'r'
-_theta_ = 'theta'
+_r_         = 'r'
+_resections = _MODS.into(resections=__name__)
+_theta_     = 'theta'
 
 
 class CartesianBase(Vector3d, _NamedLocal):
@@ -112,8 +113,8 @@ class CartesianBase(Vector3d, _NamedLocal):
 
            @see: Function L{pygeodesy.cassini} for references and more details.
         '''
-        return _MODS.resections.cassini(self, pointB, pointC, alpha, beta,
-                                              useZ=useZ, datum=self.datum)
+        return _resections.cassini(self, pointB, pointC, alpha, beta,
+                                         useZ=useZ, datum=self.datum)
 
     @deprecated_method
     def collins(self, pointB, pointC, alpha, beta, useZ=False):
@@ -148,8 +149,8 @@ class CartesianBase(Vector3d, _NamedLocal):
 
            @see: Function L{pygeodesy.collins5} for references and more details.
         '''
-        return _MODS.resections.collins5(self, pointB, pointC, alpha, beta,
-                                               useZ=useZ, datum=self.datum)
+        return _resections.collins5(self, pointB, pointC, alpha, beta,
+                                          useZ=useZ, datum=self.datum)
 
     @deprecated_method
     def convertDatum(self, datum2, **datum):
@@ -304,7 +305,7 @@ class CartesianBase(Vector3d, _NamedLocal):
 
            @raise TypeError: Invalid or undefined B{C{earth}} or C{datum}.
         '''
-        n = self.height3.__name__
+        n = typename(self.height3)
         d = self.datum if earth is None else _spherical_datum(earth, name=n)
         c, h = self, _heigHt(self, height)
         if h and d:
@@ -357,7 +358,7 @@ class CartesianBase(Vector3d, _NamedLocal):
 
            @see: Methods L{Ellipsoid.height4} and L{Triaxial_.height4} for more information.
         '''
-        n = self.height4.__name__
+        n = typename(self.height4)
         d = self.datum if earth is None else earth
         if normal and d is self.datum:
             r = self._height4
@@ -504,8 +505,8 @@ class CartesianBase(Vector3d, _NamedLocal):
 
            @see: Function L{pygeodesy.pierlot} for references and more details.
         '''
-        return _MODS.resections.pierlot(self, point2, point3, alpha12, alpha23,
-                                              useZ=useZ, eps=eps, datum=self.datum)
+        return _resections.pierlot(self, point2, point3, alpha12, alpha23,
+                                         useZ=useZ, eps=eps, datum=self.datum)
 
     def pierlotx(self, point2, point3, alpha1, alpha2, alpha3, useZ=False):
         '''3-Point resection between this and two other points using U{Pierlot
@@ -531,8 +532,8 @@ class CartesianBase(Vector3d, _NamedLocal):
 
            @see: Function L{pygeodesy.pierlotx} for references and more details.
         '''
-        return _MODS.resections.pierlotx(self, point2, point3, alpha1, alpha2, alpha3,
-                                               useZ=useZ, datum=self.datum)
+        return _resections.pierlotx(self, point2, point3, alpha1, alpha2, alpha3,
+                                          useZ=useZ, datum=self.datum)
 
     def Roc2(self, earth=None):
         '''Compute this cartesian's I{normal} and I{pseudo, z-based} radius of curvature.
@@ -605,8 +606,8 @@ class CartesianBase(Vector3d, _NamedLocal):
 
            @see: Function L{pygeodesy.tienstra7} for references and more details.
         '''
-        return _MODS.resections.tienstra7(self, pointB, pointC, alpha, beta, gamma,
-                                                useZ=useZ, datum=self.datum)
+        return _resections.tienstra7(self, pointB, pointC, alpha, beta, gamma,
+                                           useZ=useZ, datum=self.datum)
 
     @deprecated_method
     def to2ab(self):  # PYCHOK no cover
@@ -659,7 +660,7 @@ class CartesianBase(Vector3d, _NamedLocal):
         '''
         _xinstanceof(Datum, datum2=datum2)
 
-        c = self if datum in (None, self.datum) else \
+        c = self if _isin(datum, None, self.datum) else \
             self.toDatum(datum)
 
         i, d = False, c.datum

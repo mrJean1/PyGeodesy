@@ -67,7 +67,7 @@ datum, q.v. U{"A Guide to Coordinate Systems in Great Britain", Section 6
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import islistuple, map2, neg, _xinstanceof, _zip
+from pygeodesy.basics import _isin, islistuple, map2, neg, _xinstanceof, _zip
 from pygeodesy.constants import R_M, _float as _F, _0_0, _1_0, _2_0, _8_0, _3600_0
 # from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase as _CEB, \
 #                                          LatLonEllipsoidalBase as _LLEB  # MODS
@@ -77,10 +77,10 @@ from pygeodesy.errors import _IsnotError, _TypeError, _xellipsoidall, _xkwds, _x
 from pygeodesy.fmath import fdot, fmean,  Fmt, _operator
 from pygeodesy.internals import _passarg, _under
 from pygeodesy.interns import NN, _a_, _Airy1830_, _AiryModified_, _BAR_, _Bessel1841_, \
-                             _Clarke1866_, _Clarke1880IGN_, _COMMASPACE_, _DOT_, _earth_, \
-                             _ellipsoid_, _ellipsoidal_, _GRS80_, _Intl1924_, _MINUS_, \
-                             _Krassovski1940_, _Krassowsky1940_, _NAD27_, _NAD83_, _s_, \
-                             _PLUS_, _Sphere_, _spherical_, _transform_, _UNDER_, \
+                             _Clarke1866_, _Clarke1880IGN_, _COMMASPACE_, _DMAIN_,_DOT_, \
+                             _earth_, _ellipsoid_, _ellipsoidal_, _GRS80_, _Intl1924_, \
+                             _MINUS_, _Krassovski1940_, _Krassowsky1940_, _NAD27_, _NAD83_, \
+                             _s_, _PLUS_, _Sphere_, _spherical_, _transform_, _UNDER_, \
                              _WGS72_, _WGS84_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _lazyNamedEnumItem as _lazy, _name__, _name2__, _NamedEnum, \
@@ -94,7 +94,7 @@ from pygeodesy.units import _isRadius, Radius_,  radians
 # import operator as _operator  # from .fmath
 
 __all__ = _ALL_LAZY.datums
-__version__ = '24.10.12'
+__version__ = '25.04.14'
 
 _a_ellipsoid_ = _UNDER_(_a_, _ellipsoid_)
 _BD72_        = 'BD72'
@@ -510,7 +510,7 @@ def _earth_datum(inst, a_earth, f=None, raiser=_a_ellipsoid_, **name):  # in .ka
         E, n, D = _EnD3((a_earth, f), name)
         if raiser and not E:
             raise _TypeError(f=f, **{raiser: a_earth})
-    elif a_earth in (_EWGS84, _WGS84, None) and inst._datum is _WGS84:
+    elif _isin(a_earth, None, _EWGS84, _WGS84) and inst._datum is _WGS84:
         return
     elif isinstance(a_earth, Datum):
         E, n, D =  None, NN, a_earth
@@ -721,7 +721,7 @@ _WGS84 = Datums.WGS84
 assert _WGS84.ellipsoid is _EWGS84
 # assert _WGS84.transform.isunity
 
-if __name__ == '__main__':
+if __name__ == _DMAIN_:
 
     from pygeodesy.interns import _COMMA_, _NL_, _NLATvar_
     from pygeodesy import printf

@@ -12,7 +12,7 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import _copysign, isbool, isinstanceof, map1
+from pygeodesy.basics import _copysign, isbool, _isin, isinstanceof, map1
 from pygeodesy.cartesianBase import CartesianBase,  Bearing2Tuple
 from pygeodesy.constants import EPS, EPS0, PI, PI2, PI_2, R_M, \
                                _0_0, _0_5, _1_0, _180_0, _360_0, \
@@ -40,7 +40,7 @@ from pygeodesy.utily import acos1, asin1, atan2b, atan2d, degrees90, \
 from math import cos, fabs, log, sin, sqrt
 
 __all__ = _ALL_LAZY.sphericalBase
-__version__ = '24.10.19'
+__version__ = '25.04.14'
 
 
 class CartesianSphericalBase(CartesianBase):
@@ -137,7 +137,7 @@ class LatLonSphericalBase(LatLonBase):
            @raise TypeError: Invalid B{C{latlonh}} or B{C{datum}} not spherical.
         '''
         LatLonBase.__init__(self, latlonh, lon=lon, height=height, wrap=wrap, **name)
-        if datum not in (None, self.datum):
+        if not _isin(datum, None, self.datum):
             self.datum = datum
 
     def bearingTo2(self, other, wrap=False, raiser=False):
@@ -403,7 +403,7 @@ class LatLonSphericalBase(LatLonBase):
             r = LatLonBase.rhumbDestination(self, distance, azimuth, exact=False,  # Krüger
                                                   radius=radius, height=height, **name)
         else:  # radius=None from .rhumbMidpointTo
-            if radius in (None, self._radius):
+            if _isin(radius, None, self._radius):
                 d, r = self.datum, radius
             else:
                 d = _spherical_datum(radius, raiser=_radius_)  # spherical only
@@ -557,7 +557,7 @@ class LatLonSphericalBase(LatLonBase):
                         b3 = fdot(map1(log, f1, f2, f3),
                                            -b2, b1, b2 - b1) / f
 
-            d = self.datum if radius in (None, self._radius) else \
+            d = self.datum if _isin(radius, None, self._radius) else \
                _spherical_datum(radius, name=self.name, raiser=_radius_)
             h = self._havg(other, h=height)
             r = self.classof(degrees90(a3), degrees180(b3), datum=d, height=h, name=n)
@@ -674,7 +674,7 @@ def _m2radians(distance, radius, low=EPS):  # PYCHOK in .spherical*
 def _radians2m(rad, radius):
     '''(INTERNAL) Angular distance in C{radians} to distance in C{meter}.
     '''
-    if radius is not None:  # not in (None, _0_0)
+    if radius is not None:  # not _isin(radius, None, _0_0)
         rad *= R_M if radius is R_M else Radius(radius)
     return rad
 

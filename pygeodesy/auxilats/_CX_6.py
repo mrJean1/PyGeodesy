@@ -6,13 +6,13 @@ u'''Coefficients for C{_AUXLATITUDE_ORDER} 6 from I{Karney}'s C++ class U{AuxLat
 transcoded to a Python C{_Rdict[auxout][auxin]} of C{_Rtuple}s.
 
 Copyright (C) Charles Karney (2022-2024) Karney@Alum.MIT.edu> and licensed under the
-MIT/X11 License.  For more information, see <https:#GeographicLib.SourceForge.io>.
+MIT/X11 License.  For more information, see <https://GeographicLib.SourceForge.io>.
 '''
 from pygeodesy.auxilats.auxily import Aux
 from pygeodesy.auxilats._CX_Rs import _Rcoeffs, _Rdict, _Rtuple
 
 __all__ = ()
-__version__ = '24.09.02'
+__version__ = '25.04.09'
 
 _coeffs_6 = _Rcoeffs(6, {  # GEOGRAPHICLIB_AUXLATITUDE_ORDER == 6
     Aux.PHI: _Rdict(78,

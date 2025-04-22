@@ -19,7 +19,7 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import isodd, unsigned0
 from pygeodesy.constants import NAN, _0_0, _0_5, _720_0
-from pygeodesy.internals import printf
+from pygeodesy.internals import printf, typename
 # from pygeodesy.interns import _COMMASPACE_  # from .lazily
 from pygeodesy.karney import Area3Tuple, _diff182, GeodesicError, \
                             _norm180, _remainder, _sum3
@@ -308,7 +308,7 @@ class GeodesicAreaExact(_NamedBase):
         self._lat1 = self._lon1 = NAN
         self._num  = self._xings = n = 0
         if self.verbose:  # PYCHOK no cover
-            printf('%s %s: (%s)', self.named2, n, self.Reset.__name__)
+            printf('%s %s: (%s)', self.named2, n, typename(self.Reset))
         return n
 
     Clear = Reset

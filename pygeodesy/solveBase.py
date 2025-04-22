@@ -4,7 +4,7 @@
 u'''(INTERNAL) Private base classes for L{pygeodesy.geodsolve} and L{pygeodesy.rhumb.solve}.
 '''
 
-from pygeodesy.basics import clips, map2, _zip
+from pygeodesy.basics import clips, _isin, map2, _zip
 from pygeodesy.constants import DIG
 from pygeodesy.datums import _earth_datum, _WGS84,  _EWGS84
 # from pygeodesy.ellipsoids import _EWGS84  # from .datums
@@ -23,7 +23,7 @@ from pygeodesy.units import Precision_
 from pygeodesy.utily import unroll180,  wrap360  # PYCHOK shared
 
 __all__ = _ALL_LAZY.solveBase
-__version__ = '24.10.13'
+__version__ = '25.04.14'
 
 _ERROR_ = 'ERROR'
 
@@ -211,7 +211,7 @@ class _SolveCapsBase(_CapsBase):
             self._print(t)
         try:  # invoke and write to stdin
             r, s = _popen2(cmd, stdin)
-            if len(r) < 6 or r[:5] in (_Error_, _ERROR_):
+            if len(r) < 6 or _isin(r[:5], _Error_, _ERROR_):
                 raise ValueError(r)
         except (IOError, OSError, TypeError, ValueError) as x:
             raise self._Error(cmd=t or _cmd_stdin_(cmd, stdin), cause=x)

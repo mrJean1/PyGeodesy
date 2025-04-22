@@ -16,7 +16,7 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import copysign0, map1, signOf
+from pygeodesy.basics import copysign0, _isin, map1, signOf,  typename
 from pygeodesy.constants import EPS, EPS1, EPS4, PI, PI2, PI_2, PI_4, R_M, \
                                 isnear0, isnear1, isnon0, _0_0, _0_5, \
                                 _1_0, _2_0, _90_0
@@ -29,6 +29,7 @@ from pygeodesy.fsums import Fsum, fsum, fsumf_
 from pygeodesy.formy import antipode_, bearing_, _bearingTo2, excessAbc_, \
                             excessGirard_, excessLHuilier_, opposing_, _radical2, \
                             vincentys_
+# from pygeodesy.internals import typename  # from .basics
 from pygeodesy.interns import _1_, _2_, _coincident_, _composite_, _colinear_, \
                               _concentric_, _convex_, _end_, _infinite_, \
                               _invalid_, _line_, _near_, _null_, _parallel_, \
@@ -55,7 +56,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, cos, degrees, fabs, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '24.11.24'
+__version__ = '25.04.14'
 
 _PI_EPS4 = PI - EPS4
 if _PI_EPS4 >= PI:
@@ -1147,7 +1148,7 @@ def isPoleEnclosedBy(points, wrap=False):  # PYCHOK no cover
 def _LL3Tuple(lat, lon, height, where, LatLon, LatLon_kwds):
     '''(INTERNAL) Helper for L{intersection}, L{intersections2} and L{meanOf}.
     '''
-    n = where.__name__
+    n = typename(where)
     if LatLon is None:
         r = LatLon3Tuple(lat, lon, height, name=n)
     else:
@@ -1250,7 +1251,7 @@ def nearestOn3(point, points, closed=False, radius=R_M, wrap=False, adjust=True,
                                    adjust=adjust, limit=limit)
     d = degrees2m(t.distance, radius=radius)
     h = t.height
-    n = nearestOn3.__name__
+    n = typename(nearestOn3)
 
     LL, kwds = _xkwds_pop2(LatLon_and_kwds, LatLon=LatLon)
     r = LatLon3Tuple(t.lat, t.lon, h, name=n) if LL is None else \
@@ -1378,8 +1379,8 @@ def triangle8_(phiA, lamA, phiB, lamB, phiC, lamC, excess=excessAbc_,
     C, _ = _A_r(c, *r)
 
     D = fsumf_(PI2, -a, -b, -c)  # deficit aka defect
-    E = excessGirard_(A, B, C)   if excess in (excessGirard_,   True)  else (
-        excessLHuilier_(a, b, c) if excess in (excessLHuilier_, False) else
+    E = excessGirard_(A, B, C)   if _isin(excess, excessGirard_,   True)  else (
+        excessLHuilier_(a, b, c) if _isin(excess, excessLHuilier_, False) else
         excessAbc_(*max((A, b, c), (B, c, a), (C, a, b))))
 
     return Triangle8Tuple(A, a, B, b, C, c, D, E)
@@ -1388,7 +1389,7 @@ def triangle8_(phiA, lamA, phiB, lamB, phiC, lamC, excess=excessAbc_,
 def _t7Tuple(t, radius):
     '''(INTERNAL) Convert a L{Triangle8Tuple} to L{Triangle7Tuple}.
     '''
-    if radius:  # not in (None, _0_0)
+    if radius:  # not _isin(radius, None, _0_0)
         r = radius if _isRadius(radius) else \
             _ellipsoidal_datum(radius).ellipsoid.Rmean
         A, B, C = map1(degrees, t.A, t.B, t.C)

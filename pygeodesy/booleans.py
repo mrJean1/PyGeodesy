@@ -17,12 +17,14 @@ C{reverse-difference}, C{sum} and C{union}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import isodd, issubclassof, map2, _xscalar
+from pygeodesy.basics import _isin, isodd, issubclassof, map2, \
+                             _xscalar,  typename
 from pygeodesy.constants import EPS, EPS2, INT0, _0_0, _0_5, _1_0
 from pygeodesy.errors import ClipError, _IsnotError, _TypeError, \
                             _ValueError, _xattr, _xkwds_get, _xkwds_pop2
 from pygeodesy.fmath import favg, fdot_, hypot, hypot2
 # from pygeodesy.fsums import fsum1  # _MODS
+# from pygeodesy.internals import typename  # from .basics
 from pygeodesy.interns import NN, _BANG_, _clipid_, _COMMASPACE_, \
                              _composite_, _DOT_, _duplicate_, _e_, \
                              _ELLIPSIS_, _few_, _height_, _lat_, _LatLon_, \
@@ -43,7 +45,7 @@ from pygeodesy.utily import fabs, _unrollon, _Wrap
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.booleans
-__version__ = '24.11.07'
+__version__ = '25.04.14'
 
 _0EPS  =  EPS  # near-zero, positive
 _EPS0  = -EPS  # near-zero, negative
@@ -352,11 +354,11 @@ class LatLonFHP(_LatLonBool):
     def _isduplicate(self):
         # Is this point a I{duplicate} intersection?
         p = self._dupof
-        return bool(p and self._linked
-                      and p is not self
-                      and p == self
-#                     and p._alpha in (None, self._alpha)
-                      and self._alpha in (_0_0, p._alpha))
+        return bool(p and  self._linked
+                      and  p is not self
+                      and  p == self
+#                     and _isin(p._alpha, None, self._alpha)
+                      and _isin(self._alpha, _0_0, p._alpha))
 
 #   @property_RO
 #   def _isduplicated(self):
@@ -940,7 +942,7 @@ class _CompositeBase(_Named):
         c = Fmt.SQUARE(c) if c > 1 else NN
         n = Fmt.SQUARE(len(self))
         t = Fmt.PAREN(self)  # XXX not unstr
-        return NN(self.__class__.__name__, c, n, t)
+        return NN(self.typename, c, n, t)
 
     def __str__(self):
         '''String C{str} of this composite.
@@ -1051,7 +1053,7 @@ class _CompositeBase(_Named):
     def _kwds(self, op, **more):
         # Get all keyword arguments as C{dict}.
         kwds = dict(raiser=self.raiser, eps=self.eps,
-                      name=self.name or op.__name__)
+                      name=self.name or typename(op))
         kwds.update(more)
         return kwds
 
@@ -1105,7 +1107,7 @@ class _CompositeBase(_Named):
     def _sum(self, other, op):
         # Combine this and an C{other} composite
         LL = self._LL
-        sp = self.copy(name=self.name or op.__name__)
+        sp = self.copy(name=self.name or typename(op))
         sp._clips, sid = (), INT0  # new clips
         for cp in (self, other):
             for c in cp._clips:

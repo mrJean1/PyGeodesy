@@ -13,8 +13,8 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 from pygeodesy.basics import _copysign, isbool, iscomplex, isint
 from pygeodesy.errors import _xError, _xError2, _xkwds_get1, _xkwds_item2
 # from pygeodesy.fsums import _isFsum_2Tuple  # _MODS
-from pygeodesy.internals import _0_0, _100_0
-from pygeodesy.interns import _INF_, _NAN_, _UNDER_
+from pygeodesy.internals import _0_0, _100_0, typename
+from pygeodesy.interns import _DMAIN_, _INF_, _NAN_
 from pygeodesy.lazily import _ALL_MODS as _MODS, _ALL_LAZY
 # from pygeodesy.streprs import Fmt  # from .unitsBase
 from pygeodesy.unitsBase import Float, Int, Radius,  Fmt
@@ -26,7 +26,7 @@ except ImportError:  # Python 2-
     _inf, _nan = float(_INF_), float(_NAN_)
 
 __all__ = _ALL_LAZY.constants
-__version__ = '24.12.22'
+__version__ = '25.04.14'
 
 
 def _copysign_0_0(y):
@@ -360,7 +360,7 @@ def isfinite(obj):
             return _iscfinite(obj)
         if _MODS.fsums._isFsum_2Tuple(obj):  # OverflowError
             return obj.is_finite()
-        raise _xError(x, Fmt.PAREN(isfinite.__name__, obj))
+        raise _xError(x, Fmt.PAREN(typename(isfinite), obj))
 
 
 def isint0(obj, both=False):
@@ -493,13 +493,14 @@ def _umod_PI2(rad):
     return (rad % PI2) or _0_0
 
 
-if __name__ == '__main__':
+if __name__ == _DMAIN_:
 
-    def _main():
+    def _main(locals):
         from pygeodesy import itemsorted, printf
+        from pygeodesy.interns import _DALL_, _UNDER_
 
         t = n = v = []
-        for n, v in itemsorted(locals()):
+        for n, v in itemsorted(locals):
             if isinstance(v, (Float, Int, Radius)):
                 printf('%9s: %r', n, v.toRepr(std=False))
                 if v.name != n:
@@ -508,10 +509,10 @@ if __name__ == '__main__':
                     raise AssertionError('%r is not %r' % (n, v))
                 if not n.startswith(_UNDER_):
                     t.append(n)
-        t.append(float_.__name__)
-        printf('__all__ = %r', tuple(t))
+        t.append(typename(float_))
+        printf('%s = %r', _DALL_, tuple(t))
 
-    _main()
+    _main(locals())
 
 # **) MIT License
 #

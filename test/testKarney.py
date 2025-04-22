@@ -4,7 +4,7 @@
 # Test L{karney} module and wrappers.
 
 __all__ = ('Tests',)
-__version__ = '25.01.05'
+__version__ = '25.04.14'
 
 from bases import endswith, GeodSolve, geographiclib, startswith, TestsBase
 
@@ -144,9 +144,9 @@ class Tests(TestsBase):
         self.subtitle(module, 'Mask')
 
         g = G(1, 0)  # .WGS84
-        for n in ('EMPTY', 'LATITUDE', 'LONGITUDE', 'AZIMUTH',
-                  'DISTANCE', 'STANDARD', 'DISTANCE_IN',
-                  'REDUCEDLENGTH', 'GEODESICSCALE', 'AREA'):  # 'ALL', 'LONG_UNROLL'
+        for n in ('EMPTY', 'LATITUDE', 'LONGITUDE', 'AZIMUTH', 'AREA',
+                  'DISTANCE', 'DISTANCE_IN', 'REDUCEDLENGTH', 'GEODESICSCALE',
+                  'STANDARD', 'STANDARD_LINE'):  # 'ALL', 'LONG_UNROLL'
             m = getattr(g, n)
             self.test('Geodesic.' + n, bin(m & g.ALL), bin(m))
         self.test('Geodesic.ALL', bin(g.ALL), bin(g.EMPTY | g.LATITUDE | g.LONGITUDE | g.AZIMUTH|
@@ -155,7 +155,7 @@ class Tests(TestsBase):
         Cs = karney.Caps
         n, m = Cs.__class__.__name__, Cs.toStr(g.ALL)
         self.test(n, m, 'ALL|AREA|AZIMUTH|', known=startswith)
-        self.test(n, m, '|LONGITUDE|REDUCEDLENGTH|STANDARD', known=endswith)
+        self.test(n, m, '|LONGITUDE|REDUCEDLENGTH|STANDARD|STANDARD_LINE', known=endswith)
 
     def testMath(self):
         self.subtitle(karney, 'Math')

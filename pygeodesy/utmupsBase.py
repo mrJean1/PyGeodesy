@@ -5,8 +5,8 @@ u'''(INTERNAL) Private class C{UtmUpsBase}, functions and constants
 for modules L{epsg}, L{etm}, L{mgrs}, L{ups} and L{utm}.
 '''
 
-from pygeodesy.basics import isint, isscalar, isstr, neg_, \
-                            _xinstanceof, _xsubclassof
+from pygeodesy.basics import _isin, isint, isscalar, isstr, neg_, \
+                             _xinstanceof, _xsubclassof
 from pygeodesy.constants import _float, _0_0, _0_5, _N_90_0, _180_0
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.dms import degDMS, parseDMS2
@@ -27,7 +27,7 @@ from pygeodesy.units import Band, Easting, Northing, Scalar, Zone
 from pygeodesy.utily import _Wrap, wrap360
 
 __all__ = _ALL_LAZY.utmupsBase
-__version__ = '24.08.13'
+__version__ = '25.04.14'
 
 _UPS_BANDS = _A_, _B_, _Y_, _Z_  # UPS polar bands SE, SW, NE, NW
 # _UTM_BANDS = _MODS.utm._Bands
@@ -91,7 +91,7 @@ class UtmUpsBase(_NamedBase):
         if band:
             self._band1(band)
 
-        if datum not in (None, self._datum):
+        if not _isin(datum, None, self._datum):
             self._datum = _ellipsoidal_datum(datum)  # raiser=_datum_, name=band
 
         if not falsed:
@@ -302,9 +302,9 @@ class UtmUpsBase(_NamedBase):
            @note: If not specified, the I{latitudinal} C{band} is computed from
                   the (geodetic) latitude and the C{datum}.
         '''
-        return self._mgrs if center in (False, 0, _0_0) else (
-               self._mgrs_lowerleft if center in (True,) else
-              _toMgrs(_lowerleft(self, center)))  # PYCHOK indent
+        return self._mgrs_lowerleft if center is True else (
+              _toMgrs(_lowerleft(self, center)) if center else
+               self._mgrs)  # PYCHOK indent
 
     def _toRepr(self, fmt, B, cs, prec, sep):  # PYCHOK expected
         '''(INTERNAL) Return a representation for this ETM/UTM/UPS coordinate.
@@ -349,8 +349,8 @@ def _lowerleft(utmups, center):  # in .ellipsoidalBase._lowerleft
             t = c * 2
             e = int(utmups.easting  % t)
             n = int(utmups.northing % t)
-            if (e == c and n in (c, c - 1)) or \
-               (n == c and e in (c, c - 1)):
+            if (e == c and _isin(n, c, c - 1)) or \
+               (n == c and _isin(e, c, c - 1)):
                 break
         else:
             return utmups  # unchanged

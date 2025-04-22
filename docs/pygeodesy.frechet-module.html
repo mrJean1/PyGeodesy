@@ -173,7 +173,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        24.12.31
+        25.04.21
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -336,16 +336,6 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.frechet.FrechetVincentys-class.html" class="summary-name">FrechetVincentys</a><br />
-      Compute the <code>Frechet</code> distance with function <a 
-        href="pygeodesy.geohash-module.html#vincentys_" 
-        class="link">pygeodesy.vincentys_</a>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
         <a href="pygeodesy.frechet.Frechet6Tuple-class.html" class="summary-name">Frechet6Tuple</a><br />
       6-Tuple <code>(fd, fi1, fi2, r, n, units)</code> with the 
         <i>discrete</i> <a 
@@ -355,8 +345,18 @@
         <code>FIx</code>, the recursion depth <code>r</code>, the number of
         distances computed <code>n</code> and the <a 
         href="pygeodesy.named._NamedTuple-class.html#units" 
-        class="link">units</a> class or class or name of the distance 
+        class="link">units</a> class or name of the distance 
         <code>units</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.frechet.FrechetVincentys-class.html" class="summary-name">FrechetVincentys</a><br />
+      Compute the <code>Frechet</code> distance with function <a 
+        href="pygeodesy.geohash-module.html#vincentys_" 
+        class="link">pygeodesy.vincentys_</a>.
     </td>
   </tr>
 </table>
@@ -377,7 +377,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.frechet-module.html#frechet_" class="summary-sig-name">frechet_</a>(<span class="summary-sig-arg">point1s</span>,
         <span class="summary-sig-arg">point2s</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
+        <span class="summary-sig-arg">recursive</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the <i>discrete</i> <a 
       href="https://WikiPedia.org/wiki/Frechet_distance" 
       target="_top">Fr&#233;chet</a> distance between two paths, each given as a
@@ -427,7 +428,8 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">frechet_</span>&nbsp;(<span class="sig-arg">point1s</span>,
         <span class="sig-arg">point2s</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">units</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
+        <span class="sig-arg">recursive</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -456,6 +458,8 @@
           point (signature <code>(point1, point2)</code>).</li>
         <li><strong class="pname"><code>units</code></strong> - Optional, the distance units (<code>Unit</code> or 
           <code>str</code>).</li>
+        <li><strong class="pname"><code>recursive</code></strong> - Use <code>True</code> for backward compatibility 
+          (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.frechet.Frechet6Tuple-class.html" 
@@ -469,7 +473,8 @@
         <b><code>point2s</code></b>.</li>
         <li><code><strong class='fraise'>RecursionError</strong></code> - Recursion depth exceeded, see <a 
         href="https://docs.Python.org/3/library/sys.html#sys.getrecursionlimit"
-        target="_top">sys.getrecursionlimit()</a>.</li>
+        target="_top">sys.getrecursionlimit()</a>, only with 
+        <code><b>recursive</b>=True</code>.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - If <b><code>distance</code></b> is not a callable.</li>
     </ul></dd>
   </dl>
@@ -478,6 +483,11 @@
         class="link">frechet_</a> does <i>not</i> support <i>fractional</i>
         indices for intermediate <b><code>point1s</code></b> and 
         <b><code>point2s</code></b>.
+      </p>
+      <p><strong>See Also:</strong>
+        Non-recursive <a 
+        href="https://GitHub.com/cjekel/similarity_measures/issues/6#issuecomment-544350039"
+        target="_top">dp_frechet_dist</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -513,7 +523,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Apr  9 11:05:52 2025
+    Generated by Epydoc 3.0.1 on Tue Apr 22 12:33:04 2025
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

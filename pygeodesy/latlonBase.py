@@ -10,7 +10,7 @@ u'''(INTERNAL) Base class L{LatLonBase} for all elliposiodal, spherical and N-ve
       U{RhumbLine<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1RhumbLine.html>} classes.
 '''
 
-from pygeodesy.basics import isstr, map1, _xinstanceof,  _passarg
+from pygeodesy.basics import _isin, isstr, map1, _xinstanceof
 from pygeodesy.constants import EPS, EPS0, EPS1, EPS4, INT0, R_M, \
                                _EPSqrt as _TOL, _0_0, _0_5, _1_0, \
                                _360_0, _umod_360
@@ -22,13 +22,8 @@ from pygeodesy.errors import _AttributeError, IntersectionError, \
                              _ValueError, _xattr, _xdatum, _xError, \
                              _xkwds, _xkwds_get, _xkwds_item2, _xkwds_not
 # from pygeodesy.fmath import favg  # _MODS
-# from pygeodesy.formy import antipode, compassAngle, cosineAndoyerLambert_, \
-#                             cosineForsytheAndoyerLambert_, cosineLaw, \
-#                             equirectangular, euclidean, flatLocal_, \
-#                             flatPolar, _hartzell, haversine, isantipode, \
-#                             _isequalTo, isnormal, normal, philam2n_xyz, \
-#                             thomas_, vincentys  # as _formy
-# from pygeodesy.internals import _passarg  # from .basics
+# from pygeodesy import formy as _formy  # .MODS.into
+from pygeodesy.internals import _passarg, typename
 from pygeodesy.interns import NN, _COMMASPACE_, _concentric_, _height_, \
                              _intersection_, _LatLon_, _m_, _negative_, \
                              _no_, _overlap_, _too_,  _point_  # PYCHOK used!
@@ -53,13 +48,13 @@ from contextlib import contextmanager
 from math import asin, cos, degrees, fabs, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '24.12.31'
+__version__ = '25.04.21'
 
 _formy = _MODS.into(formy=__name__)
 
 
 class LatLonBase(_NamedBase, _NamedLocal):
-    '''(INTERNAL) Base class for ellipsoidal and spherical C{LatLon}s.
+    '''(INTERNAL) Base class for ellipsoidal and spherical C{satLon}s.
     '''
     _clipid = INT0  # polygonal clip, see .booleans
     _datum  = None  # L{Datum}, to be overriden
@@ -532,7 +527,7 @@ class LatLonBase(_NamedBase, _NamedLocal):
                  L{haversineTo}, L{thomasTo} and L{vincentysTo} and U{local, flat Earth
                  approximation<https://www.edwilliams.org/avform.htm#flat>}.
         '''
-        r = radius if radius in (None, R_M, _1_0, 1) else Radius(radius)
+        r = radius if _isin(radius, None, R_M, _1_0, 1) else Radius(radius)
         return self._distanceTo_(_formy.flatLocal_, other, radius=r, **wrap)  # PYCHOK kwargs
 
     hubenyTo = flatLocalTo  # for Karl Hubeny
@@ -710,7 +705,7 @@ class LatLonBase(_NamedBase, _NamedLocal):
         else:
             hp = hq = Height(height)
 
-#       n = self.name or unused.__name__
+#       n = self.name or typename(unused)
         p = q = self.classof(P.lat2, P.lon2, datum=g_or_r.datum, height=hp)  # name=n
         p._iteration = P.iteration
         if P is not Q:
@@ -1321,10 +1316,11 @@ class LatLonBase(_NamedBase, _NamedLocal):
         if E:
             for p in (p, c):
                 e = _xattr(p, Ecef=None)
-                if e not in (None, E):  # PYCHOK no cover
+                if not _isin(e, None, E):  # PYCHOK no cover
                     n, _ = _xkwds_item2(name_point)
-                    n = Fmt.INDEX(n, i)
-                    raise _ValueError(n, e, txt=_incompatible(E.__name__))  # txt__
+                    n =  Fmt.INDEX(n, i)
+                    t = _incompatible(typename(E))
+                    raise _ValueError(n, e, txt=t)  # txt__
         return c
 
     def toDatum(self, datum2, height=None, **name):
@@ -1344,13 +1340,13 @@ class LatLonBase(_NamedBase, _NamedLocal):
 
            @raise EcefError: A C{.datum} or an ECEF issue.
         '''
-        return self._ecef9 if height in (None, self.height) else \
+        return self._ecef9 if _isin(height, None, self.height) else \
                self._Ecef_forward(self.lat, self.lon, height=height, M=M)
 
     @deprecated_method
     def to3llh(self, height=None):  # PYCHOK no cover
         '''DEPRECATED, use property L{latlonheight} or C{latlon.to3Tuple(B{height})}.'''
-        return self.latlonheight if height in (None, self.height) else \
+        return self.latlonheight if _isin(height, None, self.height) else \
                self.latlon.to3Tuple(height)
 
     def toNormal(self, deep=False, **name):
@@ -1666,7 +1662,7 @@ def _trilaterate5(p1, d1, p2, d2, p3, d3, area=True, eps=EPS1, radius=R_M, wrap=
         return Trilaterate5Tuple(float(r), p, float(m), p, 0)
 
     n, f = (_overlap_, max) if area else (_intersection_, min)
-    t = _COMMASPACE_(_no_(n), '%s %.3g' % (f.__name__, m))
+    t = _COMMASPACE_(_no_(n), '%s %.3g' % (typename(f), m))
     raise IntersectionError(area=area, eps=eps, wrap=wrap, txt=t)
 
 

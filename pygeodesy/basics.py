@@ -20,8 +20,8 @@ from pygeodesy.errors import _AttributeError, _ImportError, _NotImplementedError
                              _TypeError, _TypesError, _ValueError, _xAssertionError, \
                              _xkwds_get1
 # from pygeodesy.fsums import _isFsum_2Tuple  # _MODS
-from pygeodesy.internals import _0_0, _enquote, _getenv, _passarg, _PYGEODESY, \
-                                _version_info
+from pygeodesy.internals import _0_0, _enquote, _envPYGEODESY, _getenv, _passarg, \
+                                _PYGEODESY_ENV, typename, _version_info
 from pygeodesy.interns import MISSING, NN, _1_, _by_, _COMMA_, _DOT_, _DEPRECATED_, \
                              _ELLIPSIS4_, _EQUAL_, _in_, _invalid_, _N_A_, _not_, \
                              _not_scalar_, _odd_, _SPACE_, _UNDER_, _version_
@@ -37,7 +37,7 @@ from math import copysign as _copysign
 # import inspect as _inspect  # _MODS
 
 __all__ = _ALL_LAZY.basics
-__version__ = '25.01.17'
+__version__ = '25.04.14'
 
 _below_           = 'below'
 _list_tuple_types = (list, tuple)
@@ -312,17 +312,23 @@ def iscomplex(obj, both=False):
         return False
 
 
-def isDEPRECATED(obj):
-    '''Is B{C{obj}}ect a C{DEPRECATED} class, method or function?
+def isDEPRECATED(obj, outer=1):
+    '''Is B{C{obj}}ect or its outer C{type} a C{DEPRECATED}
+       class, constant, method or function?
 
        @return: C{True} if C{DEPRECATED}, {False} if not or
                 C{None} if undetermined.
     '''
-    try:  # XXX inspect.getdoc(obj) or obj.__doc__
-        doc = obj.__doc__.lstrip()
-        return bool(doc and doc.startswith(_DEPRECATED_))
-    except AttributeError:
-        return None
+    r = None
+    for _ in range(max(0, outer) + 1):
+        try:  # inspect.getdoc(obj)
+            if _DEPRECATED_ in obj.__doc__:
+                return True
+            r = False
+        except AttributeError:
+            pass
+        obj = type(obj)
+    return r
 
 
 def isfloat(obj, both=False):
@@ -350,6 +356,13 @@ except AttributeError:  # Python 2-
         return bool(obj and isstr(obj)
                         and obj.replace(_UNDER_, NN).isalnum()
                         and not obj[:1].isdigit())
+
+
+def _isin(obj, *objs):
+    '''(INTERNAL) Return C{bool(obj in objs)} with C{True} and C{False} matching.
+    '''
+    return any(o is obj for o in objs) or \
+           any(o == obj for o in objs if not isbool(o))
 
 
 def isinstanceof(obj, *Classes):
@@ -905,8 +918,8 @@ def _xiterablen(obj):
 def _xiterror(obj, _xwhich):
     '''(INTERNAL) Helper for C{_xinterable} and C{_xiterablen}.
     '''
-    t = _not_(_xwhich.__name__[2:])  # _DUNDER_nameof
-    raise _TypeError(repr(obj), txt=t)
+    t = typename(_xwhich)[2:]  # less '_x'
+    raise _TypeError(repr(obj), txt=_not_(t))
 
 
 def _xnumpy(where, *required):
@@ -928,13 +941,13 @@ def _xor(x, *xs):
     return x
 
 
-def _xpackages(_xpkgf):
+def _xpackages(_xhich):
     '''(INTERNAL) Check dependency to be excluded.
     '''
     if _XPACKAGES:  # PYCHOK no cover
-        n = _xpkgf.__name__[2:]  # _DUNDER_nameof, less '_x'
+        n = typename(_xhich)[2:]  # less '_x'
         if n.lower() in _XPACKAGES:
-            E = _PYGEODESY(_xpackages)
+            E = _PYGEODESY_ENV(_xpackages_)
             x = _SPACE_(n, _in_, E)
             e = _enquote(_getenv(E, NN))
             raise ImportError(_EQUAL_(x, e))
@@ -984,7 +997,7 @@ def _xversion(package, where, *required, **name):
     if required:
         t = _version_info(package)
         if t[:len(required)] < required:
-            t = _SPACE_(package.__name__,  # _DUNDER_nameof
+            t = _SPACE_(typename(package),
                        _version_, _DOT_(*t),
                        _below_, _DOT_(*required),
                        _req_d_by(where, **name))
@@ -1011,7 +1024,8 @@ else:  # Python 3.10+
     def _zip(*args):
         return zip(*args, strict=True)
 
-_XPACKAGES = _splituple(_getenv(_PYGEODESY(_xpackages), NN).lower())  # test/bases._X_OK
+_xpackages_ =  typename(_xpackages).lstrip(_UNDER_)
+_XPACKAGES  = _splituple(_envPYGEODESY(_xpackages_).lower())  # test/bases._X_OK
 
 # **) MIT License
 #

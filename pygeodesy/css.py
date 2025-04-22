@@ -3,12 +3,13 @@
 
 u'''Cassini-Soldner (CSS) projection.
 
-Classes L{CassiniSoldner}, L{Css} and L{CSSError} requiring I{Charles Karney}'s
-U{geographiclib <https://PyPI.org/project/geographiclib>} Python package to be
-installed.
+Classes L{CassiniSoldner}, L{Css} and L{CSSError} use I{Charles Karney}'s
+U{geographiclib <https://PyPI.org/project/geographiclib>} Python package
+if installed, see property L{CassiniSoldner.geodesic}.
 '''
 
-from pygeodesy.basics import islistuple, neg, _xinstanceof, _xsubclassof
+from pygeodesy.basics import _isin, islistuple, neg, _xinstanceof, \
+                             _xsubclassof
 from pygeodesy.constants import _umod_360, _0_0, _0_5, _90_0
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
@@ -33,7 +34,7 @@ from pygeodesy.units import Azimuth, Degrees, Easting, Height, _heigHt, \
 # from math import fabs  # from .karney
 
 __all__ = _ALL_LAZY.css
-__version__ = '24.11.06'
+__version__ = '25.04.14'
 
 
 def _CS0(cs0):
@@ -76,7 +77,7 @@ class CassiniSoldner(_NamedBase):
 
            @raise CSSError: Invalid B{C{lat}} or B{C{lon}}.
         '''
-        if datum not in (None, self._datum):
+        if not _isin(datum, None, self._datum):
             self._datum = _xellipsoidal(datum=_ellipsoidal_datum(datum, **name))
         if name:
             self.name = name
@@ -217,9 +218,10 @@ class CassiniSoldner(_NamedBase):
     @Property
     def geodesic(self):
         '''Get this projection's I{wrapped} U{geodesic.Geodesic
-           <https://GeographicLib.SourceForge.io/Python/doc/code.html>}, provided
+           <https://GeographicLib.SourceForge.io/Python/doc/code.html>} from
            I{Karney}'s U{geographiclib<https://PyPI.org/project/geographiclib>}
-           package is installed, otherwise an I{exact} L{GeodesicExact} instance.
+           package if installed, otherwise an I{exact} L{GeodesicExact
+           <pygeodesy.geodesicx.GeodesicExact>} instance.
         '''
         g = self._geodesic
         if g is None:
@@ -247,7 +249,8 @@ class CassiniSoldner(_NamedBase):
 
     @Property_RO
     def isExact(self):
-        '''Return C{True} if this projection's geodesic is L{GeodesicExact}.
+        '''Return C{True} if this projection's geodesic is L{GeodesicExact
+           <pygeodesy.geodesicx.GeodesicExact>}.
         '''
         return isinstance(self.geodesic, _MODS.geodesicx.GeodesicExact)
 
@@ -306,8 +309,8 @@ class CassiniSoldner(_NamedBase):
 
         g = self.geodesic
         self._meridian = m = g.Line(Lat_(lat0=lat0, Error=CSSError),
-                                    Lon_(lon0=lon0, Error=CSSError), _0_0,
-                                    g.STANDARD | g.DISTANCE_IN | g.LINE_OFF)
+                                    Lon_(lon0=lon0, Error=CSSError),
+                                   _0_0, caps=g.STANDARD_LINE | g.LINE_OFF)
         self._latlon0 = LatLon2Tuple(m.lat1, m.lon1)
         s, c = _sincos2d(m.lat1)  # == self.lat0 == self.LatitudeOrigin()
         self._sb0, self._cb0 = _norm2(s * g.f1, c)

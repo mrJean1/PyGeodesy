@@ -11,25 +11,26 @@ chaining}, use command line option C{python -X dev} I{OR} set env variable
 C{PYTHONDEVMODE=1} or to any non-empty string I{OR} set env variable
 C{PYGEODESY_EXCEPTION_CHAINING=std} or to any non-empty string.
 '''
-# from pygeodesy.basics import isint, isodd, issubclassof, itemsorted, _xinstanceof, _zip  # _MODS
+# from pygeodesy import basics as _basics  # _MODS.into
 # from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, LatLonEllipsoidalBase  # _MODS
 # from pygeodesy import errors  # _MODS, _MODS.getattr
-from pygeodesy.internals import _DUNDER_nameof_, _getPYGEODESY, _plural, _tailof
+from pygeodesy.internals import _envPYGEODESY, _plural, _tailof, typename
 from pygeodesy.interns import MISSING, NN, _a_, _an_, _and_, _clip_, _COLON_, _COLONSPACE_, \
                              _COMMASPACE_, _datum_, _ELLIPSIS_, _ellipsoidal_, _incompatible_, \
                              _invalid_, _keyword_, _LatLon_, _len_, _not_, _or_, _SPACE_, \
                              _specified_, _UNDER_, _vs_, _with_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _PYTHON_X_DEV
-# from pygeodesy import streprs as _streprs  # _MODS
+# from pygeodesy import streprs as _streprs  # _MODS.into
 # from pygeodesy.unitsBase import Str  # _MODS
 # from pygeodesy.vector3dBase import Vector3dBase  # _MODS
 
 from copy import copy as _copy
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')  _under
-__version__ = '24.11.02'
+__version__ = '25.04.21'
 
 _argument_   = 'argument'
+_basics      = _MODS.into(basics=__name__)
 _box_        = 'box'
 _expected_   = 'expected'
 _limiterrors =  True  # in .formy
@@ -43,7 +44,7 @@ try:
     _exception_chaining = None  # not available
     _ = Exception().__cause__   # Python 3.9+ exception chaining
 
-    if _PYTHON_X_DEV or _getPYGEODESY('EXCEPTION_CHAINING'):  # == _std_
+    if _PYTHON_X_DEV or _envPYGEODESY('EXCEPTION_CHAINING'):  # == _std_
         _exception_chaining = True  # turned on, std
         raise AttributeError()  # allow exception chaining
 
@@ -143,8 +144,8 @@ def _TypesError(name, value, *Types, **kwds):
     '''
     # no longer C{class _TypesError} to avoid missing value
     # argument errors in _XError line ...E = Error(str(e))
-    t = _not_(_an(_or(*(t.__name__ for t in Types))))
-    return _TypeError(name, value, txt=t, **kwds)
+    t = _an(_or(*map(typename, Types, Types)))
+    return _TypeError(name, value, txt=_not_(t), **kwds)
 
 
 class _UnexpectedError(TypeError):  # note, a TypeError!
@@ -240,12 +241,12 @@ class LenError(_ValueError):  # in .ecef, .fmath, .heights, .iters, .named
                             (C{keyword arguments}).
         '''
         def _ns_vs_txt_x(cause=None, txt=_invalid_, **kwds):
-            ns, vs = zip(*_MODS.basics.itemsorted(kwds))  # unzip
+            ns, vs = zip(*_basics.itemsorted(kwds))  # unzip
             return ns, vs, txt, cause
 
         ns, vs, txt, x = _ns_vs_txt_x(**lens_txt)
         ns = _COMMASPACE_.join(ns)
-        t  = _streprs.Fmt.PAREN(where.__name__, ns)
+        t  = _streprs.Fmt.PAREN(typename(where), ns)
         vs = _vs__.join(map(str, vs))
         t  = _SPACE_(t, _len_, vs)
         _ValueError.__init__(self, t, txt=txt, cause=x)
@@ -379,8 +380,8 @@ def _and_or(last, *words):
 def crosserrors(raiser=None):
     '''Report or ignore vectorial cross product errors.
 
-       @kwarg raiser: Use C{True} to throw or C{False} to ignore
-                      L{CrossError} exceptions.  Use C{None} to
+       @kwarg raiser: Use C{True} to throw, C{False} to ignore
+                      L{CrossError} exceptions or C{None} to
                       leave the setting unchanged.
 
        @return: Previous setting (C{bool}).
@@ -389,8 +390,8 @@ def crosserrors(raiser=None):
     '''
     V = _MODS.vector3dBase.Vector3dBase
     t =  V._crosserrors  # XXX class attr!
-    if raiser in (True, False):
-        V._crosserrors = raiser
+    if raiser is not None:
+        V._crosserrors = bool(raiser)
     return t
 
 
@@ -419,7 +420,7 @@ def _error_init(Error, inst, args, fmt_name_value='%s (%r)', txt_not_=NN,
     t, n = (), len(args)
     if n > 2:
         t = _fmtuple(zip(args[0::2], args[1::2]))
-        s = _MODS.basics.isodd(n)
+        s = _basics.isodd(n)
         if s:  # XXX _xzip(..., strict=s)
             t += args[-1:]
     elif n == 2:
@@ -427,11 +428,11 @@ def _error_init(Error, inst, args, fmt_name_value='%s (%r)', txt_not_=NN,
     elif n:  # == 1
         t =  str(args[0]),
     if kwds:
-        t += _fmtuple(_MODS.basics.itemsorted(kwds))
+        t += _fmtuple(_basics.itemsorted(kwds))
     t = _or(*t) if t else _SPACE_(_name_value_, MISSING)
 
     x = _not_(txt_not_) if txt_not_ else (txt if txt__ is None
-                                    else  txt__.__name__)
+                                    else typename(txt__))
     if x is not None:
         x =  str(x) or (str(cause) if cause else _invalid_)
         C = _COMMASPACE_ if _COLON_ in t else _COLONSPACE_
@@ -447,9 +448,10 @@ def _error_init(Error, inst, args, fmt_name_value='%s (%r)', txt_not_=NN,
 def _error_under(inst):
     '''(INTERNAL) Remove leading underscore from instance' class name.
     '''
-    n = inst.__class__.__name__  # _tailof?
+    t = type(inst)
+    n = typename(t)  # _tailof?
     if n.startswith(_UNDER_):
-        inst.__class__.__name__ = n.lstrip(_UNDER_)
+        t.__name__ = n.lstrip(_UNDER_)
     return inst
 
 
@@ -469,7 +471,7 @@ def exception_chaining(exc=None):
               non-empty value prior to C{import pygeodesy}.
     '''
     return _exception_chaining if exc is None else \
-            getattr(exc, '__cause__', None)
+            getattr(exc, '__cause__', None)  # _DCAUSE_
 
 
 def _incompatible(this):
@@ -504,9 +506,9 @@ def isError(exc):
     def _X(exc):
         X = type(exc)
         m = X.__module__
-        return _MODS.basics.issubclassof(X, *_XErrors) or \
+        return _basics.issubclassof(X, *_XErrors) or \
                ((m is __name__ or m == __name__) and
-               _tailof(X.__name__).startswith(_UNDER_))
+               _tailof(typename(X)).startswith(_UNDER_))
 
     return True   if isinstance(exc, _XErrors)   else (
           _X(exc) if isinstance(exc,  Exception) else None)
@@ -527,23 +529,23 @@ def _IsnotError(*types__, **name_value_Error_cause):  # name=value [, Error=Type
     n, v    = _xkwds_item2(kwds)
 
     n = _streprs.Fmt.PARENSPACED(n, repr(v))
-    t = _not_(_an(_or(*_DUNDER_nameof_(*types__))) if types__ else _specified_)
-    return _XError(E, n, txt=t, cause=x)
+    t = _an(_or(*map(typename, types__, types__))) if types__ else _specified_
+    return _XError(E, n, txt=_not_(t), cause=x)
 
 
 def limiterrors(raiser=None):
     '''Get/set the throwing of L{LimitError}s.
 
-       @kwarg raiser: Choose C{True} to raise or C{False} to
-                      ignore L{LimitError} exceptions.  Use
+       @kwarg raiser: Use C{True} to raise, C{False} to
+                      ignore L{LimitError} exceptions or
                       C{None} to leave the setting unchanged.
 
        @return: Previous setting (C{bool}).
     '''
     global _limiterrors
     t = _limiterrors
-    if raiser in (True, False):
-        _limiterrors = raiser
+    if raiser is not None:
+        _limiterrors = bool(raiser)
     return t
 
 
@@ -576,16 +578,16 @@ def _parseX(parser, *args, **Error_name_values):  # name=value[, ..., Error=Pars
 def rangerrors(raiser=None):
     '''Get/set the throwing of L{RangeError}s.
 
-       @kwarg raiser: Choose C{True} to raise or C{False} to ignore
-                      L{RangeError} exceptions.  Use C{None} to leave
+       @kwarg raiser: Use C{True} to raise or C{False} to ignore
+                      L{RangeError} exceptions or C{None} to leave
                       the setting unchanged.
 
        @return: Previous setting (C{bool}).
     '''
     global _rangerrors
     t = _rangerrors
-    if raiser in (True, False):
-        _rangerrors = raiser
+    if raiser is not None:
+        _rangerrors = bool(raiser)
     return t
 
 
@@ -648,7 +650,7 @@ def _xcallable(**names_callables):
     '''
     for n, c in names_callables.items():
         if not callable(c):
-            raise _TypeError(n, c, txt_not_=callable.__name__)  # txt__
+            raise _TypeError(n, c, txt_not_=typename(callable))  # txt__
 
 
 def _xdatum(datum1, datum2, Error=None):
@@ -685,9 +687,8 @@ def _xellipsoidall(point):  # ... elel, see _xellipsoidal
     m = _MODS.ellipsoidalBase
     ll = isinstance(point, m.LatLonEllipsoidalBase)
     if not ll:
-        b = _MODS.basics
-        b._xinstanceof(m.CartesianEllipsoidalBase,
-                       m.LatLonEllipsoidalBase, point=point)
+        _basics._xinstanceof(m.CartesianEllipsoidalBase,
+                             m.LatLonEllipsoidalBase, point=point)
     return ll
 
 
@@ -734,7 +735,7 @@ def _xError2(exc):  # in .constants, .fsums, .lazily, .vector2d
     elif x is None:
         E = _AssertionError
     else:  # get _Error from Error
-        n =  NN(_UNDER_, _tailof(type(exc).__name__))
+        n =  NN(_UNDER_, _tailof(typename(type(exc))))
         E = _MODS.getattr(__name__, n, _NotImplementedError)
         x =  E is not _NotImplementedError
     return E, (str(exc) if x else repr(exc))
@@ -783,9 +784,9 @@ except AttributeError:
 #     for n, v in kwds.items():
 #         b = getattr(inst, n, None)
 #         if b is None:  # invalid bool attr
-#             t = _SPACE_(_EQUAL_(n, repr(v)), 'for', inst.__class__.__name__)  # XXX .classname
+#             t = _SPACE_(_EQUAL_(n, repr(v)), 'for', typename(type(inst))  # XXX .classname
 #             raise _AttributeError(t, txt_not_='applicable')
-#         if v in (False, True) and v != b:
+#         if _basics.isbool(v) and v != b:
 #             setattr(inst, NN(_UNDER_, n), v)
 
 
@@ -819,7 +820,7 @@ def _xkwds_get(kwds, **name_default):
 #     '''
 #     if not isinstance(kwds, dict):
 #         raise _xAssertionError(_xkwds_get_, kwds)
-#     for n, v in _MODS.basics.itemsorted(names_defaults):
+#     for n, v in _basics.itemsorted(names_defaults):
 #         yield kwds.get(n, v)
 
 
@@ -886,7 +887,7 @@ def _Xorder(_Coeffs, Error, **Xorder):  # in .auxLat, .ktm, .rhumb.bases, .rhumb
     '''(INTERNAL) Validate C{RAorder} or C{TMorder}.
     '''
     X, m = _xkwds_item2(Xorder)
-    if m in _Coeffs and _MODS.basics.isint(m):
+    if m in _Coeffs and _basics.isint(m):
         return m
     t = sorted(map(str, _Coeffs.keys()))
     raise Error(X, m, txt_not_=_or(*t))
@@ -908,9 +909,9 @@ def _xsError(X, xs, i, x, *n, **kwds):  # in .fmath, ._fstats, .fsums
 def _xStrError(*Refs, **name_value_Error):  # in .gars, .geohash, .wgrs
     '''(INTERNAL) Create a C{TypeError} for C{Garef}, C{Geohash}, C{Wgrs}.
     '''
-    S = _MODS.unitsBase.Str
-    r =  tuple(r.__name__ for r in Refs) + (S.__name__, _LatLon_, 'LatLon*Tuple')
-    return _IsnotError(*r, **name_value_Error)
+    s = typename(_MODS.unitsBase.Str)
+    t = tuple(map(typename, Refs)) + (s, _LatLon_, 'LatLon*Tuple')
+    return _IsnotError(*t, **name_value_Error)
 
 # **) MIT License
 #

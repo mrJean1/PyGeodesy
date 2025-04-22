@@ -48,7 +48,7 @@ from pygeodesy.rhumb.bases import RhumbBase, RhumbLineBase, \
 from math import ceil as _ceil, fabs, radians
 
 __all__ = _ALL_LAZY.rhumb_aux_
-__version__ = '25.01.15'
+__version__ = '25.04.12'
 
 # DIGITS = (sizeof(real) * 8) bits
 #        = (ctypes.sizeof(ctypes.c_double(1.0)) * 8) bits
@@ -216,11 +216,11 @@ class RhumbLineAux(RhumbLineBase):
            @kwarg lat1: Latitude of the start point (C{degrees90}).
            @kwarg lon1: Longitude of the start point (C{degrees180}).
            @kwarg azi12: Azimuth of this rhumb line (compass C{degrees}).
-           @kwarg caps_name: Optional keyword arguments C{B{name}=NN} and
-                       C{B{caps}=0}, a bit-or'ed combination of L{Caps}
-                       values specifying the required capabilities.  Include
-                       C{Caps.LINE_OFF} if updates to the B{C{rhumb}} should
-                       I{not} be reflected in this rhumb line.
+           @kwarg caps_name: Optional keyword arguments C{B{name}=NN} and C{B{caps}=0},
+                       a bit-or'ed combination of L{Caps<pygeodesy.karney.Caps>} values
+                       specifying the required capabilities.  Include C{Caps.LINE_OFF}
+                       if updates to the B{C{rhumb}} should I{not be reflected} in this
+                       rhumb line.
         '''
         RhumbLineBase.__init__(self, rhumb, lat1, lon1, azi12, **caps_name)
 
@@ -296,7 +296,7 @@ def _RAintegrate(auxD):
 def _RAseries(auxD):
     # Series expansions in n for Fourier coeffients of the integral
     # @see: U{"Series expansions for computing rhumb areas"
-    #       <https:#DOI.org/10.5281/zenodo.7685484>}.
+    #       <https://DOI.org/10.5281/zenodo.7685484>}.
     d  =  n = auxD._n
     i  =  0
     aL =  auxD.ALorder

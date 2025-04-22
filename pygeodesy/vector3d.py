@@ -8,12 +8,13 @@ L{trilaterate3d2}.
 '''
 
 from pygeodesy.constants import EPS, EPS0, EPS1, EPS4, INT0, isnear0, \
-                               _0_0, _1_0
+                               _0_0, _1_0,  typename
 from pygeodesy.errors import IntersectionError, _ValueError, VectorError, \
                             _xattr, _xError, _xkwds, _xkwds_get, _xkwds_item2
 from pygeodesy.fmath import euclid, fabs, fdot, hypot, sqrt
 # from pygeodesy.fsums import fsum1_  # from _MODS
 # from pygeodesy.formy import _radical2  # _MODS
+# from pygeodesy.internals import typename  # from .constants
 from pygeodesy.interns import _COMMA_, _concentric_, _intersection_, \
                               _near_, _negative_, _no_, _too_
 from pygeodesy.iters import PointsIter,  Fmt
@@ -25,13 +26,13 @@ from pygeodesy.namedTuples import Intersection3Tuple, NearestOn2Tuple, \
 # from pygeodesy.streprs import Fmt  # from .iters
 from pygeodesy.units import _fi_j2, _isDegrees, Radius, Radius_
 from pygeodesy.utily import atan2b, sincos2d
-# import pygeodesy.vector2d as _vector2d  # _MODS.into
+# from pygeodesy import vector2d as _vector2d  # _MODS.into
 from pygeodesy.vector3dBase import Vector3dBase
 
 # from math import fabs, sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '24.11.22'
+__version__ = '25.04.21'
 
 _vector2d = _MODS.into(vector2d=__name__)
 
@@ -529,7 +530,7 @@ def intersection3d3(start1, end1, start2, end2, eps=EPS, useZ=True,
     except (TypeError, ValueError) as x:
         raise _xError(x, start1=start1, end1=end1, start2=start2, end2=end2)
     v = _nVc(v, **_xkwds(Vector_and_kwds, clas=start1.classof,
-                                          name=intersection3d3.__name__))
+                                          name=typename(intersection3d3)))
     return Intersection3Tuple(v, o1, o2)
 
 
@@ -585,7 +586,7 @@ def _intersects2(center1, r1, center2, r2, sphere=True, too_d=None,  # in Cartes
 
     def _nV3(x, y, z):
         v = Vector3d(x, y, z)
-        n = intersections2.__name__
+        n = typename(intersections2)
         return _nVc(v, **_xkwds(clas_Vector_and_kwds, name=n))
 
     def _xV3(c1, u, x, y):
@@ -754,7 +755,7 @@ def nearestOn6(point, points, closed=False, useZ=True, **Vector_and_kwds):  # ep
     r  = _otherV3d(useZ=useZ, point=point)
     D2 = r.equirectangular  # distance squared
 
-    Ps = PointsIter(points, loop=1, name=nearestOn6.__name__)
+    Ps = PointsIter(points, loop=1, name=typename(nearestOn6))
     p1 = c = s = e = _otherV3d(useZ=useZ, i=0, points=Ps[0])
     c2 = D2(c)  # == r.minus(c).length2
 

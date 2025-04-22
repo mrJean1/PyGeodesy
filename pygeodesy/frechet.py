@@ -79,18 +79,20 @@ location and ordering of the points.  Therefore, it is often a better metric
 than the well-known C{Hausdorff} distance, see the L{hausdorff} module.
 '''
 
-# from pygeodesy.basics import isscalar  # from .points
+from pygeodesy.basics import _isin, isscalar,  typename
 from pygeodesy.constants import EPS, EPS1, INF, NINF
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
-from pygeodesy.errors import PointsError, _xattr, _xcallable, _xkwds, _xkwds_get
-import pygeodesy.formy as _formy
-from pygeodesy.interns import NN, _DOT_, _n_, _units_
+from pygeodesy.errors import PointsError, _xattr, _xcallable, \
+                            _xkwds, _xkwds_get
+# from pygeodesy import formy as _formy  # _MODS.into
+# from pygeodesy.internals import typename  # from .basics
+from pygeodesy.interns import _DMAIN_, _DOT_, _n_, NN, _units_
 # from pygeodesy.iters import points2 as _points2  # from .points
-from pygeodesy.lazily import _ALL_LAZY, _FOR_DOCS
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS
 from pygeodesy.named import _name2__, _Named, _NamedTuple, _Pass
 # from pygeodesy.namedTuples import PhiLam2Tuple  # from .points
-from pygeodesy.points import _distanceTo, _fractional, isscalar, PhiLam2Tuple, \
-                              points2 as _points2, radians
+from pygeodesy.points import _distanceTo, _fractional, PhiLam2Tuple, \
+                              points2 as _points2,  radians
 from pygeodesy.props import Property, property_doc_, property_RO
 from pygeodesy.units import FIx, Float, Number_
 from pygeodesy import unitsBase as _unitsBase  # _Str_..., _xUnit, _xUnits
@@ -99,12 +101,14 @@ from collections import defaultdict as _defaultdict
 # from math import radians  # from .points
 
 __all__ = _ALL_LAZY.frechet
-__version__ = '24.12.31'
+__version__ = '25.04.21'
+
+_formy = _MODS.into(formy=__name__)
 
 
 def _fraction(fraction, n):
     f = 1  # int, no fractional indices
-    if fraction in (None, 1):
+    if _isin(fraction, None, 1):
         pass
     elif not (isscalar(fraction) and EPS < fraction < EPS1
                                  and (float(n) - fraction) < n):
@@ -180,7 +184,7 @@ class Frechet(_Named):
         if d and d is not self._datum:  # PYCHOK no cover
             self._datum = _ellipsoidal_datum(d, name=self.name)
 
-    def discrete(self, point2s, fraction=None):
+    def discrete(self, point2s, fraction=None, recursive=False):
         '''Compute the C{forward, discrete Fréchet} distance.
 
            @arg point2s: Second set of points (C{LatLon}[], L{Numpy2LatLon}[],
@@ -189,36 +193,48 @@ class Frechet(_Named):
                             interpolate intermediate B{C{point2s}} or use
                             C{None}, C{0} or C{1} for no intermediate
                             B{C{point2s}} and no I{fractional} indices.
+           @kwarg recursive: Use C{True} for backward compatibility (C{bool})
+                             or with I{fractional} indices.
 
            @return: A L{Frechet6Tuple}C{(fd, fi1, fi2, r, n, units)}.
 
            @raise FrechetError: Insufficient number of B{C{point2s}} or
-                                an invalid B{C{point2}} or B{C{fraction}}.
+                                an invalid B{C{point2}} or B{C{fraction}}
+                                or C{non-B{recursive}} and I{fractional}.
 
            @raise RecursionError: Recursion depth exceeded, see U{sys.getrecursionlimit
-                                  <https://docs.Python.org/3/library/sys.html#sys.getrecursionlimit>}.
+                                  <https://docs.Python.org/3/library/sys.html#sys.getrecursionlimit>},
+                                  only with C{B{recursive}=True}.
         '''
-        return self._discrete(point2s, fraction, self.distance)
+        return self._discrete(point2s, fraction, self.distance, recursive)
 
-    def _discrete(self, point2s, fraction, distance):
-        '''(INTERNAL) Detailed C{discrete} with C{disance}.
+    def _discrete(self, point2s, fraction, distance, recursive):
+        '''(INTERNAL) Detailed C{discrete} with C{distance}.
         '''
         n2, ps2 = self._points2(point2s)
+        n1, ps1 = self._n1, self._ps1
 
         f2 = _fraction(fraction, n2)
-        p2 = self.points_fraction if f2 < EPS1 else self.points_  # PYCHOK expected
+        p2 = self.points_fraction if f2 < EPS1 else self.points_  # PYCHOK attr
 
         f1 = self.fraction
-        p1 = self.points_fraction if f1 < EPS1 else self.points_  # PYCHOK expected
+        p1 = self.points_fraction if f1 < EPS1 else self.points_  # PYCHOK attr
 
         def _dF(fi1, fi2):
-            return distance(p1(self._ps1, fi1), p2(ps2, fi2))
+            return distance(p1(ps1, fi1), p2(ps2, fi2))
 
         try:
-            return _frechet_(self._n1, f1, n2, f2, _dF, self.units)
+            if recursive or not f1 == f2 == 1:
+                t = _frechetR(n1, f1, n2, f2, _dF, self.units)
+            else:  # elif f1 == f2 == 1:
+                t = _frechetDP(n1, n2, _dF, self.units, False)
+#           else:
+#               f = fraction or self.fraction
+#               raise FrechetError(fraction=f, txt='non-recursive')
         except TypeError as x:
-            t = _DOT_(self.classname, self.discrete.__name__)
+            t = _DOT_(self.classname, typename(self.discrete))
             raise FrechetError(t, cause=x)
+        return t
 
     def distance(self, point1, point2):
         '''Return the distance between B{C{point1}} and B{C{point2s}},
@@ -293,7 +309,7 @@ class Frechet(_Named):
 
            @return: The interpolated, converted, intermediate B{C{points[fi]}}.
         '''
-        return self.point(_fractional(points, fi, None, wrap=None))  # was=self.wrap
+        return self.point(_fractional(points, fi, None, wrap=None, dup=True))  # was=self.wrap
 
     def _points2(self, points):
         '''(INTERNAL) Check a set of points, overloaded in L{FrechetDistanceTo}.
@@ -368,15 +384,16 @@ class _FrechetMeterRadians(Frechet):
     _units  = _unitsBase._Str_meter
     _units_ = _unitsBase._Str_radians
 
-    def discrete(self, point2s, fraction=None):
+    def discrete(self, point2s, fraction=None, recursive=False):
         '''Overloaded method L{Frechet.discrete} to determine
            the distance function and units from the optional
            keyword arguments given at this instantiation, see
            property C{kwds}.
 
-           @see: L{Frechet.discrete} for other details.
+           @see: Method L{Frechet.discrete} for other details.
         '''
-        return self._discrete(point2s, fraction, _formy._radistance(self))
+        _rad = _formy._radistance(self)
+        return self._discrete(point2s, fraction, _rad, recursive)
 
     @Property
     def _func_(self):  # see _formy._radistance
@@ -651,124 +668,15 @@ class FrechetThomas(_FrechetMeterRadians):
         discrete = Frechet.discrete
 
 
-class FrechetVincentys(_FrechetMeterRadians):
-    '''Compute the C{Frechet} distance with function L{pygeodesy.vincentys_}.
-
-       @note: See note at function L{pygeodesy.vincentys_}.
-    '''
-    def __init__(self, point1s, **fraction_name__radius_wrap):
-        '''New L{FrechetVincentys} calculator/interpolator.
-
-           @kwarg fraction_name__radius_wrap: Optional C{B{fraction}=None}
-                                 and C{B{name}=NN} and keyword arguments
-                                 for function L{pygeodesy.vincentys}.
-
-           @see: L{Frechet.__init__} for details about B{C{point1s}},
-                 B{C{fraction}}, B{C{name}} and other exceptions.
-        '''
-        Frechet.__init__(self, point1s, **fraction_name__radius_wrap)
-        self._func  = _formy.vincentys
-        self._func_ = _formy.vincentys_
-
-    if _FOR_DOCS:
-        discrete = Frechet.discrete
-
-
-def _frechet_(ni, fi, nj, fj, dF, units):  # MCCABE 14
-    '''(INTERNAL) Recursive core of function L{frechet_}
-       and method C{discrete} of C{Frechet...} classes.
-    '''
-    iFs = {}
-
-    def iF(i):  # cache index, depth ints and floats
-        return iFs.setdefault(i, i)
-
-    cF = _defaultdict(dict)
-
-    def _rF(i, j, r):  # recursive Fréchet
-        i = iF(i)
-        j = iF(j)
-        try:
-            t = cF[i][j]
-        except KeyError:
-            r = iF(r + 1)
-            try:
-                if i > 0:
-                    if j > 0:
-                        t = min(_rF(i - fi, j,      r),
-                                _rF(i - fi, j - fj, r),
-                                _rF(i,      j - fj, r))
-                    elif j < 0:
-                        raise IndexError
-                    else:  # j == 0
-                        t = _rF(i - fi, 0, r)
-                elif i < 0:
-                    raise IndexError
-
-                elif j > 0:  # i == 0
-                    t = _rF(0, j - fj, r)
-                elif j < 0:  # i == 0
-                    raise IndexError
-                else:  # i == j == 0
-                    t = (NINF, i, j, r)
-
-                d = dF(i, j)
-                if d > t[0]:
-                    t = (d, i, j, r)
-            except IndexError:
-                t = (INF, i, j, r)
-            cF[i][j] = t
-        return t
-
-    t  = _rF(ni - 1, nj - 1, 0)
-    t += (sum(map(len, cF.values())), units)
-#   del cF, iFs
-    return Frechet6Tuple(t)  # *t
-
-
-def frechet_(point1s, point2s, distance=None, units=NN):
-    '''Compute the I{discrete} U{Fréchet<https://WikiPedia.org/wiki/Frechet_distance>}
-       distance between two paths, each given as a set of points.
-
-       @arg point1s: First set of points (C{LatLon}[], L{Numpy2LatLon}[],
-                     L{Tuple2LatLon}[] or C{other}[]).
-       @arg point2s: Second set of points (C{LatLon}[], L{Numpy2LatLon}[],
-                     L{Tuple2LatLon}[] or C{other}[]).
-       @kwarg distance: Callable returning the distance between a B{C{point1s}}
-                        and a B{C{point2s}} point (signature C{(point1, point2)}).
-       @kwarg units: Optional, the distance units (C{Unit} or C{str}).
-
-       @return: A L{Frechet6Tuple}C{(fd, fi1, fi2, r, n, units)} where C{fi1}
-                and C{fi2} are type C{int} indices into B{C{point1s}} respectively
-                B{C{point2s}}.
-
-       @raise FrechetError: Insufficient number of B{C{point1s}} or B{C{point2s}}.
-
-       @raise RecursionError: Recursion depth exceeded, see U{sys.getrecursionlimit()
-                              <https://docs.Python.org/3/library/sys.html#sys.getrecursionlimit>}.
-
-       @raise TypeError: If B{C{distance}} is not a callable.
-
-       @note: Function L{frechet_} does I{not} support I{fractional} indices
-              for intermediate B{C{point1s}} and B{C{point2s}}.
-    '''
-    _xcallable(distance=distance)
-
-    n1, ps1 = _points2(point1s, closed=False, Error=FrechetError)
-    n2, ps2 = _points2(point2s, closed=False, Error=FrechetError)
-
-    def _dF(i1, i2):
-        return distance(ps1[i1], ps2[i2])
-
-    return _frechet_(n1, 1, n2, 1, _dF, units)
-
-
 class Frechet6Tuple(_NamedTuple):
     '''6-Tuple C{(fd, fi1, fi2, r, n, units)} with the I{discrete}
        U{Fréchet<https://WikiPedia.org/wiki/Frechet_distance>} distance
        C{fd}, I{fractional} indices C{fi1} and C{fi2} as C{FIx}, the
        recursion depth C{r}, the number of distances computed C{n} and
-       the L{units} class or class or name of the distance C{units}.
+       the L{units} class or name of the distance C{units}.
+
+       Empirically, the recursion depth C{r ≈ 2 * sqrt(len(point1s) *
+       len(point2s))} or C{0} if non-recursive, see function L{frechet_}.
 
        If I{fractional} indices C{fi1} and C{fi2} are C{int}, the
        returned C{fd} is the distance between C{point1s[fi1]} and
@@ -796,6 +704,205 @@ class Frechet6Tuple(_NamedTuple):
 #   def __lt__(self, other):
 #       _xinstanceof(Frechet6Tuple, other=other)
 #       return self if self.fd < other.fd else other  # PYCHOK .fd=[0]
+
+
+class FrechetVincentys(_FrechetMeterRadians):
+    '''Compute the C{Frechet} distance with function L{pygeodesy.vincentys_}.
+
+       @note: See note at function L{pygeodesy.vincentys_}.
+    '''
+    def __init__(self, point1s, **fraction_name__radius_wrap):
+        '''New L{FrechetVincentys} calculator/interpolator.
+
+           @kwarg fraction_name__radius_wrap: Optional C{B{fraction}=None}
+                                 and C{B{name}=NN} and keyword arguments
+                                 for function L{pygeodesy.vincentys}.
+
+           @see: L{Frechet.__init__} for details about B{C{point1s}},
+                 B{C{fraction}}, B{C{name}} and other exceptions.
+        '''
+        Frechet.__init__(self, point1s, **fraction_name__radius_wrap)
+        self._func  = _formy.vincentys
+        self._func_ = _formy.vincentys_
+
+    if _FOR_DOCS:
+        discrete = Frechet.discrete
+
+
+def frechet_(point1s, point2s, distance=None, units=NN, recursive=False):
+    '''Compute the I{discrete} U{Fréchet<https://WikiPedia.org/wiki/Frechet_distance>}
+       distance between two paths, each given as a set of points.
+
+       @arg point1s: First set of points (C{LatLon}[], L{Numpy2LatLon}[],
+                     L{Tuple2LatLon}[] or C{other}[]).
+       @arg point2s: Second set of points (C{LatLon}[], L{Numpy2LatLon}[],
+                     L{Tuple2LatLon}[] or C{other}[]).
+       @kwarg distance: Callable returning the distance between a B{C{point1s}}
+                        and a B{C{point2s}} point (signature C{(point1, point2)}).
+       @kwarg units: Optional, the distance units (C{Unit} or C{str}).
+       @kwarg recursive: Use C{True} for backward compatibility (C{bool}).
+
+       @return: A L{Frechet6Tuple}C{(fd, fi1, fi2, r, n, units)} where C{fi1}
+                and C{fi2} are type C{int} indices into B{C{point1s}} respectively
+                B{C{point2s}}.
+
+       @raise FrechetError: Insufficient number of B{C{point1s}} or B{C{point2s}}.
+
+       @raise RecursionError: Recursion depth exceeded, see U{sys.getrecursionlimit()
+                              <https://docs.Python.org/3/library/sys.html#sys.getrecursionlimit>},
+                              only with C{B{recursive}=True}.
+
+       @raise TypeError: If B{C{distance}} is not a callable.
+
+       @note: Function L{frechet_} does I{not} support I{fractional} indices for intermediate
+              B{C{point1s}} and B{C{point2s}}.
+
+       @see: Non-recursive U{dp_frechet_dist
+             <https://GitHub.com/cjekel/similarity_measures/issues/6#issuecomment-544350039>}.
+    '''
+    _xcallable(distance=distance)
+
+    n1, ps1 = _points2(point1s, closed=False, Error=FrechetError)
+    n2, ps2 = _points2(point2s, closed=False, Error=FrechetError)
+
+    def _dF(i1, i2):
+        return distance(ps1[i1], ps2[i2])
+
+    if recursive:
+        t = _frechetR(n1, 1, n2, 1, _dF, units)
+    else:
+        s = n1 < n2
+        if s:  # n2, ps2 as shortest
+            n1, ps1, n2, ps2 = n2, ps2, n1, ps1
+        t = _frechetDP(n1, n2, _dF, units, s)
+    return t
+
+
+def _frechet3(r, t, s):  # return tuple r if equal
+    if s[0] < r[0]:
+        r = s
+    return t if t[0] < r[0] else r
+
+
+def _frechetDP(ni, nj, dF, units, swap):
+    '''(INTERNAL) DP core of function L{frechet_} and
+       method C{discrete} of C{Frechet...} classes.
+    '''
+    def _max2(r, *t):  # return tuple r if equal
+        return t if t[0] > r[0] else r
+
+    _min3 = _frechet3
+
+    d = dF(0, 0)
+    t = (d, 0, 0)
+    r = [t] * nj  # nj-list of 3-tuples
+    for j in range(1, nj):
+        d = max(d, dF(0, j))
+        r[j] = (d, 0, j)
+    for i in range(1, ni):
+        t1j1 = r[0]  # == r[i-1][0]
+        r[0] = t = _max2(t1j1, dF(i, 0), i, 0)
+        for j in range(1, nj):
+            t1j  =  r[j]  # == r[i-1][j]
+            t    = _min3(t1j, t, t1j1)  # == r[i-1][j-1]
+            r[j] =  t = _max2(t, dF(i, j), i, j)
+            t1j1 =  t1j
+    d, i, j = t  # == r[nj-1]
+    if swap:
+        i, j = j, i
+#   del r
+    return Frechet6Tuple(d, i, j, 0, (ni * nj), units)
+
+
+def _frechetR(ni, fi, nj, fj, dF, units):  # MCCABE 14
+    '''(INTERNAL) Recursive core of function L{frechet_}
+       and method C{discrete} of C{Frechet...} classes.
+    '''
+    class iF(dict):  # index, depth ints and floats cache
+        def __call__(self, i):
+            return dict.setdefault(self, i, i)
+
+    _min3 = _frechet3
+
+    iF =  iF()  # PYCHOK once
+    tF = _defaultdict(dict)  # tuple[i][j]
+
+    def _rF(i, j, r):  # recursive Fréchet
+        i = iF(i)
+        j = iF(j)
+        try:
+            return tF[i][j]
+        except KeyError:
+            pass
+        r = iF(r + 1)
+        try:
+            if i > 0:
+                if j > 0:
+                    t = _min3(_rF(i - fi, j,      r),
+                              _rF(i - fi, j - fj, r),
+                              _rF(i,      j - fj, r))
+                elif j < 0:
+                    raise IndexError
+                else:  # j == 0
+                    t = _rF(i - fi, 0, r)
+            elif i < 0:
+                raise IndexError
+
+            elif j > 0:  # i == 0
+                t = _rF(0, j - fj, r)
+            elif j < 0:  # i == 0
+                raise IndexError
+            else:  # i == j == 0
+                t = (NINF, i, j, r)
+
+            d = dF(i, j)
+            if d > t[0]:
+                t = (d, i, j, r)
+        except IndexError:
+            t = (INF, i, j, r)
+        tF[i][j] = t
+        return t
+
+    d, i, j, r = _rF(ni - 1, nj - 1, 0)
+    n = sum(map(len, tF.values()))  # (ni * nj) <= n < (ni * nj * 2)
+#   del iF, tF
+    return Frechet6Tuple(d, i, j, r, n, units)
+
+
+if __name__ == _DMAIN_:
+
+    def _main():
+        from time import time
+        from pygeodesy import euclid, printf  # randomrangenerator
+        _r = range  # randomrangenerator('R')
+
+        def _d(p1, p2):
+            return euclid(p1[0] - p2[0], p1[1] - p2[1])
+
+        p1 = tuple(zip(_r(-90, 90, 4), _r(-180, 180, 8)))  # 45
+        p2 = tuple(zip(_r(-89, 90, 3), _r(-179, 180, 6)))  # 60
+        ss = []
+        for r, u in ((True, 'R'), (False, 'DP')):
+            s = time()
+            t = frechet_(p1, p2, _d, recursive=r, units=u)
+            s = time() - s
+            printf('# %r in %.3f ms', t, (s * 1e3))
+            ss.append(s)
+
+        from pygeodesy.internals import _versions
+        printf('# %s  %.2fX', _versions(), (ss[0] / ss[1]))
+
+    _main()
+
+# % python3.13 -m pygeodesy.frechet
+# Frechet6Tuple(fd=3.828427, fi1=2, fi2=3, r=99, n=2700, units='R') in 3.575 ms
+# Frechet6Tuple(fd=3.828427, fi1=2, fi2=3, r=0, n=2700, units='DP') in 0.704 ms
+# pygeodesy 25.4.25 Python 3.13.3 64bit arm64 macOS 15.4.1  5.08X
+
+# % python2.7 -m pygeodesy.frechet
+# Frechet6Tuple(fd=3.828427, fi1=2, fi2=3, r=99, n=2700, units='R') in 7.030 ms
+# Frechet6Tuple(fd=3.828427, fi1=2, fi2=3, r=0, n=2700, units='DP') in 1.536 ms
+# pygeodesy 25.4.25 Python 2.7.18 64bit arm64_x86_64 macOS 10.16  4.58X
 
 # **) MIT License
 #

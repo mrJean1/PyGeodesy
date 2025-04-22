@@ -16,10 +16,12 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 
 # from pygeodesy import auxilats  # _MODS
 from pygeodesy.auxilats._CX_Rs import _Rkey
+from pygeodesy.basics import _isin,  typename
 from pygeodesy.constants import INF, NAN, isinf, isnan, _0_0, _0_5, _1_0, \
                                _copysign_1_0, _over, _1_over
 from pygeodesy.errors import AuxError
 from pygeodesy.fmath import hypot1 as _sc, hypot2_
+# from pygeodesy.internals import typename  # from .basics
 from pygeodesy.interns import NN,  _DOT_, _UNDER_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS,  _ALL_MODS as _MODS  # PYCHOK used!
 from pygeodesy.utily import atan1
@@ -27,7 +29,7 @@ from pygeodesy.utily import atan1
 from math import asinh, copysign
 
 __all__ = ()
-__version__ = '25.01.15'
+__version__ = '25.04.14'
 
 
 class Aux(object):
@@ -58,7 +60,7 @@ class Aux(object):
             _coeffs = Aux._coeffs[aL]
         except KeyError:
             try:  # from pygeodesy.auxilats._CX_x import _coeffs_x as _coeffs
-                _CX_x   = _DOT_(_MODS.auxilats.__name__, _UNDER_('_CX', aL))
+                _CX_x   = _DOT_(typename(_MODS.auxilats), _UNDER_('_CX', aL))
                 _coeffs = _MODS.getattr(_CX_x, _UNDER_('_coeffs', aL))
             except (AttributeError, ImportError, KeyError, TypeError) as x:
                 raise AuxError(ALorder=aL, cause=x)
@@ -92,7 +94,7 @@ class Aux(object):
         return (auxout - auxin) if max(auxin, auxout) < Aux.MU else None
 
     def use_n2(self, aux):
-        return aux not in (Aux.CHI, Aux.XI)
+        return not _isin(aux, Aux.CHI, Aux.XI)
 
 Aux = Aux()  # PYCHOK singleton
 

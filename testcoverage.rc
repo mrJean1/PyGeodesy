@@ -1,6 +1,6 @@
 
 # python -m coverage html --rcfile=testcoverage.rc --title="..."
-# __version__ = '24.09.28'
+# __version__ = '25.04.12'
 
 [run]
 branch = True
@@ -14,6 +14,7 @@ exclude_lines =
     \sraise\s
     if False:
     if __name__ == .__main__.:
+    if __name__ == _DMAIN_:
     if _FOR_DOCS:
 
 include =

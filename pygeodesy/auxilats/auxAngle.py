@@ -32,7 +32,7 @@ from pygeodesy.utily import atan2, atan2d, sincos2, sincos2d
 from math import asinh, copysign, degrees, fabs, radians, sinh
 
 __all__ = ()
-__version__ = '24.11.24'
+__version__ = '25.04.14'
 
 _0_INF_NAN_NINF = (0, _0_0) + _INF_NAN_NINF
 _MAX_2          =  MAX * _0_5  # PYCHOK used!
@@ -207,7 +207,7 @@ class AuxAngle(_Named):
     def _copy_2(self, which):
         '''(INTERNAL) Copy for I{dyadic} operators.
         '''
-        return _Named.copy(self, deep=False, name=which.__name__)
+        return _Named.copy(self, deep=False, name__=which)
 
     def _copy_r2(self, other, which):
         '''(INTERNAL) Copy for I{reverse-dyadic} operators.

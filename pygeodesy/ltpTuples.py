@@ -22,7 +22,7 @@ from pygeodesy.interns import NN, _4_, _azimuth_, _center_, _COMMASPACE_, \
                              _ltp_, _M_, _name_, _up_, _X_, _x_, _xyz_, \
                              _Y_, _y_, _z_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
-# from pygeodesy.ltp import Attitude, ChLV, ChLVa, ChLVe, _xLtp  # _MODS
+# from pygeodesy.ltp Attitude, ChLV, ChLVa, ChLVe _Xltp  # _MODS.into
 from pygeodesy.named import _name__, _name1__, _name2__, _NamedBase, \
                             _NamedTuple, _Pass, _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, PhiLam2Tuple, Vector3Tuple
@@ -176,7 +176,7 @@ class _Abc4Tuple(_NamedTuple):
         elif Cls is Local9Tuple:  # PYCHOK no cover
             r = self.xyzLocal.toLocal9Tuple(**kwds)
         else:  # PYCHOK no cover
-            n = Abc.__name__[:3]
+            n = Abc.__name__[:3]  # typename
             raise _TypesError(n, Cls, Aer, Enu, Ned, XyzLocal)
         return r
 

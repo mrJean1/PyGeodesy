@@ -30,13 +30,14 @@ and line number.
 from pygeodesy import internals as _internals, interns as _interns, \
                      _isfrozen  # DON'T _lazy_import2
 # from pygeodesy.errors import _error_init, _xkwds_item2  # _ALL_MODS
-from pygeodesy.internals import _caller3, _DUNDER_nameof, _getPYGEODESY, _headof, \
-                                _is_DUNDER_main, printf, _tailof, _versions
-from pygeodesy.interns import NN, _1_, _attribute_, _by_, _COLONSPACE_, _COMMASPACE_, \
-                             _doesn_t_exist_, _DOT_, _DUNDER_all_, _EQUALSPACED_, \
-                             _from_, _HASH_, _immutable_, _line_, _module_, _no_, \
-                             _not_, _or_, _pygeodesy_abspath_, _pygeodesy_,  _sys, \
-                             _SUB_PACKAGES, _UNDER_, _version_,  _intern  # function
+from pygeodesy.internals import _caller3, _envPYGEODESY, _headof, printf, _tailof, \
+                                 typename, _versions  # _getenv, _PYGEODESY_ENV, \
+#                               _MODS_Base, _MODS.sys_version_info2
+from pygeodesy.interns import _attribute_, _by_, _COLONSPACE_, _COMMASPACE_, _DALL_, \
+                              _DMAIN_, _doesn_t_exist_, _DOT_, _EQUALSPACED_, _from_, \
+                              _immutable_, _line_, _module_, NN, _no_, _not_, _or_, \
+                              _pygeodesy_, _pygeodesy_abspath_, _SPACE_, _SUB_PACKAGES, \
+                              _UNDER_, _version_,  _sys, _intern  # function, _1_, _HASH_
 try:
     from importlib import import_module
 except ImportError as x:  # Python 2.6-
@@ -45,12 +46,12 @@ except ImportError as x:  # Python 2.6-
 
 _a0                = ()  # PYCHOK empty tuple
 _asSPACED_         = ' as '
-_FOR_DOCS          = _getPYGEODESY('FOR_DOCS')  # for epydoc ...
-_init__all__       = _FOR_DOCS or _getPYGEODESY('_init__all__', _DUNDER_all_) == _DUNDER_all_  # PYCHOK exported
+_FOR_DOCS          = _envPYGEODESY('FOR_DOCS')  # for epydoc ...
+_init__all__       = _FOR_DOCS or _envPYGEODESY('_init__all__', _DALL_) == _DALL_  # PYCHOK exported
 _lazily_           = 'lazily'
 _PYTHON_X_DEV      =  getattr(_sys.flags, 'dev_mode', False)  # PYCHOK Python 3.2+
 _unlazy = _unLazy0 = _isfrozen or _internals._MODS.sys_version_info2 < (3, 7)  # PYCHOK mod.__getattr__ 3.7+
-_WARNINGS_X_DEV    = _getPYGEODESY('WARNINGS') and (_PYTHON_X_DEV or bool(_sys.warnoptions))  # PYCHOK .props
+_WARNINGS_X_DEV    = _envPYGEODESY('WARNINGS') and (_PYTHON_X_DEV or bool(_sys.warnoptions))  # PYCHOK .props
 
 # @module_property[_RO?] <https://GitHub.com/jtushman/proxy_tools/> <https://discuss.Python.org/t/47379>
 isLazy = None  # see @var isLazy in .__init__
@@ -93,18 +94,18 @@ class _Dict(dict):
            @raise AssertionError: The B{C{name}} already exists
                                   with a different B{C{mod_}}.
         '''
-        if name in self:  # PYCHOK no cover
+        try:
             sub = self[name]  # duplicate OK
             if sub != mod_ and sub not in subs:
                 t = _DOT_(self._name, name)
                 t = _COLONSPACE_(t,       repr(sub))
                 t = _COMMASPACE_(t, _not_(repr(mod_)))
                 raise AssertionError(t)
-        else:
+        except KeyError:
             self[name] = mod_
 
     def _NAME(self, which):
-        self._name = _intern(_DUNDER_nameof(which).upper())
+        self._name = _intern(typename(which).upper())
 
 
 class _NamedEnum_RO(dict):
@@ -429,7 +430,7 @@ class _ALL_MODS(_internals._MODS_Base):
             v = _lazy_dict[name]  # package.__dict__
         except KeyError:
             v = _lazy_module(name)  # package.__getattr__
-            if _tailof(_DUNDER_nameof(v)) != name:
+            if _tailof(typename(v)) != name:
                 try:
                     v = getattr(v, _tailof(name))
                 except AttributeError:
@@ -463,7 +464,7 @@ class _ALL_MODS(_internals._MODS_Base):
 
            @raise ImportError: Importing module B{C{name}} failed.
         '''
-        if _headof(name) != parent and not _is_DUNDER_main(name):
+        if _headof(name) != parent and name != _DMAIN_:
             name = _DOT_(parent, name)
         try:
             return _sys.modules[name]
@@ -475,14 +476,14 @@ class _ALL_MODS(_internals._MODS_Base):
         '''
         return _sys.modules.get(name, None)
 
-    def into(self, **mod_DUNDER_name):
-        '''Lazily import module C{mod} into module C{DUNDER_name}
-           and set C{DUNDER_name._mod} to module C{mod}, I{once}.
+    def into(self, **mod_DNAME):
+        '''Lazily import module C{mod} into module C{_DNAME_}
+           and set C{_DNAME_._mod} to module C{mod}, I{once}.
         '''
         class _Into(object):
 
             def __getattr__(unused, name):
-                mod, dun = self.errors._xkwds_item2(mod_DUNDER_name)
+                mod, dun = self.errors._xkwds_item2(mod_DNAME)
                 _mod = _UNDER_(NN, mod)
                 d =  self.getmodule(dun)  # '__main__' OK
                 i = _getmodattr(d, _mod, dun)
@@ -509,14 +510,14 @@ class _ALL_MODS(_internals._MODS_Base):
 _internals._MODS = _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '25.01.25'
+__version__ = '25.04.21'
 
 
 def _ALL_OTHER(*objs):
     '''(INTERNAL) Get class and function B{C{objs}} for __all__.
     '''
     def _interned(o):  # intern'd base name
-        n = _tailof(_DUNDER_nameof(o))
+        n = _tailof(typename(o))
         i =  NN(_UNDER_, n, _UNDER_)  # intern'd
         return getattr(_interns, i, n)
 
@@ -536,12 +537,12 @@ else:
 
 
 def _all_deprecates():
-    '''(INTERNAL) Build C{dict} of all deprecated imports.
+    '''(INTERNAL) Build C{dict} of all deprecated imports and attributes.
     '''
-    _D = _ALL_DEPRECATES
-    if not _D:
-        _ALL_DEPRECATED.fill_D(_D, _all_deprecates)  # see _all_imports()
-    return _D
+    D = _ALL_DEPRECATES
+    if not D:
+        _ALL_DEPRECATED.fill_D(D, _all_deprecates)  # see _all_imports()
+    return D
 
 _ALL_DEPRECATES = _Dict()  # PYCHOK _ALL_DEPRECATED.imports()
 
@@ -565,10 +566,10 @@ def _all_imports():
     #  from <module> import <attr>            - [<attr>] = <module>
     #  from pygeodesy import <attr>           - [<attr>] = <attr>
     #  from <module> import <attr> as <name>  - [<name>] = <module>.<attr>.
-    _D = _ALL_IMPORTS
-    if not _D:
-        _ALL_LAZY.fill_D(_D, _all_imports)  # see _all_deprecates()
-    return _D
+    D = _ALL_IMPORTS
+    if not D:
+        _ALL_LAZY.fill_D(D, _all_imports)  # see _all_deprecates()
+    return D
 
 _ALL_IMPORTS = _Dict()  # PYCHOK _ALL_LAZY.imports()
 
@@ -582,7 +583,7 @@ def _all_missing2(_all_):
     _alzy = _Dict((a, a) for a in _ALL_INIT)
     _alzy.update(_all_imports())  # without _all_backups!
     return ((_DOT_(_lazily_, _all_imports.__name__),  _diff(_all_, _alzy)),
-            (_DOT_(_pygeodesy_, _DUNDER_all_), _diff(_alzy.keys(), _all_)))
+            (_DOT_(_pygeodesy_, _DALL_), _diff(_alzy.keys(), _all_)))
 
 
 def _getattras(attr_as):  # test/testDeprecated
@@ -656,19 +657,16 @@ def _lazy_import2(pack):  # MCCABE 14
 
        @see: The original U{modutil<https://PyPI.org/project/modutil>},
              U{PEP 562<https://www.Python.org/dev/peps/pep-0562>} and the
-             U{new way<https://Snarky.Ca/lazy-importing-in-python-3-7/>}.
+             U{new way<https://Snarky.CA/lazy-importing-in-python-3-7/>}.
     '''
-    _DOT_   = _interns._DOT_
-    _SPACE_ = _interns._SPACE_
-
     if pack != _pygeodesy_ or _unlazy:  # Python 3.7+ # PYCHOK no cover
-        t = _DOT_(pack, _DUNDER_nameof(_lazy_import2))
+        t = _DOT_(pack, typename(_lazy_import2))
         raise LazyImportError(_no_(t), txt=_versions())
 
     package, parent   = _lazy_init2(pack)  # _pygeodesy_
 
-    _DUNDER_package_  = '__package__'
-    _lazily_imported_ = _SPACE_(_HASH_, _lazily_, 'imported', parent)
+    _DPACKAGE_        = '__package__'
+    _lazily_imported_ = _SPACE_(_interns._HASH_, _lazily_, 'imported', parent)
 
     sub_packages =  set((parent, NN) + tuple(
                    _DOT_(parent, s) for s in _SUB_PACKAGES))
@@ -687,13 +685,13 @@ def _lazy_import2(pack):  # MCCABE 14
             else:  # from mod import name
                 attr = name
             v = _getmodule(_DOT_(pack, mod), parent)
-            t =  getattr(v, _DUNDER_package_, None)
+            t =  getattr(v, _DPACKAGE_, None)
             if t not in sub_packages:  # invalid module package
-                raise LazyImportError(_DOT_(mod, _DUNDER_package_), t)
+                raise LazyImportError(_DOT_(mod, _DPACKAGE_), t)
             if attr:  # get mod.attr
                 v = _getmodattr(v, attr, mod)
 
-        elif name in (_DUNDER_all_,):  # XXX _DUNDER_dir_, _DUNDER_members_?
+        elif name in (_DALL_,):  # XXX _Ddir_, _Dmembers_?
             v = _ALL_INIT + tuple(imports.keys())
         else:  # PYCHOK no cover
             t = _no_(_module_, _or_, _attribute_)
@@ -722,18 +720,18 @@ def _lazy_import2(pack):  # MCCABE 14
     return package, __getattr__  # _lazy_import2
 
 
-# def _lazy_import_all(DUNDER_name):
+# def _lazy_import_all(Dname):
 #     '''(INTERNAL) Return a function mimicking C{from B{__name__} import *},
 #        of all items, see .deprecated.__init__
 #     '''
 #     if _unlazy:
-#         raise AssertionError(_COMMASPACE_(DUNDER_name, _not_(_DEPRECATED_)))
+#         raise AssertionError(_COMMASPACE_(Dname, _not_(_DEPRECATED_)))
 #
-#     _getattr = _lazy_attributes(DUNDER_name)  # __name__.__getattr__
-#     _import_start = _lazy_import_star(DUNDER_name, ALL_=_ALL_IMPORTS)
+#     _getattr = _lazy_attributes(Dname)  # __name__.__getattr__
+#     _import_start = _lazy_import_star(Dname, ALL_=_ALL_IMPORTS)
 #
 #     def _import_all(attr, *dflt):
-#         return _import_star(DUNDER_name) if attr == _DUNDER_all_ else \
+#         return _import_star(Dname) if attr == _DALL_ else \
 #                _getattr(attr, *dflt)
 #
 #     return _import_all
@@ -799,15 +797,15 @@ def _lazy_init2(pack):
     '''
     global isLazy, _unLazy0
 
-    z = _getPYGEODESY('LAZY_IMPORT', _1_)  # 1 default on 3.7+
+    E = _internals._PYGEODESY_ENV('LAZY_IMPORT')
+    z = _internals._getenv(E, _interns._1_)  # 1 default on 3.7+
     z =  z.strip()  # like PYTHONVERBOSE et.al.
     isLazy = int(z) if z.isdigit() else (1 if z else 0)
 
     _unLazy0 = _unlazy or not isLazy  # pre-3.7 or w/o lazy import
 
     if isLazy < 1:  # invalid, not enabled
-        e = _internals._PYGEODESY('LAZY_IMPORT')
-        raise LazyImportError(e, repr(z), txt_not_='enabled')
+        raise LazyImportError(E, repr(z), txt_not_='enabled')
     if _sys.flags.verbose:  # PYCHOK no cover
         isLazy += 1
 
@@ -820,7 +818,7 @@ def _lazy_init2(pack):
 
     except (AttributeError, ImportError) as x:
         isLazy = False  # failed
-        z = _DUNDER_nameof(_lazy_init2)
+        z = typename(_lazy_init2)
         raise LazyImportError(z, pack, cause=x)
 
     return package, parent
@@ -837,23 +835,22 @@ def _lazy_module(name):  # overwritten by _lazy_import2
     return m
 
 
-# def _lazy_subs(DUNDER_name, force=_FOR_DOCS, over=False):
-#     '''(INTERNAL) Return the names of a package's sub-packages and
-#        update the package's C{__dict__} accordingly.
+# def _lazy_subs(__name__, force=_FOR_DOCS, over=False):
+#     '''(INTERNAL) Return the names of a __name__ package's sub-packages
+#        and update the package's C{__dict__} accordingly.
 #     '''
 #     sm = dict()
-#     if force and not _is_DUNDER_main(DUNDER_name):
-#         nm = _tailof(DUNDER_name)
+#     if force and __name__ != _DMAIN_:
+#         nm = _tailof(__name__)
 #         _a = _ALL_MODS.getattr
 #         _m = _ALL_MODS.getmodule
-#         d  = _a(DUNDER_name, _DUNDER_dict_, {})
-#         for n in _a(DUNDER_name, _DUNDER_all_, ()):
+#         d  = _a(__name__, _DDICT_, {})
+#         for n in _a(__name__, _DALL_, ()):
 #             try:  # n is a class name, get its mod name
-#                 m = _a(DUNDER_name, n).__module__
+#                 m = _a(__name__, n).__module__
 #                 n, s = m.split(_DOT_)[-2:]
 #                 if n == nm and s not in sm:
-#                     # like  import m as s
-#                     m = _m(m)
+#                     m = _m(m)  # == import m as s
 #                     sm[s] = m if over else d.get(s, m)
 #             except (AttributeError, ImportError, ValueError) as x:
 #                 pass
@@ -861,9 +858,8 @@ def _lazy_module(name):  # overwritten by _lazy_import2
 #
 #     return _ALL_OTHER(*sm.values())
 
-# del _a, _a0
 
-if _is_DUNDER_main(__name__):  # PYCHOK no cover
+if __name__ == _DMAIN_:
 
     def _main():
         from timeit import timeit
@@ -879,11 +875,17 @@ if _is_DUNDER_main(__name__):  # PYCHOK no cover
 
         t1 =  timeit(t1, number=1000000)
         t2 =  timeit(t2, number=1000000)
-        A  = _DUNDER_nameof(_ALL_MODS.__class__)
+        A  =  typename(_ALL_MODS)
         v  = _versions()
         printf('%.6f import vs %.6f %s: %.2fX, %s', t1, t2, A, (t1 / t2), v)
 
     _main()
+
+# % python3.13 -W ignore -m pygeodesy.lazily
+# 0.054235 import vs 0.052469 _ALL_MODS: 1.03X, pygeodesy 25.4.24 Python 3.13.3 64bit arm64 macOS 15.4
+
+# % python2 -m pygeodesy.lazily
+# 0.653715 import vs 0.321318 _ALL_MODS: 2.03X, pygeodesy 25.4.24 Python 2.7.18 64bit arm64_x86_64 macOS 10.16
 
 # % python3.13 -W ignore -m pygeodesy.lazily
 # 0.106602 import vs 0.078136 _ALL_MODS: 1.36X, pygeodesy 24.10.24 Python 3.13.0 64bit arm64 macOS 14.6.1

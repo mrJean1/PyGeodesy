@@ -9,21 +9,21 @@ from pygeodesy.lazily import _ALL_DEPRECATED
 from pygeodesy.units import Float, Int, Str
 
 __all__ = _ALL_DEPRECATED.deprecated_consterns
-__version__ = '23.11.24'
+__version__ = '25.04.09'
 
 
 class _Deprecated_Float(Float):
-    '''DEPRECATED on 2023.09.12, don't use.'''
+    '''DEPRECATED on 2023.09.12, I{don't use}.'''
     pass
 
 
 class _Deprecated_Int(Int):
-    '''DEPRECATED on 2023.09.12, don't use.'''
+    '''DEPRECATED on 2023.09.12, I{don't use}.'''
     pass
 
 
 class _Deprecated_Str(Str):
-    '''DEPRECATED on 2023.09.12, don't use.'''
+    '''DEPRECATED on 2023.09.12, I{don't use}.'''
     pass
 
 

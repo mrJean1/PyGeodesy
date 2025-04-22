@@ -13,20 +13,20 @@ choices, see callable L{DeprecationWarnings} below.
 from pygeodesy.basics import isclass as _isclass
 from pygeodesy.errors import _AssertionError, _AttributeError, \
                              _xcallable, _xkwds_get
-# from pygeodesy.internals import _tailof  # from .lazily
+from pygeodesy.internals import _tailof, typename
 from pygeodesy.interns import MISSING, NN, _an_, _COMMASPACE_, \
                              _DEPRECATED_, _DOT_, _EQUALSPACED_, \
                              _immutable_, _invalid_, _module_, \
                              _N_A_, _NL_, _not_, _SPACE_, _UNDER_
 # from pygeodesy.named import callname  # _MODS, avoid circular
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, \
-                             _FOR_DOCS, _WARNINGS_X_DEV,  _tailof
+                             _FOR_DOCS, _WARNINGS_X_DEV
 # from pygeodesy.streprs import Fmt  # _MODS
 
 from functools import wraps as _wraps
 
 __all__ = _ALL_LAZY.props
-__version__ = '24.11.06'
+__version__ = '25.04.14'
 
 _class_       = 'class'
 _DNL_         = _NL_ * 2  # PYCHOK used!
@@ -45,7 +45,7 @@ def _allPropertiesOf(Clas_or_inst, *Bases, **excls):
         S = Clas_or_inst,  # just this Clas
     else:  # class and super-classes of inst
         try:
-            S = Clas_or_inst.__class__.__mro__[:-1]  # not object
+            S = type(Clas_or_inst).__mro__[:-1]  # not object
         except AttributeError:
             raise
             S = ()  # not an inst
@@ -162,7 +162,7 @@ class _PropertyBase(property):
         _xcallable(getter=method, fget=fget)
 
         self.method = method
-        self.name   = method.__name__
+        self.name   = typename(method)
         d = doc or method.__doc__
         if _FOR_DOCS and d:
             self.__doc__ = d   # PYCHOK no cover
@@ -173,8 +173,8 @@ class _PropertyBase(property):
         '''(INTERNAL) Return an C{AttributeError} instance.
         '''
         if farg:
-            n = _DOT_(self.name, nameter.__name__)
-            n = _SPACE_(n, farg.__name__)
+            n = _DOT_(self.name, typename(nameter))
+            n = _SPACE_(n, typename(farg))
         else:
             n = nameter
         e = _SPACE_(kind, _MODS.named.classname(self))
@@ -349,7 +349,7 @@ class property_RO(_PropertyBase):
             else:
                 d = getattr(inst.__class__, uname, MISSING)
 #               if d is MISSING:  # XXX superfluous
-#                   for c in inst.__class__.__mro__[:-1]:
+#                   for c in type(inst).__mro__[:-1]:
 #                       if uname in c.__dict__:
 #                           d = c.__dict__[uname]
 #                           break
@@ -409,7 +409,7 @@ class property_ROver(_property_RO___):
                 setattr(c, n, v)  # overwrite property_ROver
                 break
         else:
-            n = _DOT_(C.__name__, n)
+            n = _DOT_(typename(C), n)
             raise _AssertionError(_EQUALSPACED_(n, v))
         return v
 
@@ -421,7 +421,7 @@ class _NamedProperty(property):  # in .named
     def name(self):
         '''Get the name of this C{property} (C{str}).
         '''
-        return self.fget.__name__
+        return typename(self.fget)
 
 
 def property_doc_(doc):
@@ -460,16 +460,16 @@ def _deprecated(call, kind, qual_d):
        @see: Brett Slatkin, "Effective Python", 2019 page 105, 2nd
              ed, Addison-Wesley.
     '''
-    doc = _docof(call)
+    doc = _DOCof(call)
 
     @_wraps(call)  # PYCHOK self?
     def _deprecated_call(*args, **kwds):
         if qual_d:  # function
-            q = qual_d
+            q =  qual_d
         elif args:  # method
-            q = _qualified(args[0], call.__name__)
+            q = _qualified(args[0], typename(call))
         else:  # PYCHOK no cover
-            q = call.__name__
+            q =  typename(call)
         _throwarning(kind, q, doc)
         return call(*args, **kwds)
 
@@ -484,8 +484,8 @@ def deprecated_class(cls_or_class):
        @note: NOT a decorator!
     '''
     if _WARNINGS_X_DEV:
-        q = _DOT_(cls_or_class.__module__, cls_or_class.__name__)
-        _throwarning(_class_, q, cls_or_class.__doc__)
+        q = _DOT_(cls_or_class.__module__, typename(cls_or_class))
+        _throwarning(_class_, q, cls_or_class.__doc__)  # _DDOC_
 
 
 def deprecated_function(call):
@@ -496,7 +496,7 @@ def deprecated_function(call):
        @return: The B{C{call}} DEPRECATED.
     '''
     return _deprecated(call, _function_, _DOT_(
-                       call.__module__, call.__name__)) if \
+                       call.__module__, typename(call))) if \
            _WARNINGS_X_DEV else call
 
 
@@ -524,13 +524,13 @@ if _WARNINGS_X_DEV:
         def __init__(self, method):
             '''Decorator for a DEPRECATED C{property} or C{Property} getter.
             '''
-            doc = _docof(method)
+            doc = _DOCof(method)
 
             def _fget(inst):  # PYCHOK no cover
                 '''Get the C{property} or C{Property} value.
                 '''
                 q = _qualified(inst, self.name)
-                _throwarning(property.__name__, q, doc)
+                _throwarning(typename(property), q, doc)
                 return self.method(inst)  # == method
 
             _PropertyBase.__init__(self, method, _fget, None, doc=doc)
@@ -554,7 +554,7 @@ if _WARNINGS_X_DEV:
                     '''Set the C{property} or C{Property} value.
                     '''
                     q = _qualified(inst, self.name)
-                    _throwarning(property.__name__, q, _docof(method))
+                    _throwarning(typename(property), q, _DOCof(method))
                     method(inst, val)
                     # self._update(inst)  # un-cache this item
 
@@ -594,7 +594,7 @@ def deprecated_property_RO(method):
 def _deprecated_RO(method, _RO):
     '''(INTERNAL) Create a DEPRECATED C{property_RO} or C{Property_RO}.
     '''
-    doc = _docof(method)
+    doc = _DOCof(method)
 
     if _WARNINGS_X_DEV:
 
@@ -606,7 +606,7 @@ def _deprecated_RO(method, _RO):
 
             def _fget(self, inst):  # PYCHOK no cover
                 q = _qualified(inst, self.name)
-                _throwarning(_RO.__name__, q, doc)
+                _throwarning(typename(_RO), q, doc)
                 return self.method(inst)
 
         return _Deprecated_RO(method)
@@ -614,7 +614,7 @@ def _deprecated_RO(method, _RO):
         return _RO(method, doc=doc)
 
 
-def _docof(obj):
+def _DOCof(obj):
     '''(INTERNAL) Get uniform DEPRECATED __doc__ string.
     '''
     try:
@@ -629,8 +629,8 @@ def _qualified(inst, name):
     '''(INTERNAL) Fully qualify a name.
     '''
     # _DOT_(inst.classname, name), not _DOT_(inst.named4, name)
-    c =  inst.__class__
-    q = _DOT_(c.__module__, c.__name__, name)
+    t =  type(inst)
+    q = _DOT_(t.__module__, typename(t), name)  # _DMODULE_
     return q
 
 

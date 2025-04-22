@@ -11,7 +11,8 @@ as an (exact) rhumb or rhumb line from I{either GeographicLib 2.0 or 2.2+}.
 from pygeodesy.basics import _xinstanceof
 from pygeodesy.constants import _0_0, _180_0, _N_180_0, _over,  _90_0  # PYCHOK used!
 from pygeodesy.errors import RhumbError   # PYCHOK used!
-from pygeodesy.interns import NN, _a12_, _azi12_, _lat2_, _lon2_, _s12_, _S12_, _UNDER_
+from pygeodesy.interns import NN, _a12_, _azi12_, _DMAIN_, _lat2_, _lon2_, _s12_, \
+                             _S12_, _UNDER_
 from pygeodesy.karney import Caps, GDict, _norm180, Rhumb8Tuple, _sincos2d, _Xables
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
@@ -20,7 +21,7 @@ from pygeodesy.solveBase import _SolveGDictBase, _SolveGDictLineBase
 from pygeodesy.utily import _unrollon, _Wrap, wrap360
 
 __all__ = _ALL_LAZY.rhumb_solve
-__version__ = '24.11.07'
+__version__ = '25.04.12'
 
 
 class _RhumbSolveBase(_SolveGDictBase):
@@ -29,7 +30,7 @@ class _RhumbSolveBase(_SolveGDictBase):
     _Error         =  RhumbError
     _Names_Direct  = _lat2_, _lon2_, _S12_
     _Names_Inverse = _azi12_, _s12_, _S12_
-    _Xable_name    = _Xables.RhumbSolve.__name__
+    _Xable_name    = _Xables.RhumbSolve.__name__  # typename
     _Xable_path    = _Xables.RhumbSolve()
 
     @Property_RO
@@ -146,9 +147,9 @@ class RhumbSolve(_RhumbSolveBase):
            @arg lat1: Latitude of the first point (C{degrees}).
            @arg lon1: Longitude of the first point (C{degrees}).
            @arg azi1: Azimuth at the first point (compass C{degrees}).
-           @kwarg caps: Bit-or'ed combination of L{Caps} values specifying
-                        the capabilities the L{RhumbLineSolve} instance
-                        should possess, always C{Caps.ALL}.
+           @kwarg caps: Bit-or'ed combination of L{Caps<pygeodesy.karney.Caps>}
+                        values specifying the capabilities the L{RhumbLineSolve}
+                        instance should possess, always C{Caps.ALL}.
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: A L{RhumbLineSolve} instance.
@@ -247,18 +248,17 @@ class RhumbLineSolve(_RhumbSolveBase, _SolveGDictLineBase):
            @arg lat1: Latitude of the first point (C{degrees90}).
            @arg lon1: Longitude of the first point (C{degrees180}).
            @arg azi12: Azimuth of the rhumb line (compass C{degrees180}).
-           @kwarg caps: Bit-or'ed combination of L{Caps} values specifying
-                        the capabilities the L{RhumbLineSolve} instance should
-                        possess, always C{Caps.ALL}.  Use C{Caps.LINE_OFF}
-                        if updates to the B{C{rhumb}} should I{not} be
-                        reflected in this L{RhumbLineSolve} instance.
+           @kwarg caps: Bit-or'ed combination of L{Caps<pygeodesy.karney.Caps>}
+                        values specifying the capabilities the L{RhumbLineSolve}
+                        instance should possess, always C{Caps.ALL}.  Include
+                        C{Caps.LINE_OFF} if updates to the B{C{rhumb}} should
+                        I{not be reflected} in this L{RhumbLineSolve} instance.
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @kwarg name: Optional name (C{str}).
 
-           @raise RhumbError: Invalid path for C{RhumbSolve} executable or
-                              isn't the C{RhumbSolve} executable, see
-                              property C{B{rhumb}.RhumbSolve}.
+           @raise RhumbError: Invalid path for C{RhumbSolve} executable or isn't the
+                              C{RhumbSolve} executable, see property C{B{rhumb}.RhumbSolve}.
 
            @raise TypeError: Invalid B{C{rhumb}}.
         '''
@@ -355,7 +355,7 @@ class RhumbSolve7Tuple(Rhumb8Tuple):
 
 __all__ += _ALL_DOCS(_RhumbSolveBase)
 
-if __name__ == '__main__':
+if __name__ == _DMAIN_:
 
     from pygeodesy import printf
     from sys import argv

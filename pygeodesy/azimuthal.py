@@ -42,19 +42,20 @@ altitude in Earth radii<https://WikiPedia.org/wiki/Azimuthal_equidistant_project
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-# from pygeodesy.basics import _xinstanceof  # from .ellipsoidalBase
+# from pygeodesy.basics import _isin, _xinstanceof  # from .ellipsoidalBase
 from pygeodesy.constants import EPS, EPS0, EPS1, NAN, isnon0, _umod_360, \
                                _EPStol, _0_0, _0_1, _0_5, _1_0, _N_1_0, _2_0
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB, \
-                              _xinstanceof
+                                     _isin, _xinstanceof
 from pygeodesy.datums import _spherical_datum, _WGS84
 from pygeodesy.errors import _ValueError, _xdatum, _xkwds
 from pygeodesy.fmath import euclid, fdot_, hypot as _hypot,  Fsum
 # from pygeodesy.fsums import Fsum  # from .fmath
 # from pygeodesy.formy import antipode  # _MODS
+# from pygeodesy.internals import typename  # from .karney
 from pygeodesy.interns import _azimuth_, _datum_, _lat_, _lon_, _scale_, \
                               _SPACE_, _x_, _y_
-from pygeodesy.karney import _norm180
+from pygeodesy.karney import _norm180,  typename
 from pygeodesy.latlonBase import _MODS, LatLonBase as _LLB
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _FOR_DOCS  # ALL_MODS
 from pygeodesy.named import _name__, _name2__, _NamedBase, _NamedTuple, _Pass
@@ -70,7 +71,7 @@ from pygeodesy.utily import asin1, atan1, atan2, atan2b, atan2d, \
 from math import acos, degrees, fabs, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '24.11.24'
+__version__ = '25.04.14'
 
 _EPS_K         = _EPStol * _0_1  # Karney's eps_ or _EPSmin * _0_1?
 _over_horizon_ = 'over horizon'
@@ -112,7 +113,7 @@ class _AzimuthalBase(_NamedBase):
 
            @raise TypeError: Invalid B{C{datum}}.
        '''
-        if datum not in (None, self._datum):
+        if not _isin(datum, None, self._datum):
             self._datum = _spherical_datum(datum, **name)
         if name:
             self.name = name
@@ -1088,7 +1089,7 @@ class Stereographic(_AzimuthalBase):
     def k0(self, factor):
         '''Set the central scale factor (C{scalar}).
         '''
-        n = Stereographic.k0.fget.__name__  # 'k0', name__=Stereographic.k0.fget
+        n = typename(Stereographic.k0.fget)  # 'k0', name__=Stereographic.k0.fget
         self._k0  = Scalar_(factor, name=n, low=EPS, high=2)  # XXX high=1, 2, other?
         self._k02 = self._k0 * _2_0
 

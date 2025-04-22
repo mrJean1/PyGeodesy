@@ -22,7 +22,7 @@ from pygeodesy.trf import TRFXform7Tuple as _TRFXform7Tuple
 from pygeodesy.units import Bearing, Int, Lamd, Lat, Lon, Meter, Phid
 
 __all__ = _ALL_DEPRECATED.deprecated_classes
-__version__ = '24.12.31'
+__version__ = '25.04.11'
 
 
 class _Deprecated_NamedTuple(_NamedTuple):
@@ -349,7 +349,7 @@ class UtmUps4Tuple(_Deprecated_NamedTuple):  # PYCHOK no cover
 
 
 class XDist(ADict):
-    '''DEPRECATED on 2024.07.02, use class L{XDict}.'''
+    '''DEPRECATED on 2024.07.02, use class L{ADict}.'''
     def __init__(self, *args, **kwds):  # PYCHOK no cover
         deprecated_class(self.__class__)
         ADict.__init__(self, *args, **kwds)

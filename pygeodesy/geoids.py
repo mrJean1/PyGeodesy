@@ -89,7 +89,8 @@ courtesy of SBFRF.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import len2, min2, isodd, _splituple, ub2str as _ub2str
+from pygeodesy.basics import _isin, len2, min2, isodd, _splituple, \
+                              ub2str as _ub2str
 from pygeodesy.constants import EPS, _float as _F, _1_0, _N_90_0, _180_0, \
                                      _N_180_0, _360_0
 from pygeodesy.datums import Datums, _ellipsoidal_datum, _WGS84
@@ -100,10 +101,10 @@ from pygeodesy.fmath import favg, Fdot, fdot, Fhorner, frange
 # from pygoedesy.formy import heightOrthometric  # _MODS
 from pygeodesy.heights import _as_llis2, _ascalar, _HeightBase, HeightError, \
                               _Wrap
-# from pygeodesy.internals import _version2  # _MODS
-from pygeodesy.interns import NN, _COLONSPACE_, _COMMASPACE_, _E_, _height_, \
-                             _in_, _kind_, _lat_, _lon_, _mean_, _N_, _n_a_, \
-                             _numpy_, _on_, _outside_, _S_, _s_, _scipy_, \
+# from pygeodesy.internals import typename, _version2  # _MODS
+from pygeodesy.interns import NN, _COLONSPACE_, _COMMASPACE_, _DMAIN_, _E_, \
+                             _height_, _in_, _kind_, _lat_, _lon_, _mean_, _N_, \
+                             _n_a_, _numpy_, _on_, _outside_, _S_, _s_, _scipy_, \
                              _SPACE_, _stdev_, _tbd_, _W_, _width_, _4_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS
 from pygeodesy.named import _name__, _Named, _NamedTuple
@@ -125,7 +126,7 @@ except ImportError:  # Python 3+
     from io import BytesIO as _BytesIO  # PYCHOK expected
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '25.01.15'
+__version__ = '25.04.14'
 
 _assert_    = 'assert'
 _bHASH_     = b'#'
@@ -571,7 +572,7 @@ class _GeoidBase(_HeightBase):
         except (IOError, OSError) as x:
             raise GeoidError(geoid=geoid, cause=x)
 
-        if datum not in (None, self._datum):
+        if not _isin(datum, None, self._datum):
             self._datum = _ellipsoidal_datum(datum, name=name)
         self._kind = int(kind)
         if name:
@@ -651,15 +652,16 @@ class _GeoidBase(_HeightBase):
 
            @return: Geoid name and attributes (C{str}).
         '''
-        s = 1 if self.kind < 0 else 2
-        t = tuple(Fmt.PAREN(m.__name__, fstr(m(), prec=prec)) for m in
-                                       (self.lowerleft, self.upperright,
-                                        self.center,
-                                        self.highest, self.lowest)) + \
-            attrs( _mean_, _stdev_,           prec=prec, Nones=False) + \
-            attrs((_kind_, 'smooth')[:s],     prec=prec, Nones=False) + \
-            attrs( 'cropped', 'dtype', _endian_, 'hits', 'knots', 'nBytes',
-                   'sizeB', _scipy_, _numpy_, prec=prec, Nones=False)
+        s =  1 if self.kind < 0 else 2
+        t = _MODS.internals.typename
+        t =  tuple(Fmt.PAREN(t(m), fstr(m(), prec=prec)) for m in
+                                  (self.lowerleft, self.upperright,
+                                   self.center,
+                                   self.highest, self.lowest)) + \
+             attrs( _mean_, _stdev_,           prec=prec, Nones=False) + \
+             attrs((_kind_, 'smooth')[:s],     prec=prec, Nones=False) + \
+             attrs( 'cropped', 'dtype', _endian_, 'hits', 'knots', 'nBytes',
+                    'sizeB', _scipy_, _numpy_, prec=prec, Nones=False)
         return _COLONSPACE_(self, sep.join(t))
 
     @Property_RO
@@ -1036,9 +1038,9 @@ class GeoidKarney(_GeoidBase):
         if smooth is not None:
             raise GeoidError(smooth=smooth, txt_not_=_supported_)
 
-        if kind in (2,):
+        if _isin(kind, 2):
             self._ev2d = self._ev2k  # see ._ev_name
-        elif kind not in (3,):
+        elif not _isin(kind, 3):
             raise GeoidError(kind=kind)
 
         self._egm = g =  self._open(egm_pgm, datum, kind, _name__(**name), None)
@@ -1716,7 +1718,7 @@ def egmGeoidHeights(GeoidHeights_dat):
 
 __all__ += _ALL_DOCS(_GeoidBase)
 
-if __name__ == '__main__':  # MCCABE 14
+if __name__ == _DMAIN_:  # MCCABE 14
 
     from pygeodesy.internals import printf, _secs2str, _versions,  _sys
     from time import time
@@ -1727,30 +1729,31 @@ if __name__ == '__main__':  # MCCABE 14
 
     geoids = _sys.argv[1:]
     while geoids:
-        geoid = geoids.pop(0)
+        G = geoids.pop(0)
+        g = G.lower()
 
-        if '-crop'.startswith(geoid.lower()):
+        if '-crop'.startswith(g):
             _crop = dict(crp=(20, -125, 50, -65))  # CONUS
 
-        elif '-egm96'.startswith(geoid.lower()):
+        elif '-egm96'.startswith(g):
             _GeoidEGM = GeoidEGM96
 
-        elif '-karney'.startswith(geoid.lower()):
+        elif '-karney'.startswith(g):
             _GeoidEGM = GeoidKarney
 
-        elif '-kind'.startswith(geoid.lower()):
+        elif '-kind'.startswith(g):
             _kind = int(geoids.pop(0))
 
-        elif '-pgm'.startswith(geoid.lower()):
+        elif '-pgm'.startswith(g):
             _GeoidEGM = GeoidPGM
 
-        elif geoid[-4:].lower() in ('.pgm', '.grd'):
-            g = _GeoidEGM(geoid, kind=_kind, **_crop)
+        elif _isin(g[-4:], '.pgm', '.grd'):
+            g = _GeoidEGM(G, kind=_kind, **_crop)
             t =  time()
             _ =  g.highest()
             t = _secs2str(time() - t)
             printf('%s: %s (%s)', g.toStr(), t, _versions(), nl=1, nt=1)
-            t = g.pgm
+            t =  g.pgm
             if t:
                 printf(repr(t), nt=1)
             # <https://GeographicLib.SourceForge.io/cgi-bin/GeoidEval>:
@@ -1771,12 +1774,12 @@ if __name__ == '__main__':  # MCCABE 14
                 except (GeoidError, RangeError) as x:
                     printf(_COLONSPACE_(t, str(x)))
 
-        elif geoid[-4:].lower() in ('.bin',):
-            g = GeoidG2012B(geoid, kind=_kind)
+        elif _isin(g[-4:], '.bin'):
+            g = GeoidG2012B(G, kind=_kind)
             printf(g.toStr())
 
         else:
-            raise GeoidError(grid=repr(geoid))
+            raise GeoidError(grid=repr(G))
 
 _I = int  # PYCHOK unused _I
 del _intCs, _T, _T0s12  # trash ints cache and map

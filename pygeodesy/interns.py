@@ -117,13 +117,15 @@ class _Slicer(str):
 class MISSING(object):
     '''(INTERNAL) Singleton C{str}.
     '''
+    def __init__(self):
+        self.__name__ = type(self).__name__
+
     def toRepr(self, **unused):
-        return self.__class__.__name__
+        return type(self).__name__
 
     __repr__ = __str__ = toStr = toRepr
 
-MISSING          = MISSING()  # PYCHOK singleton
-MISSING.__name__ = str(MISSING)
+MISSING = MISSING()  # PYCHOK singleton
 
 # __DUNDER__-style names would get mangled in classes
 _0_                   = '0'                  # PYCHOK 'zero'
@@ -186,6 +188,7 @@ _conversion_          = 'conversion'         # PYCHOK OK
 _convex_              = 'convex'             # PYCHOK OK
 _d_                   = 'd'                  # PYCHOK OK
 _D_                   = 'D'                  # PYCHOK OK
+_DALL_                = '__all__'            # PYCHOK _DUNDER_(NN, 'all', NN)
 _DASH_           = Str_('-')                 # PYCHOK == _MINUS_
 _datum_               = 'datum'              # PYCHOK OK
 _decode3_             = 'decode3'            # PYCHOK OK
@@ -197,10 +200,10 @@ _DEPRECATED_          = 'DEPRECATED'         # PYCHOK OK
 _DEQUALSPACED_   = Str_(' == ')              # PYCHOK OK
 _distance_            = 'distance'           # PYCHOK OK
 _distant_     = _Prefix('distant')           # PYCHOK OK
+_DMAIN_               = '__main__'           # PYCHOK _DUNDER_(NN, 'main', NN)
+_DNAME_               = '__name__'           # PYCHOK _DUNDER_(NN, _name_, NN)
 _doesn_t_exist_       = "doesn't exist"      # PYCHOK OK
 _DOT_            = Str_('.')                 # PYCHOK OK
-_DUNDER_all_          = '__all__'            # PYCHOK OK
-_DUNDER_name_         = '__name__'           # PYCHOK _DUNDER_(NN, _name_, NN)
 _duplicate_           = 'duplicate'          # PYCHOK OK
 _e_                   = 'e'                  # PYCHOK OK
 _E_                   = 'E'                  # PYCHOK OK
@@ -440,9 +443,9 @@ _LR_PAIRS  = {_LANGLE_:  _RANGLE_,
 
 __all__ = (_NN_,  # NOT MISSING!
             Str_.__name__)  # classes
-__version__ = '25.01.12'
+__version__ = '25.04.12'
 
-if __name__ == '__main__':
+if __name__ == _DMAIN_:
 
     def _main():
         from pygeodesy import itemsorted, printf

@@ -143,18 +143,19 @@ in C{pygeodesy} are based on I{Karney}'s post U{Area of a spherical polygon
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import _copysign, isint, neg, unsigned0, \
+from pygeodesy.basics import _copysign, _isin, isint, neg, unsigned0, \
                              _xgeographiclib, _zip
 from pygeodesy.constants import NAN, _isfinite as _math_isfinite, _0_0, \
                                _1_16th, _1_0, _2_0, _180_0, _N_180_0, _360_0
 from pygeodesy.errors import GeodesicError, _ValueError, _xkwds
 from pygeodesy.fmath import cbrt, fremainder, norm2  # Fhorner, Fsum
-from pygeodesy.internals import _getenv, _popen2, _PYGEODESY, _version_info
+from pygeodesy.internals import _getenv, _popen2, _PYGEODESY_ENV, typename, \
+                                _version_info
 from pygeodesy.interns import NN, _a12_, _area_, _azi1_, _azi2_, _azi12_, \
                              _composite_, _lat1_, _lat2_, _lon1_, _lon2_, \
                              _m12_, _M12_, _M21_, _number_, _s12_, _S12_, \
                              _SPACE_, _UNDER_, _X_, _1_, _2_,  _BAR_  # PYCHOK used!
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS
 from pygeodesy.named import ADict, _NamedBase, _NamedTuple, notImplemented, _Pass
 from pygeodesy.props import deprecated_method, Property_RO, property_RO, \
                                                property_ROnce
@@ -165,10 +166,10 @@ from pygeodesy.utily import atan2d, sincos2d, tand, _unrollon,  fabs
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '25.04.08'
+__version__ = '25.04.14'
 
 _2_4_       = '2.4'
-_K_2_0      = _getenv(_PYGEODESY(_xgeographiclib, 1), _2_)
+_K_2_0      = _getenv(_PYGEODESY_ENV(typename(_xgeographiclib)[2:]), _2_)
 _K_2_4      = _K_2_0 ==  _2_4_
 _K_2_0      = _K_2_4 or (_K_2_0 == _2_)
 _perimeter_ = 'perimeter'
@@ -216,7 +217,38 @@ class Area3Tuple(_NamedTuple):  # in .geodesicx.gxarea
 
 
 class Caps(object):
-    '''(INTERNAL) Overriden by C{Caps} below.
+    '''I{Enum}-style masks to be bit-C{or}'ed to specify C{geodesic}, C{rhumb}
+       or C{-lines} capabilities (C{caps}) and method results (C{outmask}).
+
+       C{AREA} - compute the area C{S12},
+
+       C{AZIMUTH} - include azimuths C{azi1} and C{azi2},
+
+       C{DISTANCE} - compute distance C{s12} and angular distance C{a12},
+
+       C{DISTANCE_IN} - allow distance C{s12} in method C{.Direct},
+
+       C{EMPTY} - nothing, formerly aka C{NONE},
+
+       C{GEODESICSCALE} - compute geodesic scales C{M12} and C{M21},
+
+       C{LATITUDE} - compute latitude C{lat2},
+
+       C{LINE_OFF} - Line without updates from parent C{geodesic} or C{rhumb}.
+
+       C{LONGITUDE} - compute longitude C{lon2},
+
+       C{LONG_UNROLL} - unroll C{lon2} in method C{.Direct},
+
+       C{REDUCEDLENGTH} - compute the reduced length C{m12},
+
+       C{REVERSE2} - reverse azimuth C{azi2} by 180 degrees,
+
+       and C{ALL} - all of the above.
+
+       C{STANDARD} = C{AZIMUTH | DISTANCE | LATITUDE | LONGITUDE}
+
+       C{LINE_CAPS} = C{STANDARD | DISTANCE_IN | REDUCEDLENGTH | GEODESICSCALE}
     '''
     EMPTY         =  0        # formerly aka NONE
     _CAP_1        =  1 << 0   # for goedesici/-w
@@ -224,6 +256,8 @@ class Caps(object):
     _CAP_2        =  1 << 2
     _CAP_3        =  1 << 3   # for goedesici/-w
     _CAP_4        =  1 << 4   # for goedesicw
+#                 =  1 << 5   # unused
+#                 =  1 << 6   # unused
     _CAP_ALL      =  0x1F
 #   _CAP_MASK     = _CAP_ALL
     LATITUDE      =  1 << 7   # compute latitude C{lat2}
@@ -235,25 +269,21 @@ class Caps(object):
     GEODESICSCALE =  1 << 13 | _CAP_1 | _CAP_2  # compute geodesic scales C{M12} and C{M21}
     AREA          =  1 << 14 | _CAP_4  # compute area C{S12}
 
-    STANDARD      =  AZIMUTH | DISTANCE | LATITUDE | LONGITUDE
+    STANDARD      =  AZIMUTH  | DISTANCE | LATITUDE | LONGITUDE
+    STANDARD_LINE =  STANDARD | DISTANCE_IN  # for goedesici/-w
 
-    _DIRECT3      =  AZIMUTH  | LATITUDE | LONGITUDE  # for goedesicw only
-    _INVERSE3     =  AZIMUTH  | DISTANCE  # for goedesicw only
-    _STD          =  STANDARD  # for goedesicw only
-    _STD_LINE     = _STD      | DISTANCE_IN  # for goedesici/-w
-
-    LINE_CAPS     = _STD_LINE | REDUCEDLENGTH | GEODESICSCALE  # .geodesici only
+    LINE_CAPS     =  STANDARD_LINE | REDUCEDLENGTH | GEODESICSCALE  # .geodesici only
     LONG_UNROLL   =  1 << 15  # unroll C{lon2} in .Direct and .Position
 #                 =  1 << 16  # unused
     LINE_OFF      =  1 << 17  # Line without updates from parent geodesic or rhumb
     REVERSE2      =  1 << 18  # reverse C{azi2}
     ALL           =  0x7F80 | _CAP_ALL  # without LONG_UNROLL, LINE_OFF, REVERSE2 and _DEBUG_*
 
-    LATITUDE_LONGITUDE         = LATITUDE | LONGITUDE
-    LATITUDE_LONGITUDE_AREA    = LATITUDE | LONGITUDE | AREA
+    AZIMUTH_DISTANCE        = AZIMUTH | DISTANCE
+    AZIMUTH_DISTANCE_AREA   = AZIMUTH | DISTANCE | AREA
 
-    AZIMUTH_DISTANCE           = AZIMUTH | DISTANCE
-    AZIMUTH_DISTANCE_AREA      = AZIMUTH | DISTANCE | AREA
+    LATITUDE_LONGITUDE      = LATITUDE | LONGITUDE
+    LATITUDE_LONGITUDE_AREA = LATITUDE | LONGITUDE | AREA
 
     _SALP_CALPs_   =  1 << 19  # (INTERNAL) GeodesicExact._GenInverse
 
@@ -263,6 +293,9 @@ class Caps(object):
     _DEBUG_LINE    =  1 << 23  # (INTERNAL) include Line details
     _DEBUG_ALL     = _DEBUG_AREA | _DEBUG_DIRECT | _DEBUG_INVERSE | \
                      _DEBUG_LINE | _SALP_CALPs_
+
+    _DIRECT3       =  AZIMUTH  | LATITUDE | LONGITUDE  # for goedesicw only
+    _INVERSE3      =  AZIMUTH  | DISTANCE  # for goedesicw only
 
     _OUT_ALL       =  ALL  # see geographiclib.geodesiccapabilities.py
     _OUT_MASK      =  ALL | LONG_UNROLL | REVERSE2 | _DEBUG_ALL
@@ -277,7 +310,7 @@ class Caps(object):
     def items(self):
         '''Yield all I{public} C{Caps} as 2-tuple C{(NAME, mask)}.
         '''
-        for n, C in Caps.__class__.__dict__.items():
+        for n, C in type(self).__dict__.items():
             if isint(C) and not n.startswith(_UNDER_) \
                         and n.replace(_UNDER_, NN).isupper():
                 yield n, C
@@ -289,37 +322,10 @@ class Caps(object):
                         if C and (Cask & C) == C)  # and int1s(C) <= 3
         return sep.join(s) if sep else tuple(s)
 
-Caps = Caps()  # PYCHOK singleton
-'''I{Enum}-style masks to be bit-C{or}'ed to specify geodesic or
-rhumb capabilities (C{caps}) and results (C{outmask}).
-
-C{AREA} - compute area C{S12},
-
-C{AZIMUTH} - include azimuths C{azi1} and C{azi2},
-
-C{DISTANCE} - compute distance C{s12} and angular distance C{a12},
-
-C{DISTANCE_IN} - allow distance C{s12} in C{.Direct},
-
-C{EMPTY} - nothing, formerly aka C{NONE},
-
-C{GEODESICSCALE} - compute geodesic scales C{M12} and C{M21},
-
-C{LATITUDE} - compute latitude C{lat2},
-
-C{LINE_OFF} - Line without updates from parent geodesic or rhumb.
-
-C{LONGITUDE} - compute longitude C{lon2},
-
-C{LONG_UNROLL} - unroll C{lon2} in C{.Direct},
-
-C{REDUCEDLENGTH} - compute reduced length C{m12},
-
-C{REVERSE2} - reverse C{azi2},
-
-and C{ALL} - all of the above.
-
-C{STANDARD} = C{AZIMUTH | DISTANCE | DISTANCE_IN | LATITUDE | LONGITUDE}'''
+if _FOR_DOCS:  # PYCHOK force ...
+    pass  # ... CAPS.__doc__ into epydoc
+else:
+    Caps = Caps()  # PYCHOK singleton
 
 _key2Caps = dict(a12 =Caps.DISTANCE,  # in GDict._unCaps
                  azi2=Caps.AZIMUTH,
@@ -349,7 +355,7 @@ class _CapsBase(_NamedBase):  # in .auxilats, .geodesicx.gxbases
     LONG_UNROLL   = Caps.LONG_UNROLL
     REDUCEDLENGTH = Caps.REDUCEDLENGTH
     STANDARD      = Caps.STANDARD
-    _STD_LINE     = Caps._STD_LINE  # for geodesici
+    STANDARD_LINE = Caps.STANDARD_LINE  # for geodesici
 
     _caps         = 0  # None
     _debug        = 0  # or Caps._DEBUG_...
@@ -363,11 +369,11 @@ class _CapsBase(_NamedBase):  # in .auxilats, .geodesicx.gxbases
     def caps_(self, caps):
         '''Check the available capabilities.
 
-           @arg caps: Bit-or'ed combination of L{Caps} values
-                      for all capabilities to be checked.
+           @arg caps: Bit-or'ed combination of L{Caps<pygeodesy.karney.Caps>}
+                      values for all capabilities to be checked.
 
-           @return: C{True} if I{all} B{C{caps}} are available,
-                    C{False} otherwise (C{bool}).
+           @return: C{True} if I{all} B{C{caps}} are available, C{False}
+                    otherwise (C{bool}).
         '''
         caps &= Caps._OUT_ALL
         return (self.caps & caps) == caps
@@ -538,7 +544,7 @@ class Inverse10Tuple(_GTuple):
 
 
 class _kWrapped(object):  # in .geodesicw
-    ''''(INTERNAL) Wrapper for some of I{Karney}'s U{geographiclib
+    '''(INTERNAL) Wrapper for some of I{Karney}'s U{geographiclib
         <https://PyPI.org/project/geographiclib>} classes.
     '''
 
@@ -548,7 +554,7 @@ class _kWrapped(object):  # in .geodesicw
            <https://PyPI.org/project/geographiclib>} package is installed,
            otherwise raise a C{LazyImportError}.
         '''
-        g = _xgeographiclib(self.__class__.__module__, 1, 49)
+        g = _xgeographiclib(type(self).__module__, 1, 49)
         from geographiclib.geodesic import Geodesic
         g.Geodesic = Geodesic
         from geographiclib.geodesicline import GeodesicLine
@@ -674,9 +680,9 @@ class _Xables(object):
         return NN
 
     def _path(self, which, *dir_):
-        self.ENV = E = _PYGEODESY(which)
-        return _getenv(E, NN) or \
-               (NN(dir_[0], which.__name__) if dir_ else E)
+        n = typename(which, which)
+        self.ENV = E = _PYGEODESY_ENV(n)
+        return _getenv(E, NN) or (NN(dir_[0], n) if dir_ else E)
 
     def X_not(self, path):
         return 'env %s=%r not executable' % (self.ENV, path)
@@ -754,7 +760,7 @@ def _diff182(deg0, deg, K_2_0=False):
             d, t = _sum2(_r(-deg0, _360),
                          _r( deg,  _360))
             d, t = _sum2(_r( d,    _360), t)
-            if d in (_0_0, _180_0, _N_180_0):
+            if _isin(d, _0_0, _180_0, _N_180_0):
                 d = _copysign(d, -t if t else (deg - deg0))
         else:
             _n = _norm180
@@ -819,7 +825,7 @@ def _norm180(deg):  # mimick geomath.Math.AngNormalize
         return _wrapped.Math.AngNormalize(deg)
     except AttributeError:
         d = fremainder(deg, _360_0)
-        if d in (_180_0, _N_180_0):
+        if _isin(d, _180_0, _N_180_0):
             d = _copysign(_180_0, deg) if _K_2_0 else _180_0
         return d
 
@@ -1036,7 +1042,7 @@ def _unsigned2(x):
     return (neg(x), True) if _signBit(x) else (x, False)
 
 
-__all__ += _ALL_DOCS(_CapsBase)
+__all__ += _ALL_DOCS(Caps, _CapsBase)
 
 # **) MIT License
 #

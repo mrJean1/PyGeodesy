@@ -77,9 +77,7 @@ from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.errors import _AssertionError, LenError, PointsError, \
                              _SciPyIssue, _xattr, _xkwds, _xkwds_get, _xkwds_item2
 # from pygeodesy.fmath import fidw  # _MODS
-# from pygeodesy.formy import cosineLaw, cosineLawAL, cosineLawFAL, equirectangular4, \
-#                             euclidean, flatLocal, flatPolar, haversine, thomas, \
-#                             vincentys  # _MODS.into
+# from pygeodesy import formy as _formy  # _MODS.into
 # from pygeodesy.internals import _version2  # _MODS
 from pygeodesy.interns import NN, _COMMASPACE_, _insufficient_, _NOTEQUAL_, \
                              _PLUS_, _scipy_, _SPACE_, _STAR_
@@ -94,7 +92,7 @@ from pygeodesy.units import _isDegrees, Float_, Int_
 # from math import radians  # from .points
 
 __all__ = _ALL_LAZY.heights
-__version__ = '24.12.31'
+__version__ = '25.04.21'
 
 _error_  = 'error'
 _formy   = _MODS.into(formy=__name__)

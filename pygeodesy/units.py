@@ -6,11 +6,12 @@ basic C{float}, C{int} respectively C{str} to named units as L{Degrees},
 L{Feet}, L{Meter}, L{Radians}, etc.
 '''
 
-from pygeodesy.basics import isscalar, issubclassof, signOf
+from pygeodesy.basics import isscalar, issubclassof, signOf,  typename
 from pygeodesy.constants import EPS, EPS1, PI, PI2, PI_2, _umod_360, _0_0, \
                                _0_001,  _0_5, INT0  # PYCHOK for .mgrs, .namedTuples
 from pygeodesy.dms import F__F, F__F_, S_NUL, S_SEP, parseDMS, parseRad, _toDMS
 from pygeodesy.errors import _AssertionError, TRFError, UnitError, _xattr, _xcallable
+# from pygeodesy.internals import typename  # from .basics
 from pygeodesy.interns import NN, _azimuth_, _band_, _bearing_, _COMMASPACE_, \
                              _degrees_, _degrees2_, _distance_, _E_, _easting_, \
                              _epoch_, _EW_, _feet_, _height_, _lam_, _lat_, _LatLon_, \
@@ -27,7 +28,7 @@ from pygeodesy.unitsBase import Float, Int, _NamedUnit, Radius, Str,  Fmt, fstr
 from math import degrees, isnan, radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '24.11.14'
+__version__ = '25.04.14'
 
 
 class Float_(Float):
@@ -860,8 +861,8 @@ def _std_repr(*Classes):
     '''
     from pygeodesy.internals import _getenv
     for C in Classes:
-        if hasattr(C, _std_repr.__name__):  # PYCHOK del _std_repr
-            env = 'PYGEODESY_%s_STD_REPR' % (C.__name__.upper(),)
+        if hasattr(C, typename(_std_repr)):  # PYCHOK del _std_repr
+            env = 'PYGEODESY_%s_STD_REPR' % (typename(C).upper(),)
             if _getenv(env, _std_).lower() != _std_:
                 C._std_repr = False
 

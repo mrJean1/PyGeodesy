@@ -2,11 +2,15 @@
 # -*- coding: utf-8 -*-
 
 u'''2- or 3-D vectorial functions L{circin6}, L{circum3}, L{circum4_},
-L{iscolinearWith}, L{meeus2}, L{nearestOn}, L{radii11}, L{soddy4} and
-L{trilaterate2d2}.
+L{iscolinearWith}, L{meeus2}, L{nearestOn}, L{radii11}, L{soddy4},
+L{triaxum5} and L{trilaterate2d2}.
+
+@note: Functions L{circin6}, L{circum3}, L{circum4_}, L{soddy4} and
+       L{triaxum5} require U{numpyhttps://PyPI.org/project/numpy>}
+       version 1.10 or newer to be installed.
 '''
 
-from pygeodesy.basics import len2, map2, _xnumpy
+from pygeodesy.basics import len2, map2, _xnumpy,  typename
 from pygeodesy.constants import EPS, EPS0, EPS02, EPS4, INF, INT0, \
                                _EPS4e8, isnear0, _0_0, _0_25, _0_5, _N_0_5, \
                                _1_0, _1_0_1T, _N_1_0, _2_0, _N_2_0, _4_0
@@ -14,6 +18,7 @@ from pygeodesy.errors import _and, _AssertionError, IntersectionError, NumPyErro
                               PointsError, TriangleError, _xError, _xkwds
 from pygeodesy.fmath import fabs, fdot, fdot_, hypot, hypot2_, sqrt
 from pygeodesy.fsums import _Fsumf_, fsumf_, fsum1f_
+# from pygeodesy.internals import typename  # from .basics
 from pygeodesy.interns import NN, _a_, _and_, _b_, _c_, _center_, _coincident_, \
                              _colinear_, _COMMASPACE_, _concentric_, _few_, \
                              _intersection_, _invalid_, _near_, _no_, _of_, \
@@ -31,7 +36,7 @@ from contextlib import contextmanager
 # from math import fabs, sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.vector2d
-__version__ = '24.11.21'
+__version__ = '25.04.16'
 
 _cA_        = 'cA'
 _cB_        = 'cB'
@@ -184,7 +189,7 @@ def _circin6(point1, point2, point3, eps=EPS4, useZ=True, dLL3=False, **Vector_k
 
     r    =  t.rIn
     c, d = _tricenter3d2(c1, r, c2, r, c3, r, eps=eps, useZ=useZ, dLL3=dLL3,
-                       **_xkwds(Vector_kwds, Vector=V, name=circin6.__name__))
+                       **_xkwds(Vector_kwds, Vector=V, name=typename(circin6)))
     return Circin6Tuple(r, c, d, cA, cB, cC)
 
 
@@ -236,7 +241,7 @@ def _circum3(p1, point2, point3, circum=True, eps=EPS4, useZ=True, dLL3=False,
     r, d, p2, p3 = _meeus4(p1, point2, point3, circum=circum, useZ=useZ,
                                                clas=clas, **clas_kwds)
     if d is None:  # Meeus' Type II or circum=True
-        kwds = _xkwds(clas_kwds, eps=eps, Vector=clas, name=circum3.__name__)
+        kwds = _xkwds(clas_kwds, eps=eps, Vector=clas, name=typename(circum3))
         c, d = _tricenter3d2(p1, r, p2, r, p3, r, useZ=useZ, dLL3=dLL3, **kwds)
     else:  # Meeus' Type I
         c, d = d, None
@@ -386,7 +391,7 @@ def _meeus4(A, point2, point3, circum=False, useZ=True, clas=None, **clas_kwds):
         r = sqrt(a * _0_25) if a > EPS02 else INT0
         t = B.plus(C).times(_0_5)  # Meeus' Type I
         if clas is not None:
-            t = clas(t.x, t.y, t.z, **_xkwds(clas_kwds, name=meeus2.__name__))
+            t = clas(t.x, t.y, t.z, **_xkwds(clas_kwds, name=typename(meeus2)))
     return r, t, p2, p3
 
 
@@ -410,6 +415,8 @@ class _numpy(object):  # see also .formy._idllmn6, .geodesicw._wargs, .latlonBas
 
     @Property_RO
     def array(self):
+        '''Get U{numpy.array<https://NumPy.org/doc/2.2/reference/generated/numpy.array.html#numpy.array>}.
+        '''
         return self.np.array
 
     def least_squares3(self, A, b):
@@ -595,7 +602,7 @@ def soddy4(point1, point2, point3, eps=EPS4, useZ=True):
     c, d = _tricenter3d2(p1, t.rA + r,
                          p2, t.rB + r,
                          p3, t.rC + r, eps=eps, useZ=useZ,
-                                       Vector=point1.classof, name=soddy4.__name__)
+                                       Vector=point1.classof, name=typename(soddy4))
     return Soddy4Tuple(r, c, d, t.roS)
 
 
@@ -749,7 +756,7 @@ def _trilaterate2d2(x1, y1, radius1, x2, y2, radius2, x3, y3, radius3,
                                      _astr(x2=x2, y2=y2, radius2=r2),
                                      _astr(x3=x3, y3=y3, radius3=r3)), txt=t)
     t = Vector2Tuple(fdot_(c, e, -b, f) / q,
-                     fdot_(a, f, -c, d) / q, name=trilaterate2d2.__name__)
+                     fdot_(a, f, -c, d) / q, name=typename(trilaterate2d2))
 
     if eps and eps > 0:  # check distances to center vs radius
         for x, y, r in ((x1, y1, r1), (x2, y2, r2), (x3, y3, r3)):
@@ -784,7 +791,7 @@ def _trilaterate3d2(c1, r1, c2, r2, c3, r3, eps=EPS4, coin=False,  # MCCABE 13
     def _N3(t01, x, z):
         # compute x, y and z and return as B{C{clas}} or B{C{Vector}}
         v = x.plus(z.times(t01))
-        n = trilaterate3d2.__name__
+        n = typename(trilaterate3d2)
         return _nVc(v, **_xkwds(clas_Vector_and_kwds, name=n))
 
     c2 = _otherV3d(center2=c2, NN_OK=False)
@@ -828,7 +835,7 @@ def _trilaterate3d2(c1, r1, c2, r2, c3, r3, eps=EPS4, coin=False,  # MCCABE 13
             r =  repr(r1) if r1 == r2 == r3 else _reprs(r1, r2, r3)
             t = _SPACE_(t, _of_, _reprs(c1, c2, c3), _with_, _radius_, r)
         elif Z is None:
-            t = _COMMASPACE_(t, _no_(_numpy.null_space2.__name__))
+            t = _COMMASPACE_(t, _no_(typename(_numpy.null_space2)))
         return t
 
     # coincident, concentric, colinear, too distant, no intersection:

@@ -12,11 +12,12 @@ I{Greiner-Hormann} and L{clipSH} and L{clipSH3} I{Sutherland-Hodgeman}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-# from pygeodesy.basics import len2  # from .fmath
+from pygeodesy.basics import len2,  typename
 from pygeodesy.constants import EPS, _0_0, _1_0
 from pygeodesy.errors import _AssertionError, ClipError, PointsError
-from pygeodesy.fmath import fabs, len2,  Fsum
+from pygeodesy.fmath import fabs,  Fsum
 # from pygeodesy.fsums import Fsum  # from .fmath
+# from pygeodesy.internals import typename  # from .basics
 from pygeodesy.interns import NN, _clipid_, _convex_, _DOT_, _end_, _few_, \
                              _fi_, _height_, _i_, _invalid_, _j_, _lat_, \
                              _lon_, _near_, _not_, _points_, _start_, _too_
@@ -30,7 +31,7 @@ from pygeodesy.units import Bool, FIx, HeightX, Lat, Lon, Number_
 # from math import fabs  # from .fmath
 
 __all__ = _ALL_LAZY.clipy
-__version__ = '23.09.20'
+__version__ = '25.04.14'
 
 _fj_       = 'fj'
 _original_ = 'original'
@@ -126,7 +127,7 @@ class _CS(_Named):
 #       elif c & _CS._XR:
 #           return self.lat4(p, self._xr)
 #       # should never get here
-#       raise _AssertionError(self._DOT_(self.clip4.__name__))
+#       raise _AssertionError(self._DOT_(typename(self.clip4)))
 
     def code4(self, p):  # compute code for point p
         if p.lat < self._yb:
@@ -168,7 +169,7 @@ class _CS(_Named):
 
     def nop4(self, b, p):  # PYCHOK no cover
         if p:  # should never get here
-            raise _AssertionError(self._DOT_(self.nop4.__name__))
+            raise _AssertionError(self._DOT_(typename(self.nop4)))
         return _CS._IN, self.nop4, b, p
 
 
@@ -202,7 +203,7 @@ def clipCS4(points, lowerleft, upperight, closed=False, inull=False):
        @raise PointsError: Insufficient number of B{C{points}}.
     '''
     T4 =  ClipCS4Tuple
-    cs = _CS(lowerleft, upperight, name=clipCS4.__name__)
+    cs = _CS(lowerleft, upperight, name=typename(clipCS4))
     n, pts = _pts2(points, closed, inull)
 
     i, m = _imdex2(closed, n)
@@ -398,7 +399,7 @@ def clipLB6(points, lowerleft, upperight, closed=False, inull=False):
              U{Liang-Barsky algorithm<https://WikiPedia.org/wiki/Liang-Barsky_algorithm>}.
     '''
     xl, yb, \
-    xr, yt = _box4(lowerleft, upperight, clipLB6.__name__)
+    xr, yt = _box4(lowerleft, upperight, typename(clipLB6))
     n, pts = _pts2(points, closed, inull)
 
     T6  =  ClipLB6Tuple
@@ -578,7 +579,7 @@ class _SH(_Named):
         fx = float(p2.lon - x)
         d  = fy * dx - fx * dy  # fdot((fx, fy), dx, -dy)
         if fabs(d) < EPS:  # PYCHOK no cover
-            raise _AssertionError(self._DOT_(self.intersect.__name__))
+            raise _AssertionError(self._DOT_(typename(self.intersect)))
         d  = Fsum(self._xy, -y * dx, x * dy).fover(d)
         y += d * fy
         x += d * fx
@@ -644,7 +645,7 @@ def clipSH(points, corners, closed=False, inull=False):
 
        @raise PointsError: Insufficient number of B{C{points}}.
     '''
-    sh = _SH(corners, name=clipSH.__name__)
+    sh = _SH(corners, name=typename(clipSH))
     n, pts = sh.clip2(points, closed, inull)
     for i in range(n):
         p, _ = sh.clipped2(pts[i])
@@ -671,7 +672,7 @@ def clipSH3(points, corners, closed=False, inull=False):
 
        @raise PointsError: Insufficient number of B{C{points}} or B{C{corners}}.
     '''
-    sh = _SH(corners, name=clipSH3.__name__)
+    sh = _SH(corners, name=typename(clipSH3))
     n, pts = sh.clip2(points, closed, inull)
     if n > 1:
         T3 = ClipSH3Tuple

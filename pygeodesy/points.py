@@ -27,7 +27,7 @@ C{ilon} longitude index in each 2+tuple.
 
 from pygeodesy.basics import isclass, isint, isscalar, issequence, \
                             _xdup, issubclassof, _Sequence, _xcopy, \
-                            _xinstanceof
+                            _xinstanceof,  typename
 from pygeodesy.constants import EPS, EPS1, PI_2, R_M, isnear0, isnear1, \
                                _umod_360, _0_0, _0_5, _1_0, _2_0, _6_0, \
                                _90_0, _N_90_0, _180_0, _360_0
@@ -39,6 +39,7 @@ from pygeodesy.errors import CrossError, crosserrors, _IndexError, \
 from pygeodesy.fmath import favg, fdot, hypot,  Fsum, fsum
 # from pygeodesy.fsums import Fsum, fsum  # from .fmath
 from pygeodesy.formy import _bearingTo2, equirectangular4,  _spherical_datum
+# from pygeodesy.internals import typename  # from .basics
 from pygeodesy.interns import NN, _colinear_, _COMMASPACE_, _composite_, \
                              _DEQUALSPACED_, _ELLIPSIS_, _EW_, _immutable_, \
                              _near_, _no_, _NS_, _point_, _SPACE_, _UNDER_, \
@@ -62,7 +63,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fabs, fmod as _fmod, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '24.10.24'
+__version__ = '25.04.18'
 
 _ilat_  = 'ilat'
 _ilon_  = 'ilon'
@@ -164,7 +165,7 @@ class LatLon_(LatLonBase):  # XXX in heights._HeightBase.height
                     favg(self.height, r.height, f=f)
                 # = self._havg(r, f=f, h=height)
                 r = self.classof(lat, lon, height=h, datum=r.datum,
-                                           name=r.intermediateTo.__name__)
+                                           name=typename(r.intermediateTo))
         return r
 
     def toRepr(self, **kwds):
@@ -1085,8 +1086,8 @@ def _distanceTo(Error, **name_points):  # .frechet, .hausdorff, .heights
     name, ps = _xkwds_item2(name_points)
     for i, p in enumerate(ps):
         if not callable(_xattr(p, distanceTo=None)):
-            n = _distanceTo.__name__[1:]
-            t = _SPACE_(_no_, callable.__name__, n)
+            n =  typename(_distanceTo)[1:]
+            t = _SPACE_(_no_, typename(callable), n)
             raise Error(Fmt.SQUARE(name, i), p, txt=t)
     return ps
 
@@ -1159,7 +1160,7 @@ def fractional(points, fi, j=None, wrap=None, LatLon=None, Vector=None, **kwds):
         raise _TypeError(txt__=fractional, **kwds)
     w = wrap if LatLon else False  # intermediateTo
     try:
-        if not isscalar(fi) or fi < 0:
+        if (not isscalar(fi)) or fi < 0:
             raise IndexError
         n = _xattr(fi, fin=0)
         p = _fractional(points, fi, j, fin=n, wrap=w)  # see .units.FIx
@@ -1172,7 +1173,7 @@ def fractional(points, fi, j=None, wrap=None, LatLon=None, Vector=None, **kwds):
     return p
 
 
-def _fractional(points, fi, j, fin=None, wrap=None):  # in .frechet.py
+def _fractional(points, fi, j, fin=None, wrap=None, dup=False):  # in .frechet.py
     '''(INTERNAL) Compute point at L{fractional} index C{fi} and C{j}.
     '''
     i = int(fi)
@@ -1186,12 +1187,13 @@ def _fractional(points, fi, j, fin=None, wrap=None):  # in .frechet.py
         q = points[j]
         if r >= EPS1:  # PYCHOK no cover
             p = q
-        elif wrap is not None:  # in (True, False)
+        elif wrap is not None:  # isbool(wrap)
             p = p.intermediateTo(q, r, wrap=wrap)
         elif _isLatLon(p):  # backward compatible default
-            p = LatLon2Tuple(favg(p.lat, q.lat, f=r),
+            t = LatLon2Tuple(favg(p.lat, q.lat, f=r),
                              favg(p.lon, q.lon, f=r),
                              name__=fractional)
+            p = p.dup(lat=t.lat, lon=t.lon, name=t.name) if dup else t  # PYCHOK lat, lon
         else:  # assume p and q are cartesian or vectorial
             z = p.z if p.z is q.z else favg(p.z, q.z, f=r)
             p = Vector3Tuple(favg(p.x, q.x, f=r),
@@ -1573,7 +1575,7 @@ def nearestOn5(point, points, closed=False, wrap=False, adjust=True,
     a =  atan2b(dx, dy)  # azimuth
     d =  hypot( dx, dy)
     h = _h(c)
-    n =  nameof(point) or nearestOn5.__name__
+    n =  nameof(point) or typename(nearestOn5)
     if LatLon_and_kwds:
         LL, kwds = _xkwds_pop2(LatLon_and_kwds, LatLon=None)
         if LL is not None:

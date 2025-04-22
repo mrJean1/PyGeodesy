@@ -9,11 +9,11 @@ from pygeodesy.latlonBase import LatLonBase as _LatLonBase
 from pygeodesy.lazily import _ALL_DEPRECATED
 
 __all__ = _ALL_DEPRECATED.deprecated_bases
-__version__ = '23.11.25'
+__version__ = '25.04.09'
 
 
 class LatLonHeightBase(_LatLonBase):  # PYCHOK no cover
-    ''''DEPRECATED on 2021.02.10, use (INTERNAL) class L{pygeodesy.latlonBase.LatLonBase}.'''
+    '''DEPRECATED on 2021.02.10, use (INTERNAL) class L{pygeodesy.latlonBase.LatLonBase}.'''
     pass
 
 

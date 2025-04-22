@@ -75,7 +75,7 @@ U{22<https://DLMF.NIST.gov/22>}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import copysign0, map2, neg, neg_
+from pygeodesy.basics import copysign0, map2, neg, neg_,  typename
 from pygeodesy.constants import EPS, INF, NAN, PI, PI_2, PI_4, _0_0, \
                                _0_25, _0_5, _1_0, _2_0, _N_2_0, _3_0, \
                                _4_0, _6_0, _8_0, _64_0, _180_0, _360_0, \
@@ -84,9 +84,9 @@ from pygeodesy.constants import EPS, INF, NAN, PI, PI_2, PI_4, _0_0, \
 # from pygeodesy.errors import _ValueError  # from .fmath
 from pygeodesy.fmath import favg, hypot1, zqrt,  _ValueError
 from pygeodesy.fsums import Fsum, _sum
-from pygeodesy.internals import _DUNDER_nameof
-from pygeodesy.interns import NN, _delta_, _DOT_, _f_, _invalid_, \
-                             _invokation_, _negative_, _SPACE_
+# from pygeodesy.internals import typename  # from .basics
+from pygeodesy.interns import NN, _delta_, _DOT_, _f_, _invalid_, _invokation_, \
+                             _negative_, _SPACE_
 from pygeodesy.karney import _K_2_0, _norm180, _signBit, _sincos2
 # from pygeodesy.lazily import _ALL_LAZY  # from .named
 from pygeodesy.named import _Named, _NamedTuple,  _ALL_LAZY, Fmt, unstr
@@ -99,7 +99,7 @@ from math import asin, asinh, atan, ceil, cosh, fabs, floor, radians, \
                  sin, sinh, sqrt, tan, tanh  # tan as _tan
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '24.11.26'
+__version__ = '25.04.14'
 
 _TolRD  =  zqrt(EPS * 0.002)
 _TolRF  =  zqrt(EPS * 0.030)
@@ -678,7 +678,7 @@ class Elliptic(_Named):
                 return (deltaX(sn, cn, dn) + phi) * cX / PI_2
             # fall through
         elif cn is None or dn is None:
-            n = NN(_f_, deltaX.__name__[5:])
+            n = NN(_f_, typename(deltaX)[5:])
             raise _ellipticError(n, sn, cn, dn)
 
         if _signBit(cn):  # enforce usual trig-like symmetries
@@ -1063,7 +1063,7 @@ def _deltaX(sn, cn, dn, cX, fX):
         return r - atan2(sn, cn)
 
     except Exception as e:
-        n = NN(_delta_, fX.__name__[1:])
+        n = NN(_delta_, typename(fX)[1:])
         raise _ellipticError(n, sn, cn, dn, cause=e)
 
 
@@ -1075,8 +1075,8 @@ def _ellipticError(where, *args, **kwds_cause_txt):
 
     x, t, kwds = _x_t_kwds(**kwds_cause_txt)
 
-    n = _DUNDER_nameof(where, where)
-    n = _DOT_(Elliptic.__name__, n)
+    n =  typename(where, where)
+    n = _DOT_(typename(Elliptic), n)
     n = _SPACE_(_invokation_, n)
     u =  unstr(n, *args, **kwds)
     return EllipticError(u, cause=x, txt=t)

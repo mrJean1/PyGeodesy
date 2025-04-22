@@ -36,7 +36,7 @@ from __future__ import division as _; del _  # PYCHOK semicolon
 # - a 12 suffix means a difference, e.g., s12 = s2 - s1.
 # - s and c prefixes mean sin and cos
 
-from pygeodesy.basics import _copysign, _xinstanceof, _xor, unsigned0
+from pygeodesy.basics import _copysign, _xinstanceof, _xor, unsigned0,  typename
 from pygeodesy.constants import EPS, EPS0, EPS02, MANT_DIG, NAN, PI, _EPSqrt, \
                                _SQRT2_2, isnan, _0_0, _0_001, _0_01, _0_1, _0_5, \
                                _1_0, _N_1_0, _1_75, _2_0, _N_2_0, _2__PI, _3_0, \
@@ -50,6 +50,7 @@ from pygeodesy.geodesicx.gxbases import _cosSeries, _GeodesicBase, \
                                         _sincos12, _sin1cos2, _sinf1cos2d, \
                                         _TINY, _xnC4
 from pygeodesy.geodesicx.gxline import _GeodesicLineExact, _update_glXs
+# from pygeodesy.internals import typename  # from .basics
 from pygeodesy.interns import NN, _DOT_, _UNDER_
 from pygeodesy.karney import GDict, _around, _atan2d, Caps, _cbrt, _diff182, \
                             _fix90, _K_2_0, _norm2, _norm180, _polynomial, \
@@ -64,7 +65,7 @@ from pygeodesy.utily import atan2, atan2d as _atan2d_reverse, _unrollon, \
 from math import copysign, cos, degrees, fabs, radians, sqrt
 
 __all__ = ()
-__version__ = '24.11.24'
+__version__ = '25.04.14'
 
 _MAXIT1 = 20
 _MAXIT2 = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
@@ -175,8 +176,8 @@ class GeodesicExact(_GeodesicBase):
            @arg lon1: Longitude of the first point (C{degrees}).
            @arg azi1: Azimuth at the first point (compass C{degrees}).
            @arg a12: Arc length between the points (C{degrees}), can be negative.
-           @kwarg outmask: Bit-or'ed combination of L{Caps} values specifying
-                           the quantities to be returned.
+           @kwarg outmask: Bit-or'ed combination of L{Caps<pygeodesy.karney.Caps>}
+                           values specifying the quantities to be returned.
 
            @return: A L{GDict} with up to 12 items C{lat1, lon1, azi1, lat2,
                     lon2, azi2, m12, a12, s12, M12, M21, S12} with C{lat1},
@@ -195,11 +196,10 @@ class GeodesicExact(_GeodesicBase):
            @arg lon1: Longitude of the first point (C{degrees}).
            @arg azi1: Azimuth at the first point (compass C{degrees}).
            @arg a12: Arc length between the points (C{degrees}), can be negative.
-           @kwarg caps: Bit-or'ed combination of L{Caps} values specifying
-                        the capabilities the L{GeodesicLineExact} instance
-                        should possess, i.e., which quantities can be
-                        returned by calls to L{GeodesicLineExact.Position}
-                        and L{GeodesicLineExact.ArcPosition}.
+           @kwarg caps: Bit-or'ed combination of L{Caps<pygeodesy.karney.Caps>} values
+                        specifying the capabilities the L{GeodesicLineExact} instance
+                        should possess, i.e., which quantities can be returned by methods
+                        L{GeodesicLineExact.Position} and L{GeodesicLineExact.ArcPosition}.
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: A L{GeodesicLineExact} instance.
@@ -340,8 +340,8 @@ class GeodesicExact(_GeodesicBase):
            @arg lon1: Longitude of the first point (C{degrees}).
            @arg azi1: Azimuth at the first point (compass C{degrees}).
            @arg s12: Distance between the points (C{meter}), can be negative.
-           @kwarg outmask: Bit-or'ed combination of L{Caps} values specifying
-                           the quantities to be returned.
+           @kwarg outmask: Bit-or'ed combination of L{Caps<pygeodesy.karney.Caps>}
+                           values specifying the quantities to be returned.
 
            @return: A L{GDict} with up to 12 items C{lat1, lon1, azi1, lat2,
                     lon2, azi2, m12, a12, s12, M12, M21, S12} with C{lat1},
@@ -374,10 +374,10 @@ class GeodesicExact(_GeodesicBase):
            @arg lon1: Longitude of the first point (C{degrees}).
            @arg azi1: Azimuth at the first point (compass C{degrees}).
            @arg s12: Distance between the points (C{meter}), can be negative.
-           @kwarg caps: Bit-or'ed combination of L{Caps} values specifying
-                        the capabilities the L{GeodesicLineExact} instance
-                        should possess, i.e., which quantities can be
-                        returned by calls to L{GeodesicLineExact.Position}.
+           @kwarg caps: Bit-or'ed combination of L{Caps<pygeodesy.karney.Caps>} values
+                        specifying the capabilities the L{GeodesicLineExact} instance
+                        should possess, i.e., which quantities can be returned by methods
+                        L{GeodesicLineExact.Position}.
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: A L{GeodesicLineExact} instance.
@@ -734,8 +734,8 @@ class GeodesicExact(_GeodesicBase):
            @arg lon1: Longitude of the first point (C{degrees}).
            @arg lat2: Latitude of the second point (C{degrees}).
            @arg lon2: Longitude of the second point (C{degrees}).
-           @kwarg outmask: Bit-or'ed combination of L{Caps} values specifying
-                           the quantities to be returned.
+           @kwarg outmask: Bit-or'ed combination of L{Caps<pygeodesy.karney.Caps>}
+                           values specifying the quantities to be returned.
 
            @return: A L{GDict} with up to 12 items C{lat1, lon1, azi1, lat2,
                     lon2, azi2, m12, a12, s12, M12, M21, S12} with C{lat1},
@@ -788,11 +788,10 @@ class GeodesicExact(_GeodesicBase):
            @arg lon1: Longitude of the first point (C{degrees}).
            @arg lat2: Latitude of the second point (C{degrees}).
            @arg lon2: Longitude of the second point (C{degrees}).
-           @kwarg caps: Bit-or'ed combination of L{Caps} values specifying
-                        the capabilities the L{GeodesicLineExact} instance
-                        should possess, i.e., which quantities can be
-                        returned by calls to L{GeodesicLineExact.Position}
-                        and L{GeodesicLineExact.ArcPosition}.
+           @kwarg caps: Bit-or'ed combination of L{Caps<pygeodesy.karney.Caps>} values
+                        specifying the capabilities the L{GeodesicLineExact} instance
+                        should possess, i.e., which quantities can be returned by methods
+                        L{GeodesicLineExact.Position} and L{GeodesicLineExact.ArcPosition}.
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: A L{GeodesicLineExact} instance.
@@ -1103,11 +1102,10 @@ class GeodesicExact(_GeodesicBase):
            @arg lat1: Latitude of the first point (C{degrees}).
            @arg lon1: Longitude of the first point (C{degrees}).
            @arg azi1: Azimuth at the first point (compass C{degrees}).
-           @kwarg caps: Bit-or'ed combination of L{Caps} values specifying
-                        the capabilities the L{GeodesicLineExact} instance
-                        should possess, i.e., which quantities can be
-                        returnedby calls to L{GeodesicLineExact.Position}
-                        and L{GeodesicLineExact.ArcPosition}.
+           @kwarg caps: Bit-or'ed combination of L{Caps<pygeodesy.karney.Caps>} values
+                        specifying the capabilities the L{GeodesicLineExact} instance
+                        should possess, i.e., which quantities can be returned by methods
+                        L{GeodesicLineExact.Position} and L{GeodesicLineExact.ArcPosition}.
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: A L{GeodesicLineExact} instance.
@@ -1259,11 +1257,10 @@ class GeodesicLineExact(_GeodesicLineExact):
            @arg lat1: Latitude of the first point (C{degrees}).
            @arg lon1: Longitude of the first point (C{degrees}).
            @arg azi1: Azimuth at the first points (compass C{degrees}).
-           @kwarg caps: Bit-or'ed combination of L{Caps} values specifying
-                        the capabilities the L{GeodesicLineExact} instance
-                        should possess, i.e., which quantities can be
-                        returned by calls to L{GeodesicLineExact.Position}
-                        and L{GeodesicLineExact.ArcPosition}.
+           @kwarg caps: Bit-or'ed combination of L{Caps<pygeodesy.karney.Caps>} values
+                        specifying the capabilities the L{GeodesicLineExact} instance
+                        should possess, i.e., which quantities can bereturned by methods
+                        L{GeodesicLineExact.Position} and L{GeodesicLineExact.ArcPosition}.
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @raise TypeError: Invalid B{C{geodesic}}.
@@ -1333,7 +1330,7 @@ def _C4coeffs(nC4):  # in .geodesicx.__main__
     '''(INTERNAL) Get the C{C4_24}, C{_27} or C{_30} series coefficients.
     '''
     try:  # from pygeodesy.geodesicx._C4_xx import _coeffs_xx as _coeffs
-        _C4_xx  = _DOT_(_MODS.geodesicx.__name__, _UNDER_('_C4', nC4))
+        _C4_xx  = _DOT_(typename(_MODS.geodesicx), _UNDER_('_C4', nC4))
         _coeffs = _MODS.getattr(_C4_xx, _UNDER_('_coeffs', nC4))
     except (AttributeError, ImportError, TypeError) as x:
         raise GeodesicError(nC4=nC4, cause=x)

@@ -9,8 +9,8 @@ Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2022-2024) and lice
 under the MIT/X11 License.  For more information, see the U{GeographicLib
 <https://GeographicLib.SourceForge.io>} documentation.
 
-@see: U{Auxiliary latitudes<https:#GeographicLib.SourceForge.io/C++/doc/auxlat.html>}
-      U{On auxiliary latitudes<https:#ArXiv.org/abs/2212.05818>}.
+@see: U{Auxiliary latitudes<https://GeographicLib.SourceForge.io/C++/doc/auxlat.html>}
+      U{On auxiliary latitudes<https://ArXiv.org/abs/2212.05818>}.
 '''
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
@@ -19,7 +19,7 @@ from pygeodesy.auxilats.auxAngle import AuxAngle, AuxBeta, AuxChi, _AuxClass, \
                                         AuxMu, AuxPhi, AuxTheta, AuxXi
 from pygeodesy.auxilats.auxily import Aux, _sc, _sn
 from pygeodesy.auxilats._CX_Rs import _Rdict, _Rkey, _Rtuple
-from pygeodesy.basics import _reverange, _xinstanceof,  _passarg
+from pygeodesy.basics import _isin, _reverange, _xinstanceof,  _passarg
 from pygeodesy.constants import INF, MAX_EXP, MIN_EXP, NAN, PI_2, PI_4, _EPSqrt, \
                                _0_0, _0_0s, _0_1, _0_5, _1_0, _2_0, _3_0, _360_0, \
                                _log2, _over, isfinite, isinf, isnan
@@ -48,7 +48,7 @@ except ImportError:  # Python 3.11-
         return pow(_2_0, x)
 
 __all__ = ()
-__version__ = '25.01.15'
+__version__ = '25.04.14'
 
 _TRIPS = 1024  # XXX 2 or 3?
 
@@ -90,7 +90,7 @@ class AuxLat(AuxAngle):
         else:
             name = NN
         try:
-            if a_earth not in (_EWGS84, _WGS84):
+            if not _isin(a_earth, _EWGS84, _WGS84):
                 n = _name__(name, name__=AuxLat)
                 if b is f is None:
                     E = _ellipsoidal_datum(a_earth, name=n).ellipsoid  # XXX raiser=_earth_

@@ -14,10 +14,11 @@ Transcoded from I{Charles Karney}'s C++ class U{GARS
       (GARS)<https://Earth-Info.NGA.mil/GandG/coordsys/grids/gars.html>}.
 '''
 
-from pygeodesy.basics import isstr, _splituple
+from pygeodesy.basics import isstr, _splituple,  typename
 from pygeodesy.constants import _off90, _1_over, _0_5, \
                                 _1_0  # PYCHOK used!
 from pygeodesy.errors import _ValueError, _xkwds, _xStrError
+# from pygeodesy.internals import typename  # from .basics
 from pygeodesy.interns import NN, _0to9_, _AtoZnoIO_, _INV_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 from pygeodesy.named import _name__,  Fmt, Property_RO
@@ -29,7 +30,7 @@ from pygeodesy.units import Int_, Lat, Lon, Precision_, Scalar_, Str
 from math import floor
 
 __all__ = _ALL_LAZY.gars
-__version__ = '25.01.15'
+__version__ = '25.04.14'
 
 _Digits  = _0to9_
 _LatLen  =    2
@@ -92,7 +93,7 @@ def _2garstr2(garef):
         return garstr, _2Precision(n - _MinLen)
 
     except (AttributeError, TypeError, ValueError) as x:
-        raise GARSError(Garef.__name__, garef, cause=x)
+        raise GARSError(typename(Garef), garef, cause=x)
 
 
 def _2Precision(precision):

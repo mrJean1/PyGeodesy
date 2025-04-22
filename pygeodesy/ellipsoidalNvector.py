@@ -23,14 +23,17 @@ The Journal of Navigation (2010), vol 63, nr 3, pp 395-417.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import issubclassof, map2, _xinstanceof, _xsubclassof
+from pygeodesy.basics import _isin, issubclassof, map2, _xinstanceof, \
+                             _xsubclassof
 from pygeodesy.datums import _earth_ellipsoid, _ellipsoidal_datum, _WGS84
 # from pygeodesy.dms import F_D, toDMS  # _MODS
+# from pygeodesy.ecef import EcefVeness  # _MODS
 from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
                                      _nearestOn, LatLonEllipsoidalBase, \
                                      _TOL_M,  _Wrap
 from pygeodesy.errors import _xkwds, _xkwds_pop2
 # from pygeodesy.fmath import fdot  # from .nvectorBase
+# from pygeodesy.formy import _isequalTo  # _MODS
 from pygeodesy.interns import _Nv00_, _COMMASPACE_,  _pole_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _ALL_OTHER
 # from pygeodesy.ltp import Ltp  # _MODS
@@ -48,7 +51,7 @@ from pygeodesy.units import Bearing, Distance, Height, Scalar
 # from math import fabs  # from .nvectorBase
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '24.10.19'
+__version__ = '25.04.21'
 
 
 class Ned(_Ned):
@@ -453,7 +456,7 @@ class Nvector(NvectorBase):
            @raise TypeError: If B{C{datum}} is not a L{Datum}.
         '''
         NvectorBase.__init__(self, x_xyz, y=y, z=z, h=h, ll=ll, **name)
-        if datum not in (None, self._datum):
+        if not _isin(datum, None, self._datum):
             self._datum = _ellipsoidal_datum(datum, **name)
 
     @Property_RO

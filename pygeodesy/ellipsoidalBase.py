@@ -12,30 +12,41 @@ and published under the same MIT Licence**, see for example U{latlon-ellipsoidal
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-# from pygeodesy.basics import _xinstanceof  # from .datums
+# from pygeodesy.azimuthal import EquidistantExact, EquidistantKarney  # _MODS
+from pygeodesy.basics import _isin, _xinstanceof
 from pygeodesy.constants import EPS, EPS0, EPS1, _0_0, _0_5
 from pygeodesy.cartesianBase import CartesianBase  # PYCHOK used!
+# from pygeodesy.css import toCss  # _MODS
 from pygeodesy.datums import Datum, Datums, _earth_ellipsoid, _ellipsoidal_datum, \
-                             Transform, _WGS84,  _EWGS84, _xinstanceof  # _spherical_datum
+                             Transform, _WGS84,  _EWGS84  # _spherical_datum
+# from pygeodesy.dms import parse3llh  # _MODS
+# from pygeodesy.elevations import elevation2, geoidHeight2  # _MODS
+# from pygeodesy.ellipsoidalBaseDI import _intersect3, _intersections2, _nearestOn2  # _MODS
 # from pygeodesy.ellipsoids import _EWGS84  # from .datums
 from pygeodesy.errors import _IsnotError, RangeError, _TypeError, _xattr, _xellipsoidal, \
                              _xellipsoids, _xError, _xkwds, _xkwds_not
+# from pygeodesy.etm import etm, toEtm8  # _MODS
 # from pygeodesy.fmath import favg  # _MODS
 from pygeodesy.interns import NN, _COMMA_, _ellipsoidal_
 from pygeodesy.latlonBase import LatLonBase, _trilaterate5,  fabs, _Wrap
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.lcc import toLcc  # _MODS
 # from pygeodesy.namedTuples import Vector3Tuple  # _MODS
+# from pygeodesy.osgr import toOsgr  # _MODS
+# from pygeodesy.points import isenclosedBy  # _MODS
 from pygeodesy.props import deprecated_method, deprecated_property_RO, \
                             Property_RO, property_doc_, property_RO, _update_all
-# from pygeodesy.trf import _eT0Ds4  # _MODS
+# from pygeodesy.trf import RefFrame, _toRefFrame  # _MODS
 from pygeodesy.units import Epoch, _isDegrees, Radius_, _1mm as _TOL_M
+# from pygeodesy import ups, utm, utmups  # MODS
+# from pygeodesy.utmupsBase import _lowerleft  # MODS
 # from pygeodesy.utily import _Wrap  # from .latlonBase
+# from pygeodesy.vector3d import _intersects2  # _MODS
 
 # from math import fabs  # from .latlonBase
 
 __all__ = _ALL_LAZY.ellipsoidalBase
-__version__ = '24.12.04'
+__version__ = '25.04.14'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -246,7 +257,7 @@ class LatLonEllipsoidalBase(LatLonBase):
            @raise UnitError: Invalid B{C{lat}}, B{C{lon}} or B{C{height}}.
         '''
         LatLonBase.__init__(self, latlonh, lon=lon, height=height, wrap=wrap, **name)
-        if datum not in (None, self._datum, _EWGS84):
+        if not _isin(datum, None, self._datum, _EWGS84):
             self.datum = _ellipsoidal_datum(datum, name=self.name)
         if reframe:
             self.reframe = reframe
@@ -738,7 +749,7 @@ class LatLonEllipsoidalBase(LatLonBase):
                 n = Datums.NAD83.ellipsoid.rocGauss(self.lat)
                 if n > EPS0:
                     # use ratio, datum and NAD83 units may differ
-                    E = self.ellipsoid() if datum in (None, self.datum) else \
+                    E = self.ellipsoid() if _isin(datum, None, self.datum) else \
                       _earth_ellipsoid(datum)
                     r = E.rocGauss(self.lat)
                     if r > EPS0 and fabs(r - n) > EPS:  # EPS1
@@ -1109,9 +1120,9 @@ class LatLonEllipsoidalBase(LatLonBase):
 def _lowerleft(utmups, center):
     '''(INTERNAL) Optionally I{un}-center C{utmups}.
     '''
-    if center in (False, 0, _0_0):
+    if _isin(center, False, 0, _0_0):
         u = utmups
-    elif center in (True,):
+    elif _isin(center, True):
         u = utmups._lowerleft
     else:
         u = _MODS.utmupsBase._lowerleft(utmups, center)

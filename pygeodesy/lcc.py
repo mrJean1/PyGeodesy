@@ -24,15 +24,17 @@ and John P. Snyder U{'Map Projections - A Working Manual'<https://Pubs.USGS.gov/
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import copysign0, _xinstanceof, _xsubclassof
+from pygeodesy.basics import copysign0, _isin, _xinstanceof, _xsubclassof, \
+                             typename
 from pygeodesy.constants import EPS, EPS02, PI_2, _float as _F, _0_0, _0_5, \
                                _1_0, _2_0, _90_0
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.errors import _IsnotError, _ValueError
 from pygeodesy.fmath import hypot, _ALL_LAZY
-from pygeodesy.interns import NN, _COMMASPACE_, _ellipsoidal_, _GRS80_, _k0_, \
-                             _lat0_, _lon0_, _m_, _NAD83_, _NTF_, _SPACE_, \
+# from pygeodesy.internals import typename  # from .basics
+from pygeodesy.interns import NN, _COMMASPACE_, _DMAIN_, _ellipsoidal_, _GRS80_, \
+                             _k0_, _lat0_, _lon0_, _m_, _NAD83_, _NTF_, _SPACE_, \
                              _WGS84_,  _C_  # PYCHOK used!
 # from pygeodesy.lazily import _ALL_LAZY  # from .fmath
 from pygeodesy.named import _lazyNamedEnumItem as _lazy, _name2__, _NamedBase, \
@@ -48,7 +50,7 @@ from pygeodesy.utily import atan1, degrees90, degrees180, sincos2, tanPI_2_2
 from math import atan, fabs, log, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.lcc
-__version__ = '24.11.06'
+__version__ = '25.04.14'
 
 _E0_   = 'E0'
 _N0_   = 'N0'
@@ -348,7 +350,7 @@ class Conic(_NamedEnumItem):
         return PI_2 - atan(t_x) * _2_0  # XXX + self._phi0
 
 
-Conic._name = Conic.__name__
+Conic._name = typename(Conic)
 
 
 class Conics(_NamedEnum):
@@ -414,7 +416,7 @@ class Lcc(_NamedBase):
 
            @raise TypeError: If B{C{conic}} is not L{Conic}.
         '''
-        if conic not in (None, Lcc._conic):
+        if not _isin(conic, None, Lcc._conic):
             self.conic = conic
         self._easting  = Easting(e,  falsed=conic.E0 > 0, Error=LCCError)
         self._northing = Northing(n, falsed=conic.N0 > 0, Error=LCCError)
@@ -524,7 +526,7 @@ class Lcc(_NamedBase):
 
            @raise TypeError: If B{C{datum}} is not ellipsoidal.
         '''
-        if datum in (None, self.conic.datum):
+        if _isin(datum, None, self.conic.datum):
             r = LatLonDatum3Tuple(self.latlon.lat,
                                   self.latlon.lon,
                                   self.conic.datum, name=self.name)
@@ -556,7 +558,7 @@ class Lcc(_NamedBase):
             _xsubclassof(_LLEB, LatLon=LatLon)
 
         c = self.conic
-        if datum not in (None, self.conic.datum):
+        if not _isin(datum, None, self.conic.datum):
             c = c.toDatum(datum)
 
         e =         self.easting  - c._E0
@@ -648,7 +650,7 @@ def toLcc(latlon, conic=Conics.WRF_Lb, height=None, Lcc=Lcc,
     return _xnamed(r, name) if name else r
 
 
-if __name__ == '__main__':
+if __name__ == _DMAIN_:
 
     from pygeodesy.interns import _NL_, _NLATvar_
     from pygeodesy.lazily import printf

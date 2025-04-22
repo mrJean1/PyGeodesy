@@ -2,13 +2,13 @@
 # -*- coding: utf-8 -*-
 
 u'''Class L{Fsum} for precision floating point summation similar to
-Python's C{math.fsum} enhanced with I{running} summation and as an
-option, accurate I{TwoProduct} multiplication.
+Python's C{math.fsum}, but enhanced with I{precision running} summation
+plus optionally, accurate I{TwoProduct} multiplication.
 
-Accurate multiplication is based on the C{math.fma} function for
-Python 3.13 and newer or one of two equivalent C{fma} implementations
-for Python 3.12 and older.  To enable accurate multiplication, set
-env variable C{PYGEODESY_FSUM_F2PRODUCT} to C{"std"} or any non-empty
+Accurate multiplication is based on the C{math.fma} function from
+Python 3.13 and newer or an equivalent C{fma} implementation for
+Python 3.12 and older.  To enable accurate multiplication, set env
+variable C{PYGEODESY_FSUM_F2PRODUCT} to C{"std"} or any non-empty
 string or invoke function C{pygeodesy.f2product(True)} or set.  With
 C{"std"} the C{fma} implemention follows the C{math.fma} function,
 otherwise the C{PyGeodesy 24.09.09} release.
@@ -48,12 +48,12 @@ from pygeodesy.errors import _AssertionError, _OverflowError, _TypeError, \
                              _ValueError, _xError, _xError2, _xkwds, \
                              _xkwds_get, _xkwds_get1, _xkwds_not, \
                              _xkwds_pop, _xsError
-from pygeodesy.internals import _enquote, _getPYGEODESY, _MODS, _passarg
-from pygeodesy.interns import NN, _arg_, _COMMASPACE_, _DOT_, _from_, \
+from pygeodesy.internals import _enquote, _envPYGEODESY, _passarg, typename
+from pygeodesy.interns import NN, _arg_, _COMMASPACE_, _DMAIN_, _DOT_, _from_, \
                              _not_finite_, _SPACE_, _std_, _UNDER_
-# from pygeodesy.lazily import _ALL_LAZY  # from .named
+# from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS  # from .named
 from pygeodesy.named import _name__, _name2__, _Named, _NamedTuple, \
-                            _NotImplemented,  _ALL_LAZY
+                            _NotImplemented,  _ALL_LAZY, _MODS
 from pygeodesy.props import _allPropertiesOf_n, deprecated_method, \
                              deprecated_property_RO, Property, \
                              Property_RO, property_RO
@@ -64,7 +64,7 @@ from math import fabs, isinf, isnan, \
                  ceil as _ceil, floor as _floor  # PYCHOK used! .ltp
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '25.01.12'
+__version__ = '25.04.14'
 
 from pygeodesy.interns import (
   _PLUS_     as _add_op_,  # in .auxilats.auxAngle
@@ -80,14 +80,14 @@ from pygeodesy.interns import (
   _SLASH_    as _truediv_op_
 )
 _divmod_op_   = _floordiv_op_ + _mod_op_
-_F2PRODUCT    = _getPYGEODESY('FSUM_F2PRODUCT')
+_F2PRODUCT    = _envPYGEODESY('FSUM_F2PRODUCT')
 _iadd_op_     = _add_op_ + _fset_op_  # in .auxilats.auxAngle, .fstats
 _integer_     = 'integer'
 _isub_op_     = _sub_op_ + _fset_op_  # in .auxilats.auxAngle
 _NONFINITEr   = _0_0  # NOT INT0!
-_NONFINITES   = _getPYGEODESY('FSUM_NONFINITES')
+_NONFINITES   = _envPYGEODESY('FSUM_NONFINITES')
 _non_zero_    = 'non-zero'
-_RESIDUAL_0_0 = _getPYGEODESY('FSUM_RESIDUAL', _0_0)
+_RESIDUAL_0_0 = _envPYGEODESY('FSUM_RESIDUAL', _0_0)
 _significant_ = 'significant'
 _threshold_   = 'threshold'
 
@@ -137,10 +137,12 @@ except  ImportError:  # PYCHOK DSPACE! Python 3.12-
         def _fma(*a_b_c):  # PYCHOK no cover
             # mimick C{math.fma} from Python 3.13+,
             # the same accuracy, but ~14x slower
-            (na, da), (nb, db), (nc, dc) = map(_integer_ratio2, a_b_c)
-            n  = na * nb * dc
-            n += da * db * nc
-            d  = da * db * dc
+            (n, d), (nb, db), (nc, dc) = map(_integer_ratio2, a_b_c)
+            # n, d = (n * nb * dc + d * db * nc), (d * db * dc)
+            d *= db
+            n *= nb * dc
+            n += nc * d
+            d *= dc
             try:
                 n, d = _n_d2(n,  d)
                 r    = float(n / d)
@@ -270,20 +272,19 @@ def _isOK(unused):
 def _isOK_or_finite(x, _isfine=_isfinite):
     '''(INTERNAL) Is C{x} finite or is I{non-finite} OK?
     '''
-    # assert _isfine in (_isOK, _isfinite)
+    # assert _isin(_isfine, _isOK, _isfinite)
     return _isfine(x)  # C{bool}
 
 
 def _n_d2(n, d):
     '''(INTERNAL) Reduce C{n} and C{d} by C{gcd}.
     '''
-    if n and d:
-        try:
-            c = _gcd(n, d)
-            if c > 1:
-                return (n // c), (d // c)
-        except TypeError:  # non-int float
-            pass
+    try:
+        c = _gcd(n, d)
+        if c > 1:
+            return (n // c), (d // c)
+    except TypeError:  # non-int float
+        pass
     return n, d
 
 
@@ -402,7 +403,7 @@ def _s_r2(s, r):
 def _strcomplex(s, *args):
     '''(INTERNAL) C{Complex} 2- or 3-arg C{pow} error as C{str}.
     '''
-    c = _strcomplex.__name__[4:]
+    c =  typename(_strcomplex)[4:]
     n = _sub_op_(len(args), _arg_)
     t =  unstr(pow, *args)
     return _SPACE_(c, s, _from_, n, t)
@@ -411,8 +412,8 @@ def _strcomplex(s, *args):
 def _stresidual(prefix, residual, R=0, **mod_ratio):
     '''(INTERNAL) Residual error txt C{str}.
     '''
-    p = _stresidual.__name__[3:]
-    t =  Fmt.PARENSPACED(p, Fmt(residual))
+    p = typename(_stresidual)[3:]
+    t = Fmt.PARENSPACED(p, Fmt(residual))
     for n, v in itemsorted(mod_ratio):
         p =  Fmt.PARENSPACED(n, Fmt(v))
         t = _COMMASPACE_(t, p)
@@ -532,7 +533,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
         '''Return C{abs(self)} as an L{Fsum}.
         '''
         s = self.signOf()  # == self._cmp_0(0)
-        return (-self) if s < 0 else self._copy_2(self.__abs__)
+        return (-self) if s < 0 else self._copyd(self.__abs__)
 
     def __add__(self, other):
         '''Return C{B{self} + B{other}} as an L{Fsum}.
@@ -543,7 +544,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
 
            @see: Methods L{Fsum.fadd_} and L{Fsum.fadd}.
         '''
-        f = self._copy_2(self.__add__)
+        f = self._copyd(self.__add__)
         return f._fadd(other)
 
     def __bool__(self):  # PYCHOK Python 3+
@@ -576,7 +577,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
 
            @raise TypeError: Incompatible B{C{other}} C{type}.
         '''
-        s = self._cmp_0(other, self.cmp.__name__)
+        s = self._cmp_0(other, typename(self.cmp))
         return _signOf(s, 0)
 
     def __divmod__(self, other, **raiser_RESIDUAL):
@@ -594,7 +595,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
 
            @see: Method L{Fsum.fdiv}.
         '''
-        f = self._copy_2(self.__divmod__)
+        f = self._copyd(self.__divmod__)
         return f._fdivmod2(other, _divmod_op_, **raiser_RESIDUAL)
 
     def __eq__(self, other):
@@ -628,7 +629,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
 
            @see: Methods L{Fsum.__ifloordiv__}.
         '''
-        f = self._copy_2(self.__floordiv__)
+        f = self._copyd(self.__floordiv__)
         return f._floordiv(other, _floordiv_op_)
 
     def __ge__(self, other):
@@ -843,7 +844,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
 
            @see: Method L{Fsum.__imod__}.
         '''
-        f = self._copy_2(self.__mod__)
+        f = self._copyd(self.__mod__)
         return f._fdivmod2(other, _mod_op_).mod
 
     def __mul__(self, other):
@@ -851,7 +852,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
 
            @see: Method L{Fsum.__imul__}.
         '''
-        f = self._copy_2(self.__mul__)
+        f = self._copyd(self.__mul__)
         return f._fmul(other, _mul_op_)
 
     def __ne__(self, other):
@@ -862,20 +863,20 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
     def __neg__(self):
         '''Return C{copy(B{self})}, I{negated}.
         '''
-        f = self._copy_2(self.__neg__)
+        f = self._copyd(self.__neg__)
         return f._fset(self._neg)
 
     def __pos__(self):
         '''Return this instance I{as-is}, like C{float.__pos__()}.
         '''
-        return self if _pos_self else self._copy_2(self.__pos__)
+        return self if _pos_self else self._copyd(self.__pos__)
 
     def __pow__(self, other, *mod):  # PYCHOK 2 vs 3 args
         '''Return C{B{self}**B{other}} as an L{Fsum}.
 
            @see: Method L{Fsum.__ipow__}.
         '''
-        f = self._copy_2(self.__pow__)
+        f = self._copyd(self.__pow__)
         return f._fpow(other, _pow_op_, *mod)
 
     def __radd__(self, other):
@@ -883,7 +884,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
 
            @see: Method L{Fsum.__iadd__}.
         '''
-        f = self._copy_2r(other, self.__radd__)
+        f = self._rcopyd(other, self.__radd__)
         return f._fadd(self)
 
     def __rdivmod__(self, other):
@@ -892,7 +893,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
 
            @see: Method L{Fsum.__divmod__}.
         '''
-        f = self._copy_2r(other, self.__rdivmod__)
+        f = self._rcopyd(other, self.__rdivmod__)
         return f._fdivmod2(self, _divmod_op_)
 
 #       turned off, called by _deepcopy and _copy
@@ -901,7 +902,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
 #           <https://docs.Python.org/3/library/pickle.html#object.__reduce__>}
 #       '''
 #       dict_ = self._Fsum_as().__dict__  # no __setstate__
-#       return (self.__class__, self.partials, dict_)
+#       return (type(self), self.partials, dict_)
 
 #   def __repr__(self):
 #       '''Return the default C{repr(this)}.
@@ -913,7 +914,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
 
            @see: Method L{Fsum.__ifloordiv__}.
         '''
-        f = self._copy_2r(other, self.__rfloordiv__)
+        f = self._rcopyd(other, self.__rfloordiv__)
         return f._floordiv(self, _floordiv_op_)
 
     def __rmatmul__(self, other):  # PYCHOK no coveS
@@ -925,7 +926,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
 
            @see: Method L{Fsum.__imod__}.
         '''
-        f = self._copy_2r(other, self.__rmod__)
+        f = self._rcopyd(other, self.__rmod__)
         return f._fdivmod2(self, _mod_op_).mod
 
     def __rmul__(self, other):
@@ -933,7 +934,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
 
            @see: Method L{Fsum.__imul__}.
         '''
-        f = self._copy_2r(other, self.__rmul__)
+        f = self._rcopyd(other, self.__rmul__)
         return f._fmul(self, _mul_op_)
 
     def __round__(self, *ndigits):  # PYCHOK Python 3+
@@ -941,7 +942,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
 
            @arg ndigits: Optional number of digits (C{int}).
         '''
-        f = self._copy_2(self.__round__)
+        f = self._copyd(self.__round__)
         # <https://docs.Python.org/3.12/reference/datamodel.html?#object.__round__>
         return f._fset(round(float(self), *ndigits))  # can be C{int}
 
@@ -950,7 +951,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
 
            @see: Method L{Fsum.__ipow__}.
         '''
-        f = self._copy_2r(other, self.__rpow__)
+        f = self._rcopyd(other, self.__rpow__)
         return f._fpow(self, _pow_op_, *mod)
 
     def __rsub__(self, other):
@@ -958,7 +959,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
 
            @see: Method L{Fsum.__isub__}.
         '''
-        f = self._copy_2r(other, self.__rsub__)
+        f = self._rcopyd(other, self.__rsub__)
         return f._fsub(self, _sub_op_)
 
     def __rtruediv__(self, other, **raiser_RESIDUAL):
@@ -966,7 +967,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
 
            @see: Method L{Fsum.__itruediv__}.
         '''
-        f = self._copy_2r(other, self.__rtruediv__)
+        f = self._rcopyd(other, self.__rtruediv__)
         return f._ftruediv(self, _truediv_op_, **raiser_RESIDUAL)
 
     def __str__(self):
@@ -983,7 +984,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
 
            @see: Method L{Fsum.__isub__}.
         '''
-        f = self._copy_2(self.__sub__)
+        f = self._copyd(self.__sub__)
         return f._fsub(other, _sub_op_)
 
     def __truediv__(self, other, **raiser_RESIDUAL):
@@ -1088,10 +1089,10 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
         # assert f._RESIDUAL is self._RESIDUAL
         return f
 
-    def _copy_2(self, which, name=NN):
+    def _copyd(self, which, name=NN):
         '''(INTERNAL) Copy for I{dyadic} operators.
         '''
-        n =  name or which.__name__  # _DUNDER_nameof
+        n =  name or typename(which)
         # NOT .classof due to .Fdot(a, *b) args, etc.
         f = _Named.copy(self, deep=False, name=n)
         f._ps = list(self._ps)  # separate list
@@ -1101,12 +1102,6 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
         # assert f._isfine is self._isfine
         # assert f._RESIDUAL is self._RESIDUAL
         return f
-
-    def _copy_2r(self, other, which):
-        '''(INTERNAL) Copy for I{reverse-dyadic} operators.
-        '''
-        return other._copy_2(which) if _isFsum(other) else \
-                self._copy_2(which)._fset(other)
 
     divmod = __divmod__
 
@@ -1193,7 +1188,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
 
         _Pow, p, s, r = _Pow4(power)
         if p:  # and xs:
-            op   =  which.__name__
+            op   =  typename(which)
             _FsT = _Fsum_2Tuple_types
             _pow =  self._pow_2_3
 
@@ -1230,8 +1225,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
         '''(INTERNAL) Accumulate all C{xs}, each C{scalar}, an L{Fsum} or
            L{Fsum2Tuple}, like function C{_xsum}.
         '''
-        _C =  self.__class__
-        fs = _xs(xs, **_x_isfine(self.nonfinitesOK, _Cdot=_C,
+        fs = _xs(xs, **_x_isfine(self.nonfinitesOK, _Cdot=type(self),
                                **origin_which))  # PYCHOK yield
         return self._facc_scalar(fs, up=up)
 
@@ -1447,7 +1441,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
                               override L{nonfinites<Fsum.nonfinites>} and
                               L{nonfiniterrors} default (C{bool}).
         '''
-        op  = self.fma.__name__
+        op  = typename(self.fma)
         _fs = self._ps_other
         try:
             s, r = self._fprs2
@@ -1512,7 +1506,8 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
     def _f2mul(self, where, others, f2product=True, **nonfinites_raiser):
         '''(INTERNAL) See methods C{fma} and C{f2mul_}.
         '''
-        f = _Psum(self._ps, f2product=f2product, name=where.__name__)
+        n =  typename(where)
+        f = _Psum(self._ps, f2product=f2product, name=n)
         if others and f:
             if f.f2product():
                 def _pfs(f, ps):
@@ -1521,7 +1516,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
                 def _pfs(f, ps):  # PYCHOK redef
                     return (f * p for p in ps)
 
-            op, ps = where.__name__, f._ps
+            op, ps = n, f._ps
             try:  # as if self.f2product(True)
                 for other in others:  # to pinpoint errors
                     for p in self._ps_other(op, other):
@@ -1760,7 +1755,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
 
            @return: Copy of this updated instance (L{Fsum}).
         '''
-        return self._facc_args(xs)._copy_2(self.Fsum_, **name)
+        return self._facc_args(xs)._copyd(self.Fsum_, **name)
 
     def Fsum2Tuple_(self, *xs, **name):
         '''Like method L{Fsum.fsum_} but returning a named L{Fsum2Tuple}.
@@ -1773,7 +1768,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
 
     @property_RO
     def _Fsum(self):  # like L{Fsum2Tuple._Fsum}, in .fstats
-        return self  # NOT @Property_RO, see .copy and ._copy_2
+        return self  # NOT @Property_RO, see .copy and ._copyd
 
     def _Fsum_as(self, *xs, **name_f2product_nonfinites_RESIDUAL):
         '''(INTERNAL) Return an C{Fsum} with this C{Fsum}'s C{.f2product},
@@ -1848,7 +1843,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
         '''Like method L{Fsum.Fsum_} iff I{all} C{B{xs}}, each I{known to be}
            C{scalar}, an L{Fsum} or L{Fsum2Tuple}.
         '''
-        return self._facc_scalarf(xs, which=self.Fsumf_)._copy_2(self.Fsumf_)  # origin=1?
+        return self._facc_scalarf(xs, which=self.Fsumf_)._copyd(self.Fsumf_)  # origin=1?
 
     def fsum2f_(self, *xs):
         '''Like method L{Fsum.fsum2_} iff I{all} C{B{xs}}, each I{known to be}
@@ -2132,7 +2127,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
            @see: Methods L{Fsum.__ipow__}, L{Fsum.fint}, L{Fsum.is_integer}
                  and L{Fsum.root}.
         '''
-        f = self._copy_2(self.pow)
+        f = self._copyd(self.pow)
         return f._fpow(x, _pow_op_, *mod, **raiser_RESIDUAL)  # f = pow(f, x, *mod)
 
     def _pow(self, other, unused, op, **raiser_RESIDUAL):
@@ -2354,6 +2349,12 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
                     return dict(ratio=q, R=t)
         return {}
 
+    def _rcopyd(self, other, which):
+        '''(INTERNAL) Copy for I{reverse-dyadic} operators.
+        '''
+        return other._copyd(which) if _isFsum(other) else \
+                self._copyd(which)._fset(other)
+
     rdiv = __rtruediv__
 
     @property_RO
@@ -2434,7 +2435,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
            @see: Method L{Fsum.pow}.
         '''
         x = self._1_Over(root, _truediv_op_, **raiser_RESIDUAL)
-        f = self._copy_2(self.root)
+        f = self._copyd(self.root)
         return f._fpow(x, f.name, **raiser_RESIDUAL)  # == pow(f, x)
 
     def _scalar(self, other, op, **txt):
@@ -2486,7 +2487,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
     def _truediv(self, other, op, **raiser_RESIDUAL):
         '''(INTERNAL) Return C{B{self} / B{other}} as an L{Fsum}.
         '''
-        f = self._copy_2(self.__truediv__)
+        f = self._copyd(self.__truediv__)
         return f._ftruediv(other, op, **raiser_RESIDUAL)
 
     def _update(self, updated=True):  # see ._fset
@@ -2533,8 +2534,8 @@ class Fsum2Tuple(_NamedTuple):  # in .fstats
        @note: If the C{residual is INT0}, the C{fsum} is considered
               to be I{exact}, see method L{Fsum2Tuple.is_exact}.
     '''
-    _Names_ = ( Fsum.fsum.__name__, Fsum.residual.name)
-    _Units_ = (_Float_Int,         _Float_Int)
+    _Names_ = ( typename(Fsum.fsum), Fsum.residual.name)
+    _Units_ = (_Float_Int,          _Float_Int)
 
     def __abs__(self):  # in .fmath
         return self._Fsum.__abs__()
@@ -2626,7 +2627,7 @@ class Fsum2Tuple(_NamedTuple):  # in .fstats
 
     def _other_op(self, other, which):
         C, s = (tuple, self) if isinstance(other, tuple) else (Fsum, self._Fsum)
-        return getattr(C, which.__name__)(s, other)
+        return getattr(C, typename(which))(s, other)
 
     @property_RO
     def _ps(self):
@@ -2807,9 +2808,9 @@ def _xsum(which, xs, nonfinites=None, primed=0, **floats):  # origin=0
 # delete all decorators, etc.
 del _allPropertiesOf_n, deprecated_method, deprecated_property_RO, \
      Property, Property_RO, property_RO, _ALL_LAZY, _F2PRODUCT, \
-     MANT_DIG, _NONFINITES, _RESIDUAL_0_0, _getPYGEODESY, _std_
+     MANT_DIG, _NONFINITES, _RESIDUAL_0_0, _envPYGEODESY, _std_
 
-if __name__ == '__main__':
+if __name__ == _DMAIN_:
 
     # usage: python3 -m pygeodesy.fsums
 
@@ -2817,8 +2818,8 @@ if __name__ == '__main__':
         # copied from Hettinger, see L{Fsum} reference
         from pygeodesy import frandoms, printf
 
-        printf(_fsum.__name__, end=_COMMASPACE_)
-        printf(_psum.__name__, end=_COMMASPACE_)
+        printf(typename(_fsum), end=_COMMASPACE_)
+        printf(typename(_psum), end=_COMMASPACE_)
 
         F = Fsum()
         if F.is_math_fsum():

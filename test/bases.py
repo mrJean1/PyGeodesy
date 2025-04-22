@@ -27,7 +27,7 @@ if PyGeodesy_dir not in sys.path:  # Python 3+ ModuleNotFoundError
 
 from pygeodesy import anstr, basics, clips, DeprecationWarnings, internals, interns, \
                       isint, isLazy, issubclassof, iterNumpy2over, LazyImportError, \
-                      karney, map2, NN, normDMS, pairs, printf, property_RO, \
+                      karney, map2, NN, normDMS, pairs, printf, property_RO, typename, \
                       version as PyGeodesy_version  # PYCHOK expected
 from pygeodesy.internals import _getenv, _name_version, _secs2str as secs2str
 
@@ -43,7 +43,7 @@ __all__ = ('bits_mach2', 'coverage', 'GeodSolve', 'geographiclib',
            'numpy', 'PyGeodesy_dir', 'PythonX', 'scipy', 'test_dir',
            'RandomLatLon', 'TestsBase',  # classes
            'secs2str', 'tilde', 'type2str', 'versions')  # functions
-__version__ = '25.01.08'
+__version__ = '25.04.14'
 
 try:
     if float(_getenv('PYGEODESY_COVERAGE', '0')) > 0:
@@ -200,7 +200,7 @@ class TestsBase(object):
             for n in dir(m):
                 C = getattr(m, n)
                 if isclass(C) and (issubclassof(C, B) if B else True) \
-                              and C.__module__ == m.__name__:
+                              and C.__module__ == typename(m):  # _DMODULE_
                     yield C
 
     def pygeodesy_classes_(self, Base, *Classes):
@@ -262,7 +262,7 @@ class TestsBase(object):
                     k = '%s%s KNOWN' % (a, k)
                     a = ' plus '
             if w:
-                w = '%s%s %s%s' % (a, w, DeprecationWarning.__name__,
+                w = '%s%s %s%s' % (a, w, typename(DeprecationWarning),
                                          ('s' if w > 1 else ''))
             p = f * 100.0 / t
             r = '(%.1f%%) FAILED%s%s' % (p, k, w or '')
@@ -346,13 +346,13 @@ class TestsBase(object):
 
         c = _xcopy(inst, **kwds)
         t = c.__class__, id(c) != id(inst)
-        self.test('copy(%s)' % C.__name__, t, (C, True))
+        self.test('copy(%s)' % type(C), t, (C, True))
         for a in attrs:
             self.test('.' + a, getattr(c, a), getattr(inst, a))
 
         c = inst.copy(**kwds)
         t = c.__class__, id(c) != id(inst)
-        self.test(C.__name__ + '.copy()', t, (C, True))
+        self.test(typename(C) + '.copy()', t, (C, True))
         for a in attrs:
             self.test('.' + a, getattr(c, a), getattr(inst, a))
 
@@ -370,7 +370,7 @@ class TestsBase(object):
         z = m = NN
         if module:
             m = ' (module %s %s)' % (basename(module.__name__),
-                                     module.__version__)
+                                     module.__version__)  # _DVERSION_
         if isLazy:
             z = ' isLazy=%s' % (isLazy,)
         self.printf('testing %s %s%s%s', test, version, m, z, nl=1)
@@ -469,7 +469,7 @@ def type2str(obj, attr, **renamed):
     elif ismodule(t):
         t = ' module'
     elif isinstance(t, property):  # type(t) is property
-        t = t.__class__.__name__
+        t = typename(type(t))
         if renamed:
             t = renamed.get(t, t)
         t = _SPACE_ + t
@@ -501,7 +501,7 @@ def versions():
             r = karney._wrapped
             t = r.Math_K_2
             if t:
-                vs += r.Math.__name__, t
+                vs += typename(r.Math), t
 
         for t in (GeoConvert, GeodSolve, IntersectTool, RhumbSolve):
             if t:
@@ -529,7 +529,7 @@ def versions():
 def _X_OK(_Xables, which):
     '''(INTERNAL) Get a I{Karney}'s executable path or C{None}.
     '''
-#   n = which.__name__
+#   n = typename(which)
     p = which()  # sets _Xables.ENV
     if p is _Xables.ENV:  # or n.lower() in basics._XPACKAGES:
         p = None
@@ -548,7 +548,7 @@ IntersectTool = _X_OK(_Xables, _Xables.IntersectTool)
 RhumbSolve    = _X_OK(_Xables, _Xables.RhumbSolve)
 del basics, _Xables, _X_OK
 
-if internals._is_DUNDER_main(__name__):
+if __name__ == interns._DMAIN_:
     try:
         import coverage  # PYCHOK re-imported
     except ImportError:

@@ -6,25 +6,24 @@ u'''Formulary of basic geodesy functions and approximations.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-# from pygeodesy.basics import _args_kwds_count2, _copysign  # from .constants
+from pygeodesy.basics import _copysign, _isin  # _args_kwds_count2
 # from pygeodesy.cartesianBase import CartesianBase  # _MODS
 from pygeodesy.constants import EPS, EPS0, EPS1, PI, PI2, PI3, PI_2, R_M, \
                                _0_0s, float0_, isnon0, remainder, _umod_PI2, \
                                _0_0, _0_125, _0_25, _0_5, _1_0, _2_0, _4_0, \
-                               _90_0, _180_0, _360_0,  _copysign
+                               _90_0, _180_0, _360_0
 from pygeodesy.datums import Datum, Ellipsoid, _ellipsoidal_datum, \
                             _mean_radius, _spherical_datum, _WGS84,  _EWGS84
 # from pygeodesy.ellipsoids import Ellipsoid, _EWGS84  # from .datums
 from pygeodesy.errors import IntersectionError, LimitError, limiterrors, \
                             _TypeError, _ValueError, _xattr, _xError, \
-                            _xcallable,_xkwds, _xkwds_pop2
+                            _xcallable, _xkwds, _xkwds_pop2
 from pygeodesy.fmath import euclid, fdot_, fprod, hypot, hypot2, sqrt0
 from pygeodesy.fsums import fsumf_,  Fmt, unstr
-# from pygeodesy.internals import _DUNDER_nameof  # from .named
+# from pygeodesy.internals import typename  # from .named
 from pygeodesy.interns import _delta_, _distant_, _inside_, _SPACE_, _too_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
-from pygeodesy.named import _name__, _name2__, _NamedTuple, _xnamed, \
-                            _DUNDER_nameof
+from pygeodesy.named import _name__, _name2__, _NamedTuple, _xnamed,  typename
 from pygeodesy.namedTuples import Bearing2Tuple, Distance4Tuple, LatLon2Tuple, \
                                   Intersection3Tuple, PhiLam2Tuple
 # from pygeodesy.streprs import Fmt, unstr  # from .fsums
@@ -43,7 +42,7 @@ from contextlib import contextmanager
 from math import atan, cos, degrees, fabs, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '25.01.05'
+__version__ = '25.04.14'
 
 _RADIANS2 =  radians(_1_0)**2  # degree to radians-squared
 _ratio_   = 'ratio'
@@ -371,9 +370,9 @@ def _dS(fun_, radius, wrap, *lls, **adjust):
 def _ellipsoidal(earth, where):
     '''(INTERNAL) Helper for distances.
     '''
-    return _EWGS84 if earth in (_WGS84, _EWGS84)   else (
-             earth if isinstance(earth, Ellipsoid) else
-            (earth if isinstance(earth, Datum)     else  # PYCHOK indent
+    return _EWGS84 if _isin(earth, _EWGS84, _WGS84) else (
+             earth if  isinstance(earth, Ellipsoid) else
+            (earth if  isinstance(earth, Datum)     else  # PYCHOK indent
             _ellipsoidal_datum(earth, name__=where)).ellipsoid)
 
 
@@ -1077,8 +1076,8 @@ class _idllmn6(object):  # see also .geodesicw._wargs, .latlonBase._toCartesian3
             if wrap:
                 _, lat2, lon2 = _Wrap.latlon3(lon1, lat2, lon2, wrap)
                 kwds = _xkwds(kwds, wrap=wrap)  # for _xError
-            m =  small if small is _100km else Meter_(small=small)
-            n = _DUNDER_nameof(intersections2 if s else intersection2)
+            m = small if small is _100km else Meter_(small=small)
+            n = typename(intersections2 if s else intersection2)
             if datum is None or euclidean(lat1, lon1, lat2, lon2) < m:
                 d, m = None, _MODS.vector3d
                 _i   = m._intersects2 if s else m._intersect3d3

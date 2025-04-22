@@ -18,11 +18,12 @@ http://earth-info.nga.mil/GandG/wgs84/web_mercator/(U)%20NGA_SIG_0011_1.0.0_WEBM
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import _splituple, _xinstanceof
+from pygeodesy.basics import _isin, _splituple, _xinstanceof,  typename
 from pygeodesy.constants import PI_2, R_MA, _2_0
 from pygeodesy.datums import Datum, _spherical_datum
 from pygeodesy.dms import clipDegrees, parseDMS2
 from pygeodesy.errors import _parseX, _ValueError, _xattr, _xkwds, _xkwds_pop2
+# from pygeodesy.internals import typename  # from .basics
 from pygeodesy.interns import NN, _COMMASPACE_, _datum_, _earth_, _easting_, \
                              _northing_, _radius_, _SPACE_, _x_, _y_
 # from pygeodesy.lazily import _ALL_LAZY  from .named
@@ -36,7 +37,7 @@ from pygeodesy.utily import degrees90, degrees180
 from math import atan, atanh, exp, radians, sin, tanh
 
 __all__ = _ALL_LAZY.webmercator
-__version__ = '24.11.06'
+__version__ = '25.04.14'
 
 # _FalseEasting  = 0   # false Easting (C{meter})
 # _FalseNorthing = 0   # false Northing (C{meter})
@@ -126,7 +127,7 @@ class Wm(_NamedBase):
 
            @see: Method C{toLatLon} for other return types.
         '''
-        d = self.datum if datum in (None, self.datum, self.radius) else _datum(datum)
+        d = self.datum if _isin(datum, None, self.datum, self.radius) else _datum(datum)
         E = d.ellipsoid
         R = self.radius
         x = self.x / R
@@ -240,7 +241,7 @@ class Wm(_NamedBase):
             fs += (radius,)
         elif radius:  # is True:
             fs += (self.radius,)
-        elif radius not in (None, False):
+        elif not _isin(radius, None, False):
             raise WebMercatorError(radius=radius)
         t = strs(fs, prec=prec)
         return t if sep is None else sep.join(t)
@@ -257,7 +258,7 @@ class Wm(_NamedBase):
         '''
         return self._y
 
-Wm._datum  = _spherical_datum(Wm._radius, name=Wm.__name__, raiser=_radius_)  # PYCHOK defaults
+Wm._datum  = _spherical_datum(Wm._radius, name=typename(Wm), raiser=_radius_)  # PYCHOK defaults
 Wm._earths = (Wm._radius, Wm._datum, Wm._datum.ellipsoid)
 
 

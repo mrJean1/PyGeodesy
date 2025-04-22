@@ -5,16 +5,16 @@ u'''Print L{geodesicx} version, etc. using C{python -m pygeodesy.geodesicx}.
 '''
 
 __all__ = ()
-__version__ = '25.04.04'
+__version__ = '25.04.14'
 
 
 def _main(**C4order):  # PYCHOK no cover
 
     try:
-        from pygeodesy import GeodesicExact, geodesicx
-        from pygeodesy.internals import _fper, _name_version, \
-                                         printf, _sizeof, _versions
-        from pygeodesy.interns import _COMMASPACE_, _EQUAL_
+        from pygeodesy import ADict, GeodesicExact, geodesicx
+        from pygeodesy.internals import _fper, _name_version, printf, \
+                                        _sizeof, typename, _versions
+        from pygeodesy.interns import _COMMASPACE_
         try:
             import numpy
         except ImportError:
@@ -24,10 +24,9 @@ def _main(**C4order):  # PYCHOK no cover
         cs = geodesicx.gx._C4coeffs(gX.C4order)
         n  = len(cs)
         u  = n if numpy else len(set(cs))
-        p  = dict(C4order=gX.C4order, C4n=n, C4u=u,
-                  C4u_n=_fper(u, n), C4x=len(gX._C4x),
-                  C4t=type(cs).__name__, C4z=_sizeof(cs))
-        p  = list(_EQUAL_(*t) for t in p.items())
+        p  = ADict(C4order=gX.C4order, C4n=n, C4u=u,
+                   C4u_n=_fper(u, n), C4x=len(gX._C4x),
+                   C4t=typename(type(cs)), C4z=_sizeof(cs))._toL()
         if numpy:
             p.append(_name_version(numpy))
         try:
@@ -46,6 +45,9 @@ def _main(**C4order):  # PYCHOK no cover
 
 from sys import argv  # .internals._isPyChOK
 _main(C4order=int(argv[1])) if len(argv) == 2 and argv[1].isdigit() else _main()
+
+# % python3.13 -m pygeodesy.geodesicx
+# pygeodesy.geodesicx 25.04.14: C4order=30, C4n=5425, C4u=5107, C4u_n=94.1%, C4x=465, C4t=tuple, C4z=166008, geographiclib 2.0 (pygeodesy 25.4.24 Python 3.13.3 64bit arm64 macOS 15.4)
 
 # % python3.13 -m pygeodesy.geodesicx 30
 # pygeodesy.geodesicx 24.09.06: C4order=30, C4n=5425, C4u=5107, C4u_n=94.1%, C4x=465, C4t=tuple, C4z=166008 (pygeodesy 24.9.6 Python 3.13.0rc1 64bit arm64 macOS 14.6.1)

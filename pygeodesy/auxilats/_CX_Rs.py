@@ -6,13 +6,13 @@ Python versions of coefficients from I{Karney}'s C++ class U{AuxLatitude
 <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AuxLatitude.html>}.
 
 Copyright (C) Charles Karney (2022-2024) Karney@Alum.MIT.edu> and licensed under the
-MIT/X11 License.  For more information, see <https:#GeographicLib.SourceForge.io>.
+MIT/X11 License.  For more information, see <https://GeographicLib.SourceForge.io>.
 '''
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 # from pygeodesy.basics import _splituple  # _MODS
-from pygeodesy.constants import _floats as _Cs
+from pygeodesy.constants import _floats as _constants_floats
 from pygeodesy.errors import _AssertionError,  _MODS
 # from pygeodesy.internals import _sizeof  # _MODS
 from pygeodesy.interns import NN, MISSING, _COMMA_, _duplicate_, _NL_, \
@@ -22,7 +22,7 @@ from pygeodesy.named import ADict,  Property_RO
 # from pygeodesy.props import Property_RO  # from .named
 
 __all__ = ()
-__version__ = '25.04.08'
+__version__ = '25.04.11'
 
 
 class _Rcoeffs(ADict):
@@ -58,7 +58,7 @@ class _Rcoeffs(ADict):
             z += _zB(t)  # Float
             # assert R.Rdict is None
             n +=  len(t)
-            u +=  sum(1 for f in t if f in _Cs)
+            u +=  sum(1 for f in t if f in _constants_floats)
         return b, n, (n - u), z
 
     def items(self):  # string-ify keys  # PYCHOK no cover
@@ -74,7 +74,7 @@ class _Rcoeffs(ADict):
 
     def _validate(self, aL, lenAux):
         # in .auxily.Aux._CXcoeffs(al, Aux.len(aL))
-        a, n = self.ALorder, self.n  # PYCHOK Adict!
+        a, n = self.ALorder, self.n  # PYCHOK ADict!
 #       for R in self._Rtuples():
 #           assert isinstance(R, _Rtuple)
         if aL != a or lenAux != n:
@@ -110,7 +110,7 @@ class _Rdict(dict):  # in ._CX_#, .auxLat, .rhumb.aux_
         def _p_q(p=NN, q=1, *x):
             return (NN if x else p), q
 
-        _get = _Cs.get
+        _get = _constants_floats.get
         for r in _MODS.basics._splituple(rs):
             p, q = _p_q(*r.split(_SLASH_))
             if p:
@@ -125,7 +125,7 @@ class _Rdict(dict):  # in ._CX_#, .auxLat, .rhumb.aux_
         # return a tuple of floats from an C{_Rtuple}
         k, n, rs = Rtuple.k_n_rs
         t = tuple(f for m in map(self._floats, rs)
-                        for f in m)  # ... yield f
+                        for f in m)  # == yield f
         # @see: <https://StackOverflow.com/questions/10632839/>
         #       and <https://realPython.com/python-flatten-list/>
         if len(t) != n:
@@ -188,8 +188,8 @@ class _Rtuple(list):  # MUST be list, NOT tuple!
         return self._tuple[i]
 
     if _MODS.sys_version_info2 < (3, 0):
-        def __getslice__(self, i, j):
-            return self._tuple[slice(i, j)]
+        def __getslice__(self, *i_j):  # PYCHOK 3 args
+            return self._tuple[slice(*i_j)]
 
     def __iter__(self):
         return iter(self._tuple)

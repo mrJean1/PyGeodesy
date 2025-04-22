@@ -21,11 +21,12 @@ U{USGS10mElev.py<https://Gist.GitHub.com/pyRobShrk>}.
        C{"/Applications/Python\\ X.Y/Install\\ Certificates.command"}
 '''
 
-from pygeodesy.basics import clips, ub2str
+from pygeodesy.basics import clips, ub2str,  typename
 from pygeodesy.errors import ParseError, _xkwds_get
-from pygeodesy.interns import NN, _AMPERSAND_, _COLONSPACE_, \
-                             _elevation_, _height_, _LCURLY_, \
-                             _n_a_, _no_, _RCURLY_, _SPACE_
+# from pygeodesy.internals import typename  # from .basics
+from pygeodesy.interns import NN, _AMPERSAND_, _COLONSPACE_, _DMAIN_, \
+                             _elevation_, _height_, _LCURLY_, _n_a_, \
+                             _no_, _RCURLY_, _SPACE_
 from pygeodesy.lazily import _ALL_LAZY
 from pygeodesy.named import _NamedTuple
 from pygeodesy.streprs import fabs, Fmt, fstr, lrstrip
@@ -34,7 +35,7 @@ from pygeodesy.units import Lat, Lon, Meter, Scalar, Str
 # from math import fabs  # from .karney
 
 __all__ = _ALL_LAZY.elevations
-__version__ = '24.06.11'
+__version__ = '25.04.14'
 
 try:
     from urllib2 import urlopen  # quote, urlcleanup
@@ -91,7 +92,7 @@ except ImportError:
 def _error(fun, lat, lon, e):
     '''(INTERNAL) Format an error
     '''
-    return _COLONSPACE_(Fmt.PAREN(fun.__name__, fstr((lat, lon))), e)
+    return _COLONSPACE_(Fmt.PAREN(typename(fun), fstr((lat, lon))), e)
 
 
 def _qURL(url, timeout=2, **params):
@@ -243,14 +244,14 @@ def geoidHeight2(lat, lon, model=0, timeout=2.0):
     return GeoidHeight2Tuple(None, e)
 
 
-if __name__ == '__main__':
+if __name__ == _DMAIN_:
 
     from pygeodesy import printf
     # <https://WikiPedia.org/wiki/Mount_Diablo>
     for f in (elevation2,     # (1173.79, '3DEP 1/3 arc-second')
               geoidHeight2):  # (-31.699, u'GEOID12B')
         t = f(37.8816, -121.9142)
-        printf(_COLONSPACE_(f.__name__, t))
+        printf(_COLONSPACE_(typename(f), t))
 
 # **) MIT License
 #

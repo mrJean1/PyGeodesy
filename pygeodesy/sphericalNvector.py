@@ -33,13 +33,14 @@ to a normalised version of an (ECEF) cartesian coordinate.
 # make sure int/int division yields float quosient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-# from pygeodesy.basics import _xinstanceof  # _MODS
+from pygeodesy.basics import _isin, _xinstanceof,  typename
 from pygeodesy.constants import EPS, EPS0, PI, PI2, PI_2, R_M, \
                                _0_0, _0_5, _1_0
 # from pygeodesy.datums import Datums  # from .sphericalBase
 from pygeodesy.errors import PointsError, VectorError, _xError, _xkwds
 from pygeodesy.fmath import fdot_, fmean, fsum
 # from pygeodesy.fsums import fsum  # from .fmath
+# from pygeodesy.internals import typename  # from .basics
 from pygeodesy.interns import _composite_, _end_, _Nv00_, _other_, \
                               _point_, _pole_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _ALL_OTHER
@@ -61,7 +62,7 @@ from pygeodesy.utily import atan2, degrees360, sincos2, sincos2_, sincos2d, \
 # from math import fabs  # from utily
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '24.11.24'
+__version__ = '25.04.14'
 
 _lines_ = 'lines'
 
@@ -605,7 +606,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
                 return p2  # is point2 if not wrap
 
         p = n.toLatLon(height=height or 0, LatLon=self.classof)
-        if height in (None, False):  # interpolate height within extent
+        if _isin(height, None, False):  # interpolate height within extent
             d =  p1.distanceTo(p2)
             f = (p1.distanceTo(p) / d) if d > EPS0 else _0_5
             p.height = p1._havg(p2, f=max(_0_0, min(f, _1_0)))
@@ -1006,7 +1007,7 @@ def meanOf(points, height=None, wrap=False, **LatLon_and_kwds):
     except (TypeError, ValueError) as x:
         raise PointsError(points=points, wrap=wrap, cause=x, **LatLon_and_kwds)
     return n.toLatLon(**_xkwds(LatLon_and_kwds, LatLon=LatLon, height=n.h,
-                                                name=meanOf.__name__))
+                                                name=typename(meanOf)))
 
 
 @deprecated_function
@@ -1050,7 +1051,7 @@ def nearestOn3(point, points, closed=False, radius=R_M, height=None, wrap=False)
 
        @raise TypeError: Some B{C{points}} or B{C{point}} not C{LatLon}.
     '''
-    _MODS.basics._xinstanceof(LatLon, point=point)
+    _xinstanceof(LatLon, point=point)
 
     return point.nearestOn3(points, closed=closed, radius=radius,
                                     height=height, wrap=wrap)

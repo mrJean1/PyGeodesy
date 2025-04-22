@@ -9,12 +9,12 @@ the initial items, skipping of duplicate items and copying of the
 iterated items.
 '''
 
-from pygeodesy.basics import islistuple, issubclassof, len2, \
-                             map2,  _passarg
+from pygeodesy.basics import _isin, islistuple, issubclassof, \
+                              len2, map2,  _passarg, typename
 # from pygeodesy.constants import _1_0  # from .utily
 from pygeodesy.errors import _IndexError, LenError, PointsError, \
                              _TypeError, _ValueError
-# from pygeodesy.internals import _passarg  # from .basics
+# from pygeodesy.internals import _passarg, typename  # from .basics
 from pygeodesy.interns import _0_, _composite_, _few_, _latlon_, \
                               _points_, _too_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
@@ -26,7 +26,7 @@ from pygeodesy.units import Int, Radius
 from pygeodesy.utily import degrees2m, _Wrap,  _1_0
 
 __all__ = _ALL_LAZY.iters
-__version__ = '24.06.09'
+__version__ = '25.04.14'
 
 _items_        = 'items'
 _iterNumpy2len =  1  # adjustable for testing purposes
@@ -382,7 +382,7 @@ class LatLon2PsxyIter(PointsIter):
 
            @raise TypeError: Some B{C{points}} are not B{C{base}}-compatible.
         '''
-        if self._deg2m not in (None, _1_0):
+        if not _isin(self._deg2m, None, _1_0):
             _p3 = self._point3Tuple
         else:
             def _p3(ll):  # PYCHOK redef
@@ -417,7 +417,7 @@ def isNumpy2(obj):
                 instance, C{False} otherwise.
     '''
     # isinstance(self, (Numpy2LatLon, ...))
-    return getattr(obj, isNumpy2.__name__, False)
+    return getattr(obj, typename(isNumpy2), False)
 
 
 def isPoints2(obj):
@@ -429,7 +429,7 @@ def isPoints2(obj):
                 instance, C{False} otherwise.
     '''
     # isinstance(self, (LatLon2psxy, ...))
-    return getattr(obj, isPoints2.__name__, False)
+    return getattr(obj, typename(isPoints2), False)
 
 
 def isTuple2(obj):
@@ -441,7 +441,7 @@ def isTuple2(obj):
                 instance, C{False} otherwise.
     '''
     # isinstance(self, (Tuple2LatLon, ...))
-    return getattr(obj, isTuple2.__name__, False)
+    return getattr(obj, typename(isTuple2), False)
 
 
 def iterNumpy2(obj):

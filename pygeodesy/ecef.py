@@ -57,8 +57,8 @@ for conversion between geodetic and I{local cartesian} coordinates in a I{local 
 plane} as opposed to I{geocentric} (ECEF) ones.
 '''
 
-from pygeodesy.basics import copysign0, isscalar, issubclassof, neg, map1, \
-                            _xinstanceof, _xsubclassof  # _args_kwds_names
+from pygeodesy.basics import copysign0, _isin, isscalar, issubclassof, neg, map1, \
+                            _xinstanceof, _xsubclassof,  typename  # _args_kwds_names
 from pygeodesy.constants import EPS, EPS0, EPS02, EPS1, EPS2, EPS_2, INT0, PI, PI_2, \
                                _0_0, _0_0001, _0_01, _0_5, _1_0, _1_0_1T, _N_1_0, \
                                _2_0, _N_2_0, _3_0, _4_0, _6_0, _60_0, _90_0, _N_90_0, \
@@ -69,6 +69,7 @@ from pygeodesy.errors import _IndexError, LenError, _ValueError, _TypesError, \
                              _xattr, _xdatum, _xkwds, _xkwds_get
 from pygeodesy.fmath import cbrt, fdot, Fpowers, hypot, hypot1, hypot2_, sqrt0
 from pygeodesy.fsums import Fsum, fsumf_,  Fmt, unstr
+# from pygeodesy.internals import typename  # from .basics
 from pygeodesy.interns import NN, _a_, _C_, _datum_, _ellipsoid_, _f_, _height_, \
                              _lat_, _lon_, _M_, _name_, _singular_, _SPACE_, \
                              _x_, _xyz_, _y_, _z_
@@ -89,7 +90,7 @@ from pygeodesy.utily import atan1, atan1d, atan2, atan2d, degrees90, degrees180,
 from math import cos, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '24.12.06'
+__version__ = '25.04.14'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -138,7 +139,7 @@ class _EcefBase(_NamedBase):
             else:
                 raise ValueError()  # _invalid_
 
-            if E not in (_EWGS84, _WGS84):
+            if not _isin(E, _EWGS84, _WGS84):
                 d = _ellipsoidal_datum(E, **name)
                 E =  d.ellipsoid
                 if E.a < EPS or E.f > EPS1:
@@ -956,7 +957,7 @@ class EcefMatrix(_NamedTuple):
         # <https://GeographicLib.SourceForge.io/C++/doc/LocalCartesian_8cpp_source.html>
         # X = (fdot(self.column(r), *other.column(c)) for r in (0,1,2) for c in (0,1,2))
         X = (fdot(self[r::3], *other[c::3]) for r in range(3) for c in range(3))
-        return _xnamed(EcefMatrix(*X), EcefMatrix.multiply.__name__)
+        return _xnamed(EcefMatrix(*X), typename(EcefMatrix.multiply))
 
     def rotate(self, xyz, *xyz0):
         '''Forward rotation M{M0' ⋅ ([x, y, z] - [x0, y0, z0])'}.
@@ -1157,7 +1158,7 @@ class Ecef9Tuple(_NamedTuple, _NamedLocal):
 
            @raise TypeError: Invalid B{C{Cartesian}} or B{C{Cartesian_kwds}} item.
         '''
-        if Cartesian in (None, Vector4Tuple):
+        if _isin(Cartesian, None, Vector4Tuple):
             r = self.xyzh
         elif Cartesian is Vector3Tuple:
             r = self.xyz
@@ -1177,7 +1178,7 @@ class Ecef9Tuple(_NamedTuple, _NamedLocal):
            @raise TypeError: The B{C{datum2}} is not a L{Datum}.
         '''
         n = _name__(name, _or_nameof=self)
-        if self.datum in (None, datum2):  # PYCHOK _Names_
+        if _isin(self.datum, None, datum2):  # PYCHOK _Names_
             r = self.copy(name=n)
         else:
             c = self._CartesianBase(self, datum=self.datum, name=n)  # PYCHOK _Names_

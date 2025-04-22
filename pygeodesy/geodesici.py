@@ -26,7 +26,7 @@ on the ellipsoid<https://riunet.UPV.ES/bitstream/handle/10251/122902/Revised_Man
 from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import _copy, _enumereverse, map1, \
-                             _xinstanceof, _xor
+                             _xinstanceof, _xor,  typename
 from pygeodesy.constants import EPS, INF, INT0, PI, PI2, PI_4, \
                                _0_0, _0_5, _1_0, _1_5, _2_0, _3_0, \
                                _45_0, _64_0, _90_0, isfinite, \
@@ -38,8 +38,9 @@ from pygeodesy.errors import GeodesicError, IntersectionError, _an, \
 # from pygeodesy.errors import exception_chaining  # _MODS
 from pygeodesy.fmath import euclid, fdot
 from pygeodesy.fsums import Fsum, fsum1_,  _ceil
-from pygeodesy.interns import NN, _A_, _B_, _c_, _COMMASPACE_, _HASH_, \
-                             _M_, _not_, _SPACE_, _too_
+# from pygeodesy.internals import typename  # from .basics
+from pygeodesy.interns import NN, _A_, _B_, _c_, _COMMASPACE_, _DMAIN_, \
+                             _HASH_, _M_, _not_, _SPACE_, _too_
 from pygeodesy.karney import Caps, _diff182, GDict, _sincos2de, _Xables
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import ADict, _NamedBase, _NamedTuple, _Pass
@@ -56,7 +57,7 @@ from pygeodesy.utily import atan2, sincos2,  fabs, radians
 # from math import ceil as _ceil, fabs, radians  # .fsums, .utily
 
 __all__ = _ALL_LAZY.geodesici
-__version__ = '24.12.22'
+__version__ = '25.04.14'
 
 _0t     =  0,  # int
 _1_1t   = -1, +1
@@ -312,7 +313,7 @@ class _IntersectBase(_NamedBase):
             G.set_(lat1=il.lat1, lon1=il.lon1, azi1=il.azi1, a12=il.a13,  # .Arc()
                    lat2=il.lat2, lon2=il.lon2, azi2=il.azi2, s12=il.s13)  # .Distance()
         except AttributeError:
-            r = il.Position(il.s13, outmask=Caps._STD_LINE)  # isfinite(il.s13)
+            r = il.Position(il.s13, outmask=Caps.STANDARD_LINE)  # isfinite(il.s13)
             G.set_(**r)
 #           for n, v in r.items():
 #               if not hasattr(il, n):
@@ -469,7 +470,7 @@ class Intersectool(_IntersectBase, _SolveCapsBase):
     _Names_ABs   = _latA_, _lonA_, 'latB', 'lonB', _sAB_  # -C to stderr
     _Names_XDict = 'sA', 'sB', _c_  # plus 'k' from -i or 'sX0' from -R
     _o_alt       = _o__,  # Offset latA lonA aziA  latB lonB aziB  x0 y0
-    _Xable_name  = _Xables.IntersectTool.__name__
+    _Xable_name  = _Xables.IntersectTool.__name__  # typename
     _Xable_path  = _Xables.IntersectTool()
 
     def __init__(self, a_geodesic=None, f=None, **name):
@@ -660,7 +661,7 @@ class Intersectool(_IntersectBase, _SolveCapsBase):
                 raise GeodesicError(n, gl, cause=x)
             s = il.s13
             m = s * _0_5
-            return s, m, il, (il.Position(m, outmask=Caps._STD_LINE) if _C else None)
+            return s, m, il, (il.Position(m, outmask=Caps.STANDARD_LINE) if _C else None)
 
         sA, mA, iA, A = _smi4(glA=glA)
         sB, mB, iB, B = _smi4(glB=glB)
@@ -1276,7 +1277,7 @@ class Intersector(_IntersectBase):
         return s, lat1
 
     def _Position(self, gl, s):
-        return gl.Position(s, outmask=Caps._STD_LINE)
+        return gl.Position(s, outmask=Caps.STANDARD_LINE)
 
     def Segment(self, glA, glB, proven=None, raiser=True, **_C):
         '''Find the intersection between two geodesic line segments.
@@ -1413,13 +1414,13 @@ class Intersector(_IntersectBase):
             try:
                 _xgeodesics(gl.geodesic, self.geodesic)
                 if s13 and not isfinite(gl.s13):  # or not gl.caps & Caps.DISTANCE_IN
-                    t = gl.geodesic.InverseLine.__name__
-                    raise TypeError(_not_(_an(t)))
+                    t = _an(typename(gl.geodesic.InverseLine))
+                    raise TypeError(_not_(t))
                 c = gl.caps & C
                 if c != C:  # not gl.caps_(C)
                     c, C, x = map1(bin, c, C, _xor(c, C))
-                    x = _SPACE_(_xor.__name__, repr(x))[1:]
-                    raise GeodesicError(caps=c, LINE_CAPS=C, txt=x)
+                    t = _SPACE_(typename(_xor), repr(x))[1:]
+                    raise GeodesicError(caps=c, LINE_CAPS=C, txt=t)
             except Exception as x:
                 raise GeodesicError(n, gl, cause=x)
 
@@ -1524,7 +1525,7 @@ def _L1(a, b):
 
 __all__ += _ALL_DOCS(_IntersectBase)
 
-if __name__ == '__main__':  # MCCABE 14
+if __name__ == _DMAIN_:  # MCCABE 14
 
     from pygeodesy import printf
     __help_ = '--help'
@@ -1627,7 +1628,7 @@ if __name__ == '__main__':  # MCCABE 14
             glA = I.Line(*args[:n])
             glB = I.Line(*args[n:])
 
-            m = _DOT_(I.__class__.__name__, M.__name__)
+            m = _DOT_(*map1(typename, type(I), M))
             if _V:
                 X = _SPACE_(_X_, _EQUAL_, m)
                 printf(unstr(X, glA, glB, **kwds))

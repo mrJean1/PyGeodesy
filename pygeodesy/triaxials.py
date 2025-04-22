@@ -17,20 +17,20 @@ see the U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 @var Triaxials.Amalthea: Triaxial(name='Amalthea', a=125000, b=73000, c=64000, e2ab=0.658944, e2bc=0.231375493, e2ac=0.737856, volume=2446253479595252, area=93239507787.490371704, area_p=93212299402.670425415)
 @var Triaxials.Ariel: Triaxial(name='Ariel', a=581100, b=577900, c=577700, e2ab=0.01098327, e2bc=0.000692042, e2ac=0.011667711, volume=812633172614203904, area=4211301462766.580078125, area_p=4211301574065.829589844)
 @var Triaxials.Earth: Triaxial(name='Earth', a=6378173.435, b=6378103.9, c=6356754.399999999, e2ab=0.000021804, e2bc=0.006683418, e2ac=0.006705077, volume=1083208241574987694080, area=510065911057441.0625, area_p=510065915922713.6875)
-@var Triaxials.Enceladus: Triaxial(name='Enceladus', a=256600, b=251400, c=248300, e2ab=0.040119337, e2bc=0.024509841, e2ac=0.06364586, volume=67094551514082248, area=798618496278.596679688, area_p=798619018175.109863281)
+@var Triaxials.Enceladus: Triaxial(name='Enceladus', a=256600, b=251400, c=248300, e2ab=0.040119337, e2bc=0.024509841, e2ac=0.06364586, volume=67094551514082248, area=798618496278.596679688, area_p=798619018175.109985352)
 @var Triaxials.Europa: Triaxial(name='Europa', a=1564130, b=1561230, c=1560930, e2ab=0.003704694, e2bc=0.000384275, e2ac=0.004087546, volume=15966575194402123776, area=30663773697323.51953125, area_p=30663773794562.45703125)
 @var Triaxials.Io: Triaxial(name='Io', a=1829400, b=1819300, c=1815700, e2ab=0.011011391, e2bc=0.003953651, e2ac=0.014921506, volume=25313121117889765376, area=41691875849096.7421875, area_p=41691877397441.2109375)
 @var Triaxials.Mars: Triaxial(name='Mars', a=3394600, b=3393300, c=3376300, e2ab=0.000765776, e2bc=0.009994646, e2ac=0.010752768, volume=162907283585817247744, area=144249140795107.4375, area_p=144249144150662.15625)
-@var Triaxials.Mimas: Triaxial(name='Mimas', a=207400, b=196800, c=190600, e2ab=0.09960581, e2bc=0.062015624, e2ac=0.155444317, volume=32587072869017956, area=493855762247.691894531, area_p=493857714107.9375)
-@var Triaxials.Miranda: Triaxial(name='Miranda', a=240400, b=234200, c=232900, e2ab=0.050915557, e2bc=0.011070811, e2ac=0.061422691, volume=54926187094835456, area=698880863325.756958008, area_p=698881306767.950317383)
-@var Triaxials.Moon: Triaxial(name='Moon', a=1735550, b=1735324, c=1734898, e2ab=0.000260419, e2bc=0.000490914, e2ac=0.000751206, volume=21886698675223740416, area=37838824729886.09375, area_p=37838824733332.2265625)
+@var Triaxials.Mimas: Triaxial(name='Mimas', a=207400, b=196800, c=190600, e2ab=0.09960581, e2bc=0.062015624, e2ac=0.155444317, volume=32587072869017956, area=493855762247.691833496, area_p=493857714107.9375)
+@var Triaxials.Miranda: Triaxial(name='Miranda', a=240400, b=234200, c=232900, e2ab=0.050915557, e2bc=0.011070811, e2ac=0.061422691, volume=54926187094835456, area=698880863325.757080078, area_p=698881306767.950317383)
+@var Triaxials.Moon: Triaxial(name='Moon', a=1735550, b=1735324, c=1734898, e2ab=0.000260419, e2bc=0.000490914, e2ac=0.000751206, volume=21886698675223740416, area=37838824729886.09375, area_p=37838824733332.21875)
 @var Triaxials.Tethys: Triaxial(name='Tethys', a=535600, b=528200, c=525800, e2ab=0.027441672, e2bc=0.009066821, e2ac=0.036259685, volume=623086233855821440, area=3528073490771.394042969, area_p=3528074261832.738769531)
 @var Triaxials.WGS84_35: Triaxial(name='WGS84_35', a=6378172, b=6378102, c=6356752.314245179, e2ab=0.00002195, e2bc=0.006683478, e2ac=0.006705281, volume=1083207319768789942272, area=510065621722018.125, area_p=510065626587483.3125)
 '''
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import isLatLon, isscalar
+from pygeodesy.basics import _isin, isLatLon, isscalar
 from pygeodesy.constants import EPS, EPS0, EPS02, EPS4, INT0, PI2, PI_3, PI4, \
                                _EPS2e4, _SQRT2_2, float0_, isfinite, isnear1, _over, \
                                _0_0, _0_5, _1_0, _N_1_0, _64_0,  _4_0  # PYCHOK used!
@@ -40,10 +40,10 @@ from pygeodesy.datums import Datum, _spherical_datum, _WGS84,  Ellipsoid, _EWGS8
 from pygeodesy.errors import _AssertionError, _ValueError
 from pygeodesy.fmath import Fdot, fdot, fmean_, hypot, hypot_, norm2, sqrt0
 from pygeodesy.fsums import _Fsumf_, fsumf_, fsum1f_
-from pygeodesy.interns import NN, _a_, _b_, _beta_, _c_, _distant_, _finite_, \
-                             _height_, _inside_, _near_, _negative_, _not_, \
-                             _NOTEQUAL_, _null_, _opposite_, _outside_, _SPACE_, \
-                             _spherical_, _too_, _x_, _y_
+from pygeodesy.interns import NN, _a_, _b_, _beta_, _c_, _distant_, _DMAIN_, \
+                             _finite_, _height_, _inside_, _near_, _negative_, \
+                             _not_, _NOTEQUAL_, _null_, _opposite_, _outside_, \
+                             _SPACE_, _spherical_, _too_, _x_, _y_
 # from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS  # from .vector3d
 from pygeodesy.named import _lazyNamedEnumItem as _lazy, _name__, _NamedEnum, \
                                 _NamedEnumItem, _Pass
@@ -59,7 +59,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d,  _ALL_LAZY, _MODS
 from math import fabs, sqrt
 
 __all__ = _ALL_LAZY.triaxials
-__version__ = '24.11.24'
+__version__ = '25.04.14'
 
 _not_ordered_ = _not_('ordered')
 _omega_       = 'omega'
@@ -258,7 +258,7 @@ class Triaxial_(_NamedEnumItem):
 
     @Property_RO
     def _a2_b2(self):
-        '''(INTERNAL) Get C{(a/b)**2}.
+        '''(INTERNAL) Get C{(a / b)**2}.
         '''
         a, b, _ = self._abc3
         return (a / b)**2 if a != b else _1_0
@@ -321,7 +321,7 @@ class Triaxial_(_NamedEnumItem):
 
     @Property_RO
     def _c2_b2(self):
-        '''(INTERNAL) Get C{(c/b)**2}.
+        '''(INTERNAL) Get C{(c / b)**2}.
         '''
         _, b, c = self._abc3
         return (c / b)**2 if b != c else _1_0
@@ -422,7 +422,7 @@ class Triaxial_(_NamedEnumItem):
                 raise TriaxialError(x=x, y=y, z=z, cause=e)
             if h > 0 and self.sideOf(v, eps=EPS0) < 0:
                 h = -h  # inside
-        n = _name__(name, name__=self.height4)  # _DUNDER_nameof
+        n = _name__(name, name__=self.height4)  # typename
         return Vector4Tuple(x, y, z, h, iteration=i, name=n)
 
     @Property_RO
@@ -507,7 +507,7 @@ class Triaxial_(_NamedEnumItem):
                @return: 2-Tuple C{((a, b, c), ijk)} with C{a} >= C{b} >= C{c}
                         and C{ijk} a 3-tuple with the initial indices.
             '''
-            i, j, k = 0, 1, 2  # range(3)
+            i, j, k = range(3)
             if a < b:
                 a, b, i, j = b, a, j, i
             if a < c:
@@ -1245,9 +1245,9 @@ def hartzell4(pov, los=False, tri_biax=_WGS84, **name):
     '''Compute the intersection of a tri-/biaxial ellipsoid and a Line-Of-Sight from
        a Point-Of-View outside.
 
-       @arg pov: Point-Of-View outside the tri-/biaxial (C{Cartesian}, L{Ecef9Tuple}
+       @arg pov: Point-Of-View outside the tri-/biaxial (C{Cartesian}, L{Ecef9Tuple},
                  C{LatLon} or L{Vector3d}).
-       @kwarg los: Line-Of-Sight, I{direction} to the tri-/biaxial (L{Los}, L{Vector3d}),
+       @kwarg los: Line-Of-Sight, I{direction} to the tri-/biaxial (L{Los}, L{Vector3d})
                    or C{True} for the I{normal, perpendicular, plumb} to the surface of
                    the tri-/biaxial or C{False} or C{None} to point to its center.
        @kwarg tri_biax: A triaxial (L{Triaxial}, L{Triaxial_}, L{JacobiConformal} or
@@ -1275,13 +1275,13 @@ def hartzell4(pov, los=False, tri_biax=_WGS84, **name):
         T = tri_biax
     else:
         D = tri_biax if isinstance(tri_biax, Datum) else \
-                  _spherical_datum(tri_biax, name__=hartzell4)  # _DUNDER_nameof
+                  _spherical_datum(tri_biax, name__=hartzell4)  # typename
         T = D.ellipsoid._triaxial
     try:
         v, h, i = _hartzell3(pov, los, T)
     except Exception as x:
         raise TriaxialError(pov=pov, los=los, tri_biax=tri_biax, cause=x)
-    n = _name__(name, name__=hartzell4)  # _DUNDER_nameof
+    n = _name__(name, name__=hartzell4)  # typename
     return Vector4Tuple(v.x, v.y, v.z, h, iteration=i, name=n)
 
 
@@ -1478,19 +1478,18 @@ def _rootNd(r, s, u, v, w, g, eps=EPS0):
     '''
     u *=  r
     v *=  s  # 0 for 2-D root
-    t0 =  w + _N_1_0
-    t1 = _0_0 if g < 0 else (hypot_(u, w, v) + _N_1_0)
+    t0 =  w - _1_0
+    t1 = _0_0 if g < 0 else (hypot_(u, w, v) - _1_0)
     # assert t0 <= t1
-    _e = -eps
-    for i in range(1, _TRIPS):  # 47..65
+    for i in range(1, _TRIPS):  # 48..58
         t = (t1 + t0) * _0_5
         e =  t1 - t0
-        if _e < e < eps or t in (t0, t1):
+        if eps > e > -eps or _isin(t, t0, t1):
             break
         g = fsumf_(_N_1_0,  # ~= _hypot2_1
                    _over02(u, t +  r),
-                   _over02(w, t - _N_1_0),
-                   _over02(v, t +  s) if v else _0_0)
+                   _over02(w, t + _1_0), (
+                   _over02(v, t +  s) if v else _0_0))
         if g > 0:
             t0 = t
         elif g < 0:
@@ -1527,7 +1526,7 @@ def _validate(a, b, c, d, T, x, y, z, val):
                                 dot=e, eps=val)
 
 
-if __name__ == '__main__':
+if __name__ == _DMAIN_:
 
     from pygeodesy import printf
     from pygeodesy.interns import _COMMA_, _NL_, _NLATvar_
@@ -1539,6 +1538,10 @@ if __name__ == '__main__':
     # __doc__ of this file, force all into registery
     t = [NN] + Triaxials.toRepr(all=True, asorted=True).split(_NL_)
     printf(_NLATvar_.join(i.strip(_COMMA_) for i in t))
+
+# % python3 -m pygeodesy.triaxials
+#
+# Bektas: height4(x=3909251.554667, y=3909165.750567, z=3170432.501602, h=999.999996)
 
 # **) MIT License
 #
