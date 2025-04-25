@@ -88,14 +88,14 @@ from pygeodesy.props import deprecated_Property_RO, Property_RO, property_doc_, 
                             deprecated_property_RO, property_RO, property_ROver
 from pygeodesy.streprs import Fmt, fstr, instr, strs, unstr
 # from pygeodesy.triaxials import _hartzell3  # _MODS
-from pygeodesy.units import Bearing_, Distance, Float, Float_, Height, Lamd, Lat, Meter, \
-                            Meter2, Meter3, Phi, Phid, Radius, Radius_, Scalar
+from pygeodesy.units import Azimuth, Bearing, Distance, Float, Float_, Height, Lamd, Lat, \
+                            Meter, Meter2, Meter3, Phi, Phid, Radius, Radius_, Scalar
 from pygeodesy.utily import atan1, atan1d, atan2b, degrees90, m2radians, radians2m, sincos2d
 
 from math import asinh, atan, atanh, cos, degrees, exp, fabs, radians, sin, sinh, sqrt, tan  # as _tan
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '25.04.15'
+__version__ = '25.04.23'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -1658,9 +1658,17 @@ class Ellipsoid(_NamedEnumItem):
             n *= cos(a) if a < PI_2 else _0_0
         return Curvature2Tuple(m, n)
 
+    def rocAzimuth(self, lat, azimuth):
+        '''Compute the I{directional} radius of curvature of (geodetic) latitude
+           and C{azimuth} compass direction.
+
+           @see: Method L{rocBearing<Ellipsoid.rocBearing>} for details, using C{azimuth} for C{bearing}.
+        '''
+        return Radius(rocAzimuth=self._rocDirectional(lat, Azimuth(azimuth)))
+
     def rocBearing(self, lat, bearing):
-        '''Compute the I{directional} radius of curvature of (geodetic)
-           latitude and compass direction.
+        '''Compute the I{directional} radius of curvature of (geodetic) latitude
+           and C{bearing} compass direction.
 
            @arg lat: Latitude (C{degrees90}).
            @arg bearing: Direction (compass C{degrees360}).
@@ -1674,18 +1682,23 @@ class Ellipsoid(_NamedEnumItem):
 
            @see: U{Radii of Curvature<https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}
         '''
+        return Radius(rocBearing=self._rocDirectional(lat, Bearing(bearing)))
+
+    def _rocDirectional(self, lat, deg):
+        '''(INTERNAL) Helper for C{rocAzimuth} and C{rocBearing}.
+        '''
         if self.f:
-            s2, c2 = _s2_c2(Bearing_(bearing))
+            s2, c2 = _s2_c2(radians(deg))
             m, n = self.roc2_(Phid(lat))
             if n < m:  # == n / (c2 * n / m + s2)
                 c2 *= n / m
             elif m < n:  # == m / (c2 + s2 * m / n)
                 s2 *= m / n
                 n   = m
-            b = n / (c2 + s2)  # == 1 / (c2 / m + s2 / n)
+            r = _over(n, c2 + s2)  # == 1 / (c2 / m + s2 / n)
         else:
-            b = self.b  # == self.a
-        return Radius(rocBearing=b)
+            r =  self.b  # == self.a
+        return r
 
     @Property_RO
     def rocEquatorial2(self):

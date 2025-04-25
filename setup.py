@@ -27,7 +27,7 @@ from os import getenv
 from setuptools import setup
 
 __all__ = ()
-__version__ = '25.01.16'
+__version__ = '25.04.24'
 
 _PACKAGE = 'pygeodesy'  # 'PyGeodesy'
 
@@ -65,9 +65,9 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode', 'are
              'earth', 'east-north-up', 'eccentricity', 'ECEF', 'elevation', 'ellipsoid',
              'ellipsoidal-latitude-beta', 'ellipsoidal-longitude-omega', 'elliptic',
              'ENU', 'EPSG', 'equal-area', 'equidistant', 'equirectangular', 'ETM', 'ETRF',
-             'Euclidean', 'even-odd-rule', 'ExactTM', 'excess',
-             'Farrell', 'Farrell-Barth', 'Ferrari-solution', 'Field-Of-View', 'flattening',
-             'fma', 'fmath', 'footprint', 'Forster', 'Forster-Hormann-Popa', 'Forsythe', 'FOV',
+             'Euclidean', 'even-odd-rule', 'ExactTM', 'excess', 'Farrell', 'Farrell-Barth',
+             'Ferrari-solution', 'Field-Of-View', 'flattening', 'fma', 'fmath',
+             'footpoint', 'footprint', 'Forster', 'Forster-Hormann-Popa', 'Forsythe', 'FOV',
              'fractional', 'Frechet', 'Fréchet', 'frustum', 'Fsum', 'fused-multiply-add',
              'GARS', 'geocentric', 'GeoConvert', 'GeodesicExact', 'geodesy', 'geodetic', 'GeodSolve', 'GeodTest',
              'geographiclib', 'Geohash', 'geoid', 'geoidHeight', 'GeoidHeights',

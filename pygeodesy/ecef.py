@@ -90,7 +90,7 @@ from pygeodesy.utily import atan1, atan1d, atan2, atan2d, degrees90, degrees180,
 from math import cos, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '25.04.14'
+__version__ = '25.04.24'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -1141,6 +1141,8 @@ class Ecef9Tuple(_NamedTuple, _NamedLocal):
            @see: Property C{lamVermeille}.
         '''
         return PhiLam2Tuple(radians(self.lat), self.lamVermeille, name=self.name)
+
+    phiVermeille = phi
 
     def toCartesian(self, Cartesian=None, **Cartesian_kwds):
         '''Return the geocentric C{(x, y, z)} coordinates as an ellipsoidal or spherical

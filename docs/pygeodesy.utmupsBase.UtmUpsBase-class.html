@@ -172,6 +172,46 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utmupsBase.UtmUpsBase-class.html#latFootPoint" class="summary-sig-name">latFootPoint</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">northing</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">lat0</span>=<span class="summary-sig-default">0</span>,
+        <span class="summary-sig-arg">makris</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Compute the foot-point latitude in <code>degrees</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utmupsBase.UtmUpsBase-class.html#phiFootPoint" class="summary-sig-name">phiFootPoint</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">northing</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">lat0</span>=<span class="summary-sig-default">0</span>,
+        <span class="summary-sig-arg">makris</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Compute the foot-point latitude in <code>radians</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utmupsBase.UtmUpsBase-class.html#to2en" class="summary-sig-name">to2en</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">falsed</span>=<span class="summary-sig-default">True</span>)</span><br />
       DEPRECATED, use method <code>eastingnorthing2</code>.</td>
@@ -489,6 +529,78 @@
           <code>meter</code>.</dd>
   </dl>
 </td></tr></table>
+</div>
+<a name="latFootPoint"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">latFootPoint</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">northing</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">lat0</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">makris</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the foot-point latitude in <code>degrees</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>northing</code></strong> - Northing (<code>meter</code>, same units this datum's ellipsoid's
+          axes), overriding this <i>unfalsed</i> northing.</li>
+        <li><strong class="pname"><code>lat0</code></strong> - Geodetic latitude of the meridian's origin 
+          (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>makris</code></strong> - If <code>True</code>, use <code>Makris</code>' formula, otherwise
+          <code>PyGeodetics</code>'.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Foot-point latitude (<code>degrees</code>).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="https://GitHub.com/paarnes/pygeodetics" 
+        target="_top">PyGeodetics</a>, <a 
+        href="https://GitHub.com/APRIL-ZJU/clins/blob/master/include/utils/gps_convert_utils.h#L143"
+        target="_top">FootpointLatitude</a>, <a 
+        href="https://www.TandFonline.com/doi/abs/10.1179/sre.1982.26.205.345"
+        target="_top">Makris</a> and <a 
+        href="https://Geomatics.CC/legacy-files/mercator.pdf" 
+        target="_top">Geomatics' Mercator, page 60</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="phiFootPoint"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">phiFootPoint</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">northing</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">lat0</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">makris</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the foot-point latitude in <code>radians</code>.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>Foot-point latitude (<code>radians</code>).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <a 
+        href="pygeodesy.utmupsBase.UtmUpsBase-class.html#latFootPoint" 
+        class="link">latFootPoint</a> for further details.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="to2en"></a>
 <div>
@@ -896,7 +1008,7 @@ not available.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Apr 22 12:33:07 2025
+    Generated by Epydoc 3.0.1 on Fri Apr 25 12:03:59 2025
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

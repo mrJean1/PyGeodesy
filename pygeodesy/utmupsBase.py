@@ -4,6 +4,8 @@
 u'''(INTERNAL) Private class C{UtmUpsBase}, functions and constants
 for modules L{epsg}, L{etm}, L{mgrs}, L{ups} and L{utm}.
 '''
+# make sure int/int division yields float quotient, see .basics
+from __future__ import division as _; del _  # PYCHOK semicolon
 
 from pygeodesy.basics import _isin, isint, isscalar, isstr, neg_, \
                              _xinstanceof, _xsubclassof
@@ -13,30 +15,33 @@ from pygeodesy.dms import degDMS, parseDMS2
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.errors import _or, ParseError, _parseX, _ValueError, \
                              _xattrs, _xkwds, _xkwds_not
+# from pygeodesy.fsums import Fsum  # _MODS
 # from pygeodesy.internals import _name__, _under  # from .named
-from pygeodesy.interns import NN, _A_, _B_, _COMMA_, _Error_, \
-                             _gamma_, _n_a_, _not_, _N_, _NS_, _PLUS_, \
-                             _S_, _scale_, _SPACE_, _Y_, _Z_
+from pygeodesy.interns import NN, _A_, _B_, _COMMA_, _Error_, _gamma_, \
+                             _n_a_, _not_, _N_, _NS_, _PLUS_, _scale_, \
+                             _S_, _SPACE_, _Y_, _Z_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _name__, _NamedBase,  _under
 from pygeodesy.namedTuples import EasNor2Tuple, LatLonDatum5Tuple
 from pygeodesy.props import deprecated_method, property_doc_, _update_all, \
                             deprecated_property_RO, Property_RO, property_RO
 from pygeodesy.streprs import Fmt, fstr, _fstrENH2, _xzipairs
-from pygeodesy.units import Band, Easting, Northing, Scalar, Zone
-from pygeodesy.utily import _Wrap, wrap360
+from pygeodesy.units import Band, Easting, Lat, Northing, Phi, Scalar, Zone
+from pygeodesy.utily import atan1, _Wrap, wrap360
+
+from math import cos, degrees, fabs, sin, tan
 
 __all__ = _ALL_LAZY.utmupsBase
-__version__ = '25.04.14'
+__version__ = '25.04.25'
 
 _UPS_BANDS = _A_, _B_, _Y_, _Z_  # UPS polar bands SE, SW, NE, NW
 # _UTM_BANDS = _MODS.utm._Bands
 
-_UTM_LAT_MAX  = _float( 84)          # PYCHOK for export (C{degrees})
-_UTM_LAT_MIN  = _float(-80)          # PYCHOK for export (C{degrees})
+_UTM_LAT_MAX = _float( 84)          # PYCHOK for export (C{degrees})
+_UTM_LAT_MIN = _float(-80)          # PYCHOK for export (C{degrees})
 
-_UPS_LAT_MAX  = _UTM_LAT_MAX - _0_5  # PYCHOK includes 30' UTM overlap
-_UPS_LAT_MIN  = _UTM_LAT_MIN + _0_5  # PYCHOK includes 30' UTM overlap
+_UPS_LAT_MAX = _UTM_LAT_MAX - _0_5  # PYCHOK includes 30' UTM overlap
+_UPS_LAT_MIN = _UTM_LAT_MIN + _0_5  # PYCHOK includes 30' UTM overlap
 
 _UPS_LATS = {_A_: _N_90_0, _Y_: _UTM_LAT_MAX,  # UPS band bottom latitudes,
              _B_: _N_90_0, _Z_: _UTM_LAT_MAX}  # PYCHOK see .Mgrs.bandLatitude
@@ -189,6 +194,45 @@ class UtmUpsBase(_NamedBase):
         '''I{Must be overloaded}.'''
         self._notOverloaded(self)
 
+    def _footpoint(self, y, lat0, makris):
+        '''(INTERNAL) Compute to foot-point latitude in C{radians}.
+        '''
+        if y is None:
+            _, y = self.eastingnorthing2(falsed=False)
+        S = _MODS.fsums.Fsum
+        E =  self.datum.ellipsoid
+        P =  S(E.Llat(lat0), y)
+        if E.isSpherical:
+            p = P.fover(E.a)
+        elif makris:
+            r = P.fover(E.b)
+            p = fabs(r)
+            if p:
+                e2 = E.e22  # E.e22abs?
+                e4 = E.e4
+
+                e1  = S(e2 /  4, -11 /  64 * e4, -1).as_iscalar
+                e2  = S(e2 /  8, -13 / 128 * e4)    .as_iscalar
+                e4 *= cos(p)**2 / 8
+
+                s =  sin(p * 2)
+                p = -p
+                U =  S(e1 * p, e2 * s, e4 * p, (5 / 8 * e4) * s**2)
+                p =  atan1(E.a * tan(float(U)) / E.b)
+                if r < 0:  # copysign(p, y)
+                    p = -p
+        else:  # PyGeodetics
+            f  = E.f
+            f2 = f**2
+            f3 = f**3
+            B0 = S(1, -f / 2, f2 / 16, f3 / 32) * E.a
+            r  = P.fover(B0)
+            P  = S(r, S(3 / 4 * f, 3 /  8 * f2, 21 / 256 * f3) * sin(r * 2),
+                      S(          21 / 64 * f2, 21 /  64 * f3) * sin(r * 4),
+                                               151 / 768 * f3  * sin(r * 6))
+            p  = float(P)
+        return p
+
     @Property_RO
     def gamma(self):
         '''Get the meridian convergence (C{degrees}) or C{None}
@@ -203,6 +247,23 @@ class UtmUpsBase(_NamedBase):
         if not self._hemisphere:
             self._toLLEB()
         return self._hemisphere
+
+    def latFootPoint(self, northing=None, lat0=0, makris=False):
+        '''Compute the foot-point latitude in C{degrees}.
+
+           @arg northing: Northing (C{meter}, same units this datum's ellipsoid's axes),
+                          overriding this I{unfalsed} northing.
+           @kwarg lat0: Geodetic latitude of the meridian's origin (C{degrees}).
+           @kwarg makris: If C{True}, use C{Makris}' formula, otherwise C{PyGeodetics}'.
+
+           @return: Foot-point latitude (C{degrees}).
+
+           @see: U{PyGeodetics<https://GitHub.com/paarnes/pygeodetics>}, U{FootpointLatitude
+                 <https://GitHub.com/APRIL-ZJU/clins/blob/master/include/utils/gps_convert_utils.h#L143>},
+                 U{Makris<https://www.TandFonline.com/doi/abs/10.1179/sre.1982.26.205.345>} and
+                 U{Geomatics' Mercator, page 60<https://Geomatics.CC/legacy-files/mercator.pdf>}.
+        '''
+        return Lat(FootPoint=degrees(self._footpoint(northing, lat0, makris)))
 
     def _latlon5(self, LatLon, **LatLon_kwds):
         '''(INTERNAL) Get cached C{._toLLEB} as B{C{LatLon}} instance.
@@ -254,6 +315,15 @@ class UtmUpsBase(_NamedBase):
         '''Get the northing (C{meter}).
         '''
         return self._northing
+
+    def phiFootPoint(self, northing=None, lat0=0, makris=False):
+        '''Compute the foot-point latitude in C{radians}.
+
+           @return: Foot-point latitude (C{radians}).
+
+           @see: Method L{latFootPoint<UtmUpsBase.latFootPoint>} for further details.
+        '''
+        return Phi(FootPoint=self._footpoint(northing, lat0, makris))
 
     @Property_RO
     def scale(self):

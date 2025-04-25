@@ -1837,7 +1837,6 @@ pygeodesy.ellipsoids.a_f_2b	pygeodesy.ellipsoids-module.html#a_f_2b
 pygeodesy.ellipsoids._isin	pygeodesy.basics-module.html#_isin
 pygeodesy.ellipsoids.a_b2f2	pygeodesy.ellipsoids-module.html#a_b2f2
 pygeodesy.ellipsoids.fstr	pygeodesy.streprs-module.html#fstr
-pygeodesy.ellipsoids.__all__	pygeodesy.ellipsoids-module.html#__all__
 pygeodesy.ellipsoids.f2e22	pygeodesy.ellipsoids-module.html#f2e22
 pygeodesy.ellipsoids.f2n	pygeodesy.ellipsoids-module.html#f2n
 pygeodesy.ellipsoids.isbool	pygeodesy.basics-module.html#isbool
@@ -1868,6 +1867,7 @@ pygeodesy.ellipsoids.m2radians	pygeodesy.utily-module.html#m2radians
 pygeodesy.ellipsoids.n2e2	pygeodesy.ellipsoids-module.html#n2e2
 pygeodesy.ellipsoids.f2e32	pygeodesy.ellipsoids-module.html#f2e32
 pygeodesy.ellipsoids.f2e2	pygeodesy.ellipsoids-module.html#f2e2
+pygeodesy.ellipsoids.__all__	pygeodesy.ellipsoids-module.html#__all__
 pygeodesy.ellipsoids._s2_c2	pygeodesy.ellipsoids-module.html#_s2_c2
 pygeodesy.ellipsoids.hypot1	pygeodesy.fmath-module.html#hypot1
 pygeodesy.ellipsoids._ispherical_a_b	pygeodesy.ellipsoids-module.html#_ispherical_a_b
@@ -4715,6 +4715,7 @@ pygeodesy.utmupsBase._to3zll	pygeodesy.utmupsBase-module.html#_to3zll
 pygeodesy.utmupsBase.fstr	pygeodesy.streprs-module.html#fstr
 pygeodesy.utmupsBase._xkwds_not	pygeodesy.errors-module.html#_xkwds_not
 pygeodesy.utmupsBase._UTM_ZONE_MIN	pygeodesy.utmupsBase-module.html#_UTM_ZONE_MIN
+pygeodesy.utmupsBase.atan1	pygeodesy.utily-module.html#atan1
 pygeodesy.utmupsBase._fstrENH2	pygeodesy.streprs-module.html#_fstrENH2
 pygeodesy.vector2d	pygeodesy.vector2d-module.html
 pygeodesy.vector2d.hypot2_	pygeodesy.fmath-module.html#hypot2_
@@ -10186,6 +10187,7 @@ pygeodesy.ecef.Ecef9Tuple.lamVermeille	pygeodesy.ecef.Ecef9Tuple-class.html#lamV
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
 pygeodesy.named._NamedTuple.__delattr__	pygeodesy.named._NamedTuple-class.html#__delattr__
 pygeodesy.ecef.Ecef9Tuple.convertDatum	pygeodesy.ecef.Ecef9Tuple-class.html#convertDatum
+pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
 pygeodesy.named._Named.named	pygeodesy.named._Named-class.html#named
 pygeodesy.named._NamedTuple.toUnits	pygeodesy.named._NamedTuple-class.html#toUnits
 pygeodesy.ecef.Ecef9Tuple.xyz	pygeodesy.ecef.Ecef9Tuple-class.html#xyz
@@ -10205,7 +10207,7 @@ pygeodesy.named._Named.iteration	pygeodesy.named._Named-class.html#iteration
 pygeodesy.named._Named.typename	pygeodesy.named._Named-class.html#typename
 pygeodesy.named._NamedTuple.items	pygeodesy.named._NamedTuple-class.html#items
 pygeodesy.named._NamedTuple.__hash__	pygeodesy.named._NamedTuple-class.html#__hash__
-pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
+pygeodesy.ecef.Ecef9Tuple.phiVermeille	pygeodesy.ecef.Ecef9Tuple-class.html#phiVermeille
 pygeodesy.named._NamedLocal.toNed	pygeodesy.named._NamedLocal-class.html#toNed
 pygeodesy.named._NamedTuple.reUnit	pygeodesy.named._NamedTuple-class.html#reUnit
 pygeodesy.named._NamedLocal._Ltp	pygeodesy.named._NamedLocal-class.html#_Ltp
@@ -13979,6 +13981,7 @@ pygeodesy.ellipsoids.Ellipsoid.areax	pygeodesy.ellipsoids.Ellipsoid-class.html#a
 pygeodesy.ellipsoids.Ellipsoid.a_b	pygeodesy.ellipsoids.Ellipsoid-class.html#a_b
 pygeodesy.named._Named.methodname	pygeodesy.named._Named-class.html#methodname
 pygeodesy.ellipsoids.Ellipsoid.majoradius	pygeodesy.ellipsoids.Ellipsoid-class.html#majoradius
+pygeodesy.ellipsoids.Ellipsoid.rocAzimuth	pygeodesy.ellipsoids.Ellipsoid-class.html#rocAzimuth
 pygeodesy.ellipsoids.Ellipsoid.Rpolar	pygeodesy.ellipsoids.Ellipsoid-class.html#Rpolar
 pygeodesy.named._NamedEnumItem.name	pygeodesy.named._NamedEnumItem-class.html#name
 pygeodesy.named._NamedEnumItem.unregister	pygeodesy.named._NamedEnumItem-class.html#unregister
@@ -14003,6 +14006,7 @@ pygeodesy.ellipsoids.Ellipsoid.a2_b	pygeodesy.ellipsoids.Ellipsoid-class.html#a2
 pygeodesy.ellipsoids.Ellipsoid.roc2_	pygeodesy.ellipsoids.Ellipsoid-class.html#roc2_
 pygeodesy.named._Named._iteration	pygeodesy.named._Named-class.html#_iteration
 pygeodesy.ellipsoids.Ellipsoid.polaradius	pygeodesy.ellipsoids.Ellipsoid-class.html#polaradius
+pygeodesy.named._Named.typename	pygeodesy.named._Named-class.html#typename
 pygeodesy.ellipsoids.Ellipsoid._Lpd	pygeodesy.ellipsoids.Ellipsoid-class.html#_Lpd
 pygeodesy.ellipsoids.Ellipsoid.c2x	pygeodesy.ellipsoids.Ellipsoid-class.html#c2x
 pygeodesy.ellipsoids.Ellipsoid.flattening	pygeodesy.ellipsoids.Ellipsoid-class.html#flattening
@@ -14079,7 +14083,7 @@ pygeodesy.ellipsoids.Ellipsoid.Rvolumetric	pygeodesy.ellipsoids.Ellipsoid-class.
 pygeodesy.ellipsoids.Ellipsoid.es_atanh	pygeodesy.ellipsoids.Ellipsoid-class.html#es_atanh
 pygeodesy.named._Named.iteration	pygeodesy.named._Named-class.html#iteration
 pygeodesy.ellipsoids.Ellipsoid.n	pygeodesy.ellipsoids.Ellipsoid-class.html#n
-pygeodesy.named._Named.typename	pygeodesy.named._Named-class.html#typename
+pygeodesy.ellipsoids.Ellipsoid._rocDirectional	pygeodesy.ellipsoids.Ellipsoid-class.html#_rocDirectional
 pygeodesy.ellipsoids.Ellipsoid.isOblate	pygeodesy.ellipsoids.Ellipsoid-class.html#isOblate
 pygeodesy.ellipsoids.Ellipsoid._triaxial	pygeodesy.ellipsoids.Ellipsoid-class.html#_triaxial
 pygeodesy.ellipsoids.Ellipsoid.geodesicx	pygeodesy.ellipsoids.Ellipsoid-class.html#geodesicx
@@ -14173,6 +14177,7 @@ pygeodesy.ellipsoids.Ellipsoid.areax	pygeodesy.ellipsoids.Ellipsoid-class.html#a
 pygeodesy.ellipsoids.Ellipsoid.a_b	pygeodesy.ellipsoids.Ellipsoid-class.html#a_b
 pygeodesy.named._Named.methodname	pygeodesy.named._Named-class.html#methodname
 pygeodesy.ellipsoids.Ellipsoid.majoradius	pygeodesy.ellipsoids.Ellipsoid-class.html#majoradius
+pygeodesy.ellipsoids.Ellipsoid.rocAzimuth	pygeodesy.ellipsoids.Ellipsoid-class.html#rocAzimuth
 pygeodesy.ellipsoids.Ellipsoid.Rpolar	pygeodesy.ellipsoids.Ellipsoid-class.html#Rpolar
 pygeodesy.named._NamedEnumItem.name	pygeodesy.named._NamedEnumItem-class.html#name
 pygeodesy.named._NamedEnumItem.unregister	pygeodesy.named._NamedEnumItem-class.html#unregister
@@ -14198,6 +14203,7 @@ pygeodesy.ellipsoids.Ellipsoid.a2_b	pygeodesy.ellipsoids.Ellipsoid-class.html#a2
 pygeodesy.ellipsoids.Ellipsoid.roc2_	pygeodesy.ellipsoids.Ellipsoid-class.html#roc2_
 pygeodesy.named._Named._iteration	pygeodesy.named._Named-class.html#_iteration
 pygeodesy.ellipsoids.Ellipsoid.polaradius	pygeodesy.ellipsoids.Ellipsoid-class.html#polaradius
+pygeodesy.named._Named.typename	pygeodesy.named._Named-class.html#typename
 pygeodesy.ellipsoids.Ellipsoid._Lpd	pygeodesy.ellipsoids.Ellipsoid-class.html#_Lpd
 pygeodesy.ellipsoids.Ellipsoid.c2x	pygeodesy.ellipsoids.Ellipsoid-class.html#c2x
 pygeodesy.ellipsoids.Ellipsoid.flattening	pygeodesy.ellipsoids.Ellipsoid-class.html#flattening
@@ -14272,7 +14278,7 @@ pygeodesy.ellipsoids.Ellipsoid.Rvolumetric	pygeodesy.ellipsoids.Ellipsoid-class.
 pygeodesy.ellipsoids.Ellipsoid.es_atanh	pygeodesy.ellipsoids.Ellipsoid-class.html#es_atanh
 pygeodesy.named._Named.iteration	pygeodesy.named._Named-class.html#iteration
 pygeodesy.ellipsoids.Ellipsoid.n	pygeodesy.ellipsoids.Ellipsoid-class.html#n
-pygeodesy.named._Named.typename	pygeodesy.named._Named-class.html#typename
+pygeodesy.ellipsoids.Ellipsoid.Lmeridian	pygeodesy.ellipsoids.Ellipsoid-class.html#Lmeridian
 pygeodesy.ellipsoids.Ellipsoid.isOblate	pygeodesy.ellipsoids.Ellipsoid-class.html#isOblate
 pygeodesy.ellipsoids.Ellipsoid._triaxial	pygeodesy.ellipsoids.Ellipsoid-class.html#_triaxial
 pygeodesy.ellipsoids.Ellipsoid.geodesicx	pygeodesy.ellipsoids.Ellipsoid-class.html#geodesicx
@@ -14319,7 +14325,7 @@ pygeodesy.ellipsoids.Ellipsoid.rocMean	pygeodesy.ellipsoids.Ellipsoid-class.html
 pygeodesy.ellipsoids.Ellipsoid.e21	pygeodesy.ellipsoids.Ellipsoid-class.html#e21
 pygeodesy.ellipsoids.Ellipsoid.e22	pygeodesy.ellipsoids.Ellipsoid-class.html#e22
 pygeodesy.ellipsoids.Ellipsoid.isEllipsoidal	pygeodesy.ellipsoids.Ellipsoid-class.html#isEllipsoidal
-pygeodesy.ellipsoids.Ellipsoid.Lmeridian	pygeodesy.ellipsoids.Ellipsoid-class.html#Lmeridian
+pygeodesy.ellipsoids.Ellipsoid._rocDirectional	pygeodesy.ellipsoids.Ellipsoid-class.html#_rocDirectional
 pygeodesy.ellipsoids.Ellipsoid.a2_	pygeodesy.ellipsoids.Ellipsoid-class.html#a2_
 pygeodesy.ellipsoids.Ellipsoid.rocMeridional	pygeodesy.ellipsoids.Ellipsoid-class.html#rocMeridional
 pygeodesy.ellipsoids.Ellipsoid._1_e21	pygeodesy.ellipsoids.Ellipsoid-class.html#_1_e21
@@ -14627,6 +14633,7 @@ pygeodesy.named._Named._DOT_	pygeodesy.named._Named-class.html#_DOT_
 pygeodesy.utmupsBase.UtmUpsBase._ups	pygeodesy.utmupsBase.UtmUpsBase-class.html#_ups
 pygeodesy.named._Named.renamed	pygeodesy.named._Named-class.html#renamed
 pygeodesy.named._Named._xrenamed	pygeodesy.named._Named-class.html#_xrenamed
+pygeodesy.utmupsBase.UtmUpsBase.phiFootPoint	pygeodesy.utmupsBase.UtmUpsBase-class.html#phiFootPoint
 pygeodesy.utm.Utm.toRepr	pygeodesy.utm.Utm-class.html#toRepr
 pygeodesy.etm.Etm._exactTM	pygeodesy.etm.Etm-class.html#_exactTM
 pygeodesy.utmupsBase.UtmUpsBase._mgrs_lowerleft	pygeodesy.utmupsBase.UtmUpsBase-class.html#_mgrs_lowerleft
@@ -14683,6 +14690,7 @@ pygeodesy.named._NamedBase._update	pygeodesy.named._NamedBase-class.html#_update
 pygeodesy.utm.Utm.toUps	pygeodesy.utm.Utm-class.html#toUps
 pygeodesy.utmupsBase.UtmUpsBase._northing	pygeodesy.utmupsBase.UtmUpsBase-class.html#_northing
 pygeodesy.etm.Etm.parse	pygeodesy.etm.Etm-class.html#parse
+pygeodesy.utmupsBase.UtmUpsBase._footpoint	pygeodesy.utmupsBase.UtmUpsBase-class.html#_footpoint
 pygeodesy.etm.Etm.__init__	pygeodesy.etm.Etm-class.html#__init__
 pygeodesy.utmupsBase.UtmUpsBase._toStr	pygeodesy.utmupsBase.UtmUpsBase-class.html#_toStr
 pygeodesy.named._Named.__format__	pygeodesy.named._Named-class.html#__format__
@@ -14693,6 +14701,7 @@ pygeodesy.named._Named._iteration	pygeodesy.named._Named-class.html#_iteration
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.utmupsBase.UtmUpsBase._epsg	pygeodesy.utmupsBase.UtmUpsBase-class.html#_epsg
 pygeodesy.utmupsBase.UtmUpsBase.toMgrs	pygeodesy.utmupsBase.UtmUpsBase-class.html#toMgrs
+pygeodesy.utmupsBase.UtmUpsBase.latFootPoint	pygeodesy.utmupsBase.UtmUpsBase-class.html#latFootPoint
 pygeodesy.utm.Utm._etm	pygeodesy.utm.Utm-class.html#_etm
 pygeodesy.utm.Utm._scale0	pygeodesy.utm.Utm-class.html#_scale0
 pygeodesy.etm.ExactTransverseMercator	pygeodesy.etm.ExactTransverseMercator-class.html
@@ -35039,6 +35048,7 @@ pygeodesy.named._Named._DOT_	pygeodesy.named._Named-class.html#_DOT_
 pygeodesy.utmupsBase.UtmUpsBase._ups	pygeodesy.utmupsBase.UtmUpsBase-class.html#_ups
 pygeodesy.named._Named.renamed	pygeodesy.named._Named-class.html#renamed
 pygeodesy.named._Named._xrenamed	pygeodesy.named._Named-class.html#_xrenamed
+pygeodesy.utmupsBase.UtmUpsBase.phiFootPoint	pygeodesy.utmupsBase.UtmUpsBase-class.html#phiFootPoint
 pygeodesy.named._Named.attrs	pygeodesy.named._Named-class.html#attrs
 pygeodesy.ups.Ups.toRepr	pygeodesy.ups.Ups-class.html#toRepr
 pygeodesy.utmupsBase.UtmUpsBase._mgrs_lowerleft	pygeodesy.utmupsBase.UtmUpsBase-class.html#_mgrs_lowerleft
@@ -35095,6 +35105,7 @@ pygeodesy.named._NamedBase._update	pygeodesy.named._NamedBase-class.html#_update
 pygeodesy.ups.Ups.toUps	pygeodesy.ups.Ups-class.html#toUps
 pygeodesy.utmupsBase.UtmUpsBase._northing	pygeodesy.utmupsBase.UtmUpsBase-class.html#_northing
 pygeodesy.ups.Ups.parse	pygeodesy.ups.Ups-class.html#parse
+pygeodesy.utmupsBase.UtmUpsBase._footpoint	pygeodesy.utmupsBase.UtmUpsBase-class.html#_footpoint
 pygeodesy.ups.Ups.__init__	pygeodesy.ups.Ups-class.html#__init__
 pygeodesy.utmupsBase.UtmUpsBase._toStr	pygeodesy.utmupsBase.UtmUpsBase-class.html#_toStr
 pygeodesy.named._Named.__format__	pygeodesy.named._Named-class.html#__format__
@@ -35103,6 +35114,7 @@ pygeodesy.named._Named._iteration	pygeodesy.named._Named-class.html#_iteration
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.utmupsBase.UtmUpsBase._epsg	pygeodesy.utmupsBase.UtmUpsBase-class.html#_epsg
 pygeodesy.utmupsBase.UtmUpsBase.toMgrs	pygeodesy.utmupsBase.UtmUpsBase-class.html#toMgrs
+pygeodesy.utmupsBase.UtmUpsBase.latFootPoint	pygeodesy.utmupsBase.UtmUpsBase-class.html#latFootPoint
 pygeodesy.ups.Ups._scale0	pygeodesy.ups.Ups-class.html#_scale0
 pygeodesy.utm.UTMError	pygeodesy.utm.UTMError-class.html
 pygeodesy.utm.Utm	pygeodesy.utm.Utm-class.html
@@ -35132,6 +35144,7 @@ pygeodesy.named._Named._DOT_	pygeodesy.named._Named-class.html#_DOT_
 pygeodesy.utmupsBase.UtmUpsBase._ups	pygeodesy.utmupsBase.UtmUpsBase-class.html#_ups
 pygeodesy.named._Named.renamed	pygeodesy.named._Named-class.html#renamed
 pygeodesy.named._Named._xrenamed	pygeodesy.named._Named-class.html#_xrenamed
+pygeodesy.utmupsBase.UtmUpsBase.phiFootPoint	pygeodesy.utmupsBase.UtmUpsBase-class.html#phiFootPoint
 pygeodesy.utm.Utm.toRepr	pygeodesy.utm.Utm-class.html#toRepr
 pygeodesy.utmupsBase.UtmUpsBase._mgrs_lowerleft	pygeodesy.utmupsBase.UtmUpsBase-class.html#_mgrs_lowerleft
 pygeodesy.utm.Utm.toUtm	pygeodesy.utm.Utm-class.html#toUtm
@@ -35186,6 +35199,7 @@ pygeodesy.named._NamedBase._update	pygeodesy.named._NamedBase-class.html#_update
 pygeodesy.utm.Utm.toUps	pygeodesy.utm.Utm-class.html#toUps
 pygeodesy.utmupsBase.UtmUpsBase._northing	pygeodesy.utmupsBase.UtmUpsBase-class.html#_northing
 pygeodesy.utm.Utm.parse	pygeodesy.utm.Utm-class.html#parse
+pygeodesy.utmupsBase.UtmUpsBase._footpoint	pygeodesy.utmupsBase.UtmUpsBase-class.html#_footpoint
 pygeodesy.utm.Utm.__init__	pygeodesy.utm.Utm-class.html#__init__
 pygeodesy.utmupsBase.UtmUpsBase._toStr	pygeodesy.utmupsBase.UtmUpsBase-class.html#_toStr
 pygeodesy.named._Named.__format__	pygeodesy.named._Named-class.html#__format__
@@ -35196,6 +35210,7 @@ pygeodesy.named._Named._iteration	pygeodesy.named._Named-class.html#_iteration
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.utmupsBase.UtmUpsBase._epsg	pygeodesy.utmupsBase.UtmUpsBase-class.html#_epsg
 pygeodesy.utmupsBase.UtmUpsBase.toMgrs	pygeodesy.utmupsBase.UtmUpsBase-class.html#toMgrs
+pygeodesy.utmupsBase.UtmUpsBase.latFootPoint	pygeodesy.utmupsBase.UtmUpsBase-class.html#latFootPoint
 pygeodesy.utm.Utm._etm	pygeodesy.utm.Utm-class.html#_etm
 pygeodesy.utm.Utm._scale0	pygeodesy.utm.Utm-class.html#_scale0
 pygeodesy.utmups.UTMUPSError	pygeodesy.utmups.UTMUPSError-class.html
@@ -35221,6 +35236,7 @@ pygeodesy.named._Named.name	pygeodesy.named._Named-class.html#name
 pygeodesy.utmupsBase.UtmUpsBase._ups	pygeodesy.utmupsBase.UtmUpsBase-class.html#_ups
 pygeodesy.named._Named.renamed	pygeodesy.named._Named-class.html#renamed
 pygeodesy.named._Named._xrenamed	pygeodesy.named._Named-class.html#_xrenamed
+pygeodesy.utmupsBase.UtmUpsBase.phiFootPoint	pygeodesy.utmupsBase.UtmUpsBase-class.html#phiFootPoint
 pygeodesy.named._NamedBase.toRepr	pygeodesy.named._NamedBase-class.html#toRepr
 pygeodesy.utmupsBase.UtmUpsBase._mgrs_lowerleft	pygeodesy.utmupsBase.UtmUpsBase-class.html#_mgrs_lowerleft
 pygeodesy.named._Named.sizeof	pygeodesy.named._Named-class.html#sizeof
@@ -35270,6 +35286,7 @@ pygeodesy.utmupsBase.UtmUpsBase.toEpsg	pygeodesy.utmupsBase.UtmUpsBase-class.htm
 pygeodesy.utmupsBase.UtmUpsBase.falsed2	pygeodesy.utmupsBase.UtmUpsBase-class.html#falsed2
 pygeodesy.named._NamedBase._update	pygeodesy.named._NamedBase-class.html#_update
 pygeodesy.utmupsBase.UtmUpsBase._northing	pygeodesy.utmupsBase.UtmUpsBase-class.html#_northing
+pygeodesy.utmupsBase.UtmUpsBase._footpoint	pygeodesy.utmupsBase.UtmUpsBase-class.html#_footpoint
 pygeodesy.utmupsBase.UtmUpsBase.__init__	pygeodesy.utmupsBase.UtmUpsBase-class.html#__init__
 pygeodesy.utmupsBase.UtmUpsBase._toStr	pygeodesy.utmupsBase.UtmUpsBase-class.html#_toStr
 pygeodesy.named._Named.__format__	pygeodesy.named._Named-class.html#__format__
@@ -35278,6 +35295,7 @@ pygeodesy.named._Named._iteration	pygeodesy.named._Named-class.html#_iteration
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.utmupsBase.UtmUpsBase._epsg	pygeodesy.utmupsBase.UtmUpsBase-class.html#_epsg
 pygeodesy.utmupsBase.UtmUpsBase.toMgrs	pygeodesy.utmupsBase.UtmUpsBase-class.html#toMgrs
+pygeodesy.utmupsBase.UtmUpsBase.latFootPoint	pygeodesy.utmupsBase.UtmUpsBase-class.html#latFootPoint
 pygeodesy.vector2d.Circin6Tuple	pygeodesy.vector2d.Circin6Tuple-class.html
 pygeodesy.named._NamedTuple.toRepr	pygeodesy.named._NamedTuple-class.html#toRepr
 pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename

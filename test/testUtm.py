@@ -4,7 +4,7 @@
 # Test L{utm} module.
 
 __all__ = ('Tests',)
-__version__ = '22.07.25'
+__version__ = '25.04.25'
 
 from bases import TestsBase
 
@@ -171,6 +171,15 @@ class Tests(TestsBase):
 
         self.test('repr', repr(u), '[Z:32U, H:N, E:280000, N:5653000]')
         self.test('E.N.', u.eastingnorthing2(), '(280000.0, 5653000.0)')
+
+        u, n = Utm(), 6651832.735433666
+        self.test('latFootPoint', u.latFootPoint( n),               59.979893712986794, prec=8, nl=1)
+        self.test('latFootPoint', u.latFootPoint(-n),              -59.979893712986794, prec=8)
+        self.test('latFootPoint', u.latFootPoint( n, makris=True),  59.979886144347320, prec=8)
+        self.test('latFootPoint', u.latFootPoint(-n, makris=True), -59.979886144347320, prec=8)
+        u = Utm(datum=Ellipsoids.Sphere)
+        self.test('phiFootPoint', u.phiFootPoint( n),               1.0440784142816830, prec=8)
+        self.test('phiFootPoint', u.phiFootPoint(-n, makris=True), -1.0440784142816830, prec=8)
 
 
 if __name__ == '__main__':
