@@ -1,11 +1,11 @@
 
 # -*- coding: utf-8 -*-
 
-u'''A pure Python implementation of geodesy tools for various ellipsoidal and spherical earth
-models using precision exact, elliptic, trigonometric, vector-based, iterative and approximate
-methods for geodetic (lat-/longitude), geocentric (U{ECEF<https://WikiPedia.org/wiki/ECEF>}
-cartesian) and certain U{triaxial ellipsoidal<https://GeographicLib.SourceForge.io/1.44/triaxial.html>}
-coordinates.
+u'''A pure Python implementation of geodesy tools for various ellipsoidal and spherical earth models
+using precision exact, elliptic, trigonometric, vector-based, iterative and approximate methods for
+geodetic (lat-/longitude), geocentric (U{ECEF<https://WikiPedia.org/wiki/ECEF>} cartesian), local (U{LTP
+<https://WikiPedia.org/wiki/Local_tangent_plane_coordinates>}) and certain U{triaxial ellipsoidal
+<https://GeographicLib.SourceForge.io/1.44/triaxial.html>} coordinates.
 
 Transcoded in part from U{JavaScript originals<https://GitHub.com/ChrisVeness/geodesy>} by I{Chris Veness (C)
 2005-2024} and from several U{C++ classes<https://GeographicLib.SourceForge.io/C++/doc/annotated.html>} by I{Charles
@@ -406,6 +406,7 @@ if _init__all__ and not _lazy_import2:  # import and set __all__
     import pygeodesy.deprecated            as deprecated             # PYCHOK exported
     import pygeodesy.dms                   as dms                    # PYCHOK exported
     import pygeodesy.ecef                  as ecef                   # PYCHOK exported
+    import pygeodesy.ecefLocals            as ecefLocals             # PYCHOK exported
     import pygeodesy.elevations            as elevations             # PYCHOK exported
     import pygeodesy.ellipsoidalBase       as ellipsoidalBase        # PYCHOK INTERNAL
     import pygeodesy.ellipsoidalBaseDI     as ellipsoidalBaseDI      # PYCHOK INTERNAL
@@ -491,6 +492,7 @@ if _init__all__ and not _lazy_import2:  # import and set __all__
     from pygeodesy.deprecated            import *  # PYCHOK __all__ DEPRECATED
     from pygeodesy.dms                   import *  # PYCHOK __all__
     from pygeodesy.ecef                  import *  # PYCHOK __all__
+#   from pygeodesy.ecefLocals            import *  # PYCHOK __all__
     from pygeodesy.elevations            import *  # PYCHOK __all__
 #   from pygeodesy.ellipsoidalBase       import *  # PYCHOK __(_)__ INTERNAL
 #   from pygeodesy.ellipsoidalBaseDI     import *  # PYCHOK __(_)__ INTERNAL
@@ -602,7 +604,7 @@ else:
 
 from pygeodesy.internals import _version2,  _DOT_  # PYCHOK import
 # from pygeodesy.interns import _DOT_  # from .internals
-__version__ = '25.04.25'
+__version__ = '25.05.05'
 # see setup.py for similar logic
 version     = _DOT_(*_version2(__version__, n=3))
 

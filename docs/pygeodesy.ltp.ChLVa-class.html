@@ -322,16 +322,18 @@
         <li><strong class="pname"><code>latlonh</code></strong> - Either a <code>LatLon</code>, <a 
           href="pygeodesy.ltp.Ltp-class.html" class="link">Ltp</a> or 
           <code>scalar</code> (geodetic) latitude (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>lon</code></strong> - Optional, <code>scalar</code> (geodetic) longitude for 
-          <code>scalar</code> <b><code>latlonh</code></b> 
-          (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon</code></strong> - Optional, <code>scalar</code> (geodetic) longitude 
+          (<code>degrees</code>) iff <b><code>latlonh</code></b> is 
+          <code>scalar</code>, ignored otherwise.</li>
         <li><strong class="pname"><code>height</code></strong> - Optional, height, vertically above (or below) the surface of the 
-          ellipsoid (<code>meter</code>) for <code>scalar</code> 
-          <b><code>latlonh</code></b> and <b><code>lon</code></b>.</li>
+          ellipsoid (<code>meter</code>) iff <b><code>latlonh</code></b> 
+          and <b><code>lon</code></b> are <code>scalar</code>, ignored 
+          otherwise.</li>
         <li><strong class="pname"><code>M</code></strong> - If <code>True</code>, return the <i>concatenated</i> rotation <a 
           href="pygeodesy.ecef.EcefMatrix-class.html" 
-          class="link">EcefMatrix</a> iff available for <code>ChLV</code> 
-          only, <code>None</code> otherwise (<code>bool</code>).</li>
+          class="link">EcefMatrix</a> iff available and for 
+          <code>ChLV</code> only, <code>None</code> otherwise 
+          (<code>bool</code>).</li>
         <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -339,13 +341,11 @@
           class="link">ChLV9Tuple</a><code>(Y, X, h_, lat, lon, height, 
           ltp, ecef, M)</code> with the unfalsed <i>Swiss Y, X</i> 
           coordinates, <i>Swiss h_</i> height, the given <i>geodetic</i> 
-          <code>lat</code>, <code>lon</code> and <code>height</code>, this 
-          <code>ChLV*</code> instance and <code>ecef</code> (<a 
-          href="pygeodesy.ecef.Ecef9Tuple-class.html" 
-          class="link">Ecef9Tuple</a>) at <i>Bern, Ch</i> and rotation 
-          matrix <code>M</code>.  The returned <code>ltp</code> is this 
-          <code>ChLV</code>, <code>ChLVa</code> or <code>ChLVe</code> 
-          instance.</dd>
+          <code>lat</code>, <code>lon</code> and <code>height</code>, 
+          <code>ecef</code> (<a href="pygeodesy.ecef.Ecef9Tuple-class.html"
+          class="link">Ecef9Tuple</a>) at <i>Bern, Ch</i>, rotation matrix 
+          <code>M</code> and <code>ltp</code> this <code>ChLV</code>, 
+          <code>ChLVa</code> or <code>ChLVe</code> instance.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.ltp.LocalError-class.html">LocalError</a></strong></code> - Invalid or non-<code>scalar</code> <b><code>latlonh</code></b>, 
@@ -386,16 +386,17 @@
           class="link">ChLV9Tuple</a>) or the <code>scalar</code>, falsed 
           <i>Swiss E_LV95</i> or <i>y_LV03</i> easting 
           (<code>meter</code>).</li>
-        <li><strong class="pname"><code>n</code></strong> - Falsed <i>Swiss N_LV85</i> or <i>x_LV03</i> northing for 
-          <code>scalar</code> <b><code>enh_</code></b> and 
-          <b><code>h_</code></b> (<code>meter</code>).</li>
-        <li><strong class="pname"><code>h_</code></strong> - <i>Swiss h'</i> height for <code>scalar</code> 
-          <b><code>enh_</code></b> and <b><code>n</code></b> 
-          (<code>meter</code>).</li>
+        <li><strong class="pname"><code>n</code></strong> - Falsed <i>Swiss N_LV85</i> or <i>x_LV03</i> northing 
+          (<code>meter</code>) iff <b><code>enh_</code></b> is 
+          <code>scalar</code>, ignored otherwise.</li>
+        <li><strong class="pname"><code>h_</code></strong> - <i>Swiss h'</i> height (<code>meter</code>) iff 
+          <b><code>enh_</code></b> and <b><code>n</code></b> are 
+          <code>scalar</code>, ignored otherwise.</li>
         <li><strong class="pname"><code>M</code></strong> - If <code>True</code>, return the <i>concatenated</i> rotation <a 
           href="pygeodesy.ecef.EcefMatrix-class.html" 
-          class="link">EcefMatrix</a> iff available for <code>ChLV</code> 
-          only, <code>None</code> otherwise (<code>bool</code>).</li>
+          class="link">EcefMatrix</a> iff available and for 
+          <code>ChLV</code> only, <code>None</code> otherwise 
+          (<code>bool</code>).</li>
         <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -403,13 +404,11 @@
           class="link">ChLV9Tuple</a><code>(Y, X, h_, lat, lon, height, 
           ltp, ecef, M)</code> with the unfalsed <i>Swiss Y, X</i> 
           coordinates, <i>Swiss h_</i> height, the given <i>geodetic</i> 
-          <code>lat</code>, <code>lon</code> and <code>height</code>, this 
-          <code>ChLV*</code> instance and <code>ecef</code> (<a 
-          href="pygeodesy.ecef.Ecef9Tuple-class.html" 
-          class="link">Ecef9Tuple</a>) at <i>Bern, Ch</i> and rotation 
-          matrix <code>M</code>.  The returned <code>ltp</code> is this 
-          <code>ChLV</code>, <code>ChLVa</code> or <code>ChLVe</code> 
-          instance.</dd>
+          <code>lat</code>, <code>lon</code> and <code>height</code>, 
+          <code>ecef</code> (<a href="pygeodesy.ecef.Ecef9Tuple-class.html"
+          class="link">Ecef9Tuple</a>) at <i>Bern, Ch</i>, rotation matrix 
+          <code>M</code> and <code>ltp</code> this <code>ChLV</code>, 
+          <code>ChLVa</code> or <code>ChLVe</code> instance.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.ltp.LocalError-class.html">LocalError</a></strong></code> - Invalid or non-<code>scalar</code> <b><code>enh_</code></b>, 
@@ -454,7 +453,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Apr 25 12:03:58 2025
+    Generated by Epydoc 3.0.1 on Mon May  5 10:49:11 2025
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

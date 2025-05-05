@@ -35,9 +35,9 @@ from pygeodesy.internals import _caller3, _envPYGEODESY, _headof, printf, _tailo
 #                               _MODS_Base, _MODS.sys_version_info2
 from pygeodesy.interns import _attribute_, _by_, _COLONSPACE_, _COMMASPACE_, _DALL_, \
                               _DMAIN_, _doesn_t_exist_, _DOT_, _EQUALSPACED_, _from_, \
-                              _immutable_, _line_, _module_, NN, _no_, _not_, _or_, \
+                              _HASH_, _immutable_, _line_, _module_, NN, _no_, _not_, \
                               _pygeodesy_, _pygeodesy_abspath_, _SPACE_, _SUB_PACKAGES, \
-                              _UNDER_, _version_,  _sys, _intern  # function, _1_, _HASH_
+                              _or_, _UNDER_, _version_,  _sys, _intern  # function, _1_
 try:
     from importlib import import_module
 except ImportError as x:  # Python 2.6-
@@ -47,6 +47,7 @@ except ImportError as x:  # Python 2.6-
 _a0                = ()  # PYCHOK empty tuple
 _asSPACED_         = ' as '
 _FOR_DOCS          = _envPYGEODESY('FOR_DOCS')  # for epydoc ...
+_imported_         = 'imported'
 _init__all__       = _FOR_DOCS or _envPYGEODESY('_init__all__', _DALL_) == _DALL_  # PYCHOK exported
 _lazily_           = 'lazily'
 _PYTHON_X_DEV      =  getattr(_sys.flags, 'dev_mode', False)  # PYCHOK Python 3.2+
@@ -215,6 +216,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'parseDDDMMSS', 'parseDMS', 'parseDMS2', 'parse3llh', 'parseRad', 'precision', 'toDMS'),
                            ecef=_a('EcefError', 'EcefFarrell21', 'EcefFarrell22', 'EcefKarney', 'EcefMatrix',
                                    'EcefSudano', 'Ecef9Tuple', 'EcefVeness', 'EcefYou'),
+                     ecefLocals=_a(),  # module only
                      elevations=_a('Elevation2Tuple', 'GeoidHeight2Tuple',
                                    'elevation2', 'geoidHeight2'),
                 ellipsoidalBase=_a(),  # module only
@@ -239,7 +241,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'crosserrors', 'exception_chaining', 'isError', 'limiterrors', 'rangerrors'),
                             etm=_a('Etm', 'ETMError', 'ExactTransverseMercator',
                                    'parseETM5', 'toEtm8'),
-                          fmath=_a('Fdot', 'Fhorner', 'Fhypot', 'Fpolynomial', 'Fpowers', 'Fcbrt', 'Froot', 'Fsqrt',
+                          fmath=_a('Fdot', 'Fdot_', 'Fhorner', 'Fhypot', 'Fpolynomial', 'Fpowers', 'Fcbrt', 'Froot', 'Fsqrt',
                                    'bqrt', 'cbrt', 'cbrt2', 'euclid', 'euclid_',
                                    'facos1', 'fasin1', 'fatan', 'fatan1', 'fatan2', 'favg',
                                    'fdot', 'fdot_', 'fdot3', 'fma', 'fmean', 'fmean_', 'fhorner', 'fidw', 'f2mul_',
@@ -477,19 +479,17 @@ class _ALL_MODS(_internals._MODS_Base):
         return _sys.modules.get(name, None)
 
     def into(self, **mod_DNAME):
-        '''Lazily import module C{mod} into module C{_DNAME_}
-           and set C{_DNAME_._mod} to module C{mod}, I{once}.
+        '''Deferred import of module C{mod} into module C{_DNAME_}
+           and overwrite C{_DNAME_._mod} to module C{mod}, I{once}
+           at the first access of an attribute of module C{mod}.
         '''
+    #   assert len(mod_DNAME) == 1
+    #   mod, dun = mod_DNAME.popitem()
+
         class _Into(object):
 
             def __getattr__(unused, name):
-                mod, dun = self.errors._xkwds_item2(mod_DNAME)
-                _mod = _UNDER_(NN, mod)
-                d =  self.getmodule(dun)  # '__main__' OK
-                i = _getmodattr(d, _mod, dun)
-                assert isinstance(i, _Into)
-                m =  self.getmodule(mod)
-                setattr(d, _mod, m)  # overwrite C{d._mod}
+                m = _getmodinto(mod_DNAME, _Into)
                 return getattr(m, name)
 
         return _Into()
@@ -510,7 +510,7 @@ class _ALL_MODS(_internals._MODS_Base):
 _internals._MODS = _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '25.04.21'
+__version__ = '25.04.30'
 
 
 def _ALL_OTHER(*objs):
@@ -599,9 +599,27 @@ def _getmodattr(m, name, mod=_pygeodesy_):
     try:
         return getattr(m, name)
     except AttributeError:
-        name = _DOT_(mod, name)
+        name = _DOT_(typename(m, mod), name)
         # <https://GitHub.com/mrJean1/PyGeodesy/issues/76>
         raise LazyAttributeError(_no_(_attribute_), txt=name)
+
+
+def _getmodinto(mod_DNAME, *Intos):
+    '''(INTERNAL) Core of C{_ALL_MODS.into}.
+    '''
+    _MODS = _ALL_MODS
+    mod, dun = _MODS.errors._xkwds_item2(mod_DNAME)
+    _mod = _UNDER_(NN, mod)
+    d = _MODS.getmodule(dun)  # '__main__' OK
+    i = _getmodattr(d, _mod, dun)
+    assert isinstance(i, Intos)
+    m = _MODS.getmodule(mod)
+    setattr(d, _mod, m)  # overwrite C{d._mod}
+    if isLazy > 1:
+        t = _SPACE_(_HASH_, _imported_, m.__name__)  # typename(m)
+        _hash_imported(t, _MODS.into.__name__)
+    assert getattr(d, _mod, None) is m
+    return m
 
 
 def _getmodule(name, *parent):
@@ -612,6 +630,18 @@ def _getmodule(name, *parent):
     except ImportError:
         # <https://GitHub.com/mrJean1/PyGeodesy/issues/76>
         raise LazyImportError(_no_(_module_), txt=name)
+
+
+def _hash_imported(t, by_into, up=3):
+    '''(INTERNAL) Helper for C{_lazy_import2} and C{_ALL_MODS.into}.
+    '''
+    if isLazy > 2:
+        try:  # see C{internals._caller3}
+            _, f, s = _caller3(up)
+            t = _SPACE_(t, by_into, f, _line_, s)
+        except ValueError:
+            pass
+    printf(t)  # XXX print
 
 
 # def _lazy_attributes(DUNDER_name):
@@ -666,7 +696,7 @@ def _lazy_import2(pack):  # MCCABE 14
     package, parent   = _lazy_init2(pack)  # _pygeodesy_
 
     _DPACKAGE_        = '__package__'
-    _lazily_imported_ = _SPACE_(_interns._HASH_, _lazily_, 'imported', parent)
+    _lazily_imported_ = _SPACE_(_HASH_, _lazily_, _imported_, parent)
 
     sub_packages =  set((parent, NN) + tuple(
                    _DOT_(parent, s) for s in _SUB_PACKAGES))
@@ -703,13 +733,7 @@ def _lazy_import2(pack):  # MCCABE 14
             t = _DOT_(_lazily_imported_, name)
             if mod and _tailof(mod) != name:
                 t = _SPACE_(t, _from_, _DOT_(NN, mod))
-            if isLazy > 2:
-                try:  # see C{_caller3}
-                    _, f, s = _caller3(2)
-                    t = _SPACE_(t, _by_, f, _line_, s)
-                except ValueError:
-                    pass
-            printf(t)  # XXX print
+            _hash_imported(t, _by_)
 
         return v  # __getattr__
 

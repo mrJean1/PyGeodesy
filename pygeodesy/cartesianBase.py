@@ -16,6 +16,7 @@ from pygeodesy.constants import EPS, EPS0, INT0, PI2, _isfinite, isnear0, \
 from pygeodesy.datums import Datum, _earth_ellipsoid, _spherical_datum, \
                              Transform, _WGS84
 # from pygeodesy.ecef import EcefKarney  # _MODS
+from pygeodesy.ecefLocals import _EcefLocal
 from pygeodesy.errors import _IsnotError, _TypeError, _ValueError, _xattr, \
                              _xdatum, _xkwds, _xkwds_get, _xkwds_pop2
 from pygeodesy.fmath import cbrt, hypot, hypot_, hypot2,  fabs, sqrt  # hypot
@@ -25,7 +26,7 @@ from pygeodesy.fsums import fsumf_,  Fmt
 from pygeodesy.interns import _COMMASPACE_, _datum_, _no_, _phi_
 from pygeodesy.interns import _ellipsoidal_, _spherical_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
-from pygeodesy.named import _name2__, _NamedLocal, _Pass
+from pygeodesy.named import _name2__, _Pass
 from pygeodesy.namedTuples import LatLon4Tuple, _NamedTupleTo , Vector3Tuple, \
                                   Vector4Tuple,  Bearing2Tuple  # PYCHOK .sphericalBase
 # from pygeodesy.nvectorBase import _N_vector  # _MODS
@@ -43,14 +44,14 @@ from pygeodesy.vector3d import Vector3d, _xyzhdlln4
 # from math import degrees, fabs, radians, sqrt  # from .fmath, .utily
 
 __all__ = _ALL_LAZY.cartesianBase
-__version__ = '25.04.21'
+__version__ = '25.04.28'
 
 _r_         = 'r'
 _resections = _MODS.into(resections=__name__)
 _theta_     = 'theta'
 
 
-class CartesianBase(Vector3d, _NamedLocal):
+class CartesianBase(Vector3d, _EcefLocal):
     '''(INTERNAL) Base class for ellipsoidal and spherical C{Cartesian}.
     '''
     _datum  = None  # L{Datum}, to be overriden
@@ -200,7 +201,7 @@ class CartesianBase(Vector3d, _NamedLocal):
         '''
         n, kwds = _name2__(name_Cartesian_kwds, _or_nameof=self)
         if Cartesian is None:
-            r = self._Ltp._local2ecef(delta, nine=True)
+            r = self._ltp._local2ecef(delta, nine=True)  # _EcefLocal._ltp
         else:
             d = self.datum
             if not d:
@@ -208,7 +209,7 @@ class CartesianBase(Vector3d, _NamedLocal):
             t = _xkwds_get(kwds, datum=d)
             if _xattr(t, ellipsoid=None) != d.ellipsoid:
                 raise _TypeError(datum=t, txt=str(d))
-            c = self._Ltp._local2ecef(delta, nine=False)
+            c = self._ltp._local2ecef(delta, nine=False)  # _EcefLocal._ltp
             r = Cartesian(*c, **kwds)
         return r.renamed(n) if n else r
 

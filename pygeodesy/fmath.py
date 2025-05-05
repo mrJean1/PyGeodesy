@@ -25,7 +25,7 @@ from math import fabs, sqrt  # pow
 import operator as _operator  # in .datums, .trf, .utm
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '25.04.18'
+__version__ = '25.04.30'
 
 # sqrt(2) - 1 <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142  =  0.41421356237309504880  # ~ 3_730_904_090_310_553 / 9_007_199_254_740_992
@@ -66,13 +66,27 @@ class Fdot(Fsum):
         self._facc_dot(n, a, b, **kwds)
 
 
+class Fdot_(Fdot):
+    '''Precision dot product.
+    '''
+    def __init__(self, *xys, **start_name_f2product_nonfinites_RESIDUAL):
+        '''New L{Fdot_} precision dot product M{sum(xys[i] * xys[i+1] for i in
+           range(0, len(xys), B{2}))}.
+
+           @arg xys: Pairwise values (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}),
+                     all positional.
+
+           @see: Class L{Fdot<Fdot.__init__>} for further details.
+        '''
+        Fdot.__init__(self, xys[0::2], *xys[1::2], **start_name_f2product_nonfinites_RESIDUAL)
+
+
 class Fhorner(Fsum):
     '''Precision polynomial evaluation using the Horner form.
     '''
     def __init__(self, x, *cs, **incx_name_f2product_nonfinites_RESIDUAL):
-        '''New L{Fhorner} form evaluation of polynomial M{sum(cs[i] * x**i for
-           i=0..n)} with in- or decreasing exponent M{sum(... i=n..0)}, where C{n
-           = len(cs) - 1}.
+        '''New L{Fhorner} form evaluation of polynomial M{sum(cs[i] * x**i for i=0..n)}
+           with in- or decreasing exponent M{sum(... i=n..0)}, where C{n = len(cs) - 1}.
 
            @arg x: Polynomial argument (C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
            @arg cs: Polynomial coeffients (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}),
@@ -454,7 +468,8 @@ def fdot_(*xys, **start_f2product_nonfinites):
 
        @return: Dot product (C{float}).
     '''
-    return fdot(xys[0::2], *xys[1::2], **start_f2product_nonfinites)
+    D = Fdot_(*xys, **_xkwds(start_f2product_nonfinites, nonfinites=True))
+    return float(D)
 
 
 def fdot3(xs, ys, zs, **start_f2product_nonfinites):
@@ -555,7 +570,7 @@ def fidw(xs, ds, beta=2):
 
 
 try:
-    from math import fma as _fma
+    from math import fma as _fma  # in .resections
 except  ImportError:  # PYCHOK DSPACE!
 
     def _fma(x, y, z):  # no need for accuracy

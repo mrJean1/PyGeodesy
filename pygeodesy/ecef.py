@@ -63,19 +63,19 @@ from pygeodesy.constants import EPS, EPS0, EPS02, EPS1, EPS2, EPS_2, INT0, PI, P
                                _0_0, _0_0001, _0_01, _0_5, _1_0, _1_0_1T, _N_1_0, \
                                _2_0, _N_2_0, _3_0, _4_0, _6_0, _60_0, _90_0, _N_90_0, \
                                _100_0, _copysign_1_0,  isnon0  # PYCHOK used!
-from pygeodesy.datums import a_f2Tuple, _ellipsoidal_datum, _WGS84,  _EWGS84
+from pygeodesy.datums import _ellipsoidal_datum, _WGS84,  a_f2Tuple, _EWGS84
+from pygeodesy.ecefLocals import _EcefLocal
 # from pygeodesy.ellipsoids import a_f2Tuple, _EWGS84  # from .datums
 from pygeodesy.errors import _IndexError, LenError, _ValueError, _TypesError, \
                              _xattr, _xdatum, _xkwds, _xkwds_get
-from pygeodesy.fmath import cbrt, fdot, Fpowers, hypot, hypot1, hypot2_, sqrt0
+from pygeodesy.fmath import cbrt, fdot, hypot, hypot1, hypot2_, sqrt0
 from pygeodesy.fsums import Fsum, fsumf_,  Fmt, unstr
 # from pygeodesy.internals import typename  # from .basics
 from pygeodesy.interns import NN, _a_, _C_, _datum_, _ellipsoid_, _f_, _height_, \
                              _lat_, _lon_, _M_, _name_, _singular_, _SPACE_, \
                              _x_, _xyz_, _y_, _z_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
-from pygeodesy.named import _name__, _name1__, _NamedBase, _NamedLocal, \
-                            _NamedTuple, _Pass, _xnamed
+from pygeodesy.named import _name__, _name1__, _NamedBase, _NamedTuple, _Pass, _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, \
                                   PhiLam2Tuple, Vector3Tuple, Vector4Tuple
 from pygeodesy.props import deprecated_method, Property_RO, property_RO, \
@@ -90,7 +90,7 @@ from pygeodesy.utily import atan1, atan1d, atan2, atan2d, degrees90, degrees180,
 from math import cos, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '25.04.24'
+__version__ = '25.04.28'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -110,6 +110,7 @@ class _EcefBase(_NamedBase):
     '''
     _datum = _WGS84
     _E     = _EWGS84
+    _isYou =  False
     _lon00 =  INT0  # arbitrary, "polar" lon for LocalCartesian, Ltp
 
     def __init__(self, a_ellipsoid=_EWGS84, f=None, lon00=INT0, **name):
@@ -271,12 +272,6 @@ class _EcefBase(_NamedBase):
         '''
         return (Ecef9Tuple,  # overwrite property_ROver
                _MODS.vector3d.Vector3d)  # _MODS.cartesianBase.CartesianBase
-
-    @Property_RO
-    def _isYou(self):
-        '''(INTERNAL) Is this an C{EcefYou}?.
-        '''
-        return isinstance(self, EcefYou)
 
     @property
     def lon00(self):
@@ -790,6 +785,7 @@ class EcefYou(_EcefBase):
              11589/115114_9021_geod2ellip_final.pdf>} Studia Geophysica et Geodaetica, 2008, 52,
              pages 1-18 and U{PyMap3D <https://PyPI.org/project/pymap3d>}.
     '''
+    _isYou = True
 
     def __init__(self, a_ellipsoid=_EWGS84, f=None, **lon00_name):  # PYCHOK signature
         _EcefBase.__init__(self, a_ellipsoid, f=f, **lon00_name)  # inherited documentation
@@ -825,13 +821,14 @@ class EcefYou(_EcefBase):
                              ellipsoid is I{prolate}.
         '''
         x, y, z, name = _xyzn4(xyz, y, z, self._Geocentrics, **lon00_name)
+        q = hypot(x, y)  # R
 
         E = self.ellipsoid
         e, e2 = self._ee2
 
-        q = hypot(x, y)  # R
-        u = Fpowers(2, x, y, z) - e2
-        u = u.fadd_(hypot(u, e * z * _2_0)).fover(_2_0)
+        u  =  hypot2_(x, y, z) - e2
+        u +=  hypot(u, e * z * _2_0)
+        u *= _0_5
         if u > EPS02:
             u = sqrt(u)
             p = hypot(u, e)
@@ -1019,7 +1016,7 @@ class EcefMatrix(_NamedTuple):
         return xyz_
 
 
-class Ecef9Tuple(_NamedTuple, _NamedLocal):
+class Ecef9Tuple(_NamedTuple, _EcefLocal):
     '''9-Tuple C{(x, y, z, lat, lon, height, C, M, datum)} with I{geocentric} C{x},
        C{y} and C{z} plus I{geodetic} C{lat}, C{lon} and C{height}, case C{C} (see
        the C{Ecef*.reverse} methods) and optionally, rotation matrix C{M} (L{EcefMatrix})
@@ -1041,7 +1038,7 @@ class Ecef9Tuple(_NamedTuple, _NamedLocal):
         return self.toDatum(datum2)
 
     @property_RO
-    def _ecef9(self):
+    def _ecef9(self):  # in ._EcefLocal._Ltp_ecef2local
         return self
 
     @Property_RO
@@ -1102,13 +1099,6 @@ class Ecef9Tuple(_NamedTuple, _NamedLocal):
            @see: Property C{lamVermeille}.
         '''
         return Lon(Vermeille=degrees(self.lamVermeille))
-
-    def _ltp_toLocal(self, ltp, Xyz_kwds, **Xyz):  # overloads C{_NamedLocal}'s
-        '''(INTERNAL) Invoke C{ltp._xLtp(ltp)._ecef2local}.
-        '''
-        Xyz_ = self._ltp_toLocal2(Xyz_kwds, **Xyz)  # in ._NamedLocal
-        ltp  = self._ltp._xLtp(ltp, self._Ltp)  # both in ._NamedLocal
-        return ltp._ecef2local(self, *Xyz_)
 
     @Property_RO
     def phi(self):

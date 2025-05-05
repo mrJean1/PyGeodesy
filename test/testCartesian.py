@@ -4,7 +4,7 @@
 # Test cartesians.
 
 __all__ = ('Tests',)
-__version__ = '24.12.05'
+__version__ = '25.04.27'
 
 from bases import GeodSolve, geographiclib, isPython35, TestsBase
 
@@ -190,6 +190,14 @@ class Tests(TestsBase):
         self.test(c.destinationXyz.__name__, t, t, nl=1)
         t = c.destinationXyz(d, Cartesian=Cartesian, name='Cart').toRepr()
         self.test(c.destinationXyz.__name__, t, t)
+
+        # <https://GitHub.com/paarnes/pygeodetics> geodetics/ECEF2enu.py
+        c = Cartesian(12738186.63827794, -15447555.301322976, 10385003.518329535)
+        if c.isEllipsoidal:
+            t = Ltp(59.90707247427837, 10.754482924017791)
+            self.test('c.toEnu', c.toEnu(ltp=t), '[-17553188.505, -3108016.462, 7452592.104]', nl=1)
+            e = c.toEcef()
+            self.test('e.toEnu', e.toEnu(ltp=t), '[-17553188.505, -3108016.462, 7452592.104]')
 
     def testReturnType(self, inst, clas, name):
         self.test(name, type(inst), clas)  # type(inst).__name__ == clas.__name__

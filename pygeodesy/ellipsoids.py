@@ -95,7 +95,7 @@ from pygeodesy.utily import atan1, atan1d, atan2b, degrees90, m2radians, radians
 from math import asinh, atan, atanh, cos, degrees, exp, fabs, radians, sin, sinh, sqrt, tan  # as _tan
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '25.04.23'
+__version__ = '25.04.28'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -140,12 +140,14 @@ class a_f2Tuple(_NamedTuple):
            @arg f: Flattening (C{scalar} < 1, negative for I{prolate}).
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
-           @return: An L{a_f2Tuple}C{(a, f)} instance.
+           @return: An L{a_f2Tuple}C{(a, f)}.
 
            @raise UnitError: Invalid B{C{a}} or B{C{f}}.
 
-           @note: C{abs(B{f}) < EPS} is forced to C{B{f}=0}, I{spherical}.
-                  Negative C{B{f}} produces a I{prolate} ellipsoid.
+           @note: C{abs(B{f}) < }L{EPS<pygeodesy.constants.EPS>} is
+                  forced to C{B{f}=0}, I{spherical}.
+
+           @note: Negative C{B{f}} produces a I{prolate} ellipsoid.
         '''
         a = Radius_(a=a)  # low=EPS, high=None
         f = Float_( f=f, low=None, high=EPS1)
@@ -359,11 +361,16 @@ class Ellipsoid(_NamedEnumItem):
         '''
         return a_f2Tuple(self.a, self.f, name=self.name)
 
+    a_f2 = a_f  # synonym
+
     @Property_RO
     def A(self):
         '''Get the UTM I{meridional (or rectifying)} radius (C{meter}).
 
-           @see: I{Meridian arc unit} U{Q<https://StudyLib.net/doc/7443565/>}.
+           @note: C{A * PI / 2} ≈= L{L<Ellipsoid.L>}, the I{quarter meridian}.
+
+           @see: I{Meridian arc unit} U{Q<https://StudyLib.net/doc/7443565/>},
+                 the mean, meridional length I{per radian}.
         '''
         A, n = self.a, self.n
         if n:
@@ -375,6 +382,11 @@ class Ellipsoid(_NamedEnumItem):
                 # A *= fhorner(n**2, 1048576, 262144, 16384, 4096, 1600, 784, 441) / 1048576) / (1 + n)
                 A = Radius(A=Fhorner(n**2, 1048576, 262144, 16384, 4096, 1600, 784, 441).fover(d))
         return A
+#       # Moritz, H. <https://Geodesy.Geology.Ohio-State.EDU/course/refpapers/00740128.pdf>
+#       # q =  4 / self.rocPolar
+#       # Q = (1 - 3 / 4 * e'2 + 45 / 64 * e'4 - 175 / 256 * e'6 + 11025 / 16384 * e'8) * rocPolar
+#       #   = (4 + e'2 * (-3 + e'2 * (45 / 16 + e'2 * (-175 / 64 + e'2 * 11025 / 4096)))) / q
+#       return Radius(Q=Fhorner(self.e22, 4, -3, 45 / 16, -175 / 64, 11025 / 4096).fover(q))
 
     @Property_RO
     def _albersCyl(self):
@@ -1339,23 +1351,7 @@ class Ellipsoid(_NamedEnumItem):
 
     polaradius = b  # Rpolar
 
-#   @Property_RO
-#   def Q(self):
-#       '''Get the I{meridian arc unit} C{Q}, the mean, meridional length I{per radian} C({float}).
-#
-#          @note: C{Q * PI / 2} ≈ C{L}, the I{quarter meridian}.
-#
-#          @see: Property C{A} and U{Engsager, K., Poder, K.<https://StudyLib.net/doc/7443565/
-#                a-highly-accurate-world-wide-algorithm-for-the-transverse...>}.
-#       '''
-#       n = self.n
-#       d = (n + _1_0) / self.a
-#       return Float(Q=Fhorner(n**2, _1_0, _0_25, _1_16th, _0_25).fover(d) if d else self.b)
-
-#       # Moritz, H. <https://Geodesy.Geology.Ohio-State.EDU/course/refpapers/00740128.pdf>
-#       # Q = (1 - 3/4 * e'2 + 45/64 * e'4 - 175/256 * e'6 + 11025/16384 * e'8) * rocPolar
-#       #   = (4 + e'2 * (-3 + e'2 * (45/16 + e'2 * (-175/64 + e'2 * 11025/4096)))) * rocPolar / 4
-#       return Fhorner(self.e22, 4, -3, 45 / 16, -175 / 64, 11025 / 4096).fover(4 / self.rocPolar)
+#   Q = A  # I{meridian arc unit} C{Q}, the mean, meridional length I{per radian}
 
     @deprecated_Property_RO
     def quarteradius(self):  # PYCHOK no cover
@@ -1382,15 +1378,12 @@ class Ellipsoid(_NamedEnumItem):
                  <https://WikiPedia.org/wiki/Earth_radius>}.
         '''
         return Radius(R2=sqrt(self.c2) if self.f else self.a)
-
-    Rauthalic = R2
-
-#   @Property_RO
-#   def R2(self):
 #       # Moritz, H. <https://Geodesy.Geology.Ohio-State.EDU/course/refpapers/00740128.pdf>
 #       # R2 = (1 - 2/3 * e'2 + 26/45 * e'4 - 100/189 * e'6 + 7034/14175 * e'8) * rocPolar
 #       #    = (3 + e'2 * (-2 + e'2 * (26/15 + e'2 * (-100/63 + e'2 * 7034/4725)))) * rocPolar / 3
 #       return Fhorner(self.e22, 3, -2, 26 / 15, -100 / 63, 7034 / 4725).fover(3 / self.rocPolar)
+
+    Rauthalic = R2
 
     @Property_RO
     def R2x(self):

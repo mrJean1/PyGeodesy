@@ -11,12 +11,13 @@ L{ChLVYX2Tuple}, L{ChLVyx2Tuple} and L{Footprint5Tuple}.
 @see: References in module L{ltp}.
 '''
 
-# from pygeodesy.basics import issubclassof  # _MODS
+from pygeodesy.basics import issubclassof,  typename
 from pygeodesy.constants import _0_0, _1_0, _90_0, _N_90_0
 # from pygeodesy.dms import F_D, toDMS  # _MODS
 from pygeodesy.errors import _TypeError, _TypesError, _xattr, _xkwds, \
                              _xkwds_item2
 from pygeodesy.fmath import fdot_, hypot, hypot_
+# rom pygeodesy.internals import typename  # from .basics
 from pygeodesy.interns import NN, _4_, _azimuth_, _center_, _COMMASPACE_, \
                              _ecef_, _elevation_, _height_, _lat_, _lon_, \
                              _ltp_, _M_, _name_, _up_, _X_, _x_, _xyz_, \
@@ -37,7 +38,7 @@ from pygeodesy.vector3d import Vector3d
 # from math import cos, radians  # from .utily
 
 __all__ = _ALL_LAZY.ltpTuples
-__version__ = '24.12.06'
+__version__ = '25.05.01'
 
 _aer_        = 'aer'
 _alt_        = 'alt'
@@ -48,6 +49,7 @@ _h__         = 'h_'
 _ned_        = 'ned'
 _north_      = 'north'
 _local_      = 'local'
+_ltp         = _MODS.into(ltp=__name__)
 _roll_       = 'roll'
 _slantrange_ = 'slantrange'
 _tilt_       = 'tilt'
@@ -158,25 +160,25 @@ class _Abc4Tuple(_NamedTuple):
     def _2Cls(self, Abc, Cls, Cls_kwds):
         '''(INTERNAL) Convert 4-Tuple to C{Cls} instance.
         '''
+        _isc =  issubclassof
         kwds = _name1__(Cls_kwds, _or_nameof=self)
-        _is  = _MODS.basics.issubclassof
         if Cls is None:
             n, _ = _name2__(Cls_kwds)
             r = self.copy(name=n) if n else self
-        elif _is(Cls, Abc):
+        elif _isc(Cls, Abc):
             r = Cls(*self, **kwds)
-        elif _is(Cls, Aer):
+        elif _isc(Cls, Aer):
             r = self.xyzLocal.toAer(**_xkwds(kwds, Aer=Cls))
-        elif _is(Cls, Enu):  # PYCHOK no cover
+        elif _isc(Cls, Enu):  # PYCHOK no cover
             r = self.xyzLocal.toEnu(**_xkwds(kwds, Enu=Cls))
-        elif _is(Cls, Ned):
+        elif _isc(Cls, Ned):
             r = self.xyzLocal.toNed(**_xkwds(kwds, Ned=Cls))
-        elif _is(Cls, XyzLocal):  # PYCHOK no cover
+        elif _isc(Cls, XyzLocal):  # PYCHOK no cover
             r = self.xyzLocal.toXyz(**_xkwds(kwds, Xyz=Cls))
         elif Cls is Local9Tuple:  # PYCHOK no cover
             r = self.xyzLocal.toLocal9Tuple(**kwds)
         else:  # PYCHOK no cover
-            n = Abc.__name__[:3]  # typename
+            n = typename(Abc)[:3]
             raise _TypesError(n, Cls, Aer, Enu, Ned, XyzLocal)
         return r
 
@@ -383,7 +385,7 @@ class Attitude4Tuple(_NamedTuple):
     def tyr3d(self):
         '''Get this attitude's (3-D) directional vector (L{Vector3d}).
         '''
-        return _MODS.ltp.Attitude(self).tyr3d
+        return _ltp.Attitude(self).tyr3d
 
 
 class Ned(_AbcBase):
@@ -731,7 +733,7 @@ class XyzLocal(_Vector3d):
     def _ltp_kwds_name3(self, ltp, kwds):
         '''(INTERNAL) Helper for methods C{toCartesian} and C{toLatLon}.
         '''
-        ltp  = _xLtp(ltp, self.ltp)
+        ltp  = _ltp._xLtp(ltp, self.ltp)
         kwds = _name1__(kwds, _or_nameof=self)
         kwds = _name1__(kwds, _or_nameof=ltp)
         return ltp, kwds, kwds.get(_name_, NN)
@@ -965,10 +967,11 @@ class Enu(XyzLocal):
                           I{local} instance (L{Enu}, L{Enu4Tuple}, L{Aer},
                           L{Aer4Tuple}, L{Local9Tuple}, L{Ned}, L{Ned4Tuple},
                           L{XyzLocal} or L{Xyz4Tuple}).
-           @kwarg north: Scalar North component (C{meter}) only used with
-                         scalar B{C{east_enu}}.
-           @kwarg up: Scalar Up component only used with scalar B{C{east_enu}},
-                      normal from the surface of the ellipsoid or sphere (C{meter}).
+           @kwarg north: Scalar North component (C{meter}), iff B{C{east_enu}}
+                         is C{meter}, ignored otherwise.
+           @kwarg up: Scalar Up component (C{meter}, normal from the surface
+                      of the ellipsoid or sphere), iff B{C{east_enu}} is
+                      C{meter}, ignored otherwise.
            @kwarg ltp: The I{local tangent plane}, (geodetic) origin (L{Ltp},
                        L{LocalCartesian}).
            @kwarg name: Optional C{B{name}=NN} (C{str}).
@@ -1249,10 +1252,12 @@ class Uvw(_Vector3d):
     def __init__(self, u_uvw, v=0, w=0, **name):
         '''New L{Uvw}.
 
-           @arg u_uvw: Scalar U component (C{meter}) or a previous instance
-                       (L{Uvw}, L{Uvw3Tuple}, L{Vector3d}).
-           @kwarg v: V component (C{meter}) only used with scalar B{C{u_uvw}}.
-           @kwarg w: W component (C{meter}) only used with scalar B{C{u_uvw}}.
+           @arg u_uvw: Scalar U component (C{meter}) or a previous instance (L{Uvw},
+                       L{Uvw3Tuple}, L{Vector3d}).
+           @kwarg v: V component (C{meter}), iff B{C{u_uvw}} is C{meter}, ignored
+                     otherwise.
+           @kwarg w: W component (C{meter}), iff B{C{u_uvw}} is C{meter}, ignored
+                     otherwise.
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @raise TypeError: Invalid B{C{east_enu}}.
@@ -1323,8 +1328,8 @@ class Los(Aer):
                              or a previous instance (L{Aer}, L{Aer4Tuple}, L{Enu},
                              L{Enu4Tuple} or L{Los}).
            @kwarg elevation: Scalar angle I{above} the horizon (C{degrees}, horizon
-                             is 0, zenith +90, nadir -90), only used with scalar
-                             B{C{azimuth_aer}}.
+                             is 0, zenith +90, nadir -90), if B{C{azimuth_aer}} is
+                             C{degrees}, ignored otherwise.
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @raise TypeError: Invalid B{C{azimuth_aer}}.
@@ -1388,19 +1393,19 @@ class ChLV9Tuple(Local9Tuple):
     def isChLV(self):
         '''Is this a L{ChLV}-generated L{ChLV9Tuple}?.
         '''
-        return self.ltp.__class__ is _MODS.ltp.ChLV
+        return self.ltp.__class__ is _ltp.ChLV
 
     @property_RO
     def isChLVa(self):
         '''Is this a L{ChLVa}-generated L{ChLV9Tuple}?.
         '''
-        return self.ltp.__class__ is _MODS.ltp.ChLVa
+        return self.ltp.__class__ is _ltp.ChLVa
 
     @property_RO
     def isChLVe(self):
         '''Is this a L{ChLVe}-generated L{ChLV9Tuple}?.
         '''
-        return self.ltp.__class__ is _MODS.ltp.ChLVe
+        return self.ltp.__class__ is _ltp.ChLVe
 
     @Property_RO
     def N_LV95(self):
@@ -1526,7 +1531,7 @@ class Footprint5Tuple(_NamedTuple):
 
            @see: Methods L{XyzLocal.toLatLon} and L{Footprint5Tuple.xyzLocal5}.
         '''
-        ltp  = _xLtp(ltp, self.center.ltp)  # PYCHOK .center
+        ltp  = _ltp._xLtp(ltp, self.center.ltp)  # PYCHOK .center
         kwds = _name1__(name_LatLon_kwds, _or_nameof=self)
         kwds = _xkwds(kwds, ltp=ltp, LatLon=LatLon)
         return Footprint5Tuple(t.toLatLon(**kwds) for t in self.xyzLocal5())
@@ -1544,7 +1549,7 @@ class Footprint5Tuple(_NamedTuple):
         if ltp is None:
             p =  self
         else:
-            p = _xLtp(ltp)
+            p = _ltp._xLtp(ltp)
             p =  tuple(Xyz4Tuple(t.x, t.y, t.z, p) for t in self)
         return Footprint5Tuple(t.xyzLocal for t in p)
 
@@ -1552,13 +1557,13 @@ class Footprint5Tuple(_NamedTuple):
 def _ChLV_false2(Y, X, **LV95_name):
     '''(INTERNAL) Invoke static method C{ltp.ChLV.false2}.
     '''
-    return _MODS.ltp.ChLV.false2(Y, X, **LV95_name)
+    return _ltp.ChLV.false2(Y, X, **LV95_name)
 
 
 def _ChLV_unfalse2(e, n, **LV95_name):
     '''(INTERNAL) Invoke static method C{ltp.ChLV.unfalse2}.
     '''
-    return _MODS.ltp.ChLV.unfalse2(e, n, **LV95_name)
+    return _ltp.ChLV.unfalse2(e, n, **LV95_name)
 
 
 def _er2gr(e, r):
@@ -1577,7 +1582,7 @@ def _init(inst, abc, ltp, name):
         n =  abc._name__(name)
         ltp = _xattr(abc, ltp=ltp)
     if ltp:
-        inst._ltp = _xLtp(ltp)
+        inst._ltp = _ltp._xLtp(ltp)
     if n:
         inst.name = n
 
@@ -1593,12 +1598,6 @@ def _toStr2(inst, prec=None, fmt=Fmt.SQUARE, sep=_COMMASPACE_):
         if fmt:
             t = fmt(t)
     return a, t
-
-
-def _xLtp(ltp, *dflt):
-    '''(INTERNAL) Invoke C{ltp._xLtp}.
-    '''
-    return _MODS.ltp._xLtp(ltp, *dflt)
 
 
 def _xyz2aer4(inst):

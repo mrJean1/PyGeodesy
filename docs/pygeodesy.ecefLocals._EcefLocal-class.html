@@ -1,0 +1,644 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.ecefLocals._EcefLocal</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">pygeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        <a href="pygeodesy.ecefLocals-module.html">Module&nbsp;ecefLocals</a> ::
+        Class&nbsp;_EcefLocal
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.ecefLocals._EcefLocal-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class _EcefLocal</h1><p class="nomargin-top"></p>
+<pre class="base-tree">
+  object --+    
+           |    
+<a href="pygeodesy.named._Named-class.html">named._Named</a> --+
+               |
+              <strong class="uidshort">_EcefLocal</strong>
+</pre>
+
+<dl><dt>Known Subclasses:</dt>
+<dd>
+      <ul class="subclass-list">
+<li><a href="pygeodesy.ecef.Ecef9Tuple-class.html">ecef.Ecef9Tuple</a></li><li>, <a href="pygeodesy.latlonBase.LatLonBase-class.html">latlonBase.LatLonBase</a></li><li>, <a href="pygeodesy.cartesianBase.CartesianBase-class.html">cartesianBase.CartesianBase</a></li>  </ul>
+</dd></dl>
+
+<hr />
+<p>(INTERNAL) Base class for <code>CartesianBase</code>, 
+  <code>Ecef9Tuple</code> and <code>LatLonBase</code>, providing ECEF to 
+  local coordinate conversions.</p>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Instance Methods</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ecefLocals._EcefLocal-class.html#toAer" class="summary-sig-name">toAer</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ltp</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**Aer_and_kwds</span>)</span><br />
+      Convert this instance to <i>local</i> <i>Azimuth, Elevation, slant 
+      Range</i> (AER) components.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ecefLocals._EcefLocal-class.html#toEnu" class="summary-sig-name">toEnu</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ltp</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**Enu_and_kwds</span>)</span><br />
+      Convert this instance to <i>local</i> <i>East, North, Up</i> (ENU) 
+      components.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ecefLocals._EcefLocal-class.html#toLocal" class="summary-sig-name">toLocal</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">Xyz</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">ltp</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**Xyz_kwds</span>)</span><br />
+      Convert this instance to <i>local</i> components in a <i>local 
+      tangent plane</i> (LTP)</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ecefLocals._EcefLocal-class.html#toLtp" class="summary-sig-name">toLtp</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">Ecef</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**name</span>)</span><br />
+      Return the <i>local tangent plane</i> (LTP) for this instance.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ecefLocals._EcefLocal-class.html#toNed" class="summary-sig-name">toNed</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ltp</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**Ned_and_kwds</span>)</span><br />
+      Convert this instance to <i>local</i> <i>North, East, Down</i> (NED) 
+      components.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ecefLocals._EcefLocal-class.html#toXyz" class="summary-sig-name">toXyz</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">ltp</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**Xyz_and_kwds</span>)</span><br />
+      Convert this instance to <i>local</i> <i>X, Y, Z</i> (XYZ) 
+      components.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#__format__">__format__</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#__imatmul__">__imatmul__</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#__matmul__">__matmul__</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#__repr__">__repr__</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#__rmatmul__">__rmatmul__</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#__str__">__str__</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#dup">dup</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#methodname">methodname</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#renamed">renamed</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#toRepr">toRepr</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#toStr">toStr</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__delattr__</code>,
+      <code>__getattribute__</code>,
+      <code>__hash__</code>,
+      <code>__init__</code>,
+      <code>__new__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__setattr__</code>,
+      <code>__sizeof__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Properties</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecefLocals._EcefLocal-class.html#Ecef" class="summary-name">Ecef</a><br />
+      Get the ECEF <i>class</i> (<a 
+      href="pygeodesy.ecef.EcefKarney-class.html" 
+      class="link">EcefKarney</a>), <i>once</i>.
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#classnaming">classnaming</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#iteration">iteration</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#name">name</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named">named</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named2">named2</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named3">named3</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named4">named4</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#sizeof">sizeof</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#typename">typename</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Method Details</span></td>
+</tr>
+</table>
+<a name="toAer"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toAer</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">ltp</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**Aer_and_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert this instance to <i>local</i> <i>Azimuth, Elevation, slant 
+  Range</i> (AER) components.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>ltp</code></strong> - The <i>local tangent plane</i> (LTP) to use (<a 
+          href="pygeodesy.ltp.Ltp-class.html" class="link">Ltp</a>), 
+          overriding this instance' <a 
+          href="pygeodesy.ecefLocals._EcefLocal-class.html#toLtp" 
+          class="link">LTP</a>.</li>
+        <li><strong class="pname"><code>Aer_and_kwds</code></strong> - Optional AER class <code><b>Aer</b>=</code><a 
+          href="pygeodesy.ltpTuples.Aer-class.html" class="link">Aer</a> to
+          use and optionally, additional <b><code>Aer</code></b> keyword 
+          arguments.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>An <b><code>Aer</code></b> instance.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>ltp</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <a href="pygeodesy.ecefLocals._EcefLocal-class.html#toLocal"
+        class="link">toLocal</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="toEnu"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toEnu</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">ltp</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**Enu_and_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert this instance to <i>local</i> <i>East, North, Up</i> (ENU) 
+  components.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>ltp</code></strong> - The <i>local tangent plane</i> (LTP) to use (<a 
+          href="pygeodesy.ltp.Ltp-class.html" class="link">Ltp</a>), 
+          overriding this instance' <a 
+          href="pygeodesy.ecefLocals._EcefLocal-class.html#toLtp" 
+          class="link">LTP</a>.</li>
+        <li><strong class="pname"><code>Enu_and_kwds</code></strong> - Optional ENU class <code><b>Enu</b>=</code><a 
+          href="pygeodesy.ltpTuples.Enu-class.html" class="link">Enu</a> to
+          use and optionally, additional <b><code>Enu</code></b> keyword 
+          arguments.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>An <b><code>Enu</code></b> instance.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>ltp</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <a href="pygeodesy.ecefLocals._EcefLocal-class.html#toLocal"
+        class="link">toLocal</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="toLocal"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toLocal</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">Xyz</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">ltp</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**Xyz_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert this instance to <i>local</i> components in a <i>local tangent
+  plane</i> (LTP)</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>Xyz</code></strong> - Optional <i>local</i> components class (<a 
+          href="pygeodesy.ltpTuples.XyzLocal-class.html" 
+          class="link">XyzLocal</a>, <a 
+          href="pygeodesy.ltpTuples.Aer-class.html" class="link">Aer</a>, 
+          <a href="pygeodesy.ltpTuples.Enu-class.html" 
+          class="link">Enu</a>, <a 
+          href="pygeodesy.ltpTuples.Ned-class.html" class="link">Ned</a>) 
+          or <code>None</code>.</li>
+        <li><strong class="pname"><code>ltp</code></strong> - The <i>local tangent plane</i> (LTP) to use (<a 
+          href="pygeodesy.ltp.Ltp-class.html" class="link">Ltp</a>), 
+          overriding this cartesian's <a 
+          href="pygeodesy.ecefLocals._EcefLocal-class.html#toLtp" 
+          class="link">LTP</a>.</li>
+        <li><strong class="pname"><code>Xyz_kwds</code></strong> - Optionally, additional <b><code>Xyz</code></b> keyword arguments,
+          ignored if <code><b>Xyz</b> is None</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>An <b><code>Xyz</code></b> instance or a <a 
+          href="pygeodesy.ltpTuples.Local9Tuple-class.html" 
+          class="link">Local9Tuple</a><code>(x, y, z, lat, lon, height, 
+          ltp, ecef, M)</code> if <code><b>Xyz</b> is None</code> (with 
+          <code>M=None</code>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>ltp</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="toLtp"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toLtp</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">Ecef</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**name</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the <i>local tangent plane</i> (LTP) for this instance.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>Ecef</code></strong> - Optional ECEF <i>class</i> (<a 
+          href="pygeodesy.ecef.EcefKarney-class.html" 
+          class="link">EcefKarney</a>, ... <a 
+          href="pygeodesy.ecef.EcefYou-class.html" 
+          class="link">EcefYou</a>), overriding this instance' <a 
+          href="pygeodesy.ecefLocals._EcefLocal-class.html#Ecef" 
+          class="link">Ecef</a>.</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>An <b><code>Ltp</code></b> instance.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="toNed"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toNed</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">ltp</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**Ned_and_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert this instance to <i>local</i> <i>North, East, Down</i> (NED) 
+  components.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>ltp</code></strong> - The <i>local tangent plane</i> (LTP) to use (<a 
+          href="pygeodesy.ltp.Ltp-class.html" class="link">Ltp</a>), 
+          overriding this instance' <a 
+          href="pygeodesy.ecefLocals._EcefLocal-class.html#toLtp" 
+          class="link">LTP</a>.</li>
+        <li><strong class="pname"><code>Ned_and_kwds</code></strong> - Optional NED class <code><b>Ned</b>=</code><a 
+          href="pygeodesy.ltpTuples.Ned-class.html" class="link">Ned</a> to
+          use and optionally, additional <b><code>Ned</code></b> keyword 
+          arguments.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>An <b><code>Ned</code></b> instance.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>ltp</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <a href="pygeodesy.ecefLocals._EcefLocal-class.html#toLocal"
+        class="link">toLocal</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="toXyz"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toXyz</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">ltp</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**Xyz_and_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert this instance to <i>local</i> <i>X, Y, Z</i> (XYZ) 
+  components.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>ltp</code></strong> - The <i>local tangent plane</i> (LTP) to use (<a 
+          href="pygeodesy.ltp.Ltp-class.html" class="link">Ltp</a>), 
+          overriding this instance' <a 
+          href="pygeodesy.ecefLocals._EcefLocal-class.html#toLtp" 
+          class="link">LTP</a>.</li>
+        <li><strong class="pname"><code>Xyz_and_kwds</code></strong> - Optional XYZ class <code><b>Xyz</b>=</code><a 
+          href="pygeodesy.ltpTuples.XyzLocal-class.html" 
+          class="link">Xyz</a> to use and optionally, additional 
+          <b><code>Xyz</code></b> keyword arguments.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>An <b><code>Xyz</code></b> instance.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>ltp</code></b>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <a href="pygeodesy.ecefLocals._EcefLocal-class.html#toLocal"
+        class="link">toLocal</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<br />
+<!-- ==================== PROPERTY DETAILS ==================== -->
+<a name="section-PropertyDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Property Details</span></td>
+</tr>
+</table>
+<a name="Ecef"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">Ecef</h3>
+  <p>Get the ECEF <i>class</i> (<a 
+  href="pygeodesy.ecef.EcefKarney-class.html" class="link">EcefKarney</a>),
+  <i>once</i>.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get the <code>property</code> value <i>once</i> and overwrite 
+<code>self</code>, this <code>property</code> instance in the (super-)class
+of <code>self</code> where this property is define as a <a 
+href="pygeodesy.props.property_ROver-class.html" 
+class="link">property_ROver</a>.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">*unused</span>)</span>
+        - Silently ignored, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">pygeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Mon May  5 10:49:10 2025
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

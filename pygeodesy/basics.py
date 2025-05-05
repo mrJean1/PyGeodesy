@@ -616,7 +616,7 @@ def map1(fun1, *xs):  # XXX map_
 
        @return: Function results (C{tuple}).
     '''
-    return tuple(map(fun1, xs))
+    return tuple(map(fun1, xs))  # if len(xs) != 1 else fun1(xs[0])
 
 
 def map2(fun, *xs, **strict):

@@ -22,7 +22,7 @@ from pygeodesy.basics import _isin, isodd, issubclassof, map2, \
 from pygeodesy.constants import EPS, EPS2, INT0, _0_0, _0_5, _1_0
 from pygeodesy.errors import ClipError, _IsnotError, _TypeError, \
                             _ValueError, _xattr, _xkwds_get, _xkwds_pop2
-from pygeodesy.fmath import favg, fdot_, hypot, hypot2
+from pygeodesy.fmath import favg, Fdot_, fdot_, hypot, hypot2
 # from pygeodesy.fsums import fsum1  # _MODS
 # from pygeodesy.internals import typename  # from .basics
 from pygeodesy.interns import NN, _BANG_, _clipid_, _COMMASPACE_, \
@@ -45,7 +45,7 @@ from pygeodesy.utily import fabs, _unrollon, _Wrap
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.booleans
-__version__ = '25.04.14'
+__version__ = '25.04.30'
 
 _0EPS  =  EPS  # near-zero, positive
 _EPS0  = -EPS  # near-zero, negative
@@ -1612,8 +1612,8 @@ class _EdgeGH(object):
 
     def _alpha2(self, x, y, dx, dy):
         # Return C{(alpha)}, see .points.nearestOn5
-        a = fdot_(y, dy,  x, dx) / self._hypot2
-        d = fdot_(y, dx, -x, dy) / self._hypot0
+        a = Fdot_(y, dy,  x, dx).fover(self._hypot2)
+        d = Fdot_(y, dx, -x, dy).fover(self._hypot0)
         return a, fabs(d)
 
     def _Error(self, n, *args, **kwds):  # PYCHOK no cover
@@ -1655,10 +1655,10 @@ class _EdgeGH(object):
             if fabs(d) > _0EPS:  # non-parallel edges
                 dx = x - c1_x
                 dy = y - c1_y
-                ca = fdot_(sx, dy, -sy, dx) / d
+                ca = Fdot_(sx, dy, -sy, dx).fover(d)
                 if _0EPS < ca < _EPS1 or (self._xtend and
                    _EPS0 < ca < _1EPS):
-                    sa = fdot_(cx, dy, -cy, dx) / d
+                    sa = Fdot_(cx, dy, -cy, dx).fover(d)
                     if _0EPS < sa < _EPS1 or (self._xtend and
                        _EPS0 < sa < _1EPS):
                         yield (y + sa * sy), (x + sa * sx), sa, ca
@@ -1669,7 +1669,7 @@ class _EdgeGH(object):
 
                 elif self._raiser and not (ca < _EPS0 or ca > _1EPS):  # PYCHOK no cover
                     # intersection at c1 or c2 or at c1 or c2 and s1 or s2
-                    sa = fdot_(cx, dy, -cy, dx) / d
+                    sa = Fdot_(cx, dy, -cy, dx).fover(d)
                     e  = 2 if sa < _EPS0 or sa > _1EPS else 3
                     raise self._Error(e, c1, c2, ca=ca)
 

@@ -7,8 +7,8 @@ for modules L{epsg}, L{etm}, L{mgrs}, L{ups} and L{utm}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # PYCHOK semicolon
 
-from pygeodesy.basics import _isin, isint, isscalar, isstr, neg_, \
-                             _xinstanceof, _xsubclassof
+from pygeodesy.basics import _copysign, _isin, isint, isscalar, isstr, \
+                              neg_, _xinstanceof, _xsubclassof
 from pygeodesy.constants import _float, _0_0, _0_5, _N_90_0, _180_0
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.dms import degDMS, parseDMS2
@@ -29,10 +29,10 @@ from pygeodesy.streprs import Fmt, fstr, _fstrENH2, _xzipairs
 from pygeodesy.units import Band, Easting, Lat, Northing, Phi, Scalar, Zone
 from pygeodesy.utily import atan1, _Wrap, wrap360
 
-from math import cos, degrees, fabs, sin, tan
+from math import cos, degrees, fabs, sin, tan  # copysign as _copysign
 
 __all__ = _ALL_LAZY.utmupsBase
-__version__ = '25.04.25'
+__version__ = '25.04.26'
 
 _UPS_BANDS = _A_, _B_, _Y_, _Z_  # UPS polar bands SE, SW, NE, NW
 # _UTM_BANDS = _MODS.utm._Bands
@@ -195,43 +195,65 @@ class UtmUpsBase(_NamedBase):
         self._notOverloaded(self)
 
     def _footpoint(self, y, lat0, makris):
-        '''(INTERNAL) Compute to foot-point latitude in C{radians}.
+        '''(INTERNAL) Return the foot-point latitude in C{radians}.
         '''
+        F = _MODS.fsums.Fsum
+        E = self.datum.ellipsoid
         if y is None:
             _, y = self.eastingnorthing2(falsed=False)
-        S = _MODS.fsums.Fsum
-        E =  self.datum.ellipsoid
-        P =  S(E.Llat(lat0), y)
+        B = F(E.Llat(lat0), y)
         if E.isSpherical:
-            p = P.fover(E.a)
+            r = B.fover(E.a)  # == E.b
+
         elif makris:
-            r = P.fover(E.b)
-            p = fabs(r)
-            if p:
+            b = B.fover(E.b)
+            r = fabs(b)
+            if r:
                 e2 = E.e22  # E.e22abs?
                 e4 = E.e4
 
-                e1  = S(e2 /  4, -11 /  64 * e4, -1).as_iscalar
-                e2  = S(e2 /  8, -13 / 128 * e4)    .as_iscalar
-                e4 *= cos(p)**2 / 8
+                e1  = F(-1, e2 /  4, -11 /  64 * e4).as_iscalar
+                e2  = F(    e2 /  8, -13 / 128 * e4).as_iscalar
+                e4 *= cos(r)**2 / 8
 
-                s =  sin(p * 2)
-                p = -p
-                U =  S(e1 * p, e2 * s, e4 * p, (5 / 8 * e4) * s**2)
-                p =  atan1(E.a * tan(float(U)) / E.b)
-                if r < 0:  # copysign(p, y)
-                    p = -p
-        else:  # PyGeodetics
+                s =  sin(r * 2)
+                r = -r
+                U =  F(e1 * r, e2 * s, e4 * r, e4 / 8 * 5 * s**2)
+                r = _copysign(atan1(E.a * tan(float(U)) / E.b), b)
+
+#       elif clins:  # APRIL-ZJU/clins/include/utils/gps_convert_utils.h
+#           n  = E.n
+#           n2 = n**2
+#           n3 = n**3
+#           n4 = n**4
+#           n5 = n**5
+#           A  = F(1, n2 / 4, n4 / 64).fmul((E.a + E.b) / 2)
+#           r  = B.fover(A)
+#           R  = F(r)
+#           if clins:  # FootpointLatitude, GPS-Theory-Practice, 1994
+#               R += F(3 / 2 * n, -27 / 32 * n3,  269 / 512 * n5).fmul(sin(r * 2))
+#               R += F(            21 / 16 * n2,  -55 /  32 * n4).fmul(sin(r * 4))
+#               R += F(           151 / 96 * n3, -417 / 128 * n5).fmul(sin(r * 6))
+#               R +=                            (1097 / 512 * n4)    * sin(r * 8)
+#           else:  # GPS-Theory-Practice, 1992, page 234-235
+#               R += F(-3 / 2 * n, 9 / 16 * n3,  -3 /  32 * n5).fmul(sin(r * 2))
+#               R += F(           15 / 16 * n2, -15 /  32 * n4).fmul(sin(r * 4))
+#               R += F(          -35 / 48 * n3, 105 / 256 * n4).fmul(sin(r * 6))  # n5?
+#           r = float(R)
+
+        else:  # PyGeodetics/src/geodetics/footpoint_latitude.py
             f  = E.f
             f2 = f**2
             f3 = f**3
-            B0 = S(1, -f / 2, f2 / 16, f3 / 32) * E.a
-            r  = P.fover(B0)
-            P  = S(r, S(3 / 4 * f, 3 /  8 * f2, 21 / 256 * f3) * sin(r * 2),
-                      S(          21 / 64 * f2, 21 /  64 * f3) * sin(r * 4),
-                                               151 / 768 * f3  * sin(r * 6))
-            p  = float(P)
-        return p
+            B0 = F(1, -f / 2, f2 / 16, f3 / 32).fmul(E.a)
+            r  = B.fover(B0)
+            R  = F(r)
+            R += F(3 / 4 * f, 3 /  8 * f2, 21 / 256 * f3).fmul(sin(r * 2))
+            R += F(          21 / 64 * f2, 21 /  64 * f3).fmul(sin(r * 4))
+            R +=                         (151 / 768 * f3)    * sin(r * 6)
+            r  = float(R)
+
+        return r
 
     @Property_RO
     def gamma(self):
@@ -251,8 +273,8 @@ class UtmUpsBase(_NamedBase):
     def latFootPoint(self, northing=None, lat0=0, makris=False):
         '''Compute the foot-point latitude in C{degrees}.
 
-           @arg northing: Northing (C{meter}, same units this datum's ellipsoid's axes),
-                          overriding this I{unfalsed} northing.
+           @arg northing: Northing (C{meter}, same units this ellipsoid's axes),
+                          overriding this northing, I{unfalsed}.
            @kwarg lat0: Geodetic latitude of the meridian's origin (C{degrees}).
            @kwarg makris: If C{True}, use C{Makris}' formula, otherwise C{PyGeodetics}'.
 

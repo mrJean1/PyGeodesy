@@ -17,12 +17,13 @@ from pygeodesy.constants import EPS, EPS0, EPS1, EPS4, INT0, R_M, \
 from pygeodesy.datums import _spherical_datum
 from pygeodesy.dms import F_D, F_DMS, latDMS, lonDMS, parse3llh
 # from pygeodesy.ecef import EcefKarney  # _MODS
+from pygeodesy.ecefLocals import _EcefLocal
 from pygeodesy.errors import _AttributeError, IntersectionError, \
                              _incompatible, _IsnotError, _TypeError, \
                              _ValueError, _xattr, _xdatum, _xError, \
                              _xkwds, _xkwds_get, _xkwds_item2, _xkwds_not
 # from pygeodesy.fmath import favg  # _MODS
-# from pygeodesy import formy as _formy  # .MODS.into
+# from pygeodesy import formy as _formy  # _MODS.into
 from pygeodesy.internals import _passarg, typename
 from pygeodesy.interns import NN, _COMMASPACE_, _concentric_, _height_, \
                              _intersection_, _LatLon_, _m_, _negative_, \
@@ -30,7 +31,7 @@ from pygeodesy.interns import NN, _COMMASPACE_, _concentric_, _height_, \
 # from pygeodesy.iters import PointsIter, points2  # _MODS
 # from pygeodesy.karney import Caps  # _MODS
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
-from pygeodesy.named import _name2__, _NamedBase, _NamedLocal,  Fmt
+from pygeodesy.named import _name2__, _NamedBase,  Fmt
 from pygeodesy.namedTuples import Bounds2Tuple, LatLon2Tuple, PhiLam2Tuple, \
                                   Trilaterate5Tuple, Vector3Tuple
 # from pygeodesy.nvectorBase import _N_vector_  # _MODS
@@ -48,12 +49,12 @@ from contextlib import contextmanager
 from math import asin, cos, degrees, fabs, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '25.04.21'
+__version__ = '25.04.28'
 
 _formy = _MODS.into(formy=__name__)
 
 
-class LatLonBase(_NamedBase, _NamedLocal):
+class LatLonBase(_NamedBase, _EcefLocal):
     '''(INTERNAL) Base class for ellipsoidal and spherical C{satLon}s.
     '''
     _clipid = INT0  # polygonal clip, see .booleans
@@ -411,7 +412,7 @@ class LatLonBase(_NamedBase, _NamedLocal):
 
            @raise TypeError: Invalid B{C{delta}}, B{C{LatLon}} or B{C{LatLon_kwds}} item.
         '''
-        t = self._Ltp._local2ecef(delta, nine=True)
+        t = self._ltp._local2ecef(delta, nine=True)  # _EcefLocal._ltp
         return t.toLatLon(LatLon=LatLon, **_xkwds(LatLon_kwds, name=self.name))
 
     def _distanceTo(self, func, other, radius=None, **kwds):
@@ -900,6 +901,8 @@ class LatLonBase(_NamedBase, _NamedLocal):
         if self._lon != lon:
             _update_all(self)
             self._lon = lon
+
+#   _ltp = _EcefLocal._ltp(self)
 
     def nearestOn6(self, points, closed=False, height=None, wrap=False):
         '''Locate the point on a path or polygon closest to this point.

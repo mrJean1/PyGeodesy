@@ -18,12 +18,11 @@ from pygeodesy.constants import EPS, EPS0, EPS02, INT0, PI, PI2, PI_2, PI_4, \
                                _16_0, _180_0, _360_0, isnear0, _over, _umod_360
 from pygeodesy.errors import _and, _or, TriangleError, _ValueError, _xcallable, \
                              _xkwds, _xkwds_pop2
-from pygeodesy.fmath import favg, Fdot, fidw, fmean, hypot, hypot2_
+from pygeodesy.fmath import favg, Fdot, Fdot_, fidw, _fma, fmean, hypot, hypot2_
 from pygeodesy.fsums import _Fsumf_, fsumf_, fsum1, fsum1f_
 # from pygeodesy.internals import typename  # from .basics
 from pygeodesy.interns import _a_, _A_, _area_, _b_, _B_, _c_, _C_, _coincident_, \
-                              _colinear_, _d_, _invalid_, _negative_, _not_, \
-                              _rIn_, _SPACE_
+                              _colinear_, _d_, _invalid_, _negative_, _rIn_, _SPACE_
 # from pygeodesy.lazily import _ALL_LAZY  # from .basics
 from pygeodesy.named import _NamedTuple, _Pass,  Fmt
 # from pygeodesy.streprs import Fmt  # from .named
@@ -35,7 +34,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d
 from math import cos, degrees, fabs, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.resections
-__version__ = '25.04.14'
+__version__ = '25.05.04'
 
 _concyclic_ = 'concyclic'
 _PA_        = 'PA'
@@ -43,7 +42,6 @@ _PB_        = 'PB'
 _PC_        = 'PC'
 _pointH_    = 'pointH'
 _pointP_    = 'pointP'
-_positive_  = 'positive'
 _radA_      = 'radA'
 _radB_      = 'radB'
 _radC_      = 'radC'
@@ -170,11 +168,9 @@ def cassini(pointA, pointB, pointC, alpha, beta, useZ=False, **Clas_and_kwds):
 
     A, B, C = _ABC3(useZ, pointA, pointB, pointC)
     try:
-        sa, sb = map1(float, alpha, beta)
-        if min(sa, sb) < 0:
-            raise ValueError(_negative_)
+        sa, sb = _noneg(alpha, beta)
         if fsumf_(_360_0, -sa, -sb) < EPS0:
-            raise ValueError()
+            raise ValueError(_colinear_)
 
         x1, y1 = _H(A, C,  sa)
         x2, y2 = _H(B, C, -sb)
@@ -253,15 +249,15 @@ def collins5(pointA, pointB, pointC, alpha, beta, useZ=False, **Clas_and_kwds):
 
     def _xyz(d, r, A, B, C, useZ):
         s, c = sincos2(r)
-        x =  d * s + A.x  # fma(d, s, A.x)
-        y =  d * c + A.y  # fma(d, c, A.y)
+        x = _fma(d, s, A.x)
+        y = _fma(d, c, A.y)
         z = _zidw(x, y, useZ, A, B, C)
         return x, y, z
 
     A, B, C = _ABC3(useZ, pointA, pointB, pointC)
     try:
-        ra, rb = radians(alpha), radians(beta)
-        if min(ra, rb) < 0:
+        ra, rb = t = radians(alpha), radians(beta)
+        if min(t) < 0:
             raise ValueError(_negative_)
 
         sra, srH = sin(ra), sin(ra + rb - PI)  # rH = PI - ((PI - ra) + (PI - rb))
@@ -292,6 +288,15 @@ def collins5(pointA, pointB, pointC, alpha, beta, useZ=False, **Clas_and_kwds):
     except (TypeError, ValueError) as x:
         raise ResectionError(pointA=pointA, pointB=pointB, pointC=pointC,
                              alpha=alpha, beta=beta, cause=x)
+
+
+def _noneg(*xs):
+    '''(INTERNAL) Return non-negative C{float}s.
+    '''
+    xs = tuple(map(float, xs))
+    if min(xs) < 0:
+        raise ValueError(_negative_)
+    return xs
 
 
 def pierlot(point1, point2, point3, alpha12, alpha23, useZ=False, eps=EPS,
@@ -342,7 +347,7 @@ def pierlot(point1, point2, point3, alpha12, alpha23, useZ=False, eps=EPS,
         if eps > 0:
             return c / (min(s, -eps) if s < 0 else max(s, eps))
         t = Fmt.PARENSPACED(eps=eps)
-        raise ValueError(_SPACE_(t, _not_, _positive_))
+        raise ValueError(_SPACE_(t, _invalid_))
 
     B1, B2, B3 = _B3(useZ, point1, point2, point3)
     try:
@@ -400,8 +405,8 @@ def _pierlot3(B1, B2, B3, a12, a23, useZ, _cot):
         #   = (x31 - x23) * (y12 - y23) - (x12 - x23) * (y31 - y23)
         # x = (d * B2.x + K * Y12_23).fover(d)
         # y = (d * B2.y - K * X12_23).fover(d)
-        x, y = _pierlotxy2(B2, -K, Y12_23, X12_23, (X31_23 * Y12_23 -
-                                                    X12_23 * Y31_23))
+        x, y = _pierlotxy2(B2, -K, Y12_23, X12_23, Fdot_(X31_23, Y12_23,
+                                                        -X12_23, Y31_23))
     else:
         x, y, _ = B2.xyz3
     return x, y, _zidw(x, y, useZ, B1, B2, B3)
@@ -492,11 +497,11 @@ def _pierlotx3(a_z_Bs, useZ, _cot, Cs):
     if K:
         cot23 = _cot(*sincos2d(a23))
 
-        # x23 = x2_ + cot23 * y2_
-        # y23 = y2_ - cot23 * x2_
+        # x23 = x2_ + cot23 * y2_  # _fma( cot23, y2_, x2_)
+        # y23 = y2_ - cot23 * x2_  # _fma(-cot23, x2_, y2_)
 
-        # x31 = x1_ + cot23 * y1_
-        # y31 = y1_ - cot23 * x1_
+        # x31 = x1_ + cot23 * y1_  # _fma( cot23, y1_, x1_)
+        # y31 = y1_ - cot23 * x1_  # _fma(-cot23, x1_, y1_)
 
         # x31 - x23 = x1_ + cot23 * y1_ - x2_ - cot23 * y2_
         X31_23 = _Fsumf_(x1_,  cot23 * y1_, -x2_, -cot23 * y2_)
@@ -504,10 +509,10 @@ def _pierlotx3(a_z_Bs, useZ, _cot, Cs):
         Y31_23 = _Fsumf_(y1_, -cot23 * x1_, -y2_,  cot23 * x2_)
 
         # d = (x31 - x23) * (x2_ - x1_) + (y31 - y23) * (y2_ - y1_)
-        # x = (D * B3.x - K * Y31_23).fover(d)
-        # y = (D * B3.y + K * X31_23).fover(d)
-        x, y = _pierlotxy2(B3, K, Y31_23, X31_23, (X31_23 * _Fsumf_(x2_, -x1_) +
-                                                   Y31_23 * _Fsumf_(y2_, -y1_)))
+        # x = (d * B3.x - K * Y31_23).fover(d)
+        # y = (d * B3.y + K * X31_23).fover(d)
+        x, y = _pierlotxy2(B3, K, Y31_23, X31_23, Fdot_(X31_23, _Fsumf_(x2_, -x1_),
+                                                        Y31_23, _Fsumf_(y2_, -y1_)))
     else:
         x, y, _ = B3.xyz3
     return x, y, _zidw(x, y, useZ, B1, B2, B3)
@@ -519,8 +524,8 @@ def _pierlotxy2(B, K, X, Y, D):
     d = float(D)
     if isnear0(d):
         raise ValueError(_or(_coincident_, _colinear_, _concyclic_))
-    x = (D * B.x - K * X).fover(d)
-    y = (D * B.y + K * Y).fover(d)
+    x = Fdot_(D, B.x, -K, X).fover(d)
+    y = Fdot_(D, B.y,  K, Y).fover(d)
     return x, y
 
 
@@ -551,9 +556,7 @@ def snellius3(a, b, degC, alpha, beta):
        @see: Function L{wildberger3}.
     '''
     try:
-        a, b, degC, alpha, beta = t = map1(float, a, b, degC, alpha, beta)
-        if min(t) < 0:
-            raise ValueError(_negative_)
+        a, b, degC, alpha, beta = _noneg(a, b, degC, alpha, beta)
         ra, rb, rC = map1(radians, alpha, beta, degC)
 
         r = fsum1f_(ra, rb, rC) * _0_5
@@ -705,17 +708,15 @@ def triAngle(a, b, c):
 
 def _triAngle(a, b, c):
     # (INTERNAL) To allow callers to embellish errors
-    a, b, c = map1(float, a, b, c)
-    if a < b:
+    a, b, c = _noneg(a, b, c)
+    if b > a:
         a, b = b, a
-    if b < 0 or c < 0:
-        raise ValueError(_negative_)
     if a < EPS0:
         raise ValueError(_coincident_)
     b_a = b / a
     if b_a < EPS0:
         raise ValueError(_coincident_)
-    t = fsumf_(_1_0, b_a**2, -(c / a)**2) / (b_a * _2_0)
+    t = _Fsumf_(_1_0, b_a**2, -(c / a)**2).fover(b_a * _2_0)
     return acos1(t)
 
 
@@ -733,7 +734,7 @@ def triAngle5(a, b, c):
                 C{radA}, C{radB} and C{radC} at triangle corners C{A}, C{B}
                 and C{C}, all in C{radians}, the C{InCircle} radius C{rIn}
                 aka C{inradius}, same units as triangle sides B{C{a}},
-                B{C{b}} and B{C{c}} and the triangle C{area} in those same
+                B{C{b}} and B{C{c}} and the triangle C{area} in the same
                 units I{squared}.
 
        @raise TriangleError: Invalid or negative B{C{a}}, B{C{b}} or B{C{c}}.
@@ -797,15 +798,15 @@ def triArea(a, b, c):
     try:
         r, y, x = sorted(map1(float, a, b, c))
         if r > 0:  # r = min(a, b, c)
-            ab = x - y
-            bc = y - r
-            y += r
-            r = (x + y) * (r - ab) * (r + ab) * (x + bc)
+            z = r
+            d = x - y
+            r = (z + d) * (z - d)
             if r:
-                r = sqrt(r / _16_0)
-        elif r < 0:
+                x += y
+                r *= (x + z) * (x - z)
+        if r < 0:
             raise ValueError(_negative_)
-        return r
+        return sqrt(r / _16_0) if r else _0_0
 
     except (TypeError, ValueError) as x:
         raise TriangleError(a=a, b=b, c=c, cause=x)
@@ -837,11 +838,8 @@ def triSide(a, b, radC):
 
 def _triSide(a, b, radC):
     # (INTERNAL) To allow callers to embellish errors
-    a, b, r = t = map1(float, a, b, radC)
-    if min(t) < 0:
-        raise ValueError(_negative_)
-
-    if a < b:
+    a, b, r = _noneg(a, b, radC)
+    if b < a:
         a, b = b, a
     if a > EPS0:
         ba = b / a
@@ -880,18 +878,21 @@ def triSide2(b, c, radB):
 
 def _triSide2(b, c, radB):
     # (INTERNAL) To allow callers to embellish errors
-    b, c, rB = map1(float, b, c, radB)
-    if min(b, c, rB) < 0:
-        raise ValueError(_negative_)
+    b, c, rB = _noneg(b, c, radB)
     sB, cB = sincos2(rB)
-    if isnear0(sB):
-        if not isnear0(b):
+    if isnear0(b) or isnear0(sB):
+        if isnear0(b) and isnear0(sB):
+            if cB < 0:
+                rA = PI
+                a  = b + c
+            else:
+                rA = _0_0
+                a  = fabs(b - c)
+        else:
             raise ValueError(_invalid_)
-        a, rA = ((b + c), PI) if cB < 0 else (fabs(b - c), _0_0)
-    elif isnear0(b):
-        raise ValueError(_invalid_)
     else:
-        rA = fsumf_(PI, -rB, -asin1(c * sB / b))
+        rC = asin1(c * sB / b)
+        rA = max(fsumf_(PI, -rB, -rC), _0_0)
         a  = sin(rA) * b / sB
     return TriSide2Tuple(a, rA, name=typename(triSide2))
 
@@ -918,9 +919,9 @@ def triSide4(radA, radB, c):
              and functions L{sqrt_a}, L{triSide} and L{triSide2}.
     '''
     try:
-        rA, rB, c = map1(float, radA, radB, c)
+        rA, rB, c = _noneg(radA, radB, c)
         rC = fsumf_(PI, -rA, -rB)
-        if min(rC, rA, rB, c) < 0:
+        if rC < 0:
             raise ValueError(_negative_)
         sa, ca, sb, cb = sincos2_(rA, rB)
         sc = fsum1f_(sa * cb, sb * ca)
@@ -965,18 +966,18 @@ def wildberger3(a, b, c, alpha, beta, R3=min):
         return sin(x)**2
 
     def _vpa(r3, q2, q3, s2, s3):
-        r1 = s2 * q3 / s3
-        r  = r1 * r3 * _4_0
-        n  = (r - _Fsumf_(r1, r3, -q2)**2).fover(s3)
+        r1 =  s2 * q3 / s3
+        r  =  r1 * r3 * _4_0
+        R  = _Fsumf_(r1, r3, -q2)
+        R *=  R  # -(R**2 ...
+        R -=  r  # ... - r) / s3
+        n  = -R.fover(s3)
         if n < 0 or r < EPS0:
             raise ValueError(_coincident_)
         return sqrt((n / r) * q3) if n else _0_0
 
     try:
-        a, b, c, da, db = q = map1(float, a, b, c, alpha, beta)
-        if min(q) < 0:
-            raise ValueError(_negative_)
-
+        a, b, c, da, db = _noneg(a, b, c, alpha, beta)
         q1, q2, q3 = q = a**2, b**2, c**2
         if min(q) < EPS02:
             raise ValueError(_coincident_)
@@ -986,18 +987,19 @@ def wildberger3(a, b, c, alpha, beta, R3=min):
         if min(s) < EPS02:
             raise ValueError(_or(_coincident_, _colinear_))
 
-        q4 =  hypot2_(*q) * _2_0  # a**4 + ...
-        Qs = _Fsumf_(*q)   # == hypot2_(a, b, c)
-        d0 = (Qs**2 - q4).fmul(s1 * s2).fover(s3)
-        if d0 < 0:
-            raise ValueError(_negative_)
+        Q  = _Fsumf_(*q)   # == a**2 + b**2 + ...
         s += _Fsumf_(*s),  # == fsum1(s),
-        C0 =  Fdot(s, q1, q2, q3, -Qs * _0_5)
+        C0 =  Fdot(s, q1, q2, q3, -Q * _0_5)
         r3 =  C0.fover(-s3)  # C0 /= -s3
+        Q *=  Q  # Q**2 - 2 * (a**4 + b**4 ...
+        Q -=  hypot2_(*q) *_2_0  # ... + c**4)
+        d0 =  Q.fmul(s1 * s2).fover(s3)
         if d0 > EPS02:  # > c0
             _xcallable(R3=R3)
             d0 = sqrt(d0)
             r3 = R3(float(C0 + d0), float(C0 - d0))  # XXX min or max
+        elif d0 < (-EPS02):
+            raise ValueError(_negative_)
 
         pa = _vpa(r3, q2, q3, s2, s3)
         pb = _vpa(r3, q1, q3, s1, s3)

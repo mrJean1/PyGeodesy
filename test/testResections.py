@@ -4,7 +4,7 @@
 # Test L{resections} module.
 
 __all__ = ('Tests',)
-__version__ = '24.11.27'
+__version__ = '25.05.04'
 
 from bases import endswith, isWindows, TestsBase
 
@@ -77,7 +77,7 @@ class Tests(TestsBase):
             p = pierlot(C, B, A, 115.1, 109.3, eps=0).toStr(prec=4)
         except ResectionError as x:
             p = str(x)
-        self.test(pierlot.__name__, p, ' not positive', known=endswith)
+        self.test(pierlot.__name__, p, ' invalid', known=endswith)
 
         p = pierlotx(C, B, A, -115.1, 0, 109.3)  # note CCW order, alpha1, alpha2, alpha3 definition
         self.test(pierlotx.__name__, p.toStr(prec=4), '(2129.3018, 5575.8016, 0)', nl=1)

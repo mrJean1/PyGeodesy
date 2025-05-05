@@ -16,7 +16,7 @@ from pygeodesy.constants import EPS, EPS0, EPS02, EPS4, INF, INT0, \
                                _1_0, _1_0_1T, _N_1_0, _2_0, _N_2_0, _4_0
 from pygeodesy.errors import _and, _AssertionError, IntersectionError, NumPyError, \
                               PointsError, TriangleError, _xError, _xkwds
-from pygeodesy.fmath import fabs, fdot, fdot_, hypot, hypot2_, sqrt
+from pygeodesy.fmath import fabs, fdot, Fdot_, fdot_, hypot, hypot2_, sqrt
 from pygeodesy.fsums import _Fsumf_, fsumf_, fsum1f_
 # from pygeodesy.internals import typename  # from .basics
 from pygeodesy.interns import NN, _a_, _and_, _b_, _c_, _center_, _coincident_, \
@@ -36,7 +36,7 @@ from contextlib import contextmanager
 # from math import fabs, sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.vector2d
-__version__ = '25.04.16'
+__version__ = '25.04.30'
 
 _cA_        = 'cA'
 _cB_        = 'cB'
@@ -755,8 +755,8 @@ def _trilaterate2d2(x1, y1, radius1, x2, y2, radius2, x3, y3, radius3,
         raise IntersectionError(_and(_astr(x1=x1, y1=y1, radius1=r1),
                                      _astr(x2=x2, y2=y2, radius2=r2),
                                      _astr(x3=x3, y3=y3, radius3=r3)), txt=t)
-    t = Vector2Tuple(fdot_(c, e, -b, f) / q,
-                     fdot_(a, f, -c, d) / q, name=typename(trilaterate2d2))
+    t = Vector2Tuple(Fdot_(c, e, -b, f).fover(q),
+                     Fdot_(a, f, -c, d).fover(q), name=typename(trilaterate2d2))
 
     if eps and eps > 0:  # check distances to center vs radius
         for x, y, r in ((x1, y1, r1), (x2, y2, r2), (x3, y3, r3)):

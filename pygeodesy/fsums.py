@@ -64,7 +64,7 @@ from math import fabs, isinf, isnan, \
                  ceil as _ceil, floor as _floor  # PYCHOK used! .ltp
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '25.04.14'
+__version__ = '25.04.26'
 
 from pygeodesy.interns import (
   _PLUS_     as _add_op_,  # in .auxilats.auxAngle
@@ -1485,7 +1485,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
     @deprecated_method
     def f2mul(self, *others, **raiser):
         '''DEPRECATED on 2024.09.13, use method L{f2mul_<Fsum.f2mul_>}.'''
-        return self._fset(self.f2mul_(others, **raiser))
+        return self._fset(self._f2mul(self.f2mul, others, **raiser))
 
     def f2mul_(self, *others, **f2product_nonfinites):  # in .fmath.f2mul
         '''Return C{B{self} * B{other} * B{other} ...} for all B{C{others}} using cascaded,

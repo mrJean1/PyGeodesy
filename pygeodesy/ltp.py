@@ -23,7 +23,7 @@ from pygeodesy.ecef import _EcefBase, EcefKarney, Ecef9Tuple, _llhn4, \
                            _xyzn4,  _WGS84
 from pygeodesy.errors import _NotImplementedError, _ValueError, _xattr, \
                              _xkwds, _xkwds_get, _xkwds_pop2
-from pygeodesy.fmath import fabs, fdot, fdot_, Fhorner
+from pygeodesy.fmath import fabs, fdot, Fdot_, fdot_, Fhorner
 from pygeodesy.fsums import _floor, fsumf_
 # from pygeodesy.internals import typename  # from .basics
 from pygeodesy.interns import _0_, _COMMASPACE_, _DOT_, _ecef_, _height_, _M_, \
@@ -45,7 +45,7 @@ from pygeodesy.vector3d import _ALL_LAZY, Vector3d
 # from math import fabs, floor as _floor  # from .fmath, .fsums
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '25.04.14'
+__version__ = '25.05.01'
 
 _height0_ = _height_ + _0_
 _narrow_  = 'narrow'
@@ -63,15 +63,18 @@ class Attitude(_NamedBase):
     def __init__(self, alt_attitude=INT0, tilt=INT0, yaw=INT0, roll=INT0, **name):
         '''New L{Attitude}.
 
-           @kwarg alt_attitude: Altitude (C{meter}) above earth or previous attitude
+           @kwarg alt_attitude: Altitude (C{meter}) above earth or a previous attitude
                       (L{Attitude} or L{Attitude4Tuple}) with the C{B{alt}itude},
                       B{C{tilt}}, B{C{yaw}} and B{C{roll}}.
            @kwarg tilt: Pitch, elevation from horizontal (C{degrees180}), negative down
-                        (clockwise rotation along and around the x- or East axis).
+                        (clockwise rotation along and around the x- or East axis), iff
+                        B{C{alt_attitude}} is C{meter}, ignored otherwise.
            @kwarg yaw: Bearing, heading (compass C{degrees360}), clockwise from North
-                       (counter-clockwise rotation along and around the z- or Up axis).
+                       (counter-clockwise rotation along and around the z- or Up axis)
+                       iff B{C{alt_attitude}} is C{meter}, ignored otherwise.
            @kwarg roll: Roll, bank (C{degrees180}), positive to the right and down
-                        (clockwise rotation along and around the y- or North axis).
+                        (clockwise rotation along and around the y- or North axis), iff
+                        B{C{alt_attitude}} is C{meter}, ignored otherwise.
            @kwarg name: Optional C{B{name}=NN} C{str}).
 
            @raise AttitudeError: Invalid B{C{alt_attitude}}, B{C{tilt}}, B{C{yaw}} or
@@ -146,8 +149,10 @@ class Attitude(_NamedBase):
 
            @arg x_xyz: X component of vector (C{scalar}) or (3-D) vector (C{Cartesian},
                        L{Vector3d} or L{Vector3Tuple}).
-           @kwarg y: Y component of vector (C{scalar}), same units as B{C{x}}.
-           @kwarg z: Z component of vector (C{scalar}), same units as B{C{x}}.
+           @kwarg y: Y component of vector (C{scalar}), same units as C{scalar} B{C{x}},
+                     ignored otherwise.
+           @kwarg z: Z component of vector (C{scalar}), same units as C{sclar} B{C{x}},
+                     ignored otherwise.
            @kwarg Vector: Class to return transformed point (C{Cartesian}, L{Vector3d}
                           or C{Vector3Tuple}) or C{None}.
            @kwarg name_Vector_kwds: Optional C{B{name}=NN} (C{str}) and optionally,
@@ -223,7 +228,7 @@ class Attitude(_NamedBase):
             _update_all(self)
             self._yaw = y
 
-    bearing = heading = yaw
+    bearing = heading = yaw  # azimuth
 
 
 class AttitudeError(_ValueError):
@@ -271,11 +276,14 @@ class Frustum(_NamedBase):
                               an attitude (L{Attitude} or L{Attitude4Tuple}) with the
                               C{B{alt}itude}, B{C{tilt}}, B{C{yaw}} and B{C{roll}}.
            @kwarg tilt: Pitch, elevation from horizontal (C{degrees}), negative down
-                        (clockwise rotation along and around the x- or East axis).
+                        (clockwise rotation along and around the x- or East axis) iff
+                        B{C{alt_attitude}} is C{meter}, ignored otherwise.
            @kwarg yaw: Bearing, heading (compass C{degrees}), clockwise from North
-                       (counter-clockwise rotation along and around the z- or Up axis).
+                       (counter-clockwise rotation along and around the z- or Up axis)
+                       iff B{C{alt_attitude}} is C{meter}, ignored otherwise.
            @kwarg roll: Roll, bank (C{degrees}), positive to the right and down
-                        (clockwise rotation along and around the y- or North axis).
+                        (clockwise rotation along and around the y- or North axis) iff
+                        B{C{alt_attitude}} is C{meter}, ignored otherwise.
            @kwarg z: Optional height of the footprint (C{meter}) above I{local tangent plane}.
            @kwarg ltp: The I{local tangent plane} (L{Ltp}), overriding this
                        frustum's C{ltp}.
@@ -463,7 +471,7 @@ class LocalCartesian(_NamedBase):
         '''
         return self._ecef
 
-    def _ecef2local(self, ecef, Xyz, name_Xyz_kwds):
+    def _ecef2local(self, ecef, Xyz, name_Xyz_kwds):  # in _EcefLocal._Ltp_ecef2local
         '''(INTERNAL) Convert geocentric/geodetic to local, like I{forward}.
 
            @arg ecef: Geocentric (and geodetic) (L{Ecef9Tuple}).
@@ -504,10 +512,11 @@ class LocalCartesian(_NamedBase):
 
            @arg latlonh: Either a C{LatLon}, L{Ltp}, L{Ecef9Tuple} or C{scalar}
                          (geodetic) latitude (C{degrees}).
-           @kwarg lon: Optional C{scalar} (geodetic) longitude for C{scalar}
-                       B{C{latlonh}} (C{degrees}).
+           @kwarg lon: Optional C{scalar} (geodetic) longitude (C{degrees}) iff
+                       B{C{latlonh}} is C{scalar}, ignored otherwise.
            @kwarg height: Optional height (C{meter}, conventionally) perpendicular
-                          to and above (or below) the ellipsoid's surface.
+                          to and above (or below) the ellipsoid's surface, iff
+                          B{C{latlonh}} is C{scalar}, ignored othewrise.
            @kwarg M: Optionally, return the I{concatenated} rotation L{EcefMatrix},
                      iff available (C{bool}).
            @kwarg name: Optional C{B{name}=NN} (C{str}).
@@ -591,7 +600,7 @@ class LocalCartesian(_NamedBase):
         return self._t0.M
 
     def reset(self, latlonh0=INT0, lon0=INT0, height0=INT0, ecef=None, **lon00_name):
-        '''Reset this converter, see L{LocalCartesian.__init__} for more details.
+        '''Reset this converter, see L{LocalCartesian.__init__} for further details.
         '''
         _, name = _xkwds_pop2(lon00_name, lon00=None)  # PYCHOK get **name
         if isinstance(latlonh0, LocalCartesian):
@@ -621,8 +630,10 @@ class LocalCartesian(_NamedBase):
 
            @arg xyz: A I{local} (L{XyzLocal}, L{Enu}, L{Ned}, L{Aer}, L{Local9Tuple}) or
                      local C{x} coordinate (C{scalar}).
-           @kwarg y: Local C{y} coordinate for C{scalar} B{C{xyz}} and B{C{z}} (C{meter}).
-           @kwarg z: Local C{z} coordinate for C{scalar} B{C{xyz}} and B{C{y}} (C{meter}).
+           @kwarg y: Local C{y} coordinate (C{meter}), iff B{C{xyz}} is C{scalar},
+                     ignored otherwise.
+           @kwarg z: Local C{z} coordinate (C{meter}), iff B{C{xyz}} is C{scalar},
+                     ignored otherwise.
            @kwarg M: Optionally, return the I{concatenated} rotation L{EcefMatrix}, iff
                      available (C{bool}).
            @kwarg lon00_name: Optional C{B{name}=NN} (C{str}) and keyword argument
@@ -734,18 +745,18 @@ class _ChLV(object):
         '''Convert WGS84 geodetic to I{Swiss} projection coordinates.  I{Must be overloaded}.
 
            @arg latlonh: Either a C{LatLon}, L{Ltp} or C{scalar} (geodetic) latitude (C{degrees}).
-           @kwarg lon: Optional, C{scalar} (geodetic) longitude for C{scalar} B{C{latlonh}} (C{degrees}).
+           @kwarg lon: Optional, C{scalar} (geodetic) longitude (C{degrees}) iff B{C{latlonh}} is
+                       C{scalar}, ignored otherwise.
            @kwarg height: Optional, height, vertically above (or below) the surface of the ellipsoid
-                          (C{meter}) for C{scalar} B{C{latlonh}} and B{C{lon}}.
+                          (C{meter}) iff B{C{latlonh}} and B{C{lon}} are C{scalar}, ignored otherwise.
            @kwarg M: If C{True}, return the I{concatenated} rotation L{EcefMatrix} iff available
-                     for C{ChLV} only, C{None} otherwise (C{bool}).
+                     and for C{ChLV} only, C{None} otherwise (C{bool}).
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: A L{ChLV9Tuple}C{(Y, X, h_, lat, lon, height, ltp, ecef, M)} with the unfalsed
                     I{Swiss Y, X} coordinates, I{Swiss h_} height, the given I{geodetic} C{lat},
-                    C{lon} and C{height}, this C{ChLV*} instance and C{ecef} (L{Ecef9Tuple}) at
-                    I{Bern, Ch} and rotation matrix C{M}.  The returned C{ltp} is this C{ChLV},
-                    C{ChLVa} or C{ChLVe} instance.
+                    C{lon} and C{height}, C{ecef} (L{Ecef9Tuple}) at I{Bern, Ch}, rotation matrix
+                    C{M} and C{ltp} this C{ChLV}, C{ChLVa} or C{ChLVe} instance.
 
            @raise LocalError: Invalid or non-C{scalar} B{C{latlonh}}, B{C{lon}} or B{C{height}}.
         '''
@@ -756,18 +767,18 @@ class _ChLV(object):
 
            @arg enh_: A Swiss projection (L{ChLV9Tuple}) or the C{scalar}, falsed I{Swiss E_LV95}
                      or I{y_LV03} easting (C{meter}).
-           @kwarg n: Falsed I{Swiss N_LV85} or I{x_LV03} northing for C{scalar} B{C{enh_}} and
-                     B{C{h_}} (C{meter}).
-           @kwarg h_: I{Swiss h'} height for C{scalar} B{C{enh_}} and B{C{n}} (C{meter}).
+           @kwarg n: Falsed I{Swiss N_LV85} or I{x_LV03} northing (C{meter}) iff B{C{enh_}} is
+                     C{scalar}, ignored otherwise.
+           @kwarg h_: I{Swiss h'} height (C{meter}) iff B{C{enh_}} and B{C{n}} are C{scalar},
+                      ignored otherwise.
            @kwarg M: If C{True}, return the I{concatenated} rotation L{EcefMatrix} iff available
-                     for C{ChLV} only, C{None} otherwise (C{bool}).
+                     and for C{ChLV} only, C{None} otherwise (C{bool}).
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: A L{ChLV9Tuple}C{(Y, X, h_, lat, lon, height, ltp, ecef, M)} with the unfalsed
                     I{Swiss Y, X} coordinates, I{Swiss h_} height, the given I{geodetic} C{lat},
-                    C{lon} and C{height}, this C{ChLV*} instance and C{ecef} (L{Ecef9Tuple}) at
-                    I{Bern, Ch} and rotation matrix C{M}.  The returned C{ltp} is this C{ChLV},
-                    C{ChLVa} or C{ChLVe} instance.
+                    C{lon} and C{height}, C{ecef} (L{Ecef9Tuple}) at I{Bern, Ch}, rotation matrix
+                    C{M} and C{ltp} this C{ChLV}, C{ChLVa} or C{ChLVe} instance.
 
            @raise LocalError: Invalid or non-C{scalar} B{C{enh_}}, B{C{n}} or B{C{h_}}.
         '''
@@ -818,7 +829,7 @@ class _ChLV(object):
     def _YXh_n4(self, enh_, n, h_, **name):
         '''(INTERNAL) Helper for C{ChLV*.reverse}.
         '''
-        Y, X, h_, name = _xyzn4(enh_, n, h_, ChLV9Tuple,
+        Y, X, h_, name = _xyzn4(enh_, n, h_, (ChLV9Tuple,),
                          _xyz_y_z_names=self._enh_n_h, **name)
         if isinstance(enh_, ChLV9Tuple):
             Y, X = enh_.Y, enh_.X
@@ -974,15 +985,15 @@ class ChLVa(_ChLV, LocalCartesian):
         a, b, h      = _ChLV._YXh_2abh3(Y, X, h_)
         ab_d, a2, b2 =  ChLV._ab_d, a**2, b**2
 
-        lat = fdot_(3.238272, b,
+        lat = Fdot_(3.238272, b,
                    -0.270978, a2,
                    -0.002528, b2,
                      -0.0447, a2 * b,
-                      -0.014, b2 * b, start=16.9023892) / ab_d
-        lon = fdot_(4.728982, a,
+                      -0.014, b2 * b, start=16.9023892).fover(ab_d)
+        lon = Fdot_(4.728982, a,
                     0.791484, a * b,
                       0.1306, a * b2,
-                     -0.0436, a * a2, start=2.6779094) / ab_d
+                     -0.0436, a * a2, start=2.6779094).fover(ab_d)
         return self._ChLV9Tuple(False, M, n, Y, X, h_, lat, lon, h)
 
 
@@ -997,8 +1008,8 @@ class ChLVe(_ChLV, LocalCartesian):
               argument C{B{gamma}=False} to approximate the I{meridian convergence}.
               If C{B{gamma}=True} a 2-tuple C{(t, gamma)} is returned with C{t} the
               usual result (C{ChLV9Tuple}) and C{gamma}, the I{meridian convergence}
-              (decimal C{degrees}).  To convert C{gamma} to C{grades} or C{gons},
-              use function L{pygeodesy.degrees2grades}.
+              (decimal C{degrees}).  To convert C{gamma} to C{grades} or C{gons}, use
+              function L{pygeodesy.degrees2grades}.
 
        @see: Older U{references<https://GitHub.com/alphasldiallo/Swisstopo-WGS84-LV03>}.
     '''
@@ -1068,20 +1079,6 @@ def _fov_2(**fov):
         return f
     t = _invalid_ if f < 0 else _too_(_wide_ if f > EPS else _narrow_)
     raise LocalError(txt=t, **fov)
-
-
-def _toLocal(inst, ltp, Xyz, Xyz_kwds):
-    '''(INTERNAL) Helper for C{CartesianBase.toAer}, C{CartesianBase.toEnu},
-       C{CartesianBase.toLocal}, C{CartesianBase.toNed} and C{latLonBase.toLocal}.
-    '''
-    return _xLtp(ltp, inst._Ltp)._ecef2local(inst._ecef9, Xyz, Xyz_kwds)
-
-
-def _toLtp(inst, Ecef, ecef9, name):
-    '''(INTERNAL) Helper for C{CartesianBase.toLtp}, C{ecef.toLtp} and C{latLonBase.toLtp}.
-    '''
-    return inst._Ltp if (not name) and _isin(Ecef, None, inst.Ecef) else \
-                 Ltp(ecef9, ecef=Ecef(inst.datum), name=inst._name__(name))
 
 
 def tyr3d(tilt=INT0, yaw=INT0, roll=INT0, Vector=Vector3d, **name_Vector_kwds):

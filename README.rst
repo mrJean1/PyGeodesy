@@ -3,9 +3,9 @@
 PyGeodesy
 =========
 
-A pure Python implementation of ``geodesy`` tools for various ellipsoidal and spherical
-earth models using precision exact, elliptic, trigonometric, vector-based, iterative and
-approximate methods for geodetic (lat-/longitude), geocentric (ECEF_ cartesian) and certain
+A pure Python implementation of ``geodesy`` tools for various ellipsoidal and spherical earth
+models using precision exact, elliptic, trigonometric, vector-based, iterative and approximate
+methods for geodetic (lat-/longitude), geocentric (ECEF_ cartesian), local (LTP_) and certain
 `triaxial ellipsoidal`_ coordinates.
 
 Transcoded in part from `JavaScript originals`_ by *Chris Veness (C) 2005-2024* and from several
@@ -139,7 +139,7 @@ and McCabe_ using Python 2.7.18 and with Flake8_ using Python 3.11.5, both in 64
 
 For a summary of all *Karney*-based functionality in ``pygeodesy``, see module karney_.
 
-*Last updated: Apr 25, 2025.*
+*Last updated: May 05, 2025.*
 
 License
 =======
@@ -219,6 +219,7 @@ DEALINGS IN THE SOFTWARE.
 .. _Latitude/Longitude: https://www.Movable-Type.co.UK/scripts/latlong.html
 .. _LatLon: https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy-LatLon-attributes-table.html
 .. _Liang-Barsky: https://www.CS.Helsinki.FI/group/goa/viewing/leikkaus/intro.html
+.. _LTP: https://WikiPedia.org/wiki/Local_tangent_plane_coordinates
 .. _McCabe: https://PyPI.org/project/mccabe
 .. _MGRS: https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1MGRS.html
 .. _MIT License: https://OpenSource.org/licenses/MIT
