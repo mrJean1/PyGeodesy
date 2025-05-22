@@ -4,7 +4,7 @@
 # Some C{geodesici} tests for classes C{Intersectool} and C{Intersector}.
 
 __all__ = ('Tests',)
-__version__ = '24.07.28'
+__version__ = '25.05.09'
 
 from bases import GeodSolve, geographiclib, IntersectTool, TestsBase
 
@@ -77,7 +77,7 @@ class Tests(TestsBase):
     def testIntersect(self, Intersect, G, **_C):
         self.subtitle(geodesici, G.__name__)
 
-        I = Intersect(G())  # PYCHOK I
+        I = Intersect(G())  # noqa: E741 I is eye
         self.test(I.named2, I, I)
 
         # <https://GeographicLib.sourceforge.io/C++/doc/classGeographicLib_1_1Intersect.html>

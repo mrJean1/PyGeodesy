@@ -69,7 +69,7 @@ C{>>> h1, h2, ... = hinterpolator.height_(lat1, lon1, lat2, lon2, ...)}
       Interpolation.
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division as _; del _  # PYCHOK semicolon
+from __future__ import division as _; del _  # noqa: E702 ;
 
 from pygeodesy.basics import isscalar, len2, map1, min2, _xnumpy, _xscipy
 from pygeodesy.constants import EPS, PI, PI_2, PI2, _0_0, _90_0, _180_0
@@ -92,7 +92,7 @@ from pygeodesy.units import _isDegrees, Float_, Int_
 # from math import radians  # from .points
 
 __all__ = _ALL_LAZY.heights
-__version__ = '25.04.21'
+__version__ = '25.05.12'
 
 _error_  = 'error'
 _formy   = _MODS.into(formy=__name__)

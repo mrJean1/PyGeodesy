@@ -8,7 +8,7 @@ L{pygeodesy.isnear1}, L{pygeodesy.isnear90}, L{pygeodesy.isneg0}, L{pygeodesy.is
 L{pygeodesy.isnon0} and L{pygeodesy.remainder}.
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division as _; del _  # PYCHOK semicolon
+from __future__ import division as _; del _  # noqa: E702 ;
 
 from pygeodesy.basics import _copysign, isbool, iscomplex, isint
 from pygeodesy.errors import _xError, _xError2, _xkwds_get1, _xkwds_item2
@@ -26,7 +26,7 @@ except ImportError:  # Python 2-
     _inf, _nan = float(_INF_), float(_NAN_)
 
 __all__ = _ALL_LAZY.constants
-__version__ = '25.04.14'
+__version__ = '25.05.12'
 
 
 def _copysign_0_0(y):

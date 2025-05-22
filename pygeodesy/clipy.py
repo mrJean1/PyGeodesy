@@ -10,7 +10,7 @@ I{Greiner-Hormann} and L{clipSH} and L{clipSH3} I{Sutherland-Hodgeman}.
 .
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division as _; del _  # PYCHOK semicolon
+from __future__ import division as _; del _  # noqa: E702 ;
 
 from pygeodesy.basics import len2,  typename
 from pygeodesy.constants import EPS, _0_0, _1_0
@@ -31,7 +31,7 @@ from pygeodesy.units import Bool, FIx, HeightX, Lat, Lon, Number_
 # from math import fabs  # from .fmath
 
 __all__ = _ALL_LAZY.clipy
-__version__ = '25.04.14'
+__version__ = '25.05.12'
 
 _fj_       = 'fj'
 _original_ = 'original'

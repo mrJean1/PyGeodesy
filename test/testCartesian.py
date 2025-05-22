@@ -4,12 +4,13 @@
 # Test cartesians.
 
 __all__ = ('Tests',)
-__version__ = '25.04.27'
+__version__ = '25.05.12'
 
 from bases import GeodSolve, geographiclib, isPython35, TestsBase
 
-from pygeodesy import Aer, R_M, classname, Datums, degrees, Enu, fstr, Height, Local9Tuple, Ltp, \
-                      modulename, Ned, rtp2xyz, xyz2rtp, RefFrames, Transforms, XyzLocal  # PYCHOK expected
+from pygeodesy import Aer, classname, Datums, degrees, Enu, fstr, Local9Tuple, Ltp, \
+                      modulename, Ned, rtp2xyz, xyz2rtp, RefFrames, XyzLocal
+from pygeodesy import Transforms  # noqa: F401 for eval() below
 from pygeodesy.cartesianBase import CartesianBase, RadiusThetaPhi3Tuple
 from pygeodesy.ecef import Ecef9Tuple
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, LatLon4Tuple, \

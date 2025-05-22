@@ -65,7 +65,7 @@ See:
  - U{https://PyPI.org/project/simplification}
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division as _; del _  # PYCHOK semicolon
+from __future__ import division as _; del _  # noqa: E702 ;
 
 # from pygeodesy.basics import len2  # from .fmath
 from pygeodesy.constants import EPS, R_M, _1_0
@@ -80,7 +80,7 @@ from pygeodesy.units import _ALL_LAZY, _1mm, Radius_
 from math import degrees, fabs, radians
 
 __all__ = _ALL_LAZY.simplify
-__version__ = '24.12.02'
+__version__ = '25.05.12'
 
 
 # try:

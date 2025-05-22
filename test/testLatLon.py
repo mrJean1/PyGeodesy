@@ -4,15 +4,15 @@
 # Test C{LatLon}.
 
 __all__ = ('Tests',)
-__version__ = '24.12.05'
+__version__ = '25.05.09'
 
 from bases import GeodSolve, geographiclib, isPyPy, isPython2, \
                   startswith, TestsBase
 
 from pygeodesy import Aer, Enu, F_D, F_DM, F_DMS, F_RAD, R_M, R_NM, \
-                      degrees, fstr, Height, isclockwise, isconvex, isenclosedBy, \
+                      degrees, fstr, isclockwise, isconvex, isenclosedBy, \
                       isnear0, ispolar, Local9Tuple, Ltp, m2km, m2NM, Ned, \
-                      XyzLocal, IntersectionError, VincentyError  # PYCHOK expected
+                      XyzLocal, IntersectionError, VincentyError
 from pygeodesy.namedTuples import Bounds2Tuple, LatLon2Tuple, LatLon3Tuple, \
                                                 PhiLam2Tuple, PhiLam3Tuple, \
                                                 Vector3Tuple, Vector4Tuple

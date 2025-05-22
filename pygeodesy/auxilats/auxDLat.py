@@ -9,7 +9,7 @@ under the MIT/X11 License.  For more information, see the U{GeographicLib
 <https://GeographicLib.SourceForge.io>} documentation.
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division as _; del _  # PYCHOK semicolon
+from __future__ import division as _; del _  # noqa: E702 ;
 
 from pygeodesy.auxilats.auxily import Aux, _Datan, _Dasinh, _Dm, _sc, _sn, \
                                       AuxError
@@ -26,7 +26,7 @@ from pygeodesy.utily import atan1, atan2  # from .auxilats.auxily
 from math import cos, sin, sqrt
 
 __all__ = ()
-__version__ = '24.11.24'
+__version__ = '25.05.12'
 
 
 class AuxDLat(AuxLat):

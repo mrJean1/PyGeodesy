@@ -141,7 +141,7 @@ in C{pygeodesy} are based on I{Karney}'s post U{Area of a spherical polygon
 <https://MathOverflow.net/questions/97711/the-area-of-spherical-polygons>}, 3rd Answer.
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division as _; del _  # PYCHOK semicolon
+from __future__ import division as _; del _  # noqa: E702 ;
 
 from pygeodesy.basics import _copysign, _isin, isint, neg, unsigned0, \
                              _xgeographiclib, _zip
@@ -166,7 +166,7 @@ from pygeodesy.utily import atan2d, sincos2d, tand, _unrollon,  fabs
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '25.04.14'
+__version__ = '25.05.12'
 
 _2_4_       = '2.4'
 _K_2_0      = _getenv(_PYGEODESY_ENV(typename(_xgeographiclib)[2:]), _2_)

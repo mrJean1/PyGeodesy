@@ -21,7 +21,7 @@ Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2014-2024) and lice
 License.  For more information, see the U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 '''
 # make sure int/int division yields float quotient
-from __future__ import division as _; del _  # PYCHOK semicolon
+from __future__ import division as _; del _  # noqa: E702 ;
 
 from pygeodesy.basics import _copysign, itemsorted, unsigned0, _xinstanceof
 from pygeodesy.constants import EPS, EPS0, EPS1, INT0, NAN, _over, \
@@ -44,7 +44,7 @@ from pygeodesy.namedTuples import Distance2Tuple, LatLon2Tuple
 from pygeodesy.props import deprecated_method, Property, Property_RO, \
                             property_RO, _update_all
 from pygeodesy.streprs import Fmt, pairs
-from pygeodesy.units import Float_, Lat, Lon, Meter, Radius_,  Int  # PYCHOK shared
+from pygeodesy.units import Float_, Lat, Lon, Meter, Radius_
 from pygeodesy.utily import acos1, _azireversed, _loneg, sincos2d, sincos2d_, \
                            _unrollon, _Wrap
 from pygeodesy.vector3d import _intersect3d3, Vector3d  # in .Intersection below
@@ -52,7 +52,7 @@ from pygeodesy.vector3d import _intersect3d3, Vector3d  # in .Intersection below
 from math import cos, fabs
 
 __all__ = ()
-__version__ = '25.04.14'
+__version__ = '25.05.12'
 
 _anti_ = _Dash('anti')
 _rls   = []  # instances of C{RbumbLine...} to be updated

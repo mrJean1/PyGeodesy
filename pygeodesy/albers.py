@@ -13,7 +13,7 @@ See also I{Albers Equal-Area Conic Projection} in U{John P. Snyder, "Map Project
 and the Albers Conical Equal-Area examples on pp 291-294.
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division as _; del _  # PYCHOK semicolon
+from __future__ import division as _; del _  # noqa: E702 ;
 
 from pygeodesy.basics import _isin, neg, neg_
 from pygeodesy.constants import EPS0, EPS02, _EPSqrt as _TOL, \
@@ -38,7 +38,7 @@ from pygeodesy.utily import atan1, atan1d, atan2, degrees360, sincos2, \
 from math import atanh, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '25.04.14'
+__version__ = '25.05.12'
 
 _k1_    = 'k1'
 _NUMIT  =   9  # XXX 4?
@@ -766,8 +766,8 @@ def _D2atanheE(x, y, E):
             _C  = Fsum().Fsum_
             _S2 = Fsum().fsum2_
             for _ in range(_TERMS):  # 15 terms
-                T *= y; P = _T(z); z *= x  # PYCHOK ;
-                T *= y; Q = _T(z); z *= x  # PYCHOK ;
+                T *= y; P = _T(z); z *= x  # noqa: E702 ;
+                T *= y; Q = _T(z); z *= x  # noqa: E702 ;
                 e *= e2
                 k += 2
                 s, d = _S2(_C(P, Q) * e / k)

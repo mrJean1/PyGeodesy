@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 u'''2- or 3-D vectorial functions L{circin6}, L{circum3}, L{circum4_},
-L{iscolinearWith}, L{meeus2}, L{nearestOn}, L{radii11}, L{soddy4},
-L{triaxum5} and L{trilaterate2d2}.
+L{iscolinearWith}, L{meeus2}, L{radii11}, L{soddy4}, L{triaxum5} and
+L{trilaterate2d2}.
 
 @note: Functions L{circin6}, L{circum3}, L{circum4_}, L{soddy4} and
        L{triaxum5} require U{numpyhttps://PyPI.org/project/numpy>}
@@ -24,19 +24,19 @@ from pygeodesy.interns import NN, _a_, _and_, _b_, _c_, _center_, _coincident_, 
                              _intersection_, _invalid_, _near_, _no_, _of_, \
                              _radius_, _rIn_, _s_, _SPACE_, _too_, _with_
 # from pygeodesy.lazily import _ALL_LAZY  # from .named
-from pygeodesy.named import _ALL_LAZY, _NamedTuple, _Pass, Property_RO
+from pygeodesy.named import _ALL_LAZY, _NamedTuple, _Pass
 from pygeodesy.namedTuples import LatLon3Tuple, Vector2Tuple
-# from pygeodesy.props import Property_RO  # from .named
+from pygeodesy.props import deprecated_function, Property_RO
 from pygeodesy.streprs import Fmt, unstr
 from pygeodesy.units import Float, Int, Meter, Radius, Radius_
-from pygeodesy.vector3d import iscolinearWith, nearestOn, _nearestOn2, _nVc, \
-                              _otherV3d, trilaterate3d2, Vector3d  # PYCHOK unused
+from pygeodesy.vector3d import _nearestOn2, _nVc, _otherV3d, trilaterate3d2, \
+                                Vector3d,  nearestOn as _nearestOn3d  # DEPRECATED
 
 from contextlib import contextmanager
 # from math import fabs, sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.vector2d
-__version__ = '25.04.30'
+__version__ = '25.05.09'
 
 _cA_        = 'cA'
 _cB_        = 'cB'
@@ -393,6 +393,12 @@ def _meeus4(A, point2, point3, circum=False, useZ=True, clas=None, **clas_kwds):
         if clas is not None:
             t = clas(t.x, t.y, t.z, **_xkwds(clas_kwds, name=typename(meeus2)))
     return r, t, p2, p3
+
+
+@deprecated_function
+def nearestOn(point, point1, point2, **within_useZ_Vector_and_kwds):
+    '''DEPRECATED on 2025.05.06, use L{pygeodesy.nearestOn<pygeodesy.vector3d.nearestOn>}.'''
+    return _nearestOn3d(point, point1, point2, **within_useZ_Vector_and_kwds)
 
 
 class _numpy(object):  # see also .formy._idllmn6, .geodesicw._wargs, .latlonBase._toCartesian3

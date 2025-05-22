@@ -26,7 +26,7 @@ from pygeodesy.units import Int, Radius
 from pygeodesy.utily import degrees2m, _Wrap,  _1_0
 
 __all__ = _ALL_LAZY.iters
-__version__ = '25.04.14'
+__version__ = '25.05.19'
 
 _items_        = 'items'
 _iterNumpy2len =  1  # adjustable for testing purposes

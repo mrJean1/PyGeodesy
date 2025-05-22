@@ -10,7 +10,7 @@ and published under the same MIT Licence**, see for example U{latlon-ellipsoidal
 <https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html>}.
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division as _; del _  # PYCHOK semicolon
+from __future__ import division as _; del _  # noqa: E702 ;
 
 # from pygeodesy.azimuthal import EquidistantExact, EquidistantKarney  # _MODS
 from pygeodesy.basics import _isin, _xinstanceof
@@ -46,7 +46,7 @@ from pygeodesy.units import Epoch, _isDegrees, Radius_, _1mm as _TOL_M
 # from math import fabs  # from .latlonBase
 
 __all__ = _ALL_LAZY.ellipsoidalBase
-__version__ = '25.04.14'
+__version__ = '25.05.12'
 
 
 class CartesianEllipsoidalBase(CartesianBase):

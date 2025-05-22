@@ -5,7 +5,7 @@ u'''(INTERNAL) Private class C{UtmUpsBase}, functions and constants
 for modules L{epsg}, L{etm}, L{mgrs}, L{ups} and L{utm}.
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division as _; del _  # PYCHOK semicolon
+from __future__ import division as _; del _  # noqa: E702 ;
 
 from pygeodesy.basics import _copysign, _isin, isint, isscalar, isstr, \
                               neg_, _xinstanceof, _xsubclassof
@@ -32,7 +32,7 @@ from pygeodesy.utily import atan1, _Wrap, wrap360
 from math import cos, degrees, fabs, sin, tan  # copysign as _copysign
 
 __all__ = _ALL_LAZY.utmupsBase
-__version__ = '25.04.26'
+__version__ = '25.05.12'
 
 _UPS_BANDS = _A_, _B_, _Y_, _Z_  # UPS polar bands SE, SW, NE, NW
 # _UTM_BANDS = _MODS.utm._Bands

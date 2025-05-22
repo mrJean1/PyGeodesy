@@ -4,7 +4,7 @@
 # Test L{azimuthal} projections and intersections2 functions.
 
 __all__ = ('Tests',)
-__version__ = '24.05.16'
+__version__ = '25.05.09'
 
 from bases import GeodSolve, geographiclib, TestsBase, RandomLatLon
 
@@ -79,7 +79,7 @@ class Tests(TestsBase):
             return '%0*.3f%%' % (w + 4,r)
 
         def _max(i, r, t=''):
-            s = ', '.join(latlonDMS(i, form=F_D, prec=-6))
+            s = latlonDMS(i, form=F_D, prec=-6)
             return '%s  %s, %s of Random%s' % (s, _100p(i.lat, r.lat, 2),
                                                   _100p(i.lon, r.lon, 3), t)
 

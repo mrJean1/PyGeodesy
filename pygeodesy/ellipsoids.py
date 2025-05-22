@@ -62,7 +62,7 @@ Following is the list of predefined L{Ellipsoid}s, all instantiated lazily.
 @var Ellipsoids.WGS84_NGS: Ellipsoid(name='WGS84_NGS', a=6378137, f=0.00335281, f_=298.2572221, b=6356752.31414035)
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division as _; del _  # PYCHOK semicolon
+from __future__ import division as _; del _  # noqa: E702 ;
 
 # from pygeodesy.albers import AlbersEqualAreaCylindrical  # _MODS
 from pygeodesy.basics import copysign0, isbool, _isin, isint,  typename
@@ -95,7 +95,7 @@ from pygeodesy.utily import atan1, atan1d, atan2b, degrees90, m2radians, radians
 from math import asinh, atan, atanh, cos, degrees, exp, fabs, radians, sin, sinh, sqrt, tan  # as _tan
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '25.04.28'
+__version__ = '25.05.12'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -398,7 +398,7 @@ class Ellipsoid(_NamedEnumItem):
     def AlphaKs(self):
         '''Get the I{Krüger} U{Alpha series coefficients<https://GeographicLib.SourceForge.io/C++/doc/tmseries30.html>} (C{KsOrder}C{-tuple}).
         '''
-        return self._Kseries(  # XXX int/int quotients may require  from __future__ import division as _; del _  # PYCHOK semicolon
+        return self._Kseries(  # XXX int/int quotients may require  from __future__ import division as _; del _  # noqa: E702 ;
             #   n    n**2   n**3      n**4         n**5            n**6                 n**7                     n**8
             _T(1/2, -2/3,   5/16,    41/180,    -127/288,       7891/37800,         72161/387072,        -18975107/50803200),
                  _T(13/48, -3/5,    557/1440,    281/630,   -1983433/1935360,       13769/28800,         148003883/174182400),     # PYCHOK unaligned
@@ -617,7 +617,7 @@ class Ellipsoid(_NamedEnumItem):
     def BetaKs(self):
         '''Get the I{Krüger} U{Beta series coefficients<https://GeographicLib.SourceForge.io/C++/doc/tmseries30.html>} (C{KsOrder}C{-tuple}).
         '''
-        return self._Kseries(  # XXX int/int quotients may require  from __future__ import division as _; del _  # PYCHOK semicolon
+        return self._Kseries(  # XXX int/int quotients may require  from __future__ import division as _; del _  # noqa: E702 ;
             #   n    n**2  n**3     n**4        n**5            n**6                 n**7                   n**8
             _T(1/2, -2/3, 37/96,   -1/360,    -81/512,      96199/604800,     -5406467/38707200,      7944359/67737600),
                   _T(1/48, 1/15, -437/1440,    46/105,   -1118711/3870720,       51841/1209600,      24749483/348364800),      # PYCHOK unaligned

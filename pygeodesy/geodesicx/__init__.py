@@ -17,13 +17,13 @@ respectively C{GeodesicLine} from I{Karney}'s Python implementation U{geographic
 L{pygeodesy.geodesicw} and L{pygeodesy.karney}.
 '''
 
-from pygeodesy.geodesicx.gx import GeodesicExact, GeodesicLineExact  # PYCHOK exported
-from pygeodesy.geodesicx.gxarea import GeodesicAreaExact, PolygonArea  # PYCHOK exported
+from pygeodesy.geodesicx.gx import GeodesicExact, GeodesicLineExact  # noqa: F401
+from pygeodesy.geodesicx.gxarea import GeodesicAreaExact, PolygonArea  # noqa: F401
 from pygeodesy.karney import Caps, GeodesicError
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY
 
 __all__ = _ALL_LAZY.geodesicx + _ALL_DOCS(Caps, GeodesicError)
-__version__ = '25.04.14'
+__version__ = '25.05.12'
 
 # **) MIT License
 #

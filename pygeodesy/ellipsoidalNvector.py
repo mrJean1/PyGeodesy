@@ -21,7 +21,7 @@ See also I{Kenneth Gade} U{'A Non-singular Horizontal Position Representation'
 The Journal of Navigation (2010), vol 63, nr 3, pp 395-417.
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division as _; del _  # PYCHOK semicolon
+from __future__ import division as _; del _  # noqa: E702 ;
 
 from pygeodesy.basics import _isin, issubclassof, map2, _xinstanceof, \
                              _xsubclassof
@@ -32,7 +32,7 @@ from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
                                      _nearestOn, LatLonEllipsoidalBase, \
                                      _TOL_M,  _Wrap
 from pygeodesy.errors import _xkwds, _xkwds_pop2
-# from pygeodesy.fmath import fdot  # from .nvectorBase
+from pygeodesy.fmath import fdot,  fabs
 # from pygeodesy.formy import _isequalTo  # _MODS
 from pygeodesy.interns import _Nv00_, _COMMASPACE_,  _pole_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _ALL_OTHER
@@ -41,7 +41,7 @@ from pygeodesy.ltpTuples import Aer as _Aer, Ned as _Ned, Ned4Tuple, \
                                 sincos2d_, _xnamed
 # from pygeodesy.named import _xnamed  # from .ltpTuples
 from pygeodesy.nvectorBase import LatLonNvectorBase, NorthPole, NvectorBase, \
-                                  sumOf as _sumOf,  fabs, fdot
+                                  sumOf as _sumOf
 from pygeodesy.props import deprecated_class, deprecated_function, \
                             deprecated_method, Property_RO, property_RO
 from pygeodesy.streprs import Fmt, fstr, _xzipairs
@@ -51,7 +51,7 @@ from pygeodesy.units import Bearing, Distance, Height, Scalar
 # from math import fabs  # from .nvectorBase
 
 __all__ = _ALL_LAZY.ellipsoidalNvector
-__version__ = '25.04.21'
+__version__ = '25.05.12'
 
 
 class Ned(_Ned):

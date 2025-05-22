@@ -5,7 +5,7 @@ u'''Utilities for precision floating point summation, multiplication,
 C{fused-multiply-add}, polynomials, roots, etc.
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division as _; del _  # PYCHOK semicolon
+from __future__ import division as _; del _  # noqa: E702 ;
 
 from pygeodesy.basics import _copysign, copysign0, isbool, isint, isscalar, \
                               len2, map1, _xiterable,  typename
@@ -19,13 +19,13 @@ from pygeodesy.fsums import _2float, Fsum, fsum, _isFsum_2Tuple,  Fmt, unstr
 from pygeodesy.interns import MISSING, _negative_, _not_scalar_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.streprs import Fmt, unstr  # from .fsums
-from pygeodesy.units import Int_, _isHeight, _isRadius,  Float_  # PYCHOK for .heights
+from pygeodesy.units import Int_, _isHeight, _isRadius
 
 from math import fabs, sqrt  # pow
 import operator as _operator  # in .datums, .trf, .utm
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '25.04.30'
+__version__ = '25.05.12'
 
 # sqrt(2) - 1 <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142  =  0.41421356237309504880  # ~ 3_730_904_090_310_553 / 9_007_199_254_740_992
@@ -37,7 +37,7 @@ class Fdot(Fsum):
     '''Precision dot product.
     '''
     def __init__(self, a, *b, **start_name_f2product_nonfinites_RESIDUAL):
-        '''New L{Fdot} precision dot product M{sum(a[i] * b[i] for i=0..len(a)-1)}.
+        '''New L{Fdot} precision dot product M{start + sum(a[i] * b[i] for i=0..len(a)-1)}.
 
            @arg a: Iterable of values (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
            @arg b: Other values (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}), all
@@ -70,7 +70,7 @@ class Fdot_(Fdot):
     '''Precision dot product.
     '''
     def __init__(self, *xys, **start_name_f2product_nonfinites_RESIDUAL):
-        '''New L{Fdot_} precision dot product M{sum(xys[i] * xys[i+1] for i in
+        '''New L{Fdot_} precision dot product M{start + sum(xys[i] * xys[i+1] for i in
            range(0, len(xys), B{2}))}.
 
            @arg xys: Pairwise values (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}),
@@ -439,7 +439,7 @@ def favg(a, b, f=_0_5, nonfinites=True):
 
 
 def fdot(xs, *ys, **start_f2product_nonfinites):
-    '''Return the precision dot product M{sum(xs[i] * ys[i] for i in range(len(xs)))}.
+    '''Return the precision dot product M{start + sum(xs[i] * ys[i] for i in range(len(xs)))}.
 
        @arg xs: Iterable of values (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
        @arg ys: Other values (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}), all positional.
@@ -460,7 +460,7 @@ def fdot(xs, *ys, **start_f2product_nonfinites):
 
 
 def fdot_(*xys, **start_f2product_nonfinites):
-    '''Return the (precision) dot product M{sum(xys[i] * xys[i+1] for i in range(0, len(xys), B{2}))}.
+    '''Return the (precision) dot product M{start + sum(xys[i] * xys[i+1] for i in range(0, len(xys), B{2}))}.
 
        @arg xys: Pairwise values (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}), all positional.
 
@@ -987,7 +987,7 @@ def _powers(x, n):
 
 
 def _root(x, p, where):
-    '''(INTERNAL) Raise C{x} to power C{0 < p < 1}.
+    '''(INTERNAL) Raise C{x} to power C{0 <= p < 1}.
     '''
     try:
         if x > 0:
@@ -997,7 +997,7 @@ def _root(x, p, where):
             raise ValueError(_negative_)
     except Exception as X:
         raise _xError(X, unstr(where, x))
-    return _0_0 if p else _1_0
+    return _0_0 if p else _1_0  # x == 0
 
 
 def sqrt0(x, Error=None):

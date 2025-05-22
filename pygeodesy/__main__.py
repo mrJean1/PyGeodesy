@@ -60,7 +60,7 @@ except ImportError:
     print(' '.join(t))
 
 # % python3.13 -m pygeodesy
-# pygeodesy.version=24.9.6, .pygeodesy_abspath=.../PyGeodesy/pygeodesy, .isLazy=1, ._isfrozen=False, ._floats=81, .__all__=936, .DEPRECATED=100, coverage 7.6.0 (pygeodesy 24.9.6 Python 3.13.0rc1 64bit arm64 macOS 14.6.1)
+# pygeodesy.version=25.5.25, .pygeodesy_abspath=/Users/jean/Dropbox/Projects/geodesy/PyGeodesy/pygeodesy, .isLazy=1, ._isfrozen=False, ._floats=81, .__all__=947, .DEPRECATED=113, coverage 7.6.1, geographiclib 2.0 (pygeodesy 25.5.25 Python 3.13.3 64bit arm64 macOS 15.4.1)
 
 # % python3.12 -m pygeodesy
 # pygeodesy.version=24.9.6, .pygeodesy_abspath=.../PyGeodesy/pygeodesy, .isLazy=1, ._isfrozen=False, ._floats=81, .__all__=936, .DEPRECATED=100, coverage 7.6.0, geographiclib 2.0, numpy 2.1.0, scipy 1.14.1 (pygeodesy 24.9.6 Python 3.12.5 64bit arm64 macOS 14.6.1)
@@ -81,7 +81,7 @@ except ImportError:
 # pygeodesy.version=24.9.6, .pygeodesy_abspath=.../PyGeodesy/pygeodesy, .isLazy=1, ._isfrozen=False, ._floats=81, .__all__=936, .DEPRECATED=100, coverage 4.5.4, geographiclib 1.50, numpy 1.17.2, scipy 1.3.1 (pygeodesy 24.9.6 Python 3.7.6 64bit arm64_x86_64 macOS 10.16)
 
 # % python2.7 -m pygeodesy
-# pygeodesy.version=24.9.6, .pygeodesy_abspath=.../PyGeodesy/pygeodesy, .isLazy=None, ._isfrozen=False, ._floats=792, .__all__=936, .DEPRECATED=100, coverage 5.5, geographiclib 1.50, numpy 1.16.6, scipy 1.2.2 (pygeodesy 24.9.6 Python 2.7.18 64bit arm64_x86_64 macOS 10.16)
+# pygeodesy.version=25.5.25, .pygeodesy_abspath=/Users/jean/Dropbox/Projects/geodesy/PyGeodesy/pygeodesy, .isLazy=None, ._isfrozen=False, ._floats=796, .__all__=947, .DEPRECATED=113, coverage 5.5, geographiclib 1.50, numpy 1.16.6, scipy 1.2.2 (pygeodesy 25.5.25 Python 2.7.18 64bit arm64_x86_64 macOS 10.16)
 
 # **) MIT License
 #

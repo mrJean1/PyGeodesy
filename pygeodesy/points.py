@@ -52,8 +52,7 @@ from pygeodesy.named import classname, _NamedTuple, nameof, \
                             notImplemented, notOverloaded
 from pygeodesy.namedTuples import Bounds2Tuple, Bounds4Tuple, LatLon2Tuple, \
                                   NearestOn3Tuple, NearestOn5Tuple, \
-                                  Point3Tuple, Vector3Tuple, \
-                                  PhiLam2Tuple  # PYCHOK shared
+                                  Point3Tuple, Vector3Tuple
 from pygeodesy.props import Property_RO, property_doc_, property_RO
 from pygeodesy.streprs import Fmt, instr
 from pygeodesy.units import Number_, Radius, Scalar, Scalar_
@@ -63,7 +62,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fabs, fmod as _fmod, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '25.04.18'
+__version__ = '25.05.12'
 
 _ilat_  = 'ilat'
 _ilon_  = 'ilon'

@@ -15,8 +15,7 @@ Transcoded from I{Charles Karney}'s C++ class U{GARS
 '''
 
 from pygeodesy.basics import isstr, _splituple,  typename
-from pygeodesy.constants import _off90, _1_over, _0_5, \
-                                _1_0  # PYCHOK used!
+from pygeodesy.constants import _off90, _1_over, _0_5
 from pygeodesy.errors import _ValueError, _xkwds, _xStrError
 # from pygeodesy.internals import typename  # from .basics
 from pygeodesy.interns import NN, _0to9_, _AtoZnoIO_, _INV_
@@ -30,7 +29,7 @@ from pygeodesy.units import Int_, Lat, Lon, Precision_, Scalar_, Str
 from math import floor
 
 __all__ = _ALL_LAZY.gars
-__version__ = '25.04.14'
+__version__ = '25.05.07'
 
 _Digits  = _0to9_
 _LatLen  =    2

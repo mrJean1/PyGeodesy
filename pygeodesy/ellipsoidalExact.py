@@ -11,12 +11,12 @@ L{GeodesicExact}, L{GeodesicAreaExact} and L{GeodesicLineExact}.
 
 # from pygeodesy.datums import _WGS84  # from .ellipsoidalBase
 from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
-                                     _nearestOn, _WGS84
+                                     _nearestOn,  _WGS84
 from pygeodesy.ellipsoidalBaseDI import LatLonEllipsoidalBaseDI, \
                                        _intersection3, _intersections2, \
                                        _TOL_M, intersecant2
 # from pygeodesy.errors import _xkwds  # from .karney
-from pygeodesy.karney import fabs, _polygon,  Property_RO, _xkwds
+from pygeodesy.karney import _polygon,  fabs, Property_RO, _xkwds
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _ALL_OTHER
 from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
 # from pygeodesy.props import Property_RO  # from .karney
@@ -24,7 +24,7 @@ from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
 # from math import fabs  # from .karney
 
 __all__ = _ALL_LAZY.ellipsoidalExact
-__version__ = '24.11.06'
+__version__ = '25.05.12'
 
 
 class Cartesian(CartesianEllipsoidalBase):

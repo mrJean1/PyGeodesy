@@ -10,7 +10,7 @@ L{triAngle}, L{triAngle5}, L{triSide}, L{triSide2} and L{triSide4}.
        U{Pierlot<http://www.Telecom.ULg.ac.BE/publi/publications/pierlot/Pierlot2014ANewThree>}.
 '''
 # make sure int/int division yields float quotient
-from __future__ import division as _; del _  # PYCHOK semicolon
+from __future__ import division as _; del _  # noqa: E702 ;
 
 from pygeodesy.basics import map1, map2, _zip,  _ALL_LAZY, typename
 from pygeodesy.constants import EPS, EPS0, EPS02, INT0, PI, PI2, PI_2, PI_4, \
@@ -34,7 +34,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d
 from math import cos, degrees, fabs, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.resections
-__version__ = '25.05.04'
+__version__ = '25.05.12'
 
 _concyclic_ = 'concyclic'
 _PA_        = 'PA'
@@ -798,12 +798,12 @@ def triArea(a, b, c):
     try:
         r, y, x = sorted(map1(float, a, b, c))
         if r > 0:  # r = min(a, b, c)
-            z = r
-            d = x - y
-            r = (z + d) * (z - d)
+            s =  r
+            d =  x - y
+            r = (s + d) * (s - d)
             if r:
-                x += y
-                r *= (x + z) * (x - z)
+                y +=  x
+                r *= (y + s) * (y - s)
         if r < 0:
             raise ValueError(_negative_)
         return sqrt(r / _16_0) if r else _0_0
@@ -927,9 +927,11 @@ def triSide4(radA, radB, c):
         sc = fsum1f_(sa * cb, sb * ca)
         if sc < EPS0 or min(sa, sb) < 0:
             raise ValueError(_invalid_)
-        sc = c / sc
-        return TriSide4Tuple((sa * sc), (sb * sc), rC, (sa * sb * sc),
-                             name=typename(triSide4))
+        sc  = c / sc
+        sa *= sc
+        sd  = sa * sb
+        sb *= sc
+        return TriSide4Tuple(sa, sb, rC, sd, name=typename(triSide4))
 
     except (TypeError, ValueError) as x:
         raise TriangleError(radA=radA, radB=radB, c=c, cause=x)
@@ -948,7 +950,8 @@ def wildberger3(a, b, c, alpha, beta, R3=min):
        @arg alpha: Angle subtended by triangle side B{C{b}} (C{degrees}, non-negative).
        @arg beta: Angle subtended by triangle side B{C{a}} (C{degrees}, non-negative).
        @kwarg R3: Callable to determine C{R3} from C{(R3 - C)**2 = D}, typically standard
-                  Python function C{min} or C{max}, invoked with 2 arguments.
+                  Python function C{min} or C{max}, invoked with 2 arguments, each
+                  C{float} or an L{Fsum<pygeodesy.fsums.Fsum>}.
 
        @return: L{Survey3Tuple}C{(PA, PB, PC)} with distance from survey point C{P} to
                 each of the triangle corners C{A}, C{B} and C{C}, same units as B{C{a}},
@@ -962,19 +965,20 @@ def wildberger3(a, b, c, alpha, beta, R3=min):
              U{Devine Proportions, page 252<http://www.MS.LT/derlius/WildbergerDivineProportions.pdf>}
              and function L{snellius3}.
     '''
-    def _s(x):
+    def _sin2(x):
         return sin(x)**2
 
     def _vpa(r3, q2, q3, s2, s3):
-        r1 =  s2 * q3 / s3
-        r  =  r1 * r3 * _4_0
-        R  = _Fsumf_(r1, r3, -q2)
-        R *=  R  # -(R**2 ...
-        R -=  r  # ... - r) / s3
-        n  = -R.fover(s3)
-        if n < 0 or r < EPS0:
+        r4 = r3 * _4_0
+        s4 = r4 * s2
+        if isnear0(s4):
             raise ValueError(_coincident_)
-        return sqrt((n / r) * q3) if n else _0_0
+        r1 =  s2 * q3 / s3
+        N2 = _Fsumf_(r1, r3, -q2)**2
+        n  = (r4 * r1 - N2).fover(s4)
+        if n < 0:
+            raise ValueError(_coincident_)
+        return sqrt(n) if n else _0_0
 
     try:
         a, b, c, da, db = _noneg(a, b, c, alpha, beta)
@@ -983,21 +987,23 @@ def wildberger3(a, b, c, alpha, beta, R3=min):
             raise ValueError(_coincident_)
 
         ra, rb = map1(radians, da, db)
-        s1, s2, s3 = s = map1(_s, rb, ra, ra + rb)  # rb, ra!
+        s1, s2, s3 = s = map1(_sin2, rb, ra, ra + rb)  # rb, ra!
         if min(s) < EPS02:
             raise ValueError(_or(_coincident_, _colinear_))
+        s += _Fsumf_(*s),  # == fsum1(s),
 
         Q  = _Fsumf_(*q)   # == a**2 + b**2 + ...
-        s += _Fsumf_(*s),  # == fsum1(s),
         C0 =  Fdot(s, q1, q2, q3, -Q * _0_5)
         r3 =  C0.fover(-s3)  # C0 /= -s3
+
         Q *=  Q  # Q**2 - 2 * (a**4 + b**4 ...
-        Q -=  hypot2_(*q) *_2_0  # ... + c**4)
-        d0 =  Q.fmul(s1 * s2).fover(s3)
+        Q -=  hypot2_(*q) * _2_0  # ... + c**4)
+        Q *=  s1 * s2  # Q * s1 * s2 / s3
+        d0 =  Q.fover(s3)
         if d0 > EPS02:  # > c0
             _xcallable(R3=R3)
             d0 = sqrt(d0)
-            r3 = R3(float(C0 + d0), float(C0 - d0))  # XXX min or max
+            r3 = R3(C0 + d0, C0 - d0).as_iscalar  # XXX min or max
         elif d0 < (-EPS02):
             raise ValueError(_negative_)
 

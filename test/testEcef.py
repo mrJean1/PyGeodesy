@@ -4,7 +4,7 @@
 # Test L{ecef} module.
 
 __all__ = ('Tests',)
-__version__ = '24.12.23'
+__version__ = '25.05.09'
 
 from bases import bits_mach2, GeodSolve, TestsBase, startswith
 
@@ -179,9 +179,9 @@ class Tests(TestsBase):
 
         self.testCopy(M)
 
-        I = [0] * 9  # PYCHOK I
+        I = [0] * 9  # noqa: E741 I is eye
         I[0] = I[4] = I[8] = 1
-        I = EcefMatrix(*I)  # PYCHOK I
+        I = EcefMatrix(*I)  # noqa: E741 I is eye
         self.test('matrix', fstr(I, prec=0), '1, 0, 0, 0, 1, 0, 0, 0, 1')
         t = I.multiply(I)
         self.test('multiply', fstr(t, prec=0), '1, 0, 0, 0, 1, 0, 0, 0, 1')

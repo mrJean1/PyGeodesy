@@ -25,10 +25,11 @@ PyGeodesy_dir = dirname(test_dir)
 if PyGeodesy_dir not in sys.path:  # Python 3+ ModuleNotFoundError
     sys.path.insert(0, PyGeodesy_dir)
 
-from pygeodesy import anstr, basics, clips, DeprecationWarnings, internals, interns, \
-                      isint, isLazy, issubclassof, iterNumpy2over, LazyImportError, \
-                      karney, map2, NN, normDMS, pairs, printf, property_RO, typename, \
-                      version as PyGeodesy_version  # PYCHOK expected
+from pygeodesy import basics, DeprecationWarnings, internals, interns, isint, \
+                      isLazy, issubclassof, iterNumpy2over, LazyImportError, \
+                      karney, NN, normDMS, pairs, printf, property_RO, typename, \
+                      version as PyGeodesy_version
+from pygeodesy import anstr, clips, map2  # noqa: F401 shared
 from pygeodesy.internals import _getenv, _name_version, _secs2str as secs2str
 
 _DOT_     = interns._DOT_
@@ -43,7 +44,7 @@ __all__ = ('bits_mach2', 'coverage', 'GeodSolve', 'geographiclib',
            'numpy', 'PyGeodesy_dir', 'PythonX', 'scipy', 'test_dir',
            'RandomLatLon', 'TestsBase',  # classes
            'secs2str', 'tilde', 'type2str', 'versions')  # functions
-__version__ = '25.04.14'
+__version__ = '25.05.09'
 
 try:
     if float(_getenv('PYGEODESY_COVERAGE', '0')) > 0:

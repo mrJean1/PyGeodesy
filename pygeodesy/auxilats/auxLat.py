@@ -13,7 +13,7 @@ under the MIT/X11 License.  For more information, see the U{GeographicLib
       U{On auxiliary latitudes<https://ArXiv.org/abs/2212.05818>}.
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division as _; del _  # PYCHOK semicolon
+from __future__ import division as _; del _  # noqa: E702 ;
 
 from pygeodesy.auxilats.auxAngle import AuxAngle, AuxBeta, AuxChi, _AuxClass, \
                                         AuxMu, AuxPhi, AuxTheta, AuxXi
@@ -48,7 +48,7 @@ except ImportError:  # Python 3.11-
         return pow(_2_0, x)
 
 __all__ = ()
-__version__ = '25.04.14'
+__version__ = '25.05.12'
 
 _TRIPS = 1024  # XXX 2 or 3?
 

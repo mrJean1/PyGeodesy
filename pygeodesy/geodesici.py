@@ -23,7 +23,7 @@ and I{S. Baselga Moreno & J.C. Martinez-Llario}'s U{Intersection and point-to-li
 on the ellipsoid<https://riunet.UPV.ES/bitstream/handle/10251/122902/Revised_Manuscript.pdf>}.
 '''
 # make sure int/int division yields float quotient
-from __future__ import division as _; del _  # PYCHOK semicolon
+from __future__ import division as _; del _  # noqa: E702 ;
 
 from pygeodesy.basics import _copy, _enumereverse, map1, \
                              _xinstanceof, _xor,  typename
@@ -57,7 +57,7 @@ from pygeodesy.utily import atan2, sincos2,  fabs, radians
 # from math import ceil as _ceil, fabs, radians  # .fsums, .utily
 
 __all__ = _ALL_LAZY.geodesici
-__version__ = '25.04.14'
+__version__ = '25.05.12'
 
 _0t     =  0,  # int
 _1_1t   = -1, +1
@@ -1560,7 +1560,7 @@ if __name__ == _DMAIN_:  # MCCABE 14
 
         _isopt = re.compile('^[-]+[a-z]*$', flags=re.IGNORECASE).match
 
-        I  =  Intersector(GeodesicExact())  # PYCHOK I
+        I  =  Intersector(GeodesicExact())  # noqa: E741 I is eye
         M  =  m = _R =  None
         _T = _V = _h = _C = False
 
@@ -1584,7 +1584,7 @@ if __name__ == _DMAIN_:  # MCCABE 14
             elif arg == _R__ and args:
                 _R = args.pop(0)
             elif _starts('--Tool', arg):
-                I = Intersectool()  # PYCHOK I
+                I = Intersectool()  # noqa: E741 I is eye
                 if _V:
                     I.verbose = True
                 if not _Xables.X_OK(I.IntersectTool):

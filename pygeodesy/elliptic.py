@@ -73,7 +73,7 @@ The notation follows U{NIST Digital Library of Mathematical Functions
 U{22<https://DLMF.NIST.gov/22>}.
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division as _; del _  # PYCHOK semicolon
+from __future__ import division as _; del _  # noqa: E702 ;
 
 from pygeodesy.basics import copysign0, map2, neg, neg_,  typename
 from pygeodesy.constants import EPS, INF, NAN, PI, PI_2, PI_4, _0_0, \
@@ -99,7 +99,7 @@ from math import asin, asinh, atan, ceil, cosh, fabs, floor, radians, \
                  sin, sinh, sqrt, tan, tanh  # tan as _tan
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '25.04.14'
+__version__ = '25.05.12'
 
 _TolRD  =  zqrt(EPS * 0.002)
 _TolRF  =  zqrt(EPS * 0.030)

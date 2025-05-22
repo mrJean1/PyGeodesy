@@ -15,7 +15,7 @@ C{reverse-difference}, C{sum} and C{union}.
       <http://www.Inf.USI.CH/hormann/papers/Greiner.1998.ECO.pdf>}.
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division as _; del _  # PYCHOK semicolon
+from __future__ import division as _; del _  # noqa: E702 ;
 
 from pygeodesy.basics import _isin, isodd, issubclassof, map2, \
                              _xscalar,  typename
@@ -45,7 +45,7 @@ from pygeodesy.utily import fabs, _unrollon, _Wrap
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.booleans
-__version__ = '25.04.30'
+__version__ = '25.05.12'
 
 _0EPS  =  EPS  # near-zero, positive
 _EPS0  = -EPS  # near-zero, negative

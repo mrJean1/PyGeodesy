@@ -128,22 +128,22 @@ Tests
 The tests ran with Python 3.13.3 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0),
 Python 3.12.7 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0,
 U{numpy<https://PyPI.org/project/numpy>} 2.1.0, U{scipy<https://PyPI.org/project/scipy>} 1.14.1,
-U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.3,
-U{IntersectTool<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.3 and
-U{RhumbSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.3),
+U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.5,
+U{IntersectTool<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.5 and
+U{RhumbSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.5),
 Python 3.11.5 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0,
 U{numpy<https://PyPI.org/project/numpy>} 1.24.2 and U{scipy<https://PyPI.org/project/scipy>} 1.10.1),
 Python 3.10.8 (with U{geographiclib <https://PyPI.org/project/geographiclib>} 2.0,
 U{numpy<https://PyPI.org/project/numpy>} 1.23.3, U{scipy<https://PyPI.org/project/scipy>} 1.9.1,
-U{GeoConvert<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.3,
-U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.3) and
+U{GeoConvert<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.5,
+U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.5) and
 Python 2.7.18 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50,
 U{numpy<https://PyPI.org/project/numpy>} 1.16.6, U{scipy<https://PyPI.org/project/scipy>} 1.2.2,
-U{GeoConvert<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.3,
-U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.3,
-U{IntersectTool<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.3 and
-U{RhumbSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.3), all in 64-bit on
-macOS 15.4.1 Sequoia.
+U{GeoConvert<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.5,
+U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.5,
+U{IntersectTool<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.5 and
+U{RhumbSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.5), all in 64-bit on
+macOS 15.5 Sequoia.
 
 All tests ran with and without C{lazy import} for Python 3 and with command line option C{-W default} and
 env variable C{PYGEODESY_WARNINGS=on} for all Python versions.  The results of those tests are included in
@@ -157,7 +157,7 @@ Python 3.13.3, 3.12.7, 3.11.5 and 3.10.8 run on Apple M4 Si (C{arm64}), I{native
 on Intel (C{x86_64}) or Intel I{emulation} ("C{arm64_x86_64}", see function L{machine<pygeodesy.machine>}).
 
 The tests also ran with Python 3.13.3 (and U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0) on
-U{Debian 12<https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>} in 64-bit only, with Python 3.12.5 (and
+U{Debian 12<https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>} in 64-bit only, with Python 3.12.8 (and
 U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0) on U{Windows 2019Server
 <https://CI.AppVeyor.com/project/mrJean1/pygeodesy>} in 64-bit only and with Python 2.7.18 (and U{geographiclib
 <https://PyPI.org/project/geographiclib>} 1.52) on U{Windows 10<https://CI.AppVeyor.com/project/mrJean1/pygeodesy>}
@@ -175,22 +175,22 @@ U{PyPy<https://PyPy.org>} 7.3.12 (Python 3.10.12), 7.3.1 (Python 3.6.9) and U{Py
 1.16.5, 1.16.2, 1.15.2, 1.14.0, 1.13.1, 1.8.0rc1 or 1.6.2 and U{scipy<https://PyPI.org/project/scipy>} 1.5.0), U{PyPy
 <https://PyPy.org>} 7.3.0 (Python 2.7.13 and 3.6.9), U{PyPy<https://PyPy.org>} 6.0.0 (Python 2.7.13 and 3.5.3)
 and U{Intel-Python<https://software.Intel.com/en-us/distribution-for-python>} 3.5.3 (and U{numpy
-<https://PyPI.org/project/numpy>} 1.11.3) on macOS 14.0-6.1 Sonoma, 13.0-5.2 Ventura, 12.1-6 Monterey, 11.0-5.2-6.1
-Big Sur (aka 10.16), 10.15.3, 10.15.5-7 Catalina, 10.14 Mojave, 10.13.6 High Sierra and 10.12 Sierra, MacOS X
-10.11 El Capitan and/or MacOS X 10.10 Yosemite, with U{Pythonista<https://OMZ-Software.com/pythonista>}3.2 (with
-geographiclib 1.50 or 1.49 and numpy 1.8.0) on iOS 14.4.2, 11.4.1, 12.0-3 on iPad4, iPhone6, iPhone10 and/or
-iPhone12, with U{Pythonista<https://OMZ-Software.com/pythonista>} 3.1 on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3
-on iPad4, all in 64-bit only and with 32-bit Python 2.7.14 on Windows Server 2012R2, Windows 10 Pro and with
-32-bit Python 2.6.6 on Windows XP SP3.
+<https://PyPI.org/project/numpy>} 1.11.3) on macOS 15.0-4 Sequoia, 14.0-6.1 Sonoma, 13.0-5.2 Ventura, 12.1-6 Monterey,
+11.0-5.2-6.1 Big Sur (aka 10.16), 10.15.3, 10.15.5-7 Catalina, 10.14 Mojave, 10.13.6 High Sierra and 10.12 Sierra,
+MacOS X 10.11 El Capitan and/or MacOS X 10.10 Yosemite, with U{Pythonista<https://OMZ-Software.com/pythonista>}3.2
+(with geographiclib 1.50 or 1.49 and numpy 1.8.0) on iOS 14.4.2, 11.4.1, 12.0-3 on iPad4, iPhone6, iPhone10 and/or
+iPhone12, with U{Pythonista<https://OMZ-Software.com/pythonista>} 3.1 on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3 on iPad4,
+all in 64-bit only and with 32-bit Python 2.7.14 on Windows Server 2012R2, Windows 10 Pro and with 32-bit Python 2.6.6
+on Windows XP SP3.
 
 Notes
 =====
 
-All Python source code has been statically U{checked<https://GitHub.com/ActiveState/code/tree/master/recipes/
-Python/546532_PyChecker_postprocessor>} with U{PyChecker<https://PyPI.org/project/pychecker>}, U{PyFlakes
-<https://PyPI.org/project/pyflakes>}, U{PyCodeStyle<https://PyPI.org/project/pycodestyle>} (formerly Pep8) and
-U{McCabe<https://PyPI.org/project/mccabe>} using Python 2.7.18 and with U{Flake8<https://PyPI.org/project/flake8>}
-using Python 3.11.5, both in 64-bit on macOS 15.4.1 Sequoia.
+All Python source code has been statically U{checked<https://GitHub.com/ActiveState/code/tree/master/recipes/Python/
+546532_PyChecker_postprocessor>} with U{Ruff<https://GitHub.com/astral-sh/ruff>} using Python 3.13.3 and with
+U{PyChecker<https://PyPI.org/project/pychecker>}, U{PyFlakes<https://PyPI.org/project/pyflakes>}, U{PyCodeStyle
+<https://PyPI.org/project/pycodestyle>} (formerly Pep8) and U{McCabe<https://PyPI.org/project/mccabe>} using Python
+2.7.18, both in 64-bit on macOS 15.5 Sequoia only.
 
 For a summary of all I{Karney}-based functionality in C{pygeodesy}, see module U{karney
 <https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html>}.
@@ -393,177 +393,177 @@ else:
 if _init__all__ and not _lazy_import2:  # import and set __all__
 
     # import all public modules and export as such
-    import pygeodesy.albers                as albers                 # PYCHOK exported
-    import pygeodesy.auxilats              as auxilats               # PYCHOK exported
-    import pygeodesy.azimuthal             as azimuthal              # PYCHOK exported
-    import pygeodesy.basics                as basics                 # PYCHOK exported
-    import pygeodesy.booleans              as booleans               # PYCHOK exported
-    import pygeodesy.cartesianBase         as cartesianBase          # PYCHOK INTERNAL
-    import pygeodesy.clipy                 as clipy                  # PYCHOK exported
-    import pygeodesy.constants             as constants              # PYCHOK exported
-    import pygeodesy.css                   as css                    # PYCHOK exported
-    import pygeodesy.datums                as datums                 # PYCHOK exported
-    import pygeodesy.deprecated            as deprecated             # PYCHOK exported
-    import pygeodesy.dms                   as dms                    # PYCHOK exported
-    import pygeodesy.ecef                  as ecef                   # PYCHOK exported
-    import pygeodesy.ecefLocals            as ecefLocals             # PYCHOK exported
-    import pygeodesy.elevations            as elevations             # PYCHOK exported
-    import pygeodesy.ellipsoidalBase       as ellipsoidalBase        # PYCHOK INTERNAL
-    import pygeodesy.ellipsoidalBaseDI     as ellipsoidalBaseDI      # PYCHOK INTERNAL
-    import pygeodesy.ellipsoidalExact      as ellipsoidalExact       # PYCHOK exported
-    import pygeodesy.ellipsoidalGeodSolve  as ellipsoidalGeodSolve   # PYCHOK exported
-    import pygeodesy.ellipsoidalKarney     as ellipsoidalKarney      # PYCHOK exported
-    import pygeodesy.ellipsoidalNvector    as ellipsoidalNvector     # PYCHOK exported
-    import pygeodesy.ellipsoidalVincenty   as ellipsoidalVincenty    # PYCHOK exported
-    import pygeodesy.ellipsoids            as ellipsoids             # PYCHOK exported
-    import pygeodesy.elliptic              as elliptic               # PYCHOK exported
-    import pygeodesy.epsg                  as epsg                   # PYCHOK exported
-    import pygeodesy.etm                   as etm                    # PYCHOK exported
-    import pygeodesy.errors                as errors                 # PYCHOK exported
-    import pygeodesy.fmath                 as fmath                  # PYCHOK exported
-    import pygeodesy.formy                 as formy                  # PYCHOK exported
-    import pygeodesy.frechet               as frechet                # PYCHOK exported
-    import pygeodesy.fstats                as fstats                 # PYCHOK exported
-    import pygeodesy.fsums                 as fsums                  # PYCHOK exported
-    import pygeodesy.gars                  as gars                   # PYCHOK exported
-    import pygeodesy.geodesici             as geodesici              # PYCHOK exported
-    import pygeodesy.geodesicw             as geodesicw              # PYCHOK exported
-    import pygeodesy.geodesicx             as geodesicx              # PYCHOK exported
-    import pygeodesy.geodsolve             as geodsolve              # PYCHOK exported
-    import pygeodesy.geohash               as geohash                # PYCHOK exported
-    import pygeodesy.geoids                as geoids                 # PYCHOK exported
-    import pygeodesy.hausdorff             as hausdorff              # PYCHOK exported
-    import pygeodesy.heights               as heights                # PYCHOK exported
-    import pygeodesy.internals             as internals              # PYCHOK exported
-    import pygeodesy.interns               as interns                # PYCHOK exported
-    import pygeodesy.iters                 as iters                  # PYCHOK exported
-    import pygeodesy.karney                as karney                 # PYCHOK exported
-    import pygeodesy.ktm                   as ktm                    # PYCHOK exported
-    import pygeodesy.latlonBase            as latlonBase             # PYCHOK INTERNAL
-    import pygeodesy.lazily                as lazily                 # PYCHOK exported
-    import pygeodesy.lcc                   as lcc                    # PYCHOK exported
-    import pygeodesy.ltp                   as ltp                    # PYCHOK exported
-    import pygeodesy.ltpTuples             as ltpTuples              # PYCHOK exported
-    import pygeodesy.mgrs                  as mgrs                   # PYCHOK exported
-    import pygeodesy.named                 as named                  # PYCHOK exported
-    import pygeodesy.namedTuples           as namedTuples            # PYCHOK exported
-    import pygeodesy.nvectorBase           as nvectorBase            # PYCHOK INTERNAL
-    import pygeodesy.osgr                  as osgr                   # PYCHOK exported
-    import pygeodesy.points                as points                 # PYCHOK exported
-    import pygeodesy.props                 as props                  # PYCHOK exported
-    import pygeodesy.resections            as resections             # PYCHOK exported
-    import pygeodesy.rhumb                 as rhumb                  # PYCHOK exported
-    import pygeodesy.simplify              as simplify               # PYCHOK exported
-    import pygeodesy.sphericalBase         as sphericalBase          # PYCHOK INTERNAL
-    import pygeodesy.sphericalNvector      as sphericalNvector       # PYCHOK exported
-    import pygeodesy.sphericalTrigonometry as sphericalTrigonometry  # PYCHOK exported
-    import pygeodesy.solveBase             as solveBase              # PYCHOK exported
-    import pygeodesy.streprs               as streprs                # PYCHOK exported
-    import pygeodesy.trf                   as trf                    # PYCHOK exported
-    import pygeodesy.triaxials             as triaxials              # PYCHOK exported
-    import pygeodesy.units                 as units                  # PYCHOK exported
-    import pygeodesy.unitsBase             as unitsBase              # PYCHOK INTERNAL
-    import pygeodesy.ups                   as ups                    # PYCHOK exported
-    import pygeodesy.utily                 as utily                  # PYCHOK exported
-    import pygeodesy.utm                   as utm                    # PYCHOK exported
-    import pygeodesy.utmups                as utmups                 # PYCHOK exported
-    import pygeodesy.utmupsBase            as utmupsBase             # PYCHOK INTERNAL
-    import pygeodesy.vector2d              as vector2d               # PYCHOK exported
-    import pygeodesy.vector3d              as vector3d               # PYCHOK exported
-    import pygeodesy.vector3dBase          as vector3dBase           # PYCHOK INTERNAL
-    import pygeodesy.webmercator           as webmercator            # PYCHOK exported
-    import pygeodesy.wgrs                  as wgrs                   # PYCHOK exported
+    import pygeodesy.albers                as albers                 # noqa: F401
+    import pygeodesy.auxilats              as auxilats               # noqa: F401
+    import pygeodesy.azimuthal             as azimuthal              # noqa: F401
+    import pygeodesy.basics                as basics                 # noqa: F401
+    import pygeodesy.booleans              as booleans               # noqa: F401
+    import pygeodesy.cartesianBase         as cartesianBase          # noqa: F401 INTERNAL
+    import pygeodesy.clipy                 as clipy                  # noqa: F401
+    import pygeodesy.constants             as constants              # noqa: F401
+    import pygeodesy.css                   as css                    # noqa: F401
+    import pygeodesy.datums                as datums                 # noqa: F401
+    import pygeodesy.deprecated            as deprecated             # noqa: F401
+    import pygeodesy.dms                   as dms                    # noqa: F401
+    import pygeodesy.ecef                  as ecef                   # noqa: F401
+    import pygeodesy.ecefLocals            as ecefLocals             # noqa: F401
+    import pygeodesy.elevations            as elevations             # noqa: F401
+    import pygeodesy.ellipsoidalBase       as ellipsoidalBase        # noqa: F401 INTERNAL
+    import pygeodesy.ellipsoidalBaseDI     as ellipsoidalBaseDI      # noqa: F401 INTERNAL
+    import pygeodesy.ellipsoidalExact      as ellipsoidalExact       # noqa: F401
+    import pygeodesy.ellipsoidalGeodSolve  as ellipsoidalGeodSolve   # noqa: F401
+    import pygeodesy.ellipsoidalKarney     as ellipsoidalKarney      # noqa: F401
+    import pygeodesy.ellipsoidalNvector    as ellipsoidalNvector     # noqa: F401
+    import pygeodesy.ellipsoidalVincenty   as ellipsoidalVincenty    # noqa: F401
+    import pygeodesy.ellipsoids            as ellipsoids             # noqa: F401
+    import pygeodesy.elliptic              as elliptic               # noqa: F401
+    import pygeodesy.epsg                  as epsg                   # noqa: F401
+    import pygeodesy.etm                   as etm                    # noqa: F401
+    import pygeodesy.errors                as errors                 # noqa: F401
+    import pygeodesy.fmath                 as fmath                  # noqa: F401
+    import pygeodesy.formy                 as formy                  # noqa: F401
+    import pygeodesy.frechet               as frechet                # noqa: F401
+    import pygeodesy.fstats                as fstats                 # noqa: F401
+    import pygeodesy.fsums                 as fsums                  # noqa: F401
+    import pygeodesy.gars                  as gars                   # noqa: F401
+    import pygeodesy.geodesici             as geodesici              # noqa: F401
+    import pygeodesy.geodesicw             as geodesicw              # noqa: F401
+    import pygeodesy.geodesicx             as geodesicx              # noqa: F401
+    import pygeodesy.geodsolve             as geodsolve              # noqa: F401
+    import pygeodesy.geohash               as geohash                # noqa: F401
+    import pygeodesy.geoids                as geoids                 # noqa: F401
+    import pygeodesy.hausdorff             as hausdorff              # noqa: F401
+    import pygeodesy.heights               as heights                # noqa: F401
+    import pygeodesy.internals             as internals              # noqa: F401
+    import pygeodesy.interns               as interns                # noqa: F401
+    import pygeodesy.iters                 as iters                  # noqa: F401
+    import pygeodesy.karney                as karney                 # noqa: F401
+    import pygeodesy.ktm                   as ktm                    # noqa: F401
+    import pygeodesy.latlonBase            as latlonBase             # noqa: F401 INTERNAL
+    import pygeodesy.lazily                as lazily                 # noqa: F401
+    import pygeodesy.lcc                   as lcc                    # noqa: F401
+    import pygeodesy.ltp                   as ltp                    # noqa: F401
+    import pygeodesy.ltpTuples             as ltpTuples              # noqa: F401
+    import pygeodesy.mgrs                  as mgrs                   # noqa: F401
+    import pygeodesy.named                 as named                  # noqa: F401
+    import pygeodesy.namedTuples           as namedTuples            # noqa: F401
+    import pygeodesy.nvectorBase           as nvectorBase            # noqa: F401 INTERNAL
+    import pygeodesy.osgr                  as osgr                   # noqa: F401
+    import pygeodesy.points                as points                 # noqa: F401
+    import pygeodesy.props                 as props                  # noqa: F401
+    import pygeodesy.resections            as resections             # noqa: F401
+    import pygeodesy.rhumb                 as rhumb                  # noqa: F401
+    import pygeodesy.simplify              as simplify               # noqa: F401
+    import pygeodesy.sphericalBase         as sphericalBase          # noqa: F401 INTERNAL
+    import pygeodesy.sphericalNvector      as sphericalNvector       # noqa: F401
+    import pygeodesy.sphericalTrigonometry as sphericalTrigonometry  # noqa: F401
+    import pygeodesy.solveBase             as solveBase              # noqa: F401
+    import pygeodesy.streprs               as streprs                # noqa: F401
+    import pygeodesy.trf                   as trf                    # noqa: F401
+    import pygeodesy.triaxials             as triaxials              # noqa: F401
+    import pygeodesy.units                 as units                  # noqa: F401
+    import pygeodesy.unitsBase             as unitsBase              # noqa: F401 INTERNAL
+    import pygeodesy.ups                   as ups                    # noqa: F401
+    import pygeodesy.utily                 as utily                  # noqa: F401
+    import pygeodesy.utm                   as utm                    # noqa: F401
+    import pygeodesy.utmups                as utmups                 # noqa: F401
+    import pygeodesy.utmupsBase            as utmupsBase             # noqa: F401 INTERNAL
+    import pygeodesy.vector2d              as vector2d               # noqa: F401
+    import pygeodesy.vector3d              as vector3d               # noqa: F401
+    import pygeodesy.vector3dBase          as vector3dBase           # noqa: F401 INTERNAL
+    import pygeodesy.webmercator           as webmercator            # noqa: F401
+    import pygeodesy.wgrs                  as wgrs                   # noqa: F401
 
     # lift all public classes, constants, functions, etc. but ONLY
     # from the following modules ... (see also David Beazley's
     # talk <https://DaBeaz.com/modulepackage/index.html>) ... BUT
     # NOT modules ellipsoidal*, epsg, gars, geohash, spherical*,
     # vector and wgrs ... in order keep those as modules ONLY
-    from pygeodesy.albers                import *  # PYCHOK __all__
-    from pygeodesy.azimuthal             import *  # PYCHOK __all__
-#   from pygeodesy.auxilats              import *  # PYCHOK __(_)__
-    from pygeodesy.basics                import *  # PYCHOK __all__
-    from pygeodesy.booleans              import *  # PYCHOK __all__
-    from pygeodesy.cartesianBase         import *  # PYCHOK __(_)__ INTERNAL
-    from pygeodesy.clipy                 import *  # PYCHOK __all__
-    from pygeodesy.constants             import *  # PYCHOK __all__
-    from pygeodesy.css                   import *  # PYCHOK __all__
-    from pygeodesy.datums                import *  # PYCHOK __all__
-    from pygeodesy.deprecated            import *  # PYCHOK __all__ DEPRECATED
-    from pygeodesy.dms                   import *  # PYCHOK __all__
-    from pygeodesy.ecef                  import *  # PYCHOK __all__
-#   from pygeodesy.ecefLocals            import *  # PYCHOK __all__
-    from pygeodesy.elevations            import *  # PYCHOK __all__
-#   from pygeodesy.ellipsoidalBase       import *  # PYCHOK __(_)__ INTERNAL
-#   from pygeodesy.ellipsoidalBaseDI     import *  # PYCHOK __(_)__ INTERNAL
-#   from pygeodesy.ellipsoidalExact      import *  # PYCHOK __(_)__
-#   from pygeodesy.ellipsoidalGeodSolve  import *  # PYCHOK __(_)__
-#   from pygeodesy.ellipsoidalKarney     import *  # PYCHOK __(_)__
-#   from pygeodesy.ellipsoidalNvector    import *  # PYCHOK __(_)__
-    from pygeodesy.ellipsoidalVincenty   import *  # PYCHOK __(_)__
-    from pygeodesy.ellipsoids            import *  # PYCHOK __all__
-    from pygeodesy.elliptic              import *  # PYCHOK __all__
-    from pygeodesy.epsg                  import *  # PYCHOK __all__
-    from pygeodesy.etm                   import *  # PYCHOK __all__
-    from pygeodesy.errors                import *  # PYCHOK __all__
-    from pygeodesy.fmath                 import *  # PYCHOK __all__
-    from pygeodesy.formy                 import *  # PYCHOK __all__
-    from pygeodesy.frechet               import *  # PYCHOK __all__
-    from pygeodesy.fstats                import *  # PYCHOK __all__
-    from pygeodesy.fsums                 import *  # PYCHOK __all__
-    from pygeodesy.gars                  import *  # PYCHOK __all__
-    from pygeodesy.geodesici             import *  # PYCHOK __all__
-    from pygeodesy.geodesicw             import *  # PYCHOK __all__
-    from pygeodesy.geodesicx             import *  # PYCHOK __all__
-    from pygeodesy.geodsolve             import *  # PYCHOK __all__
-    from pygeodesy.geohash               import *  # PYCHOK __all__
-    from pygeodesy.geoids                import *  # PYCHOK __all__
-    from pygeodesy.hausdorff             import *  # PYCHOK __all__
-    from pygeodesy.heights               import *  # PYCHOK __all__
-    from pygeodesy.internals             import *  # PYCHOK __all__
-    from pygeodesy.interns               import *  # PYCHOK __all__
-    from pygeodesy.iters                 import *  # PYCHOK __all__
-    from pygeodesy.karney                import *  # PYCHOK __all__
-    from pygeodesy.ktm                   import *  # PYCHOK __all__
-    from pygeodesy.latlonBase            import *  # PYCHOK __(_)__ INTERNAL
-    from pygeodesy.lazily                import *  # PYCHOK __all__
-    from pygeodesy.lcc                   import *  # PYCHOK __all__
-    from pygeodesy.ltp                   import *  # PYCHOK __all__
-    from pygeodesy.ltpTuples             import *  # PYCHOK __all__
-    from pygeodesy.mgrs                  import *  # PYCHOK __all__
-    from pygeodesy.named                 import *  # PYCHOK __all__
-    from pygeodesy.namedTuples           import *  # PYCHOK __all__
-    from pygeodesy.nvectorBase           import *  # PYCHOK __(_)__ INTERNAL
-    from pygeodesy.osgr                  import *  # PYCHOK __all__
-    from pygeodesy.points                import *  # PYCHOK __all__
-    from pygeodesy.props                 import *  # PYCHOK __all__
-    from pygeodesy.resections            import *  # PYCHOK __all__
-    from pygeodesy.rhumb                 import *  # PYCHOK __all__
-    from pygeodesy.simplify              import *  # PYCHOK __all__
-#   from pygeodesy.sphericalBase         import *  # PYCHOK __(_)__ INTERNAL
-#   from pygeodesy.sphericalNvector      import *  # PYCHOK __(_)__
-#   from pygeodesy.sphericalTrigonometry import *  # PYCHOK __(_)__
-#   from pygeodesy.solveBase             import *  # PYCHOK __(_)__ INTERNAL
-    from pygeodesy.streprs               import *  # PYCHOK __all__
-    from pygeodesy.trf                   import *  # PYCHOK __all__
-    from pygeodesy.triaxials             import *  # PYCHOK __all__
-    from pygeodesy.units                 import *  # PYCHOK __all__
-    from pygeodesy.unitsBase             import *  # PYCHOK __all__ Float, ...
-    from pygeodesy.ups                   import *  # PYCHOK __all__
-    from pygeodesy.utily                 import *  # PYCHOK __all__
-    from pygeodesy.utm                   import *  # PYCHOK __all__
-    from pygeodesy.utmups                import *  # PYCHOK __all__
-#   from pygeodesy.utmupsBase            import *  # PYCHOK __(_)__ INTERNAL
-    from pygeodesy.vector2d              import *  # PYCHOK __all__
-    from pygeodesy.vector3d              import *  # PYCHOK __all__
-    from pygeodesy.vector3dBase          import *  # PYCHOK __(_)__ INTERNAL
-    from pygeodesy.webmercator           import *  # PYCHOK __all__
-    from pygeodesy.wgrs                  import *  # PYCHOK __all__
+    from pygeodesy.albers                import *  # noqa: F403
+    from pygeodesy.azimuthal             import *  # noqa: F403
+#   from pygeodesy.auxilats              import *  # noqa: F403
+    from pygeodesy.basics                import *  # noqa: F403
+    from pygeodesy.booleans              import *  # noqa: F403
+    from pygeodesy.cartesianBase         import *  # noqa: F403 INTERNAL
+    from pygeodesy.clipy                 import *  # noqa: F403
+    from pygeodesy.constants             import *  # noqa: F403
+    from pygeodesy.css                   import *  # noqa: F403
+    from pygeodesy.datums                import *  # noqa: F403
+    from pygeodesy.deprecated            import *  # noqa: F403 DEPRECATED
+    from pygeodesy.dms                   import *  # noqa: F403
+    from pygeodesy.ecef                  import *  # noqa: F403
+#   from pygeodesy.ecefLocals            import *  # noqa: F403
+    from pygeodesy.elevations            import *  # noqa: F403
+#   from pygeodesy.ellipsoidalBase       import *  # noqa: F403 INTERNAL
+#   from pygeodesy.ellipsoidalBaseDI     import *  # noqa: F403 INTERNAL
+#   from pygeodesy.ellipsoidalExact      import *  # noqa: F403
+#   from pygeodesy.ellipsoidalGeodSolve  import *  # noqa: F403
+#   from pygeodesy.ellipsoidalKarney     import *  # noqa: F403
+#   from pygeodesy.ellipsoidalNvector    import *  # noqa: F403
+    from pygeodesy.ellipsoidalVincenty   import *  # noqa: F403
+    from pygeodesy.ellipsoids            import *  # noqa: F403
+    from pygeodesy.elliptic              import *  # noqa: F403
+    from pygeodesy.epsg                  import *  # noqa: F403
+    from pygeodesy.etm                   import *  # noqa: F403
+    from pygeodesy.errors                import *  # noqa: F403
+    from pygeodesy.fmath                 import *  # noqa: F403
+    from pygeodesy.formy                 import *  # noqa: F403
+    from pygeodesy.frechet               import *  # noqa: F403
+    from pygeodesy.fstats                import *  # noqa: F403
+    from pygeodesy.fsums                 import *  # noqa: F403
+    from pygeodesy.gars                  import *  # noqa: F403
+    from pygeodesy.geodesici             import *  # noqa: F403
+    from pygeodesy.geodesicw             import *  # noqa: F403
+    from pygeodesy.geodesicx             import *  # noqa: F403
+    from pygeodesy.geodsolve             import *  # noqa: F403
+    from pygeodesy.geohash               import *  # noqa: F403
+    from pygeodesy.geoids                import *  # noqa: F403
+    from pygeodesy.hausdorff             import *  # noqa: F403
+    from pygeodesy.heights               import *  # noqa: F403
+    from pygeodesy.internals             import *  # noqa: F403
+    from pygeodesy.interns               import *  # noqa: F403
+    from pygeodesy.iters                 import *  # noqa: F403
+    from pygeodesy.karney                import *  # noqa: F403
+    from pygeodesy.ktm                   import *  # noqa: F403
+    from pygeodesy.latlonBase            import *  # noqa: F403 INTERNAL
+    from pygeodesy.lazily                import *  # noqa: F403
+    from pygeodesy.lcc                   import *  # noqa: F403
+    from pygeodesy.ltp                   import *  # noqa: F403
+    from pygeodesy.ltpTuples             import *  # noqa: F403
+    from pygeodesy.mgrs                  import *  # noqa: F403
+    from pygeodesy.named                 import *  # noqa: F403
+    from pygeodesy.namedTuples           import *  # noqa: F403
+    from pygeodesy.nvectorBase           import *  # noqa: F403 INTERNAL
+    from pygeodesy.osgr                  import *  # noqa: F403
+    from pygeodesy.points                import *  # noqa: F403
+    from pygeodesy.props                 import *  # noqa: F403
+    from pygeodesy.resections            import *  # noqa: F403
+    from pygeodesy.rhumb                 import *  # noqa: F403
+    from pygeodesy.simplify              import *  # noqa: F403
+#   from pygeodesy.sphericalBase         import *  # noqa: F403 INTERNAL
+#   from pygeodesy.sphericalNvector      import *  # noqa: F403
+#   from pygeodesy.sphericalTrigonometry import *  # noqa: F403
+#   from pygeodesy.solveBase             import *  # noqa: F403 INTERNAL
+    from pygeodesy.streprs               import *  # noqa: F403
+    from pygeodesy.trf                   import *  # noqa: F403
+    from pygeodesy.triaxials             import *  # noqa: F403
+    from pygeodesy.units                 import *  # noqa: F403
+    from pygeodesy.unitsBase             import *  # noqa: F403 Float, ...
+    from pygeodesy.ups                   import *  # noqa: F403
+    from pygeodesy.utily                 import *  # noqa: F403
+    from pygeodesy.utm                   import *  # noqa: F403
+    from pygeodesy.utmups                import *  # noqa: F403
+#   from pygeodesy.utmupsBase            import *  # noqa: F403 INTERNAL
+    from pygeodesy.vector2d              import *  # noqa: F403
+    from pygeodesy.vector3d              import *  # noqa: F403
+    from pygeodesy.vector3dBase          import *  # noqa: F403 INTERNAL
+    from pygeodesy.webmercator           import *  # noqa: F403
+    from pygeodesy.wgrs                  import *  # noqa: F403
 
     def _all(globalocals):
         from pygeodesy.internals import _headof,  _DOT_  # PYCHOK expected
         from pygeodesy.interns import NN as _NN, _attribute_, _COMMASPACE_, \
-                                     _module_, _s_, _UNDER_  # PYCHOK expected
+                                     _module_, _s_  # PYCHOK expected
         from pygeodesy.streprs import Fmt as _Fmt  # PYCHOK expected
         # collect all public module and attribute names and check
         # that modules are imported from this package, 'pygeodesy'
@@ -602,9 +602,9 @@ else:
     __all__ = ()
     _init__all__ = False
 
-from pygeodesy.internals import _version2,  _DOT_  # PYCHOK import
+from pygeodesy.internals import _version2,  _DOT_  # noqa: E402
 # from pygeodesy.interns import _DOT_  # from .internals
-__version__ = '25.05.05'
+__version__ = '25.05.25'
 # see setup.py for similar logic
 version     = _DOT_(*_version2(__version__, n=3))
 

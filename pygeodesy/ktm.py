@@ -40,7 +40,7 @@ and licensed under the MIT/X11 License.  For more information, see the
 U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 '''
 # make sure int/int division yields float quotient
-from __future__ import division as _; del _  # PYCHOK semicolon
+from __future__ import division as _; del _  # noqa: E702 ;
 
 from pygeodesy.basics import copysign0, _isin, isodd, neg, neg_, \
                             _reverange, _xinstanceof
@@ -66,7 +66,7 @@ from cmath import polar
 from math import asinh, cos, cosh, degrees, fabs, sin, sinh, sqrt, tanh
 
 __all__ = _ALL_LAZY.ktm
-__version__ = '25.04.14'
+__version__ = '25.05.12'
 
 
 class KTMError(_ValueError):

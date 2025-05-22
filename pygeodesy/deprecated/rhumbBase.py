@@ -4,10 +4,10 @@
 u'''DEPRECATED on 2023.11.26, use module L{pygeodesy.rhumb.bases} instead.
 '''
 
-from pygeodesy.rhumb.bases import *  # PYCHOK expected
+from pygeodesy.rhumb.bases import *  # noqa: F403
 
 __all__ = ()  # _ALL_LAZY.rhumb._bases
-__version__ = '23.11.26'
+__version__ = '25.05.12'
 
 # **) MIT License
 #

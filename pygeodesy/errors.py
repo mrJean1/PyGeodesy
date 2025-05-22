@@ -27,7 +27,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _PYTHON_X_DEV
 from copy import copy as _copy
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')  _under
-__version__ = '25.04.21'
+__version__ = '25.05.19'
 
 _argument_   = 'argument'
 _basics      = _MODS.into(basics=__name__)

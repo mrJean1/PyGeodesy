@@ -10,7 +10,7 @@ of C{_NamedTuple} defined in C{pygeodesy.named}.
 
 from pygeodesy.basics import isinstanceof, issubclassof, map1, _xinstanceof
 # from pygeodesy.cartesianBase import CartesianBase  # _MODS
-# from pygeodesy.constants import INT0  # from .units
+from pygeodesy.constants import INT0
 # from pygeodesy.dms import toDMS  # _MODS
 from pygeodesy.errors import _TypeError, _xattr, _xkwds, _xkwds_not
 from pygeodesy.interns import NN, _1_, _2_, _a_, _A_, _area_, _angle_, _b_, _B_, \
@@ -26,10 +26,10 @@ from pygeodesy.props import deprecated_property_RO, property_RO
 from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, FIx, \
                             Height, Int, Lam, Lat, Lon, Meter, Meter2, \
                             Northing, Number_, Phi, Precision_, Radians, \
-                            Radius, Scalar, Str,  INT0
+                            Radius, Scalar, Str
 
 __all__ = _ALL_LAZY.namedTuples
-__version__ = '24.11.22'
+__version__ = '25.05.12'
 
 # __DUNDER gets mangled in class
 _closest_     = 'closest'

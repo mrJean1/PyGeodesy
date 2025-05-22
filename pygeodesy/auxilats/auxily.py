@@ -12,7 +12,7 @@ under the MIT/X11 License.  For more information, see the U{GeographicLib
 <https://GeographicLib.SourceForge.io>} documentation.
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division as _; del _  # PYCHOK semicolon
+from __future__ import division as _; del _  # noqa: E702 ;
 
 # from pygeodesy import auxilats  # _MODS
 from pygeodesy.auxilats._CX_Rs import _Rkey
@@ -29,7 +29,7 @@ from pygeodesy.utily import atan1
 from math import asinh, copysign
 
 __all__ = ()
-__version__ = '25.04.14'
+__version__ = '25.05.12'
 
 
 class Aux(object):

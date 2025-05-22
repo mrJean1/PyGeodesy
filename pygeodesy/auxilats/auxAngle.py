@@ -12,7 +12,7 @@ under the MIT/X11 License.  For more information, see the U{GeographicLib
 <https://GeographicLib.SourceForge.io>} documentation.
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division as _; del _  # PYCHOK semicolon
+from __future__ import division as _; del _  # noqa: E702 ;
 
 from pygeodesy.auxilats.auxily import Aux, _Aux2Greek,  AuxError
 from pygeodesy.basics import map1, map2, _xinstanceof
@@ -32,7 +32,7 @@ from pygeodesy.utily import atan2, atan2d, sincos2, sincos2d
 from math import asinh, copysign, degrees, fabs, radians, sinh
 
 __all__ = ()
-__version__ = '25.04.14'
+__version__ = '25.05.12'
 
 _0_INF_NAN_NINF = (0, _0_0) + _INF_NAN_NINF
 _MAX_2          =  MAX * _0_5  # PYCHOK used!

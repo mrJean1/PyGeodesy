@@ -1,10 +1,11 @@
 
 # -*- coding: utf-8 -*-
+# ruff: noqa: F403,F405
 
 # Test L{deprecated} classes, functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '24.10.14'
+__version__ = '25.05.09'
 
 from bases import TestsBase
 

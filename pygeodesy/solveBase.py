@@ -20,10 +20,10 @@ from pygeodesy.named import callername, _name2__, notOverloaded
 from pygeodesy.props import Property, Property_RO, property_RO, _update_all
 from pygeodesy.streprs import Fmt, fstr, fstrzs, pairs, strs
 from pygeodesy.units import Precision_
-from pygeodesy.utily import unroll180,  wrap360  # PYCHOK shared
+from pygeodesy.utily import unroll180
 
 __all__ = _ALL_LAZY.solveBase
-__version__ = '25.04.14'
+__version__ = '25.05.12'
 
 _ERROR_ = 'ERROR'
 

@@ -25,9 +25,8 @@ from pygeodesy.errors import _AttributeError, IntersectionError, \
 # from pygeodesy.fmath import favg  # _MODS
 # from pygeodesy import formy as _formy  # _MODS.into
 from pygeodesy.internals import _passarg, typename
-from pygeodesy.interns import NN, _COMMASPACE_, _concentric_, _height_, \
-                             _intersection_, _LatLon_, _m_, _negative_, \
-                             _no_, _overlap_, _too_,  _point_  # PYCHOK used!
+from pygeodesy.interns import NN, _COMMASPACE_, _concentric_, _intersection_, \
+                             _LatLon_, _m_, _no_, _overlap_,  _point_  # PYCHOK used!
 # from pygeodesy.iters import PointsIter, points2  # _MODS
 # from pygeodesy.karney import Caps  # _MODS
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
@@ -49,7 +48,7 @@ from contextlib import contextmanager
 from math import asin, cos, degrees, fabs, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '25.04.28'
+__version__ = '25.05.07'
 
 _formy = _MODS.into(formy=__name__)
 

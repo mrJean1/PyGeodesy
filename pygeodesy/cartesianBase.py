@@ -28,7 +28,7 @@ from pygeodesy.interns import _ellipsoidal_, _spherical_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _name2__, _Pass
 from pygeodesy.namedTuples import LatLon4Tuple, _NamedTupleTo , Vector3Tuple, \
-                                  Vector4Tuple,  Bearing2Tuple  # PYCHOK .sphericalBase
+                                  Vector4Tuple
 # from pygeodesy.nvectorBase import _N_vector  # _MODS
 from pygeodesy.props import deprecated_method, Property, Property_RO, property_doc_, \
                             property_RO, _update_all
@@ -44,7 +44,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdlln4
 # from math import degrees, fabs, radians, sqrt  # from .fmath, .utily
 
 __all__ = _ALL_LAZY.cartesianBase
-__version__ = '25.04.28'
+__version__ = '25.05.07'
 
 _r_         = 'r'
 _resections = _MODS.into(resections=__name__)

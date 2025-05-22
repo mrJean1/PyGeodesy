@@ -10,10 +10,10 @@ and published under the same MIT Licence**, see
 U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division as _; del _  # PYCHOK semicolon
+from __future__ import division as _; del _  # noqa: E702 ;
 
 from pygeodesy.basics import _copysign, isbool, _isin, isinstanceof, map1
-from pygeodesy.cartesianBase import CartesianBase,  Bearing2Tuple
+from pygeodesy.cartesianBase import CartesianBase
 from pygeodesy.constants import EPS, EPS0, PI, PI2, PI_2, R_M, \
                                _0_0, _0_5, _1_0, _180_0, _360_0, \
                                _over, isnear0, isnon0
@@ -24,9 +24,9 @@ from pygeodesy.fmath import favg, fdot, hypot, sqrt_a
 from pygeodesy.interns import _COMMA_, _concentric_, _datum_, _distant_, \
                               _exceed_PI_radians_, _name_, _near_, \
                               _radius_, _too_
-from pygeodesy.latlonBase import LatLonBase,  _trilaterate5  # PYCHOK passed
+from pygeodesy.latlonBase import LatLonBase
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
-# from pygeodesy.namedTuples import Bearing2Tuple  # from .cartesianBase
+# from pygeodesy.namedTuples import Bearing2Tuple  # _MODS
 from pygeodesy.nvectorBase import NvectorBase,  Fmt
 from pygeodesy.props import deprecated_method, property_doc_, property_RO, \
                            _update_all
@@ -40,7 +40,7 @@ from pygeodesy.utily import acos1, asin1, atan2b, atan2d, degrees90, \
 from math import cos, fabs, log, sin, sqrt
 
 __all__ = _ALL_LAZY.sphericalBase
-__version__ = '25.04.14'
+__version__ = '25.05.12'
 
 
 class CartesianSphericalBase(CartesianBase):
@@ -157,7 +157,7 @@ class LatLonSphericalBase(LatLonBase):
         # .initialBearingTo is inside .-Nvector and .-Trigonometry
         i = self.initialBearingTo(other, wrap=wrap, raiser=raiser)  # PYCHOK .initialBearingTo
         f = self.finalBearingTo(  other, wrap=wrap, raiser=raiser)
-        return Bearing2Tuple(i, f, name=self.name)
+        return _MODS.namedTuples.Bearing2Tuple(i, f, name=self.name)
 
     @property_doc_(''' this point's datum (L{Datum}).''')
     def datum(self):

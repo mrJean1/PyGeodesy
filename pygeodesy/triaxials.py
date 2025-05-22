@@ -28,7 +28,7 @@ see the U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 @var Triaxials.WGS84_35: Triaxial(name='WGS84_35', a=6378172, b=6378102, c=6356752.314245179, e2ab=0.00002195, e2bc=0.006683478, e2ac=0.006705281, volume=1083207319768789942272, area=510065621722018.125, area_p=510065626587483.3125)
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division as _; del _  # PYCHOK semicolon
+from __future__ import division as _; del _  # noqa: E702 ;
 
 from pygeodesy.basics import _isin, isLatLon, isscalar
 from pygeodesy.constants import EPS, EPS0, EPS02, EPS4, INT0, PI2, PI_3, PI4, \
@@ -59,7 +59,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d,  _ALL_LAZY, _MODS
 from math import fabs, sqrt
 
 __all__ = _ALL_LAZY.triaxials
-__version__ = '25.04.14'
+__version__ = '25.05.12'
 
 _not_ordered_ = _not_('ordered')
 _omega_       = 'omega'

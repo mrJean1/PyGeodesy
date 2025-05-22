@@ -26,7 +26,7 @@ License.  For more information, see the U{GeographicLib<https://GeographicLib.So
        windows/win32/fileio/naming-a-file#naming-conventions>} with and without extension.
 '''
 # make sure int/int division yields float quotient
-from __future__ import division as _; del _  # PYCHOK semicolon
+from __future__ import division as _; del _  # noqa: E702 ;
 
 from pygeodesy.auxilats.auxAngle import AuxMu, AuxPhi,  hypot
 from pygeodesy.auxilats.auxDLat import AuxDLat, _DClenshaw
@@ -48,7 +48,7 @@ from pygeodesy.rhumb.bases import RhumbBase, RhumbLineBase, \
 from math import ceil as _ceil, fabs, radians
 
 __all__ = _ALL_LAZY.rhumb_aux_
-__version__ = '25.04.12'
+__version__ = '25.05.12'
 
 # DIGITS = (sizeof(real) * 8) bits
 #        = (ctypes.sizeof(ctypes.c_double(1.0)) * 8) bits

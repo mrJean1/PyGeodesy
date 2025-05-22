@@ -6,7 +6,7 @@ L{pygeodesy.Fsum}, precision floating point summation and accurate
 multiplication.
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division as _; del _  # PYCHOK semicolon
+from __future__ import division as _; del _  # noqa: E702 ;
 
 from pygeodesy.basics import isscalar, isodd, _xinstanceof, \
                             _xiterable, _xsubclassof, _zip,  typename
@@ -24,7 +24,7 @@ from pygeodesy.named import _name__, _Named, _NotImplemented, \
 # from pygeodesy.streprs import Fmt  # from .fmath
 
 __all__ = _ALL_LAZY.fstats
-__version__ = '25.04.14'
+__version__ = '25.05.12'
 
 
 def _sampled(n, sample):

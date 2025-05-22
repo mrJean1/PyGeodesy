@@ -93,7 +93,7 @@ from math import ceil as _ceil, fabs
 # import operator as _operator  # from .datums
 
 __all__ = _ALL_LAZY.trf
-__version__ = '25.04.14'
+__version__ = '25.05.12'
 
 _EP0CH    =  Epoch(0, low=0)
 _Es       = {_EP0CH: _EP0CH}  # L{Epoch}s, deleted below
@@ -148,7 +148,7 @@ def _E(epoch):  # deleted below
     '''(INTERNAL) De-dup L{Epochs}s.
     '''
     e = Epoch(_F(epoch))
-    return _Es.setdefault(e, e)  # PYCHOK del
+    return _Es.setdefault(e, e)  # noqa: F821 del
 
 
 def _P(ps, name, _Ps):  # deleted below
@@ -1299,11 +1299,11 @@ def _trfX(n1, n2, raiser=True, **epoch_xform_rates):
 
 
 def _X(*ps):  # deleted below
-    return _P(ps, _xform_, _Xs)  # PYCHOK del
+    return _P(ps, _xform_, _Xs)  # noqa: F821 del
 
 
 def _R(*ps):  # deleted below
-    return _P(ps, _rates_, _Rs)  # PYCHOK del
+    return _P(ps, _rates_, _Rs)  # noqa: F821 del
 
 
 _P_0_0s = TRFXform7Tuple(_0_0s(len(_Names7)), name='unity')

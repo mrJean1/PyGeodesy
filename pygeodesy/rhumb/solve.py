@@ -9,7 +9,7 @@ as an (exact) rhumb or rhumb line from I{either GeographicLib 2.0 or 2.2+}.
        path of the C{RhumbSolve} executable.
 '''
 from pygeodesy.basics import _xinstanceof
-from pygeodesy.constants import _0_0, _180_0, _N_180_0, _over,  _90_0  # PYCHOK used!
+from pygeodesy.constants import _180_0, _N_180_0, _over,  _0_0  # PYCHOK used!
 from pygeodesy.errors import RhumbError   # PYCHOK used!
 from pygeodesy.interns import NN, _a12_, _azi12_, _DMAIN_, _lat2_, _lon2_, _s12_, \
                              _S12_, _UNDER_
@@ -21,7 +21,7 @@ from pygeodesy.solveBase import _SolveGDictBase, _SolveGDictLineBase
 from pygeodesy.utily import _unrollon, _Wrap, wrap360
 
 __all__ = _ALL_LAZY.rhumb_solve
-__version__ = '25.04.12'
+__version__ = '25.05.07'
 
 
 class _RhumbSolveBase(_SolveGDictBase):

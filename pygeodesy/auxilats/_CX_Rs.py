@@ -9,20 +9,20 @@ Copyright (C) Charles Karney (2022-2024) Karney@Alum.MIT.edu> and licensed under
 MIT/X11 License.  For more information, see <https://GeographicLib.SourceForge.io>.
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division as _; del _  # PYCHOK semicolon
+from __future__ import division as _; del _  # noqa: E702 ;
 
 # from pygeodesy.basics import _splituple  # _MODS
 from pygeodesy.constants import _floats as _constants_floats
 from pygeodesy.errors import _AssertionError,  _MODS
 # from pygeodesy.internals import _sizeof  # _MODS
-from pygeodesy.interns import NN, MISSING, _COMMA_, _duplicate_, _NL_, \
+from pygeodesy.interns import NN, MISSING, _duplicate_, _NL_, \
                              _QUOTE3_, _SLASH_,  _ELLIPSIS4_  # PYCHOK used!
 # from pygeodesy.lazily import _ALL_MODS as _MODS  # from .errors
 from pygeodesy.named import ADict,  Property_RO
 # from pygeodesy.props import Property_RO  # from .named
 
 __all__ = ()
-__version__ = '25.04.11'
+__version__ = '25.05.12'
 
 
 class _Rcoeffs(ADict):

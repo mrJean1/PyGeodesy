@@ -16,7 +16,7 @@ and U{Implementation Practice Web Mercator Map Projection<https://Web.Archive.or
 http://earth-info.nga.mil/GandG/wgs84/web_mercator/(U)%20NGA_SIG_0011_1.0.0_WEBMERC.pdf>}.
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division as _; del _  # PYCHOK semicolon
+from __future__ import division as _; del _  # noqa: E702 ;
 
 from pygeodesy.basics import _isin, _splituple, _xinstanceof,  typename
 from pygeodesy.constants import PI_2, R_MA, _2_0
@@ -37,7 +37,7 @@ from pygeodesy.utily import degrees90, degrees180
 from math import atan, atanh, exp, radians, sin, tanh
 
 __all__ = _ALL_LAZY.webmercator
-__version__ = '25.04.14'
+__version__ = '25.05.12'
 
 # _FalseEasting  = 0   # false Easting (C{meter})
 # _FalseNorthing = 0   # false Northing (C{meter})

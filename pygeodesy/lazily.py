@@ -510,7 +510,7 @@ class _ALL_MODS(_internals._MODS_Base):
 _internals._MODS = _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '25.04.30'
+__version__ = '25.05.19'
 
 
 def _ALL_OTHER(*objs):

@@ -15,7 +15,7 @@ and licensed under the MIT/X11 License.  For more information, see the
 U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 '''
 # make sure int/int division yields float quotient
-from __future__ import division as _; del _  # PYCHOK semicolon
+from __future__ import division as _; del _  # noqa: E702 ;
 
 from pygeodesy.basics import isodd, unsigned0
 from pygeodesy.constants import NAN, _0_0, _0_5, _720_0
@@ -31,7 +31,7 @@ from pygeodesy.props import Property, Property_RO, property_RO
 from math import fmod as _fmod
 
 __all__ = ()
-__version__ = '24.10.14'
+__version__ = '25.05.12'
 
 
 class GeodesicAreaExact(_NamedBase):

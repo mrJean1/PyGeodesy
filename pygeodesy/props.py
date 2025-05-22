@@ -26,7 +26,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, \
 from functools import wraps as _wraps
 
 __all__ = _ALL_LAZY.props
-__version__ = '25.04.14'
+__version__ = '25.05.21'
 
 _class_       = 'class'
 _DNL_         = _NL_ * 2  # PYCHOK used!
@@ -460,7 +460,7 @@ def _deprecated(call, kind, qual_d):
        @see: Brett Slatkin, "Effective Python", 2019 page 105, 2nd
              ed, Addison-Wesley.
     '''
-    doc = _DOCof(call)
+    doc = _DEPRECATEDof(call)
 
     @_wraps(call)  # PYCHOK self?
     def _deprecated_call(*args, **kwds):
@@ -517,6 +517,17 @@ def _deprecated_module(name):  # PYCHOK no cover
         _throwarning(_module_, name, _dont_use_)
 
 
+def _DEPRECATEDof(obj):
+    '''(INTERNAL) Get uniform DEPRECATED __doc__ string.
+    '''
+    try:
+        d = obj.__doc__.strip()
+        i = d.find(_DEPRECATED_)
+    except AttributeError:
+        i = -1
+    return _DOT_(_DEPRECATED_, NN) if i < 0 else d[i:]
+
+
 if _WARNINGS_X_DEV:
     class deprecated_property(_PropertyBase):
         '''Decorator for a DEPRECATED C{property} or C{Property}.
@@ -524,7 +535,7 @@ if _WARNINGS_X_DEV:
         def __init__(self, method):
             '''Decorator for a DEPRECATED C{property} or C{Property} getter.
             '''
-            doc = _DOCof(method)
+            doc = _DEPRECATEDof(method)
 
             def _fget(inst):  # PYCHOK no cover
                 '''Get the C{property} or C{Property} value.
@@ -554,7 +565,7 @@ if _WARNINGS_X_DEV:
                     '''Set the C{property} or C{Property} value.
                     '''
                     q = _qualified(inst, self.name)
-                    _throwarning(typename(property), q, _DOCof(method))
+                    _throwarning(typename(property), q, _DEPRECATEDof(method))
                     method(inst, val)
                     # self._update(inst)  # un-cache this item
 
@@ -594,7 +605,7 @@ def deprecated_property_RO(method):
 def _deprecated_RO(method, _RO):
     '''(INTERNAL) Create a DEPRECATED C{property_RO} or C{Property_RO}.
     '''
-    doc = _DOCof(method)
+    doc = _DEPRECATEDof(method)
 
     if _WARNINGS_X_DEV:
 
@@ -612,17 +623,6 @@ def _deprecated_RO(method, _RO):
         return _Deprecated_RO(method)
     else:  # PYCHOK no cover
         return _RO(method, doc=doc)
-
-
-def _DOCof(obj):
-    '''(INTERNAL) Get uniform DEPRECATED __doc__ string.
-    '''
-    try:
-        d = obj.__doc__.strip()
-        i = d.find(_DEPRECATED_)
-    except AttributeError:
-        i = -1
-    return _DOT_(_DEPRECATED_, NN) if i < 0 else d[i:]
 
 
 def _qualified(inst, name):

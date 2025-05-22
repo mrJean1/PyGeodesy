@@ -36,7 +36,7 @@ and compare the MGRS results with those from I{Karney}'s utility U{GeoConvert
 '''
 
 from pygeodesy.basics import halfs2, _isin, _splituple, _xinstanceof
-# from pygeodesy.constants import _0_5  # from .units
+from pygeodesy.constants import _0_5
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.errors import _AssertionError, MGRSError, _parseX, \
                              _ValueError, _xkwds
@@ -49,14 +49,14 @@ from pygeodesy.named import _name2__, _NamedBase, _NamedTuple, _Pass
 from pygeodesy.namedTuples import EasNor2Tuple, UtmUps5Tuple
 from pygeodesy.props import deprecated_property_RO, property_RO, Property_RO
 from pygeodesy.streprs import enstr2, _enstr2m3, Fmt, _resolution10, _xzipairs
-from pygeodesy.units import Easting, Northing, Str, _100km,  _0_5
+from pygeodesy.units import Easting, Northing, Str, _100km
 from pygeodesy.units import _1um, _2000km  # PYCHOK used!
 from pygeodesy.ups import _hemi, toUps8, Ups, _UPS_ZONE
 from pygeodesy.utm import toUtm8, _to3zBlat, Utm, _UTM_ZONE_MAX, _UTM_ZONE_MIN
 # from pygeodesy.utmupsBase import _UTM_ZONE_MAX, _UTM_ZONE_MIN  # from .utm
 
 __all__ = _ALL_LAZY.mgrs
-__version__ = '25.04.14'
+__version__ = '25.05.12'
 
 _AN_    = 'AN'  # default south pole grid tile and band B
 _AtoPx_ = _AtoZnoIO_.tillP

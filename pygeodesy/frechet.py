@@ -90,9 +90,9 @@ from pygeodesy.interns import _DMAIN_, _DOT_, _n_, NN, _units_
 # from pygeodesy.iters import points2 as _points2  # from .points
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS
 from pygeodesy.named import _name2__, _Named, _NamedTuple, _Pass
-# from pygeodesy.namedTuples import PhiLam2Tuple  # from .points
-from pygeodesy.points import _distanceTo, _fractional, PhiLam2Tuple, \
-                              points2 as _points2,  radians
+from pygeodesy.namedTuples import PhiLam2Tuple
+from pygeodesy.points import _distanceTo, _fractional, \
+                              points2 as _points2, radians
 from pygeodesy.props import Property, property_doc_, property_RO
 from pygeodesy.units import FIx, Float, Number_
 from pygeodesy import unitsBase as _unitsBase  # _Str_..., _xUnit, _xUnits
@@ -101,7 +101,7 @@ from collections import defaultdict as _defaultdict
 # from math import radians  # from .points
 
 __all__ = _ALL_LAZY.frechet
-__version__ = '25.04.21'
+__version__ = '25.05.21'
 
 _formy = _MODS.into(formy=__name__)
 
@@ -129,7 +129,7 @@ class Frechet(_Named):
        be overloaded.
     '''
     _datum = _WGS84
-    _func  =  None  # formy function/property
+#   _func  =  None  # formy function/property
     _f1    =  1
     _kwds  = {}     # func_ options
     _n1    =  0

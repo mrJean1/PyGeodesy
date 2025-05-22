@@ -13,7 +13,7 @@ and licensed under the MIT/X11 License.  For more information, see the
 U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 '''
 # make sure int/int division yields float quotient
-from __future__ import division as _; del _  # PYCHOK semicolon
+from __future__ import division as _; del _  # noqa: E702 ;
 
 # A copy of comments from Karney's C{GeodesicLineExact.cpp}:
 #
@@ -55,7 +55,7 @@ from pygeodesy.utily import atan2, atan2d as _atan2d_reverse, sincos2
 from math import cos, degrees, fabs, floor, radians, sin
 
 __all__ = ()
-__version__ = '25.04.12'
+__version__ = '25.05.12'
 
 _glXs = []  # instances of C{[_]GeodesicLineExact} to be updated
 

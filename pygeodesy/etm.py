@@ -61,7 +61,7 @@ control round-off.  For example, C{atanh(sin(phi))} is replaced by C{asinh(tan(p
 which maintains accuracy near C{phi = pi/2}.  Such changes are noted in the code.
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division as _; del _  # PYCHOK semicolon
+from __future__ import division as _; del _  # noqa: E702 ;
 
 from pygeodesy.basics import _isin, map1, neg, neg_, _xinstanceof
 from pygeodesy.constants import EPS, EPS02, PI_2, PI_4, _K0_UTM, \
@@ -93,7 +93,7 @@ from pygeodesy.utm import _cmlon, _LLEB, _parseUTM5, _toBand, _toXtm8, \
 from math import asinh, degrees, radians, sinh, sqrt
 
 __all__ = _ALL_LAZY.etm
-__version__ = '25.04.14'
+__version__ = '25.05.12'
 
 _OVERFLOW = _1_EPS**2  # ~2e+31
 _TAYTOL   =  pow(EPS,  0.6)

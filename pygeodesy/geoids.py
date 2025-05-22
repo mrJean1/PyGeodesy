@@ -87,7 +87,7 @@ courtesy of SBFRF.
       Above Mean Sea Level<https://Wiki.ROS.org/mavros>}.
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division as _; del _  # PYCHOK semicolon
+from __future__ import division as _; del _  # noqa: E702 ;
 
 from pygeodesy.basics import _isin, len2, min2, isodd, _splituple, \
                               ub2str as _ub2str
@@ -126,7 +126,7 @@ except ImportError:  # Python 3+
     from io import BytesIO as _BytesIO  # PYCHOK expected
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '25.04.14'
+__version__ = '25.05.21'
 
 _assert_    = 'assert'
 _bHASH_     = b'#'
@@ -148,7 +148,7 @@ class GeoidError(HeightError):
 class _GeoidBase(_HeightBase):
     '''(INTERNAL) Base class for C{Geoid...}s.
     '''
-    _center   =  None   # (lat, lon, height)
+#   _center   =  None   # (lat, lon, height)
     _cropped  =  None
 #   _datum    = _WGS84  # from _HeightBase
     _egm      =  None   # open C{egm*.pgm} geoid file
@@ -297,7 +297,7 @@ class _GeoidBase(_HeightBase):
 
     @Property_RO
     def _center(self):
-        ''' Cache for method L{center}.
+        '''(INTERNAL) Cache for method L{center}.
         '''
         return self._llh3(favg(self._lat_lo, self._lat_hi),
                           favg(self._lon_lo, self._lon_hi))
@@ -907,7 +907,7 @@ def _I(i):
     '''(INTERNAL) Cache a single C{int} constant.
     '''
     i = int(i)
-    return _intCs.setdefault(i, i)  # PYCHOK undefined due to del _intCs
+    return _intCs.setdefault(i, i)  # noqa: F821 del
 
 
 def _T(cs):

@@ -24,7 +24,7 @@ U{A Guide<https://www.OrdnanceSurvey.co.UK/documents/resources/guide-coordinate-
 and U{Ordnance Survey National Grid<https://WikiPedia.org/wiki/Ordnance_Survey_National_Grid>}.
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division as _; del _  # PYCHOK semicolon
+from __future__ import division as _; del _  # noqa: E702 ;
 
 from pygeodesy.basics import halfs2, isbool, isfloat, map1, \
                             _splituple, _xsubclassof,  typename
@@ -54,7 +54,7 @@ from pygeodesy.utily import degrees90, degrees180, sincostan3, truncate
 from math import cos, fabs, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.osgr
-__version__ = '25.04.12'
+__version__ = '25.05.12'
 
 _equivalent_ = 'equivalent'
 _OSGR_       = 'OSGR'

@@ -13,7 +13,7 @@ under the MIT/X11 License.  For more information, see the U{GeographicLib
        installed, version 1.16 or newer.
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division as _; del _  # PYCHOK semicolon
+from __future__ import division as _; del _  # noqa: E702 ;
 
 from pygeodesy.auxilats.auxily import _Dm
 from pygeodesy.basics import isodd, neg, _reverange, _xnumpy
@@ -24,7 +24,7 @@ from pygeodesy.karney import _2cos2x,  _ALL_DOCS
 from pygeodesy.props import property_RO, property_ROver
 
 __all__ = ()
-__version__ = '24.08.13'
+__version__ = '25.05.12'
 
 
 class AuxDST(object):

@@ -4,11 +4,11 @@
 u'''DEPRECATED on 2023.11.26, use module L{pygeodesy.rhumb.solve} instead.
 '''
 
-from pygeodesy.rhumb.solve import *  # PYCHOK expected
+from pygeodesy.rhumb.solve import *  # noqa: F403
 from pygeodesy.lazily import _ALL_LAZY
 
 __all__ = _ALL_LAZY.rhumb_solve  # attrs NOT DEPRECATED
-__version__ = '23.11.26'
+__version__ = '25.05.12'
 
 # **) MIT License
 #

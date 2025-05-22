@@ -14,7 +14,7 @@ I{(C) Chris Veness 2011-2024} published under the same MIT Licence**, see
 U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division as _; del _  # PYCHOK semicolon
+from __future__ import division as _; del _  # noqa: E702 ;
 
 from pygeodesy.basics import copysign0, _isin, map1, signOf,  typename
 from pygeodesy.constants import EPS, EPS1, EPS4, PI, PI2, PI_2, PI_4, R_M, \
@@ -34,8 +34,9 @@ from pygeodesy.interns import _1_, _2_, _coincident_, _composite_, _colinear_, \
                               _concentric_, _convex_, _end_, _infinite_, \
                               _invalid_, _line_, _near_, _null_, _parallel_, \
                               _point_, _SPACE_, _too_
+from pygeodesy.latlonBase import _trilaterate5
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _ALL_OTHER
-# from pygeodesy.nvectorBase import NvectorBase, sumOf  # _MODE
+# from pygeodesy.nvectorBase import NvectorBase, sumOf  # _MODS
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, NearestOn3Tuple, \
                                   Triangle7Tuple, Triangle8Tuple
 from pygeodesy.points import ispolar, nearestOn5 as _nearestOn5, \
@@ -43,10 +44,10 @@ from pygeodesy.points import ispolar, nearestOn5 as _nearestOn5, \
 from pygeodesy.props import deprecated_function, deprecated_method
 from pygeodesy.sphericalBase import _m2radians, CartesianSphericalBase, \
                                     _intersecant2, LatLonSphericalBase, \
-                                    _rads3, _radians2m, _trilaterate5
+                                    _rads3, _radians2m
 # from pygeodesy.streprs import Fmt as _Fmt  # from .points XXX shadowed
 from pygeodesy.units import Bearing_, Height, _isDegrees, _isRadius, Lamd, \
-                              Phid, Radius_, Scalar
+                            Phid, Radius_, Scalar
 from pygeodesy.utily import acos1, asin1, atan1d, atan2, atan2d, degrees90, \
                             degrees180, degrees2m, m2radians, radiansPI2, \
                             sincos2_, tan_2, unrollPI, _unrollon, _unrollon3, \
@@ -56,7 +57,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, cos, degrees, fabs, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '25.04.14'
+__version__ = '25.05.12'
 
 _PI_EPS4 = PI - EPS4
 if _PI_EPS4 >= PI:

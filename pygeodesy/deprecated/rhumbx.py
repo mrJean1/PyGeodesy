@@ -4,11 +4,11 @@
 u'''DEPRECATED on 2023.11.26, use module L{pygeodesy.rhumb.ekx} instead.
 '''
 
-from pygeodesy.rhumb.ekx import *  # PYCHOK expected
+from pygeodesy.rhumb.ekx import *  # noqa: F403
 from pygeodesy.lazily import _ALL_LAZY
 
 __all__ = _ALL_LAZY.rhumb_ekx  # attrs NOT DEPRECATED
-__version__ = '23.11.30'
+__version__ = '25.05.12'
 
 # **) MIT License
 #

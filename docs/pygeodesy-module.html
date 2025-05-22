@@ -284,11 +284,11 @@
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 2.1.0, <a
     href="https://PyPI.org/project/scipy" target="_top">scipy</a> 1.14.1, 
     <a href="https://GeographicLib.SourceForge.io/C++/doc/utilities.html" 
-    target="_top">GeodSolve</a> 2.3, <a 
+    target="_top">GeodSolve</a> 2.5, <a 
     href="https://GeographicLib.SourceForge.io/C++/doc/utilities.html" 
-    target="_top">IntersectTool</a> 2.3 and <a 
+    target="_top">IntersectTool</a> 2.5 and <a 
     href="https://GeographicLib.SourceForge.io/C++/doc/utilities.html" 
-    target="_top">RhumbSolve</a> 2.3), Python 3.11.5 (with <a 
+    target="_top">RhumbSolve</a> 2.5), Python 3.11.5 (with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 2.0, <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.24.2 
@@ -299,21 +299,21 @@
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.23.3, 
     <a href="https://PyPI.org/project/scipy" target="_top">scipy</a> 1.9.1,
     <a href="https://GeographicLib.SourceForge.io/C++/doc/utilities.html" 
-    target="_top">GeoConvert</a> 2.3, <a 
+    target="_top">GeoConvert</a> 2.5, <a 
     href="https://GeographicLib.SourceForge.io/C++/doc/utilities.html" 
-    target="_top">GeodSolve</a> 2.3) and Python 2.7.18 (with <a 
+    target="_top">GeodSolve</a> 2.5) and Python 2.7.18 (with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.50, <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.16.6, 
     <a href="https://PyPI.org/project/scipy" target="_top">scipy</a> 1.2.2,
     <a href="https://GeographicLib.SourceForge.io/C++/doc/utilities.html" 
-    target="_top">GeoConvert</a> 2.3, <a 
+    target="_top">GeoConvert</a> 2.5, <a 
     href="https://GeographicLib.SourceForge.io/C++/doc/utilities.html" 
-    target="_top">GeodSolve</a> 2.3, <a 
+    target="_top">GeodSolve</a> 2.5, <a 
     href="https://GeographicLib.SourceForge.io/C++/doc/utilities.html" 
-    target="_top">IntersectTool</a> 2.3 and <a 
+    target="_top">IntersectTool</a> 2.5 and <a 
     href="https://GeographicLib.SourceForge.io/C++/doc/utilities.html" 
-    target="_top">RhumbSolve</a> 2.3), all in 64-bit on macOS 15.4.1 
+    target="_top">RhumbSolve</a> 2.5), all in 64-bit on macOS 15.5 
     Sequoia.</p>
     <p>All tests ran with and without <code>lazy import</code> for Python 3
     and with command line option <code>-W default</code> and env variable 
@@ -334,7 +334,7 @@
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 2.0) on <a 
     href="https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master" 
-    target="_top">Debian 12</a> in 64-bit only, with Python 3.12.5 (and <a 
+    target="_top">Debian 12</a> in 64-bit only, with Python 3.12.8 (and <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 2.0) on <a 
     href="https://CI.AppVeyor.com/project/mrJean1/pygeodesy" 
@@ -371,10 +371,10 @@
     href="https://software.Intel.com/en-us/distribution-for-python" 
     target="_top">Intel-Python</a> 3.5.3 (and <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.11.3) 
-    on macOS 14.0-6.1 Sonoma, 13.0-5.2 Ventura, 12.1-6 Monterey, 
-    11.0-5.2-6.1 Big Sur (aka 10.16), 10.15.3, 10.15.5-7 Catalina, 10.14 
-    Mojave, 10.13.6 High Sierra and 10.12 Sierra, MacOS X 10.11 El Capitan 
-    and/or MacOS X 10.10 Yosemite, with <a 
+    on macOS 15.0-4 Sequoia, 14.0-6.1 Sonoma, 13.0-5.2 Ventura, 12.1-6 
+    Monterey, 11.0-5.2-6.1 Big Sur (aka 10.16), 10.15.3, 10.15.5-7 
+    Catalina, 10.14 Mojave, 10.13.6 High Sierra and 10.12 Sierra, MacOS X 
+    10.11 El Capitan and/or MacOS X 10.10 Yosemite, with <a 
     href="https://OMZ-Software.com/pythonista" 
     target="_top">Pythonista</a>3.2 (with geographiclib 1.50 or 1.49 and 
     numpy 1.8.0) on iOS 14.4.2, 11.4.1, 12.0-3 on iPad4, iPhone6, iPhone10 
@@ -387,14 +387,14 @@
     <p>All Python source code has been statically <a 
     href="https://GitHub.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor"
     target="_top">checked</a> with <a 
-    href="https://PyPI.org/project/pychecker" target="_top">PyChecker</a>, 
-    <a href="https://PyPI.org/project/pyflakes" target="_top">PyFlakes</a>,
-    <a href="https://PyPI.org/project/pycodestyle" 
+    href="https://GitHub.com/astral-sh/ruff" target="_top">Ruff</a> using 
+    Python 3.13.3 and with <a href="https://PyPI.org/project/pychecker" 
+    target="_top">PyChecker</a>, <a 
+    href="https://PyPI.org/project/pyflakes" target="_top">PyFlakes</a>, <a
+    href="https://PyPI.org/project/pycodestyle" 
     target="_top">PyCodeStyle</a> (formerly Pep8) and <a 
     href="https://PyPI.org/project/mccabe" target="_top">McCabe</a> using 
-    Python 2.7.18 and with <a href="https://PyPI.org/project/flake8" 
-    target="_top">Flake8</a> using Python 3.11.5, both in 64-bit on macOS 
-    15.4.1 Sequoia.</p>
+    Python 2.7.18, both in 64-bit on macOS 15.5 Sequoia only.</p>
     <p>For a summary of all <i>Karney</i>-based functionality in 
     <code>pygeodesy</code>, see module <a 
     href="https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html"
@@ -589,7 +589,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        25.05.05
+        25.05.25
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -1019,8 +1019,6 @@
         class="link">iscolinearWith</a>, <a 
         href="pygeodesy.vector2d-module.html#meeus2" 
         class="link">meeus2</a>, <a 
-        href="pygeodesy.vector3d-module.html#nearestOn" 
-        class="link">nearestOn</a>, <a 
         href="pygeodesy.vector2d-module.html#radii11" 
         class="link">radii11</a>, <a 
         href="pygeodesy.vector2d-module.html#soddy4" 
@@ -8469,8 +8467,8 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#fdot" class="summary-sig-name">fdot</a>(<span class="summary-sig-arg">xs</span>,
         <span class="summary-sig-arg">*ys</span>,
         <span class="summary-sig-arg">**start_f2product_nonfinites</span>)</span><br />
-      Return the precision dot product <i class="math">sum(xs[i] * ys[i] 
-      for i in range(len(xs)))</i>.</td>
+      Return the precision dot product <i class="math">start + sum(xs[i] * 
+      ys[i] for i in range(len(xs)))</i>.</td>
           <td align="right" valign="top">
             
             
@@ -8509,8 +8507,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#fdot_" class="summary-sig-name">fdot_</a>(<span class="summary-sig-arg">*xys</span>,
         <span class="summary-sig-arg">**start_f2product_nonfinites</span>)</span><br />
-      Return the (precision) dot product <i class="math">sum(xys[i] * 
-      xys[i+1] for i in range(0, len(xys), <b>2</b>))</i>.</td>
+      Return the (precision) dot product <i class="math">start + sum(xys[i]
+      * xys[i+1] for i in range(0, len(xys), <b>2</b>))</i>.</td>
           <td align="right" valign="top">
             
             
@@ -9372,7 +9370,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fd5104489d0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f854879f9d0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -14556,7 +14554,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'25.5.5'">'25.5.5'</code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'25.5.25'">'25.5.25'</code><br />
       Normalized <code>pygeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -20932,8 +20930,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
     </td>
   </tr></table>
   
-  <p>Return the precision dot product <i class="math">sum(xs[i] * ys[i] for
-  i in range(len(xs)))</i>.</p>
+  <p>Return the precision dot product <i class="math">start + sum(xs[i] * 
+  ys[i] for i in range(len(xs)))</i>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -21036,8 +21034,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
     </td>
   </tr></table>
   
-  <p>Return the (precision) dot product <i class="math">sum(xys[i] * 
-  xys[i+1] for i in range(0, len(xys), <b>2</b>))</i>.</p>
+  <p>Return the (precision) dot product <i class="math">start + sum(xys[i] 
+  * xys[i+1] for i in range(0, len(xys), <b>2</b>))</i>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -22868,7 +22866,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fd5104489d0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f854879f9d0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -32847,7 +32845,9 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
           (<code>degrees</code>, non-negative).</li>
         <li><strong class="pname"><code>R3</code></strong> - Callable to determine <code>R3</code> from <code>(R3 - C)**2 = 
           D</code>, typically standard Python function <code>min</code> or 
-          <code>max</code>, invoked with 2 arguments.</li>
+          <code>max</code>, invoked with 2 arguments, each 
+          <code>float</code> or an <a 
+          href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.resections.Survey3Tuple-class.html" 
@@ -33455,7 +33455,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon May  5 10:49:09 2025
+    Generated by Epydoc 3.0.1 on Wed May 21 13:15:16 2025
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

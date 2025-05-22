@@ -10,13 +10,13 @@ bases} or C{from pygeodesy.deprecated import bases}.  Likewise for C{datum} and
 C{nvector}.
 '''
 
-from pygeodesy.deprecated.bases import *  # PYCHOK not pygeodesy.__init__
-from pygeodesy.deprecated.datum import *  # PYCHOK not pygeodesy.__init__
-from pygeodesy.deprecated.nvector import *  # PYCHOK not pygeodesy.__init__
+from pygeodesy.deprecated.bases import *  # noqa: F403 not pygeodesy.__init__
+from pygeodesy.deprecated.datum import *  # noqa: F403 not pygeodesy.__init__
+from pygeodesy.deprecated.nvector import *  # noqa: F403 not pygeodesy.__init__
 
-from pygeodesy.deprecated.classes import *  # PYCHOK expected
-from pygeodesy.deprecated.consterns import *  # PYCHOK expected
-from pygeodesy.deprecated.functions import *  # PYCHOK expected
+from pygeodesy.deprecated.classes import *  # noqa: F403
+from pygeodesy.deprecated.consterns import *  # noqa: F403
+from pygeodesy.deprecated.functions import *  # noqa: F403
 
 from pygeodesy.lazily import _ALL_ATTRS, _ALL_DEPRECATED, _lazy_import_as, _unLazy0  # _lazy_import_star
 
@@ -27,11 +27,11 @@ __all__ = (_ALL_DEPRECATED.deprecated_bases +
            _ALL_DEPRECATED.deprecated_classes +
            _ALL_DEPRECATED.deprecated_consterns +
            _ALL_DEPRECATED.deprecated_functions)
-__version__ = '24.12.31'
+__version__ = '25.05.12'
 
 if _unLazy0:
     from pygeodesy.deprecated import bases, datum, nvector, rhumbBase, \
-                                     rhumbaux, rhumbsolve, rhumbx  # PYCHOK expected
+                                     rhumbaux, rhumbsolve, rhumbx  # noqa: F401 PYCHOK expected
     __all__ += _ALL_ATTRS(_ALL_DEPRECATED.deprecated)  # DEPRECATED modules
 
 else:  # lazily import modules and exported attrs

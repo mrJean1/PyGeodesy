@@ -16,7 +16,7 @@ from pygeodesy.constants import EPS, EPS0, EPS1, EPS_2, R_M, \
 # from pygeodesy.datums import _spherical_datum  # from .formy
 from pygeodesy.errors import IntersectionError, _ValueError, VectorError, \
                             _xattrs, _xkwds, _xkwds_pop2
-from pygeodesy.fmath import fdot, fidw, hypot  # PYCHOK fdot shared
+from pygeodesy.fmath import fidw, hypot
 from pygeodesy.fsums import Fsum, fsumf_
 from pygeodesy.formy import _isequalTo,  _spherical_datum
 # from pygeodesy.internals import _under  # from .named
@@ -38,7 +38,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdlln4
 from math import degrees, fabs, sqrt
 
 __all__ = _ALL_LAZY.nvectorBase
-__version__ = '25.04.14'
+__version__ = '25.05.12'
 
 
 class NvectorBase(Vector3d):  # XXX kept private

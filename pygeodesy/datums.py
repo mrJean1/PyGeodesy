@@ -65,7 +65,7 @@ datum, q.v. U{"A Guide to Coordinate Systems in Great Britain", Section 6
 @var Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1.0, rx=0.0, ry=0.0, rz=0.0, s=0.0, sx=0.0, sy=0.0, sz=0.0)
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division as _; del _  # PYCHOK semicolon
+from __future__ import division as _; del _  # noqa: E702 ;
 
 from pygeodesy.basics import _isin, islistuple, map2, neg, _xinstanceof, _zip
 from pygeodesy.constants import R_M, _float as _F, _0_0, _1_0, _2_0, _8_0, _3600_0
@@ -94,7 +94,7 @@ from pygeodesy.units import _isRadius, Radius_,  radians
 # import operator as _operator  # from .fmath
 
 __all__ = _ALL_LAZY.datums
-__version__ = '25.04.14'
+__version__ = '25.05.12'
 
 _a_ellipsoid_ = _UNDER_(_a_, _ellipsoid_)
 _BD72_        = 'BD72'

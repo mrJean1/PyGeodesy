@@ -4,7 +4,7 @@
 u'''Formulary of basic geodesy functions and approximations.
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division as _; del _  # PYCHOK semicolon
+from __future__ import division as _; del _  # noqa: E702 ;
 
 from pygeodesy.basics import _copysign, _isin  # _args_kwds_count2
 # from pygeodesy.cartesianBase import CartesianBase  # _MODS
@@ -42,7 +42,7 @@ from contextlib import contextmanager
 from math import atan, cos, degrees, fabs, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '25.04.14'
+__version__ = '25.05.12'
 
 _RADIANS2 =  radians(_1_0)**2  # degree to radians-squared
 _ratio_   = 'ratio'

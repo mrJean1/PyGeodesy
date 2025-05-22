@@ -3,8 +3,8 @@
 
 u'''Extended 3-D vector class L{Vector3d} and functions.
 
-Function L{intersection3d3}, L{intersections2}, L{parse3d}, L{sumOf} and
-L{trilaterate3d2}.
+Functions L{intersection3d3}, L{intersections2}, L{nearestOn}, L{parse3d},
+L{sumOf} and L{trilaterate3d2}.
 '''
 
 from pygeodesy.constants import EPS, EPS0, EPS1, EPS4, INT0, isnear0, \
@@ -32,7 +32,7 @@ from pygeodesy.vector3dBase import Vector3dBase
 # from math import fabs, sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.vector3d
-__version__ = '25.04.21'
+__version__ = '25.05.07'
 
 _vector2d = _MODS.into(vector2d=__name__)
 

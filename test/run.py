@@ -1,5 +1,6 @@
 
 # -*- coding: utf-8 -*-
+# ruff: noqa: E722
 
 # Script to run some or all PyGeodesy tests with Python 2 or 3.
 
@@ -12,7 +13,7 @@ from os import access, environ, F_OK, linesep as LS, pathsep as PS
 import sys
 
 __all__ = ('run2',)
-__version__ = '23.08.10'
+__version__ = '25.05.19'
 
 NL = '\n'  # pygeodesy.interns._NL_
 P  = None  # Popen instance

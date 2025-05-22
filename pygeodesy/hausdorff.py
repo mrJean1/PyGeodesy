@@ -75,8 +75,8 @@ from pygeodesy.interns import NN, _i_, _j_, _units_
 # from pygeodesy.iters import points2 as _points2  # from .points
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS
 from pygeodesy.named import _name2__, _Named, _NamedTuple, _Pass
-# from pygeodesy.namedTuples import PhiLam2Tuple  # from .points
-from pygeodesy.points import _distanceTo,  PhiLam2Tuple, points2 as _points2, radians
+from pygeodesy.namedTuples import PhiLam2Tuple
+from pygeodesy.points import _distanceTo,  points2 as _points2, radians
 from pygeodesy.props import Property, Property_RO, property_doc_, property_RO
 from pygeodesy.units import Float, Number_
 from pygeodesy import unitsBase as _unitsBase  # _Str_..., _xUnit, _xUnits
@@ -85,7 +85,7 @@ from pygeodesy import unitsBase as _unitsBase  # _Str_..., _xUnit, _xUnits
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff
-__version__ = '25.04.21'
+__version__ = '25.05.21'
 
 _formy = _MODS.into(formy=__name__)
 
@@ -101,7 +101,7 @@ class Hausdorff(_Named):
        be overloaded.
     '''
     _datum = _WGS84
-    _func  =  None  # formy function/property
+#   _func  =  None  # formy function/property
     _kwds  = {}     # func_ options
     _model = ()
     _seed  =  None

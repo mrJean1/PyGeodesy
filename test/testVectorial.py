@@ -4,7 +4,7 @@
 # Test L{vector3d} and L{vector3d} modules.
 
 __all__ = ('Tests',)
-__version__ = '24.05.10'
+__version__ = '25.05.09'
 
 from bases import coverage, GeodSolve, numpy, TestsBase
 
@@ -124,31 +124,31 @@ class Tests(TestsBase):
                                         Nvector(1000, 0, 0), 500, sphere=False)
             self.test('intersections2', t[0], t[1])  # abutting
 
-            p1, p2 = Nvector(-100, -100, -100), Nvector(100, 100, 100)
-            t = vector2d.nearestOn(Nvector(0, 0, 0), p1, p2)
-            self.test('nearestOn', t, '(0.0, 0.0, 0.0)')
-            t = vector2d.nearestOn(Nvector(-200, -200, 0), p1, p2)
-            self.test('nearestOn', t is p1, True)
-            t = vector2d.nearestOn(Nvector(200, 200, 0), p1, p2)
-            self.test('nearestOn', t, p2)
-            self.test('nearestOn', t is p2, True)
-            t = vector2d.iscolinearWith(Nvector(200, 200, 0), p1, p2)
-            self.test('iscolinearWith', t, False)
-            t = vector2d.iscolinearWith(Nvector(0, 0, 0), p1, p2)
-            self.test('iscolinearWith', t, True)
+        p1, p2 = Nvector(-100, -100, -100), Nvector(100, 100, 100)
+        t = vector2d.nearestOn(Nvector(0, 0, 0), p1, p2)
+        self.test('nearestOn', t, '(0.0, 0.0, 0.0)')
+        t = vector3d.nearestOn(Nvector(-200, -200, 0), p1, p2)
+        self.test('nearestOn', t is p1, True)
+        t = vector3d.nearestOn(Nvector(200, 200, 0), p1, p2)
+        self.test('nearestOn', t, p2)
+        self.test('nearestOn', t is p2, True)
+        t = vector3d.iscolinearWith(Nvector(200, 200, 0), p1, p2)
+        self.test('iscolinearWith', t, False)
+        t = vector3d.iscolinearWith(Nvector(0, 0, 0), p1, p2)
+        self.test('iscolinearWith', t, True)
 
-            p1, p2 = V3d(-100, -100, -100), V3d(100, 100, 100)
-            t = V3d(0, 0, 0).nearestOn(p1, p2)
-            self.test('nearestOn', t, '(0.0, 0.0, 0.0)')
-            t = V3d(-200, -200, 0).nearestOn(p1, p2)
-            self.test('nearestOn', t is p1, True)
-            t = V3d(200, 200, 0).nearestOn(p1, p2)
-            self.test('nearestOn', t, p2)
-            self.test('nearestOn', t is p2, True)
-            t = V3d(200, 200, 0).iscolinearWith(p1, p2)
-            self.test('iscolinearWith', t, False)
-            t = V3d(0, 0, 0).iscolinearWith(p1, p2)
-            self.test('iscolinearWith', t, True)
+        p1, p2 = V3d(-100, -100, -100), V3d(100, 100, 100)
+        t = V3d(0, 0, 0).nearestOn(p1, p2)
+        self.test('nearestOn', t, '(0.0, 0.0, 0.0)')
+        t = V3d(-200, -200, 0).nearestOn(p1, p2)
+        self.test('nearestOn', t is p1, True)
+        t = V3d(200, 200, 0).nearestOn(p1, p2)
+        self.test('nearestOn', t, p2)
+        self.test('nearestOn', t is p2, True)
+        t = V3d(200, 200, 0).iscolinearWith(p1, p2)
+        self.test('iscolinearWith', t, False)
+        t = V3d(0, 0, 0).iscolinearWith(p1, p2)
+        self.test('iscolinearWith', t, True)
 
     def testVectorial(self, module, Sph=False):  # MCCABE 14
         # .testSpherical.py line 386 uses ...(Nv, Sph=True)

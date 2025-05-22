@@ -11,7 +11,7 @@ and L{ChLVe} and L{Ltp}, L{ChLV}, L{LocalError}, L{Attitude} and L{Frustum}.
       <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1LocalCartesian.html>}.
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division as _; del _  # PYCHOK semicolon
+from __future__ import division as _; del _  # noqa: E702 ;
 
 from pygeodesy.basics import _args_kwds_names, _isin, map1, map2, _xinstanceof, \
                              _xsubclassof,  typename   # .datums
@@ -45,7 +45,7 @@ from pygeodesy.vector3d import _ALL_LAZY, Vector3d
 # from math import fabs, floor as _floor  # from .fmath, .fsums
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '25.05.01'
+__version__ = '25.05.12'
 
 _height0_ = _height_ + _0_
 _narrow_  = 'narrow'
@@ -306,11 +306,11 @@ class Frustum(_NamedBase):
             # left and right corners, or swapped
             if r < EPS:  # no roll
                 r =  a * tan_h_2
-                l = -r  # PYCHOK l is ell
+                l = -r  # noqa: E741 l is ell
             else:  # roll
-                r, l = tand_(r - h_2, r + h_2, roll_hfov=r)  # PYCHOK l is ell
+                r, l = tand_(r - h_2, r + h_2, roll_hfov=r)  # noqa: E741 l is ell
                 r *= -a  # negate right positive
-                l *= -a  # PYCHOK l is ell
+                l *= -a  # noqa: E741 l is ell
             y = a * cotd(e, tilt_vfov=e)
             return (l, y), (r, y)
 

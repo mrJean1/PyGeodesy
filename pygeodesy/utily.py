@@ -9,7 +9,7 @@ and U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vector
 and published under the same MIT Licence**.
 '''
 # make sure int/int division yields float quotient, see .basics
-from __future__ import division as _; del _  # PYCHOK semicolon
+from __future__ import division as _; del _  # noqa: E702 ;
 
 from pygeodesy.basics import _copysign, isinstanceof, isint, isstr
 from pygeodesy.constants import EPS, EPS0, INF, NAN, PI, PI2, PI_2, R_M, \
@@ -28,7 +28,7 @@ from math import acos, asin, atan2 as _atan2, cos, degrees, fabs, radians, \
                  sin, tan as _tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '25.04.14'
+__version__ = '25.05.12'
 
 _G_DEG     = _float(  400.0 / _360_0)  # grades per degree
 _G_RAD     = _float(  400.0 /  PI2)    # grades per radian

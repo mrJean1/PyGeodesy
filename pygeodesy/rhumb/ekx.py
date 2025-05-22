@@ -20,7 +20,7 @@ Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2014-2024) and lice
 License.  For more information, see the U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 '''
 # make sure int/int division yields float quotient
-from __future__ import division as _; del _  # PYCHOK semicolon
+from __future__ import division as _; del _  # noqa: E702 ;
 
 from pygeodesy.basics import copysign0, neg
 from pygeodesy.constants import PI_2, _0_0s, _0_0, _0_5, _1_0, \
@@ -31,8 +31,7 @@ from pygeodesy.errors import RhumbError, _xkwds_pop2, _Xorder
 from pygeodesy.fmath import hypot, hypot1
 # from pygeodesy.fsums import fsum1f_  # _MODS
 # from pygeodesy.karney import Caps  # from .rhumb.bases
-from pygeodesy.ktm import KTransverseMercator, _Xs, \
-                         _AlpCoeffs, _BetCoeffs  # PYCHOK used!
+from pygeodesy.ktm import _Xs, _AlpCoeffs, _BetCoeffs  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.props import deprecated_method, Property, Property_RO, \
                             property_RO
@@ -43,7 +42,7 @@ from pygeodesy.utily import atan1, sincos2_
 from math import asinh, atan, cos, cosh, radians, sin, sinh, sqrt, tan  # as _tan
 
 __all__ = _ALL_LAZY.rhumb_ekx
-__version__ = '25.04.12'
+__version__ = '25.05.12'
 
 
 class Rhumb(RhumbBase):
