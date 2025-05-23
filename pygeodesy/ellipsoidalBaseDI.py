@@ -36,7 +36,7 @@ from pygeodesy.utily import m2km, unroll180, _unrollon, _unrollon3, _Wrap, wrap3
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.ellipsoidalBaseDI
-__version__ = '25.05.12'
+__version__ = '25.05.23'
 
 _polar__ = 'polar?'
 _TRIPS   =  33   # _intersect3, _intersects2, _nearestOn interations, 6..9 sufficient?
@@ -115,14 +115,15 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
             r = self._Direct2Tuple(LL, height, r)
         return r
 
-    def _Direct2Tuple(self, LL, height, r):
+    def _Direct2Tuple(self, LL, height, r):  # in .ellipsoidalVincenty.py
         '''(INTERNAL) Helper for C{._Direct} result L{Destination2Tuple}.
         '''
         h =  self._heigHt(height)
-        d = _xkwds_not(None, datum=self.datum, name=self.name,
+        n =  self.name
+        d = _xkwds_not(None, datum=self.datum, height=h, name=n,
                              epoch=self.epoch, reframe=self.reframe)
-        d = LL(*_Wrap.latlon(r.lat, r.lon), height=h, **d)
-        return Destination2Tuple(d, wrap360(r.final), name=self.name)
+        d = LL(*_Wrap.latlon(r.lat, r.lon), **d)
+        return Destination2Tuple(d, wrap360(r.final), name=n)
 
     def distanceTo(self, other, wrap=False, **unused):  # radius=R_M
         '''Compute the distance between this and an other point along

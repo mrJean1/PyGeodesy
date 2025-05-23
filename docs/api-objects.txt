@@ -1791,6 +1791,8 @@ pygeodesy.ellipsoidalVincenty.intersections2	pygeodesy.ellipsoidalVincenty-modul
 pygeodesy.ellipsoidalVincenty.atan2b	pygeodesy.utily-module.html#atan2b
 pygeodesy.ellipsoidalVincenty._xkwds	pygeodesy.errors-module.html#_xkwds
 pygeodesy.ellipsoidalVincenty.atan2d	pygeodesy.utily-module.html#atan2d
+pygeodesy.ellipsoidalVincenty.fdot_	pygeodesy.fmath-module.html#fdot_
+pygeodesy.ellipsoidalVincenty._ellipsoidal	pygeodesy.ellipsoidalVincenty-module.html#_ellipsoidal
 pygeodesy.ellipsoidalVincenty._sincostan3r	pygeodesy.ellipsoidalVincenty-module.html#_sincostan3r
 pygeodesy.ellipsoidalVincenty._intersection3	pygeodesy.ellipsoidalBaseDI-module.html#_intersection3
 pygeodesy.ellipsoidalVincenty._sincos22	pygeodesy.ellipsoidalVincenty-module.html#_sincos22

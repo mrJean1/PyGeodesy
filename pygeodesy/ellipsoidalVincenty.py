@@ -59,7 +59,7 @@ from pygeodesy.ellipsoidalBaseDI import LatLonEllipsoidalBaseDI, \
 # from pygeodesy.ellipsoidalExact import areaOf, perimeterOf  # _MODS
 # from pygeodesy.ellipsoidalKarney import areaOf, perimeterOf  # _MODS
 from pygeodesy.errors import _and, _ValueError, _xkwds
-from pygeodesy.fmath import Fpolynomial, hypot, hypot1
+from pygeodesy.fmath import fdot_, Fpolynomial, hypot, hypot1
 from pygeodesy.interns import _ambiguous_, _antipodal_, _COLONSPACE_, \
                               _to_, _SPACE_,  _limit_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
@@ -76,7 +76,7 @@ from pygeodesy.utily import atan2, atan2b, atan2d, sincos2, sincos2d, \
 from math import cos, degrees, fabs, radians, tan as _tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '25.05.12'
+__version__ = '25.05.23'
 
 _antipodal_to_ = _SPACE_(_antipodal_, _to_)
 
@@ -230,13 +230,13 @@ class LatLon(LatLonEllipsoidalBaseDI):
             t = self._no_convergence(e)
             raise VincentyError(t, txt=repr(self))  # self.toRepr()
 
-        t = s1 * ss - c1 * cs * cb
+        t = fdot_(s1, ss, -c1, cs * cb)
         # final bearing (reverse azimuth +/- 180)
         d = atan2b(sa, -t)
         if llr:
             b = cb * ss
-            a = atan2d(s1 * cs + c1 * b, hypot(sa, t) * E.b_a)
-            b = atan2d(sb * ss, -s1 * b + c1 * cs) + self.lon \
+            a = atan2d(fdot_(s1, cs, c1, b), hypot(sa, t) * E.b_a)
+            b = atan2d(sb * ss, fdot_(-s1, b, c1, cs)) + self.lon \
               - degrees(_Dl(f, ca2, sa, s, cs, ss, c2sm))
             t = Destination3Tuple(a, wrap180(b), d)
             r = self._Direct2Tuple(self.classof, height, t)
@@ -349,6 +349,13 @@ def _c2sm2(c2sm):
     return c2sm**2 * _2_0 - _1_0
 
 
+def _ellipsoidal():  # helper for areaOf and perimeterOf
+    try:
+        return _MODS.ellipsoidalKarney
+    except ImportError:
+        return _MODS.ellipsoidalExact
+
+
 def _Dl(f, ca2, sa, s, cs, ss, c2sm, dl=_0_0):
     # C{Dl}
     if f and sa:
@@ -399,10 +406,7 @@ def _sincostan3r(a, f):
 def areaOf(points, **datum_wrap):
     '''DEPRECATED, use function L{ellipsoidalExact.areaOf} or L{ellipsoidalKarney.areaOf}.
     '''
-    try:
-        return _MODS.ellipsoidalKarney.areaOf(points, **datum_wrap)
-    except ImportError:
-        return _MODS.ellipsoidalExact.areaOf(points, **datum_wrap)
+    return _ellipsoidal().areaOf(points, **datum_wrap)
 
 
 def intersection3(start1, end1, start2, end2, height=None, wrap=False,  # was=True
@@ -558,10 +562,7 @@ def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
 def perimeterOf(points, **closed_datum_wrap):
     '''DEPRECATED, use function L{ellipsoidalExact.perimeterOf} or L{ellipsoidalKarney.perimeterOf}.
     '''
-    try:
-        return _MODS.ellipsoidalKarney.perimeterOf(points, **closed_datum_wrap)
-    except ImportError:
-        return _MODS.ellipsoidalExact.perimeterOf(points, **closed_datum_wrap)
+    return _ellipsoidal().perimeterOf(points, **closed_datum_wrap)
 
 
 __all__ += _ALL_DOCS(Cartesian, LatLon, intersecant2,  # from .ellipsoidalBaseDI
