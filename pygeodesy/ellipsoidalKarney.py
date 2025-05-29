@@ -42,7 +42,7 @@ from pygeodesy.props import deprecated_method, Property_RO
 # from math import fabs  # from .karney
 
 __all__ = _ALL_LAZY.ellipsoidalKarney
-__version__ = '24.08.13'
+__version__ = '25.05.27'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -110,13 +110,17 @@ class LatLon(LatLonEllipsoidalBaseDI):
         return LatLonEllipsoidalBaseDI.toCartesian(self, **kwds)
 
 
-def areaOf(points, datum=_WGS84, wrap=True):
+def areaOf(points, datum=_WGS84, wrap=True, polar=False):
     '''Compute the area of an (ellipsoidal) polygon or composite using I{Karney}'s
        U{geographiclib<https://PyPI.org/project/geographiclib>} package.
 
        @arg points: The polygon points (L{LatLon}[], L{BooleanFHP} or L{BooleanGH}).
        @kwarg datum: Optional datum (L{Datum}).
        @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the B{C{points}} (C{bool}).
+       @kwarg polar: Use C{B{polar}=True} if the polygon encloses a pole (C{bool}), see
+                     function L{ispolar<pygeodesy.points.ispolar>} and U{area of a polygon
+                     enclosing a pole<https://GeographicLib.SourceForge.io/C++/doc/
+                     classGeographicLib_1_1GeodesicExact.html#a3d7a9155e838a09a48dc14d0c3fac525>}.
 
        @return: Area (C{meter}, same as units of the B{C{datum}}'s ellipsoid axes, I{squared}).
 
@@ -131,12 +135,8 @@ def areaOf(points, datum=_WGS84, wrap=True):
 
        @see: Functions L{pygeodesy.areaOf}, L{ellipsoidalExact.areaOf}, L{ellipsoidalGeodSolve.areaOf},
              L{sphericalNvector.areaOf} and L{sphericalTrigonometry.areaOf}.
-
-       @note: The U{area of a polygon enclosing a pole<https://GeographicLib.SourceForge.io/
-              C++/doc/classGeographicLib_1_1GeodesicExact.html#a3d7a9155e838a09a48dc14d0c3fac525>}
-              can be found by adding half the datum's ellipsoid surface area to the polygon's area.
     '''
-    return fabs(_polygon(datum.ellipsoid.geodesic, points, True, False, wrap))
+    return fabs(_polygon(datum.ellipsoid.geodesic, points, True, False, wrap, polar))
 
 
 def intersection3(start1, end1, start2, end2, height=None, wrap=False,  # was=True
@@ -240,19 +240,19 @@ def intersections2(center1, radius1, center2, radius2, height=None, wrap=False, 
                            equidistant=equidistant, tol=tol, LatLon=LatLon, **LatLon_kwds)
 
 
-def isclockwise(points, datum=_WGS84, wrap=True):
+def isclockwise(points, datum=_WGS84, wrap=True, polar=False):
     '''Determine the direction of a path or polygon using I{Karney}'s
        U{geographiclib<https://PyPI.org/project/geographiclib>} package.
 
        @arg points: The path or polygon points (C{LatLon}[]).
        @kwarg datum: Optional datum (L{Datum}).
-       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
-                    B{C{points}} (C{bool}).
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the B{C{points}} (C{bool}).
+       @kwarg polar: Use C{B{polar}=True} if the C{B{points}} enclose a pole (C{bool}),
+                     see function U{ispolar<pygeodeys.points.ispolar>}.
 
        @return: C{True} if B{C{points}} are clockwise, C{False} otherwise.
 
-       @raise ImportError: Package U{geographiclib
-                           <https://PyPI.org/project/geographiclib>}
+       @raise ImportError: Package U{geographiclib<https://PyPI.org/project/geographiclib>}
                            not installed or not found.
 
        @raise PointsError: Insufficient number of B{C{points}}.
@@ -263,7 +263,7 @@ def isclockwise(points, datum=_WGS84, wrap=True):
 
        @see: L{pygeodesy.isclockwise}.
     '''
-    a = _polygon(datum.ellipsoid.geodesic, points, True, False, wrap)
+    a = _polygon(datum.ellipsoid.geodesic, points, True, False, wrap, polar)
     if a < 0:
         return True
     elif a > 0:
@@ -322,34 +322,29 @@ def perimeterOf(points, closed=False, datum=_WGS84, wrap=True):
     '''Compute the perimeter of an (ellipsoidal) polygon or composite using I{Karney}'s
        U{geographiclib<https://PyPI.org/project/geographiclib>} package.
 
-       @arg points: The polygon points (L{LatLon}[], L{BooleanFHP} or
-                    L{BooleanGH}).
+       @arg points: The polygon points (L{LatLon}[], L{BooleanFHP} or L{BooleanGH}).
        @kwarg closed: Optionally, close the polygon (C{bool}).
        @kwarg datum: Optional datum (L{Datum}).
-       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
-                    B{C{points}} (C{bool}).
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the B{C{points}} (C{bool}).
 
-       @return: Perimeter (C{meter}, same as units of the B{C{datum}}'s
-                ellipsoid axes).
+       @return: Perimeter (C{meter}, same as units of the B{C{datum}}'s ellipsoid axes).
 
-       @raise ImportError: Package U{geographiclib
-                           <https://PyPI.org/project/geographiclib>}
+       @raise ImportError: Package U{geographiclib<https://PyPI.org/project/geographiclib>}
                            not installed or not found.
 
        @raise PointsError: Insufficient number of B{C{points}}.
 
-       @raise TypeError: Some B{C{points}} are not L{LatLon} or C{B{closed}=False}
-                         with B{C{points}} a composite.
+       @raise TypeError: Some B{C{points}} are not L{LatLon} or C{B{closed}=False} with
+                         B{C{points}} a composite.
 
-       @raise ValueError: Invalid C{B{wrap}=False}, unwrapped, unrolled
-                          longitudes not supported or C{B{closed}=False}
-                          with C{B{points}} a composite.
+       @raise ValueError: Invalid C{B{wrap}=False}, unwrapped, unrolled longitudes not
+                          supported or C{B{closed}=False} with C{B{points}} a composite.
 
        @see: Functions L{pygeodesy.perimeterOf}, L{ellipsoidalExact.perimeterOf},
              L{ellipsoidalGeodSolve.perimeterOf}, L{sphericalNvector.perimeterOf}
              and L{sphericalTrigonometry.perimeterOf}.
     '''
-    return _polygon(datum.ellipsoid.geodesic, points, closed, True, wrap)
+    return _polygon(datum.ellipsoid.geodesic, points, closed, True, wrap, False)
 
 
 __all__ += _ALL_OTHER(Cartesian, LatLon,  # classes

@@ -92,7 +92,7 @@ from pygeodesy.units import _isDegrees, Float_, Int_
 # from math import radians  # from .points
 
 __all__ = _ALL_LAZY.heights
-__version__ = '25.05.12'
+__version__ = '25.05.26'
 
 _error_  = 'error'
 _formy   = _MODS.into(formy=__name__)
@@ -212,7 +212,7 @@ class _HeightNamed(_Named):  # in .geoids
             n, lats = len2(lats)
             m, lons = len2(lons)
             if n != m:  # format a LenError, but raise self._Error
-                e = LenError(self.__class__, lats=n, lons=m, txt=None)
+                e = LenError(type(self), lats=n, lons=m, txt=None)
                 raise self._Error(str(e))
             llis = [LLiC(*t, datum=d) for t in zip(lats, lons)]
         return llis
@@ -363,13 +363,13 @@ class _HeightBase(_HeightNamed):  # in .geoids
     def numpy(self):
         '''Get the C{numpy} module or C{None}.
         '''
-        return _xnumpy(self.__class__, 1, 9)  # overwrite property_ROver
+        return _xnumpy(type(self), 1, 9)  # overwrite property_ROver
 
     @property_ROver
     def scipy(self):
         '''Get the C{scipy} module or C{None}.
         '''
-        return _xscipy(self.__class__, 1, 2)  # overwrite property_ROver
+        return _xscipy(type(self), 1, 2)  # overwrite property_ROver
 
     @property_ROver
     def scipy_interpolate(self):

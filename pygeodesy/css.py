@@ -470,7 +470,7 @@ class Css(_NamedBase):
 #                                h=self.height, cs0=self.cs0,
 #                                name=_name__(name, _or_nameof(self)))
 #       args, kwds = _args_kwds(**kwds)
-#       return self.__class__(*args, **kwds)  # .classof
+#       return type(self)(*args, **kwds)  # .classof
 
     @Property_RO
     def easting(self):

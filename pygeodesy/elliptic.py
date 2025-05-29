@@ -99,7 +99,7 @@ from math import asin, asinh, atan, ceil, cosh, fabs, floor, radians, \
                  sin, sinh, sqrt, tan, tanh  # tan as _tan
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '25.05.12'
+__version__ = '25.05.28'
 
 _TolRD  =  zqrt(EPS * 0.002)
 _TolRF  =  zqrt(EPS * 0.030)
@@ -165,9 +165,9 @@ class Elliptic(_Named):
                   that case, we have C{Π(φ, 0, k) = F(φ, k), G(φ, 0, k) =
                   E(φ, k)} and C{H(φ, 0, k) = F(φ, k) - D(φ, k)}.
         '''
-        self.reset(k2=k2, alpha2=alpha2, kp2=kp2, alphap2=alphap2)
         if name:
             self.name = name
+        self.reset(k2=k2, alpha2=alpha2, kp2=kp2, alphap2=alphap2)
 
     @Property_RO
     def alpha2(self):
@@ -760,15 +760,20 @@ class Elliptic(_Named):
                   that these conditions are met to enable accuracy to be
                   maintained, e.g., when C{k} is very close to unity.
         '''
+        def _1p2(kp2, k2):
+            return (_1_0 - k2) if kp2 is None else kp2
+
+        def _S(**kwds):
+            return Scalar_(Error=EllipticError, **kwds)
+
         if self.__dict__:
             _update_all(self, _Named.iteration._uname, Base=Property_RO)
 
-        self._k2  = Scalar_(k2=k2, Error=EllipticError, low=None, high=_1_0)
-        self._kp2 = Scalar_(kp2=((_1_0 - k2) if kp2 is None else kp2), Error=EllipticError)
+        self._k2      = _S(k2 = k2, low=None, high=_1_0)
+        self._kp2     = _S(kp2=_1p2(kp2, k2))  # low=_0_0
 
-        self._alpha2  = Scalar_(alpha2=alpha2, Error=EllipticError, low=None, high=_1_0)
-        self._alphap2 = Scalar_(alphap2=((_1_0 - alpha2) if alphap2 is None else alphap2),
-                                Error=EllipticError)
+        self._alpha2  = _S(alpha2 = alpha2, low=None, high=_1_0)
+        self._alphap2 = _S(alphap2=_1p2(alphap2, alpha2))  # low=_0_0
 
         # Values of complete elliptic integrals for k = 0,1 and alpha = 0,1
         #         K     E     D
@@ -1120,11 +1125,11 @@ def _rC(unused, x, y):
     '''(INTERNAL) Defined only for C{y != 0} and C{x >= 0}.
     '''
     d = x - y
-    if d < 0:  # catch NaN
+    if x < y:  # catch NaN
         # <https://DLMF.NIST.gov/19.2.E18>
-        d = -d
+        d = y - x
         r = atan(sqrt(d / x)) if x > 0 else PI_2
-    elif d == 0:  # XXX d < EPS0? or EPS02 or _EPSmin
+    elif x == y:  # XXX d < EPS0? or EPS02 or _EPSmin
         d, r = y, _1_0
     elif y > 0:  # <https://DLMF.NIST.gov/19.2.E19>
         r = asinh(sqrt(d / y))  # atanh(sqrt((x - y) / x))

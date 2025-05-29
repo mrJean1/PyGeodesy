@@ -132,7 +132,7 @@ class _MODS_Base(object):
     def name(self):
         '''Get this name (C{str}).
         '''
-        return typename(self.__class__)
+        return typename(type(self))
 
     @_Property_RO
     def nix2(self):  # PYCHOK no cover
@@ -686,7 +686,7 @@ def _versions(sep=_SPACE_):
 
 
 __all__ = tuple(map(typename, (machine, print_, printf, typename)))
-__version__ = '25.04.14'
+__version__ = '25.05.26'
 
 if __name__ == _DMAIN_:
 

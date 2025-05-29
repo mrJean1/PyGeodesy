@@ -39,7 +39,7 @@ from contextlib import contextmanager
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.geodesicw
-__version__ = '25.04.14'
+__version__ = '25.05.27'
 
 _plumb_ = 'plumb'
 _TRIPS  =  65
@@ -96,6 +96,27 @@ class _gWrapped(_kWrapped):
                 if name:
                     self._name, _ = _name2__(name, _or_nameof=E)
 
+            def Area(self, polyline=False, **name):  # like GeodesicExact.Area
+                '''Return a C{PolygonArea} instance with method C{Compute} extended.
+                '''
+                _AreaBase = _wrapped._PolygonArea  # in .karney._kwrapped
+
+                class _PolygonArea(_AreaBase):
+                    # def __init__(self, *earth_polyline):
+                    #     _PolygonArea.__init__(self, *earth_polyline)
+
+                    def Compute(self, reverse=False, sign=True, polar=False):
+                        '''Use C{B{polar}=True} to adjust the area.
+                        '''
+                        n, p, a = _AreaBase.Compute(self, reverse=reverse, sign=sign)
+                        if polar:  # see .geodesicx.gxarea.GeodesicAreaExact._reduced
+                            a += self.area0 * _0_5 * n  # - if reverse or sign?
+                        return n, p, a
+
+                P = _PolygonArea(self, polyline)
+                P._name = _name2__(name, _or_nameof=self)
+                return P
+
             def ArcDirect(self, lat1, lon1, azi1, a12, outmask=Caps.STANDARD):  # PYCHOK no cover
                 '''Return the C{_Geodesic.ArcDirect} result as L{GDict}.
                 '''
@@ -107,8 +128,6 @@ class _gWrapped(_kWrapped):
                 '''Return the C{_Geodesic.ArcDirectLine} as I{wrapped} C{GeodesicLine}.
                 '''
                 return self._GenDirectLine(lat1, lon1, azi1, True, a12, caps, **name)
-
-            Area = _Geodesic.Polygon  # like GeodesicExact.Area
 
             @property_RO
             def datum(self):
@@ -257,9 +276,8 @@ class _gWrapped(_kWrapped):
                 '''
                 return self._name
 
-#           Polygon = _Geodesic.Polygon
-
-            WGS84 = None  # _EWGS84.geodesicw recusion
+            Polygon = Area
+            WGS84   = None  # _EWGS84.geodesicw recusion
 
         # Geodesic.ArcDirect.__doc__   = _Geodesic.ArcDirect.__doc__
         # Geodesic.Direct.__doc__      = _Geodesic.Direct.__doc__

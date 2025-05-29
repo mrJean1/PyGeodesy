@@ -26,7 +26,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, \
 from functools import wraps as _wraps
 
 __all__ = _ALL_LAZY.props
-__version__ = '25.05.21'
+__version__ = '25.05.26'
 
 _class_       = 'class'
 _DNL_         = _NL_ * 2  # PYCHOK used!
@@ -347,7 +347,7 @@ class property_RO(_PropertyBase):
             if Clas:  # overrides inst.__class__
                 d = Clas[0].__dict__.get(uname, MISSING)
             else:
-                d = getattr(inst.__class__, uname, MISSING)
+                d = getattr(type(inst), uname, MISSING)
 #               if d is MISSING:  # XXX superfluous
 #                   for c in type(inst).__mro__[:-1]:
 #                       if uname in c.__dict__:
@@ -403,7 +403,7 @@ class property_ROver(_property_RO___):
         '''
         v = self.method(inst)
         n = self.name
-        C = inst.__class__
+        C = type(inst)
         for c in C.__mro__:  # [:-1]
             if getattr(c, n, None) is self:
                 setattr(c, n, v)  # overwrite property_ROver

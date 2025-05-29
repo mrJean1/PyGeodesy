@@ -45,7 +45,7 @@ from pygeodesy.utily import fabs, _unrollon, _Wrap
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.booleans
-__version__ = '25.05.12'
+__version__ = '25.05.26'
 
 _0EPS  =  EPS  # near-zero, positive
 _EPS0  = -EPS  # near-zero, negative
@@ -199,8 +199,8 @@ class _LatLonBool(_Named):
 
     def __sub__(self, other):
         _other(self, other)
-        return self.__class__(self.y - other.y,  # classof
-                              self.x - other.x)
+        return type(self)(self.y - other.y,  # classof
+                          self.x - other.x)
 
     def _2A(self, p2, p3):
         # I{Signed} area of a triangle, I{doubled}.
@@ -314,7 +314,7 @@ class LatLonFHP(_LatLonBool):
 
     def __add__(self, other):
         _other(self, other)
-        return self.__class__(self.y + other.y, self.x + other.x)
+        return type(self)(self.y + other.y, self.x + other.x)
 
     def __mod__(self, other):  # cross product
         _other(self, other)
@@ -326,7 +326,7 @@ class LatLonFHP(_LatLonBool):
 
     def __rmul__(self, other):  # scalar product
         _xscalar(other=other)
-        return self.__class__(self.y * other, self.x * other)
+        return type(self)(self.y * other, self.x * other)
 
 #   def _edge2(self):
 #       # Return the start and end point of the
@@ -959,7 +959,7 @@ class _CompositeBase(_Named):
         # Return a new instance
         _g = kwds.get
         kwds = dict((n, _g(n, v)) for n, v in dflts.items())
-        return self.__class__(corners or (), **kwds)
+        return type(self)(corners or (), **kwds)
 
     @property_RO
     def _clipids(self):  # PYCHOK no cover
@@ -1549,7 +1549,7 @@ class _EdgeFHP(object):
             dq  = q2 - q1
             dq2 = dq * dq  # dot product, hypot2
             if dq2 > EPS2:  # like ._clip
-                T, _E  = None, _EdgeFHP  # self.__class__
+                T, _E  = None, _EdgeFHP  # type(self)
                 p1, p2 = self._p1_p2
                 ap1   = p1._2A(q1, q2)
                 ap2_1 = p2._2A(q1, q2) - ap1
@@ -1750,8 +1750,8 @@ class _BooleanBase(object):
 
     def _boolean4(self, other, op):
         # Set up a new C{Boolean[FHP|GH]}.
-        C = self.__class__
-        kwds = C._kwds(self, op)
+        C = type(self)
+        kwds = C._kwds(self, op)  # PYCHOK in _Composite[FHP|GH]
         a =  C(self, **kwds)
         b = _other(self, other)
         return a, b, C, kwds
@@ -1964,7 +1964,7 @@ def _min_max_eps2(*xs):
 def _other(this, other):
     '''(INTERNAL) Check for compatible C{type}s.
     '''
-    C = this.__class__
+    C = type(this)
     if isinstance(other, C):
         return other
     raise _IsnotError(C, other=other)

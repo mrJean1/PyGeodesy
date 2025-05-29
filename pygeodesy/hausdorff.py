@@ -85,7 +85,7 @@ from pygeodesy import unitsBase as _unitsBase  # _Str_..., _xUnit, _xUnits
 from random import Random
 
 __all__ = _ALL_LAZY.hausdorff
-__version__ = '25.05.21'
+__version__ = '25.05.26'
 
 _formy = _MODS.into(formy=__name__)
 
@@ -124,7 +124,7 @@ class Hausdorff(_Named):
            @raise HausdorffError: Insufficient number of B{C{point1s}} or an invalid
                                   B{C{point1}}, B{C{seed}} or B{C{units}}.
         '''
-        name, kwds = _name2__(**name__kwds)  # name__=self.__class__
+        name, kwds = _name2__(**name__kwds)  # name__=type(self)
         if name:
             self.name = name
 

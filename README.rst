@@ -139,7 +139,7 @@ PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 2.7.18, both in 64-bit on 
 
 For a summary of all *Karney*-based functionality in ``pygeodesy``, see module karney_.
 
-*Last updated: May 25, 2025.*
+*Last updated: May 28, 2025.*
 
 License
 =======

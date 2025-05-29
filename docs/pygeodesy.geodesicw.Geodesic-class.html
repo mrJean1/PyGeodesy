@@ -61,13 +61,19 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class Geodesic</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-      object --+        
-               |        
-karney._kWrapped --+    
-                   |    
-           _gWrapped --+
-                       |
-                      <strong class="uidshort">Geodesic</strong>
+  object --+                    
+           |                    
+<a href="pygeodesy.named._Named-class.html">named._Named</a> --+                
+               |                
+<a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+            
+                   |            
+    <a href="pygeodesy.karney._CapsBase-class.html">karney._CapsBase</a> --+        
+                       |        
+        karney._kWrapped --+    
+                           |    
+                   _gWrapped --+
+                               |
+                              <strong class="uidshort">Geodesic</strong>
 </pre>
 
 <hr />
@@ -85,18 +91,39 @@ karney._kWrapped --+
 </tr>
   <tr>
     <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.karney._CapsBase-class.html">karney._CapsBase</a></code></b>:
+      <code><a href="pygeodesy.karney._CapsBase-class.html#caps_">caps_</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a></code></b>:
+      <code><a href="pygeodesy.named._NamedBase-class.html#__repr__">__repr__</a></code>,
+      <code><a href="pygeodesy.named._NamedBase-class.html#__str__">__str__</a></code>,
+      <code><a href="pygeodesy.named._NamedBase-class.html#others">others</a></code>,
+      <code><a href="pygeodesy.named._NamedBase-class.html#toRepr">toRepr</a></code>,
+      <code><a href="pygeodesy.named._NamedBase-class.html#toStr">toStr</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#__format__">__format__</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#__imatmul__">__imatmul__</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#__matmul__">__matmul__</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#__rmatmul__">__rmatmul__</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#dup">dup</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#methodname">methodname</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#renamed">renamed</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
+      </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__delattr__</code>,
-      <code>__format__</code>,
       <code>__getattribute__</code>,
       <code>__hash__</code>,
       <code>__init__</code>,
       <code>__reduce__</code>,
       <code>__reduce_ex__</code>,
-      <code>__repr__</code>,
       <code>__setattr__</code>,
       <code>__sizeof__</code>,
-      <code>__str__</code>,
       <code>__subclasshook__</code>
       </p>
     </td>
@@ -135,6 +162,37 @@ karney._kWrapped --+
     </td>
   </tr>
 </table>
+<!-- ==================== CLASS VARIABLES ==================== -->
+<a name="section-ClassVariables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Class Variables</span></td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.karney._CapsBase-class.html">karney._CapsBase</a></code></b>:
+      <code><a href="pygeodesy.karney._CapsBase-class.html#ALL">ALL</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#AREA">AREA</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#AZIMUTH">AZIMUTH</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#DISTANCE">DISTANCE</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#DISTANCE_IN">DISTANCE_IN</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#EMPTY">EMPTY</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#GEODESICSCALE">GEODESICSCALE</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#LATITUDE">LATITUDE</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#LINE_CAPS">LINE_CAPS</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#LINE_OFF">LINE_OFF</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#LONGITUDE">LONGITUDE</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#LONG_UNROLL">LONG_UNROLL</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#NONFINITONAN">NONFINITONAN</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#REDUCEDLENGTH">REDUCEDLENGTH</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#STANDARD">STANDARD</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#STANDARD_LINE">STANDARD_LINE</a></code>
+      </p>
+    </td>
+  </tr>
+</table>
 <!-- ==================== PROPERTIES ==================== -->
 <a name="section-Properties"></a>
 <table class="summary" border="1" cellpadding="3"
@@ -154,6 +212,22 @@ karney._kWrapped --+
       <code>Math</code>,
       <code>Math_K_2</code>,
       <code>geographiclib</code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.karney._CapsBase-class.html">karney._CapsBase</a></code></b>:
+      <code><a href="pygeodesy.karney._CapsBase-class.html#caps">caps</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#debug">debug</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#classnaming">classnaming</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#iteration">iteration</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#name">name</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named">named</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named2">named2</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named3">named3</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named4">named4</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#sizeof">sizeof</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#typename">typename</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
       <code>__class__</code>
@@ -244,7 +318,7 @@ karney._kWrapped --+
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri May 23 15:16:07 2025
+    Generated by Epydoc 3.0.1 on Wed May 28 15:42:24 2025
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

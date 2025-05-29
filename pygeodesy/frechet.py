@@ -101,7 +101,7 @@ from collections import defaultdict as _defaultdict
 # from math import radians  # from .points
 
 __all__ = _ALL_LAZY.frechet
-__version__ = '25.05.21'
+__version__ = '25.05.26'
 
 _formy = _MODS.into(formy=__name__)
 
@@ -153,7 +153,7 @@ class Frechet(_Named):
            @raise FrechetError: Insufficient number of B{C{point1s}} or an invalid
                                 B{C{point1}}, B{C{fraction}} or B{C{units}}.
         '''
-        name, kwds = _name2__(**name__kwds)  # name__=self.__class__
+        name, kwds = _name2__(**name__kwds)  # name__=type(self)
         if name:
             self.name = name
 

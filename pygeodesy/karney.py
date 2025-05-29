@@ -166,7 +166,7 @@ from pygeodesy.utily import atan2d, sincos2d, tand, _unrollon,  fabs
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '25.05.12'
+__version__ = '25.05.28'
 
 _2_4_       = '2.4'
 _K_2_0      = _getenv(_PYGEODESY_ENV(typename(_xgeographiclib)[2:]), _2_)
@@ -240,6 +240,8 @@ class Caps(object):
 
        C{LONG_UNROLL} - unroll C{lon2} in method C{.Direct},
 
+       C{NONFINITONAN} - set all C{GDict} items to C{NAN} iff any argument is C{non-finite}.
+
        C{REDUCEDLENGTH} - compute the reduced length C{m12},
 
        C{REVERSE2} - reverse azimuth C{azi2} by 180 degrees,
@@ -274,7 +276,7 @@ class Caps(object):
 
     LINE_CAPS     =  STANDARD_LINE | REDUCEDLENGTH | GEODESICSCALE  # .geodesici only
     LONG_UNROLL   =  1 << 15  # unroll C{lon2} in .Direct and .Position
-#                 =  1 << 16  # unused
+    NONFINITONAN  =  1 << 16  # see method GDict._toNAN
     LINE_OFF      =  1 << 17  # Line without updates from parent geodesic or rhumb
     REVERSE2      =  1 << 18  # reverse C{azi2}
     ALL           =  0x7F80 | _CAP_ALL  # without LONG_UNROLL, LINE_OFF, REVERSE2 and _DEBUG_*
@@ -327,9 +329,12 @@ if _FOR_DOCS:  # PYCHOK force ...
 else:
     Caps = Caps()  # PYCHOK singleton
 
-_key2Caps = dict(a12 =Caps.DISTANCE,  # in GDict._unCaps
+_key2Caps = dict(a12 =Caps.DISTANCE,  # in GDict._toNAN, -._unCaps
+                 azi1=Caps.AZIMUTH,
                  azi2=Caps.AZIMUTH,
+                 lat1=Caps.LATITUDE,
                  lat2=Caps.LATITUDE,
+                 lon1=Caps.LONGITUDE,
                  lon2=Caps.LONGITUDE,
                  m12 =Caps.REDUCEDLENGTH,
                  M12 =Caps.GEODESICSCALE,
@@ -353,6 +358,7 @@ class _CapsBase(_NamedBase):  # in .auxilats, .geodesicx.gxbases
     LINE_OFF      = Caps.LINE_OFF
     LONGITUDE     = Caps.LONGITUDE
     LONG_UNROLL   = Caps.LONG_UNROLL
+    NONFINITONAN  = Caps.NONFINITONAN
     REDUCEDLENGTH = Caps.REDUCEDLENGTH
     STANDARD      = Caps.STANDARD
     STANDARD_LINE = Caps.STANDARD_LINE  # for geodesici
@@ -449,11 +455,14 @@ class GDict(ADict):  # XXX _NamedDict
         '''
         return self._toTuple(Inverse10Tuple, dflt)
 
-    def _toNAN(self, outmask):  # .GeodesicLineExact._GenPosition
+    def _toNAN(self, outmask):  # .GeodesicExact._GDistInverse, .GeodesicLineExact._GenPosition
         '''(INTERNAL) Convert this C{GDict} to all C{NAN}s.
         '''
-        d = dict((n, NAN) for n in GeodSolve12Tuple._Names_)
-        return self.set_(**d)._unCaps(outmask)
+        if (outmask & Caps.NONFINITONAN):
+            d = dict((k, NAN) for k, C in _key2Caps.items()
+                                       if (outmask & C) == C)
+            self.set_(**d)
+        return self
 
     @deprecated_method
     def toRhumb7Tuple(self, dflt=NAN):  # PYCHOK no cover
@@ -543,7 +552,7 @@ class Inverse10Tuple(_GTuple):
                                    **updates)  # PYCHOK indent
 
 
-class _kWrapped(object):  # in .geodesicw
+class _kWrapped(_CapsBase):  # in .geodesicw
     '''(INTERNAL) Wrapper for some of I{Karney}'s U{geographiclib
         <https://PyPI.org/project/geographiclib>} classes.
     '''
@@ -554,13 +563,15 @@ class _kWrapped(object):  # in .geodesicw
            <https://PyPI.org/project/geographiclib>} package is installed,
            otherwise raise a C{LazyImportError}.
         '''
-        g = _xgeographiclib(type(self).__module__, 1, 49)
+        g = _xgeographiclib(type(self), 1, 49)
         from geographiclib.geodesic import Geodesic
         g.Geodesic = Geodesic
         from geographiclib.geodesicline import GeodesicLine
         g.GeodesicLine = GeodesicLine
         from geographiclib.geomath import Math
         g.Math = Math
+#       from geographiclib.polygonarea import PolygonArea
+#       g.PolygonArea = PolygonArea  # see below
         return g
 
     @property_ROnce
@@ -585,6 +596,11 @@ class _kWrapped(object):  # in .geodesicw
     def Math_K_2(self):
         return (_2_4_ if _K_2_4 else
                (_2_   if _K_2_0 else _1_)) if self.Math else NN
+
+    @property_ROnce
+    def _PolygonArea(self):  # lazy import
+        from geographiclib.polygonarea import PolygonArea
+        return PolygonArea
 
 _wrapped = _kWrapped()  # PYCHOK singleton, .datum, .test/base.py
 
@@ -830,7 +846,7 @@ def _norm180(deg):  # mimick geomath.Math.AngNormalize
         return d
 
 
-def _polygon(geodesic, points, closed, line, wrap):
+def _polygon(geodesic, points, closed, line, wrap, polar):
     '''(INTERNAL) Compute the area or perimeter of a polygon,
         using a L{GeodesicExact}, L{GeodesicSolve} or (if the
         C{geographiclib} package is installed) a C{Geodesic}
@@ -848,7 +864,7 @@ def _polygon(geodesic, points, closed, line, wrap):
         if not closed:  # closed only
             raise _ValueError(closed=closed, points=_composite_)
 
-        return points._sum1(_a_p, closed, line, wrap)
+        return points._sum1(_a_p, closed, line, wrap, polar)
 
     gP = geodesic.Polygon(line)
     _A = gP.AddPoint
@@ -867,7 +883,7 @@ def _polygon(geodesic, points, closed, line, wrap):
         _A(p0.lat, p0.lon)
 
     # gP.Compute returns (number_of_points, perimeter, signed area)
-    return gP.Compute(False, True)[1 if line else 2]
+    return gP.Compute(reverse=False, sign=True, polar=polar)[1 if line else 2]
 
 
 try:

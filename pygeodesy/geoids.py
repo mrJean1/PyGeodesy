@@ -355,7 +355,7 @@ class _GeoidBase(_HeightBase):
         # build grid axis, hi = lo + (n - 1) * d
         m, a = len2(frange(lo, n, d))
         if m != n:
-            raise LenError(self.__class__, grid=m, **{name: n})
+            raise LenError(type(self), grid=m, **{name: n})
         if d < 0:
             d, a = -d, list(reversed(a))
         a = self.numpy.array(a)

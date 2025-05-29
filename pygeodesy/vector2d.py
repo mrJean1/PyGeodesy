@@ -36,7 +36,7 @@ from contextlib import contextmanager
 # from math import fabs, sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.vector2d
-__version__ = '25.05.09'
+__version__ = '25.05.26'
 
 _cA_        = 'cA'
 _cB_        = 'cB'
@@ -437,7 +437,7 @@ class _numpy(object):  # see also .formy._idllmn6, .geodesicw._wargs, .latlonBas
     def np(self):
         '''Import numpy 1.10+ once.
         '''
-        return _xnumpy(self.__class__, 1, 10)
+        return _xnumpy(type(self), 1, 10)
 
     def null_space2(self, A, rcond=None):
         '''Return the C{null_space} and C{rank} of matrix B{C{A}}.

@@ -76,7 +76,7 @@ from pygeodesy.utily import atan2, atan2b, atan2d, sincos2, sincos2d, \
 from math import cos, degrees, fabs, radians, tan as _tan
 
 __all__ = _ALL_LAZY.ellipsoidalVincenty
-__version__ = '25.05.23'
+__version__ = '25.05.26'
 
 _antipodal_to_ = _SPACE_(_antipodal_, _to_)
 
@@ -349,13 +349,6 @@ def _c2sm2(c2sm):
     return c2sm**2 * _2_0 - _1_0
 
 
-def _ellipsoidal():  # helper for areaOf and perimeterOf
-    try:
-        return _MODS.ellipsoidalKarney
-    except ImportError:
-        return _MODS.ellipsoidalExact
-
-
 def _Dl(f, ca2, sa, s, cs, ss, c2sm, dl=_0_0):
     # C{Dl}
     if f and sa:
@@ -385,6 +378,14 @@ def _Ecef():
     return E
 
 
+def _ellipsoidalOf(_Of, points, **kwds):  # helper for DEPRECATED areaOf and perimeterOf
+    try:
+        r = getattr(_MODS.ellipsoidalKarney, _Of.__name__)(points, **kwds)
+    except ImportError:  # no geographiclib
+        r = getattr(_MODS.ellipsoidalExact, _Of.__name__)(points, **kwds)
+    return r
+
+
 def _sincos22(sa):
     # 2-Tuple C{(sin(a), cos(a)**2)}
     ca2 = _1_0 - sa**2
@@ -403,10 +404,10 @@ def _sincostan3r(a, f):
 
 
 @deprecated_function
-def areaOf(points, **datum_wrap):
+def areaOf(points, **datum_wrap_polar):
     '''DEPRECATED, use function L{ellipsoidalExact.areaOf} or L{ellipsoidalKarney.areaOf}.
     '''
-    return _ellipsoidal().areaOf(points, **datum_wrap)
+    return _ellipsoidalOf(areaOf, points, **datum_wrap_polar)
 
 
 def intersection3(start1, end1, start2, end2, height=None, wrap=False,  # was=True
@@ -562,7 +563,7 @@ def nearestOn(point, point1, point2, within=True, height=None, wrap=False,
 def perimeterOf(points, **closed_datum_wrap):
     '''DEPRECATED, use function L{ellipsoidalExact.perimeterOf} or L{ellipsoidalKarney.perimeterOf}.
     '''
-    return _ellipsoidal().perimeterOf(points, **closed_datum_wrap)
+    return _ellipsoidalOf(perimeterOf, points, **closed_datum_wrap)
 
 
 __all__ += _ALL_DOCS(Cartesian, LatLon, intersecant2,  # from .ellipsoidalBaseDI

@@ -37,13 +37,14 @@ from __future__ import division as _; del _  # noqa: E702 ;
 # - s and c prefixes mean sin and cos
 
 # from pygeodesy.basics import _xinstanceof  # _MODS
-from pygeodesy.constants import NAN, _EPSqrt as _TOL, _0_0, _1_0, \
-                               _180_0, _2__PI, _copysign_1_0, isfinite
+from pygeodesy.constants import NAN, _EPSqrt as _TOL, \
+                               _0_0, _1_0, _180_0, _2__PI, \
+                               _copysign_1_0, isfinite
 from pygeodesy.errors import _xError, _xkwds_pop2
 from pygeodesy.fsums import fsumf_, fsum1f_
 from pygeodesy.geodesicx.gxbases import _cosSeries, _GeodesicBase, \
                                         _sincos12, _sin1cos2, \
-                                        _sinf1cos2d, _TINY
+                                        _sinf1cos2d, _TINY, _toNAN
 # from pygeodesy.geodesicw import _Intersecant2  # _MODS
 from pygeodesy.lazily import _ALL_DOCS, _ALL_MODS as _MODS
 from pygeodesy.karney import _around, _atan2d, Caps, GDict, _fix90, \
@@ -55,7 +56,7 @@ from pygeodesy.utily import atan2, atan2d as _atan2d_reverse, sincos2
 from math import cos, degrees, fabs, floor, radians, sin
 
 __all__ = ()
-__version__ = '25.05.12'
+__version__ = '25.05.28'
 
 _glXs = []  # instances of C{[_]GeodesicLineExact} to be updated
 
@@ -91,6 +92,7 @@ class _GeodesicLineExact(_GeodesicBase):
 #   _salp1 = _calp1 = NAN
 #   _somg1 = _comg1 = NAN
 #   _ssig1 = _csig1 = NAN
+#   _toNAN =  False
 
     def __init__(self, gX, lat1, lon1, azi1, caps, **name_):
         '''(INTERNAL) New C{[_]GeodesicLineExact} instance.
@@ -104,6 +106,7 @@ class _GeodesicLineExact(_GeodesicBase):
             salp1, calp1 = _sincos2d(_around(azi1))
         if name_:
             self.name = name_
+        self._toNAN = _toNAN(caps, lat1, lon1, azi1, salp1, calp1)
 
         self._gX    = gX  # GeodesicExact only
         self._lat1  = lat1 = _fix90(lat1)
@@ -297,9 +300,9 @@ class _GeodesicLineExact(_GeodesicBase):
         gX = self.geodesic  # ._gX
         r  = GDict(a12=NAN, s12=NAN)  # both a12 and s12, always
 
-        if not isfinite(s12_a12):
+        if self._toNAN or not isfinite(s12_a12):  # _toNAN(outmask, s12_a12)?
             # E2 = sig12 = ssig12 = csig12 = NAN
-            return r._toNAN(outmask)
+            return r._toNAN(outmask | Cs.NONFINITONAN)  # for backward compatibility
         elif arcmode:  # s12_a12 is (spherical) arc length
             r.set_(a12=s12_a12)
             sig12 = radians(s12_a12)

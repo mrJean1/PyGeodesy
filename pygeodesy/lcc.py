@@ -50,7 +50,7 @@ from pygeodesy.utily import atan1, degrees90, degrees180, sincos2, tanPI_2_2
 from math import atan, fabs, log, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.lcc
-__version__ = '25.05.12'
+__version__ = '25.05.26'
 
 _E0_   = 'E0'
 _N0_   = 'N0'
@@ -457,7 +457,7 @@ class Lcc(_NamedBase):
 #                                  h=self.height, conic=self.conic,
 #                                  name=self._name__(name))
 #       args, kwds = _args_kwds(**kwds)
-#       return self.__class__(*args, **kwds)  # .classof
+#       return type(self)(*args, **kwds)  # .classof
 
     @Property_RO
     def easting(self):

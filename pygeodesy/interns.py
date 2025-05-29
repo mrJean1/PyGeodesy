@@ -443,15 +443,15 @@ _LR_PAIRS  = {_LANGLE_:  _RANGLE_,
 
 __all__ = (_NN_,  # NOT MISSING!
             Str_.__name__)  # classes
-__version__ = '25.04.12'
+__version__ = '25.05.26'
 
 if __name__ == _DMAIN_:
 
-    def _main():
+    def _main(globalocals):
         from pygeodesy import itemsorted, printf
 
         t = b = 0
-        for n, v in itemsorted(locals(), asorted=False, reverse=True):
+        for n, v in itemsorted(globalocals, asorted=False, reverse=True):
             if n.endswith(_UNDER_) and n.startswith(_UNDER_) and \
                                    not n.startswith(_DUNDER_):
                 t += 1
@@ -459,10 +459,10 @@ if __name__ == _DMAIN_:
                 m  = n[1:-1]
                 if m != v and m.replace(_UNDER_, _SPACE_) != v:
                     printf('%4d: %s = %r', t, n, v)
-        n = len(locals())
+        n = len(globalocals)
         printf('%4d (%d) names, %s chars total, %.2f chars avg', t, n, b, float(b) / t, nl=1)
 
-    _main()
+    _main(globals())  # or locals()
 
 # **) MIT License
 #

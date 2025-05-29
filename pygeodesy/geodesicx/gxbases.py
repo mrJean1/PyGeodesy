@@ -9,7 +9,7 @@ U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 '''
 
 from pygeodesy.basics import isodd,  _MODS
-from pygeodesy.constants import _EPSmin as _TINY, _0_0
+from pygeodesy.constants import _EPSmin as _TINY, _0_0, isfinite
 from pygeodesy.errors import _or, _xkwds_item2
 from pygeodesy.fmath import hypot as _hypot
 # from pygeodesy.interns import _numpy_  # _MODS
@@ -20,7 +20,7 @@ from pygeodesy.karney import _CapsBase, GeodesicError, _2cos2x, \
 from math import fabs, ldexp as _ldexp
 
 __all__ = ()
-__version__ = '24.09.07'
+__version__ = '25.05.28'
 
 # valid C{nC4}s and C{C4order}s, see _xnC4 below
 _nC4s = {24: 2900, 27: 4032, 30: 5425}
@@ -145,6 +145,16 @@ def _sinf1cos2d(lat, f1):
     # that sig12 will be <= 2*tiny for two points at the same pole
     sbet, cbet = _norm2(sbet * f1, cbet)
     return sbet, (cbet if fabs(cbet) > _TINY else _TINY)
+
+
+def _toNAN(outmask, *args):
+    '''(INTERNAL) Is any C{arg} not finite?
+    '''
+    if (outmask & _CapsBase.NONFINITONAN):  # Caps.NONFINITONAN
+        for arg in args:
+            if not isfinite(arg):
+                return True
+    return False
 
 
 def _xnC4(**name_nC4):

@@ -165,7 +165,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html#Compute" class="summary-sig-name">Compute</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">reverse</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">sign</span>=<span class="summary-sig-default">True</span>)</span><br />
+        <span class="summary-sig-arg">sign</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">polar</span>=<span class="summary-sig-default">False</span>)</span><br />
       Compute the accumulated perimeter and area.</td>
           <td align="right" valign="top">
             
@@ -219,8 +220,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html#TestEdge" class="summary-sig-name">TestEdge</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">azi</span>,
         <span class="summary-sig-arg">s</span>,
-        <span class="summary-sig-arg">reverse</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">sign</span>=<span class="summary-sig-default">True</span>)</span><br />
+        <span class="summary-sig-arg">**reverse_sign_polar</span>)</span><br />
       Compute the properties for a tentative, additional edge</td>
           <td align="right" valign="top">
             
@@ -240,8 +240,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html#TestPoint" class="summary-sig-name">TestPoint</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lat</span>,
         <span class="summary-sig-arg">lon</span>,
-        <span class="summary-sig-arg">reverse</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">sign</span>=<span class="summary-sig-default">True</span>)</span><br />
+        <span class="summary-sig-arg">**reverse_sign_polar</span>)</span><br />
       Compute the properties for a tentative, additional vertex</td>
           <td align="right" valign="top">
             
@@ -547,7 +546,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">Compute</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">reverse</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">sign</span>=<span class="sig-default">True</span>)</span>
+        <span class="sig-arg">sign</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">polar</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -563,14 +563,20 @@
         <li><strong class="pname"><code>sign</code></strong> - If <code>True</code>, return a signed result for the area if the 
           polygon is traversed in the &quot;wrong&quot; direction instead 
           of returning the area for the rest of the earth.</li>
+        <li><strong class="pname"><code>polar</code></strong> - Use <code><b>polar</b>=True</code> if the polygon encloses a pole
+          (<code>bool</code>), see function <a 
+          href="pygeodesy.points-module.html#ispolar" 
+          class="link">ispolar</a> and <a 
+          href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html#a3d7a9155e838a09a48dc14d0c3fac525"
+          target="_top">area of a polygon enclosing a pole</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.karney.Area3Tuple-class.html" 
           class="link">Area3Tuple</a><code>(number, perimeter, area)</code>
           with the number of points, the perimeter in <code>meter</code> 
-          and the area in <code>meter**2</code>.  The perimeter includes 
-          the length of a final edge, connecting the current to the initial
-          point, if this polygon was initialized with 
+          and the (signed) area in <code>meter**2</code>.  The perimeter 
+          includes the length of a final edge, connecting the current to 
+          the initial point, if this polygon was initialized with 
           <code>polyline=False</code>.  For perimeter only, i.e. 
           <code>polyline=True</code>, area is <code>NAN</code>.</dd>
   </dl>
@@ -579,7 +585,7 @@
         <li>
         Arbitrarily complex polygons are allowed.  In the case of 
         self-intersecting polygons, the area is accumulated 
-        &quot;algebraically&quot;.  E.g., the areas of the 2 loops in a 
+        &quot;algebraically&quot;.  E.g., the areas of both loops in a 
         <i>figure-8</i> polygon will partially cancel.
         </li>
         <li>
@@ -598,8 +604,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">TestEdge</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">azi</span>,
         <span class="sig-arg">s</span>,
-        <span class="sig-arg">reverse</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">sign</span>=<span class="sig-default">True</span>)</span>
+        <span class="sig-arg">**reverse_sign_polar</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -612,11 +617,11 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>azi</code></strong> - Azimuth at the current the point (compass <code>degrees</code>).</li>
         <li><strong class="pname"><code>s</code></strong> - Length of the edge (<code>meter</code>).</li>
-        <li><strong class="pname"><code>reverse</code></strong> - If <code>True</code>, clockwise traversal counts as a positive 
-          area instead of counter-clockwise (<code>bool</code>).</li>
-        <li><strong class="pname"><code>sign</code></strong> - If <code>True</code>, return a signed result for the area if the 
-          polygon is traversed in the &quot;wrong&quot; direction instead 
-          of returning the area for the rest of the earth.</li>
+        <li><strong class="pname"><code>reverse_sign_polar</code></strong> - Optional <code><b>reverse</b>=False</code>, 
+          <code><b>sign</b>=True</code> and <code><b>polar</b>=False</code>
+          keyword arguments, see method <a 
+          href="pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html#Compute"
+          class="link">Compute</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.karney.Area3Tuple-class.html" 
@@ -639,8 +644,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">TestPoint</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">lat</span>,
         <span class="sig-arg">lon</span>,
-        <span class="sig-arg">reverse</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">sign</span>=<span class="sig-default">True</span>)</span>
+        <span class="sig-arg">**reverse_sign_polar</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -653,11 +657,11 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>lat</code></strong> - Latitude of the point (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon</code></strong> - Longitude of the point (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>reverse</code></strong> - If <code>True</code>, clockwise traversal counts as a positive 
-          area instead of counter-clockwise (<code>bool</code>).</li>
-        <li><strong class="pname"><code>sign</code></strong> - If <code>True</code>, return a signed result for the area if the 
-          polygon is traversed in the &quot;wrong&quot; direction instead 
-          of returning the area for the rest of the earth.</li>
+        <li><strong class="pname"><code>reverse_sign_polar</code></strong> - Optional <code><b>reverse</b>=False</code>, 
+          <code><b>sign</b>=True</code> and <code><b>polar</b>=False</code>
+          keyword arguments, see method <a 
+          href="pygeodesy.geodesicx.gxarea.GeodesicAreaExact-class.html#Compute"
+          class="link">Compute</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.karney.Area3Tuple-class.html" 
@@ -1036,7 +1040,7 @@ after each method invokation.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri May 23 15:16:07 2025
+    Generated by Epydoc 3.0.1 on Wed May 28 15:42:24 2025
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

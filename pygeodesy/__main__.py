@@ -5,7 +5,7 @@ u'''Print L{pygeodesy} version, etc. using C{python -m pygeodesy}.
 '''
 
 __all__ = ()
-__version__ = '25.04.12'
+__version__ = '25.06.26'
 
 from os.path import basename, dirname
 
@@ -28,6 +28,7 @@ def _main():  # PYCHOK no cover
                                  ('isLazy',                       isLazy),
                                  ('_isfrozen',                 _isfrozen),
                                  ('_floats',      len(constants._floats)),
+#                                ('_interns', len(interns.__dict__) - 22),
                                  (_DALL_,            len(_all_imports())),
                                  (_DEPRECATED_,   len(_all_deprecates()))))
 

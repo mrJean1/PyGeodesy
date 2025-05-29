@@ -62,7 +62,7 @@ from pygeodesy.utily import atan2, degrees360, sincos2, sincos2_, sincos2d, \
 # from math import fabs  # from utily
 
 __all__ = _ALL_LAZY.sphericalNvector
-__version__ = '25.05.12'
+__version__ = '25.05.27'
 
 _lines_ = 'lines'
 
@@ -782,18 +782,19 @@ class Nvector(NvectorBase):
 _Nv00 = LatLon(_0_0, _0_0, name=_Nv00_)  # reference instance (L{LatLon})
 
 
-def areaOf(points, radius=R_M, wrap=False):
+def areaOf(points, radius=R_M, wrap=False, polar=False):
     '''Calculate the area of a (spherical) polygon or composite (with
        great circle arcs joining consecutive points).
 
-       @arg points: The polygon points or clips (C{LatLon}[],
-                    L{BooleanFHP} or L{BooleanGH}).
+       @arg points: The polygon points or clips (C{LatLon}[], L{BooleanFHP}
+                    or L{BooleanGH}).
        @kwarg radius: Mean earth radius (C{meter}) or C{None}.
-       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the
-                    B{C{points}} (C{bool}).
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the B{C{points}}
+                    (C{bool}).
+       @kwarg polar: Use C{B{polar}=True} not implemented (C{bool}).
 
-       @return: Polygon area (C{meter} I{squared}, same units as
-                B{C{radius}}, or C{radians} if C{B{radius} is None}).
+       @return: Polygon area (C{meter} I{squared}, same units as B{C{radius}},
+                or C{radians} if C{B{radius} is None}).
 
        @raise PointsError: Insufficient number of B{C{points}}.
 
@@ -802,6 +803,9 @@ def areaOf(points, radius=R_M, wrap=False):
        @see: Functions L{pygeodesy.areaOf}, L{sphericalTrigonometry.areaOf}
              and L{ellipsoidalKarney.areaOf}.
     '''
+    if polar:
+        notImplemented(None, polar=polar, up=2)
+
     def _interangles(ps, w):  # like .karney._polygon
         Ps = _Nv00.PointsIter(ps, loop=2, wrap=w)
         # use vector to 1st point as plane normal for sign of α
@@ -824,15 +828,14 @@ def areaOf(points, radius=R_M, wrap=False):
     if _MODS.booleans.isBoolean(points):
         r = points._sum2(LatLon, areaOf, radius=None, wrap=wrap)
     else:
-        # sum interior angles: depending on whether polygon is cw or ccw,
-        # angle between edges is π−α or π+α, where α is angle between
-        # great-circle vectors; so sum α, then take n·π − |Σα| (cannot
-        # use Σ(π−|α|) as concave polygons would fail)
+        # sum interior angles: depending on whether polygon is cw or
+        # ccw, angle between edges is π−α or π+α, where α is angle
+        # between great-circle vectors; so sum α, then take n·π − |Σα|
+        # (cannot use Σ(π−|α|) as concave polygons would fail)
         s = fsum(_interangles(points, wrap))
         # using Girard’s theorem: A = [Σθᵢ − (n−2)·π]·R²
-        # (PI2 - abs(s) == (n*PI - abs(s)) - (n-2)*PI)
-        r = fabs(PI2 - fabs(s))
-    return r if radius is None else (r * Radius(radius)**2)
+        r = fabs(PI2 - fabs(s))  # == n*PI - abs(s) - (n-2)*PI
+    return r if radius is None else (Radius(radius)**2 * r)
 
 
 def intersecant2(center, circle, point, other, **radius_exact_height_wrap):

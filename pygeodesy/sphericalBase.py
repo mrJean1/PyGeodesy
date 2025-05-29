@@ -40,7 +40,7 @@ from pygeodesy.utily import acos1, asin1, atan2b, atan2d, degrees90, \
 from math import cos, fabs, log, sin, sqrt
 
 __all__ = _ALL_LAZY.sphericalBase
-__version__ = '25.05.12'
+__version__ = '25.05.26'
 
 
 class CartesianSphericalBase(CartesianBase):
@@ -592,7 +592,7 @@ def _intersecant2(c, r, p, b, radius=R_M, exact=False, height=None, wrap=False):
         p = _unrollon(c, p, wrap=wrap)
     nonexact = exact is None
 
-    if not isinstanceof(r, c.__class__, p.__class__):
+    if not isinstanceof(r, type(c), type(p)):
         r = Radius_(circle=r)
     elif nonexact:
         r = c.distanceTo(r, radius=radius, wrap=wrap)
@@ -601,7 +601,7 @@ def _intersecant2(c, r, p, b, radius=R_M, exact=False, height=None, wrap=False):
     else:
         raise _ValueError(exact=exact)
 
-    if not isinstanceof(b, c.__class__, p.__class__):
+    if not isinstanceof(b, type(c), type(p)):
         b = Bearing(b)
     elif nonexact:
         b = p.initialBearingTo(b, wrap=wrap)

@@ -31,19 +31,16 @@ from pygeodesy.props import Property, Property_RO, property_RO
 from math import fmod as _fmod
 
 __all__ = ()
-__version__ = '25.05.12'
+__version__ = '25.05.28'
 
 
 class GeodesicAreaExact(_NamedBase):
-    '''Area and perimeter of a geodesic polygon, an enhanced
-       version of I{Karney}'s Python class U{PolygonArea
-       <https://GeographicLib.SourceForge.io/html/python/
-       code.html#module-geographiclib.polygonarea>} using
-       the more accurate surface area.
+    '''Area and perimeter of a geodesic polygon, an enhanced version of I{Karney}'s
+       Python class U{PolygonArea<https://GeographicLib.SourceForge.io/html/python/
+       code.html#module-geographiclib.polygonarea>} using the more accurate surface area.
 
-       @note: The name of this class C{*Exact} is a misnomer, see
-              I{Karney}'s comments at C++ attribute U{GeodesicExact._c2
-              <https://GeographicLib.SourceForge.io/C++/doc/
+       @note: The name of this class C{*Exact} is a misnomer, see I{Karney}'s comments at
+              C++ attribute U{GeodesicExact._c2<https://GeographicLib.SourceForge.io/C++/doc/
               GeodesicExact_8cpp_source.html>}.
     '''
     _Area    =  None
@@ -140,36 +137,35 @@ class GeodesicAreaExact(_NamedBase):
 
     @Property_RO
     def area0x(self):
-        '''Get the ellipsoid's surface area (C{meter} I{squared}),
-           more accurate for very I{oblate} ellipsoids.
+        '''Get the ellipsoid's surface area (C{meter} I{squared}), more accurate
+           for very I{oblate} ellipsoids.
         '''
         return self.ellipsoid.areax  # not .area!
 
     area0 = area0x  # for C{geographiclib} compatibility
 
-    def Compute(self, reverse=False, sign=True):
+    def Compute(self, reverse=False, sign=True, polar=False):
         '''Compute the accumulated perimeter and area.
 
-           @kwarg reverse: If C{True}, clockwise traversal counts as a
-                           positive area instead of counter-clockwise
-                           (C{bool}).
-           @kwarg sign: If C{True}, return a signed result for the area if
-                        the polygon is traversed in the "wrong" direction
-                        instead of returning the area for the rest of the
-                        earth.
+           @kwarg reverse: If C{True}, clockwise traversal counts as a positive area instead
+                           of counter-clockwise (C{bool}).
+           @kwarg sign: If C{True}, return a signed result for the area if the polygon is
+                        traversed in the "wrong" direction instead of returning the area for
+                        the rest of the earth.
+           @kwarg polar: Use C{B{polar}=True} if the polygon encloses a pole (C{bool}), see
+                         function L{ispolar<pygeodesy.points.ispolar>} and U{area of a polygon
+                         enclosing a pole<https://GeographicLib.SourceForge.io/C++/doc/
+                         classGeographicLib_1_1GeodesicExact.html#a3d7a9155e838a09a48dc14d0c3fac525>}.
 
-           @return: L{Area3Tuple}C{(number, perimeter, area)} with the
-                    number of points, the perimeter in C{meter} and the
-                    area in C{meter**2}.  The perimeter includes the
-                    length of a final edge, connecting the current to
-                    the initial point, if this polygon was initialized
-                    with C{polyline=False}.  For perimeter only, i.e.
-                    C{polyline=True}, area is C{NAN}.
+           @return: L{Area3Tuple}C{(number, perimeter, area)} with the number of points, the
+                    perimeter in C{meter} and the (signed) area in C{meter**2}.  The perimeter
+                    includes the length of a final edge, connecting the current to the initial
+                    point, if this polygon was initialized with C{polyline=False}.  For perimeter
+                    only, i.e. C{polyline=True}, area is C{NAN}.
 
-           @note: Arbitrarily complex polygons are allowed.  In the case
-                  of self-intersecting polygons, the area is accumulated
-                  "algebraically".  E.g., the areas of the 2 loops in a
-                  I{figure-8} polygon will partially cancel.
+           @note: Arbitrarily complex polygons are allowed.  In the case of self-intersecting
+                  polygons, the area is accumulated "algebraically".  E.g., the areas of both
+                  loops in a I{figure-8} polygon will partially cancel.
 
            @note: More points and edges can be added after this call.
         '''
@@ -179,7 +175,7 @@ class GeodesicAreaExact(_NamedBase):
             a = NAN if self.polyline else p
         elif self._Area:
             r = self._Inverse(self.lat1, self.lon1, self.lat0, self.lon0)
-            a = self._reduced(r.S12, reverse, sign, r.xing)
+            a = self._reduced(r.S12, r.xing, n, reverse=reverse, sign=sign, polar=polar)
             p = self._Peri.Sum(r.s12)
         else:
             p = self._Peri.Sum()
@@ -279,7 +275,7 @@ class GeodesicAreaExact(_NamedBase):
         t = _COMMASPACE_.join(pairs(d, prec=10))
         printf('%s %s: %s (%s)', self.named2, n, t, callername(up=2))
 
-    def _reduced(self, S12, reverse, sign, xing):
+    def _reduced(self, S12, xing, n, reverse=False, sign=True, polar=False):
         '''(INTERNAL) Accumulate and reduce area to allowed range.
         '''
         a0 =  self.area0x
@@ -296,6 +292,8 @@ class GeodesicAreaExact(_NamedBase):
             a = A.Add(-a0)
         elif a <= -a0_:
             a = A.Add( a0)
+        if polar:  # see .geodesicw._gwrapped.Geodesic.Area
+            a = A.Add(a0 * _0_5 * n)  # - if reverse or sign?
         return unsigned0(a)
 
     def Reset(self):
@@ -313,18 +311,13 @@ class GeodesicAreaExact(_NamedBase):
 
     Clear = Reset
 
-    def TestEdge(self, azi, s, reverse=False, sign=True):
+    def TestEdge(self, azi, s, **reverse_sign_polar):
         '''Compute the properties for a tentative, additional edge
 
            @arg azi: Azimuth at the current the point (compass C{degrees}).
            @arg s: Length of the edge (C{meter}).
-           @kwarg reverse: If C{True}, clockwise traversal counts as a
-                           positive area instead of counter-clockwise
-                           (C{bool}).
-           @kwarg sign: If C{True}, return a signed result for the area if
-                        the polygon is traversed in the "wrong" direction
-                        instead of returning the area for the rest of the
-                        earth.
+           @kwarg reverse_sign_polar: Optional C{B{reverse}=False}, C{B{sign}=True} and
+                          C{B{polar}=False} keyword arguments, see method L{Compute}.
 
            @return: L{Area3Tuple}C{(number, perimeter, area)}.
 
@@ -334,42 +327,37 @@ class GeodesicAreaExact(_NamedBase):
         p = self._Peri.Sum(s)
         if self.polyline:
             a, r = NAN, None
-        elif n < 2:
-            raise GeodesicError(num=self.num)
+        elif n < 2:  # raise GeodesicError(num=self.num)
+            a  = p = r = NAN  # like .test_Planimeter19
         else:
             d  = self._Direct(azi, s)
             r  = self._Inverse(d.lat2, d.lon2, self.lat0, self.lon0)
-            a  = self._reduced(d.S12 + r.S12, reverse, sign, d.xing + r.xing)
+            a  = self._reduced(d.S12 + r.S12, d.xing + r.xing, n, **reverse_sign_polar)
             p += r.s12
         if self.verbose:  # PYCHOK no cover
             self._print(n, p, a, r, azi=azi, s=s)
         return Area3Tuple(n, p, a)
 
-    def TestPoint(self, lat, lon, reverse=False, sign=True):
+    def TestPoint(self, lat, lon, **reverse_sign_polar):
         '''Compute the properties for a tentative, additional vertex
 
            @arg lat: Latitude of the point (C{degrees}).
            @arg lon: Longitude of the point (C{degrees}).
-           @kwarg reverse: If C{True}, clockwise traversal counts as a
-                           positive area instead of counter-clockwise
-                           (C{bool}).
-           @kwarg sign: If C{True}, return a signed result for the area if
-                        the polygon is traversed in the "wrong" direction
-                        instead of returning the area for the rest of the
-                        earth.
+           @kwarg reverse_sign_polar: Optional C{B{reverse}=False}, C{B{sign}=True} and
+                          C{B{polar}=False} keyword arguments, see method L{Compute}.
 
            @return: L{Area3Tuple}C{(number, perimeter, area)}.
         '''
         r, n = None, self.num + 1
         if n < 2:
             p = _0_0
-            a = NAN if self.polyline else p
+            a =  NAN if self.polyline else p
         else:
             i = self._Inverse(self.lat1, self.lon1, lat, lon)
             p = self._Peri.Sum(i.s12)
             if self._Area:
                 r  = self._Inverse(lat, lon, self.lat0, self.lon0)
-                a  = self._reduced(i.S12 + r.S12, reverse, sign, i.xing + r.xing)
+                a  = self._reduced(i.S12 + r.S12, i.xing + r.xing, n, **reverse_sign_polar)
                 p += r.s12
             else:
                 a = NAN

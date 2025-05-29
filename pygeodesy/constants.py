@@ -1,8 +1,8 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Single-instance C{float} and C{int} constants across C{pygeodesy} modules and
-related functions L{pygeodesy.float_}, L{pygeodesy.isclose}, L{pygeodesy.isfinite},
+u'''Single-instance C{float} and C{int} constants across C{pygeodesy} modules and related
+functions L{pygeodesy.float_}, L{pygeodesy.float0_}, L{pygeodesy.isclose}, L{pygeodesy.isfinite},
 L{pygeodesy.isinf}, L{pygeodesy.isint0}, L{pygeodesy.isnan}, L{pygeodesy.isnear0},
 L{pygeodesy.isnear1}, L{pygeodesy.isnear90}, L{pygeodesy.isneg0}, L{pygeodesy.isninf},
 L{pygeodesy.isnon0} and L{pygeodesy.remainder}.
@@ -26,7 +26,7 @@ except ImportError:  # Python 2-
     _inf, _nan = float(_INF_), float(_NAN_)
 
 __all__ = _ALL_LAZY.constants
-__version__ = '25.05.12'
+__version__ = '25.05.26'
 
 
 def _copysign_0_0(y):
@@ -495,12 +495,12 @@ def _umod_PI2(rad):
 
 if __name__ == _DMAIN_:
 
-    def _main(locals):
+    def _main(globalocals):
         from pygeodesy import itemsorted, printf
         from pygeodesy.interns import _DALL_, _UNDER_
 
         t = n = v = []
-        for n, v in itemsorted(locals):
+        for n, v in itemsorted(globalocals):
             if isinstance(v, (Float, Int, Radius)):
                 printf('%9s: %r', n, v.toRepr(std=False))
                 if v.name != n:
@@ -512,7 +512,7 @@ if __name__ == _DMAIN_:
         t.append(typename(float_))
         printf('%s = %r', _DALL_, tuple(t))
 
-    _main(locals())
+    _main(globals())  # or locals()
 
 # **) MIT License
 #

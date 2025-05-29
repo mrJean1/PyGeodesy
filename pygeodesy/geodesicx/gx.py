@@ -44,11 +44,11 @@ from pygeodesy.constants import EPS, EPS0, EPS02, MANT_DIG, NAN, PI, _EPSqrt, \
 from pygeodesy.datums import _earth_datum, _WGS84,  _EWGS84
 # from pygeodesy.ellipsoids import _EWGS84  # from .datums
 from pygeodesy.errors import GeodesicError, _xkwds_pop2
-from pygeodesy.fmath import hypot as _hypot,  Fmt
+from pygeodesy.fmath import fdot_, hypot, hypot2,  Fmt
 from pygeodesy.fsums import fsumf_, fsum1f_
 from pygeodesy.geodesicx.gxbases import _cosSeries, _GeodesicBase, \
                                         _sincos12, _sin1cos2, _sinf1cos2d, \
-                                        _TINY, _xnC4
+                                        _TINY, _toNAN, _xnC4
 from pygeodesy.geodesicx.gxline import _GeodesicLineExact, _update_glXs
 # from pygeodesy.internals import typename  # from .basics
 from pygeodesy.interns import NN, _DOT_, _UNDER_
@@ -65,7 +65,7 @@ from pygeodesy.utily import atan2, atan2d as _atan2d_reverse, _unrollon, \
 from math import copysign, cos, degrees, fabs, radians, sqrt
 
 __all__ = ()
-__version__ = '25.05.12'
+__version__ = '25.05.28'
 
 _MAXIT1 = 20
 _MAXIT2 = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
@@ -96,15 +96,12 @@ def _eTOL2(f):
     # (bet1 + bet2) / 2, the relative error in the azimuth
     # consistency check is sig12^2 * abs(f) * min(1, 1-f/2) / 2.
     # (Error measured for 1/100 < b/a < 100 and abs(f) >= 1/1000.
-
-    # For a given f and sig12, the max error occurs for lines
-    # near the pole.  If the old rule for computing dnm = (dn1
-    # + dn2)/2 is used, then the error increases by a factor of
-    # 2.)  Setting this equal to epsilon gives sig12 = etol2.
-
-    # Here 0.1 is a safety factor (error decreased by 100) and
-    # max(0.001, abs(f)) stops etol2 getting too large in the
-    # nearly spherical case.
+    #  For a given f and sig12, the max error occurs for lines
+    #  near the pole.  If the old rule for computing dnm = (dn1 +
+    #  dn2)/2 is used, then the error increases by a factor of 2.)
+    # Setting this equal to epsilon gives sig12 = eTOL2.  Here,
+    # safety factor 0.1 (error decreased by 100) and max(0.001, abs(f))
+    # stops eTOL2 getting too large in the nearly spherical case.
     t = min(_1_0, _1_0 - f * _0_5) * max(_0_001, fabs(f)) * _0_5
     return _TOL3 / (sqrt(t) if t > EPS02 else EPS0)
 
@@ -216,11 +213,10 @@ class GeodesicExact(_GeodesicBase):
         return GeodesicLineExact(self, lat1, lon1, azi1, caps=caps, **name)._GenSet(self._debug, a12=a12)
 
     def Area(self, polyline=False, **name):
-        '''Set up a L{GeodesicAreaExact} to compute area and
-           perimeter of a polygon.
+        '''Set up a L{GeodesicAreaExact} to compute area and perimeter of a polygon.
 
-           @kwarg polyline: If C{True}, compute the perimeter only, otherwise
-                            the perimeter and area (C{bool}).
+           @kwarg polyline: If C{True}, compute the perimeter only, otherwise the
+                            perimeter and area (C{bool}).
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: A L{GeodesicAreaExact} instance.
@@ -429,17 +425,21 @@ class GeodesicExact(_GeodesicBase):
     def _eF_reset_cHe2_f1(self, x, y):
         '''(INTERNAL) Reset elliptic function and return M{cH * e2 / f1 * ...}.
         '''
-        self._eF_reset_k2(x)
-        return y * self._eF.cH * self._e2_f1
+        if isnan(x):
+            y = NAN
+        else:
+            self._eF_reset_k2(x)
+            y *= self._eF.cH * self._e2_f1
+        return y
 
     def _eF_reset_k2(self, x):
         '''(INTERNAL) Reset elliptic function and return C{k2}.
         '''
         ep2 = self.ep2
-        k2  = x**2 * ep2  # see .gxline._GeodesicLineExact._eF
-        self._eF.reset(k2=-k2, alpha2=-ep2)  # kp2, alphap2 defaults
+        x  *= x * ep2  # see .gxline._GeodesicLineExact._eF
+        self._eF.reset(k2=-x, alpha2=-ep2)  # kp2, alphap2 defaults
         _update_glXs(self)  # zap cached/memoized _GeodesicLineExact attrs
-        return k2
+        return x
 
     @Property_RO
     def ellipsoid(self):
@@ -499,6 +499,7 @@ class GeodesicExact(_GeodesicBase):
         if self._debug:  # PYCHOK no cover
             outmask |= Cs._DEBUG_INVERSE & self._debug
         outmask &= Cs._OUT_MASK  # incl. _SALP_CALPs_ and _DEBUG_
+        toNAN = _toNAN(outmask, lat1, lon1, lat2, lon2)
         # compute longitude difference carefully (with _diff182):
         # result is in [-180, +180] but -180 is only for west-going
         # geodesics, +180 is for east-going and meridional geodesics
@@ -700,7 +701,9 @@ class GeodesicExact(_GeodesicBase):
                         eFk2=eF.k2, eFa2=eF.alpha2)
             p.update(r)  # r overrides p
             r = p.toGDict()
-        return self._iter2tion(r, **p)
+
+        r = self._iter2tion(r, **p)
+        return r._toNAN(outmask) if toNAN else r
 
     def _GenDirect(self, lat1, lon1, azi1, arcmode, s12_a12, outmask=Caps.STANDARD):
         '''(INTERNAL) The general I{Inverse} geodesic calculation.
@@ -805,8 +808,7 @@ class GeodesicExact(_GeodesicBase):
                  <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html>} and
                  Python U{Geodesic.InverseLine<https://GeographicLib.SourceForge.io/Python/doc/code.html>}.
         '''
-        Cs = Caps
-        r  = self._GDictInverse(lat1, lon1, lat2, lon2, caps | Cs._SALP_CALPs_)
+        r = self._GDictInverse(lat1, lon1, lat2, lon2, caps | Caps._SALP_CALPs_)
         return GeodesicLineExact(self, lat1, lon1, None, caps=caps, _s_calp1=(r.salp1, r.calp1),
                                                             **name)._GenSet(self._debug, **r)
 
@@ -839,12 +841,12 @@ class GeodesicExact(_GeodesicBase):
             #                   (tan(bet1/2) + tan(bet2/2)) /
             #                   (tan(bet1/2) * tan(bet2/2) + 1))
             # with tan(x/2) = sin(x) / (1 + cos(x))
-            dbet1  =  p.cbet1 + _1_0
-            dbet2  =  p.cbet2 + _1_0
-            domg12 =   comg12 + _1_0
-            salp12 = (p.sbet1 *   dbet2 + dbet1 * p.sbet2) * somg12
-            calp12 = (p.sbet1 * p.sbet2 + dbet1 *   dbet2) * domg12
-            alp12  =  atan2(salp12, calp12) * _2_0
+            dbet1  = p.cbet1 + _1_0
+            dbet2  = p.cbet2 + _1_0
+            domg12 =  comg12 + _1_0
+            salp12 = fdot_(p.sbet1,   dbet2, dbet1, p.sbet2) * somg12
+            calp12 = fdot_(p.sbet1, p.sbet2, dbet1,   dbet2) * domg12
+            alp12  = atan2(salp12, calp12) * _2_0
         else:
             # alp12 = alp2 - alp1, used in atan2, no need to normalize
             salp12, calp12 = _sincos12(salp1, calp1, salp2, calp2)
@@ -870,7 +872,7 @@ class GeodesicExact(_GeodesicBase):
                     and C{p.set_sigs} updated for Newton, C{sig12=None}.
         '''
         sig12 = None  # use Newton
-        salp1 = calp1 = salp2 = calp2 = dnm = NAN
+        salp1 = calp1 = salp2 = calp2 = NAN
 
         # bet12 = bet2 - bet1 in [0, PI)
         sbet12, cbet12 = _sincos12(p.sbet1, p.cbet1, p.sbet2, p.cbet2)
@@ -878,12 +880,15 @@ class GeodesicExact(_GeodesicBase):
         if shortline:
             # sin((bet1 + bet2)/2)^2 = (sbet1 + sbet2)^2 / (
             #      (cbet1 + cbet2)^2 + (sbet1 + sbet2)^2)
-            t = (p.sbet1 + p.sbet2)**2
-            s = t / ((p.cbet1 + p.cbet2)**2 + t)
-            dnm = sqrt(_1_0 + self.ep2 * s)
+            t = p.sbet1 + p.sbet2
+            if t:
+                t *= t / hypot2(t, p.cbet1 + p.cbet2)
+                dnm =  sqrt(self.ep2 * t + _1_0)
+            else:
+                dnm = _1_0
             somg12, comg12 = _sincos2(lam12 / (self.f1 * dnm))
         else:
-            somg12, comg12 = p.slam12, p.clam12
+            somg12, comg12, dnm = p.slam12, p.clam12, NAN
 
         # bet12a = bet2 + bet1 in (-PI, 0], note -sbet1
         sbet12a, cbet12a = _sincos12(-p.sbet1, p.cbet1, p.sbet2, p.cbet2)
@@ -894,8 +899,8 @@ class GeodesicExact(_GeodesicBase):
         salp1 =  p.cbet2 * somg12
         calp1 = (sbet12a - t) if comg12 < 0 else (sbet12 + t)
 
-        ssig12 = _hypot(salp1, calp1)
-        csig12 =  p.sbet1 * p.sbet2 + p.cbet1 * p.cbet2 * comg12
+        ssig12 = hypot(salp1, calp1)
+        csig12 = fdot_(p.sbet1, p.sbet2, p.cbet1, p.cbet2 * comg12)
 
         if shortline and ssig12 < self._eTOL2:  # really short lines
             t = c if comg12 < 0 else s
@@ -970,8 +975,8 @@ class GeodesicExact(_GeodesicBase):
                 #
                 # omg12 is near PI, estimate work with omg12a = PI - omg12
                 k    = _Astroid(x, y)
-                sca *= (y * (k + _1_0) / k) if f < 0 else \
-                       (x *  k / (k + _1_0))
+                k1   = _1_0 + k
+                sca *= (y * k1 / k) if f < 0 else (x * k / k1)
                 s, c = _sincos2(-sca)  # omg12a
                 # update spherical estimate of alp1 using omg12 instead of lam12
                 salp1 = p.cbet2 * s
@@ -1082,16 +1087,15 @@ class GeodesicExact(_GeodesicBase):
                 # Missing a factor of self.b.  Add parens around
                 # (csig1 * ssig2) and (ssig1 * csig2) to ensure
                 # accurate cancellation for coincident points.
-                m12b = fsum1f_(p.dn2 * (p.csig1 * p.ssig2),
-                              -p.dn1 * (p.ssig1 * p.csig2),
-                                 J12 * (p.csig1 * p.csig2))
+                m12b = fdot_(p.dn2, (p.csig1 * p.ssig2),
+                            -p.dn1, (p.ssig1 * p.csig2),
+                               J12, (p.csig1 * p.csig2))
             if (outmask & Cs.GEODESICSCALE):
-                M12 = M21 = p.ssig1 * p.ssig2 + \
-                            p.csig1 * p.csig2
+                M12 = M21 = fdot_(p.ssig1, p.ssig2, p.csig1, p.csig2)
                 t = (p.cbet1 - p.cbet2) * self.ep2 * \
                     (p.cbet1 + p.cbet2) / (p.dn1 + p.dn2)
-                M12 += (p.ssig2 * t + p.csig2 * J12) * p.ssig1 / p.dn1
-                M21 -= (p.ssig1 * t + p.csig1 * J12) * p.ssig2 / p.dn2
+                M12 += fdot_(p.ssig2, t, p.csig2, J12) * p.ssig1 / p.dn1
+                M21 -= fdot_(p.ssig1, t, p.csig1, J12) * p.ssig2 / p.dn2
 
         return s12b, m12b, m0, M12, M21
 
@@ -1310,7 +1314,7 @@ def _Astroid(x, y):
             u = _cbrt(S * _2_0)  # == T3 + _copysign(abs(S), T3)
         else:
             u = _0_0
-        v = _hypot(u, y)  # sqrt(u**2 + q)
+        v = hypot(u, y)  # sqrt(u**2 + q)
         # avoid loss of accuracy when u < 0
         u = (q / (v - u)) if u < 0 else (v + u)
         w = (u - q) / (v + v)  # positive?

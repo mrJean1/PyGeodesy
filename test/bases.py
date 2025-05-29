@@ -44,7 +44,7 @@ __all__ = ('bits_mach2', 'coverage', 'GeodSolve', 'geographiclib',
            'numpy', 'PyGeodesy_dir', 'PythonX', 'scipy', 'test_dir',
            'RandomLatLon', 'TestsBase',  # classes
            'secs2str', 'tilde', 'type2str', 'versions')  # functions
-__version__ = '25.05.09'
+__version__ = '25.05.26'
 
 try:
     if float(_getenv('PYGEODESY_COVERAGE', '0')) > 0:
@@ -343,16 +343,16 @@ class TestsBase(object):
         self.printf('test %s %s', t, (fmt % args), **kwds)
 
     def testCopy(self, inst, *attrs, **kwds):  # Clas=None
-        C = kwds.get('Clas', inst.__class__)
+        C = kwds.get('Clas', type(inst))
 
         c = _xcopy(inst, **kwds)
-        t = c.__class__, id(c) != id(inst)
+        t =  type(c), id(c) != id(inst)
         self.test('copy(%s)' % type(C), t, (C, True))
         for a in attrs:
             self.test('.' + a, getattr(c, a), getattr(inst, a))
 
         c = inst.copy(**kwds)
-        t = c.__class__, id(c) != id(inst)
+        t = type(c), id(c) != id(inst)
         self.test(typename(C) + '.copy()', t, (C, True))
         for a in attrs:
             self.test('.' + a, getattr(c, a), getattr(inst, a))
