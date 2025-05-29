@@ -57,7 +57,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, cos, degrees, fabs, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '25.05.12'
+__version__ = '25.05.28'
 
 _PI_EPS4 = PI - EPS4
 if _PI_EPS4 >= PI:
@@ -758,20 +758,21 @@ class LatLon(LatLonSphericalBase):
 _T00 = LatLon(0, 0, name='T00')  # reference instance (L{LatLon})
 
 
-def areaOf(points, radius=R_M, wrap=False):  # was=True
-    '''Calculate the area of a (spherical) polygon or composite (with the
-       points joined by great circle arcs).
+def areaOf(points, radius=R_M, wrap=False, polar=False):  # was wrap=True
+    '''Calculate the area of a (spherical) polygon or composite (with the points joined by
+       great circle arcs).
 
-       @arg points: The polygon points or clips (L{LatLon}[], L{BooleanFHP}
-                    or L{BooleanGH}).
-       @kwarg radius: Mean earth radius, ellipsoid or datum (C{meter},
-                      L{Ellipsoid}, L{Ellipsoid2}, L{Datum} or L{a_f2Tuple})
-                      or C{None}.
-       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the B{C{points}}
-                    (C{bool}).
+       @arg points: The polygon points or clips (L{LatLon}[], L{BooleanFHP} or L{BooleanGH}).
+       @kwarg radius: Mean earth radius, ellipsoid or datum (C{meter}, L{Ellipsoid},
+                      L{Ellipsoid2}, L{Datum} or L{a_f2Tuple}) or C{None}.
+       @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the B{C{points}} (C{bool}).
+       @kwarg polar: Use C{B{polar}=True} if the polygon encloses a pole (C{bool}), see
+                     function L{ispolar<pygeodesy.points.ispolar>} and U{area of a polygon
+                     enclosing a pole<https://GeographicLib.SourceForge.io/C++/doc/
+                     classGeographicLib_1_1GeodesicExact.html#a3d7a9155e838a09a48dc14d0c3fac525>}.
 
-       @return: Polygon area (C{meter} I{quared}, same units as B{C{radius}}
-                or C{radians} if C{B{radius} is None}).
+       @return: Polygon area (C{meter} I{quared}, same units as B{C{radius}} or C{radians} if
+                C{B{radius} is None}).
 
        @raise PointsError: Insufficient number of B{C{points}}.
 
@@ -779,13 +780,11 @@ def areaOf(points, radius=R_M, wrap=False):  # was=True
 
        @raise ValueError: Invalid B{C{radius}} or semi-circular polygon edge.
 
-       @note: The area is based on I{Karney}'s U{'Area of a spherical
-              polygon'<https://MathOverflow.net/questions/97711/
-              the-area-of-spherical-polygons>}, 3rd Answer.
+       @note: The area is based on I{Karney}'s U{'Area of a spherical polygon'
+              <https://MathOverflow.net/questions/97711/ the-area-of-spherical-polygons>}, 3rd Answer.
 
-       @see: Functions L{pygeodesy.areaOf}, L{sphericalNvector.areaOf},
-             L{pygeodesy.excessKarney}, L{ellipsoidalExact.areaOf} and
-             L{ellipsoidalKarney.areaOf}.
+       @see: Functions L{pygeodesy.areaOf}, L{sphericalNvector.areaOf}, L{pygeodesy.excessKarney},
+             L{ellipsoidalExact.areaOf} and L{ellipsoidalKarney.areaOf}.
     '''
     if _MODS.booleans.isBoolean(points):
         return points._sum2(LatLon, areaOf, radius=radius, wrap=wrap)
@@ -822,7 +821,7 @@ def areaOf(points, radius=R_M, wrap=False):  # was=True
             p1, z1 = p2, z2
 
     R = abs(R * _2_0)
-    if  abs(D) < _90_0:  # ispolar(points)
+    if  abs(D) < _90_0 or polar:  # ispolar(points)
         R = abs(R - PI2)
     if radius:
         a  =  degrees(A.fover(len(A)))  # mean lat

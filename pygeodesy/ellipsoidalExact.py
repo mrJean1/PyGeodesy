@@ -24,7 +24,7 @@ from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
 # from math import fabs  # from .karney
 
 __all__ = _ALL_LAZY.ellipsoidalExact
-__version__ = '25.05.27'
+__version__ = '25.05.28'
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -95,8 +95,10 @@ def areaOf(points, datum=_WGS84, wrap=True, polar=False):
        @kwarg datum: Optional datum (L{Datum}).
        @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the B{C{points}}
                     (C{bool}).
-       @kwarg polar: Use C{B{polar}=True} if the C{B{points}} enclose a pole (C{bool}),
-                     see function U{ispolar<pygeodeys.points.ispolar>}.
+       @kwarg polar: Use C{B{polar}=True} if the polygon encloses a pole (C{bool}), see
+                     function L{ispolar<pygeodesy.points.ispolar>} and U{area of a polygon
+                     enclosing a pole<https://GeographicLib.SourceForge.io/C++/doc/
+                     classGeographicLib_1_1GeodesicExact.html#a3d7a9155e838a09a48dc14d0c3fac525>}.
 
        @return: Area (C{meter} I{squared}, same units as the B{C{datum}}'s ellipsoid axes).
 

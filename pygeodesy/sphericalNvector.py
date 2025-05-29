@@ -791,7 +791,7 @@ def areaOf(points, radius=R_M, wrap=False, polar=False):
        @kwarg radius: Mean earth radius (C{meter}) or C{None}.
        @kwarg wrap: If C{True}, wrap or I{normalize} and unroll the B{C{points}}
                     (C{bool}).
-       @kwarg polar: Use C{B{polar}=True} not implemented (C{bool}).
+       @kwarg polar: Use of C{B{polar}=True} not implemented (C{bool}).
 
        @return: Polygon area (C{meter} I{squared}, same units as B{C{radius}},
                 or C{radians} if C{B{radius} is None}).

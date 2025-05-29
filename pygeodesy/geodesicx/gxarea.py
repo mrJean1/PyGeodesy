@@ -17,7 +17,7 @@ U{GeographicLib<https://GeographicLib.SourceForge.io>} documentation.
 # make sure int/int division yields float quotient
 from __future__ import division as _; del _  # noqa: E702 ;
 
-from pygeodesy.basics import isodd, unsigned0
+from pygeodesy.basics import _copysign, isodd, unsigned0
 from pygeodesy.constants import NAN, _0_0, _0_5, _720_0
 from pygeodesy.internals import printf, typename
 # from pygeodesy.interns import _COMMASPACE_  # from .lazily
@@ -293,7 +293,7 @@ class GeodesicAreaExact(_NamedBase):
         elif a <= -a0_:
             a = A.Add( a0)
         if polar:  # see .geodesicw._gwrapped.Geodesic.Area
-            a = A.Add(a0 * _0_5 * n)  # - if reverse or sign?
+            a = A.Add(_copysign(a0 * _0_5 * n, a))  # - if reverse or sign?
         return unsigned0(a)
 
     def Reset(self):
@@ -323,17 +323,18 @@ class GeodesicAreaExact(_NamedBase):
 
            @raise GeodesicError: No points.
         '''
-        n = self.num + 1
-        p = self._Peri.Sum(s)
-        if self.polyline:
-            a, r = NAN, None
-        elif n < 2:  # raise GeodesicError(num=self.num)
-            a  = p = r = NAN  # like .test_Planimeter19
+        r, n = None, self.num + 1
+        if n < 2:  # raise GeodesicError(num=self.num)
+            a = p = NAN  # like .test_Planimeter19
         else:
-            d  = self._Direct(azi, s)
-            r  = self._Inverse(d.lat2, d.lon2, self.lat0, self.lon0)
-            a  = self._reduced(d.S12 + r.S12, d.xing + r.xing, n, **reverse_sign_polar)
-            p += r.s12
+            p = self._Peri.Sum(s)
+            if self.polyline:
+                a  = NAN
+            else:
+                d  = self._Direct(azi, s)
+                r  = self._Inverse(d.lat2, d.lon2, self.lat0, self.lon0)
+                a  = self._reduced(d.S12 + r.S12, d.xing + r.xing, n, **reverse_sign_polar)
+                p += r.s12
         if self.verbose:  # PYCHOK no cover
             self._print(n, p, a, r, azi=azi, s=s)
         return Area3Tuple(n, p, a)

@@ -2570,6 +2570,7 @@ pygeodesy.geodesicx.gxarea._sum3	pygeodesy.karney-module.html#_sum3
 pygeodesy.geodesicx.gxarea.__package__	pygeodesy.geodesicx.gxarea-module.html#__package__
 pygeodesy.geodesicx.gxarea.pairs	pygeodesy.streprs-module.html#pairs
 pygeodesy.geodesicx.gxarea.isodd	pygeodesy.basics-module.html#isodd
+pygeodesy.geodesicx.gxarea._copysign	pygeodesy.geodesicx.gx-module.html#copysign
 pygeodesy.geodesicx.gxarea._norm180	pygeodesy.karney-module.html#_norm180
 pygeodesy.geodesicx.gxarea.callername	pygeodesy.named-module.html#callername
 pygeodesy.geodesicx.gxarea.typename	pygeodesy.internals-module.html#typename
