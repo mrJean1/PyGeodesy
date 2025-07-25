@@ -560,7 +560,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toMgrs" class="summary-sig-name">toMgrs</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">center</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">pole</span>=<span class="summary-sig-default">''</span>)</span><br />
+        <span class="summary-sig-arg">**toUtmUps_kwds</span>)</span><br />
       Convert this <code>LatLon</code> point to an MGRS coordinate.</td>
           <td align="right" valign="top">
             
@@ -641,9 +641,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toUps" class="summary-sig-name">toUps</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">pole</span>=<span class="summary-sig-default">''</span>,
-        <span class="summary-sig-arg">falsed</span>=<span class="summary-sig-default">True</span>,
-        <span class="summary-sig-arg">center</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">center</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">**toUps8_kwds</span>)</span><br />
       Convert this <code>LatLon</code> point to a UPS coordinate.</td>
           <td align="right" valign="top">
             
@@ -661,7 +660,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toUtm" class="summary-sig-name">toUtm</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">center</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">center</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">**toUtm8_kwds</span>)</span><br />
       Convert this <code>LatLon</code> point to a UTM coordinate.</td>
           <td align="right" valign="top">
             
@@ -680,7 +680,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toUtmUps" class="summary-sig-name">toUtmUps</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">pole</span>=<span class="summary-sig-default">''</span>,
-        <span class="summary-sig-arg">center</span>=<span class="summary-sig-default">False</span>)</span><br />
+        <span class="summary-sig-arg">center</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">**toUtmUps8_kwds</span>)</span><br />
       Convert this <code>LatLon</code> point to a UTM or UPS coordinate.</td>
           <td align="right" valign="top">
             
@@ -1438,7 +1439,7 @@
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ImportError</strong></code> - Package <a href="https://PyPI.org/project/geographiclib" 
         target="_top">geographiclib</a> not installed or not found, but 
-        only in case <code><b>equidistant</b>=</code><a 
+        only if <code><b>equidistant</b>=</code><a 
         href="pygeodesy.azimuthal.EquidistantKarney-class.html" 
         class="link">EquidistantKarney</a>.</li>
         <li><code><strong class='fraise'><a href="pygeodesy.errors.IntersectionError-class.html">IntersectionError</a></strong></code> - Skew, colinear, parallel or otherwise non-intersecting lines or no 
@@ -1870,18 +1871,15 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>toCss_kwds</code></strong> - Optional <a href="pygeodesy.css-module.html#toCss" 
-          class="link">pygeodesy.toCss</a> keyword arguments.</li>
+        <li><strong class="pname"><code>toCss_kwds</code></strong> - Optional keyword arguments for function <a 
+          href="pygeodesy.css-module.html#toCss" 
+          class="link">pygeodesy.toCss</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The Cassini-Soldner location (<a 
           href="pygeodesy.css.Css-class.html" class="link">Css</a>).</dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.css-module.html#toCss" 
-        class="link">pygeodesy.toCss</a>.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="toDatum"></a>
 <div>
@@ -1943,18 +1941,15 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>toEtm8_kwds</code></strong> - Optional <a href="pygeodesy.etm-module.html#toEtm8" 
-          class="link">pygeodesy.toEtm8</a> keyword arguments.</li>
+        <li><strong class="pname"><code>toEtm8_kwds</code></strong> - Optional keyword arguments for function <a 
+          href="pygeodesy.etm-module.html#toEtm8" 
+          class="link">pygeodesy.toEtm8</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The ETM coordinate (<a href="pygeodesy.etm.Etm-class.html" 
           class="link">Etm</a>).</dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.etm-module.html#toEtm8" 
-        class="link">pygeodesy.toEtm8</a>.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="toLcc"></a>
 <div>
@@ -1975,18 +1970,15 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>toLcc_kwds</code></strong> - Optional <a href="pygeodesy.lcc-module.html#toLcc" 
-          class="link">pygeodesy.toLcc</a> keyword arguments.</li>
+        <li><strong class="pname"><code>toLcc_kwds</code></strong> - Optional keyword arguments for function <a 
+          href="pygeodesy.lcc-module.html#toLcc" 
+          class="link">pygeodesy.toLcc</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The Lambert location (<a href="pygeodesy.lcc.Lcc-class.html" 
           class="link">Lcc</a>).</dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.lcc-module.html#toLcc" 
-        class="link">pygeodesy.toLcc</a>.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="toMgrs"></a>
 <div>
@@ -1997,7 +1989,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toMgrs</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">center</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">pole</span>=<span class="sig-default">''</span>)</span>
+        <span class="sig-arg">**toUtmUps_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2011,19 +2003,20 @@
         <li><strong class="pname"><code>center</code></strong> - If <code>True</code>, try to <i>un</i>-center MGRS to its 
           <code>lowerleft</code> (<code>bool</code>) or by 
           <code><b>center</b> meter</code> (<code>scalar</code>).</li>
-        <li><strong class="pname"><code>pole</code></strong> - Optional top/center for the MGRS UPS projection 
-          (<code>str</code>, 'N[orth]' or 'S[outh]').</li>
+        <li><strong class="pname"><code>toUtmUps_kwds</code></strong> - Optional keyword arguments for method <a 
+          href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toUtmUps"
+          class="link">toUtmUps</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The MGRS coordinate (<a href="pygeodesy.mgrs.Mgrs-class.html" 
           class="link">Mgrs</a>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Method <a 
+        Methods <a 
         href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toUtmUps"
         class="link">toUtmUps</a> and <a 
-        href="pygeodesy.mgrs.Mgrs-class.html#toLatLon" 
-        class="link">Mgrs.toLatLon</a>.
+        href="pygeodesy.utmupsBase.UtmUpsBase-class.html#toMgrs" 
+        class="link">toMgrs</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -2051,18 +2044,15 @@
           module <a href="pygeodesy.ktm-module.html" class="link">ktm</a>, 
           otherwise <i>Ordinance Survery</i>'s recommended formulation 
           (<code>bool</code>).</li>
-        <li><strong class="pname"><code>toOsgr_kwds</code></strong> - Optional <a href="pygeodesy.osgr-module.html#toOsgr" 
-          class="link">pygeodesy.toOsgr</a> keyword arguments.</li>
+        <li><strong class="pname"><code>toOsgr_kwds</code></strong> - Optional keyword arguments for function <a 
+          href="pygeodesy.osgr-module.html#toOsgr" 
+          class="link">pygeodesy.toOsgr</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The OSGR coordinate (<a href="pygeodesy.osgr.Osgr-class.html" 
           class="link">Osgr</a>).</dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.osgr-module.html#toOsgr" 
-        class="link">pygeodesy.toOsgr</a>.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="toRefFrame"></a>
 <div>
@@ -2178,9 +2168,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toUps</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">pole</span>=<span class="sig-default">''</span>,
-        <span class="sig-arg">falsed</span>=<span class="sig-default">True</span>,
-        <span class="sig-arg">center</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">center</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">**toUps8_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2191,22 +2180,18 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>pole</code></strong> - Optional top/center of (stereographic) projection 
-          (<code>str</code>, 'N[orth]' or 'S[outh]').</li>
-        <li><strong class="pname"><code>falsed</code></strong> - False easting and northing (<code>bool</code>).</li>
         <li><strong class="pname"><code>center</code></strong> - If <code>True</code>, <i>un</i>-center the UPS to its 
           <code>lowerleft</code> (<code>bool</code>) or by 
           <code><b>center</b> meter</code> (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>toUps8_kwds</code></strong> - Optional keyword arguments for function <a 
+          href="pygeodesy.ups-module.html#toUps8" 
+          class="link">pygeodesy.toUps8</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The UPS coordinate (<a href="pygeodesy.ups.Ups-class.html" 
           class="link">Ups</a>).</dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.ups-module.html#toUps8" 
-        class="link">pygeodesy.toUps8</a>.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="toUtm"></a>
 <div>
@@ -2216,7 +2201,8 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toUtm</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">center</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">center</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">**toUtm8_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2230,16 +2216,21 @@
         <li><strong class="pname"><code>center</code></strong> - If <code>True</code>, <i>un</i>-center the UTM to its 
           <code>lowerleft</code> (<code>bool</code>) or by 
           <code><b>center</b> meter</code> (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>toUtm8_kwds</code></strong> - Optional keyword arguments for function <a 
+          href="pygeodesy.utm-module.html#toUtm8" 
+          class="link">pygeodesy.toUtm8</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The UTM coordinate (<a href="pygeodesy.utm.Utm-class.html" 
           class="link">Utm</a>).</dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        Method <a href="pygeodesy.mgrs.Mgrs-class.html#toUtm" 
-        class="link">Mgrs.toUtm</a> and function <a 
-        href="pygeodesy.utm-module.html#toUtm8" 
-        class="link">pygeodesy.toUtm8</a>.
+<div class="fields">      <p><strong>Note:</strong>
+        For the highest accuracy, use method <a 
+        href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#toEtm"
+        class="link">toEtm</a> and class <a 
+        href="pygeodesy.etm.Etm-class.html" class="link">pygeodesy.Etm</a> 
+        instead of <a href="pygeodesy.utm.Utm-class.html" 
+        class="link">pygeodesy.Utm</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -2252,7 +2243,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">toUtmUps</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">pole</span>=<span class="sig-default">''</span>,
-        <span class="sig-arg">center</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">center</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">**toUtmUps8_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2268,17 +2260,16 @@
         <li><strong class="pname"><code>center</code></strong> - If <code>True</code>, <i>un</i>-center the UTM or UPS to its 
           <code>lowerleft</code> (<code>bool</code>) or by 
           <code><b>center</b> meter</code> (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>toUtmUps8_kwds</code></strong> - Optional keyword arguments for function <a 
+          href="pygeodesy.utmups-module.html#toUtmUps8" 
+          class="link">pygeodesy.toUtmUps8</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The UTM or UPS coordinate (<a href="pygeodesy.utm.Utm-class.html"
           class="link">Utm</a> or <a href="pygeodesy.ups.Ups-class.html" 
           class="link">Ups</a>).</dd>
   </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.utmups-module.html#toUtmUps8" 
-        class="link">pygeodesy.toUtmUps8</a>.
-      </p>
-</div></td></tr></table>
+</td></tr></table>
 </div>
 <a name="triangulate"></a>
 <div>
@@ -2310,7 +2301,7 @@
         <li><strong class="pname"><code>height_wrap_tol</code></strong> - Optional keyword arguments <code><b>height</b>=None</code>, 
           <code><b>wrap</b>=False</code> and <code><b>tol</b></code>, see 
           method <a 
-          href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html"
+          href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#intersection3"
           class="link">intersection3</a>.</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -2318,7 +2309,7 @@
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Method <a 
-        href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html" 
+        href="pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase-class.html#intersection3"
         class="link">intersection3</a> for further details.
       </p>
 </div></td></tr></table>
@@ -2695,7 +2686,7 @@ href="pygeodesy.ups.Ups-class.html" class="link">Ups</a>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu May 29 11:31:19 2025
+    Generated by Epydoc 3.0.1 on Fri Jul 25 12:29:21 2025
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

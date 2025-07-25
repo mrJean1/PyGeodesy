@@ -20,7 +20,7 @@ from pygeodesy.karney import _CapsBase, GeodesicError, _2cos2x, \
 from math import fabs, ldexp as _ldexp
 
 __all__ = ()
-__version__ = '25.05.28'
+__version__ = '25.06.01'
 
 # valid C{nC4}s and C{C4order}s, see _xnC4 below
 _nC4s = {24: 2900, 27: 4032, 30: 5425}
@@ -162,7 +162,8 @@ def _xnC4(**name_nC4):
     '''
     n, nC4 = _xkwds_item2(name_nC4)
     if nC4 not in _nC4s or not isinstance(nC4, int):
-        raise GeodesicError(n, nC4, txt_not_=_or(*map(str, _nC4s)))
+        t = map(str, _nC4s)
+        raise GeodesicError(n, nC4, txt_not_=_or(*t))
     return _nC4s[nC4]
 
 

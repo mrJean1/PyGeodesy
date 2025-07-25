@@ -65,7 +65,7 @@ from pygeodesy.utily import atan2, atan2d as _atan2d_reverse, _unrollon, \
 from math import copysign, cos, degrees, fabs, radians, sqrt
 
 __all__ = ()
-__version__ = '25.05.28'
+__version__ = '25.06.01'
 
 _MAXIT1 = 20
 _MAXIT2 = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
@@ -1227,7 +1227,8 @@ class GeodesicExact(_GeodesicBase):
             tripb = fsum1f_(calp1a, -calp1, _abs(salp1a - salp1)) < TOLb or \
                     fsum1f_(calp1b, -calp1, _abs(salp1b - salp1)) < TOLb
         else:
-            raise GeodesicError(Fmt.no_convergence(v, TOLv), txt=repr(self))  # self.toRepr()
+            v = Fmt.no_convergence(v, TOLv)
+            raise GeodesicError(v, txt=repr(self))  # self.toRepr()
 
         p.set_(iter=i, trip=tripb)  # like .geodsolve._GDictInvoke: iter NOT iteration!
         return sig12, salp1, calp1, salp2, calp2, domg12

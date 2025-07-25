@@ -29,8 +29,8 @@ from pygeodesy.basics import _copy, _enumereverse, map1, \
                              _xinstanceof, _xor,  typename
 from pygeodesy.constants import EPS, INF, INT0, PI, PI2, PI_4, \
                                _0_0, _0_5, _1_0, _1_5, _2_0, _3_0, \
-                               _45_0, _64_0, _90_0, isfinite, \
-                               _EPSjam  # PYCHOK used!
+                               _45_0, _64_0, _90_0, isfinite
+from pygeodesy.constants import _EPSjam  # PYCHOK used!
 from pygeodesy.ellipsoids import _EWGS84,  Fmt, unstr
 from pygeodesy.errors import GeodesicError, IntersectionError, _an, \
                             _xgeodesics, _xkwds_get, _xkwds_kwds, \
@@ -57,7 +57,7 @@ from pygeodesy.utily import atan2, sincos2,  fabs, radians
 # from math import ceil as _ceil, fabs, radians  # .fsums, .utily
 
 __all__ = _ALL_LAZY.geodesici
-__version__ = '25.05.12'
+__version__ = '25.06.02'
 
 _0t     =  0,  # int
 _1_1t   = -1, +1

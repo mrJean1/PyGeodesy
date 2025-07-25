@@ -46,7 +46,7 @@ from pygeodesy.units import Epoch, _isDegrees, Radius_, _1mm as _TOL_M
 # from math import fabs  # from .latlonBase
 
 __all__ = _ALL_LAZY.ellipsoidalBase
-__version__ = '25.05.12'
+__version__ = '25.07.21'
 
 
 class CartesianEllipsoidalBase(CartesianBase):
@@ -136,7 +136,7 @@ class CartesianEllipsoidalBase(CartesianBase):
 
                     If C{B{sphere} is False}, a 2-tuple with the two intersection points
                     of the I{circles}.  For abutting circles, both points are the same
-                    instance, aka the I{radical center}.
+                    instance (aka the I{radical center}).
 
            @raise IntersectionError: Concentric, invalid or non-intersecting spheres or circles.
 
@@ -449,8 +449,7 @@ class LatLonEllipsoidalBase(LatLonBase):
     def _etm(self):
         '''(INTERNAL) Get this C{LatLon} point as an ETM coordinate (L{pygeodesy.toEtm8}).
         '''
-        etm = _MODS.etm
-        return etm.toEtm8(self, datum=self.datum, Etm=etm.Etm)
+        return self._toX8(_MODS.etm.toEtm8)
 
     @property_RO
     def gamma(self):
@@ -523,8 +522,8 @@ class LatLonEllipsoidalBase(LatLonBase):
                     a C{LatLon} instance.
 
            @raise ImportError: Package U{geographiclib
-                               <https://PyPI.org/project/geographiclib>} not
-                               installed or not found, but only in case
+                               <https://PyPI.org/project/geographiclib>}
+                               not installed or not found, but only if
                                C{B{equidistant}=}L{EquidistantKarney}.
 
            @raise IntersectionError: Skew, colinear, parallel or otherwise non-intersecting
@@ -676,8 +675,8 @@ class LatLonEllipsoidalBase(LatLonBase):
            @kwarg wrap: If C{True}, wrap or I{normalize} and unroll both B{C{point1}} and
                         B{C{point2}} (C{bool}).
            @kwarg equidistant: An azimuthal equidistant projection (I{class} or function
-                               L{pygeodesy.equidistant}) or C{None} for this point's preferred
-                               C{Equidistant}, like L{Equidistant<LatLonEllipsoidalBase.Equidistant>}.
+                               L{pygeodesy.equidistant}) or C{None} for this point's
+                               preferred C{Equidistant}, like L{Equidistant}.
            @kwarg tol: Convergence tolerance (C{meter}, conventionally).
 
            @return: Closest point (C{LatLon}).
@@ -778,6 +777,11 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''
         return self._scale
 
+    def _toX8(self, toX8, **kwds):
+        '''(INTERNAL) Return toX8(self, ...).
+        '''
+        return toX8(self, **_xkwds(kwds, datum=self.datum, name=self.name))
+
     def toCartesian(self, height=None, **Cartesian_and_kwds):  # PYCHOK signature
         '''Convert this point to cartesian, I{geocentric} coordinates,
            also known as I{Earth-Centered, Earth-Fixed} (ECEF).
@@ -793,11 +797,10 @@ class LatLonEllipsoidalBase(LatLonBase):
     def toCss(self, **toCss_kwds):
         '''Convert this C{LatLon} point to a Cassini-Soldner location.
 
-           @kwarg toCss_kwds: Optional L{pygeodesy.toCss} keyword arguments.
+           @kwarg toCss_kwds: Optional keyword arguments for function
+                              L{pygeodesy.toCss}.
 
            @return: The Cassini-Soldner location (L{Css}).
-
-           @see: Function L{pygeodesy.toCss}.
         '''
         return _MODS.css.toCss(self, **self._name1__(toCss_kwds))
 
@@ -829,39 +832,38 @@ class LatLonEllipsoidalBase(LatLonBase):
     def toEtm(self, **toEtm8_kwds):
         '''Convert this C{LatLon} point to an ETM coordinate.
 
-           @kwarg toEtm8_kwds: Optional L{pygeodesy.toEtm8} keyword arguments.
+           @kwarg toEtm8_kwds: Optional keyword arguments for
+                               function L{pygeodesy.toEtm8}.
 
            @return: The ETM coordinate (L{Etm}).
-
-           @see: Function L{pygeodesy.toEtm8}.
         '''
-        return _MODS.etm.toEtm8(self, **self._name1__(toEtm8_kwds)) if toEtm8_kwds else self._etm
+        return self._etm if not toEtm8_kwds else \
+               self._toX8(_MODS.etm.toEtm8, **toEtm8_kwds)
 
     def toLcc(self, **toLcc_kwds):
         '''Convert this C{LatLon} point to a Lambert location.
 
-           @kwarg toLcc_kwds: Optional L{pygeodesy.toLcc} keyword arguments.
+           @kwarg toLcc_kwds: Optional keyword arguments for
+                              function L{pygeodesy.toLcc}.
 
            @return: The Lambert location (L{Lcc}).
-
-           @see: Function L{pygeodesy.toLcc}.
         '''
         return _MODS.lcc.toLcc(self, **self._name1__(toLcc_kwds))
 
-    def toMgrs(self, center=False, pole=NN):
+    def toMgrs(self, center=False, **toUtmUps_kwds):
         '''Convert this C{LatLon} point to an MGRS coordinate.
 
            @kwarg center: If C{True}, try to I{un}-center MGRS
                           to its C{lowerleft} (C{bool}) or by
                           C{B{center} meter} (C{scalar}).
-           @kwarg pole: Optional top/center for the MGRS UPS
-                        projection (C{str}, 'N[orth]' or 'S[outh]').
+           @kwarg toUtmUps_kwds: Optional keyword arguments for
+                                 method L{toUtmUps}.
 
            @return: The MGRS coordinate (L{Mgrs}).
 
-           @see: Method L{toUtmUps} and L{Mgrs.toLatLon}.
+           @see: Methods L{toUtmUps} and L{toMgrs<pygeodesy.utmupsBase.UtmUpsBase.toMgrs>}.
         '''
-        return self.toUtmUps(center=center, pole=pole).toMgrs(center=False)
+        return self.toUtmUps(center=center, **toUtmUps_kwds).toMgrs(center=False)
 
     def toOsgr(self, kTM=False, **toOsgr_kwds):
         '''Convert this C{LatLon} point to an OSGR coordinate.
@@ -869,11 +871,10 @@ class LatLonEllipsoidalBase(LatLonBase):
            @kwarg kTM: If C{True}, use I{Karney}'s Krüger method from module
                        L{ktm}, otherwise I{Ordinance Survery}'s recommended
                        formulation (C{bool}).
-           @kwarg toOsgr_kwds: Optional L{pygeodesy.toOsgr} keyword arguments.
+           @kwarg toOsgr_kwds: Optional keyword arguments for function
+                               L{pygeodesy.toOsgr}.
 
            @return: The OSGR coordinate (L{Osgr}).
-
-           @see: Function L{pygeodesy.toOsgr}.
         '''
         return _MODS.osgr.toOsgr(self, kTM=kTM, **self._name1__(toOsgr_kwds))
 
@@ -928,42 +929,40 @@ class LatLonEllipsoidalBase(LatLonBase):
             r = c.toLatLon(LatLon=self.classof, **_xkwds(LatLon_kwds, height=self.height))
         return r
 
-    def toUps(self, pole=NN, falsed=True, center=False):
+    def toUps(self, center=False, **toUps8_kwds):
         '''Convert this C{LatLon} point to a UPS coordinate.
 
-           @kwarg pole: Optional top/center of (stereographic)
-                        projection (C{str}, 'N[orth]' or 'S[outh]').
-           @kwarg falsed: False easting and northing (C{bool}).
            @kwarg center: If C{True}, I{un}-center the UPS to its
                           C{lowerleft} (C{bool}) or by C{B{center}
                           meter} (C{scalar}).
+           @kwarg toUps8_kwds: Optional keyword arguments for
+                               function L{pygeodesy.toUps8}.
 
            @return: The UPS coordinate (L{Ups}).
-
-           @see: Function L{pygeodesy.toUps8}.
         '''
-        if self._upsOK(pole, falsed):
-            u = self._ups
-        else:
-            ups = _MODS.ups
-            u = ups.toUps8(self, datum=self.datum, Ups=ups.Ups,
-                                 pole=pole, falsed=falsed)
+        u = self._ups if (not toUps8_kwds) and self._upsOK() else \
+            self._toX8(_MODS.ups.toUps8, **toUps8_kwds)
         return _lowerleft(u, center)
 
-    def toUtm(self, center=False):
+    def toUtm(self, center=False, **toUtm8_kwds):
         '''Convert this C{LatLon} point to a UTM coordinate.
 
            @kwarg center: If C{True}, I{un}-center the UTM to its
                           C{lowerleft} (C{bool}) or by C{B{center}
                           meter} (C{scalar}).
+           @kwarg toUtm8_kwds: Optional keyword arguments for function
+                               L{pygeodesy.toUtm8}.
 
            @return: The UTM coordinate (L{Utm}).
 
-           @see: Method L{Mgrs.toUtm} and function L{pygeodesy.toUtm8}.
+           @note: For the highest accuracy, use method L{toEtm} and
+                  class L{pygeodesy.Etm} instead of L{pygeodesy.Utm}.
         '''
-        return _lowerleft(self._utm, center)
+        u = self._utm if not toUtm8_kwds else \
+            self._toX8(_MODS.utm.toUtm8, **toUtm8_kwds)
+        return _lowerleft(u, center)
 
-    def toUtmUps(self, pole=NN, center=False):
+    def toUtmUps(self, pole=NN, center=False, **toUtmUps8_kwds):
         '''Convert this C{LatLon} point to a UTM or UPS coordinate.
 
            @kwarg pole: Optional top/center of UPS (stereographic)
@@ -971,19 +970,19 @@ class LatLonEllipsoidalBase(LatLonBase):
            @kwarg center: If C{True}, I{un}-center the UTM or UPS to
                           its C{lowerleft} (C{bool}) or by C{B{center}
                           meter} (C{scalar}).
+           @kwarg toUtmUps8_kwds: Optional keyword arguments for
+                                  function L{pygeodesy.toUtmUps8}.
 
            @return: The UTM or UPS coordinate (L{Utm} or L{Ups}).
-
-           @see: Function L{pygeodesy.toUtmUps8}.
         '''
-        if self._utmOK():
+        x = not toUtmUps8_kwds
+        if x and self._utmOK():
             u = self._utm
-        elif self._upsOK(pole):
+        elif x and self._upsOK(pole):
             u = self._ups
         else:  # no cover
             utmups = _MODS.utmups
-            u = utmups.toUtmUps8(self, datum=self.datum, pole=pole, name=self.name,
-                                       Utm=utmups.Utm, Ups=utmups.Ups)
+            u = self._toX8(utmups.toUtmUps8, pole=pole, **toUtmUps8_kwds)
             if isinstance(u, utmups.Utm):
                 self._update(False, _utm=u)  # PYCHOK kwds
             elif isinstance(u, utmups.Ups):
@@ -1011,13 +1010,11 @@ class LatLonEllipsoidalBase(LatLonBase):
            @arg other: The other point (C{LatLon}).
            @arg bearing2: Bearing at the B{C{other}} point (compass C{degrees360}).
            @kwarg height_wrap_tol: Optional keyword arguments C{B{height}=None},
-                         C{B{wrap}=False} and C{B{tol}}, see method L{intersection3
-                         <pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase>}.
+                         C{B{wrap}=False} and C{B{tol}}, see method L{intersection3}.
 
            @return: Triangulated point (C{LatLon}).
 
-           @see: Method L{intersection3<pygeodesy.ellipsoidalBase.LatLonEllipsoidalBase>}
-                 for further details.
+           @see: Method L{intersection3} for further details.
         '''
         if _isDegrees(bearing1) and _isDegrees(bearing2):
             r = self.intersection3(bearing1, other, bearing2, **height_wrap_tol)
@@ -1086,11 +1083,9 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''(INTERNAL) Get this C{LatLon} point as UPS coordinate (L{Ups}),
            see L{pygeodesy.toUps8}.
         '''
-        ups = _MODS.ups
-        return ups.toUps8(self, datum=self.datum, Ups=ups.Ups,
-                                pole=NN, falsed=True, name=self.name)
+        return self._toX8(_MODS.ups.toUps8)  # pole=NN, falsed=True
 
-    def _upsOK(self, pole=NN, falsed=True):
+    def _upsOK(self, pole=NN, falsed=True, **unused):
         '''(INTERNAL) Check matching C{Ups}.
         '''
         try:
@@ -1104,8 +1099,7 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''(INTERNAL) Get this C{LatLon} point as UTM coordinate (L{Utm}),
            see L{pygeodesy.toUtm8}.
         '''
-        utm = _MODS.utm
-        return utm.toUtm8(self, datum=self.datum, Utm=utm.Utm, name=self.name)
+        return self._toX8(_MODS.utm.toUtm8)
 
     def _utmOK(self):
         '''(INTERNAL) Check C{Utm}.

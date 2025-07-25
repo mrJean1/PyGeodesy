@@ -4,7 +4,7 @@
 # Test L{elliptic} Python implementation.
 
 __all__ = ('Tests',)
-__version__ = '23.09.06'
+__version__ = '25.05.31'
 
 from bases import endswith, TestsBase
 
@@ -122,7 +122,7 @@ class Tests(TestsBase):
         self.test('RG(0,  0.0796, 4)', RG(0,  0.0796, 4), '1.0284758090288', fmt='%.13f', nt=1)  # E(0.99)?
 
         e.reset(0, 0)
-        self.test('reset', len(e.__dict__), 4, nt=1)  # len(_k2, _kp2, _alpha2, _alphap2)
+        self.test('reset', len(e.__dict__), 5, nt=1)  # len(_iteration, _k2, _kp2, _alpha2, _alphap2)
 
         for j in (True, False):
             e = Elliptic(0.1)  # assert e.k2 and e.kp2

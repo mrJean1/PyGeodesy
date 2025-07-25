@@ -4,7 +4,7 @@
 # Test L{fsums} module.
 
 __all__ = ('Tests',)
-__version__ = '24.11.27'
+__version__ = '25.06.02'
 
 from bases import endswith, isPython2, startswith, TestsBase
 
@@ -425,6 +425,8 @@ class Tests(TestsBase):
         f.nonfinites(None)
         t = f.f2product(), f.nonfinites()
         self.test('Nones', t, (None, None))
+
+        self.test('fma_', Fsum(1).fma_(2, 3, 4, 5, 6, 7), Fsum(69.0), nl=1)
 
 #       t = Fsum._ps_max
 #       self.test('_ps_max', t, t, nl=1)

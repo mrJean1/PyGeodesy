@@ -7,8 +7,8 @@ C{fused-multiply-add}, polynomials, roots, etc.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # noqa: E702 ;
 
-from pygeodesy.basics import _copysign, copysign0, isbool, isint, isscalar, \
-                              len2, map1, _xiterable,  typename
+from pygeodesy.basics import _copysign, copysign0, isbool, isint, isodd, \
+                              isscalar, len2, map1, _xiterable,  typename
 from pygeodesy.constants import EPS0, EPS02, EPS1, NAN, PI, PI_2, PI_4, \
                                _0_0, _0_125, _1_6th, _0_25, _1_3rd, _0_5, _1_0, \
                                _1_5, _copysign_0_0, isfinite, remainder
@@ -25,7 +25,7 @@ from math import fabs, sqrt  # pow
 import operator as _operator  # in .datums, .trf, .utm
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '25.05.12'
+__version__ = '25.06.03'
 
 # sqrt(2) - 1 <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142  =  0.41421356237309504880  # ~ 3_730_904_090_310_553 / 9_007_199_254_740_992
@@ -66,7 +66,7 @@ class Fdot(Fsum):
         self._facc_dot(n, a, b, **kwds)
 
 
-class Fdot_(Fdot):
+class Fdot_(Fdot):  # in .elliptic
     '''Precision dot product.
     '''
     def __init__(self, *xys, **start_name_f2product_nonfinites_RESIDUAL):
@@ -78,6 +78,8 @@ class Fdot_(Fdot):
 
            @see: Class L{Fdot<Fdot.__init__>} for further details.
         '''
+        if isodd(len(xys)):
+            raise LenError(Fdot_, xys=len(xys))
         Fdot.__init__(self, xys[0::2], *xys[1::2], **start_name_f2product_nonfinites_RESIDUAL)
 
 

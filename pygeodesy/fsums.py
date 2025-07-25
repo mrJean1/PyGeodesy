@@ -39,15 +39,13 @@ results may differ from Python's C{math.fsum} results.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # noqa: E702 ;
 
-from pygeodesy.basics import _gcd, isbool, iscomplex, isint, isscalar, \
+from pygeodesy.basics import _gcd, isbool, iscomplex, isint, isodd, isscalar, \
                              _signOf, itemsorted, signOf, _xiterable
-from pygeodesy.constants import INF, INT0, MANT_DIG, NEG0, NINF, _0_0, \
-                               _1_0, _N_1_0, _isfinite, _pos_self, \
-                               Float, Int
-from pygeodesy.errors import _AssertionError, _OverflowError, _TypeError, \
-                             _ValueError, _xError, _xError2, _xkwds, \
-                             _xkwds_get, _xkwds_get1, _xkwds_not, \
-                             _xkwds_pop, _xsError
+from pygeodesy.constants import INF, INT0, MANT_DIG, NEG0, NINF, _0_0, _1_0, \
+                               _N_1_0, _isfinite, _pos_self,  Float, Int
+from pygeodesy.errors import _AssertionError, _OverflowError, LenError, _TypeError, \
+                             _ValueError, _xError, _xError2, _xkwds, _xkwds_get, \
+                             _xkwds_get1, _xkwds_not, _xkwds_pop, _xsError
 from pygeodesy.internals import _enquote, _envPYGEODESY, _passarg, typename  # _sizeof
 from pygeodesy.interns import NN, _arg_, _COMMASPACE_, _DMAIN_, _DOT_, _from_, \
                              _not_finite_, _SPACE_, _std_, _UNDER_
@@ -64,7 +62,7 @@ from math import fabs, isinf, isnan, \
                  ceil as _ceil, floor as _floor  # PYCHOK used! .ltp
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '25.05.12'
+__version__ = '25.06.03'
 
 from pygeodesy.interns import (
   _PLUS_     as _add_op_,  # in .auxilats.auxAngle
@@ -121,7 +119,9 @@ try:  # MCCABE 26
             f = x * y
             yield f
             if _isfinite(f):
-                yield _fma(x, y, -f)
+                f = _fma(x, y, -f)
+                if f:
+                    yield f
         for z in zs:
             yield z
 
@@ -162,7 +162,7 @@ except  ImportError:  # PYCHOK DSPACE! Python 3.12-
     def _fmaX(r, *a_b_c):  # PYCHOK no cover
         # handle non-finite fma result as Python 3.13+ C-function U{math_fma_impl
         # <https://GitHub.com/python/cpython/blob/main/Modules/mathmodule.c#L2305>}:
-        # raise a ValueError for a NAN result from non-NAN C{a_b_c}s otherwise an
+        # raise a ValueError for a NAN result from non-NAN C{a_b_c}s, otherwise an
         # OverflowError for a non-finite, non-NAN result from all finite C{a_b_c}s.
         if isnan(r):
             def _x(x):
@@ -559,7 +559,6 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
         self._ps[:] = 0,  # clear for errors
         self._fset(other, op=_fset_op_, **up)
         return self
-
 
     def __ceil__(self):  # PYCHOK not special in Python 2-
         '''Return this instance' C{math.ceil} as C{int} or C{float}.
@@ -1137,7 +1136,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
         return E(u, txt=t, cause=X)
 
     def _facc(self, xs, up=True, **_X_x_origin):
-        '''(INTERNAL) Accumulate more C{scalar}s or L{Fsum}s.
+        '''(INTERNAL) Accumulate more C{scalar}s, L{Fsum}s pr L{Fsum2Tuple}s.
         '''
         if xs:
             kwds = self._isfine
@@ -1472,6 +1471,29 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
             f  = self._nonfiniteX(X, op, f, **nonfinites)
         return self._fset(f)
 
+    def fma_(self, *xys, **nonfinites):
+        '''Fused-multiply-accumulate C{for i in range(0, len(xys), B{2}):
+           self = }L{fma<pygeodesy.fmath.fma>}C{(xys[i], xys[i+1], self)}.
+
+           @arg xys: Pairwise multiplicand, multiplier (each C{scalar},
+                     an L{Fsum} or L{Fsum2Tuple}), all positional.
+           @kwarg nonfinites: Use C{B{nonfinites}=True} or C{False}, to
+                              override L{nonfinites<Fsum.nonfinites>} and
+                              L{nonfiniterrors} default (C{bool}).
+
+           @note: Equivalent to L{fdot_<pygeodesy.fmath.fdot_>}C{(*xys,
+                  start=self)}.
+        '''
+        if xys:
+            n = len(xys)
+            if n < 2 or isodd(n):
+                raise LenError(self.fma_, xys=n)
+            f, _fmath_fma = self, _MODS.fmath.fma
+            for x, y in zip(xys[0::2], xys[1::2]):
+                f = _fmath_fma(x, y, f, **nonfinites)
+            self._fset(f)
+        return self
+
     fmul = __imul__
 
     def _fmul(self, other, op):
@@ -1581,8 +1603,8 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
            L{Fsum}, overriding the L{f2product} default.
 
            @arg two: If omitted, leave the override unchanged, if C{True},
-                     turn I{TwoProduct} on, if C{False} off, if C{None}e
-                     remove th override (C{bool} or C{None}).
+                     turn I{TwoProduct} on, if C{False} off, or if C{None}
+                     remove the override (C{bool} or C{None}).
 
            @return: The previous setting (C{bool} or C{None} if not set).
 
@@ -2682,11 +2704,11 @@ try:
         del _fsum  # nope, remove _fsum ...
         raise ImportError()  # ... use _fsum below
 
-    _sum = _fsum  # in .elliptic
+    _sum = _fsum
 except ImportError:
-    _sum =  sum  # in .elliptic
+    _sum =  sum
 
-    def _fsum(xs):
+    def _fsum(xs):  # in .elliptic
         '''(INTERNAL) Precision summation, Python 2.5-.
         '''
         F = Fsum(name=_fsum.name, f2product=False, nonfinites=True)

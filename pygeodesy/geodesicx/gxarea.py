@@ -31,7 +31,7 @@ from pygeodesy.props import Property, Property_RO, property_RO
 from math import fmod as _fmod
 
 __all__ = ()
-__version__ = '25.05.28'
+__version__ = '25.06.04'
 
 
 class GeodesicAreaExact(_NamedBase):
@@ -172,7 +172,7 @@ class GeodesicAreaExact(_NamedBase):
         r, n = None, self.num
         if n < 2:
             p = _0_0
-            a = NAN if self.polyline else p
+            a =  NAN if n > 0 and self.polyline else p
         elif self._Area:
             r = self._Inverse(self.lat1, self.lon1, self.lat0, self.lon0)
             a = self._reduced(r.S12, r.xing, n, reverse=reverse, sign=sign, polar=polar)
@@ -319,9 +319,8 @@ class GeodesicAreaExact(_NamedBase):
            @kwarg reverse_sign_polar: Optional C{B{reverse}=False}, C{B{sign}=True} and
                           C{B{polar}=False} keyword arguments, see method L{Compute}.
 
-           @return: L{Area3Tuple}C{(number, perimeter, area)}.
-
-           @raise GeodesicError: No points.
+           @return: L{Area3Tuple}C{(number, perimeter, area)}, with C{perimeter} and
+                    C{area} both C{NAN} for insuffcient C{number} of points.
         '''
         r, n = None, self.num + 1
         if n < 2:  # raise GeodesicError(num=self.num)
