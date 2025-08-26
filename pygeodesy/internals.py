@@ -76,7 +76,7 @@ class _MODS_Base(object):
         return b
 
     @_Property_RO
-    def bits_machine2(self):
+    def bits_machine2(self):  # in test/bases.py
         '''Get platform 2-list C{[bits, machine]}, I{once}.
         '''
         import platform as p
@@ -686,7 +686,7 @@ def _versions(sep=_SPACE_):
 
 
 __all__ = tuple(map(typename, (machine, print_, printf, typename)))
-__version__ = '25.05.26'
+__version__ = '25.08.18'
 
 if __name__ == _DMAIN_:
 
@@ -699,7 +699,7 @@ if __name__ == _DMAIN_:
     _main()
 
 # % python3 -m pygeodesy.internals
-# pygeodesy 25.4.14 Python 3.13.2 64bit arm64 macOS 15.4 _isfrozen False isLazy 1
+# pygeodesy 25.8.18 Python 3.13.5 64bit arm64 macOS 15.6 _isfrozen False isLazy 1
 
 # **) MIT License
 #

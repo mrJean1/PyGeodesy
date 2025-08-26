@@ -98,7 +98,7 @@ The tests ran with Python 3.13.5 (with geographiclib_ 2.0), 3.12.7 (with geograp
 scipy_ 1.14.1, GeodSolve_ 2.5, IntersectTool_ 2.5 and RhumbSolve_ 2.5), 3.11.5 (with geographiclib_ 2.0,
 numpy_ 1.24.2 and scipy_ 1.10.1), Python 3.10.8 (with geographiclib_ 2.0, numpy_ 1.23.3, scipy_ 1.9.1,
 GeoConvert_ 2.5, GeodSolve_ 2.5), Python 3.9.6 and Python 2.7.18 (with geographiclib_ 1.50, numpy_ 1.16.6,
-scipy_ 1.2.2, GeoConvert_ 2.5, GeodSolve_ 2.5, IntersectTool_ 2.5 and RhumbSolve_ 2.5), all on macOS 15.5
+scipy_ 1.2.2, GeoConvert_ 2.5, GeodSolve_ 2.5, IntersectTool_ 2.5 and RhumbSolve_ 2.5), all on macOS 15.6.1
 Sequoia in 64-bit.
 
 All tests ran with and without ``lazy import`` for Python 3 and with command line option ``-W default``
@@ -108,7 +108,7 @@ included in the distribution files.
 Python 3.13.5, 3.12.7, 3.11.5 and 3.10.8 run on Apple M4 Si (``arm64``), *natively*.  Python 2.7.18 runs
 on Intel (``x86_64``) or Intel *emulation* (\"``arm64_x86_64``\", see function `pygeodesy.machine`_).
 
-Test coverage has been measured with coverage_ 7.6.1 using Python 3.13.4, 3.12.7, 3.11.5 and 3.10.8.  The
+Test coverage has been measured with coverage_ 7.6.1 using Python 3.13.5, 3.12.7, 3.11.5 and 3.10.8.  The
 complete coverage report in HTML and a PDF summary are included in the distribution files.
 
 The tests also ran with Python 3.13.5 (and geographiclib_ 2.0) on `Debian 12`_ in 64-bit only and with
@@ -124,7 +124,7 @@ numpy_ 1.16.3, 1.16.4, 1.16.6, 1.19.0, 1.19.4, 1.19.5 or 1.22.4 and scipy_ 1.2.1
 Ubuntu 16.04, with Python 3.10.0-1, 3.9.0-5, 3.8.0-6, 3.7.2-6, 3.7.0, 3.6.2-5, 3.5.3, 2.7.13-17, 2.7.10
 and 2.6.9 (and numpy_ 1.19.0, 1.16.5, 1.16.2, 1.15.2, 1.14.0, 1.13.1, 1.8.0rc1 or 1.6.2 and scipy_ 1.5.0),
 PyPy_ 7.3.0 (Python 2.7.13 and 3.6.9), PyPy_ 6.0.0 (Python 2.7.13 and 3.5.3) and `Intel-Python`_ 3.5.3 (and
-numpy_ 1.11.3) on macOS 15.0-4 Sequoia, 14.0-6.1 Sonoma, 13.0-5.2 Ventura, 12.1-6 Monterey, 11.0-5.2-6.1 Big
+numpy_ 1.11.3) on macOS 15.0-5 Sequoia, 14.0-6.1 Sonoma, 13.0-5.2 Ventura, 12.1-6 Monterey, 11.0-5.2-6.1 Big
 Sur (aka 10.16), 10.15.3, 10.15.5-7 Catalina, 10.14 Mojave, 10.13.6 High Sierra and 10.12 Sierra, MacOS X
 10.11 El Capitan and/or MacOS X 10.10 Yosemite, with Pythonista_ 3.2 (with geographiclib 1.50 or 1.49 and
 numpy 1.8.0) on iOS 14.4.2, 11.4.1, 12.0-3 on iPad4, iPhone6, iPhone10 and/or iPhone12, with Pythonista_ 3.1
@@ -135,11 +135,11 @@ Notes
 =====
 
 All Python source code has been statically checked_ with Ruff_ using Python 3.13.5 and with PyChecker_, PyFlakes_,
-PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 2.7.18, both in 64-bit on macOS 15.5 Sequoia only.
+PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 2.7.18, both in 64-bit on macOS 15.6.1 Sequoia only.
 
 For a summary of all *Karney*-based functionality in ``pygeodesy``, see module karney_.
 
-*Last updated: July 25, 2025.*
+*Last updated: Aug 25, 2025.*
 
 License
 =======

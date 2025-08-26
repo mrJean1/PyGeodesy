@@ -214,8 +214,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'bearingDMS', 'clipDegrees', 'clipRadians', 'compassDMS', 'compassPoint',
                                    'degDMS', 'latDMS', 'latlonDMS', 'latlonDMS_', 'lonDMS', 'normDMS',
                                    'parseDDDMMSS', 'parseDMS', 'parseDMS2', 'parse3llh', 'parseRad', 'precision', 'toDMS'),
-                           ecef=_a('EcefError', 'EcefFarrell21', 'EcefFarrell22', 'EcefKarney', 'EcefMatrix',
-                                   'EcefSudano', 'Ecef9Tuple', 'EcefVeness', 'EcefYou'),
+                           ecef=_a('EcefFarrell21', 'EcefFarrell22', 'EcefKarney', 'EcefSudano', 'EcefUPC', 'EcefVeness', 'EcefYou',
+                                   'EcefError', 'EcefMatrix', 'Ecef9Tuple'),
                      ecefLocals=_a(),  # module only
                      elevations=_a('Elevation2Tuple', 'GeoidHeight2Tuple',
                                    'elevation2', 'geoidHeight2'),
@@ -510,7 +510,7 @@ class _ALL_MODS(_internals._MODS_Base):
 _internals._MODS = _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '25.05.19'
+__version__ = '25.08.22'
 
 
 def _ALL_OTHER(*objs):

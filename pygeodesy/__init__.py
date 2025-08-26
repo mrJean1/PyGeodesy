@@ -143,14 +143,14 @@ U{GeoConvert<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.5,
 U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.5,
 U{IntersectTool<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.5 and
 U{RhumbSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.5), all in 64-bit on
-macOS 15.5 Sequoia.
+macOS 15.6.1 Sequoia.
 
 All tests ran with and without C{lazy import} for Python 3 and with command line option C{-W default} and
 env variable C{PYGEODESY_WARNINGS=on} for all Python versions.  The results of those tests are included in
 the distribution files.
 
 Test coverage has been measured with U{coverage<https://PyPI.org/project/coverage>} 7.6.1 using Python
-3.13.4, 3.12.7, 3.11.5 and 3.10.8.  The complete coverage report in HTML and a PDF summary are included in
+3.13.5, 3.12.7, 3.11.5 and 3.10.8.  The complete coverage report in HTML and a PDF summary are included in
 the distribution files.
 
 Python 3.13.5, 3.12.7, 3.11.5 and 3.10.8 run on Apple M4 Si (C{arm64}), I{natively}.  Python 2.7.18 runs
@@ -175,7 +175,7 @@ U{PyPy<https://PyPy.org>} 7.3.12 (Python 3.10.12), 7.3.1 (Python 3.6.9) and U{Py
 1.16.5, 1.16.2, 1.15.2, 1.14.0, 1.13.1, 1.8.0rc1 or 1.6.2 and U{scipy<https://PyPI.org/project/scipy>} 1.5.0), U{PyPy
 <https://PyPy.org>} 7.3.0 (Python 2.7.13 and 3.6.9), U{PyPy<https://PyPy.org>} 6.0.0 (Python 2.7.13 and 3.5.3)
 and U{Intel-Python<https://software.Intel.com/en-us/distribution-for-python>} 3.5.3 (and U{numpy
-<https://PyPI.org/project/numpy>} 1.11.3) on macOS 15.0-4 Sequoia, 14.0-6.1 Sonoma, 13.0-5.2 Ventura, 12.1-6 Monterey,
+<https://PyPI.org/project/numpy>} 1.11.3) on macOS 15.0-5 Sequoia, 14.0-6.1 Sonoma, 13.0-5.2 Ventura, 12.1-6 Monterey,
 11.0-5.2-6.1 Big Sur (aka 10.16), 10.15.3, 10.15.5-7 Catalina, 10.14 Mojave, 10.13.6 High Sierra and 10.12 Sierra,
 MacOS X 10.11 El Capitan and/or MacOS X 10.10 Yosemite, with U{Pythonista<https://OMZ-Software.com/pythonista>}3.2
 (with geographiclib 1.50 or 1.49 and numpy 1.8.0) on iOS 14.4.2, 11.4.1, 12.0-3 on iPad4, iPhone6, iPhone10 and/or
@@ -190,7 +190,7 @@ All Python source code has been statically U{checked<https://GitHub.com/ActiveSt
 546532_PyChecker_postprocessor>} with U{Ruff<https://GitHub.com/astral-sh/ruff>} using Python 3.13.5 and with
 U{PyChecker<https://PyPI.org/project/pychecker>}, U{PyFlakes<https://PyPI.org/project/pyflakes>}, U{PyCodeStyle
 <https://PyPI.org/project/pycodestyle>} (formerly Pep8) and U{McCabe<https://PyPI.org/project/mccabe>} using Python
-2.7.18, both in 64-bit on macOS 15.5 Sequoia.
+2.7.18, both in 64-bit on macOS 15.6.1 Sequoia.
 
 For a summary of all I{Karney}-based functionality in C{pygeodesy}, see module U{karney
 <https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html>}.
@@ -604,7 +604,7 @@ else:
 
 from pygeodesy.internals import _version2,  _DOT_  # noqa: E402
 # from pygeodesy.interns import _DOT_  # from .internals
-__version__ = '25.07.25'
+__version__ = '25.08.25'
 # see setup.py for similar logic
 version     = _DOT_(*_version2(__version__, n=3))
 

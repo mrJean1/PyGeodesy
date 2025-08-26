@@ -38,7 +38,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdlln4
 from math import degrees, fabs, sqrt
 
 __all__ = _ALL_LAZY.nvectorBase
-__version__ = '25.05.12'
+__version__ = '25.08.18'
 
 
 class NvectorBase(Vector3d):  # XXX kept private
@@ -355,7 +355,7 @@ class NvectorBase(Vector3d):  # XXX kept private
         return self.xyz.to4Tuple(self.h)
 
 
-class _N_vector_(NvectorBase):
+class _N_Vector(NvectorBase):
     '''(INTERNAL) Minimal, low-overhead C{n-vector}.
     '''
     def __init__(self, x, y, z, h=0, **name):
@@ -366,8 +366,8 @@ class _N_vector_(NvectorBase):
             self.name = name
 
 
-NorthPole = _N_vector_(0, 0, +1, name='NorthPole')  # North pole
-SouthPole = _N_vector_(0, 0, -1, name='SouthPole')  # South pole
+NorthPole = _N_Vector(0, 0, +1, name='NorthPole')  # North pole
+SouthPole = _N_Vector(0, 0, -1, name='SouthPole')  # South pole
 
 
 class LatLonNvectorBase(LatLonBase):

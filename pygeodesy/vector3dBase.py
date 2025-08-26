@@ -19,6 +19,7 @@ from pygeodesy.interns import _coincident_, _colinear_, _COMMASPACE_, _xyz_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_DOCS, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedBase, _NotImplemented, _xother3
 # from pygeodesy.namedTuples import Vector3Tuple  # _MODS
+# from pygeodesy.nvectorBase import _N_Vector  # _MODS
 from pygeodesy.props import deprecated_method, Property, Property_RO, \
                             property_doc_, property_RO, _update_all
 from pygeodesy.streprs import Fmt, strs, unstr
@@ -28,7 +29,7 @@ from pygeodesy.utily import atan2, sincos2,  fabs
 from math import ceil as _ceil, floor as _floor, trunc as _trunc
 
 __all__ = _ALL_LAZY.vector3dBase
-__version__ = '24.11.24'
+__version__ = '25.08.18'
 
 
 class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
@@ -760,9 +761,10 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
 
     @Property_RO
     def _N_vector(self):
-        '''(INTERNAL) Get the (C{nvectorBase._N_vector_})
+        '''(INTERNAL) Get the (C{nvectorBase._N_Vector})
         '''
-        return _MODS.nvectorBase._N_vector_(*self.xyz3, name=self.name)
+        _N = _MODS.nvectorBase._N_Vector
+        return _N(*self.xyz3, name=self.name)
 
     def _other_cmp(self, other):
         '''(INTERNAL) Return the value for comparison.

@@ -27,11 +27,11 @@ from pygeodesy.interns import _COMMASPACE_, _datum_, _no_, _phi_
 from pygeodesy.interns import _ellipsoidal_, _spherical_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _name2__, _Pass
-from pygeodesy.namedTuples import LatLon4Tuple, _NamedTupleTo , Vector3Tuple, \
+from pygeodesy.namedTuples import LatLon4Tuple, _NamedTupleTo, Vector3Tuple, \
                                   Vector4Tuple
-# from pygeodesy.nvectorBase import _N_vector  # _MODS
-from pygeodesy.props import deprecated_method, Property, Property_RO, property_doc_, \
-                            property_RO, _update_all
+# from pygeodesy.nvectorBase import _N_Vector  # _MODS
+from pygeodesy.props import deprecated_method, Property, Property_RO, \
+                            property_doc_, property_RO, _update_all
 # from pygeodesy import resections as _resections  # _MODS.into
 # from pygeodesy.streprs import Fmt  # from .fsums
 # from pygeodesy.triaxials import Triaxial_  # _MODS
@@ -39,12 +39,11 @@ from pygeodesy.units import Degrees, Height, _heigHt, _isMeter, Meter, Radians
 from pygeodesy.utily import acos1, atan2, sincos2d, sincos2_,  degrees, radians
 from pygeodesy.vector3d import Vector3d, _xyzhdlln4
 # from pygeodesy.vector3dBase import _xyz3  # _MODS
-# from pygeodesy import ltp  # _MODS
 
 # from math import degrees, fabs, radians, sqrt  # from .fmath, .utily
 
 __all__ = _ALL_LAZY.cartesianBase
-__version__ = '25.05.07'
+__version__ = '25.08.24'
 
 _r_         = 'r'
 _resections = _MODS.into(resections=__name__)
@@ -172,12 +171,13 @@ class CartesianBase(Vector3d, _EcefLocal):
            @raise TypeError: The B{C{datum}} is not a L{Datum}.
         '''
         d = _spherical_datum(datum, name=self.name)
-        if self._datum:  # is not None
-            if d.isEllipsoidal and not self._datum.isEllipsoidal:
+        D =  self._datum
+        if D:  # is not None
+            if d.isEllipsoidal and not D.isEllipsoidal:
                 raise _IsnotError(_ellipsoidal_, datum=datum)
-            elif d.isSpherical and not self._datum.isSpherical:
+            elif d.isSpherical and not D.isSpherical:
                 raise _IsnotError(_spherical_, datum=datum)
-        if self._datum != d:
+        if D != d:  # or (D and D.name != d.name)
             _update_all(self)
             self._datum = d
 
@@ -302,8 +302,6 @@ class CartesianBase(Vector3d, _EcefLocal):
            @note: Include keyword argument C{B{datum}=None} if class B{C{Cartesian}}
                   does not accept a B{C{datum}} keyword agument.
 
-           @raise TriaxialError: No convergence in triaxial root finding.
-
            @raise TypeError: Invalid or undefined B{C{earth}} or C{datum}.
         '''
         n = typename(self.height3)
@@ -410,13 +408,12 @@ class CartesianBase(Vector3d, _EcefLocal):
 
     @Property_RO
     def _N_vector(self):
-        '''(INTERNAL) Get the (C{nvectorBase._N_vector_}).
+        '''(INTERNAL) Get the (C{nvectorBase._N_Vector}).
         '''
-        _N = _MODS.nvectorBase._N_vector_
-        x, y, z, h = self._n_xyzh4(self.datum)
-        return _N(x, y, z, h=h, name=self.name)
+        _N = _MODS.nvectorBase._N_Vector
+        return self._n_xyzh4(self.datum, Vector=_N)
 
-    def _n_xyzh4(self, datum):
+    def _n_xyzh4(self, datum, Vector=Vector4Tuple):
         '''(INTERNAL) Get the n-vector components as L{Vector4Tuple}.
         '''
         def _ErrorEPS0(x):
@@ -434,7 +431,11 @@ class CartesianBase(Vector3d, _EcefLocal):
         p = hypot2(x, y) * E.a2_
         q = z**2 * E.e21 * E.a2_
         r = fsumf_(p, q, -E.e4) / _6_0
+        if isnear0(r):
+            raise _ErrorEPS0(r)
         s = (p * q * E.e4) / (_4_0 * r**3)
+        if s < 0:
+            raise _ErrorEPS0(s)
         t = cbrt(fsumf_(_1_0, s, sqrt(s * (_2_0 + s))))
         if isnear0(t):
             raise _ErrorEPS0(t)
@@ -458,7 +459,7 @@ class CartesianBase(Vector3d, _EcefLocal):
             raise _ErrorEPS0(t)
         h = fsumf_(k, E.e2, _N_1_0) / k * t
         s = e / t  # == e * tmp
-        return Vector4Tuple(x * s, y * s, z / t, h, name=self.name)
+        return Vector(x * s, y * s, z / t, h, name=self.name)
 
     @Property_RO
     def philam(self):
@@ -980,8 +981,8 @@ def xyz2rtp_(x_xyz, y=0, z=0, **name):
        @kwarg name: Optional C{B{name}=NN} (C{str}).
 
        @return: L{RadiusThetaPhi3Tuple}C{(r, theta, phi)} with radial distance C{r} (C{meter},
-                same units as C{x}, C{y} and C{z}), inclination C{theta} (with respect to the
-                positive z-axis) and azimuthal angle C{phi}, both in L{Radians}.
+                same units as C{x}, C{y} and C{z}), inclination C{theta} (polar angle with
+                respect to the positive z-axis) and azimuthal angle C{phi}, both in L{Radians}.
 
        @see: U{Physics convention<https://WikiPedia.org/wiki/Spherical_coordinate_system>}
              (ISO 80000-2:2019), class L{RadiusThetaPhi3Tuple} and function L{xyz2rtp}.

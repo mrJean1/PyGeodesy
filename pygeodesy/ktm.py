@@ -62,11 +62,11 @@ from pygeodesy.props import property_doc_, Property, Property_RO, \
 from pygeodesy.units import Degrees, Scalar_, _1mm as _TOL_10  # PYCHOK used!
 from pygeodesy.utily import atan1d, atan2, _loneg, sincos2, sincos2d_
 
-from cmath import polar
+from cmath import polar as _polar
 from math import asinh, cos, cosh, degrees, fabs, sin, sinh, sqrt, tanh
 
 __all__ = _ALL_LAZY.ktm
-__version__ = '25.05.12'
+__version__ = '25.08.18'
 
 
 class KTMError(_ValueError):
@@ -476,7 +476,7 @@ def _Cyxgk4(E, xi_, eta_, C):
 
         # Gauss-Schreiber to Gauss-Krueger TM
         # C{cmath.polar} handles INF, NAN, etc.
-        k, g = polar(c)
+        k, g = _polar(c)
         g = degrees(g)
     else:  # E.isSpherical
         g, k = _0_0, _1_0

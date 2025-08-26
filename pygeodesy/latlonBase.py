@@ -33,7 +33,7 @@ from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _name2__, _NamedBase,  Fmt
 from pygeodesy.namedTuples import Bounds2Tuple, LatLon2Tuple, PhiLam2Tuple, \
                                   Trilaterate5Tuple, Vector3Tuple
-# from pygeodesy.nvectorBase import _N_vector_  # _MODS
+# from pygeodesy.nvectorBase import _N_Vector  # _MODS
 from pygeodesy.props import deprecated_method, Property, Property_RO, \
                             property_RO, _update_all
 # from pygeodesy.streprs import Fmt, hstr  # from .named, _MODS
@@ -48,7 +48,7 @@ from contextlib import contextmanager
 from math import asin, cos, degrees, fabs, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '25.05.07'
+__version__ = '25.08.18'
 
 _formy = _MODS.into(formy=__name__)
 
@@ -971,9 +971,9 @@ class LatLonBase(_NamedBase, _EcefLocal):
 
     @property_RO
     def _N_vector(self):
-        '''(INTERNAL) Get the C{Nvector} (C{nvectorBase._N_vector_})
+        '''(INTERNAL) Get the C{Nvector} (C{nvectorBase._N_Vector})
         '''
-        _N = _MODS.nvectorBase._N_vector_
+        _N = _MODS.nvectorBase._N_Vector
         return _N(*self._n_xyz3, h=self.height, name=self.name)
 
     @Property_RO

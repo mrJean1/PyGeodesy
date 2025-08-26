@@ -36,7 +36,7 @@ from pygeodesy.interns import _1_, _2_, _coincident_, _composite_, _colinear_, \
                               _point_, _SPACE_, _too_
 from pygeodesy.latlonBase import _trilaterate5
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _ALL_OTHER
-# from pygeodesy.nvectorBase import NvectorBase, sumOf  # _MODS
+# from pygeodesy.nvectorBase import _N_Vector, NvectorBase,  sumOf  # _MODS
 from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, NearestOn3Tuple, \
                                   Triangle7Tuple, Triangle8Tuple
 from pygeodesy.points import ispolar, nearestOn5 as _nearestOn5, \
@@ -57,7 +57,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, cos, degrees, fabs, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '25.05.28'
+__version__ = '25.08.18'
 
 _PI_EPS4 = PI - EPS4
 if _PI_EPS4 >= PI:
@@ -968,10 +968,10 @@ def _intersect(start1, end1, start2, end2, height=None, wrap=False,  # in.ellips
             a, b = antipode_(a, b)  # PYCHOK PhiLam2Tuple
 
     else:  # end point(s) or bearing(s)
-        _N_vector_ = _MODS.nvectorBase._N_vector_
+        _N = _MODS.nvectorBase._N_Vector
 
-        x1, d1 = _int3d2(s1, end1, wrap, _1_, _N_vector_, hs)
-        x2, d2 = _int3d2(s2, end2, wrap, _2_, _N_vector_, hs)
+        x1, d1 = _int3d2(s1, end1, wrap, _1_, _N, hs)
+        x2, d2 = _int3d2(s2, end2, wrap, _2_, _N, hs)
         x = x1.cross(x2)
         if x.length < EPS:  # [nearly] colinear or parallel lines
             raise IntersectionError(_colinear_)

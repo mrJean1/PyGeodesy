@@ -95,7 +95,7 @@ from pygeodesy.utily import atan1, atan1d, atan2b, degrees90, m2radians, radians
 from math import asinh, atan, atanh, cos, degrees, exp, fabs, radians, sin, sinh, sqrt, tan  # as _tan
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '25.05.12'
+__version__ = '25.08.24'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -1186,6 +1186,16 @@ class Ellipsoid(_NamedEnumItem):
 
         return Vector4Tuple(v.x, v.y, v.z, h, iteration=i, name__=self.height4)
 
+    def _heightB(self, sa, ca, z, p):  # in ecef.EcefSudano, ecec.EcefVeness
+        '''(INTERNAL) Height above ellipsoid (Bowring eqn 7)
+        '''
+        # sa, ca = sincos2d(lat)
+        # p = hypot(x, y)
+
+        # r = a / self.e2s(sa)  # length of normal terminated by minor axis
+        # h = p * ca + z * sa - (a * a / r)
+        return (p * ca + fabs(z * sa) - self.a * self.e2s(sa)) if sa else (p - self.a)
+
     def _hubeny_2(self, phi2, phi1, lam21, scaled=True, squared=True):
         '''(INTERNAL) like function C{pygeodesy.flatLocal_}/C{pygeodesy.hubeny_},
            returning the I{angular} distance in C{radians squared} or C{radians}
@@ -1542,7 +1552,7 @@ class Ellipsoid(_NamedEnumItem):
 
     @deprecated_property_RO
     def rhumbx(self):
-        '''DEPRECATED on 2023.11.28, use property C{rhumbekx}. '''
+        '''DEPRECATED on 2023.11.28, use property C{rhumbekx}.'''
         return self.rhumbekx
 
     def Rlat(self, lat):
@@ -1587,16 +1597,15 @@ class Ellipsoid(_NamedEnumItem):
 
            @see: Method L{roc2_} and class L{EcefYou}.
         '''
-        if not self.f:  # .isSpherical
-            n = self.a
-        elif ca is None:
-            r = self.e2s2(sa)  # see .roc2_ and _EcefBase._forward
-            n = sqrt(self.a2 / r) if r > EPS02 else _0_0
-        elif ca:  # derived from EcefYou.forward
-            h = hypot(ca, self.b_a * sa) if sa else fabs(ca)
-            n = self.a / h
-        elif sa:
-            n = self.a2_b / fabs(sa)
+        if sa and self.f:  # .isEllipsoidal
+            if ca is None:
+                r = self.e2s2(sa)  # see .roc2_ and _EcefBase._forward
+                n = sqrt(self.a2 / r) if r > EPS02 else _0_0
+            elif ca:  # derived from EcefYou.forward
+                h = hypot(ca, self.b_a * sa)
+                n = self.a / h
+            else:
+                n = self.a2_b / fabs(sa)
         else:
             n = self.a
         return n
