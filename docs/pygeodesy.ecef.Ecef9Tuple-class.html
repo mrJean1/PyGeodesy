@@ -91,8 +91,7 @@
   <code>x</code>, <code>y</code>, <code>z</code> and <code>height</code> in
   <code>meter</code>, conventionally.  Case <code>C=1</code> means normal, 
   <code>C=2</code> near polar and <code>C=3</code> equatorial latitude and 
-  <code>C=4</code> height too far away.  Use property <code>Mx</code> to 
-  compute the roation matrix.</p>
+  <code>C=4</code> height exceeds <code>heightMax</code>.</p>
 
 <!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
@@ -298,6 +297,16 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.ecef.Ecef9Tuple-class.html#ellipsoid" class="summary-name">ellipsoid</a><br />
+      Get the ellipsoid (<a 
+      href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+      class="link">Ellipsoid</a>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.ecef.Ecef9Tuple-class.html#lam" class="summary-name">lam</a><br />
       Get the longitude in <code>radians</code> (<code>float</code>).
     </td>
@@ -361,7 +370,7 @@
         <a href="pygeodesy.ecef.Ecef9Tuple-class.html#lonVermeille" class="summary-name">lonVermeille</a><br />
       Get the longitude in <code>degrees [-225..+225]</code> after <a 
       href="https://Search.ProQuest.com/docview/639493848" 
-      target="_top">Vermeille</a> 2004, p 95.
+      target="_top">Vermeille</a> 2004, page 95.
     </td>
   </tr>
 <tr>
@@ -371,7 +380,7 @@
         <a href="pygeodesy.ecef.Ecef9Tuple-class.html#Mx" class="summary-name">Mx</a><br />
       Compute rotation matrix (<a 
       href="pygeodesy.ecef.EcefMatrix-class.html" 
-      class="link">EcefMatrix</a>).
+      class="link">EcefMatrix</a>), seperate from <code>M</code>.
     </td>
   </tr>
 <tr>
@@ -688,6 +697,32 @@
     <span class="table-header">Property Details</span></td>
 </tr>
 </table>
+<a name="ellipsoid"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">ellipsoid</h3>
+  <p>Get the ellipsoid (<a href="pygeodesy.ellipsoids.Ellipsoid-class.html"
+  class="link">Ellipsoid</a>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">ellipsoid(<span class="summary-sig-arg">self</span>)</span>
+        - Get the ellipsoid (<a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+class="link">Ellipsoid</a>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="lam"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -876,13 +911,13 @@ class="link">LatLon2Tuple</a><code>(lat, lon)</code>).
   <h3 class="epydoc">lonVermeille</h3>
   <p>Get the longitude in <code>degrees [-225..+225]</code> after <a 
   href="https://Search.ProQuest.com/docview/639493848" 
-  target="_top">Vermeille</a> 2004, p 95.</p>
+  target="_top">Vermeille</a> 2004, page 95.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">lonVermeille(<span class="summary-sig-arg">self</span>)</span>
         - Get the longitude in <code>degrees [-225..+225]</code> after <a 
 href="https://Search.ProQuest.com/docview/639493848" 
-target="_top">Vermeille</a> 2004, p 95.
+target="_top">Vermeille</a> 2004, page 95.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -906,13 +941,13 @@ target="_top">Vermeille</a> 2004, p 95.
 <tr><td>
   <h3 class="epydoc">Mx</h3>
   <p>Compute rotation matrix (<a 
-  href="pygeodesy.ecef.EcefMatrix-class.html" 
-  class="link">EcefMatrix</a>).</p>
+  href="pygeodesy.ecef.EcefMatrix-class.html" class="link">EcefMatrix</a>),
+  seperate from <code>M</code>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">Mx(<span class="summary-sig-arg">self</span>)</span>
         - Compute rotation matrix (<a href="pygeodesy.ecef.EcefMatrix-class.html" 
-class="link">EcefMatrix</a>).
+class="link">EcefMatrix</a>), seperate from <code>M</code>.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1181,7 +1216,7 @@ class="link">Vector4Tuple</a><code>(x, y, z, h)</code>)
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Aug 25 17:33:45 2025
+    Generated by Epydoc 3.0.1 on Tue Aug 26 12:48:35 2025
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -61,9 +61,9 @@ plane} as opposed to I{geocentric} (ECEF) ones.
 
 from pygeodesy.basics import copysign0, _isin, isscalar, issubclassof, neg, map1, \
                             _xinstanceof, _xsubclassof,  typename  # _args_kwds_names
-from pygeodesy.constants import EPS, EPS0, EPS02, EPS1, EPS_2, INT0, PI, PI_2, \
-                               _0_0, _0_5, _1_0, _1_0_1T, _2_0, _N_2_0, _3_0, _4_0, \
-                               _6_0, _90_0, _N_90_0, _copysign_1_0,  isnon0  # PYCHOK used!
+from pygeodesy.constants import EPS, EPS0, EPS02, EPS1, INT0, PI, PI_2, _0_0, \
+                               _0_5, _1_0, _1_0_1T, _2_0, _3_0, _4_0, _6_0, \
+                               _90_0, _copysign_1_0,  isnon0  # PYCHOK used!
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84,  a_f2Tuple, _EWGS84
 from pygeodesy.ecefLocals import _EcefLocal
 # from pygeodesy.ellipsoids import a_f2Tuple, _EWGS84  # from .datums
@@ -91,7 +91,7 @@ from pygeodesy.utily import atan1, atan1d, atan2, atan2d, degrees90, degrees180,
 from math import cos, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '25.08.24'
+__version__ = '25.08.25'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -275,12 +275,6 @@ class _EcefBase(_NamedBase):
         return (Ecef9Tuple,  # overwrite property_ROver
                _MODS.vector3d.Vector3d)  # _MODS.cartesianBase.CartesianBase
 
-    @Property_RO
-    def hmax(self):
-        '''Get the distance or height limit (C{meter}, conventionally).
-        '''
-        return self.equatoradius / EPS_2  # self.equatoradius * _2_EPS, 12M lighyears
-
     @property
     def lon00(self):
         '''Get the I{"polar"} longitude (C{degrees}), see method C{reverse}.
@@ -323,15 +317,14 @@ class _EcefBase(_NamedBase):
         '''
         return self.attrs(_a_, _f_, _datum_, _name_, prec=prec)  # _ellipsoid_
 
-    def _xyzllhCnp9(self, xyz, y, z, **lon00_name):
+    def _xyzllhCpn9(self, xyz, y, z, **lon00_name):
         '''(INTERNAL) Get C{x, y, z} and determine case C{C}, C{lat}, C{lon}, etc.
         '''
         x, y, z, n = _xyzn4(xyz, y, z, self._Geocentrics, **lon00_name)
 
         s, c, p = _norm3(y, x)  # distance to polar axis
         if p < EPS0:  # polar
-            lat = _N_90_0 if z < 0 else (
-                    _90_0 if z > 0 else _0_0)
+            lat = copysign0(_90_0, z)
             h   = fabs(z) - self.ellipsoid.b
             C   = 2
             p   = 0  # force lon00
@@ -339,16 +332,17 @@ class _EcefBase(_NamedBase):
             lat = _0_0
             h   = p - self.ellipsoid.a
             C   = 3
-        else:
-            h = hypot(z, p)  # distance to origin
-            if h > self.hmax:  # like EcefKarney
+        else:  # see _norm7 below, EcefKarney
+            h = hypot(z, p)  # distance to earth center
+            if h > self.ellipsoid._heightMax:
                 lat = atan1d(z / h, p / h)
                 C   = 4  # too high
+#               p  *= _0_5
             else:  # pass h for EcefVeness
-                lat = None
-                C   = 1  # usually
+                lat = None  # -90..90
+                C   = 1  # normal
         lon = self._polon(s, c, p, **lon00_name)
-        return x, y, z, lat, lon, h, C, self._name__(n), p
+        return x, y, z, lat, lon, h, C, p, self._name__(n)
 
 
 class EcefFarrell21(_EcefBase):
@@ -382,7 +376,7 @@ class EcefFarrell21(_EcefBase):
 
            @see: L{EcefFarrell22} and L{EcefVeness}.
         '''
-        x, y, z, lat, lon, h, C, name, p = self._xyzllhCnp9(xyz, y, z, **lon00_name)
+        x, y, z, lat, lon, h, C, p, name = self._xyzllhCpn9(xyz, y, z, **lon00_name)
         if lat is None:
             E   = self.ellipsoid
             a   = E.a
@@ -454,7 +448,7 @@ class EcefFarrell22(_EcefBase):
 
            @see: L{EcefFarrell21} and L{EcefVeness}.
         '''
-        x, y, z, lat, lon, h, C, name, p = self._xyzllhCnp9(xyz, y, z, **lon00_name)
+        x, y, z, lat, lon, h, C, p, name = self._xyzllhCpn9(xyz, y, z, **lon00_name)
         if lat is None:
             E = self.ellipsoid
             a, b    =  E.a, E.b
@@ -517,18 +511,9 @@ class EcefKarney(_EcefBase):
         E = self.ellipsoid
         f = E.f
 
-        sb, cb, R = _norm3(y, x)
-        h = hypot(R, z)  # distance to earth center
-        if h > self.hmax:  # PYCHOK no cover
-            # We are really far away (> 12M light years).  Treat the earth
-            # as a point and h above as an acceptable approximation to the
-            # height.  This avoids overflow, e.g., in the computation of d
-            # below.  It's possible that h has overflowed to INF, that's OK.
-            # Treat finite x, y, but R overflows to +INF by scaling by 2.
-            sb, cb, R = _norm3(y * _0_5, x * _0_5)
-            sa, ca, _ = _norm3(z * _0_5, R)
-            C = 4
-
+        sa, ca, sb, cb, R, h, C = _norm7(y, x, z, E)
+        if C:  # PYCHOK no cover
+            pass  # too high, far
         elif E.e4:  # E.isEllipsoidal
             # Treat prolate spheroids by swapping R and Z here and by
             # switching the arguments to phi = atan2(...) at the end.
@@ -642,7 +627,7 @@ class EcefSudano(_EcefBase):
 
            @see: Class L{EcefUPC}.
         '''
-        x, y, z, lat, lon, h, C, name, p = self._xyzllhCnp9(xyz, y, z, **lon00_name)
+        x, y, z, lat, lon, h, C, p, name = self._xyzllhCpn9(xyz, y, z, **lon00_name)
         if lat is None:
             E = self.ellipsoid
             e = E.e2 * E.a
@@ -703,7 +688,7 @@ class EcefUPC(_EcefBase):
 
     def reverse(self, xyz, y=None, z=None, M=None, tol=EPS, **lon00_name):  # PYCHOK unused M
         '''Convert from geocentric C{(x, y, z)} to geodetic C{(lat, lon, height)} using I{UPC}'s
-           U{iterative method<https://GSSC.ESA.int/navipedia/GNSS_Book/ESA_GNSS-Book_TM-23_Vol_I.pdf>}, p 186.
+           U{iterative method<https://GSSC.ESA.int/navipedia/GNSS_Book/ESA_GNSS-Book_TM-23_Vol_I.pdf>}, page 186.
 
            @arg xyz: A geocentric (C{Cartesian}, L{Ecef9Tuple}) or C{scalar} ECEF C{x}
                      coordinate (C{meter}).
@@ -724,7 +709,7 @@ class EcefUPC(_EcefBase):
 
            @see: Class L{EcefSudano}.
         '''
-        x, y, z, lat, lon, h, C, name, p = self._xyzllhCnp9(xyz, y, z, **lon00_name)
+        x, y, z, lat, lon, h, C, p, name = self._xyzllhCpn9(xyz, y, z, **lon00_name)
         if lat is None:
             E  = self.ellipsoid
             a  = E.a
@@ -797,7 +782,7 @@ class EcefVeness(_EcefBase):
                  system to latitude longitude and altitude}<https://www.ResearchGate.net/
                  publication/3709199>}.
         '''
-        x, y, z, lat, lon, h, C, name, p = self._xyzllhCnp9(xyz, y, z, **lon00_name)
+        x, y, z, lat, lon, h, C, p, name = self._xyzllhCpn9(xyz, y, z, **lon00_name)
         if lat is None:
             E =  self.ellipsoid
             a =  E.a
@@ -858,7 +843,7 @@ class EcefYou(_EcefBase):
                              B{C{z}} not C{scalar} for C{scalar} B{C{xyz}} or the
                              ellipsoid is I{prolate}.
         '''
-        x, y, z, lat, lon, h, C, name, p = self._xyzllhCnp9(xyz, y, z, **lon00_name)
+        x, y, z, lat, lon, h, C, p, name = self._xyzllhCpn9(xyz, y, z, **lon00_name)
         if lat is None:
             E = self.ellipsoid
             a, b  = E.a, E.b
@@ -1058,8 +1043,7 @@ class Ecef9Tuple(_NamedTuple, _EcefLocal):
        optionally, rotation matrix C{M} (L{EcefMatrix}) and C{datum}, with C{lat}
        and C{lon} in C{degrees} and C{x}, C{y}, C{z} and C{height} in C{meter},
        conventionally.  Case C{C=1} means normal, C{C=2} near polar and C{C=3}
-       equatorial latitude and C{C=4} height too far away.  Use property C{Mx}
-       to compute the roation matrix.
+       equatorial latitude and C{C=4} height exceeds C{heightMax}.
     '''
     _Names_ = (_x_,   _y_,   _z_,   _lat_, _lon_, _height_, _C_,  _M_,   _datum_)
     _Units_ = ( Meter, Meter, Meter, Lat,   Lon,   Height,   Int, _Pass, _Pass)
@@ -1079,6 +1063,12 @@ class Ecef9Tuple(_NamedTuple, _EcefLocal):
     def _ecef9(self):  # in ._EcefLocal._Ltp_ecef2local
         return self
 
+    @property_RO
+    def ellipsoid(self):
+        '''Get the ellipsoid (L{Ellipsoid}).
+        '''
+        return (self.datum or _WGS84).ellipsoid
+
     @Property_RO
     def lam(self):
         '''Get the longitude in C{radians} (C{float}).
@@ -1095,10 +1085,11 @@ class Ecef9Tuple(_NamedTuple, _EcefLocal):
                  and U{Featherstone, et.al.<https://Search.ProQuest.com/docview/872827242>}, page 7.
         '''
         x, y = self.x, self.y
-        if y > EPS0:
-            r = atan2(x, hypot(y, x) + y) * _N_2_0 + PI_2
-        elif y < -EPS0:
-            r = atan2(x, hypot(y, x) - y) *   _2_0 - PI_2
+        a = fabs(y)
+        if a > EPS0:
+            r = PI_2 - atan2(x, hypot(x, a) + a) * _2_0
+            if y < 0:
+                r = -r
         else:  # y == 0
             r = PI if x < 0 else _0_0
         return Lam(Vermeille=r)
@@ -1132,7 +1123,7 @@ class Ecef9Tuple(_NamedTuple, _EcefLocal):
     @Property_RO
     def lonVermeille(self):
         '''Get the longitude in C{degrees [-225..+225]} after U{Vermeille
-           <https://Search.ProQuest.com/docview/639493848>} 2004, p 95.
+           <https://Search.ProQuest.com/docview/639493848>} 2004, page 95.
 
            @see: Property C{lamVermeille}.
         '''
@@ -1140,10 +1131,9 @@ class Ecef9Tuple(_NamedTuple, _EcefLocal):
 
     @Property_RO
     def Mx(self):
-        '''Compute rotation matrix (L{EcefMatrix}).
+        '''Compute rotation matrix (L{EcefMatrix}), seperate from C{M}.
         '''
-        sb, cb, p = _norm3(self.y, self.x)
-        sa, ca, _ = _norm3(self.z, p)
+        sa, ca, sb, cb, _, _, _ = _norm7(self.y, self.x, self.z, self.ellipsoid)
         return EcefMatrix(sa, ca, sb, cb, name=self.name)
 
     @Property_RO
@@ -1319,10 +1309,29 @@ def _llhn4(latlonh, lon, height, suffix=NN, Error=EcefError, **name):  # in .ltp
 
 
 def _norm3(y, x):
-    '''(INTERNAL) Return C{y, x, h} notmalized.
+    '''(INTERNAL) Return C{y, x, h} normalized.
     '''
     h = hypot(y, x)  # EPS0, EPS_2
     return (y / h, x / h, h) if h else (_0_0, _1_0, h)
+
+
+def _norm7(y, x, z=0, E=_EWGS84):
+    '''(INTERNAL) Return C{phi, lam, p, h, C}.
+    '''
+    sb, cb, p = _norm3(y, x)  # lam, distance to polar axis
+    sa, ca, h = _norm3(z, p)  # phi, distance to earth center
+    if h > E._heightMax:
+        # We are really far away (> 12M light years).  Treat the earth
+        # as a point and h above as an acceptable approximation to the
+        # height.  This avoids overflow, e.g., in the computation of d
+        # below.  It's possible that h has overflowed to INF, that's OK.
+        # Treat finite x, y, but R overflows to +INF by scaling by 2.
+        sb, cb, p = _norm3(y * _0_5, x * _0_5)
+        sa, ca, _ = _norm3(z * _0_5, p)
+        C = 4
+    else:
+        C = 0
+    return sa, ca, sb, cb, p, h, C
 
 
 def _xEcef(Ecef):  # PYCHOK .latlonBase
