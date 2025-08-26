@@ -313,7 +313,7 @@
     href="https://GeographicLib.SourceForge.io/C++/doc/utilities.html" 
     target="_top">IntersectTool</a> 2.5 and <a 
     href="https://GeographicLib.SourceForge.io/C++/doc/utilities.html" 
-    target="_top">RhumbSolve</a> 2.5), all in 64-bit on macOS 15.5 
+    target="_top">RhumbSolve</a> 2.5), all in 64-bit on macOS 15.6.1 
     Sequoia.</p>
     <p>All tests ran with and without <code>lazy import</code> for Python 3
     and with command line option <code>-W default</code> and env variable 
@@ -321,7 +321,7 @@
     results of those tests are included in the distribution files.</p>
     <p>Test coverage has been measured with <a 
     href="https://PyPI.org/project/coverage" target="_top">coverage</a> 
-    7.6.1 using Python 3.13.4, 3.12.7, 3.11.5 and 3.10.8.  The complete 
+    7.6.1 using Python 3.13.5, 3.12.7, 3.11.5 and 3.10.8.  The complete 
     coverage report in HTML and a PDF summary are included in the 
     distribution files.</p>
     <p>Python 3.13.5, 3.12.7, 3.11.5 and 3.10.8 run on Apple M4 Si 
@@ -371,7 +371,7 @@
     href="https://software.Intel.com/en-us/distribution-for-python" 
     target="_top">Intel-Python</a> 3.5.3 (and <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.11.3) 
-    on macOS 15.0-4 Sequoia, 14.0-6.1 Sonoma, 13.0-5.2 Ventura, 12.1-6 
+    on macOS 15.0-5 Sequoia, 14.0-6.1 Sonoma, 13.0-5.2 Ventura, 12.1-6 
     Monterey, 11.0-5.2-6.1 Big Sur (aka 10.16), 10.15.3, 10.15.5-7 
     Catalina, 10.14 Mojave, 10.13.6 High Sierra and 10.12 Sierra, MacOS X 
     10.11 El Capitan and/or MacOS X 10.10 Yosemite, with <a 
@@ -394,7 +394,7 @@
     href="https://PyPI.org/project/pycodestyle" 
     target="_top">PyCodeStyle</a> (formerly Pep8) and <a 
     href="https://PyPI.org/project/mccabe" target="_top">McCabe</a> using 
-    Python 2.7.18, both in 64-bit on macOS 15.5 Sequoia.</p>
+    Python 2.7.18, both in 64-bit on macOS 15.6.1 Sequoia.</p>
     <p>For a summary of all <i>Karney</i>-based functionality in 
     <code>pygeodesy</code>, see module <a 
     href="https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html"
@@ -589,7 +589,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        25.07.25
+        25.08.25
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -1926,9 +1926,9 @@
       9-Tuple <code>(x, y, z, lat, lon, height, C, M, datum)</code> with 
         <i>geocentric</i> <code>x</code>, <code>y</code> and <code>z</code>
         plus <i>geodetic</i> <code>lat</code>, <code>lon</code> and 
-        <a href=pygeodesy.heights-module.html><code>height</code></a>, case <code>C</code> (see the 
-        <code>Ecef*.reverse</code> methods) and optionally, rotation matrix
-        <code>M</code> (<a href="pygeodesy.ecef.EcefMatrix-class.html" 
+        <a href=pygeodesy.heights-module.html><code>height</code></a>, case <code>C</code> and optionally, rotation 
+        matrix <code>M</code> (<a 
+        href="pygeodesy.ecef.EcefMatrix-class.html" 
         class="link">EcefMatrix</a>) and <code>datum</code>, with 
         <code>lat</code> and <code>lon</code> in <code>degrees</code> and 
         <code>x</code>, <code>y</code>, <code>z</code> and 
@@ -1994,6 +1994,17 @@
         Earth-Fixed</i> (ECEF) coordinates based on <i>John J. Sudano</i>'s
         <a href="https://www.ResearchGate.net/publication/3709199" 
         target="_top">paper</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.EcefUPC-class.html" class="summary-name">EcefUPC</a><br />
+      Conversion between geodetic and geocentric, <i>Earth-Centered, 
+        Earth-Fixed</i> (ECEF) coordinates based on <i>UPC</i>'s <a 
+        href="https://GSSC.ESA.int/navipedia/index.php/Ellipsoidal_and_Cartesian_Coordinates_Conversion"
+        target="_top">method</a>.
     </td>
   </tr>
 <tr>
@@ -9372,7 +9383,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7ff1f012f950&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f8bd8120cd0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -14556,7 +14567,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'25.7.25'">'25.7.25'</code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'25.8.25'">'25.8.25'</code><br />
       Normalized <code>pygeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -15100,7 +15111,7 @@ Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, f=0.003\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="NorthPole"></a><span class="summary-name">NorthPole</span> = <code title="_N_vector_(0, 0, 1)">_N_vector_(0, 0, 1)</code>
+        <a name="NorthPole"></a><span class="summary-name">NorthPole</span> = <code title="_N_Vector(0, 0, 1)">_N_Vector(0, 0, 1)</code>
     </td>
   </tr>
 <tr>
@@ -15329,7 +15340,7 @@ RefFrames.ETRF92: RefFrame(name='ETRF92', epoch=1992, datum=Datums.GRS\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="SouthPole"></a><span class="summary-name">SouthPole</span> = <code title="_N_vector_(0, 0, -1)">_N_vector_(0, 0, -1)</code>
+        <a name="SouthPole"></a><span class="summary-name">SouthPole</span> = <code title="_N_Vector(0, 0, -1)">_N_Vector(0, 0, -1)</code>
     </td>
   </tr>
 <tr>
@@ -22868,7 +22879,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7ff1f012f950&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f8bd8120cd0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -33149,8 +33160,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
           class="link">RadiusThetaPhi3Tuple</a><code>(r, theta, phi)</code>
           with radial distance <code>r</code> (<code>meter</code>, same 
           units as <code>x</code>, <code>y</code> and <code>z</code>), 
-          inclination <code>theta</code> (with respect to the positive 
-          z-axis) and azimuthal angle <code>phi</code>, both in <a 
+          inclination <code>theta</code> (polar angle with respect to the 
+          positive z-axis) and azimuthal angle <code>phi</code>, both in <a
           href="pygeodesy.units.Radians-class.html" 
           class="link">Radians</a>.</dd>
   </dl>
@@ -33457,7 +33468,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Jul 25 12:29:20 2025
+    Generated by Epydoc 3.0.1 on Mon Aug 25 17:33:44 2025
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
