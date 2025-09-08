@@ -17,7 +17,7 @@ from __future__ import division as _; del _  # noqa: E702 ;
 from pygeodesy.auxilats.auxily import Aux, _Aux2Greek,  AuxError
 from pygeodesy.basics import map1, map2, _xinstanceof
 from pygeodesy.constants import EPS, _INF_NAN_NINF, MAX, NAN, _0_0, _0_5, _1_0, \
-                               _copysign_1_0, _over, _pos_self, isfinite, isnan
+                               _copysign_1_0, isfinite, isnan, _over, _pos_self
 # from pygeodesy.errors import AuxError  # from .auxilats.auxily
 from pygeodesy.fmath import hypot,  unstr
 from pygeodesy.fsums import _add_op_, _iadd_op_, _isub_op_, _sub_op_
@@ -32,7 +32,7 @@ from pygeodesy.utily import atan2, atan2d, sincos2, sincos2d
 from math import asinh, copysign, degrees, fabs, radians, sinh
 
 __all__ = ()
-__version__ = '25.05.12'
+__version__ = '25.08.31'
 
 _0_INF_NAN_NINF = (0, _0_0) + _INF_NAN_NINF
 _MAX_2          =  MAX * _0_5  # PYCHOK used!
@@ -505,6 +505,7 @@ _AUXClass = {Aux.BETA:  AuxBeta,
              Aux.CHI:   AuxChi,
              Aux.MU:    AuxMu,
              Aux.PHI:   AuxPhi,
+#            Aux.PSI:   AuxPSI,  # Isometric
              Aux.THETA: AuxTheta,
              Aux.XI:    AuxXi}
 
@@ -525,7 +526,7 @@ def _yx2(yx):
     return y, x
 
 
-__all__ += _ALL_DOCS(AuxAngle, AuxBeta, AuxChi, AuxMu, AuxPhi, AuxTheta, AuxXi)
+__all__ += _ALL_DOCS(AuxAngle, *_AUXClass.values())
 
 # **) MIT License
 #

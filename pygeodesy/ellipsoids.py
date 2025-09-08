@@ -67,8 +67,8 @@ from __future__ import division as _; del _  # noqa: E702 ;
 # from pygeodesy.albers import AlbersEqualAreaCylindrical  # _MODS
 from pygeodesy.basics import copysign0, isbool, _isin, isint,  typename
 from pygeodesy.constants import EPS, EPS_2, EPS0, EPS02, EPS1, INF, NINF, \
-                               _over, PI_2, PI_3, PI4, R_M, R_MA, R_FM, \
-                               _EPSqrt, _EPStol as _TOL, _floatuple as _T, _isfinite, \
+                               _over, PI_2, PI_3, PI4, R_M, R_MA, R_FM, _EPSqrt, \
+                               _EPStol as _TOL, _floatuple as _T, _isfinite, \
                                _0_0s, _0_0, _0_5, _1_0, _1_EPS, _2_0, _4_0, _90_0, \
                                _0_25, _3_0  # PYCHOK used!
 from pygeodesy.errors import _AssertionError, IntersectionError, _ValueError, _xattr, _xkwds_not
@@ -96,7 +96,7 @@ from pygeodesy.utily import atan1, atan1d, atan2b, degrees90, m2radians, radians
 from math import asinh, atan, atanh, cos, degrees, exp, fabs, radians, sin, sinh, sqrt, tan  # as _tan
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '25.08.25'
+__version__ = '25.08.31'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -443,7 +443,7 @@ class Ellipsoid(_NamedEnumItem):
                                 eps=eps, f0=f0, **name_value))
 
     def auxAuthalic(self, lat, inverse=False):
-        '''Compute the I{authalic} auxiliary latitude or the I{inverse} thereof.
+        '''Compute the I{authalic} auxiliary latitude (Xi) or the I{inverse} thereof.
 
            @arg lat: The geodetic (or I{authalic}) latitude (C{degrees90}).
            @kwarg inverse: If C{True}, B{C{lat}} is the I{authalic} and
@@ -463,7 +463,7 @@ class Ellipsoid(_NamedEnumItem):
         return _aux(lat, inverse, Ellipsoid.auxAuthalic)
 
     def auxConformal(self, lat, inverse=False):
-        '''Compute the I{conformal} auxiliary latitude or the I{inverse} thereof.
+        '''Compute the I{conformal} auxiliary latitude (Chi) or the I{inverse} thereof.
 
            @arg lat: The geodetic (or I{conformal}) latitude (C{degrees90}).
            @kwarg inverse: If C{True}, B{C{lat}} is the I{conformal} and
@@ -481,12 +481,13 @@ class Ellipsoid(_NamedEnumItem):
             lat = atan1d(f(tan(Phid(lat))))  # PYCHOK attr
         return _aux(lat, inverse, Ellipsoid.auxConformal)
 
-    def auxGeocentric(self, lat, inverse=False):
-        '''Compute the I{geocentric} auxiliary latitude or the I{inverse} thereof.
+    def auxGeocentric(self, lat, inverse=False, height=_0_0):
+        '''Compute the I{geocentric} auxiliary latitude (Theta) or the I{inverse} thereof.
 
            @arg lat: The geodetic (or I{geocentric}) latitude (C{degrees90}).
            @kwarg inverse: If C{True}, B{C{lat}} is the geocentric and
                            return the I{geocentric} latitude (C{bool}).
+           @kwarg height: Optional, ellipsoidal height (C{meter}).
 
            @return: The I{geocentric} (or geodetic) latitude in C{degrees90}.
 
@@ -495,13 +496,24 @@ class Ellipsoid(_NamedEnumItem):
                  <https://WikiPedia.org/wiki/Latitude#Geocentric_latitude>}, and
                  U{Snyder<https://Pubs.USGS.gov/pp/1395/report.pdf>}, pp 17-18.
         '''
-        if self.f:
-            f   = self.a2_b2 if inverse else self.b2_a2
-            lat = atan1d(tan(Phid(lat)) * f)
+        if self.f:  # and lat
+            t = tan(Phid(lat))
+            f = self.b2_a2
+            if height:
+                if inverse:
+                    lat = atan1d(t * f)  # geodetic n
+                    d, f = f, _1_0
+                else:
+                    d = _1_0
+                n =  self.rocPrimeVertical(lat)
+                f = _over(n * f + height, n * d + height)
+            elif inverse:
+                f = self.a2_b2
+            lat = atan1d(t * f)
         return _aux(lat, inverse, Ellipsoid.auxGeocentric)
 
     def auxIsometric(self, lat, inverse=False):
-        '''Compute the I{isometric} auxiliary latitude or the I{inverse} thereof.
+        '''Compute the I{isometric} auxiliary latitude (Psi) or the I{inverse} thereof.
 
            @arg lat: The geodetic (or I{isometric}) latitude (C{degrees}).
            @kwarg inverse: If C{True}, B{C{lat}} is the I{isometric} and
@@ -510,8 +522,8 @@ class Ellipsoid(_NamedEnumItem):
            @return: The I{isometric} (or geodetic) latitude in C{degrees}.
 
            @note: The I{isometric} latitude for geodetic C{+/-90} is far
-                  outside the C{[-90..+90]} range but the inverse
-                  thereof is the original geodetic latitude.
+                  outside the C{[-90..+90]} range but the inverse thereof
+                  is the original geodetic latitude.
 
            @see: U{Inverse-/IsometricLatitude<https://GeographicLib.SourceForge.io/
                  C++/doc/classGeographicLib_1_1Ellipsoid.html>}, U{Isometric latitude
@@ -526,7 +538,7 @@ class Ellipsoid(_NamedEnumItem):
         return _aux(lat, inverse, Ellipsoid.auxIsometric, clip=0)
 
     def auxParametric(self, lat, inverse=False):
-        '''Compute the I{parametric} auxiliary latitude or the I{inverse} thereof.
+        '''Compute the I{parametric} auxiliary latitude (Beta) or the I{inverse} thereof.
 
            @arg lat: The geodetic (or I{parametric}) latitude (C{degrees90}).
            @kwarg inverse: If C{True}, B{C{lat}} is the I{parametric} and
@@ -546,7 +558,7 @@ class Ellipsoid(_NamedEnumItem):
     auxReduced = auxParametric  # synonymous
 
     def auxRectifying(self, lat, inverse=False):
-        '''Compute the I{rectifying} auxiliary latitude or the I{inverse} thereof.
+        '''Compute the I{rectifying} auxiliary latitude (Mu) or the I{inverse} thereof.
 
            @arg lat: The geodetic (or I{rectifying}) latitude (C{degrees90}).
            @kwarg inverse: If C{True}, B{C{lat}} is the I{rectifying} and
@@ -692,23 +704,23 @@ class Ellipsoid(_NamedEnumItem):
         '''
         lat = Lat(lat)
         if lat:
-            b = lat
+            B = lat  # beta
             if fabs(lat) < _90_0:
                 if self.f:
-                    b = self._beta(lat)
-                z, r = sincos2d(b)
+                    B = self._beta(lat)
+                z, r = sincos2d(B)
                 r *= self.a
                 z *= self.b
             else:  # near-polar
                 r, z = _0_0, copysign0(self.b, lat)
         else:  # equator
             r = self.a
-            z = lat = b = _0_0
-        return Circle4Tuple(r, z, lat, b)
+            z = lat = B = _0_0
+        return Circle4Tuple(r, z, lat, B)
 
     def degrees2m(self, deg, lat=0):
-        '''Convert an angle to the distance along the equator or
-           along a parallel of (geodetic) latitude.
+        '''Convert an angle along the equator or along a parallel
+           of (geodetic) latitude to the distance.
 
            @arg deg: The angle (C{degrees}).
            @kwarg lat: Parallel latitude (C{degrees90}, C{str}).
@@ -878,10 +890,10 @@ class Ellipsoid(_NamedEnumItem):
 
            @raise ValueError: Invalid B{C{s}}.
         '''
-        r = _1_0
-        if self.e2:
+        r, e2 = _1_0, self.e2
+        if e2:  # and s
             try:
-                r -= self.e2 * Scalar(s=s)**2
+                r -= e2 * Scalar(s=s)**2
                 if r < 0:
                     raise ValueError(_negative_)
             except (TypeError, ValueError) as x:
@@ -1468,19 +1480,18 @@ class Ellipsoid(_NamedEnumItem):
            @see: U{Geocentric Radius
                  <https://WikiPedia.org/wiki/Earth_radius#Geocentric_radius>}
         '''
-        r, a = self.a, Phid(lat)
-        if a and self.f:
-            if fabs(a) < PI_2:
-                s2, c2 = _s2_c2(a)
-                b2_a2_s2 = self.b2_a2 * s2
+        r, p = self.a, Phid(lat)
+        if p and self.f:
+            if fabs(p) < PI_2:
+                s2, c2 = _s2_c2(p)
                 # R == sqrt((a2**2 * c2 + b2**2 * s2) / (a2 * c2 + b2 * s2))
                 #   == sqrt(a2**2 * (c2 + (b2 / a2)**2 * s2) / (a2 * (c2 + b2 / a2 * s2)))
                 #   == sqrt(a2 * (c2 + (b2 / a2)**2 * s2) / (c2 + (b2 / a2) * s2))
                 #   == a * sqrt((c2 + b2_a2 * b2_a2 * s2) / (c2 + b2_a2 * s2))
-                #   == a * sqrt((c2 + b2_a2 * b2_a2_s2) / (c2 + b2_a2_s2))
-                r *= sqrt((c2 + b2_a2_s2 * self.b2_a2) / (c2 + b2_a2_s2))
+                s2 *= self.b2_a2
+                r  *= sqrt((c2 + self.b2_a2 * s2) / (c2 + s2))
             else:
-                r  = self.b
+                r = self.b
         return Radius(Rgeocentric=r)
 
     @Property_RO
@@ -1653,18 +1664,18 @@ class Ellipsoid(_NamedEnumItem):
                  and the meridional and prime vertical U{Radii of Curvature
                  <https://WikiPedia.org/wiki/Earth_radius#Radii_of_curvature>}.
         '''
-        a = fabs(Phi(phi))
+        p = fabs(Phi(phi))
         if self.f:
-            r = self.e2s2(sin(a))
+            r = self.e2s2(sin(p))
             if r > EPS02:
-                n = self.a / sqrt(r)
-                m = n *  self.e21 / r
+                n = sqrt(self.a2 / r)
+                m = n * self.e21 / r
             else:
                 m = n = _0_0
         else:
             m = n = self.a
-        if scaled and a:
-            n *= cos(a) if a < PI_2 else _0_0
+        if scaled and p:
+            n *= cos(p) if p < PI_2 else _0_0
         return Curvature2Tuple(m, n)
 
     def rocAzimuth(self, lat, azimuth):
@@ -1795,8 +1806,8 @@ class Ellipsoid(_NamedEnumItem):
                  U{Radii of Curvature<https://WikiPedia.org/wiki/
                  Earth_radius#Radii_of_curvature>}.
         '''
-        r = self.roc2_(Phid(lat)) if lat else self.rocEquatorial2
-        return Radius(rocPrimeVertical=r.prime_vertical)
+        r = self.roc1_(sin(Phid(lat))) if lat else self.a
+        return Radius(rocPrimeVertical=r)
 
     rocTransverse = rocPrimeVertical  # synonymous
 

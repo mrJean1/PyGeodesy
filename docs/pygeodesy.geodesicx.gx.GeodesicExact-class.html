@@ -99,6 +99,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.geodesicx.gx.GeodesicExact-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">a_ellipsoid</span>=<span class="summary-sig-default">Ellipsoid(name='WGS84', a=6378137, f=0.00335281, f_=298.257223<code class="variable-ellipsis">...</code></span>,
         <span class="summary-sig-arg">f</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">caps</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">C4order</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">**name_C4Order</span>)</span><br />
       New <a href="pygeodesy.geodesicx.gx.GeodesicExact-class.html" 
@@ -684,6 +685,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">a_ellipsoid</span>=<span class="sig-default">Ellipsoid(name='WGS84', a=6378137, f=0.00335281, f_=298.257223<code class="variable-ellipsis">...</code></span>,
         <span class="sig-arg">f</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">caps</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">C4order</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">**name_C4Order</span>)</span>
     <br /><em class="fname">(Constructor)</em>
@@ -706,6 +708,11 @@
         <li><strong class="pname"><code>f</code></strong> - The flattening of the ellipsoid (<code>scalar</code>) if 
           <b><code>a_ellipsoid</code></b> is specified as 
           <code>scalar</code>.</li>
+        <li><strong class="pname"><code>caps</code></strong> - Optional default capabilities for <a 
+          href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html" 
+          class="link">GeodesicLineExact</a> instances, use 
+          <code><b>caps</b>=Caps.NONFINITONAN</code> to handle nonfinites 
+          silently.</li>
         <li><strong class="pname"><code>C4order</code></strong> - Optional series expansion order (<code>int</code>), see property 
           <a href="pygeodesy.geodesicx.gx.GeodesicExact-class.html#C4order"
           class="link">C4order</a>, default <code>30</code>.</li>
@@ -803,16 +810,9 @@
         <li><strong class="pname"><code>azi1</code></strong> - Azimuth at the first point (compass <code>degrees</code>).</li>
         <li><strong class="pname"><code>a12</code></strong> - Arc length between the points (<code>degrees</code>), can be 
           negative.</li>
-        <li><strong class="pname"><code>caps</code></strong> - Bit-or'ed combination of <a 
-          href="pygeodesy.karney.Caps-class.html" class="link">Caps</a> 
-          values specifying the capabilities the <a 
+        <li><strong class="pname"><code>caps</code></strong> - Desired capabilities for the <a 
           href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html" 
-          class="link">GeodesicLineExact</a> instance should possess, i.e.,
-          which quantities can be returned by methods <a 
-          href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#Position"
-          class="link">GeodesicLineExact.Position</a> and <a 
-          href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#ArcPosition"
-          class="link">GeodesicLineExact.ArcPosition</a>.</li>
+          class="link">GeodesicLineExact</a> instance.</li>
         <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -1015,14 +1015,9 @@
         <li><strong class="pname"><code>azi1</code></strong> - Azimuth at the first point (compass <code>degrees</code>).</li>
         <li><strong class="pname"><code>s12</code></strong> - Distance between the points (<code>meter</code>), can be 
           negative.</li>
-        <li><strong class="pname"><code>caps</code></strong> - Bit-or'ed combination of <a 
-          href="pygeodesy.karney.Caps-class.html" class="link">Caps</a> 
-          values specifying the capabilities the <a 
+        <li><strong class="pname"><code>caps</code></strong> - Desired capabilities for the <a 
           href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html" 
-          class="link">GeodesicLineExact</a> instance should possess, i.e.,
-          which quantities can be returned by methods <a 
-          href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#Position"
-          class="link">GeodesicLineExact.Position</a>.</li>
+          class="link">GeodesicLineExact</a> instance.</li>
         <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -1200,16 +1195,9 @@
         <li><strong class="pname"><code>lon1</code></strong> - Longitude of the first point (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lat2</code></strong> - Latitude of the second point (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon2</code></strong> - Longitude of the second point (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>caps</code></strong> - Bit-or'ed combination of <a 
-          href="pygeodesy.karney.Caps-class.html" class="link">Caps</a> 
-          values specifying the capabilities the <a 
+        <li><strong class="pname"><code>caps</code></strong> - Desired capabilities for the <a 
           href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html" 
-          class="link">GeodesicLineExact</a> instance should possess, i.e.,
-          which quantities can be returned by methods <a 
-          href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#Position"
-          class="link">GeodesicLineExact.Position</a> and <a 
-          href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#ArcPosition"
-          class="link">GeodesicLineExact.ArcPosition</a>.</li>
+          class="link">GeodesicLineExact</a> instance.</li>
         <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -1266,16 +1254,9 @@
         <li><strong class="pname"><code>lat1</code></strong> - Latitude of the first point (<code>degrees</code>).</li>
         <li><strong class="pname"><code>lon1</code></strong> - Longitude of the first point (<code>degrees</code>).</li>
         <li><strong class="pname"><code>azi1</code></strong> - Azimuth at the first point (compass <code>degrees</code>).</li>
-        <li><strong class="pname"><code>caps</code></strong> - Bit-or'ed combination of <a 
-          href="pygeodesy.karney.Caps-class.html" class="link">Caps</a> 
-          values specifying the capabilities the <a 
+        <li><strong class="pname"><code>caps</code></strong> - Desired capabilities for the <a 
           href="pygeodesy.geodesicx.gx.GeodesicLineExact-class.html" 
-          class="link">GeodesicLineExact</a> instance should possess, i.e.,
-          which quantities can be returned by methods <a 
-          href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#Position"
-          class="link">GeodesicLineExact.Position</a> and <a 
-          href="pygeodesy.geodesicx.gxline._GeodesicLineExact-class.html#ArcPosition"
-          class="link">GeodesicLineExact.ArcPosition</a>.</li>
+          class="link">GeodesicLineExact</a> instance.</li>
         <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -1788,7 +1769,7 @@ b)</i>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Aug 26 12:48:36 2025
+    Generated by Epydoc 3.0.1 on Mon Sep  8 15:09:03 2025
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

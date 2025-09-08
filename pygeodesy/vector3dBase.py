@@ -8,11 +8,11 @@ A pure Python implementation of vector-based functions by I{(C) Chris Veness
 <https://www.Movable-Type.co.UK/scripts/latlong-vectors.html>}.
 '''
 
-from pygeodesy.basics import _copysign, islistuple, isscalar, map1, map2, \
-                             _signOf, _zip
-from pygeodesy.constants import EPS, EPS0, INT0, PI, PI2, _copysignINF, \
-                               _float0, isnear0, isnear1, isneg0, \
-                               _pos_self, _1_0
+from pygeodesy.basics import _copysign, islistuple, isscalar, \
+                              map1, map2, _signOf, _zip
+from pygeodesy.constants import EPS, EPS0, INT0, PI, PI2, \
+                               _1_0, isnear0, isnear1, isneg0, \
+                               _copysignINF, _float0, _pos_self
 from pygeodesy.errors import CrossError, VectorError, _xcallable, _xError
 from pygeodesy.fmath import euclid_, fdot, fdot_, hypot_, hypot2_  # _MODS.fmath.fma
 from pygeodesy.interns import _coincident_, _colinear_, _COMMASPACE_, _xyz_
@@ -29,7 +29,7 @@ from pygeodesy.utily import atan2, sincos2,  fabs
 from math import ceil as _ceil, floor as _floor, trunc as _trunc
 
 __all__ = _ALL_LAZY.vector3dBase
-__version__ = '25.08.18'
+__version__ = '25.08.31'
 
 
 class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum

@@ -278,7 +278,7 @@
   <h1 class="heading">Tests</h1>
     <p>The tests ran with Python 3.13.5 (with <a 
     href="https://PyPI.org/project/geographiclib" 
-    target="_top">geographiclib</a> 2.0), Python 3.12.7 (with <a 
+    target="_top">geographiclib</a> 2.1), Python 3.12.7 (with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 2.0, <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 2.1.0, <a
@@ -589,7 +589,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        25.08.25
+        25.09.09
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -5834,6 +5834,24 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#agdf" class="summary-sig-name">agdf</a>(<span class="summary-sig-arg">phi</span>)</span><br />
+      Inverse <a href="https://WikiPedia.org/wiki/Gudermannian_function" 
+      target="_top">Gudermannian function</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#anStr" class="summary-sig-name">anStr</a>(<span class="summary-sig-arg">name</span>,
         <span class="summary-sig-arg">OKd</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">._-</code><code class="variable-quote">'</code></span>,
         <span class="summary-sig-arg">sub</span>=<span class="summary-sig-default">'_'</span>)</span><br />
@@ -7340,8 +7358,9 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#degrees2m" class="summary-sig-name">degrees2m</a>(<span class="summary-sig-arg">deg</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
-        <span class="summary-sig-arg">lat</span>=<span class="summary-sig-default">0</span>)</span><br />
+        <span class="summary-sig-arg">earth</span>=<span class="summary-sig-default">6371008.771415</span>,
+        <span class="summary-sig-arg">lat</span>=<span class="summary-sig-default">0</span>,
+        <span class="summary-sig-arg">**radius</span>)</span><br />
       Convert an angle to a distance along the equator or along a parallel 
       at (geodetic) latitude.</td>
           <td align="right" valign="top">
@@ -9161,6 +9180,24 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#gdf" class="summary-sig-name">gdf</a>(<span class="summary-sig-arg">psi</span>)</span><br />
+      <a href="https://WikiPedia.org/wiki/Gudermannian_function" 
+      target="_top">Gudermannian function</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#geoidHeight2" class="summary-sig-name">geoidHeight2</a>(<span class="summary-sig-arg">lat</span>,
         <span class="summary-sig-arg">lon</span>,
         <span class="summary-sig-arg">model</span>=<span class="summary-sig-default">0</span>,
@@ -9383,7 +9420,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f8e1836ee50&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fe6f08a4ad0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -10527,6 +10564,24 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#isneg" class="summary-sig-name">isneg</a>(<span class="summary-sig-arg">x</span>)</span><br />
+      Check for negative <code>x</code>, including <a 
+      href="pygeodesy.constants-module.html#NEG0" class="link">NEG0</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#isneg0" class="summary-sig-name">isneg0</a>(<span class="summary-sig-arg">x</span>)</span><br />
       Check for <a href="pygeodesy.constants-module.html#NEG0" 
       class="link">NEG0</a>, negative <code>0.0</code>.</td>
@@ -11108,8 +11163,9 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#m2degrees" class="summary-sig-name">m2degrees</a>(<span class="summary-sig-arg">distance</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
-        <span class="summary-sig-arg">lat</span>=<span class="summary-sig-default">0</span>)</span><br />
+        <span class="summary-sig-arg">earth</span>=<span class="summary-sig-default">6371008.771415</span>,
+        <span class="summary-sig-arg">lat</span>=<span class="summary-sig-default">0</span>,
+        <span class="summary-sig-arg">**radius</span>)</span><br />
       Convert a distance to an angle along the equator or along a parallel 
       at (geodetic) latitude.</td>
           <td align="right" valign="top">
@@ -11217,8 +11273,9 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#m2radians" class="summary-sig-name">m2radians</a>(<span class="summary-sig-arg">distance</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
-        <span class="summary-sig-arg">lat</span>=<span class="summary-sig-default">0</span>)</span><br />
+        <span class="summary-sig-arg">earth</span>=<span class="summary-sig-default">6371008.771415</span>,
+        <span class="summary-sig-arg">lat</span>=<span class="summary-sig-default">0</span>,
+        <span class="summary-sig-arg">**radius</span>)</span><br />
       Convert a distance to an angle along the equator or along a parallel 
       at (geodetic) latitude.</td>
           <td align="right" valign="top">
@@ -12465,8 +12522,9 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#radians2m" class="summary-sig-name">radians2m</a>(<span class="summary-sig-arg">rad</span>,
-        <span class="summary-sig-arg">radius</span>=<span class="summary-sig-default">6371008.771415</span>,
-        <span class="summary-sig-arg">lat</span>=<span class="summary-sig-default">0</span>)</span><br />
+        <span class="summary-sig-arg">earth</span>=<span class="summary-sig-default">6371008.771415</span>,
+        <span class="summary-sig-arg">lat</span>=<span class="summary-sig-default">0</span>,
+        <span class="summary-sig-arg">**radius</span>)</span><br />
       Convert an angle to a distance along the equator or along a parallel 
       at (geodetic) latitude.</td>
           <td align="right" valign="top">
@@ -12721,7 +12779,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#signBit" class="summary-sig-name">signBit</a>(<span class="summary-sig-arg">x</span>)</span><br />
-      Return <code>signbit(<b>x</b>)</code>, like C++.</td>
+      Return <code>signbit(<b>x</b>)</code>, like C++, see also <a 
+      href="pygeodesy.constants-module.html#isneg" class="link">isneg</a>.</td>
           <td align="right" valign="top">
             
             
@@ -14567,7 +14626,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'25.8.25'">'25.8.25'</code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'25.9.9'">'25.9.9'</code><br />
       Normalized <code>pygeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -15185,6 +15244,14 @@ Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, f=0.003\
     </td><td class="summary">
         <a name="PI_4"></a><span class="summary-name">PI_4</span> = <code title="0.7853981633974483">0.7853981633974483</code><br />
       Quarter PI, <i class="math">PI / 4</i> (<code>float</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="PI_6"></a><span class="summary-name">PI_6</span> = <code title="0.5235987755982988">0.5235987755982988</code><br />
+      One sixth PI, <i class="math">PI / 6</i> (<code>float</code>).
     </td>
   </tr>
 <tr>
@@ -15955,6 +16022,36 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
     </ul></dd>
   </dl>
 </td></tr></table>
+</div>
+<a name="agdf"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">agdf</span>&nbsp;(<span class="sig-arg">phi</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Inverse <a href="https://WikiPedia.org/wiki/Gudermannian_function" 
+  target="_top">Gudermannian function</a>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>phi</code></strong> - Angle (<code>radians</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Gudermannian (psi, <code>float</code>).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.utily-module.html#gdf" 
+        class="link">gdf</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="anStr"></a>
 <div>
@@ -17110,8 +17207,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>earth</code></strong> - The earth radius (<code>meter</code>), ellipsoid or datum (<a 
-          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+        <li><strong class="pname"><code>earth</code></strong> - The earth radius (<code>meter</code>) or an ellipsoid or datum 
+          (<a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
           class="link">Ellipsoid</a>, <a 
           href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
           class="link">Ellipsoid2</a>, <a 
@@ -17130,7 +17227,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
         href="pygeodesy.errors-module.html#rangerrors" 
         class="link">rangerrors</a> is <code>True</code>.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>earth</code></b>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - <b><code>earth</code></b> or <b><code>lat</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - invalid <b><code>earth</code></b> or <b><code>lat</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -18505,8 +18602,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>rad</code></strong> - Angle (<code>radians</code>).</li>
-        <li><strong class="pname"><code>raiser_kwds</code></strong> - Use <code><b>raiser</b>=False</code> to avoid ValueErrors or 
-          optionally, additional ValueError keyword argments.</li>
+        <li><strong class="pname"><code>raiser_kwds</code></strong> - Use <code><b>raiser</b>=False</code> to avoid ValueErrors and 
+          optional, additional ValueError keyword argments.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>cot(<b>rad</b>)</code>.</dd>
@@ -18570,8 +18667,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - Angle (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>raiser_kwds</code></strong> - Use <code><b>raiser</b>=False</code> to avoid ValueErrors or 
-          optionally, additional ValueError keyword argments.</li>
+        <li><strong class="pname"><code>raiser_kwds</code></strong> - Use <code><b>raiser</b>=False</code> to avoid ValueErrors and 
+          optional, additional ValueError keyword argments.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>cot(<b>deg</b>)</code>.</dd>
@@ -18821,8 +18918,9 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">degrees2m</span>&nbsp;(<span class="sig-arg">deg</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
-        <span class="sig-arg">lat</span>=<span class="sig-default">0</span>)</span>
+        <span class="sig-arg">earth</span>=<span class="sig-default">6371008.771415</span>,
+        <span class="sig-arg">lat</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">**radius</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -18835,8 +18933,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - The angle (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>), an ellipsoid or datum (<a
-          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+        <li><strong class="pname"><code>earth</code></strong> - The earth radius (<code>meter</code>) or an ellipsoid or datum 
+          (<a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
           class="link">Ellipsoid</a>, <a 
           href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
           class="link">Ellipsoid2</a>, <a 
@@ -18844,18 +18942,20 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
           or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
           class="link">a_f2Tuple</a>).</li>
         <li><strong class="pname"><code>lat</code></strong> - Parallel latitude (<code>degrees90</code>, <code>str</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - For backward compatibility 
+          <code><b>radius</b>=<b>earth</b></code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as 
-          <b><code>radius</code></b> or polar and equatorial radii) or 
+          <b><code>earth</code></b> or polar and equatorial radii) or 
           <code>0.0</code> for near-polar <b><code>lat</code></b>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Latitude <b><code>lat</code></b> outside valid range and <a 
         href="pygeodesy.errors-module.html#rangerrors" 
         class="link">rangerrors</a> is <code>True</code>.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>radius</code></b>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>deg</code></b>, <b><code>radius</code></b> or 
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>earth</code></b> or <b><code>radius</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>deg</code></b>, <b><code>earth</code></b> or 
         <b><code>lat</code></b>.</li>
     </ul></dd>
   </dl>
@@ -22373,6 +22473,36 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
   </dl>
 </td></tr></table>
 </div>
+<a name="gdf"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">gdf</span>&nbsp;(<span class="sig-arg">psi</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p><a href="https://WikiPedia.org/wiki/Gudermannian_function" 
+  target="_top">Gudermannian function</a>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>psi</code></strong> - Gudermannian (<code>float</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Angle (<code>radians</code>).</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.utily-module.html#agdf" 
+        class="link">agdf</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="geoidHeight2"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -22879,7 +23009,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f8e1836ee50&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fe6f08a4ad0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -24914,6 +25044,33 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
       </p>
 </div></td></tr></table>
 </div>
+<a name="isneg"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">isneg</span>&nbsp;(<span class="sig-arg">x</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Check for negative <code>x</code>, including <a 
+  href="pygeodesy.constants-module.html#NEG0" class="link">NEG0</a>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x</code></strong> - Value (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><code>True</code> if <code><b>x</b> &lt; 0 or NEG0</code>, 
+          <code>False</code> otherwise.</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="isneg0"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -25939,8 +26096,9 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">m2degrees</span>&nbsp;(<span class="sig-arg">distance</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
-        <span class="sig-arg">lat</span>=<span class="sig-default">0</span>)</span>
+        <span class="sig-arg">earth</span>=<span class="sig-default">6371008.771415</span>,
+        <span class="sig-arg">lat</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">**radius</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -25954,8 +26112,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>distance</code></strong> - Distance (<code>meter</code>, same units as 
           <b><code>radius</code></b>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>), an ellipsoid or datum (<a
-          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+        <li><strong class="pname"><code>earth</code></strong> - Mean earth radius (<code>meter</code>) or an ellipsoid or datum 
+          (<a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
           class="link">Ellipsoid</a>, <a 
           href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
           class="link">Ellipsoid2</a>, <a 
@@ -25963,17 +26121,19 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
           or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
           class="link">a_f2Tuple</a>).</li>
         <li><strong class="pname"><code>lat</code></strong> - Parallel latitude (<code>degrees90</code>, <code>str</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - For backward compatibility 
+          <code><b>radius</b>=<b>earth</b></code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Angle (<code>degrees</code>) or <code>INF</code> for near-polar 
-          <b><code>lat</code></b>.</dd>
+        <dd>Angle (<code>degrees</code>) or <code>INF</code> or 
+          <code>NINF</code> for near-polar <b><code>lat</code></b>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Latitude <b><code>lat</code></b> outside valid range and <a 
         href="pygeodesy.errors-module.html#rangerrors" 
         class="link">rangerrors</a> is <code>True</code>.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>radius</code></b>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>distance</code></b>, <b><code>radius</code></b> or
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>earth</code></b> or <b><code>radius</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>distance</code></b>, <b><code>earth</code></b> or 
         <b><code>lat</code></b>.</li>
     </ul></dd>
   </dl>
@@ -26154,8 +26314,9 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">m2radians</span>&nbsp;(<span class="sig-arg">distance</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
-        <span class="sig-arg">lat</span>=<span class="sig-default">0</span>)</span>
+        <span class="sig-arg">earth</span>=<span class="sig-default">6371008.771415</span>,
+        <span class="sig-arg">lat</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">**radius</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -26169,8 +26330,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>distance</code></strong> - Distance (<code>meter</code>, same units as 
           <b><code>radius</code></b>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>, an ellipsoid or datum (<a 
-          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+        <li><strong class="pname"><code>earth</code></strong> - Mean earth radius (<code>meter</code>) or an ellipsoid or datum 
+          (<a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
           class="link">Ellipsoid</a>, <a 
           href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
           class="link">Ellipsoid2</a>, <a 
@@ -26178,17 +26339,19 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
           or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
           class="link">a_f2Tuple</a>).</li>
         <li><strong class="pname"><code>lat</code></strong> - Parallel latitude (<code>degrees90</code>, <code>str</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - For backward compatibility 
+          <code><b>radius</b>=<b>earth</b></code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Angle (<code>radians</code>) or <code>INF</code> for near-polar 
-          <b><code>lat</code></b>.</dd>
+        <dd>Angle (<code>radians</code>) or <code>INF</code> or 
+          <code>NINF</code> for near-polar <b><code>lat</code></b>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Latitude <b><code>lat</code></b> outside valid range and <a 
         href="pygeodesy.errors-module.html#rangerrors" 
         class="link">rangerrors</a> is <code>True</code>.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>radius</code></b>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>distance</code></b>, <b><code>radius</code></b> or
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>earth</code></b> or <b><code>radius</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>distance</code></b>, <b><code>earth</code></b> or 
         <b><code>lat</code></b>.</li>
     </ul></dd>
   </dl>
@@ -28787,8 +28950,9 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">radians2m</span>&nbsp;(<span class="sig-arg">rad</span>,
-        <span class="sig-arg">radius</span>=<span class="sig-default">6371008.771415</span>,
-        <span class="sig-arg">lat</span>=<span class="sig-default">0</span>)</span>
+        <span class="sig-arg">earth</span>=<span class="sig-default">6371008.771415</span>,
+        <span class="sig-arg">lat</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">**radius</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -28801,7 +28965,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>rad</code></strong> - The angle (<code>radians</code>).</li>
-        <li><strong class="pname"><code>radius</code></strong> - Mean earth radius (<code>meter</code>) or an ellipsoid or datum 
+        <li><strong class="pname"><code>earth</code></strong> - Mean earth radius (<code>meter</code>) or an ellipsoid or datum 
           (<a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
           class="link">Ellipsoid</a>, <a 
           href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
@@ -28810,18 +28974,20 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
           or <a href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
           class="link">a_f2Tuple</a>).</li>
         <li><strong class="pname"><code>lat</code></strong> - Parallel latitude (<code>degrees90</code>, <code>str</code>).</li>
+        <li><strong class="pname"><code>radius</code></strong> - For backward compatibility 
+          <code><b>radius</b>=<b>earth</b></code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Distance (<code>meter</code>, same units as 
-          <b><code>radius</code></b> or polar and equatorial radii) or 
+          <b><code>earth</code></b> or polar and equatorial radii) or 
           <code>0.0</code> for near-polar <b><code>lat</code></b>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Latitude <b><code>lat</code></b> outside valid range and <a 
         href="pygeodesy.errors-module.html#rangerrors" 
         class="link">rangerrors</a> is <code>True</code>.</li>
-        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>radius</code></b>.</li>
-        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>rad</code></b>, <b><code>radius</code></b> or 
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>earth</code></b> or <b><code>radius</code></b>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>rad</code></b>, <b><code>earth</code></b> or 
         <b><code>lat</code></b>.</li>
     </ul></dd>
   </dl>
@@ -29272,7 +29438,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
     </td>
   </tr></table>
   
-  <p>Return <code>signbit(<b>x</b>)</code>, like C++.</p>
+  <p>Return <code>signbit(<b>x</b>)</code>, like C++, see also <a 
+  href="pygeodesy.constants-module.html#isneg" class="link">isneg</a>.</p>
   <dl class="fields">
     <dt>Returns:</dt>
         <dd><code>True</code> if <code><b>x</b> &lt; 0</code> or 
@@ -29710,8 +29877,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-Tuple (<code>sin(<b>deg_</b>)</code>, 
-          <code>cos(<b>deg_</b>)</code>, <code><b>deg_</b> = <b>deg</b> + 
-          <b>adeg</b></code>).</dd>
+          <code>cos(<b>deg_</b>)</code> with <code><b>deg_</b> = <b>deg</b>
+          + <b>adeg</b></code>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         <a 
@@ -30233,8 +30400,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>rad</code></strong> - Angle (<code>radians</code>).</li>
-        <li><strong class="pname"><code>raiser_kwds</code></strong> - Use <code><b>raiser</b>=False</code> to avoid ValueErrors or 
-          optionally, additional ValueError keyword argments.</li>
+        <li><strong class="pname"><code>raiser_kwds</code></strong> - Use <code><b>raiser</b>=False</code> to avoid ValueErrors and 
+          optional, additional ValueError keyword argments.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>tan(<b>rad</b>)</code>.</dd>
@@ -30355,8 +30522,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - Angle (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>raiser_kwds</code></strong> - Use <code><b>raiser</b>=False</code> to avoid ValueErrors or 
-          optionally, additional ValueError keyword argments.</li>
+        <li><strong class="pname"><code>raiser_kwds</code></strong> - Use <code><b>raiser</b>=False</code> to avoid ValueErrors and 
+          optional, additional ValueError keyword argments.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>tan(<b>deg</b>)</code>.</dd>
@@ -33468,7 +33635,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Aug 26 12:48:34 2025
+    Generated by Epydoc 3.0.1 on Mon Sep  8 15:09:01 2025
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -16,14 +16,13 @@ from pygeodesy.interns import _DMAIN_, NN, _UNDER_
 from pygeodesy.karney import Caps, GeodesicError, GeodSolve12Tuple, \
                             _sincos2d, _Xables,  _0_0, NAN
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
-from pygeodesy.named import _name1__
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
 from pygeodesy.props import Property, Property_RO, property_RO
 from pygeodesy.solveBase import _SolveGDictBase, _SolveGDictLineBase
 from pygeodesy.utily import _unrollon, _Wrap, wrap360
 
 __all__ = _ALL_LAZY.geodsolve
-__version__ = '25.04.14'
+__version__ = '25.09.03'
 
 
 class _GeodesicSolveBase(_SolveGDictBase):
@@ -131,18 +130,15 @@ class GeodesicSolve(_GeodesicSolveBase):
         '''
         return self.DirectLine(ll1.lat, ll1.lon, azi12, **caps_name)
 
-    def DirectLine(self, lat1, lon1, azi1, **caps_name):
+    def DirectLine(self, lat1, lon1, azi1, caps=Caps.ALL, **name):
         '''Set up a L{GeodesicLineSolve} to compute several points
            on a single geodesic.
 
            @arg lat1: Latitude of the first point (C{degrees}).
            @arg lon1: Longitude of the first point (C{degrees}).
            @arg azi1: Azimuth at the first point (compass C{degrees}).
-           @kwarg caps_name: Optional C{B{name}=NN} (C{str}) and keyword
-                       argument C{B{caps}=Caps.ALL}, bit-or'ed combination
-                       of L{Caps<pygeodesy.karney.Caps>} values specifying
-                       the capabilities the L{GeodesicLineSolve} instance
-                       should possess.
+           @kwarg caps: Desired capabilities for the L{GeodesicLineSolve} instance.
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: A L{GeodesicLineSolve} instance.
 
@@ -154,9 +150,9 @@ class GeodesicSolve(_GeodesicSolveBase):
                  <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html>}
                  and Python U{Geodesic.Line<https://GeographicLib.SourceForge.io/Python/doc/code.html>}.
         '''
-        return GeodesicLineSolve(self, lat1, lon1, azi1, **_name1__(caps_name, _or_nameof=self))
+        return GeodesicLineSolve(self, lat1, lon1, azi1, caps=caps, **name)
 
-    Line = DirectLine
+    Line = ArcDirectLine = DirectLine
 
     def _Inverse(self, ll1, ll2, wrap, **outmask):  # PYCHOK no cover
         '''(INTERNAL) Short-cut version, see .ellipsoidalBaseDI.intersecant2.
@@ -182,7 +178,7 @@ class GeodesicSolve(_GeodesicSolveBase):
             ll2 = _unrollon(ll1, _Wrap.point(ll2))
         return self.InverseLine(ll1.lat, ll1.lon, ll2.lat, ll2.lon, **caps_name)
 
-    def InverseLine(self, lat1, lon1, lat2, lon2, **caps_name):  # PYCHOK no cover
+    def InverseLine(self, lat1, lon1, lat2, lon2, caps=Caps.ALL, **name):  # PYCHOK no cover
         '''Set up a L{GeodesicLineSolve} to compute several points
            on a single geodesic.
 
@@ -190,11 +186,8 @@ class GeodesicSolve(_GeodesicSolveBase):
            @arg lon1: Longitude of the first point (C{degrees}).
            @arg lat2: Latitude of the second point (C{degrees}).
            @arg lon2: Longitude of the second point (C{degrees}).
-           @kwarg caps_name: Optional C{B{name}=NN} (C{str}) and keyword
-                       argument C{B{caps}=Caps.ALL}, bit-or'ed combination
-                       of L{Caps<pygeodesy.karney.Caps>} values specifying
-                       the capabilities the L{GeodesicLineSolve} instance
-                       should possess.
+           @kwarg caps: Desired capabilities for the L{GeodesicLineSolve} instance.
+           @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: A L{GeodesicLineSolve} instance.
 
@@ -205,7 +198,7 @@ class GeodesicSolve(_GeodesicSolveBase):
                  Python U{Geodesic.InverseLine<https://GeographicLib.SourceForge.io/Python/doc/code.html>}.
         '''
         r  = self.Inverse(lat1, lon1, lat2, lon2)
-        gl = GeodesicLineSolve(self, lat1, lon1, r.azi1, **_name1__(caps_name, _or_nameof=self))
+        gl = GeodesicLineSolve(self, lat1, lon1, r.azi1, caps=caps, **name)
         gl._a13 = r.a12  # gl.SetArc(r.a12)
         gl._s13 = r.s12  # gl.SetDistance(r.s12)
         return gl

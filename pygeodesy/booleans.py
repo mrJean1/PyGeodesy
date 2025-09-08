@@ -45,7 +45,7 @@ from pygeodesy.utily import fabs, _unrollon, _Wrap
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.booleans
-__version__ = '25.05.26'
+__version__ = '25.09.04'
 
 _0EPS  =  EPS  # near-zero, positive
 _EPS0  = -EPS  # near-zero, negative
@@ -60,26 +60,26 @@ _corners_ = 'corners'
 _open_    = 'open'
 
 
-def _Enum(txt, enum):  # PYCHOK unused
+def _Cnum(txt, enum):  # PYCHOK unused
     return txt  # NN(txt, _TILDE_, enum)
 
 
 class _L(object):  # Intersection labels
-    CROSSING      = _Enum(_X_, 1)  # C++ enum
-    CROSSING_D    = _Enum(_X_ + _d_, 8)
+    CROSSING      = _Cnum(_X_, 1)  # C++ enum
+    CROSSING_D    = _Cnum(_X_ + _d_, 8)
     CROSSINGs     = (CROSSING, CROSSING_D)
-    BOUNCING      = _Enum(_B_, 2)
-    BOUNCING_D    = _Enum(_B_ + _d_, 9)
+    BOUNCING      = _Cnum(_B_, 2)
+    BOUNCING_D    = _Cnum(_B_ + _d_, 9)
     BOUNCINGs     = (BOUNCING, BOUNCING_D) + CROSSINGs
-    LEFT_ON       = _Enum('Lo', 3)
-    ON_ON         = _Enum('oo', 5)
-    ON_LEFT       = _Enum('oL', 6)
-    ON_RIGHT      = _Enum('oR', 7)
-    RIGHT_ON      = _Enum('Ro', 4)
+    LEFT_ON       = _Cnum('Lo', 3)
+    ON_ON         = _Cnum('oo', 5)
+    ON_LEFT       = _Cnum('oL', 6)
+    ON_RIGHT      = _Cnum('oR', 7)
+    RIGHT_ON      = _Cnum('Ro', 4)
     RIGHT_LEFT_ON = (RIGHT_ON, LEFT_ON)
     # Entry/Exit flags
-    ENTRY         = _Enum(_e_, 1)
-    EXIT          = _Enum(_x_, 0)
+    ENTRY         = _Cnum(_e_, 1)
+    EXIT          = _Cnum(_x_, 0)
     Toggle        = {ENTRY: EXIT,
                      EXIT: ENTRY,
                      None: None}
@@ -88,10 +88,10 @@ _L = _L()  # PYCHOK singleton
 
 
 class _RP(object):  # RelativePositions
-    IS_Pm = _Enum('Pm', 2)  # C++ enum
-    IS_Pp = _Enum('Pp', 3)
-    LEFT  = _Enum('L',  0)
-    RIGHT = _Enum(_R_,  1)
+    IS_Pm = _Cnum('Pm', 2)  # C++ enum
+    IS_Pp = _Cnum('Pp', 3)
+    LEFT  = _Cnum('L',  0)
+    RIGHT = _Cnum(_R_,  1)
 
 _RP = _RP()  # PYCHOK singleton
 
@@ -1521,16 +1521,16 @@ class _CompositeGH(_CompositeBase):
 class _EdgeFHP(object):
     # An edge between two L{LatLonFHP} points.
 
-    X_INTERSECT = _Enum('Xi', 1)  # C++ enum
-    X_OVERLAP   = _Enum('Xo', 5)
-    P_INTERSECT = _Enum('Pi', 3)
-    P_OVERLAP   = _Enum('Po', 7)
+    X_INTERSECT = _Cnum('Xi', 1)  # C++ enum
+    X_OVERLAP   = _Cnum('Xo', 5)
+    P_INTERSECT = _Cnum('Pi', 3)
+    P_OVERLAP   = _Cnum('Po', 7)
     Ps          = (P_INTERSECT, P_OVERLAP, X_OVERLAP)
-    Q_INTERSECT = _Enum('Qi', 2)
-    Q_OVERLAP   = _Enum('Qo', 6)
+    Q_INTERSECT = _Cnum('Qi', 2)
+    Q_OVERLAP   = _Cnum('Qo', 6)
     Qs          = (Q_INTERSECT, Q_OVERLAP, X_OVERLAP)
-    V_INTERSECT = _Enum('Vi', 4)
-    V_OVERLAP   = _Enum('Vo', 8)
+    V_INTERSECT = _Cnum('Vi', 4)
+    V_OVERLAP   = _Cnum('Vo', 8)
     Vs          = (V_INTERSECT, V_OVERLAP)
 
     def __init__(self, p1, p2, **unused):

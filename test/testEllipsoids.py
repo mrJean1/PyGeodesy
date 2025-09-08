@@ -4,14 +4,14 @@
 # Test L{ellipsoids} module.
 
 __all__ = ('Tests',)
-__version__ = '24.06.24'
+__version__ = '25.08.28'
 
 from bases import TestsBase
 
 from pygeodesy import EcefKarney, Ellipsoid, Ellipsoid2, Ellipsoids, Vector3d, \
-                      a_b2f_, a_b2f2, a_b2n, a_f2Tuple, \
-                      b_f2a, b_f_2a, circle4, e2f, ellipsoids, f_2f, fstr, \
-                      hypot_, n2e2, n2f, PI_2, R_M, sincos2d
+                      a_b2f_, a_b2f2, a_b2n, a_f2Tuple, b_f2a, b_f_2a, circle4, \
+                      e2f, ellipsoids, f_2f, fstr, hypot_, n2e2, n2f, \
+                      PI_2, R_M, sincos2d, unstr
 from math import fabs
 
 
@@ -138,23 +138,28 @@ class Tests(TestsBase):
             t = '%s [%s]' % (p.name, p.units)
             self.test(t, p, e, fmt='%.3f', known=fabs(p - e) < _TOL)
 
+        def _auX(aux, d, x, **kwds):
+            a = aux(d, **kwds)
+            t = fstr(a, prec=9)
+            self.test(unstr(aux, d, **kwds), t, t)
+            self.test('name', a.name, aux.__name__)
+            t = aux(a, inverse=True, **kwds).toRepr(prec=6)
+            self.test('inverse', t, x)
+
         for E, el, ob, pr in ((E, True, True, False),
                               (P, True, False, True),
                               (Ellipsoids.Sphere, False, False, False)):
-            self.subtitle(ellipsoids, 'AuxiliaryLats ' + E.name)
+            self.subtitle(ellipsoids, 'auxLats ' + E.name)
             self.test('isEllipsoidal', E.isEllipsoidal, el)
             self.test('isOblate',      E.isOblate,      ob)
             self.test('isProlate',     E.isProlate,     pr)
             self.test('isSpherical',   E.isSpherical,   not el)
-            for d in range(-90, 91, 30):
+            for d in range(-90, 91, 29):
                 x = 'lat (%d.0)' % (d,)
-                for aux in (E.auxAuthalic,  E.auxConformal,  E.auxGeocentric,
-                            E.auxIsometric, E.auxParametric, E.auxRectifying):
-                    a = aux(d)
-                    t = fstr(a, prec=9)
-                    self.test('%s(%d)' % (aux.__name__, d), t, t)
-                    self.test('name', a.name, aux.__name__)
-                    self.test('inverse', aux(a, inverse=True).toRepr(prec=2), x)
+                for aux in (E.auxAuthalic,  E.auxConformal,  E.auxRectifying,
+                            E.auxIsometric, E.auxParametric, E.auxGeocentric):
+                    _auX(aux, d, x)
+                _auX(aux, d, x, height=1e6)
 
         self.subtitle(ellipsoids, 'Flattenings')
 

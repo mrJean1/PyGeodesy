@@ -24,10 +24,10 @@ and John P. Snyder U{'Map Projections - A Working Manual'<https://Pubs.USGS.gov/
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # noqa: E702 ;
 
-from pygeodesy.basics import copysign0, _isin, _xinstanceof, _xsubclassof, \
-                             typename
-from pygeodesy.constants import EPS, EPS02, PI_2, _float as _F, _0_0, _0_5, \
-                               _1_0, _2_0, _90_0
+from pygeodesy.basics import copysign0, _isin, typename, \
+                            _xinstanceof, _xsubclassof
+from pygeodesy.constants import EPS, EPS02, PI_2, _float as _F, \
+                               _0_0, _0_5, _1_0, _2_0, _90_0
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB
 from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.errors import _IsnotError, _ValueError
@@ -50,7 +50,7 @@ from pygeodesy.utily import atan1, degrees90, degrees180, sincos2, tanPI_2_2
 from math import atan, fabs, log, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.lcc
-__version__ = '25.05.26'
+__version__ = '25.08.31'
 
 _E0_   = 'E0'
 _N0_   = 'N0'

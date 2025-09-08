@@ -75,7 +75,7 @@ U{22<https://DLMF.NIST.gov/22>}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # noqa: E702 ;
 
-from pygeodesy.basics import copysign0, map2, neg, neg_,  typename
+from pygeodesy.basics import copysign0, map2, neg, neg_
 from pygeodesy.constants import EPS, INF, NAN, PI, PI_2, PI_4, \
                                _EPStol as _TolJAC, _0_0, _0_25, \
                                _0_5, _1_0, _2_0, _N_2_0, _3_0, \
@@ -85,7 +85,7 @@ from pygeodesy.constants import _EPSjam as _TolJAM  # PYCHOK used!
 # from pygeodesy.errors import _ValueError  # from .fsums
 from pygeodesy.fmath import favg, Fdot_, fma, hypot1, zqrt
 from pygeodesy.fsums import Fsum, _fsum,  _ValueError
-# from pygeodesy.internals import typename  # from .basics
+from pygeodesy.internals import _Enum, typename
 from pygeodesy.interns import NN, _delta_, _DOT_, _f_, _invalid_, \
                              _invokation_, _negative_, _SPACE_
 from pygeodesy.karney import _K_2_0, _norm180, _signBit, _sincos2
@@ -100,7 +100,7 @@ from math import asin, asinh, atan, ceil, cosh, fabs, floor, radians, \
                  sin, sinh, sqrt, tan, tanh  # tan as _tan
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '25.06.02'
+__version__ = '25.09.04'
 
 _TolRD  =  zqrt(EPS * 0.002)
 _TolRF  =  zqrt(EPS * 0.030)
@@ -108,13 +108,10 @@ _TolRG0 = _TolJAC   * 2.7
 _TRIPS  =  28  # Max depth, 6-18 might be sufficient
 
 
-class _Cs(object):
-    '''(INTERAL) Complete integrals cache.
+class _Cs(_Enum):
+    '''(INTERAL) Complete Integrals cache.
     '''
-    def __init__(self, **kwds):
-        # for n,v in kwds.items():
-        #     setattr(self, n, v)
-        self.__dict__ = kwds
+    pass
 
 
 class Elliptic(_Named):
@@ -773,8 +770,8 @@ class Elliptic(_Named):
         def _S(**kwds):
             return Scalar_(Error=EllipticError, **kwds)
 
-        self._k2      = _S(k2 = k2, low=None, high=_1_0)
-        self._kp2     = _S(kp2=_1p2(kp2, k2))  # low=_0_0
+        self._k2  = _S(k2 = k2, low=None, high=_1_0)
+        self._kp2 = _S(kp2=_1p2(kp2, k2))  # low=_0_0
 
         self._alpha2  = _S(alpha2 = alpha2, low=None, high=_1_0)
         self._alphap2 = _S(alphap2=_1p2(alphap2, alpha2))  # low=_0_0

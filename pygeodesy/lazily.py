@@ -29,15 +29,15 @@ and line number.
 
 from pygeodesy import internals as _internals, interns as _interns, \
                      _isfrozen  # DON'T _lazy_import2
-# from pygeodesy.errors import _error_init, _xkwds_item2  # _ALL_MODS
+# from pygeodesy.errors import _error_init, _ImmutableError, _xkwds_item2  # _ALL_MODS
 from pygeodesy.internals import _caller3, _envPYGEODESY, _headof, printf, _tailof, \
                                  typename, _versions  # _getenv, _PYGEODESY_ENV, \
 #                               _MODS_Base, _MODS.sys_version_info2
 from pygeodesy.interns import _attribute_, _by_, _COLONSPACE_, _COMMASPACE_, _DALL_, \
                               _DMAIN_, _doesn_t_exist_, _DOT_, _EQUALSPACED_, _from_, \
-                              _HASH_, _immutable_, _line_, _module_, NN, _no_, _not_, \
-                              _pygeodesy_, _pygeodesy_abspath_, _SPACE_, _SUB_PACKAGES, \
-                              _or_, _UNDER_, _version_,  _sys, _intern  # function, _1_
+                              _HASH_, _line_, _module_, NN, _no_, _not_, _pygeodesy_, \
+                              _pygeodesy_abspath_, _SPACE_, _SUB_PACKAGES, _or_, \
+                              _UNDER_, _version_,  _sys, _intern  # function, _1_
 try:
     from importlib import import_module
 except ImportError as x:  # Python 2.6-
@@ -125,8 +125,9 @@ class _NamedEnum_RO(dict):
             raise LazyAttributeError(t, txt=_doesn_t_exist_)
 
     def __setattr__(self, attr, value):  # PYCHOK no cover
-        t = _EQUALSPACED_(self._DOT_(attr), repr(value))
-        raise LazyAttributeError(_immutable_, txt=t)
+        e = _ALL_MODS.errors
+        raise e._ImmutableError(self, attr, value,
+                          Error=LazyAttributeError)
 
     def enums(self):
         # Yield all C{(mod_, tuple)} pairs
@@ -200,10 +201,10 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'EasNorAziRk4Tuple', 'EasNorAziRkEqu6Tuple', 'LatLonAziRk4Tuple'),
                       constants=_a('DIG', 'EPS', 'EPS0', 'EPS02', 'EPS1', 'EPS2', 'EPS4', 'EPS_2',
                                    'INF', 'INT0', 'MANT_DIG', 'MAX', 'MAX_EXP', 'MIN', 'MIN_EXP', 'NAN', 'NEG0', 'NINF',
-                                   'PI', 'PI2', 'PI_2', 'PI3', 'PI_3', 'PI3_2', 'PI4', 'PI_4',
+                                   'PI', 'PI2', 'PI_2', 'PI3', 'PI_3', 'PI3_2', 'PI4', 'PI_4', 'PI_6',
                                    'R_FM', 'R_GM', 'R_KM', 'R_M', 'R_MA', 'R_MB', 'R_NM', 'R_QM', 'R_SM', 'R_VM',
                                    'float_', 'float0_', 'isclose', 'isfinite', 'isinf', 'isint0',
-                                   'isnan', 'isnear0', 'isnear1', 'isnear90', 'isneg0', 'isninf', 'isnon0',
+                                   'isnan', 'isnear0', 'isnear1', 'isnear90', 'isneg', 'isneg0', 'isninf', 'isnon0',
                                    'remainder'),
                          datums=_a('Datum', 'Datums', 'Transform', 'Transforms'),
 #                    deprecated=_a(),  # module only
@@ -357,11 +358,11 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'Radius_', 'Scalar', 'Scalar_', 'Zone'),
                       unitsBase=_a('Float', 'Int', 'Radius', 'Str'),
                             ups=_a('Ups', 'UPSError', 'parseUPS5', 'toUps8', 'upsZoneBand5'),
-                          utily=_a('acos1', 'acre2ha', 'acre2m2', 'asin1', 'atan1', 'atan1d', 'atan2', 'atan2b', 'atan2d',
+                          utily=_a('acos1', 'acre2ha', 'acre2m2', 'agdf', 'asin1', 'atan1', 'atan1d', 'atan2', 'atan2b', 'atan2d',
                                    'chain2m', 'circle4', 'cot', 'cot_', 'cotd', 'cotd_',
                                    'degrees', 'degrees90', 'degrees180', 'degrees360', 'degrees2grades', 'degrees2m',
                                    'fathom2m', 'ft2m', 'furlong2m',                  # 'degrees2grades as degrees2gons',
-                                   'grades', 'grades400', 'grades2degrees', 'grades2radians',
+                                   'gdf', 'grades', 'grades400', 'grades2degrees', 'grades2radians',
 #                                  'grades as gons', 'grades400 as gons400', 'grades2degrees as gons2degrees', 'grades2radians as gons2radians',
                                    'ha2acre', 'ha2m2', 'hav', 'km2m',
                                    'm2acre', 'm2chain', 'm2degrees', 'm2fathom', 'm2ft', 'm2furlong',
@@ -510,7 +511,7 @@ class _ALL_MODS(_internals._MODS_Base):
 _internals._MODS = _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '25.08.22'
+__version__ = '25.09.09'
 
 
 def _ALL_OTHER(*objs):

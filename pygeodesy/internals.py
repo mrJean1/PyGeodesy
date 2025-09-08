@@ -4,10 +4,10 @@
 u'''Mostly INTERNAL functions, except L{machine}, L{print_} and L{printf}.
 '''
 # from pygeodesy.basics import isiterablen, ubstr  # _MODS
-# from pygeodesy.errors import _AttributeError, _error_init, _UnexpectedError, _xError2  # _MODS
-from pygeodesy.interns import _BAR_, _COLON_, _DASH_, _DMAIN_, _DOT_, _ELLIPSIS_, _EQUALSPACED_, \
-                              _immutable_, _NL_, NN, _pygeodesy_, _PyPy__, _python_, _QUOTE1_, \
-                              _QUOTE2_, _s_, _SPACE_, _sys, _UNDER_
+# from pygeodesy.errors import _AttributeError, _error_init, _ImmutableError, _UnexpectedError, _xError2  # _MODS
+from pygeodesy.interns import _BAR_, _COLON_, _DASH_, _DMAIN_, _DOT_, _ELLIPSIS_, _NL_, NN, \
+                              _pygeodesy_, _PyPy__, _python_, _QUOTE1_, _QUOTE2_, _s_, _sys, \
+                              _SPACE_, _UNDER_
 from pygeodesy.interns import _COMMA_, _Python_  # PYCHOK used!
 # from pygeodesy.streprs import anstr, pairs, unstr  # _MODS
 
@@ -56,6 +56,27 @@ def _Property_RO(method):
     return property(_get, _set, _del)
 
 
+class _Enum(object):  # in .elliptic, .utily
+    '''(INTERNAL) Enum-like, immutable items.
+    '''
+    # _ImmutableError = None
+
+    def __init__(self, **enums):
+        self.__dict__.update(enums)
+        # for item in enums.items():
+        #     setattr(self, *item)  # object.__setattr__
+
+    def __str__(self):
+        _unstr = _MODS.streprs.unstr
+        return _unstr(_Enum, **self.__dict__)
+
+    # def __delattr__(self, attr):  # PYCHOK no cover
+        # raise _ImmutableError(self, attr)  # _del_
+
+    # def __setattr__(self, attr, value):  # PYCHOK no cover
+        # raise _ImmutableError(self, attr, value)
+
+
 class _MODS_Base(object):
     '''(INTERNAL) Base-class for C{lazily._ALL_MODS}.
     '''
@@ -63,10 +84,7 @@ class _MODS_Base(object):
         self.__dict__.pop(attr, None)
 
     def __setattr__(self, attr, value):  # PYCHOK no cover
-        e = _MODS.errors
-        n = _DOT_(self.name, attr)
-        t = _EQUALSPACED_(n, repr(value))
-        raise e._AttributeError(_immutable_, txt=t)
+        raise _ImmutableError(self, attr, value)
 
     @_Property_RO
     def basics(self):
@@ -302,6 +320,12 @@ def _headof(name):
     return name if i < 0 else name[:i]
 
 
+def _ImmutableError(*inst_attr_value):
+    '''(INTERNAL) Format an C{_ImmutableError}.
+    '''
+    return _MODS.errors._ImmutableError(*inst_attr_value)
+
+
 # def _is(a, b):  # PYCHOK no cover
 #     '''(INTERNAL) C{a is b}? in C{PyPy}
 #     '''
@@ -473,10 +497,10 @@ def printf(fmt, *args, **nl_nt_prec_prefix__end_file_flush_sep__kwds):
         else:
             t =  fmt
     except Exception as x:
-        _E, s = _MODS.errors._xError2(x)
-        unstr = _MODS.streprs.unstr
-        t = unstr(printf, fmt, *args, **nl_nt_prec_prefix__end_file_flush_sep__kwds)
-        raise _E(s, txt=t, cause=x)
+        _Error, s = _MODS.errors._xError2(x)
+        _unstr    = _MODS.strepr.unstr
+        t = _unstr(printf, fmt, *args, **nl_nt_prec_prefix__end_file_flush_sep__kwds)
+        raise _Error(s, txt=t, cause=x)
     try:
         n = f.write(NN(b, t, e))
     except UnicodeEncodeError:  # XXX only Windows
@@ -686,7 +710,7 @@ def _versions(sep=_SPACE_):
 
 
 __all__ = tuple(map(typename, (machine, print_, printf, typename)))
-__version__ = '25.08.18'
+__version__ = '25.09.05'
 
 if __name__ == _DMAIN_:
 

@@ -48,7 +48,7 @@ from pygeodesy.rhumb.bases import RhumbBase, RhumbLineBase, \
 from math import ceil as _ceil, fabs, radians
 
 __all__ = _ALL_LAZY.rhumb_aux_
-__version__ = '25.05.12'
+__version__ = '25.08.31'
 
 # DIGITS = (sizeof(real) * 8) bits
 #        = (ctypes.sizeof(ctypes.c_double(1.0)) * 8) bits

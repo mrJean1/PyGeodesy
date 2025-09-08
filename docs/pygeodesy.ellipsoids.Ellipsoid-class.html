@@ -161,8 +161,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoids.Ellipsoid-class.html#auxAuthalic" class="summary-sig-name">auxAuthalic</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lat</span>,
         <span class="summary-sig-arg">inverse</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Compute the <i>authalic</i> auxiliary latitude or the <i>inverse</i> 
-      thereof.</td>
+      Compute the <i>authalic</i> auxiliary latitude (Xi) or the 
+      <i>inverse</i> thereof.</td>
           <td align="right" valign="top">
             
             
@@ -181,8 +181,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoids.Ellipsoid-class.html#auxConformal" class="summary-sig-name">auxConformal</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lat</span>,
         <span class="summary-sig-arg">inverse</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Compute the <i>conformal</i> auxiliary latitude or the <i>inverse</i>
-      thereof.</td>
+      Compute the <i>conformal</i> auxiliary latitude (Chi) or the 
+      <i>inverse</i> thereof.</td>
           <td align="right" valign="top">
             
             
@@ -200,8 +200,9 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoids.Ellipsoid-class.html#auxGeocentric" class="summary-sig-name">auxGeocentric</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lat</span>,
-        <span class="summary-sig-arg">inverse</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Compute the <i>geocentric</i> auxiliary latitude or the 
+        <span class="summary-sig-arg">inverse</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">0.0</span>)</span><br />
+      Compute the <i>geocentric</i> auxiliary latitude (Theta) or the 
       <i>inverse</i> thereof.</td>
           <td align="right" valign="top">
             
@@ -221,8 +222,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoids.Ellipsoid-class.html#auxIsometric" class="summary-sig-name">auxIsometric</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lat</span>,
         <span class="summary-sig-arg">inverse</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Compute the <i>isometric</i> auxiliary latitude or the <i>inverse</i>
-      thereof.</td>
+      Compute the <i>isometric</i> auxiliary latitude (Psi) or the 
+      <i>inverse</i> thereof.</td>
           <td align="right" valign="top">
             
             
@@ -241,7 +242,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoids.Ellipsoid-class.html#auxParametric" class="summary-sig-name">auxParametric</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lat</span>,
         <span class="summary-sig-arg">inverse</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Compute the <i>parametric</i> auxiliary latitude or the 
+      Compute the <i>parametric</i> auxiliary latitude (Beta) or the 
       <i>inverse</i> thereof.</td>
           <td align="right" valign="top">
             
@@ -261,7 +262,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoids.Ellipsoid-class.html#auxReduced" class="summary-sig-name">auxReduced</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lat</span>,
         <span class="summary-sig-arg">inverse</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Compute the <i>parametric</i> auxiliary latitude or the 
+      Compute the <i>parametric</i> auxiliary latitude (Beta) or the 
       <i>inverse</i> thereof.</td>
           <td align="right" valign="top">
             
@@ -281,7 +282,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoids.Ellipsoid-class.html#auxRectifying" class="summary-sig-name">auxRectifying</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">lat</span>,
         <span class="summary-sig-arg">inverse</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Compute the <i>rectifying</i> auxiliary latitude or the 
+      Compute the <i>rectifying</i> auxiliary latitude (Mu) or the 
       <i>inverse</i> thereof.</td>
           <td align="right" valign="top">
             
@@ -319,8 +320,8 @@
           <td><span class="summary-sig"><a href="pygeodesy.ellipsoids.Ellipsoid-class.html#degrees2m" class="summary-sig-name">degrees2m</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">deg</span>,
         <span class="summary-sig-arg">lat</span>=<span class="summary-sig-default">0</span>)</span><br />
-      Convert an angle to the distance along the equator or along a 
-      parallel of (geodetic) latitude.</td>
+      Convert an angle along the equator or along a parallel of (geodetic) 
+      latitude to the distance.</td>
           <td align="right" valign="top">
             
             
@@ -1931,8 +1932,8 @@
     </td>
   </tr></table>
   
-  <p>Compute the <i>authalic</i> auxiliary latitude or the <i>inverse</i> 
-  thereof.</p>
+  <p>Compute the <i>authalic</i> auxiliary latitude (Xi) or the 
+  <i>inverse</i> thereof.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -1973,8 +1974,8 @@
     </td>
   </tr></table>
   
-  <p>Compute the <i>conformal</i> auxiliary latitude or the <i>inverse</i> 
-  thereof.</p>
+  <p>Compute the <i>conformal</i> auxiliary latitude (Chi) or the 
+  <i>inverse</i> thereof.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -2008,15 +2009,16 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">auxGeocentric</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">lat</span>,
-        <span class="sig-arg">inverse</span>=<span class="sig-default">False</span>)</span>
+        <span class="sig-arg">inverse</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">0.0</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Compute the <i>geocentric</i> auxiliary latitude or the <i>inverse</i>
-  thereof.</p>
+  <p>Compute the <i>geocentric</i> auxiliary latitude (Theta) or the 
+  <i>inverse</i> thereof.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -2024,6 +2026,7 @@
           (<code>degrees90</code>).</li>
         <li><strong class="pname"><code>inverse</code></strong> - If <code>True</code>, <b><code>lat</code></b> is the geocentric 
           and return the <i>geocentric</i> latitude (<code>bool</code>).</li>
+        <li><strong class="pname"><code>height</code></strong> - Optional, ellipsoidal height (<code>meter</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>The <i>geocentric</i> (or geodetic) latitude in 
@@ -2056,8 +2059,8 @@
     </td>
   </tr></table>
   
-  <p>Compute the <i>isometric</i> auxiliary latitude or the <i>inverse</i> 
-  thereof.</p>
+  <p>Compute the <i>isometric</i> auxiliary latitude (Psi) or the 
+  <i>inverse</i> thereof.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -2103,8 +2106,8 @@
     </td>
   </tr></table>
   
-  <p>Compute the <i>parametric</i> auxiliary latitude or the <i>inverse</i>
-  thereof.</p>
+  <p>Compute the <i>parametric</i> auxiliary latitude (Beta) or the 
+  <i>inverse</i> thereof.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -2145,8 +2148,8 @@
     </td>
   </tr></table>
   
-  <p>Compute the <i>parametric</i> auxiliary latitude or the <i>inverse</i>
-  thereof.</p>
+  <p>Compute the <i>parametric</i> auxiliary latitude (Beta) or the 
+  <i>inverse</i> thereof.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -2187,8 +2190,8 @@
     </td>
   </tr></table>
   
-  <p>Compute the <i>rectifying</i> auxiliary latitude or the <i>inverse</i>
-  thereof.</p>
+  <p>Compute the <i>rectifying</i> auxiliary latitude (Mu) or the 
+  <i>inverse</i> thereof.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -2273,8 +2276,8 @@
     </td>
   </tr></table>
   
-  <p>Convert an angle to the distance along the equator or along a parallel
-  of (geodetic) latitude.</p>
+  <p>Convert an angle along the equator or along a parallel of (geodetic) 
+  latitude to the distance.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -5970,7 +5973,7 @@ class="math">4 / 3 * PI * R3**3</i>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Aug 26 12:48:36 2025
+    Generated by Epydoc 3.0.1 on Mon Sep  8 15:09:02 2025
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

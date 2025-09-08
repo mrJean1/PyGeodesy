@@ -16,9 +16,10 @@ C{PYGEODESY_EXCEPTION_CHAINING=std} or to any non-empty string.
 # from pygeodesy import errors  # _MODS, _MODS.getattr
 from pygeodesy.internals import _envPYGEODESY, _plural, _tailof, typename
 from pygeodesy.interns import MISSING, NN, _a_, _an_, _and_, _clip_, _COLON_, _COLONSPACE_, \
-                             _COMMASPACE_, _datum_, _ELLIPSIS_, _ellipsoidal_, _incompatible_, \
-                             _invalid_, _keyword_, _LatLon_, _len_, _not_, _or_, _SPACE_, \
-                             _specified_, _UNDER_, _vs_, _with_
+                             _COMMASPACE_, _datum_, _DOT_, _ELLIPSIS_, _ellipsoidal_, \
+                             _EQUALSPACED_, _immutable_, _incompatible_, _invalid_, _keyword_, \
+                             _LatLon_, _len_, _not_, _or_, _SPACE_, _specified_, _UNDER_, \
+                             _vs_, _with_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _PYTHON_X_DEV
 # from pygeodesy import streprs as _streprs  # _MODS.into
 # from pygeodesy.unitsBase import Str  # _MODS
@@ -27,11 +28,12 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _PYTHON_X_DEV
 from copy import copy as _copy
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')  _under
-__version__ = '25.05.19'
+__version__ = '25.09.04'
 
 _argument_   = 'argument'
 _basics      = _MODS.into(basics=__name__)
 _box_        = 'box'
+_del_        = 'del'
 _expected_   = 'expected'
 _limiterrors =  True  # in .formy
 _name_value_ =  repr('name=value')
@@ -224,7 +226,8 @@ class IntersectionError(_ValueError):  # in .ellipsoidalBaseDI, .formy, ...
         '''New L{IntersectionError}.
         '''
         if args:
-            _ValueError.__init__(self, _SPACE_(*args), **kwds)
+            t = _COMMASPACE_(*map(repr, args))
+            _ValueError.__init__(self, t, **kwds)
         else:
             _ValueError.__init__(self, **kwds)
 
@@ -472,6 +475,16 @@ def exception_chaining(exc=None):
     '''
     return _exception_chaining if exc is None else \
             getattr(exc, '__cause__', None)  # _DCAUSE_
+
+
+def _ImmutableError(inst, attr, value=_del_, Error=_TypeError):  # PYCHOK self
+    '''(INTERNAL) Format an C{immutable _TypeError}.
+    '''
+    n =  typename(inst)
+    n = _DOT_(_xattr(inst, name=n), attr)
+    t = _SPACE_(_del_, n) if value is _del_ else \
+        _EQUALSPACED_(n, repr(value))
+    return Error(_immutable_, txt=t)
 
 
 def _incompatible(this):

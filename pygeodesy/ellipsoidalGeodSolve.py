@@ -12,11 +12,11 @@ L{geodsolve}, a wrapper invoking I{Karney}'s U{GeodSolve
 
 # from pygeodesy.datums import _WGS84  # from .ellipsoidalBase
 from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase, \
-                                     _nearestOn, _WGS84
+                                     _nearestOn,  Property_RO, _WGS84
 from pygeodesy.ellipsoidalBaseDI import LatLonEllipsoidalBaseDI, _TOL_M, \
                                        _intersection3, _intersections2
 # from pygeodesy.errors import _xkwds  # from .karney
-from pygeodesy.karney import fabs, _polygon,  Property_RO, _xkwds
+from pygeodesy.karney import fabs, _polygon,  _xkwds
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _ALL_OTHER
 from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
 # from pygeodesy.props import Property_RO  # from .karney
@@ -24,7 +24,7 @@ from pygeodesy.points import _areaError, ispolar  # PYCHOK exported
 # from math import fabs  # from .karney
 
 __all__ = _ALL_LAZY.ellipsoidalGeodSolve
-__version__ = '25.05.28'
+__version__ = '25.08.28'
 
 
 class Cartesian(CartesianEllipsoidalBase):

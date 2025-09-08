@@ -150,11 +150,7 @@ def _sinf1cos2d(lat, f1):
 def _toNAN(outmask, *args):
     '''(INTERNAL) Is any C{arg} not finite?
     '''
-    if (outmask & _CapsBase.NONFINITONAN):  # Caps.NONFINITONAN
-        for arg in args:
-            if not isfinite(arg):
-                return True
-    return False
+    return bool(outmask & _CapsBase.NONFINITONAN) and not all(map(isfinite, args))
 
 
 def _xnC4(**name_nC4):

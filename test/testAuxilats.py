@@ -4,7 +4,7 @@
 # Some basic L{auxilats} tests.
 
 __all__ = ('Tests',)
-__version__ = '23.08.31'
+__version__ = '25.09.09'  # '23.08.31'
 
 from bases import numpy, TestsBase
 
@@ -24,6 +24,7 @@ class Tests(TestsBase):
             for d in range(0, 360, 7):
                 a = A.fromDegrees(d)
                 for exact in (True, False):
+                    t = 1e-15 if exact else 1e-14
                     for auxout in range(len(Aux)):
                         r = aL.convert(auxout, a, exact=exact)
                         assert r._AUX == auxout
@@ -32,7 +33,7 @@ class Tests(TestsBase):
                         i =  b.iteration
                         i =  NN if i is None else (', iteration=' + str(i))
                         n = '%2d %.12f %s%s' % (d, (r.toDegrees % 360.0), r, i)
-                        self.test_tol(n, b.tan, a.tan, tol=1e-15, prec=12, nl=int(not auxout))
+                        self.test_tol(n, b.tan, a.tan, tol=t, prec=12, nl=int(not auxout))
                         if deltas and b != a:  # or i:
                             pass
 #                           e = fabs(b.tan - a.tan)

@@ -37,7 +37,7 @@ from math import copysign as _copysign
 # import inspect as _inspect  # _MODS
 
 __all__ = _ALL_LAZY.basics
-__version__ = '25.04.14'
+__version__ = '25.09.04'
 
 _below_           = 'below'
 _list_tuple_types = (list, tuple)
@@ -201,7 +201,7 @@ def copytype(x, y):
 
 
 def _enumereverse(iterable):
-    '''(INTERNAL) Reversed C{enumberate}.
+    '''(INTERNAL) Reversed C{enumerate}.
     '''
     for j in _reverange(len(iterable)):
         yield j, iterable[j]
@@ -714,11 +714,11 @@ def _reverange(n, stop=-1, step=-1):
 
 
 def signBit(x):
-    '''Return C{signbit(B{x})}, like C++.
+    '''Return C{signbit(B{x})}, like C++, see also L{isneg}.
 
        @return: C{True} if C{B{x} < 0} or C{NEG0} (C{bool}).
     '''
-    return x < 0 or _MODS.constants.isneg0(x)
+    return (x or _copysign(1, x)) < 0
 
 
 def _signOf(x, ref):  # in .fsums

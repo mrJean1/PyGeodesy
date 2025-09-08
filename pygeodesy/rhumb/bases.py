@@ -732,8 +732,7 @@ class RhumbLineBase(_CapsBase):
                    azi02=other.azi12, a02=t.a12, s02=t.s12,
                    at=other.azi12 - self.azi12, iteration=i)
         except Exception as x:
-            raise IntersectionError(self, other, tol=tol,
-                                          eps=eps, cause=x)
+            raise IntersectionError(self, other, tol=tol, cause=x, **eps)
         return P
 
     def Inverse(self, lat2, lon2, wrap=False, **outmask):
@@ -870,19 +869,19 @@ class RhumbLineBase(_CapsBase):
             P  =  self.Intersection(rl, tol=tol, eps=eps)
 
         else:  # C{rhumb-intercept}
-            E   = self.ellipsoid
-            _gI = E.geodesic_(exact=exact).Inverse
-            gm  = Cs.STANDARD | Cs._REDUCEDLENGTH_GEODESICSCALE  # ^ Cs.DISTANCE_IN
+            E   =  self.ellipsoid
+            _gI =  E.geodesic_(exact=exact).Inverse
+            gm  =  Cs.STANDARD | Cs._REDUCEDLENGTH_GEODESICSCALE  # ^ Cs.DISTANCE_IN
+            _d2 = _diff182
             if est is None:  # get an estimate from the "perpendicular" geodesic
                 r = _gI(self.lat1, self.lon1, lat0, lon0, outmask=Cs.AZIMUTH_DISTANCE)
-                d, _ = _diff182(r.azi2, self.azi12, K_2_0=True)
+                d, _ = _d2(r.azi2, self.azi12, K_2_0=True)
                 _, s12 = sincos2d(d)
                 s12 *=  r.s12  # signed
             else:
                 s12  =  Meter(est=est)
             try:
                 _abs =  fabs
-                _d2  = _diff182
                 _ErT =  E.rocPrimeVertical  # aka rocTransverse
                 _ovr = _over
                 _S12 =  Fsum(s12).fsum2f_
@@ -894,7 +893,7 @@ class RhumbLineBase(_CapsBase):
                     s, c, s2, c2 = _scd(d, r.lat2)
                     c2 *= _ErT(r.lat2)
                     s  *= _ovr(s2 * self._salp, c2) - _ovr(s * r.M21, r.m12)
-                    s12, t = _S12(c / s)  # XXX _ovr?
+                    s12, t = _S12(c / s) if s else (s12, s)  # XXX _ovr?
                     if _abs(t) < tol:  # or _abs(c) < EPS
                         break
                 P.set_(azi0=r.azi1, a02=r.a12, s02=r.s12,  # azi2=r.azi2,

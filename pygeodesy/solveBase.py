@@ -23,7 +23,7 @@ from pygeodesy.units import Precision_
 from pygeodesy.utily import unroll180
 
 __all__ = _ALL_LAZY.solveBase
-__version__ = '25.05.12'
+__version__ = '25.09.02'
 
 _ERROR_ = 'ERROR'
 
@@ -63,9 +63,15 @@ class _SolveCapsBase(_CapsBase):
 
     @Property_RO
     def a(self):
-        '''Get the I{equatorial} radius, semi-axis (C{meter}).
+        '''Get the ellipsoid's I{equatorial} radius, semi-axis (C{meter}).
         '''
         return self.ellipsoid.a
+
+    @Property_RO
+    def b(self):
+        '''Get the ellipsoid's I{polar} radius, semi-axis (C{meter}).
+        '''
+        return self.ellipsoid.b
 
     @property_RO
     def _cmdBasic(self):  # PYCHOK no covers        '''(INTERNAL) I{Must be overloaded}.'''
@@ -381,6 +387,11 @@ class _SolveGDictBase(_SolveBase):
         if path:
             self._setXable(path)
 
+    def ArcDirect(self, lat1, lon1, azi1, a12, outmask=_UNUSED_):  # PYCHOK unused
+        '''Return the C{Direct} result at C{a12} degrees.
+        '''
+        return self._GDictDirect(lat1, lon1, azi1, True, a12)
+
     @Property_RO
     def _cmdDirect(self):
         '''(INTERNAL) Get the C{Solve} I{Direct} cmd (C{tuple}).
@@ -394,7 +405,7 @@ class _SolveGDictBase(_SolveBase):
         return self._cmdBasic + ('-i',)
 
     def Direct(self, lat1, lon1, azi1, s12, outmask=_UNUSED_):  # PYCHOK unused
-        '''Return the C{Direct} result.
+        '''Return the C{Direct} result at distance C{s12}.
         '''
         return self._GDictDirect(lat1, lon1, azi1, False, s12)
 

@@ -66,7 +66,7 @@ from cmath import polar as _polar
 from math import asinh, cos, cosh, degrees, fabs, sin, sinh, sqrt, tanh
 
 __all__ = _ALL_LAZY.ktm
-__version__ = '25.08.18'
+__version__ = '25.08.31'
 
 
 class KTMError(_ValueError):

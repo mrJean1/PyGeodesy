@@ -29,7 +29,7 @@ from pygeodesy.utily import atan1
 from math import asinh, copysign
 
 __all__ = ()
-__version__ = '25.05.12'
+__version__ = '25.08.31'
 
 
 class Aux(object):

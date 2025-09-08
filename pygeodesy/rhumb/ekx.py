@@ -22,9 +22,9 @@ License.  For more information, see the U{GeographicLib<https://GeographicLib.So
 # make sure int/int division yields float quotient
 from __future__ import division as _; del _  # noqa: E702 ;
 
-from pygeodesy.basics import copysign0, neg
-from pygeodesy.constants import PI_2, _0_0s, _0_0, _0_5, _1_0, \
-                               _2_0, _4_0, _720_0, _over, _1_over
+# from pygeodesy.basics import copysign0, neg  # _MODS
+from pygeodesy.constants import PI_2, _over, _1_over, _0_0s, \
+                               _0_0, _0_5, _1_0, _2_0, _4_0, _720_0
 # from pygeodesy.datums import _WGS84  # from .rhumb.bases
 # from pygeodesy.deprecated import RhumbOrder2Tuple  # _MODS
 from pygeodesy.errors import RhumbError, _xkwds_pop2, _Xorder
@@ -42,7 +42,7 @@ from pygeodesy.utily import atan1, sincos2_
 from math import asinh, atan, cos, cosh, radians, sin, sinh, sqrt, tan  # as _tan
 
 __all__ = _ALL_LAZY.rhumb_ekx
-__version__ = '25.05.12'
+__version__ = '25.08.31'
 
 
 class Rhumb(RhumbBase):
@@ -159,9 +159,9 @@ class Rhumb(RhumbBase):
         if (outmask & Cs.DISTANCE):
             a = s = hypot(lon12, psi12)
             if a:
-                a *= self._DIsometric2Rectifyingd(psi2, psi1)
-                s  = self._mpd * a  # == E._Lpd
-                a  = copysign0(a, s)
+                a *=  self._DIsometric2Rectifyingd(psi2, psi1)
+                s  =  self._mpd * a  # == E._Lpd
+                a  = _MODS.basics.copysign0(a, s)
             r.set_(a12=a, s12=s)
 
         if ((outmask | self._debug) & Cs._DEBUG_INVERSE):  # PYCHOK no cover
@@ -306,7 +306,7 @@ class RhumbLine(RhumbLineBase):
 
     @Property_RO
     def _psi1(self):
-        '''(INTERNAL) Get the I{isometric auxiliary} latitude C{psi} (C{degrees}).
+        '''(INTERNAL) Get the I{isometric auxiliary} latitude (C{degrees}).
         '''
         return self.ellipsoid.auxIsometric(self.lat1)
 
@@ -465,7 +465,7 @@ def _sincosSeries(sinp, x, y, C, n):
     #   SC = sinp ? sin : cos
     #   CS = sinp ? cos : sin
     # ...
-    d, _neg = (x - y), neg
+    d, _neg = (x - y), _MODS.basics.neg
     sp, cp, sd, cd = sincos2_(x + y, d)
     sd = (sd / d) if d else _1_0
     s  = _neg(sp * sd)  # negative

@@ -157,8 +157,7 @@ from pygeodesy.interns import NN, _a12_, _area_, _azi1_, _azi2_, _azi12_, \
                              _SPACE_, _UNDER_, _X_, _1_, _2_,  _BAR_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS
 from pygeodesy.named import ADict, _NamedBase, _NamedTuple, notImplemented, _Pass
-from pygeodesy.props import deprecated_method, Property_RO, property_RO, \
-                                               property_ROnce
+from pygeodesy.props import deprecated_method, property_RO, property_ROnce
 from pygeodesy.units import Azimuth as _Azi, Degrees as _Deg, Lat, Lon, \
                             Meter as _M, Meter2 as _M2, Number_
 from pygeodesy.utily import atan2d, sincos2d, tand, _unrollon,  fabs
@@ -166,7 +165,7 @@ from pygeodesy.utily import atan2d, sincos2d, tand, _unrollon,  fabs
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '25.05.28'
+__version__ = '25.08.31'
 
 _2_4_       = '2.4'
 _K_2_0      = _getenv(_PYGEODESY_ENV(typename(_xgeographiclib)[2:]), _2_)
@@ -270,16 +269,16 @@ class Caps(object):
     REDUCEDLENGTH =  1 << 12 | _CAP_1 | _CAP_2  # compute reduced length C{m12}
     GEODESICSCALE =  1 << 13 | _CAP_1 | _CAP_2  # compute geodesic scales C{M12} and C{M21}
     AREA          =  1 << 14 | _CAP_4  # compute area C{S12}
+    ALL           =  0x7F80  | _CAP_ALL  # without LONG_UNROLL, LINE_OFF, NONFINITONAN, REVERSE2 and _DEBUG_*
 
     STANDARD      =  AZIMUTH  | DISTANCE | LATITUDE | LONGITUDE
     STANDARD_LINE =  STANDARD | DISTANCE_IN  # for goedesici/-w
 
     LINE_CAPS     =  STANDARD_LINE | REDUCEDLENGTH | GEODESICSCALE  # .geodesici only
     LONG_UNROLL   =  1 << 15  # unroll C{lon2} in .Direct and .Position
-    NONFINITONAN  =  1 << 16  # see method GDict._toNAN
-    LINE_OFF      =  1 << 17  # Line without updates from parent geodesic or rhumb
+    LINE_OFF      =  1 << 16  # Line without updates from parent geodesic or rhumb
+    NONFINITONAN  =  1 << 17  # see method GDict._toNAN
     REVERSE2      =  1 << 18  # reverse C{azi2}
-    ALL           =  0x7F80 | _CAP_ALL  # without LONG_UNROLL, LINE_OFF, REVERSE2 and _DEBUG_*
 
     AZIMUTH_DISTANCE        = AZIMUTH | DISTANCE
     AZIMUTH_DISTANCE_AREA   = AZIMUTH | DISTANCE | AREA
@@ -300,7 +299,7 @@ class Caps(object):
     _INVERSE3      =  AZIMUTH  | DISTANCE  # for goedesicw only
 
     _OUT_ALL       =  ALL  # see geographiclib.geodesiccapabilities.py
-    _OUT_MASK      =  ALL | LONG_UNROLL | REVERSE2 | _DEBUG_ALL
+    _OUT_MASK      =  ALL | LONG_UNROLL | NONFINITONAN | REVERSE2 | _DEBUG_ALL
 
     _AZIMUTH_LATITUDE_LONGITUDE           =  AZIMUTH | LATITUDE | LONGITUDE
     _AZIMUTH_LATITUDE_LONG_UNROLL         =  AZIMUTH | LATITUDE | LONG_UNROLL
@@ -366,7 +365,7 @@ class _CapsBase(_NamedBase):  # in .auxilats, .geodesicx.gxbases
     _caps         = 0  # None
     _debug        = 0  # or Caps._DEBUG_...
 
-    @Property_RO
+    @property_RO
     def caps(self):
         '''Get the capabilities (bit-or'ed C{Caps}).
         '''
@@ -455,13 +454,16 @@ class GDict(ADict):  # XXX _NamedDict
         '''
         return self._toTuple(Inverse10Tuple, dflt)
 
-    def _toNAN(self, outmask):  # .GeodesicExact._GDistInverse, .GeodesicLineExact._GenPosition
+    def _toNAN(self, outmask, **specs):  # .GeodesicExact._GDistInverse, .GeodesicLineExact._GenPosition
         '''(INTERNAL) Convert this C{GDict} to all C{NAN}s.
         '''
         if (outmask & Caps.NONFINITONAN):
-            d = dict((k, NAN) for k, C in _key2Caps.items()
-                                       if (outmask & C) == C)
-            self.set_(**d)
+            def _t2(k):
+                return k, specs.get(k, NAN)
+
+            d = dict(_t2(k) for k, C in _key2Caps.items()
+                                     if (outmask & C) == C)
+            self.set_(**d)  # self.update(d)
         return self
 
     @deprecated_method
@@ -721,12 +723,11 @@ def _around(x):  # in .utily.sincos2d
     try:
         return _wrapped.Math.AngRound(x)
     except AttributeError:
-        if x:
-            y = _1_16th - fabs(x)
-            if y > 0:  # fabs(x) < _1_16th
-                x = _copysign(_1_16th - y, x)
-        else:
-            x = _0_0  # -0 to 0
+        b, a = _1_16th, fabs(x)
+        if a < b:
+            a -= b
+            a += b
+            x = _copysign(a, x)
         return x
 
 

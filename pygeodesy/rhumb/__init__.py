@@ -9,7 +9,7 @@ u'''Package of lazily imported C{rhumb} modules L{rhumb.aux_}, L{rhumb.ekx} and 
 from pygeodesy.lazily import _ALL_LAZY, _ALL_OTHER, _lazy_import_as, _unLazy0
 
 __all__ = _ALL_LAZY.rhumb
-__version__ = '25.04.14'
+__version__ = '25.08.28'
 
 if _unLazy0:  # or _isfrozen
     from pygeodesy.rhumb.aux_ import RhumbAux, RhumbLineAux

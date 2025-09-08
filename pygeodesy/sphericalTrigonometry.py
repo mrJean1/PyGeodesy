@@ -17,9 +17,9 @@ U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}.
 from __future__ import division as _; del _  # noqa: E702 ;
 
 from pygeodesy.basics import copysign0, _isin, map1, signOf,  typename
-from pygeodesy.constants import EPS, EPS1, EPS4, PI, PI2, PI_2, PI_4, R_M, \
-                                isnear0, isnear1, isnon0, _0_0, _0_5, \
-                                _1_0, _2_0, _90_0
+from pygeodesy.constants import EPS, EPS1, EPS4, PI, PI2, PI_2, PI_4, \
+                                R_M, _0_0, _0_5, _1_0, _2_0, _90_0, \
+                                isnear0, isnear1, isnon0
 from pygeodesy.datums import _ellipsoidal_datum, _mean_radius
 from pygeodesy.errors import _AssertionError, CrossError, crosserrors, \
                              _TypeError, _ValueError, IntersectionError, \
@@ -57,7 +57,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, cos, degrees, fabs, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '25.08.18'
+__version__ = '25.08.31'
 
 _PI_EPS4 = PI - EPS4
 if _PI_EPS4 >= PI:

@@ -75,8 +75,8 @@ from pygeodesy.datums import _ellipsoidal_datum, _WGS84,  _EWGS84
 # from pygeodesy.fsums import Fsum  # from .fmath
 from pygeodesy.fmath import cbrt, hypot, hypot1, hypot2,  Fsum
 from pygeodesy.interns import _COMMASPACE_, _DMAIN_, _near_, _SPACE_, _spherical_
-from pygeodesy.karney import _K_2_4, _copyBit, _diff182, _fix90, _norm2, \
-                            _norm180, _tand, _unsigned2
+from pygeodesy.karney import _K_2_4, _diff182, _fix90, _norm2, _norm180, \
+                             _signBit, _tand, _unsigned2
 # from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS  # from .named
 from pygeodesy.named import callername, _incompatible, _NamedBase, \
                            _ALL_LAZY, _MODS
@@ -93,7 +93,7 @@ from pygeodesy.utm import _cmlon, _LLEB, _parseUTM5, _toBand, _toXtm8, \
 from math import asinh, degrees, radians, sinh, sqrt
 
 __all__ = _ALL_LAZY.etm
-__version__ = '25.05.12'
+__version__ = '25.08.31'
 
 _OVERFLOW = _1_EPS**2  # ~2e+31
 _TAYTOL   =  pow(EPS,  0.6)
@@ -790,7 +790,7 @@ class ExactTransverseMercator(_NamedBase):
             mu = mu / d2
             mv = mv / d2
         else:
-            mu, mv = map1(_overflow, mu, mv)
+            mu, mv = map1(_copysignOVERFLOW, mu, mv)
         xi = self._Eu.fE(snu, cnu, dnu) - mu
         v -= self._Ev.fE(snv, cnv, dnv) - mv
         return xi, v, d2
@@ -910,12 +910,12 @@ class ExactTransverseMercator(_NamedBase):
         if d1 > EPS02:  # _EPSmin
             t1 = snu * dnv / sqrt(d1)
         else:  # like atan(overflow) = pi/2
-            t1, d1 = _overflow(snu), 0
+            t1, d1 = _copysignOVERFLOW(snu), 0
         d2 = cnu2 * self._mu + cnv**2 * mv
         if d2 > EPS02:  # _EPSmin
             t2 = sinh(e * asinh(e * snu / sqrt(d2)))
         else:
-            t2, d2 = _overflow(snu), 0
+            t2, d2 = _copysignOVERFLOW(snu), 0
         # psi = asinh(t1) - asinh(t2)
         # taup = sinh(psi)
         taup = t1 * hypot1(t2) - t2 * hypot1(t1)
@@ -1026,10 +1026,10 @@ _allPropertiesOf_n(22, ExactTransverseMercator, Property_RO)  # PYCHOK assert _R
 del _0_1, _allPropertiesOf_n, EPS, _1_EPS, _EWGS84
 
 
-def _overflow(x):
+def _copysignOVERFLOW(x):
     '''(INTERNAL) Like C{copysign0(OVERFLOW, B{x})}.
     '''
-    return _copyBit(_OVERFLOW, x)
+    return (-_OVERFLOW) if _signBit(x) else _OVERFLOW
 
 
 def parseETM5(strUTM, datum=_WGS84, Etm=Etm, falsed=True, **name):

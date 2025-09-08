@@ -4,6 +4,7 @@
 u'''DEPRECATED functions kept for backward compatibility.
 '''
 
+# from pygeodesy.basics import copysign0  # _MODS_
 from pygeodesy.constants import EPS, R_M, float0_
 from pygeodesy.deprecated.classes import ClipCS3Tuple, TriAngle4Tuple, _TriAngle5Tuple
 from pygeodesy.interns import NN, _area_, _COMMASPACE_, _negative_, \

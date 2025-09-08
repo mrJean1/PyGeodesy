@@ -65,7 +65,7 @@ from pygeodesy.utily import atan2, atan2d as _atan2d_reverse, _unrollon, \
 from math import copysign, cos, degrees, fabs, radians, sqrt
 
 __all__ = ()
-__version__ = '25.06.01'
+__version__ = '25.09.02'
 
 _MAXIT1 = 20
 _MAXIT2 = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
@@ -134,7 +134,7 @@ class GeodesicExact(_GeodesicBase):
     _datum = _WGS84
     _nC4   =  30  # default C4order
 
-    def __init__(self, a_ellipsoid=_EWGS84, f=None, C4order=None, **name_C4Order):  # for backward compatibility
+    def __init__(self, a_ellipsoid=_EWGS84, f=None, caps=None, C4order=None, **name_C4Order):  # for backward compatibility
         '''New L{GeodesicExact} instance.
 
            @arg a_ellipsoid: An ellipsoid (L{Ellipsoid}) or datum (L{Datum}) or
@@ -142,6 +142,8 @@ class GeodesicExact(_GeodesicBase):
                              conventionally in C{meter}), see B{C{f}}.
            @arg f: The flattening of the ellipsoid (C{scalar}) if B{C{a_ellipsoid}}
                    is specified as C{scalar}.
+           @kwarg caps: Optional default capabilities for L{GeodesicLineExact} instances,
+                        use C{B{caps}=Caps.NONFINITONAN} to handle nonfinites silently.
            @kwarg C4order: Optional series expansion order (C{int}), see property
                            L{C4order}, default C{30}.
            @kwarg name_C4Order: Optional C{B{name}=NN} (C{str}) and the DEPRECATED
@@ -154,9 +156,11 @@ class GeodesicExact(_GeodesicBase):
             if name:
                 self.name = name
         else:
-            name = {}  # name_C4Order
+            name = name_C4Order  # no name
 
         _earth_datum(self, a_ellipsoid, f=f, **name)
+        if caps:
+            self._caps |= caps & Caps._OUT_MASK
         if C4order:  # XXX private copy, always?
             self.C4order = C4order
 
@@ -193,10 +197,7 @@ class GeodesicExact(_GeodesicBase):
            @arg lon1: Longitude of the first point (C{degrees}).
            @arg azi1: Azimuth at the first point (compass C{degrees}).
            @arg a12: Arc length between the points (C{degrees}), can be negative.
-           @kwarg caps: Bit-or'ed combination of L{Caps<pygeodesy.karney.Caps>} values
-                        specifying the capabilities the L{GeodesicLineExact} instance
-                        should possess, i.e., which quantities can be returned by methods
-                        L{GeodesicLineExact.Position} and L{GeodesicLineExact.ArcPosition}.
+           @kwarg caps: Desired capabilities for the L{GeodesicLineExact} instance.
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: A L{GeodesicLineExact} instance.
@@ -370,10 +371,7 @@ class GeodesicExact(_GeodesicBase):
            @arg lon1: Longitude of the first point (C{degrees}).
            @arg azi1: Azimuth at the first point (compass C{degrees}).
            @arg s12: Distance between the points (C{meter}), can be negative.
-           @kwarg caps: Bit-or'ed combination of L{Caps<pygeodesy.karney.Caps>} values
-                        specifying the capabilities the L{GeodesicLineExact} instance
-                        should possess, i.e., which quantities can be returned by methods
-                        L{GeodesicLineExact.Position}.
+           @kwarg caps: Desired capabilities for the L{GeodesicLineExact} instance.
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: A L{GeodesicLineExact} instance.
@@ -487,7 +485,7 @@ class GeodesicExact(_GeodesicBase):
            @return: A L{GDict} ...
         '''
         C = outmask if arcmode else (outmask | Caps.DISTANCE_IN)
-        glX = self.Line(lat1, lon1, azi1, C | Caps.LINE_OFF)
+        glX = self.Line(lat1, lon1, azi1, caps=C | Caps.LINE_OFF)
         return glX._GDictPosition(arcmode, s12_a12, outmask)
 
     def _GDictInverse(self, lat1, lon1, lat2, lon2, outmask=Caps.STANDARD):  # MCCABE 33, 41 vars
@@ -495,22 +493,23 @@ class GeodesicExact(_GeodesicBase):
 
            @return: A L{GDict} ...
         '''
-        Cs = Caps
+        r, Cs = GDict(), Caps
         if self._debug:  # PYCHOK no cover
             outmask |= Cs._DEBUG_INVERSE & self._debug
+        outmask |= self.caps
         outmask &= Cs._OUT_MASK  # incl. _SALP_CALPs_ and _DEBUG_
-        toNAN = _toNAN(outmask, lat1, lon1, lat2, lon2)
+        if _toNAN(outmask, lat1, lon1, lat2, lon2):
+            return r._toNAN(outmask, lat1=lat1, lon1=lon1, lat2=lat2, lon2=lon2)
+
         # compute longitude difference carefully (with _diff182):
         # result is in [-180, +180] but -180 is only for west-going
         # geodesics, +180 is for east-going and meridional geodesics
         lon12, lon12s = _diff182(lon1, lon2)
         # see C{result} from geographiclib.geodesic.Inverse
         if (outmask & Cs.LONG_UNROLL):  # == (lon1 + lon12) + lon12s
-            r = GDict(lon1=lon1, lon2=fsumf_(lon1, lon12, lon12s))
+            r.set_(lon1=lon1, lon2=fsumf_(lon1, lon12, lon12s))
         elif (outmask & Cs.LONGITUDE):
-            r = GDict(lon1=_norm180(lon1), lon2=_norm180(lon2))
-        else:
-            r = GDict()
+            r.set_(lon1=_norm180(lon1), lon2=_norm180(lon2))
         if _K_2_0:  # GeographicLib 2.0
             # make longitude difference positive
             lon12, lon_ = _unsigned2(lon12)
@@ -543,7 +542,7 @@ class GeodesicExact(_GeodesicBase):
             r.set_(lat1=lat1, lat2=lat2)
         # Swap points so that point with higher (abs) latitude is
         # point 1.  If one latitude is a NAN, then it becomes lat1.
-        swap_ = fabs(lat1) < fabs(lat2) or isnan(lat2)
+        swap_ = isnan(lat2) or fabs(lat1) < fabs(lat2)
         if swap_:
             lat1, lat2 = lat2, lat1
             lon_ = not lon_
@@ -580,7 +579,7 @@ class GeodesicExact(_GeodesicBase):
         p = _PDict(sbet1=sbet1, cbet1=cbet1, dn1=self._dn(sbet1, cbet1),
                    sbet2=sbet2, cbet2=cbet2, dn2=self._dn(sbet2, cbet2))
 
-        _meridian = _b = True  # i.e. not meridian, not b
+        _meridian = _b = True  # i.e. meridian = b = False
         if lat1 == -90 or slam12 == 0:
             # Endpoints are on a single full meridian,
             # so the geodesic might lie on a meridian.
@@ -597,17 +596,18 @@ class GeodesicExact(_GeodesicBase):
             #    echo 20.001 0 20.001 0 | GeodSolve -i
             # In fact, we will have sig12 > PI/2 for meridional
             # geodesic which is not a shortest path.
-            if m12x >= 0 or sig12 < _1_0:
+            if sig12 < _TOL2 or m12x >= 0:  # GeographicLib 2.5.1
                 # Need at least 2 to handle 90 0 90 180
                 # Prevent negative s12 or m12 from geographiclib 1.52
                 if sig12 < _TINY3 or (sig12 < _TOL0 and (s12x < 0 or m12x < 0)):
                     sig12 = m12x = s12x = _0_0
-                else:
-                    _b = False  # apply .b to s12x, m12x
-                _meridian = False
+#               else:
+#                   m12x *= self.b
+#                   s12x *= self.b
+                _meridian = _b = False  # i.e. meridian = b = True
                 C = 1
-            # else:  # m12 < 0, prolate and too close to anti-podal
-            #   _meridian = True
+#           else:  # m12 < 0, prolate and too close to anti-podal
+#               _meridian = True  # i.e. meridian = False
         a12 = _0_0  # if _b else degrees(sig12)
 
         if _meridian:
@@ -651,7 +651,7 @@ class GeodesicExact(_GeodesicBase):
                     if (outmask & Cs.AREA):
                         somg12, comg12 = _sincos2(lam12 / (self.f1 * dnm))
 
-        else:  # _meridian is False
+        else:  # _meridian is False, i.e. meridian is True
             somg12 = comg12 = NAN
 
         r.set_(a12=a12 if _b else degrees(sig12))  # in [0, 180]
@@ -702,8 +702,7 @@ class GeodesicExact(_GeodesicBase):
             p.update(r)  # r overrides p
             r = p.toGDict()
 
-        r = self._iter2tion(r, **p)
-        return r._toNAN(outmask) if toNAN else r
+        return self._iter2tion(r, **p)
 
     def _GenDirect(self, lat1, lon1, azi1, arcmode, s12_a12, outmask=Caps.STANDARD):
         '''(INTERNAL) The general I{Inverse} geodesic calculation.
@@ -791,10 +790,7 @@ class GeodesicExact(_GeodesicBase):
            @arg lon1: Longitude of the first point (C{degrees}).
            @arg lat2: Latitude of the second point (C{degrees}).
            @arg lon2: Longitude of the second point (C{degrees}).
-           @kwarg caps: Bit-or'ed combination of L{Caps<pygeodesy.karney.Caps>} values
-                        specifying the capabilities the L{GeodesicLineExact} instance
-                        should possess, i.e., which quantities can be returned by methods
-                        L{GeodesicLineExact.Position} and L{GeodesicLineExact.ArcPosition}.
+           @kwarg caps: Desired capabilities for the L{GeodesicLineExact} instance.
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: A L{GeodesicLineExact} instance.
@@ -1106,10 +1102,7 @@ class GeodesicExact(_GeodesicBase):
            @arg lat1: Latitude of the first point (C{degrees}).
            @arg lon1: Longitude of the first point (C{degrees}).
            @arg azi1: Azimuth at the first point (compass C{degrees}).
-           @kwarg caps: Bit-or'ed combination of L{Caps<pygeodesy.karney.Caps>} values
-                        specifying the capabilities the L{GeodesicLineExact} instance
-                        should possess, i.e., which quantities can be returned by methods
-                        L{GeodesicLineExact.Position} and L{GeodesicLineExact.ArcPosition}.
+           @kwarg caps: Desired capabilities for the L{GeodesicLineExact} instance.
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: A L{GeodesicLineExact} instance.

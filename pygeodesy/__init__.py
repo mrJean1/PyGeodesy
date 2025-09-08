@@ -125,7 +125,7 @@ C{epydoc --html --no-private --no-source --name=pygeodesy --url=... -v pygeodesy
 Tests
 =====
 
-The tests ran with Python 3.13.5 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0),
+The tests ran with Python 3.13.5 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.1),
 Python 3.12.7 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0,
 U{numpy<https://PyPI.org/project/numpy>} 2.1.0, U{scipy<https://PyPI.org/project/scipy>} 1.14.1,
 U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.5,
@@ -329,6 +329,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.}
 @var PI_3:  One third PI, M{PI / 3} (C{float}).
 @var PI4:   Four PI, M{PI * 4} (C{float}).
 @var PI_4:  Quarter PI, M{PI / 4} (C{float}).
+@var PI_6:  One sixth PI, M{PI / 6} (C{float}).
 
 @var R_MA: Equatorial earth radius (C{meter}), WGS84, EPSG:3785.
 @var R_MB: Polar earth radius (C{meter}), WGS84, EPSG:3785.
@@ -604,7 +605,7 @@ else:
 
 from pygeodesy.internals import _version2,  _DOT_  # noqa: E402
 # from pygeodesy.interns import _DOT_  # from .internals
-__version__ = '25.08.25'
+__version__ = '25.09.09'
 # see setup.py for similar logic
 version     = _DOT_(*_version2(__version__, n=3))
 

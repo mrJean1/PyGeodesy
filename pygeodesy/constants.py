@@ -10,7 +10,7 @@ L{pygeodesy.isnon0} and L{pygeodesy.remainder}.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # noqa: E702 ;
 
-from pygeodesy.basics import _copysign, isbool, iscomplex, isint
+from pygeodesy.basics import _copysign, isbool, iscomplex, isint, signBit
 from pygeodesy.errors import _xError, _xError2, _xkwds_get1, _xkwds_item2
 # from pygeodesy.fsums import _isFsum_2Tuple  # _MODS
 from pygeodesy.internals import _0_0, _100_0, typename
@@ -26,25 +26,31 @@ except ImportError:  # Python 2-
     _inf, _nan = float(_INF_), float(_NAN_)
 
 __all__ = _ALL_LAZY.constants
-__version__ = '25.05.26'
+__version__ = '25.09.09'
 
 
 def _copysign_0_0(y):
     '''(INTERNAL) copysign(0.0, y), only C{float}.
     '''
-    return _N_0_0 if y < 0 else _0_0
+    return _N_0_0 if signBit(y) else _0_0
 
 
 def _copysign_1_0(y):
     '''(INTERNAL) copysign(1.0, y), only C{float}.
     '''
-    return _N_1_0 if y < 0 else _1_0
+    return _N_1_0 if signBit(y) else _1_0
 
 
 def _copysignINF(y):
     '''(INTERNAL) copysign(INF, y), only C{float}.
     '''
-    return NINF if y < 0 else INF
+    return NINF if signBit(y) else INF
+
+
+def _flipsign(x, y):
+    '''(INTERNAL) Negate C{x} for negative C{y}.
+    '''
+    return (-x) if signBit(y) else x
 
 
 def _Float(**name_arg):
@@ -137,12 +143,24 @@ def _naninf(p, *xs):
 
 
 def _over(p, q):
-    '''(INTERNAL) Return C{B{p} / B{q}} avoiding C{ZeroDivisionError} exceptions.
+    '''(INTERNAL) Return C{B{p} / B{q}} without C{ZeroDivisionError} exceptions.
     '''
     try:
         return (p / q)  # if p else _copysign_0_0(q)
     except ZeroDivisionError:
         return (_copysignINF(p) if isfinite(p) else NAN) if p else p
+
+
+def _over_1(p, q):
+    '''(INTERNAL) Return C{B{p} / B{q}} with exact C{1.0} and without C{ZeroDivisionError} exceptions.
+    '''
+    if fabs(p) != fabs(q):
+        r = _over(p, q)
+    else:
+        r = _flipsign(p, q)
+        if p:
+            r = _copysign_1_0(r)
+    return r
 
 
 def _1_over(x):
@@ -273,6 +291,7 @@ PI3_2 = _Float(PI3_2=_pi * _1_5)  # PYCHOK PI and a half, M{PI * 3 / 2}
 PI_3  = _Float(PI_3 =_pi / _3_0)  # PYCHOK One third PI, M{PI / 3}
 PI4   = _Float(PI4  =_pi * _4_0)  # PYCHOK Four PI, M{PI * 4}
 PI_4  = _Float(PI_4 =_pi / _4_0)  # PYCHOK Quarter PI, M{PI / 4}
+PI_6  = _Float(PI_6 =_pi / _6_0)  # PYCHOK One sixth PI, M{PI / 6}
 
 R_MA  = _Radius(R_MA=6378137.0)       # PYCHOK equatorial earth radius (C{meter}), WGS84, EPSG:3785
 R_MB  = _Radius(R_MB=6356752.3)       # PYCHOK polar earth radius (C{meter}), WGS84, EPSG:3785
@@ -415,6 +434,17 @@ def isnear90(x, eps90=EPS0):
        @see: Function L{isnear0}.
     '''
     return bool(eps90 > (x - _90_0) > -eps90)
+
+
+def isneg(x):
+    '''Check for negative C{x}, including L{NEG0}.
+
+       @arg x: Value (C{scalar}).
+
+       @return: C{True} if C{B{x} < 0 or NEG0},
+                C{False} otherwise.
+    '''
+    return signBit(x)
 
 
 def isneg0(x):

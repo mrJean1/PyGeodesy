@@ -16,17 +16,17 @@ standard Python C{namedtuple}s.
 from pygeodesy.basics import isbool, isidentifier, iskeyword, isstr, itemsorted, \
                              len2, _xcopy, _xdup, _xinstanceof, _xsubclassof, _zip
 # from pygeodesy.ecef import EcefKarney  # _MODS
-from pygeodesy.errors import _AssertionError, _AttributeError, _incompatible, \
-                             _IndexError, _KeyError, LenError, _NameError, \
-                             _NotImplementedError, _TypeError, _TypesError, \
-                             _UnexpectedError, UnitError, _ValueError, \
+from pygeodesy.errors import _AssertionError, _AttributeError, _ImmutableError, \
+                             _incompatible, _IndexError, _KeyError, LenError, \
+                             _NameError, _NotImplementedError, _TypeError, \
+                             _TypesError, _UnexpectedError, UnitError, _ValueError, \
                              _xattr, _xkwds, _xkwds_item2, _xkwds_pop2
 from pygeodesy.internals import _caller3, _envPYGEODESY, _isPyPy, _sizeof, \
                                  typename, _under
 from pygeodesy.interns import MISSING, NN, _AT_, _COLON_, _COLONSPACE_, _COMMA_, \
                              _COMMASPACE_, _DNAME_, _doesn_t_exist_, _DOT_, _DUNDER_, \
-                             _EQUAL_, _exists_, _immutable_, _name_, _NL_, _NN_, \
-                             _no_, _other_, _s_, _SPACE_, _std_, _UNDER_, _vs_
+                             _EQUAL_, _exists_, _name_, _NL_, _NN_, _no_, _other_, \
+                             _s_, _SPACE_, _std_, _UNDER_, _vs_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.props import _allPropertiesOf_n, deprecated_method, _hasProperty, \
                             _update_all, property_doc_, Property_RO, property_RO, \
@@ -35,11 +35,10 @@ from pygeodesy.streprs import attrs, Fmt, lrstrip, pairs, reprs, unstr
 # from pygeodesy.units import _toUnit  # _MODS
 
 __all__ = _ALL_LAZY.named
-__version__ = '25.04.28'
+__version__ = '25.09.04'
 
 _COMMANL_           = _COMMA_ + _NL_
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
-_del_               = 'del'
 _item_              = 'item'
 _MRO_               = 'MRO'
 # __DUNDER gets mangled in class
@@ -111,7 +110,7 @@ class ADict(dict):
             self._iteration = iteration
         if items:
             dict.update(self, items)
-        return self  # in RhumbLineBase.Intersecant2, _PseudoRhumbLine.Position
+        return self  # in RhumbLineBase.Intersecant2, _PseudoRhumbLine.Position, ...
 
     def _toL(self):
         '''(INTERNAL) Get items as list.
@@ -977,8 +976,7 @@ class _NamedTuple(tuple, _Named):
            @note: Items can not be deleted.
         '''
         if name in self._Names_:
-            t = _SPACE_(_del_, self._DOT_(name))
-            raise _TypeError(t, txt=_immutable_)
+            raise _ImmutableError(self, name)  # _del_
         elif name in (_name_, _name):
             _Named.__setattr__(self, name, NN)  # XXX _Named.name.fset(self, NN)
         else:
@@ -1011,8 +1009,7 @@ class _NamedTuple(tuple, _Named):
         '''Set attribute or item B{C{name}} to B{C{value}}.
         '''
         if name in self._Names_:
-            t = Fmt.EQUALSPACED(self._DOT_(name), repr(value))
-            raise _TypeError(t, txt=_immutable_)
+            raise _ImmutableError(self, name, value)
         elif name in (_name_, _name):
             _Named.__setattr__(self, name, value)  # XXX _Named.name.fset(self, value)
         else:  # e.g. _iteration

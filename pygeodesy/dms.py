@@ -63,7 +63,7 @@ U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.ht
 
 from pygeodesy.basics import copysign0, isLatLon, isodd, issequence, isstr, \
                              neg as _neg,  typename  # in .ups
-from pygeodesy.constants import _umod_360, _0_0, _0_5, _60_0, _360_0, _3600_0
+from pygeodesy.constants import _0_0, _0_5, _60_0, _360_0, _3600_0, _umod_360
 from pygeodesy.errors import ParseError, RangeError, _TypeError, _ValueError, \
                             _parseX, rangerrors, _xError, _xkwds,  _envPYGEODESY
 # from pygeodesy.internals import _envPYGEODESY, typename  # from .errors
@@ -86,7 +86,7 @@ except ImportError:  # Python 3+
     from string import ascii_letters as _LETTERS
 
 __all__ = _ALL_LAZY.dms
-__version__ = '25.04.14'
+__version__ = '25.08.31'
 
 _beyond_      = 'beyond'
 _deg_min_     = 'deg+min'
