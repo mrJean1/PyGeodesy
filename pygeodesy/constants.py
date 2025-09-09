@@ -263,7 +263,7 @@ _EPStol  = _Float(_EPStol=_EPSqrt * _0_1)   # PYCHOK = 1.49011611938e5-09 == sqr
 
 _89_999  = _Float(_89_999=_90_0 * EPS1)  # just below 90.0
 # <https://Numbers.Computation.Free.FR/Constants/Miscellaneous/digits.html>
-_1__90   = _Float(_1__90 =_1_0 / _90_0)  # PYCHOK = 0.011_111_111_111_111_111_111_111_111_111_111_111_111_111_111_11111
+# _1__90 = _Float(_1__90 =_1_0 / _90_0)  # PYCHOK = 0.011_111_111_111_111_111_111_111_111_111_111_111_111_111_111_11111
 _2__PI   = _Float(_2__PI =_2_0 / _pi)    # PYCHOK = 0.636_619_772_367_581_343_075_535_053_490_057_448_137_838_582_96182
 
 _1_16th  = _Float(_1_16th=_1_0 / _16_0)  # PYCHOK in .ellipsoids, .karney

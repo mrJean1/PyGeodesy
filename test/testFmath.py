@@ -4,7 +4,7 @@
 # Test L{fmath} module.
 
 __all__ = ('Tests',)
-__version__ = '24.11.09'
+__version__ = '25.09.09'
 
 from bases import endswith, isPython2, isWindows, startswith, TestsBase
 
@@ -153,7 +153,7 @@ class Tests(TestsBase):
         try:
             self.test(n, Fhypot(f, -1, root=0), ZeroDivisionError.__name__)
         except Exception as x:
-            self.test(n, str(x), ' float division by zero', known=endswith)
+            self.test(n, str(x), ' division by zero', known=endswith)
 
         f = Fsum(3)
         n = Fsqrt.__name__
@@ -173,7 +173,7 @@ class Tests(TestsBase):
         try:
             self.test(r, Froot(0, f, -1), ValueError.__name__)
         except Exception as x:
-            self.test(n, str(x), ' float division by zero', known=endswith)
+            self.test(n, str(x), ' division by zero', known=endswith)
         self.test(r, Froot(-1, f, -3), '(-0.25, 0)', known=endswith)
 
         for i, t in enumerate(frandoms(10)):

@@ -125,7 +125,7 @@ C{epydoc --html --no-private --no-source --name=pygeodesy --url=... -v pygeodesy
 Tests
 =====
 
-The tests ran with Python 3.13.5 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.1),
+The tests ran with Python 3.13.7 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.1),
 Python 3.12.7 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0,
 U{numpy<https://PyPI.org/project/numpy>} 2.1.0, U{scipy<https://PyPI.org/project/scipy>} 1.14.1,
 U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.5,
@@ -150,13 +150,13 @@ env variable C{PYGEODESY_WARNINGS=on} for all Python versions.  The results of t
 the distribution files.
 
 Test coverage has been measured with U{coverage<https://PyPI.org/project/coverage>} 7.6.1 using Python
-3.13.5, 3.12.7, 3.11.5 and 3.10.8.  The complete coverage report in HTML and a PDF summary are included in
+3.13.7, 3.12.7, 3.11.5 and 3.10.8.  The complete coverage report in HTML and a PDF summary are included in
 the distribution files.
 
-Python 3.13.5, 3.12.7, 3.11.5 and 3.10.8 run on Apple M4 Si (C{arm64}), I{natively}.  Python 2.7.18 runs
+Python 3.13.7, 3.12.7, 3.11.5 and 3.10.8 run on Apple M4 Si (C{arm64}), I{natively}.  Python 2.7.18 runs
 on Intel (C{x86_64}) or Intel I{emulation} ("C{arm64_x86_64}", see function L{machine<pygeodesy.machine>}).
 
-The tests also ran with Python 3.13.5 (and U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0) on
+The tests also ran with Python 3.13.7 (and U{geographiclib<https://PyPI.org/project/geographiclib>} 2.1) on
 U{Debian 12<https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>} in 64-bit only, with Python 3.12.8 (and
 U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0) on U{Windows 2019Server
 <https://CI.AppVeyor.com/project/mrJean1/pygeodesy>} in 64-bit only and with Python 2.7.18 (and U{geographiclib
@@ -166,7 +166,7 @@ in 64- and 32-bit.
 A single-File and single-Directory application with C{pygeodesy} has been bundled using U{PyInstaller
 <https://PyPI.org/project/pyinstaller>} 3.4 and 64-bit Python 3.7.3 on macOS 10.13.6 High Sierra.
 
-Previously, the tests were run with Python 3.13.0-4, 3.12.0-6, 3.11.2-4, 3.10.1-7, 3.9.6, 3.9.1, 3.8.7, 3.7.1, 2.7.15,
+Previously, the tests were run with Python 3.13.0-5, 3.12.0-6, 3.11.2-4, 3.10.1-7, 3.9.6, 3.9.1, 3.8.7, 3.7.1, 2.7.15,
 U{PyPy<https://PyPy.org>} 7.3.12 (Python 3.10.12), 7.3.1 (Python 3.6.9) and U{PyPy<https://PyPy.org>} 7.1.1 (Python
 2.7.13) (and U{geographiclib <https://PyPI.org/project/geographiclib>} 1.52, U{numpy<https://PyPI.org/project/numpy>}
 1.16.3, 1.16.4, 1.16.6, 1.19.0, 1.19.4, 1.19.5 or 1.22.4 and U{scipy<https://PyPI.org/project/scipy>} 1.2.1, 1.4.1,

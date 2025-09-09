@@ -1041,7 +1041,6 @@ pygeodesy.constants.R_FM	pygeodesy.constants-module.html#R_FM
 pygeodesy.constants._0_001	pygeodesy.constants-module.html#_0_001
 pygeodesy.constants._main	pygeodesy.constants-module.html#_main
 pygeodesy.constants._log2	pygeodesy.constants-module.html#_log2
-pygeodesy.constants._1__90	pygeodesy.constants-module.html#_1__90
 pygeodesy.constants._60_0	pygeodesy.constants-module.html#_60_0
 pygeodesy.constants._INF_NAN_NINF	pygeodesy.constants-module.html#_INF_NAN_NINF
 pygeodesy.constants.R_KM	pygeodesy.constants-module.html#R_KM
