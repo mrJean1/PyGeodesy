@@ -31,7 +31,7 @@ from pygeodesy.props import Property, Property_RO, property_RO
 from math import fmod as _fmod
 
 __all__ = ()
-__version__ = '25.06.04'
+__version__ = '25.09.16'
 
 
 class GeodesicAreaExact(_NamedBase):
@@ -74,7 +74,7 @@ class GeodesicAreaExact(_NamedBase):
         self._g_gX = g = geodesic
         # use the class-level Caps since the values
         # differ between GeodesicExact and Geodesic
-        self._mask = g.DISTANCE | g.LATITUDE | g.LONGITUDE
+        self._mask =  g.DISTANCE | g.LATITUDE | g.LONGITUDE
         self._Peri = _Accumulator(name='_Peri')
         if not polyline:  # perimeter and area
             self._mask |=  g.AREA | g.LONG_UNROLL
@@ -188,7 +188,7 @@ class GeodesicAreaExact(_NamedBase):
         '''(INTERNAL) Edge helper.
         '''
         lon1 = self.lon1
-        r = self._g_gX._GDictDirect(self.lat1, lon1, azi, False, s, self._mask)
+        r = self._g_gX._GDictDirect(self.lat1, lon1, azi, False, s, outmask=self._mask)
         if self._Area:  # aka transitDirect
             # Count crossings of prime meridian exactly as
             # int(ceil(lon2 / 360)) - int(ceil(lon1 / 360))
@@ -219,7 +219,7 @@ class GeodesicAreaExact(_NamedBase):
     def _Inverse(self, lat1, lon1, lat2, lon2):
         '''(INTERNAL) Point helper.
         '''
-        r = self._g_gX._GDictInverse(lat1, lon1, lat2, lon2, self._mask)
+        r = self._g_gX._GDictInverse(lat1, lon1, lat2, lon2, outmask=self._mask)
         if self._Area:  # aka transit
             # count crossings of prime meridian as +1 or -1
             # if in east or west direction, otherwise 0

@@ -67,7 +67,7 @@ from pygeodesy.basics import _isin, map1, neg, neg_, _xinstanceof
 from pygeodesy.constants import EPS, EPS02, PI_2, PI_4, _K0_UTM, \
                              _1_EPS, _0_0, _0_1, _0_5, _1_0, _2_0, \
                              _3_0, _90_0, isnear0, isnear90
-from pygeodesy.constants import _4_0  # PYCHOK used!
+from pygeodesy.constants import _0_75, _4_0  # PYCHOK used!
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84,  _EWGS84
 # from pygeodesy.ellipsoids import _EWGS84  # from .datums
 # from pygeodesy.elliptic import Elliptic  # _MODS
@@ -93,7 +93,7 @@ from pygeodesy.utm import _cmlon, _LLEB, _parseUTM5, _toBand, _toXtm8, \
 from math import asinh, degrees, radians, sinh, sqrt
 
 __all__ = _ALL_LAZY.etm
-__version__ = '25.08.31'
+__version__ = '25.09.15'
 
 _OVERFLOW = _1_EPS**2  # ~2e+31
 _TAYTOL   =  pow(EPS,  0.6)
@@ -410,7 +410,7 @@ class ExactTransverseMercator(_NamedBase):
     def _Ev_3cKE_4(self):
         '''(INTERNAL) Get and cache C{_Ev.cKE * 3 / 4}.
         '''
-        return self._Ev_cKE * 0.75  # _0_75
+        return self._Ev_cKE * _0_75
 
     @Property_RO
     def _Ev_5cKE_4(self):

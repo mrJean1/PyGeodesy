@@ -49,7 +49,7 @@ from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB, \
                                      _isin, _xinstanceof
 from pygeodesy.datums import _spherical_datum, _WGS84
 from pygeodesy.errors import _ValueError, _xdatum, _xkwds
-from pygeodesy.fmath import euclid, fdot_, hypot as _hypot,  Fsum
+from pygeodesy.fmath import euclid, hypot as _hypot,  Fsum
 # from pygeodesy.fsums import Fsum  # from .fmath
 # from pygeodesy.formy import antipode  # _MODS
 # from pygeodesy.internals import typename  # from .karney
@@ -71,7 +71,7 @@ from pygeodesy.utily import asin1, atan1, atan2, atan2b, atan2d, \
 from math import acos, degrees, fabs, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '25.05.12'
+__version__ = '25.09.29'
 
 _EPS_K         = _EPStol * _0_1  # Karney's eps_ or _EPSmin * _0_1?
 _over_horizon_ = 'over horizon'
@@ -147,7 +147,7 @@ class _AzimuthalBase(_NamedBase):
         '''I{Must be overloaded}.'''
         self._notOverloaded(lat, lon, **name)
 
-    def _forward(self, lat, lon, name, _k_t_2):
+    def _forward(self, lat, lon, name, _k_t):
         '''(INTERNAL) Azimuthal (spherical) forward C{lat, lon} to C{x, y}.
         '''
         lat, lon = Lat_(lat), Lon_(lon)
@@ -155,16 +155,16 @@ class _AzimuthalBase(_NamedBase):
         s0, c0 = self._sc0
 
         cb  *= ca
-        k, t = _k_t_2(fdot_(s0, sa, c0, cb))
+        k, t = _k_t(c0 * cb + s0 * sa)
         if t:
             r = k * self.radius
-            y = r * fdot_(c0, sa, -s0, cb)
+            y = r * (c0 * sa - s0 * cb)
             e, n, z, _ = _enzh4(r * sb * ca, y, None)
         else:  # 0 or 180
             e = n = z = _0_0
 
         t = Azimuthal7Tuple(e, n, lat, lon, z, k, self.datum,
-                                       name=self._name__(name))
+                                                  name=self._name__(name))
         return t
 
     def _forwards(self, *lls):
@@ -258,7 +258,7 @@ class _AzimuthalBase(_NamedBase):
             if lea or fabs(c0) > EPS:
                 d = atan2d(e * sc, r * c0 * cc - n * s0 * sc)
             else:
-                d = atan2d(e, (n if s0 < 0 else -n))
+                d = atan2d(e,     (n if s0 < 0 else -n))
             lon = _norm180(self.lon0 + d)
 
         if LatLon is None:
@@ -745,8 +745,8 @@ class _GnomonicBase(_AzimuthalGeodesic):
 
            @arg lat: Latitude of the location (C{degrees90}).
            @arg lon: Longitude of the location (C{degrees180}).
-           @kwarg raiser: Do or don't throw an error (C{bool}) if
-                          the location lies over the horizon.
+           @kwarg raiser: If C{False}, do not throw an error if the location lies
+                          over the horizon (C{bool}).
            @kwarg name: Optional C{B{name}=NN} for the location (C{str}).
 
            @return: An L{Azimuthal7Tuple}C{(x, y, lat, lon, azimuth, scale, datum)}
@@ -760,8 +760,6 @@ class _GnomonicBase(_AzimuthalGeodesic):
            @raise AzimuthalError: Invalid B{C{lat}}, B{C{lon}} or the location lies
                                   over the horizon and C{B{raiser}=True}.
         '''
-        self._iteration = 0
-
         r = self.geodesic.Inverse(self.lat0, self.lon0,
                                   Lat_(lat), Lon_(lon), outmask=self._mask)
         M = r.M21
@@ -776,7 +774,7 @@ class _GnomonicBase(_AzimuthalGeodesic):
             e = n = NAN
 
         t = self._7Tuple(e, n, r, _name__(name), M=M)
-        t._iteraton = 0
+        t._iteration = self._iteration = 0
         return t
 
     def reverse(self, x, y, LatLon=None, **name_LatLon_kwds):  # PYCHOK signature

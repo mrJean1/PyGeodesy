@@ -4,9 +4,9 @@
 # Test L{vector3d} and L{vector3d} modules.
 
 __all__ = ('Tests',)
-__version__ = '25.05.09'
+__version__ = '25.10.07'
 
-from bases import coverage, GeodSolve, numpy, TestsBase
+from bases import coverage, endswith, GeodSolve, numpy, TestsBase
 
 from pygeodesy import EPS, EPS4, F_D, NEG0, \
                       circin6, circum3, circum4_, fstr, \
@@ -118,7 +118,7 @@ class Tests(TestsBase):
             try:
                 self.test('0', v.dividedBy(0), VectorError.__name__)
             except Exception as x:
-                self.test('0', str(x), 'divisor (0): float division by zero')
+                self.test('0', str(x), ' division by zero', known=endswith)
 
             t = vector3d.intersections2(Nvector(   0, 0, 0), 500,
                                         Nvector(1000, 0, 0), 500, sphere=False)

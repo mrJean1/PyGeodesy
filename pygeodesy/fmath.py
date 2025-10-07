@@ -10,8 +10,8 @@ from __future__ import division as _; del _  # noqa: E702 ;
 from pygeodesy.basics import _copysign, copysign0, isbool, isint, isodd, \
                               isscalar, len2, map1, _xiterable,  typename
 from pygeodesy.constants import EPS0, EPS02, EPS1, NAN, PI, PI_2, PI_4, \
-                               _0_0, _0_125, _1_6th, _0_25, _1_3rd, _0_5, _1_0, \
-                               _1_5, _copysign_0_0, isfinite, remainder
+                               _0_0, _0_125, _0_25, _0_5, _1_0, _1_5, \
+                               _copysign_0_0, isfinite, remainder
 from pygeodesy.errors import _IsnotError, LenError, _TypeError, _ValueError, \
                              _xError, _xkwds, _xkwds_pop2, _xsError
 from pygeodesy.fsums import _2float, Fsum, fsum, _isFsum_2Tuple,  Fmt, unstr
@@ -25,10 +25,12 @@ from math import fabs, sqrt  # pow
 import operator as _operator  # in .datums, .trf, .utm
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '25.08.31'
+__version__ = '25.09.15'
 
 # sqrt(2) - 1 <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142  =  0.41421356237309504880  # ~ 3_730_904_090_310_553 / 9_007_199_254_740_992
+_1_3rd   = _1_0 / 3
+_1_6th   = _1_0 / 6
 _2_3rd   = _1_3rd * 2
 _h_lt_b_ = 'abs(h) < abs(b)'
 

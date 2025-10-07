@@ -777,7 +777,6 @@ pygeodesy.azimuthal.atan2b	pygeodesy.utily-module.html#atan2b
 pygeodesy.azimuthal._fstrLL0	pygeodesy.streprs-module.html#_fstrLL0
 pygeodesy.azimuthal.atan2d	pygeodesy.utily-module.html#atan2d
 pygeodesy.azimuthal._Equidistants	pygeodesy.azimuthal-module.html#_Equidistants
-pygeodesy.azimuthal.fdot_	pygeodesy.fmath-module.html#fdot_
 pygeodesy.azimuthal._isin	pygeodesy.basics-module.html#_isin
 pygeodesy.azimuthal._spherical_datum	pygeodesy.datums-module.html#_spherical_datum
 pygeodesy.azimuthal.unstr	pygeodesy.streprs-module.html#unstr
@@ -1019,7 +1018,6 @@ pygeodesy.constants.isclose	pygeodesy.constants-module.html#isclose
 pygeodesy.constants.isint0	pygeodesy.constants-module.html#isint0
 pygeodesy.constants._2_0	pygeodesy.constants-module.html#_2_0
 pygeodesy.constants.R_VM	pygeodesy.constants-module.html#R_VM
-pygeodesy.constants.isninf	pygeodesy.constants-module.html#isninf
 pygeodesy.constants.MIN_EXP	pygeodesy.constants-module.html#MIN_EXP
 pygeodesy.constants.R_NM	pygeodesy.constants-module.html#R_NM
 pygeodesy.constants._floats	pygeodesy.constants-module.html#_floats
@@ -1032,7 +1030,6 @@ pygeodesy.constants._720_0	pygeodesy.constants-module.html#_720_0
 pygeodesy.constants._copysign_1_0	pygeodesy.constants-module.html#_copysign_1_0
 pygeodesy.constants._xError2	pygeodesy.errors-module.html#_xError2
 pygeodesy.constants.MAX	pygeodesy.constants-module.html#MAX
-pygeodesy.constants._1_6th	pygeodesy.constants-module.html#_1_6th
 pygeodesy.constants._0_0_1T	pygeodesy.constants-module.html#_0_0_1T
 pygeodesy.constants._over	pygeodesy.constants-module.html#_over
 pygeodesy.constants.signBit	pygeodesy.basics-module.html#signBit
@@ -1082,7 +1079,7 @@ pygeodesy.constants._10_0	pygeodesy.constants-module.html#_10_0
 pygeodesy.constants._1000_0	pygeodesy.constants-module.html#_1000_0
 pygeodesy.constants._EPSqrt	pygeodesy.constants-module.html#_EPSqrt
 pygeodesy.constants._flipsign	pygeodesy.constants-module.html#_flipsign
-pygeodesy.constants._1_16th	pygeodesy.constants-module.html#_1_16th
+pygeodesy.constants.isninf	pygeodesy.constants-module.html#isninf
 pygeodesy.constants._pos_self	pygeodesy.constants-module.html#_pos_self
 pygeodesy.constants._M_KM	pygeodesy.constants-module.html#_M_KM
 pygeodesy.constants._Radius	pygeodesy.constants-module.html#_Radius
@@ -1129,6 +1126,7 @@ pygeodesy.constants.isneg	pygeodesy.constants-module.html#isneg
 pygeodesy.constants.R_GM	pygeodesy.constants-module.html#R_GM
 pygeodesy.constants._5_0	pygeodesy.constants-module.html#_5_0
 pygeodesy.constants.isint	pygeodesy.basics-module.html#isint
+pygeodesy.constants._0_75	pygeodesy.constants-module.html#_0_75
 pygeodesy.constants._2__PI	pygeodesy.constants-module.html#_2__PI
 pygeodesy.constants._32_0	pygeodesy.constants-module.html#_32_0
 pygeodesy.constants._M_SM	pygeodesy.constants-module.html#_M_SM
@@ -1136,7 +1134,6 @@ pygeodesy.constants._90_0	pygeodesy.constants-module.html#_90_0
 pygeodesy.constants._EPS2e4	pygeodesy.constants-module.html#_EPS2e4
 pygeodesy.constants._1_0_1T	pygeodesy.constants-module.html#_1_0_1T
 pygeodesy.constants._float0	pygeodesy.constants-module.html#_float0
-pygeodesy.constants._1_3rd	pygeodesy.constants-module.html#_1_3rd
 pygeodesy.constants._N_0_0	pygeodesy.constants-module.html#_N_0_0
 pygeodesy.constants._xkwds_item2	pygeodesy.errors-module.html#_xkwds_item2
 pygeodesy.constants._copysign	pygeodesy.geodesicx.gx-module.html#copysign
@@ -2077,6 +2074,7 @@ pygeodesy.fmath.cbrt2	pygeodesy.fmath-module.html#cbrt2
 pygeodesy.fmath._isFsum_2Tuple	pygeodesy.fsums-module.html#_isFsum_2Tuple
 pygeodesy.fmath._xiterable	pygeodesy.basics-module.html#_xiterable
 pygeodesy.fmath._Hypot	pygeodesy.fmath-module.html#_Hypot
+pygeodesy.fmath._1_6th	pygeodesy.fmath-module.html#_1_6th
 pygeodesy.fmath.fprod	pygeodesy.fmath-module.html#fprod
 pygeodesy.fmath.isfinite	pygeodesy.constants-module.html#isfinite
 pygeodesy.fmath._IsnotError	pygeodesy.errors-module.html#_IsnotError
@@ -2129,6 +2127,7 @@ pygeodesy.fmath.sqrt_a	pygeodesy.fmath-module.html#sqrt_a
 pygeodesy.fmath.isint	pygeodesy.basics-module.html#isint
 pygeodesy.fmath.fdot	pygeodesy.fmath-module.html#fdot
 pygeodesy.fmath.fasin1	pygeodesy.fmath-module.html#fasin1
+pygeodesy.fmath._1_3rd	pygeodesy.fmath-module.html#_1_3rd
 pygeodesy.fmath.fpolynomial	pygeodesy.fmath-module.html#fpolynomial
 pygeodesy.fmath._copysign	pygeodesy.geodesicx.gx-module.html#copysign
 pygeodesy.fmath.fmean	pygeodesy.fmath-module.html#fmean
@@ -3177,6 +3176,7 @@ pygeodesy.karney._polynomial	pygeodesy.karney-module.html#_polynomial
 pygeodesy.karney._xkwds	pygeodesy.errors-module.html#_xkwds
 pygeodesy.karney._norm2	pygeodesy.karney-module.html#_norm2
 pygeodesy.karney._tand	pygeodesy.karney-module.html#_tand
+pygeodesy.karney._1_16th	pygeodesy.karney-module.html#_1_16th
 pygeodesy.karney._llz2gl	pygeodesy.karney-module.html#_llz2gl
 pygeodesy.karney._zip	pygeodesy.basics-module.html#_zip
 pygeodesy.karney.atan2d	pygeodesy.utily-module.html#atan2d

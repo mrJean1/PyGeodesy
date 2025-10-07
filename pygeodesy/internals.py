@@ -202,7 +202,7 @@ class _MODS_Base(object):
                      (_macOS_,   p.mac_ver),
                      (_Windows_, p.win32_ver),
                      (_Nix,  _MODS.nix_ver),
-                     ('Java',    p.java_ver),
+# removed Py 3.15    ('Java',    p.java_ver),
                      ('uname',   p.uname)):
             v = v()[0]
             if v and n:
@@ -659,11 +659,10 @@ def _usage_argv(argv0, *args):
     '''(INTERNAL) Return 3-tuple C{(python, '-m', module, *args)}.
     '''
     o = _MODS.os
-    m =  o.path.dirname(argv0)
-    m =  m.replace(o.getcwd(), _ELLIPSIS_) \
-          .replace(o.sep,      _DOT_).strip()
-    b =  o.path.basename(argv0)
-    b, x = o.path.splitext(b)
+    p =  o.path
+    m =  p.dirname(argv0).replace(o.getcwd(), _ELLIPSIS_) \
+                         .replace(o.sep,      _DOT_).strip()
+    b, x = p.splitext(p.basename(argv0))
     if x == '.py' and b != _DMAIN_:
         m = _DOT_(m or _pygeodesy_, b)
     p = NN(_python_, _MODS.sys_version_info2[0])
@@ -710,7 +709,7 @@ def _versions(sep=_SPACE_):
 
 
 __all__ = tuple(map(typename, (machine, print_, printf, typename)))
-__version__ = '25.09.05'
+__version__ = '25.10.06'
 
 if __name__ == _DMAIN_:
 

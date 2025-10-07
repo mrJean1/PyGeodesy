@@ -65,7 +65,7 @@ from pygeodesy.utily import atan2, atan2d as _atan2d_reverse, _unrollon, \
 from math import copysign, cos, degrees, fabs, radians, sqrt
 
 __all__ = ()
-__version__ = '25.09.02'
+__version__ = '25.09.16'
 
 _MAXIT1 = 20
 _MAXIT2 = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
@@ -188,7 +188,7 @@ class GeodesicExact(_GeodesicBase):
                  <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html>}
                  and Python U{Geodesic.ArcDirect<https://GeographicLib.SourceForge.io/Python/doc/code.html>}.
         '''
-        return self._GDictDirect(lat1, lon1, azi1, True, a12, outmask)
+        return self._GDictDirect(lat1, lon1, azi1, True, a12, outmask=outmask)
 
     def ArcDirectLine(self, lat1, lon1, azi1, a12, caps=Caps.ALL, **name):
         '''Define a L{GeodesicLineExact} in terms of the I{direct} geodesic problem and as arc length.
@@ -348,7 +348,7 @@ class GeodesicExact(_GeodesicBase):
                  <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html>}
                  and Python U{Geodesic.Direct<https://GeographicLib.SourceForge.io/Python/doc/code.html>}.
         '''
-        return self._GDictDirect(lat1, lon1, azi1, False, s12, outmask)
+        return self._GDictDirect(lat1, lon1, azi1, False, s12, outmask=outmask)
 
     def Direct3(self, lat1, lon1, azi1, s12):  # PYCHOK outmask
         '''Return the destination lat, lon and reverse azimuth
@@ -356,7 +356,7 @@ class GeodesicExact(_GeodesicBase):
 
            @return: L{Destination3Tuple}C{(lat, lon, final)}.
         '''
-        r = self._GDictDirect(lat1, lon1, azi1, False, s12, Caps._AZIMUTH_LATITUDE_LONGITUDE)
+        r = self._GDictDirect(lat1, lon1, azi1, False, s12, outmask=Caps._AZIMUTH_LATITUDE_LONGITUDE)
         return Destination3Tuple(r.lat2, r.lon2, r.azi2)  # no iteration
 
     def _DirectLine(self, ll1, azi12, s12=0, **caps_name):
@@ -710,7 +710,7 @@ class GeodesicExact(_GeodesicBase):
            @return: L{Direct9Tuple}C{(a12, lat2, lon2, azi2,
                                       s12, m12,  M12,  M21, S12)}.
         '''
-        r = self._GDictDirect(lat1, lon1, azi1, arcmode, s12_a12, outmask)
+        r = self._GDictDirect(lat1, lon1, azi1, arcmode, s12_a12, outmask=outmask)
         return r.toDirect9Tuple()
 
     def _GenInverse(self, lat1, lon1, lat2, lon2, outmask=Caps.STANDARD):
@@ -719,7 +719,7 @@ class GeodesicExact(_GeodesicBase):
            @return: L{Inverse10Tuple}C{(a12, s12, salp1, calp1, salp2, calp2,
                                              m12,   M12,   M21,   S12)}.
         '''
-        r = self._GDictInverse(lat1, lon1, lat2, lon2, outmask | Caps._SALP_CALPs_)
+        r = self._GDictInverse(lat1, lon1, lat2, lon2, outmask=outmask | Caps._SALP_CALPs_)
         return r.toInverse10Tuple()
 
     def _Inverse(self, ll1, ll2, wrap, **outmask):
@@ -752,7 +752,7 @@ class GeodesicExact(_GeodesicBase):
                  <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html>} and
                  Python U{Geodesic.InverseLine<https://GeographicLib.SourceForge.io/Python/doc/code.html>}.
         '''
-        return self._GDictInverse(lat1, lon1, lat2, lon2, outmask)
+        return self._GDictInverse(lat1, lon1, lat2, lon2, outmask=outmask)
 
     def Inverse1(self, lat1, lon1, lat2, lon2, wrap=False):
         '''Return the non-negative, I{angular} distance in C{degrees}.
@@ -764,7 +764,8 @@ class GeodesicExact(_GeodesicBase):
         # and .HeightIDWkarney._distances
         if wrap:
             _, lat2, lon2 = _Wrap.latlon3(lat1, lat2, lon2, True)  # _Geodesic.LONG_UNROLL
-        return fabs(self._GDictInverse(lat1, lon1, lat2, lon2, Caps.EMPTY).a12)  # a12 always
+        r = self._GDictInverse(lat1, lon1, lat2, lon2, outmask=Caps.EMPTY)
+        return fabs(r.a12)  # a12 always
 
     def Inverse3(self, lat1, lon1, lat2, lon2):  # PYCHOK outmask
         '''Return the distance in C{meter} and the forward and
@@ -772,7 +773,7 @@ class GeodesicExact(_GeodesicBase):
 
            @return: L{Distance3Tuple}C{(distance, initial, final)}.
         '''
-        r = self._GDictInverse(lat1, lon1, lat2, lon2, Caps.AZIMUTH_DISTANCE)
+        r = self._GDictInverse(lat1, lon1, lat2, lon2, outmask=Caps.AZIMUTH_DISTANCE)
         return Distance3Tuple(r.s12, wrap360(r.azi1), wrap360(r.azi2),
                               iteration=r.iteration)
 
@@ -804,7 +805,7 @@ class GeodesicExact(_GeodesicBase):
                  <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html>} and
                  Python U{Geodesic.InverseLine<https://GeographicLib.SourceForge.io/Python/doc/code.html>}.
         '''
-        r = self._GDictInverse(lat1, lon1, lat2, lon2, caps | Caps._SALP_CALPs_)
+        r = self._GDictInverse(lat1, lon1, lat2, lon2, outmask=caps | Caps._SALP_CALPs_)
         return GeodesicLineExact(self, lat1, lon1, None, caps=caps, _s_calp1=(r.salp1, r.calp1),
                                                             **name)._GenSet(self._debug, **r)
 

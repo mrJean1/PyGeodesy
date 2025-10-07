@@ -4,19 +4,20 @@
 
 # Script to run some or all PyGeodesy tests with Python 2 or 3.
 
-from bases import clips, coverage, isiOS, NN, prefix2, PyGeodesy_dir, \
-                  PythonX, secs2str, test_dir, _skipped_, _TILDE_, \
-                  tilde, versions, _W_opts  # PYCHOK expected
+from bases import clips, coverage, _DOT_, isiOS, NN, prefix2, printf, \
+                  PyGeodesy_dir, PythonX, secs2str, _skipped_, test_dir, \
+                  tilde, _TILDE_, versions, _W_opts  # PYCHOK expected
 from pygeodesy.basics import str2ub, ub2str
 
 from os import access, environ, F_OK, linesep as LS, pathsep as PS
 import sys
+from traceback import format_exception
 
 __all__ = ('run2',)
-__version__ = '25.05.19'
+__version__ = '25.10.06'
 
 NL = '\n'  # pygeodesy.interns._NL_
-P  = None  # Popen instance
+P  = None  # process
 
 if isiOS:  # MCCABE 14
 
@@ -26,7 +27,6 @@ if isiOS:  # MCCABE 14
         from io import StringIO
     from os.path import basename
     from runpy import run_path
-    from traceback import format_exception
 
     def run2(test, *unused):
         '''Invoke one test module and return
@@ -52,7 +52,7 @@ if isiOS:  # MCCABE 14
             else:  # append traceback
                 x = [t for t in format_exception(*x)
                              if 'runpy.py", line' not in t]
-                print(NN.join(map(tilde, x)).rstrip())
+                printf(NN.join(map(tilde, x)).rstrip())
                 x = 1  # count as a failure
         finally:
             sys.argv, sys.stdout, sys.stderr = sys3
@@ -68,9 +68,10 @@ if isiOS:  # MCCABE 14
         return x, r
 
     PythonX_ = basename(PythonX)
+    _threads = False
 
 else:  # non-iOS
-    from bases import isPython37
+    from bases import isAppleSi, isPython37
     from subprocess import PIPE, Popen, STDOUT
 
     Popen_kwds = dict(creationflags=0, executable=sys.executable,
@@ -103,6 +104,60 @@ else:  # non-iOS
         # test failures in the tested module
         return P.returncode, r
 
+    _threads = isAppleSi and sys.stdout.isatty()
+
+if _threads:
+    from threading import Lock, Thread
+else:  # non-threaded version
+    class Lock(object):
+        def __enter__(self):
+            pass
+
+        def __exit__(self, *unused):  # PYCHOK 4 args
+            pass
+
+
+class ThreadPool(object):
+    '''Partially mimick standard U{ThreadPoolExecutor
+       <https://docs.Python.org/3/library/concurrent.futures.html>}.
+    '''
+    def __init__(self, size=9):
+        self.lock = Lock()
+        self.size = min(size, 9) if _threads and size > 1 else 0
+        self.work = 0
+
+    def onedown(self):
+        if self.work > 0:  # with self.lock
+            self.work -= 1
+
+    def shutdown(self, prefix=NN):
+        w = self.work
+        if w > 0:
+            t = '%srunning %s' % (prefix, w)
+            while w > 0:
+                sleep(2)
+                printf(t, end=NN, flush=True)
+                v, w, t = w, self.work, _DOT_
+                if w != v:
+                    t += str(w)
+            printf(NN)
+
+    def submit(self, call, *args):
+        z = self.size
+        if z > 0:
+            while self.work >= z:
+                sleep(1)
+            with self.lock:
+                self.work += 1
+            t = Thread(target=call, args=args)
+            t.start()
+        else:
+            global P
+            t = call(*args)
+            P = None
+        return t
+
+
 p = environ.get('PYTHONPATH', '')
 if p:  # prepend
     p = PS + p
@@ -119,6 +174,7 @@ _raiser     = False
 _results    = False  # or file
 _verbose    = False
 
+_Tpool = ThreadPool(0)
 _Total = 0  # total tests
 _FailX = 0  # failed tests
 
@@ -126,10 +182,12 @@ _FailX = 0  # failed tests
 def _exit(last, text, exit):
     '''(INTERNAL) Close and exit.
     '''
-    print(last)
+    printf(last)
     if _results:
         _write(NL + text + NL)
         _results.close()
+    if P:
+        P.kill()
     sys.exit(exit)
 
 
@@ -142,46 +200,48 @@ def _prefix2(prev):
 def _run(prefix, test, *opts):  # MCCABE 13
     '''(INTERNAL) Run a test script and parse the result.
     '''
-    global _Total, _FailX
+    global _FailX, _Total  # _Tpool
 
-    t = '%srunning %s %s' % (prefix, PythonX_, tilde(test))
+    t = PythonX_
+    if _Tpool.size > 0:
+        t = '%s %s' % (_Tpool.work, t)
+    t = '%srunning %s %s' % (prefix, t, tilde(test))
     if access(test, F_OK):
-
-        print(t)
-        x, r = run2(test, *opts)
-        r = r.replace(PyGeodesy_dir, '.')
-        if _results:
-            _write(NL + t + NL)
-            _write(r)
-
+        printf(t)
+        x,  r = run2(test, *opts)
+        p = r = r.replace(PyGeodesy_dir, '.')
         if 'Traceback' in r:
-            print(r + NL)
+            p += NL
             if not x:  # count as failure
-                _FailX += 1
+                with _Tpool.lock:
+                    _FailX += 1
             if _raiser:
                 raise SystemExit
-
         elif _failedonly:
-            for t in _testlines(r, False):
-                if ', KNOWN' not in t:
-                    print(t)
-
+            p = NL.join(_ for _ in _testlines(r, False)
+                                if ', KNOWN' not in _)
         elif _verbose:
-            print(r + NL)
-
+            p += NL
         elif x:
-            for t in _testlines(r, True):
-                print(t)
-
+            p = NL.join(_ for _ in _testlines(r, True))
+        else:
+            p = NN
     else:
-        r = t + ' FAILED:  no such file' + NL
+        t += ' FAILED:  no such file'
+        p = t + NL
+        r = NN
         x = 1
-        if _results:
-            _write(NL + r)
-        print(r)
 
-    _Total += r.count(NL + '    test ')  # number of tests
-    _FailX += x  # failures, excluding KNOWN ones
+    with _Tpool.lock:
+        if p:
+            printf(p)
+        if _results:
+            _write(t + NL + r)
+
+        _Total += r.count(NL + '    test ')  # number of tests
+        _FailX += x or 0  # failures, excluding KNOWN ones
+
+        _Tpool.onedown()
 
 
 def _testlines(r, skipped):
@@ -189,7 +249,8 @@ def _testlines(r, skipped):
     '''
 
     for t in r.split(LS if LS in r else NL):  # use NL on Windows, not LS
-        if 'FAILED,' in t or 'passed' in t or (skipped and _skipped_ in t):
+        if 'FAILED,' in t or 'passed' in t \
+                          or (skipped and _skipped_ in t):
             yield t.rstrip()
     yield NN
 
@@ -204,14 +265,15 @@ if __name__ == '__main__':  # MCCABE 19
 
     from glob import glob
     from os.path import join
-    from time import time
+    from time import sleep, time
 
     argv0, args = tilde(sys.argv[0]), sys.argv[1:]
 
     while args and args[0].startswith('-'):
         arg = args.pop(0)
         if '-help'.startswith(arg):
-            print('usage: %s [-B] [-failedonly] [-raiser] [-results] [-verbose] [-Z[0-9]] [test/test...py ...]' % (argv0,))
+            printf('usage: %s [-B] [-failedonly] [-raiser] [-results]%s [-verbose] [-Z[0-9]] [test/test...py ...]',
+                    argv0, (' [-threads <int>]' if _threads else NN))
             sys.exit(0)
         elif arg.startswith('-B'):
             environ['PYTHONDONTWRITEBYTECODE'] = arg[2:]
@@ -223,12 +285,15 @@ if __name__ == '__main__':  # MCCABE 19
             _raiser = True  # break on error
         elif '-results'.startswith(arg):
             _results = True
+        elif _threads and '-threads'.startswith(arg) \
+                      and args and args[0].isdigit():
+            _Tpool = ThreadPool(int(args.pop(0)))
         elif '-verbose'.startswith(arg):
             _verbose = True
         elif arg.startswith('-Z'):
             environ['PYGEODESY_LAZY_IMPORT'] = arg[2:]
         else:
-            print('%s invalid option: %s' % (argv0, arg))
+            printf('%s invalid option: %s', argv0, arg)
             sys.exit(1)
 
     if not args:  # no tests specified, get all test*.py
@@ -249,10 +314,10 @@ if __name__ == '__main__':  # MCCABE 19
     try:
         for arg in args:
             p, t = _prefix2(t)
-            _run(p, *arg.split())
+            _Tpool.submit(_run, p, *arg.split())
+        p, t = _prefix2(t)
+        _Tpool.shutdown(p)
     except KeyboardInterrupt:
-        if P:
-            P.kill()
         _exit(NN, '^C', 9)
     except SystemExit:
         pass

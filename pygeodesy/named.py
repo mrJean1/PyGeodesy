@@ -1247,7 +1247,7 @@ def modulename(clas, prefixed=None):  # in .basics._xversion
     '''Return the class name optionally prefixed with the
        module name.
 
-       @arg clas: The class (any C{class}).
+       @arg clas: The class (any C{class} or C{str}).
        @kwarg prefixed: Include the module name (C{bool}), see
                         function C{classnaming}.
 

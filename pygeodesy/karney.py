@@ -145,8 +145,8 @@ from __future__ import division as _; del _  # noqa: E702 ;
 
 from pygeodesy.basics import _copysign, _isin, isint, neg, unsigned0, \
                              _xgeographiclib, _zip
-from pygeodesy.constants import NAN, _isfinite as _math_isfinite, _0_0, \
-                               _1_16th, _1_0, _2_0, _180_0, _N_180_0, _360_0
+from pygeodesy.constants import NAN, _isfinite as _math_isfinite, \
+                               _0_0, _1_0, _2_0, _180_0, _N_180_0, _360_0
 from pygeodesy.errors import GeodesicError, _ValueError, _xkwds
 from pygeodesy.fmath import cbrt, fremainder, norm2  # Fhorner, Fsum
 from pygeodesy.internals import _getenv, _popen2, _PYGEODESY_ENV, typename, \
@@ -165,8 +165,9 @@ from pygeodesy.utily import atan2d, sincos2d, tand, _unrollon,  fabs
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '25.08.31'
+__version__ = '25.09.13'
 
+_1_16th     = _1_0 / 16
 _2_4_       = '2.4'
 _K_2_0      = _getenv(_PYGEODESY_ENV(typename(_xgeographiclib)[2:]), _2_)
 _K_2_4      = _K_2_0 ==  _2_4_
@@ -723,11 +724,10 @@ def _around(x):  # in .utily.sincos2d
     try:
         return _wrapped.Math.AngRound(x)
     except AttributeError:
-        b, a = _1_16th, fabs(x)
-        if a < b:
-            a -= b
-            a += b
-            x = _copysign(a, x)
+        z = _1_16th
+        w =  z - fabs(x)
+        if w > 0:  # don't "simplify" z - (z - x) to x
+            x = _copysign(z - w, x)
         return x
 
 
@@ -772,13 +772,13 @@ def _diff182(deg0, deg, K_2_0=False):
     try:
         return _wrapped.Math.AngDiff(deg0, deg)
     except AttributeError:
-        if K_2_0 or _K_2_0:  # geographiclib 2.0
-            _r, _360 = fremainder, _360_0
-            d, t = _sum2(_r(-deg0, _360),
-                         _r( deg,  _360))
-            d, t = _sum2(_r( d,    _360), t)
+        if K_2_0 or _K_2_0:  # geographiclib 2.0+
+            _r = fremainder
+            d, t = _sum2(_r(-deg0, _360_0),
+                         _r( deg,  _360_0))
+            d, t = _sum2(_r( d,    _360_0), t)
             if _isin(d, _0_0, _180_0, _N_180_0):
-                d = _copysign(d, -t if t else (deg - deg0))
+                d = _copysign(d, (-t) if t else (deg - deg0))
         else:
             _n = _norm180
             d, t = _sum2(_n(-deg0), _n(deg))

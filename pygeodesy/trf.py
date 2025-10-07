@@ -71,7 +71,7 @@ en/how-to-deal-with-etrs89-datum-and-time-dependent-transformation-parameters-45
 
 from pygeodesy.basics import _isin, map1, neg, isidentifier, isstr, _xinstanceof, \
                              _xscalar,  typename
-from pygeodesy.constants import _float as _F, _0_0s, _0_0, _0_001, _0_5, _1_0
+from pygeodesy.constants import _float as _F, _0_0s, _0_0, _0_001, _0_5, _0_75, _1_0
 from pygeodesy.datums import Datums, _earth_datum, _equall, _GDA2020_, _Names7, \
                             _negastr, Transform, _WGS84,  _EWGS84, _operator
 # from pygeodesy.ellipsoids import _EWGS84  # from .datums
@@ -93,7 +93,7 @@ from math import ceil as _ceil, fabs
 # import operator as _operator  # from .datums
 
 __all__ = _ALL_LAZY.trf
-__version__ = '25.05.12'
+__version__ = '25.09.11'
 
 _EP0CH    =  Epoch(0, low=0)
 _Es       = {_EP0CH: _EP0CH}  # L{Epoch}s, deleted below
@@ -1336,7 +1336,7 @@ _trfX(_ITRF2020_, _ITRF94_,   epoch=_E(2015),
                               xform=_X(   6.5,     -3.9,   -77.9,    3.98,     _0_0,      _0_0,      0.36),
                               rates=_R(   0.1,     -0.6,    -3.1,    0.12,     _0_0,      _0_0,      0.02))
 _trfX(_ITRF2020_, _ITRF93_,   epoch=_E(2015),
-                              xform=_X( -65.8,      1.9,   -71.3,    4.47,     -3.36,     -4.33,     0.75),
+                              xform=_X( -65.8,      1.9,   -71.3,    4.47,     -3.36,     -4.33,    _0_75),
                               rates=_R(  -2.8,     -0.2,    -2.3,    0.12,     -0.11,     -0.19,     0.07))
 _trfX(_ITRF2020_, _ITRF92_,   epoch=_E(2015),
                               xform=_X(  14.5,     -1.9,   -85.9,    3.27,     _0_0,      _0_0,      0.36),
@@ -1459,7 +1459,7 @@ _trfX(_ITRF2000_, _ITRF93_,   epoch=_E(1988),
                               xform=_X(  12.7,      6.5,   -20.9,    1.95,     -0.39,     0.8,      -1.14),
                               rates=_R(  -2.9,     -0.2,    -0.6,    0.01,     -0.11,    -0.19,      0.07))
 _trfX(_ITRF2000_, _ITRF92_,   epoch=_E(1988),
-                              xform=_X(   1.47,     1.35,   -1.39,   0.75,     _0_0,     _0_0,      -0.18),
+                              xform=_X(   1.47,     1.35,   -1.39,  _0_75,     _0_0,     _0_0,      -0.18),
                               rates=_R(  _0_0,     -0.06,   -0.14,   0.01,     _0_0,     _0_0,       0.02))
 _trfX(_ITRF2000_, _ITRF91_,   epoch=_E(1988),
                               xform=_X(   26.7,    27.5,   -19.9,    2.15,     _0_0,     _0_0,      -0.18),

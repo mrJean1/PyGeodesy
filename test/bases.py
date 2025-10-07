@@ -37,35 +37,15 @@ _skipped_ = 'skipped'  # in .run
 _SPACE_   = interns._SPACE_
 _TILDE_   = interns._TILDE_
 _HOME_dir = dirname(PyGeodesy_dir or _TILDE_) or _TILDE_
+_xcopy    = basics._xcopy
 
-__all__ = ('bits_mach2', 'coverage', 'GeodSolve', 'geographiclib',
-           'isiOS', 'ismacOS', 'isNix', 'isPyPy',  # 'isIntelPython'
-           'isPython2', 'isPython3', 'isPython37', 'isPython39', 'isWindows',
-           'numpy', 'PyGeodesy_dir', 'PythonX', 'scipy', 'test_dir',
+__all__ = ('bits_mach2', 'coverage', 'GeodSolve', 'geographiclib', 'isAppleSi',
+           'isiOS', 'ismacOS', 'isNix', 'isPyPy', 'isPython2',  # 'isIntelPython'
+           'isPython3', 'isPython37', 'isPython39', 'isWindows', 'numpy',
+           'property_RO', 'PyGeodesy_dir', 'PythonX', 'scipy', 'test_dir',
            'RandomLatLon', 'TestsBase',  # classes
            'secs2str', 'tilde', 'type2str', 'versions')  # functions
-__version__ = '25.05.26'
-
-try:
-    if float(_getenv('PYGEODESY_COVERAGE', '0')) > 0:
-        import coverage
-    else:
-        coverage = None  # ignore coverage
-except (ImportError, TypeError, ValueError):
-    coverage = None
-try:
-    geographiclib = basics._xgeographiclib(basics, 1, 50)  # 1.50+
-except ImportError:
-    geographiclib = None
-try:
-    numpy = basics._xnumpy(basics, 1, 9)  # 1.9+
-except ImportError:
-    numpy = None
-try:
-    scipy = basics._xscipy(basics, 1, 0)  # 1.0+
-except ImportError:
-    scipy = None
-_xcopy = basics._xcopy
+__version__ = '25.10.06'
 
 try:
     _Ints = int, long
@@ -74,18 +54,35 @@ except NameError:  # Python 3+
     _Ints = int
     _Strs = str
 
+endswith   = str.endswith
+startswith = str.startswith
+try:
+    if float(_getenv('PYGEODESY_COVERAGE', '0')) > 0:
+        import coverage
+    else:
+        coverage = None  # ignore coverage
+except (ImportError, TypeError, ValueError):
+    coverage = None
+try:
+    geographiclib = basics._xgeographiclib(__name__, 1, 50)  # 1.50+
+except ImportError:
+    geographiclib = None
+try:
+    numpy = basics._xnumpy(__name__, 1, 9)  # 1.9+
+except ImportError:
+    numpy = None
+try:
+    scipy = basics._xscipy(__name__, 1, 0)  # 1.0+
+except ImportError:
+    scipy = None
+
 _W_opts = sys.warnoptions or NN
 if _W_opts:
     _W_opts = _SPACE_(*(_SPACE_('-W', _) for _ in _W_opts))
 
-PythonX = sys.executable  # python or Pythonista path
-# isIntelPython = 'intelpython' in PythonX
-
-endswith   = str.endswith
-startswith = str.startswith
-
 v2 = sys.version_info[:2]
 bits_mach2 = internals._MODS.bits_machine2
+isAppleSi  = internals._isAppleSi
 # isiOS is used by some tests known to fail on iOS only
 isiOS      = internals._isiOS()  # public
 ismacOS    = internals._ismacOS()  # public
@@ -97,6 +94,8 @@ isPython35 = v2 >= (3, 5)  # in .testCartesian
 isPython37 = v2 >= (3, 7)  # in .run, .testLazy
 isPython39 = v2 >= (3, 9)  # arm64 Apple Si
 isWindows  = internals._isWindows()
+PythonX    = sys.executable  # python or Pythonista path
+# isIntelPython = 'intelpython' in PythonX
 del v2
 
 
@@ -117,8 +116,8 @@ class RandomLatLon(object):
         lon = self._random_round(self._lon)
         return self._LatLon(lat, lon, **LatLon_kwds)
 
-    def _random_round(self, scale):
-        r = (random() - 0.5) * scale
+    def _random_round(self, limit):
+        r = (random() - 0.5) * limit
         n =  self._ndigits
         if n is not None:
             r = round(r, n)  # ndigits=None
@@ -325,6 +324,8 @@ class TestsBase(object):
 
         if self._time:  # undo _prefix change
             self.__dict__.pop('_prefix')  # _xkwds_pop(self.__dict__, _prefix=None)
+
+        return bool(f)  # True: fail, False: pass in .testKarneySigns
 
     def test_tol(self, name, value, expect, tol=1e-12, **kwds):
         e = 0 if value is None or expect is None else abs(value - expect)  # None iteration
@@ -555,6 +556,9 @@ if __name__ == interns._DMAIN_:
     except ImportError:
         pass
     print(versions())
+
+# % python3.14 -m test.bases
+# pygeodesy 25.10.10 Python 3.14.0rc3 64bit arm64 macOS 15.6.1 isLazy 1
 
 # % python3.13 -m test.bases
 # pygeodesy 25.1.5 Python 3.13.1 64bit arm64 coverage 7.6.1 geographiclib 2.0 Math 2 macOS 14.6.1 isLazy 1

@@ -4,13 +4,13 @@
 # Test some of the L{basics}.
 
 __all__ = ('Tests',)
-__version__ = '24.05.15'
+__version__ = '24.09.29'
 
-from bases import isPython2, TestsBase
+from bases import isPython2, property_RO, TestsBase
 
 from pygeodesy import EPS, EPS0, INF, INT0, NAN, NEG0, NINF, clips, halfs2, \
                       isclose, isfinite, isint, isint0, isiterable, isiterablen, \
-                      isneg0, isninf, isscalar, map1, property_RO, remainder, splice
+                      isneg0, isninf, isscalar, map1, remainder, splice
 from pygeodesy.basics import _xdup
 
 

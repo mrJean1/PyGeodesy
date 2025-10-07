@@ -11,7 +11,7 @@ from os.path import join
 import unittest
 
 __all__ = ('TestSuite',)
-__version__ = '24.06.24'
+__version__ = '25.09.15'
 
 
 class TestSuite(unittest.TestCase):
@@ -149,6 +149,9 @@ class TestSuite(unittest.TestCase):
 
     def test_Karney(self):
         self._run('testKarney')
+
+    def test_KarneySigns(self):
+        self._run('testKarneySigns')
 
     def test_Ktm(self):
         self._run('testKtm')

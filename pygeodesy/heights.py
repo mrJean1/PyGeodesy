@@ -21,7 +21,7 @@ C{>>> ...}
 
 2. Select one of the C{Height} classes for height interpolation
 
-C{>>> from pygeodesy import HeightCubic  # or other Height... as HeightXyz}
+C{>>> from pygeodesy import HeightCubic as HeightXyz  # or an other Height... class}
 
 3. Instantiate a height interpolator with the C{knots} and use keyword
 arguments to select different interpolation options
@@ -92,7 +92,7 @@ from pygeodesy.units import _isDegrees, Float_, Int_
 # from math import radians  # from .points
 
 __all__ = _ALL_LAZY.heights
-__version__ = '25.05.26'
+__version__ = '25.09.29'
 
 _error_  = 'error'
 _formy   = _MODS.into(formy=__name__)

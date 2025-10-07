@@ -87,8 +87,7 @@
   geodesic, great circle and rhumb lines, circle intersections and secants,
   <a href="https://WikiPedia.org/wiki/Position_resection_and_intersection" 
   target="_top">3-point resections</a>, triangulation, trilateration (by 
-  intersection, by overlap and in 3-D), conversions and unrolling, among 
-  other things.</p>
+  intersection, by overlap and in 3-D), among other things.</p>
   <p>Also included are modules for conversions to and from <a 
   href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1CassiniSoldner.html"
   target="_top">Cassini-Soldner</a>, <a 
@@ -148,12 +147,13 @@
   href="https://docs.SciPy.org/doc/scipy/reference/interpolate.html" 
   target="_top">interpolate</a> the <a href="pygeodesy.heights-module.html"
   class="link">height</a> of <code>LatLon</code> points and <a 
-  href="pygeodesy.geoids-module.html" class="link">Geoid</a> models, 
+  href="pygeodesy.geoids-module.html" class="link">Geoid</a> models, to 
   compute various <a href="https://WikiPedia.org/wiki/Frechet_distance" 
   target="_top">Fr&#233;chet</a> or <a 
   href="https://WikiPedia.org/wiki/Hausdorff_distance" 
-  target="_top">Hausdorff</a> distances or perform <i>boolean</i> 
-  operations between (composite) polygons.</p>
+  target="_top">Hausdorff</a> distances or to perform <i>boolean</i> 
+  operations between (composite) polygons of <code>LatLon</code> 
+  points.</p>
   <p>For further details see the <a 
   href="https://mrJean1.GitHub.io/PyGeodesy" 
   target="_top">documentation</a>, the descriptions of <a 
@@ -276,9 +276,17 @@
     command line: <code>epydoc --html --no-private --no-source 
     --name=pygeodesy --url=... -v pygeodesy</code>).</p>
   <h1 class="heading">Tests</h1>
-    <p>The tests ran with Python 3.13.7 (with <a 
+    <p>The tests ran with Python 3.14 (with <a 
     href="https://PyPI.org/project/geographiclib" 
-    target="_top">geographiclib</a> 2.1), Python 3.12.7 (with <a 
+    target="_top">geographiclib</a> 2.1), Python 3.13.7 (with <a 
+    href="https://PyPI.org/project/geographiclib" 
+    target="_top">geographiclib</a> 2.1), <a 
+    href="https://PyPI.org/project/numpy" target="_top">numpy</a> 2.3.3, <a
+    href="https://PyPI.org/project/scipy" target="_top">scipy</a> 1.16.2, 
+    <a href="https://GeographicLib.SourceForge.io/C++/doc/utilities.html" 
+    target="_top">GeoConvert</a> 2.5 and <a 
+    href="https://GeographicLib.SourceForge.io/C++/doc/utilities.html" 
+    target="_top">GeodSolve</a> 2.5), Python 3.12.7 (with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 2.0, <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 2.1.0, <a
@@ -293,15 +301,7 @@
     target="_top">geographiclib</a> 2.0, <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.24.2 
     and <a href="https://PyPI.org/project/scipy" target="_top">scipy</a> 
-    1.10.1), Python 3.10.8 (with <a 
-    href="https://PyPI.org/project/geographiclib" 
-    target="_top">geographiclib</a> 2.0, <a 
-    href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.23.3, 
-    <a href="https://PyPI.org/project/scipy" target="_top">scipy</a> 1.9.1,
-    <a href="https://GeographicLib.SourceForge.io/C++/doc/utilities.html" 
-    target="_top">GeoConvert</a> 2.5, <a 
-    href="https://GeographicLib.SourceForge.io/C++/doc/utilities.html" 
-    target="_top">GeodSolve</a> 2.5) and Python 2.7.18 (with <a 
+    1.10.1), and with Python 2.7.18 (with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 1.50, <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.16.6, 
@@ -313,18 +313,18 @@
     href="https://GeographicLib.SourceForge.io/C++/doc/utilities.html" 
     target="_top">IntersectTool</a> 2.5 and <a 
     href="https://GeographicLib.SourceForge.io/C++/doc/utilities.html" 
-    target="_top">RhumbSolve</a> 2.5), all in 64-bit on macOS 15.6.1 
-    Sequoia.</p>
+    target="_top">RhumbSolve</a> 2.5), all in 64-bit on macOS 26.0.1 
+    Tahoe.</p>
     <p>All tests ran with and without <code>lazy import</code> for Python 3
     and with command line option <code>-W default</code> and env variable 
     <code>PYGEODESY_WARNINGS=on</code> for all Python versions.  The 
     results of those tests are included in the distribution files.</p>
     <p>Test coverage has been measured with <a 
     href="https://PyPI.org/project/coverage" target="_top">coverage</a> 
-    7.6.1 using Python 3.13.7, 3.12.7, 3.11.5 and 3.10.8.  The complete 
-    coverage report in HTML and a PDF summary are included in the 
-    distribution files.</p>
-    <p>Python 3.13.7, 3.12.7, 3.11.5 and 3.10.8 run on Apple M4 Si 
+    7.10.7 using Python 3.14, 3.13.7 and 3.12.7.  The complete coverage 
+    report in HTML and a PDF summary are included in the distribution 
+    files.</p>
+    <p>Python 3.14, 3.13.7, 3.12.7 and 3.11.5 run on Apple M4 Si 
     (<code>arm64</code>), <i>natively</i>.  Python 2.7.18 runs on Intel 
     (<code>x86_64</code>) or Intel <i>emulation</i> 
     (&quot;<code>arm64_x86_64</code>&quot;, see function <a 
@@ -348,7 +348,7 @@
     href="https://PyPI.org/project/pyinstaller" 
     target="_top">PyInstaller</a> 3.4 and 64-bit Python 3.7.3 on macOS 
     10.13.6 High Sierra.</p>
-    <p>Previously, the tests were run with Python 3.13.0-5, 3.12.0-6, 
+    <p>Previously, the tests were run with Python 3.13.0-6, 3.12.0-6, 
     3.11.2-4, 3.10.1-7, 3.9.6, 3.9.1, 3.8.7, 3.7.1, 2.7.15, <a 
     href="https://PyPy.org" target="_top">PyPy</a> 7.3.12 (Python 3.10.12),
     7.3.1 (Python 3.6.9) and <a href="https://PyPy.org" 
@@ -371,7 +371,7 @@
     href="https://software.Intel.com/en-us/distribution-for-python" 
     target="_top">Intel-Python</a> 3.5.3 (and <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.11.3) 
-    on macOS 15.0-5 Sequoia, 14.0-6.1 Sonoma, 13.0-5.2 Ventura, 12.1-6 
+    on macOS 15.0-6 Sequoia, 14.0-6.1 Sonoma, 13.0-5.2 Ventura, 12.1-6 
     Monterey, 11.0-5.2-6.1 Big Sur (aka 10.16), 10.15.3, 10.15.5-7 
     Catalina, 10.14 Mojave, 10.13.6 High Sierra and 10.12 Sierra, MacOS X 
     10.11 El Capitan and/or MacOS X 10.10 Yosemite, with <a 
@@ -388,13 +388,13 @@
     href="https://GitHub.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor"
     target="_top">checked</a> with <a 
     href="https://GitHub.com/astral-sh/ruff" target="_top">Ruff</a> using 
-    Python 3.13.5 and with <a href="https://PyPI.org/project/pychecker" 
+    Python 3.13.7 and with <a href="https://PyPI.org/project/pychecker" 
     target="_top">PyChecker</a>, <a 
     href="https://PyPI.org/project/pyflakes" target="_top">PyFlakes</a>, <a
     href="https://PyPI.org/project/pycodestyle" 
     target="_top">PyCodeStyle</a> (formerly Pep8) and <a 
     href="https://PyPI.org/project/mccabe" target="_top">McCabe</a> using 
-    Python 2.7.18, both in 64-bit on macOS 15.6.1 Sequoia.</p>
+    Python 2.7.18, both in 64-bit on macOS 26.0.1 Tahoe.</p>
     <p>For a summary of all <i>Karney</i>-based functionality in 
     <code>pygeodesy</code>, see module <a 
     href="https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html"
@@ -589,7 +589,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        25.09.09
+        25.10.10
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -9420,7 +9420,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fca3035bad0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f97103cbad0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -14626,7 +14626,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'25.9.9'">'25.9.9'</code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'25.10.10'">'25.10.10'</code><br />
       Normalized <code>pygeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -23009,7 +23009,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fca3035bad0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f97103cbad0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -26609,7 +26609,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>clas</code></strong> - The class (any <code>class</code>).</li>
+        <li><strong class="pname"><code>clas</code></strong> - The class (any <code>class</code> or <code>str</code>).</li>
         <li><strong class="pname"><code>prefixed</code></strong> - Include the module name (<code>bool</code>), see function 
           <code>classnaming</code>.</li>
     </ul></dd>
@@ -33635,7 +33635,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Sep  9 11:51:06 2025
+    Generated by Epydoc 3.0.1 on Tue Oct  7 16:05:25 2025
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

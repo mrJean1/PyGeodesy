@@ -17,7 +17,7 @@ and a geocentric B{C{Cartesian}} class with methods and functions to compute dis
 forward and reverse azimuth, initial and final bearing, intermediate and nearest points, intersections of geodesic,
 great circle and rhumb lines, circle intersections and secants, U{3-point resections
 <https://WikiPedia.org/wiki/Position_resection_and_intersection>}, triangulation, trilateration (by intersection,
-by overlap and in 3-D), conversions and unrolling, among other things.
+by overlap and in 3-D), among other things.
 
 Also included are modules for conversions to and from U{Cassini-Soldner
 <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1CassiniSoldner.html>},
@@ -51,9 +51,9 @@ resources/hull:8338>} and the U{Reumann-Witkam<https://psimpl.SourceForge.net/re
 algorithms and modified versions of the former.
 
 Plus modules and classes to U{interpolate<https://docs.SciPy.org/doc/scipy/reference/interpolate.html>} the
-L{height<pygeodesy.heights>} of C{LatLon} points and L{Geoid<pygeodesy.geoids>} models, compute various U{Fréchet
+L{height<pygeodesy.heights>} of C{LatLon} points and L{Geoid<pygeodesy.geoids>} models, to compute various U{Fréchet
 <https://WikiPedia.org/wiki/Frechet_distance>} or U{Hausdorff<https://WikiPedia.org/wiki/Hausdorff_distance>}
-distances or perform I{boolean} operations between (composite) polygons.
+distances or to perform I{boolean} operations between (composite) polygons of C{LatLon} points.
 
 For further details see the U{documentation<https://mrJean1.GitHub.io/PyGeodesy>}, the descriptions of
 U{Latitude/Longitude<https://www.Movable-Type.co.UK/scripts/latlong.html>}, U{Vincenty
@@ -125,7 +125,11 @@ C{epydoc --html --no-private --no-source --name=pygeodesy --url=... -v pygeodesy
 Tests
 =====
 
-The tests ran with Python 3.13.7 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.1),
+The tests ran with Python 3.14 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.1),
+Python 3.13.7 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.1),
+U{numpy<https://PyPI.org/project/numpy>} 2.3.3, U{scipy<https://PyPI.org/project/scipy>} 1.16.2,
+U{GeoConvert<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.5 and
+U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.5),
 Python 3.12.7 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0,
 U{numpy<https://PyPI.org/project/numpy>} 2.1.0, U{scipy<https://PyPI.org/project/scipy>} 1.14.1,
 U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.5,
@@ -133,27 +137,23 @@ U{IntersectTool<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.
 U{RhumbSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.5),
 Python 3.11.5 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0,
 U{numpy<https://PyPI.org/project/numpy>} 1.24.2 and U{scipy<https://PyPI.org/project/scipy>} 1.10.1),
-Python 3.10.8 (with U{geographiclib <https://PyPI.org/project/geographiclib>} 2.0,
-U{numpy<https://PyPI.org/project/numpy>} 1.23.3, U{scipy<https://PyPI.org/project/scipy>} 1.9.1,
-U{GeoConvert<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.5,
-U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.5) and
-Python 2.7.18 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50,
+and with Python 2.7.18 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50,
 U{numpy<https://PyPI.org/project/numpy>} 1.16.6, U{scipy<https://PyPI.org/project/scipy>} 1.2.2,
 U{GeoConvert<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.5,
 U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.5,
 U{IntersectTool<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.5 and
 U{RhumbSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.5), all in 64-bit on
-macOS 15.6.1 Sequoia.
+macOS 26.0.1 Tahoe.
 
 All tests ran with and without C{lazy import} for Python 3 and with command line option C{-W default} and
 env variable C{PYGEODESY_WARNINGS=on} for all Python versions.  The results of those tests are included in
 the distribution files.
 
-Test coverage has been measured with U{coverage<https://PyPI.org/project/coverage>} 7.6.1 using Python
-3.13.7, 3.12.7, 3.11.5 and 3.10.8.  The complete coverage report in HTML and a PDF summary are included in
-the distribution files.
+Test coverage has been measured with U{coverage<https://PyPI.org/project/coverage>} 7.10.7 using Python
+3.14, 3.13.7 and 3.12.7.  The complete coverage report in HTML and a PDF summary are included in the
+distribution files.
 
-Python 3.13.7, 3.12.7, 3.11.5 and 3.10.8 run on Apple M4 Si (C{arm64}), I{natively}.  Python 2.7.18 runs
+Python 3.14, 3.13.7, 3.12.7 and 3.11.5 run on Apple M4 Si (C{arm64}), I{natively}.  Python 2.7.18 runs
 on Intel (C{x86_64}) or Intel I{emulation} ("C{arm64_x86_64}", see function L{machine<pygeodesy.machine>}).
 
 The tests also ran with Python 3.13.7 (and U{geographiclib<https://PyPI.org/project/geographiclib>} 2.1) on
@@ -166,7 +166,7 @@ in 64- and 32-bit.
 A single-File and single-Directory application with C{pygeodesy} has been bundled using U{PyInstaller
 <https://PyPI.org/project/pyinstaller>} 3.4 and 64-bit Python 3.7.3 on macOS 10.13.6 High Sierra.
 
-Previously, the tests were run with Python 3.13.0-5, 3.12.0-6, 3.11.2-4, 3.10.1-7, 3.9.6, 3.9.1, 3.8.7, 3.7.1, 2.7.15,
+Previously, the tests were run with Python 3.13.0-6, 3.12.0-6, 3.11.2-4, 3.10.1-7, 3.9.6, 3.9.1, 3.8.7, 3.7.1, 2.7.15,
 U{PyPy<https://PyPy.org>} 7.3.12 (Python 3.10.12), 7.3.1 (Python 3.6.9) and U{PyPy<https://PyPy.org>} 7.1.1 (Python
 2.7.13) (and U{geographiclib <https://PyPI.org/project/geographiclib>} 1.52, U{numpy<https://PyPI.org/project/numpy>}
 1.16.3, 1.16.4, 1.16.6, 1.19.0, 1.19.4, 1.19.5 or 1.22.4 and U{scipy<https://PyPI.org/project/scipy>} 1.2.1, 1.4.1,
@@ -175,7 +175,7 @@ U{PyPy<https://PyPy.org>} 7.3.12 (Python 3.10.12), 7.3.1 (Python 3.6.9) and U{Py
 1.16.5, 1.16.2, 1.15.2, 1.14.0, 1.13.1, 1.8.0rc1 or 1.6.2 and U{scipy<https://PyPI.org/project/scipy>} 1.5.0), U{PyPy
 <https://PyPy.org>} 7.3.0 (Python 2.7.13 and 3.6.9), U{PyPy<https://PyPy.org>} 6.0.0 (Python 2.7.13 and 3.5.3)
 and U{Intel-Python<https://software.Intel.com/en-us/distribution-for-python>} 3.5.3 (and U{numpy
-<https://PyPI.org/project/numpy>} 1.11.3) on macOS 15.0-5 Sequoia, 14.0-6.1 Sonoma, 13.0-5.2 Ventura, 12.1-6 Monterey,
+<https://PyPI.org/project/numpy>} 1.11.3) on macOS 15.0-6 Sequoia, 14.0-6.1 Sonoma, 13.0-5.2 Ventura, 12.1-6 Monterey,
 11.0-5.2-6.1 Big Sur (aka 10.16), 10.15.3, 10.15.5-7 Catalina, 10.14 Mojave, 10.13.6 High Sierra and 10.12 Sierra,
 MacOS X 10.11 El Capitan and/or MacOS X 10.10 Yosemite, with U{Pythonista<https://OMZ-Software.com/pythonista>}3.2
 (with geographiclib 1.50 or 1.49 and numpy 1.8.0) on iOS 14.4.2, 11.4.1, 12.0-3 on iPad4, iPhone6, iPhone10 and/or
@@ -187,10 +187,10 @@ Notes
 =====
 
 All Python source code has been statically U{checked<https://GitHub.com/ActiveState/code/tree/master/recipes/Python/
-546532_PyChecker_postprocessor>} with U{Ruff<https://GitHub.com/astral-sh/ruff>} using Python 3.13.5 and with
+546532_PyChecker_postprocessor>} with U{Ruff<https://GitHub.com/astral-sh/ruff>} using Python 3.13.7 and with
 U{PyChecker<https://PyPI.org/project/pychecker>}, U{PyFlakes<https://PyPI.org/project/pyflakes>}, U{PyCodeStyle
 <https://PyPI.org/project/pycodestyle>} (formerly Pep8) and U{McCabe<https://PyPI.org/project/mccabe>} using Python
-2.7.18, both in 64-bit on macOS 15.6.1 Sequoia.
+2.7.18, both in 64-bit on macOS 26.0.1 Tahoe.
 
 For a summary of all I{Karney}-based functionality in C{pygeodesy}, see module U{karney
 <https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html>}.
@@ -605,7 +605,7 @@ else:
 
 from pygeodesy.internals import _version2,  _DOT_  # noqa: E402
 # from pygeodesy.interns import _DOT_  # from .internals
-__version__ = '25.09.09'
+__version__ = '25.10.10'
 # see setup.py for similar logic
 version     = _DOT_(*_version2(__version__, n=3))
 
