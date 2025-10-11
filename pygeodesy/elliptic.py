@@ -100,7 +100,7 @@ from math import asin, asinh, atan, ceil, cosh, fabs, floor, radians, \
                  sin, sinh, sqrt, tan, tanh  # tan as _tan
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '25.09.04'
+__version__ = '25.10.10'
 
 _TolRD  =  zqrt(EPS * 0.002)
 _TolRF  =  zqrt(EPS * 0.030)
@@ -932,7 +932,7 @@ class Elliptic(_Named):
             raise _ellipticError(Elliptic._RFRD, x, y, z, m, cause=X)
         return float(R)
 
-_allPropertiesOf_n(16, Elliptic)  #  # PYCHOK assert, see Elliptic.reset
+_allPropertiesOf_n(16, Elliptic)  # PYCHOK assert, see Elliptic.reset
 
 
 class EllipticError(_ValueError):

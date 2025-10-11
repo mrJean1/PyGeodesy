@@ -27,7 +27,7 @@ from os import getenv
 from setuptools import setup
 
 __all__ = ()
-__version__ = '25.09.09'
+__version__ = '25.10.10'
 
 _PACKAGE = 'pygeodesy'  # 'PyGeodesy'
 
@@ -144,7 +144,7 @@ setup(name=_PACKAGE,
 #                  _c('Programming Language', 'Python', '3.7'),
 #                  _c('Programming Language', 'Python', '3.8'),
 #                  _c('Programming Language', 'Python', '3.9'),
-                   _c('Programming Language', 'Python', '3.10'),
+#                  _c('Programming Language', 'Python', '3.10'),
                    _c('Programming Language', 'Python', '3.11'),
                    _c('Programming Language', 'Python', '3.12'),
                    _c('Programming Language', 'Python', '3.13'),
