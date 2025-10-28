@@ -63,25 +63,25 @@
   href="pygeodesy.triaxials.Triaxial-class.html" class="link">Triaxial</a> 
   and <i>unordered</i> <a href="pygeodesy.triaxials.Triaxial_-class.html" 
   class="link">Triaxial_</a> and Jacobi conformal projections <a 
-  href="pygeodesy.triaxials.JacobiConformal-class.html" 
-  class="link">JacobiConformal</a> and <a 
-  href="pygeodesy.triaxials.JacobiConformalSpherical-class.html" 
-  class="link">JacobiConformalSpherical</a>, transcoded from <i>Charles 
-  Karney</i>'s C++ class <a 
+  href="pygeodesy.triaxials.ConformalTriaxial-class.html" 
+  class="link">ConformalTriaxial</a> and <a 
+  href="pygeodesy.triaxials.ConformalSphere-class.html" 
+  class="link">ConformalSphere</a>, transcoded from <i>Charles Karney</i>'s
+  GeographicLib 2.5.2 C++ class <a 
   href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1JacobiConformal.html#details"
   target="_top">JacobiConformal</a> to pure Python and miscellaneous 
   classes <a href="pygeodesy.triaxials.BetaOmega2Tuple-class.html" 
   class="link">BetaOmega2Tuple</a>, <a 
   href="pygeodesy.triaxials.BetaOmega3Tuple-class.html" 
   class="link">BetaOmega3Tuple</a>, <a 
-  href="pygeodesy.triaxials.Jacobi2Tuple-class.html" 
-  class="link">Jacobi2Tuple</a> and <a 
+  href="pygeodesy.triaxials.Conformal2Tuple-class.html" 
+  class="link">Conformal2Tuple</a> and <a 
   href="pygeodesy.triaxials.TriaxialError-class.html" 
   class="link">TriaxialError</a>.</p>
   <p>Copyright (C) <a href="mailto:Karney@Alum.MIT.edu" 
   target="_top">Charles Karney</a> (2008-2024).  For more information, see 
   the <a href="https://GeographicLib.SourceForge.io" 
-  target="_top">GeographicLib</a> documentation.</p>
+  target="_top">GeographicLib</a> 2.5.2 documentation.</p>
 
 <hr />
 <div class="fields">      <p><strong>See Also:</strong>
@@ -93,7 +93,7 @@
         interpretation</a>.
       </p>
       <p><strong>Version:</strong>
-        25.05.12
+        25.10.25
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -134,9 +134,9 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.triaxials.Jacobi2Tuple-class.html" class="summary-name">Jacobi2Tuple</a><br />
-      2-Tuple <code>(x, y)</code> with a Jacobi Conformal <code>x</code> 
-        and <code>y</code> projection, both in <a 
+        <a href="pygeodesy.triaxials.Conformal2Tuple-class.html" class="summary-name">Conformal2Tuple</a><br />
+      2-Tuple <code>(x, y)</code> with a <i>Jacobi Conformal</i> 
+        <code>x</code> and <code>y</code> projection, both in <a 
         href="pygeodesy.units.Radians-class.html" class="link">Radians</a> 
         (or <a href="pygeodesy.units.Degrees-class.html" 
         class="link">Degrees</a>).
@@ -162,20 +162,18 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.triaxials.JacobiConformal-class.html" class="summary-name">JacobiConformal</a><br />
-      This is a conformal projection of a triaxial ellipsoid to a plane 
-        in which the <code>X</code> and <code>Y</code> grid lines are 
-        straight.
+        <a href="pygeodesy.triaxials.ConformalTriaxial-class.html" class="summary-name">ConformalTriaxial</a><br />
+      This is a <i>Jacobi Conformal</i> projection of a triaxial 
+        ellipsoid to a plane where the <code>X</code> and <code>Y</code> 
+        grid lines are straight.
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.triaxials.JacobiConformalSpherical-class.html" class="summary-name">JacobiConformalSpherical</a><br />
-      An alternate, <i>spherical</i> <a 
-        href="pygeodesy.triaxials.JacobiConformal-class.html" 
-        class="link">JacobiConformal</a> projection.
+        <a href="pygeodesy.triaxials.ConformalSphere-class.html" class="summary-name">ConformalSphere</a><br />
+      An alternate, <i>spherical Jacobi Conformal</i> projection.
     </td>
   </tr>
 <tr>
@@ -426,13 +424,12 @@
           class="link">Triaxial</a>, <a 
           href="pygeodesy.triaxials.Triaxial_-class.html" 
           class="link">Triaxial_</a>, <a 
-          href="pygeodesy.triaxials.JacobiConformal-class.html" 
-          class="link">JacobiConformal</a> or <a 
-          href="pygeodesy.triaxials.JacobiConformalSpherical-class.html" 
-          class="link">JacobiConformalSpherical</a>) or biaxial ellipsoid 
-          (<a href="pygeodesy.datums.Datum-class.html" 
-          class="link">Datum</a>, <a 
-          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          href="pygeodesy.triaxials.ConformalTriaxial-class.html" 
+          class="link">ConformalTriaxial</a> or <a 
+          href="pygeodesy.triaxials.ConformalSphere-class.html" 
+          class="link">ConformalSphere</a>) or biaxial ellipsoid (<a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
+          <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
           class="link">Ellipsoid</a>, <a 
           href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
           class="link">Ellipsoid2</a>, <a 
@@ -506,7 +503,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Oct 11 12:24:21 2025
+    Generated by Epydoc 3.0.1 on Tue Oct 28 08:28:08 2025
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

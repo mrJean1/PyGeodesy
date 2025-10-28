@@ -4,12 +4,12 @@
 # Test L{constants} module.
 
 __all__ = ('Tests',)
-__version__ = '23.08.23'
+__version__ = '25.10.15'
 
 from bases import isPyPy, TestsBase
 
 from pygeodesy import Float, Int, Radius, basics, constants, interns, \
-                      float_, isinf, isint0, isnan, \
+                      float_, floats_, isinf, isint0, isnan, \
                       EPS, EPS0, EPS02, EPS1, EPS2, EPS_2, EPS4, \
                       INF, INT0, NAN, NEG0, NINF
 
@@ -83,10 +83,10 @@ class Tests(TestsBase):
         self.test(_off90.__name__, _off90(90) < 90, True, nl=1)
         self.test(_off90.__name__, _off90(90) > 89.999999, True)
 
-        t = float_(1, 2, 3)
-        self.test(float_.__name__, t, '(1.0, 2.0, 3.0)')
         t = float_(3.14, sets=True)
         self.test(float_.__name__, t is float(3.14), True)
+        t = floats_(1, 2, 3)  # PYCHOK yield
+        self.test(floats_.__name__, tuple(t), '(1.0, 2.0, 3.0)')
 
         self.test('_0_0', _0_0 is basics._0_0, True, nl=1, nt=1)
 

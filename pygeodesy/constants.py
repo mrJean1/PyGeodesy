@@ -11,7 +11,7 @@ L{pygeodesy.isnon0} and L{pygeodesy.remainder}.
 from __future__ import division as _; del _  # noqa: E702 ;
 
 from pygeodesy.basics import _copysign, isbool, iscomplex, isint, signBit
-from pygeodesy.errors import _xError, _xError2, _xkwds_get1, _xkwds_item2
+from pygeodesy.errors import _ValueError, _xError, _xkwds_get1, _xkwds_item2
 # from pygeodesy.fsums import _isFsum_2Tuple  # _MODS
 from pygeodesy.internals import _0_0, _100_0, typename
 from pygeodesy.interns import _DMAIN_, _INF_, _NAN_
@@ -26,7 +26,7 @@ except ImportError:  # Python 2-
     _inf, _nan = float(_INF_), float(_NAN_)
 
 __all__ = _ALL_LAZY.constants
-__version__ = '25.09.11'
+__version__ = '25.10.15'
 
 
 def _copysign_0_0(y):
@@ -47,7 +47,7 @@ def _copysignINF(y):
     return NINF if signBit(y) else INF
 
 
-def _flipsign(x, y):
+def _flipsign(x, y=-1):
     '''(INTERNAL) Negate C{x} for negative C{y}.
     '''
     return (-x) if signBit(y) else x
@@ -60,63 +60,76 @@ def _Float(**name_arg):
     return Float(_float(arg), name=n)
 
 
-def _Radius(**name_arg):
-    '''(INTERNAL) New named, cached C{Radius}.
-    '''
-    n, arg = _xkwds_item2(name_arg)
-    return Radius(_float(arg), name=n)
-
-
-def float_(*fs, **sets):  # sets=False
-    '''Get scalars as C{float} or I{intern}'ed C{float}.
-
-       @arg fs: One more values (C{scalar}), all positional.
-       @kwarg sets: Use C{B{sets}=True} to C{intern} each
-                    B{C{fs}}, otherwise don't C{intern}.
-
-       @return: A single C{float} if only one B{C{fs}} is
-                given, otherwise a tuple of C{float}s.
-
-       @raise TypeError: Some B{C{fs}} is not C{scalar}.
-    '''
-    fl = []
-    _a =  fl.append
-    _f = _floats.setdefault if _xkwds_get1(sets, sets=False) else \
-         _floats.get
-    try:
-        for i, f in enumerate(fs):
-            f = float(f)
-            _a(_f(f, f))
-    except Exception as x:
-        E, t = _xError2(x)
-        fs_i =  Fmt.SQUARE(fs=i)
-        raise E(fs_i, f, txt=t)
-    return fl[0] if len(fl) == 1 else tuple(fl)
-
-
-def _float(f):  # in .datums, .ellipsoids, ...
+def _float(x):  # in .datums, .ellipsoids, ...
     '''(INTERNAL) Cache initial C{float}s.
     '''
-    f = float(f)
+    f = float(x)
     return _floats.setdefault(f, f)  # PYCHOK del _floats
+
+
+def float_(x, sets=False):
+    '''Get scalar as C{float} or I{intern}'ed C{float}.
+
+       @arg x: The scalar (C{scalar}).
+       @kwarg sets: Use C{True} to C{intern} the B{C{f}},
+                    otherwise don't (C{bool}).
+
+       @return: A C{float}.
+
+       @raise ValueError: Invalid B{C{x}}.
+    '''
+    try:
+        f = float(x)
+        if f:
+            _f = _floats.setdefault if sets else _floats.get
+            f  = _f(f, f)
+        else:
+            f  = _N_0_0 if signBit(f) else _0_0
+    except Exception as X:
+        raise _ValueError(x=x, cause=X)
+    return f
 
 
 def float0_(*xs):
     '''Yield C{B{x}s} as a non-NEG0 C{float}.
     '''
     for x in xs:
-        yield float(x) if x else _0_0
+        yield float(x) or _0_0  # if x else _0_0
 
 
-def _float0(f):  # in .auxilats.auxily, .resections, .vector3dBase, ...
+def _float0(x):  # in .auxilats.auxily, .resections, .vector3dBase, ...
     '''(INTERNAL) Return C{float(B{f})} or C{INT0}.
     '''
-    if f:
-        f =  float(f)
+    if x:
+        f =  float(x)
         f = _floats.get(f, f)
-    elif f is not INT0:
-        f =  float(f) or _0_0  # force None, NN error
+    elif x is INT0:
+        f =  x
+    else:
+        f =  float(x) or _0_0  # force None, NN error
     return f
+
+
+def floats_(*xs, **sets):  # sets=False
+    '''Yield each scalar as C{float} or I{intern}'ed C{float}.
+
+       @arg xs: One more values (C{scalar}), all positional.
+       @kwarg sets: Use C{B{sets}=True} to C{intern} each
+                    B{C{fs}}, otherwise don't C{intern}.
+
+       @raise ValueError: Some B{C{xs}} is not C{scalar}.
+    '''
+    if sets:
+        sets = _xkwds_get1(sets, sets=False)
+    _f = _floats.setdefault if sets else _floats.get
+    try:
+        for i, x in enumerate(xs):
+            f = float(x)
+            yield _f(f, f) if f else \
+                  (_N_0_0 if signBit(f) else _0_0)  # preserve NEG0
+    except Exception as X:
+        xs_i = Fmt.SQUARE(xs=i)
+        raise _ValueError(xs_i, x, cause=X)
 
 
 def _floatuple(*fs):
@@ -170,6 +183,13 @@ def _1_over(x):
         return _1_0 / float(x)
     except ZeroDivisionError:
         return  NINF if isneg0(x) else INF
+
+
+def _Radius(**name_arg):
+    '''(INTERNAL) New named, cached C{Radius}.
+    '''
+    n, arg = _xkwds_item2(name_arg)
+    return Radius(_float(arg), name=n)
 
 
 _floats  = {}     # PYCHOK floats cache, in .__main__

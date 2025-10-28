@@ -498,7 +498,7 @@ def printf(fmt, *args, **nl_nt_prec_prefix__end_file_flush_sep__kwds):
             t =  fmt
     except Exception as x:
         _Error, s = _MODS.errors._xError2(x)
-        _unstr    = _MODS.strepr.unstr
+        _unstr    = _MODS.streprs.unstr
         t = _unstr(printf, fmt, *args, **nl_nt_prec_prefix__end_file_flush_sep__kwds)
         raise _Error(s, txt=t, cause=x)
     try:
@@ -709,7 +709,7 @@ def _versions(sep=_SPACE_):
 
 
 __all__ = tuple(map(typename, (machine, print_, printf, typename)))
-__version__ = '25.10.06'
+__version__ = '25.10.26'
 
 if __name__ == _DMAIN_:
 

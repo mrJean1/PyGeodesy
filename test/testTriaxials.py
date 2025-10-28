@@ -4,12 +4,12 @@
 # Test L{triaxials} module.
 
 __all__ = ('Tests',)
-__version__ = '24.11.21'
+__version__ = '25.10.25'
 
 from bases import numpy, random, startswith, TestsBase
 
 from pygeodesy import EPS4, F_DEG_, F_DMS, PI_2, PI_4, Ellipsoids, fstr, \
-                      JacobiConformal, JacobiConformalSpherical, Los, \
+                      ConformalSphere, ConformalTriaxial, Los, \
                       map1, map2, signBit, sincos2d_, Triaxial, Triaxial_, \
                       Triaxials, triaxials, triaxum5, Vector3d
 from math import radians
@@ -82,12 +82,12 @@ class Tests(TestsBase):
         t = (t - c).length
         self.test(n, t, '100000.0', known=abs(t - 100000.0) < 1e-6)
 
-    def testJacobiConformal(self, module):
-        self.subtitle(module, JacobiConformal.__name__)
+    def testConformalTriaxial(self, module):
+        self.subtitle(module, ConformalTriaxial.__name__)
 
-        n = JacobiConformal.__name__
+        n = ConformalTriaxial.__name__
         # <https://GeographicLib.sourceforge.io/1.52/jacobi.html>
-        J = JacobiConformal(6378137+35, 6378137-35, 6356752, name='Test')
+        J = ConformalTriaxial(6378137+35, 6378137-35, 6356752, name='Test')
         self.test(n, repr(J), "%s(name='Test', a=6378172, b=6378102, c=6356752, e2ab=" % (n,), known=startswith)
 
         n = J.xR.__name__
@@ -116,8 +116,8 @@ class Tests(TestsBase):
         p = J.volume
         self.test(n, p, '1.083207e+21', fmt='%.6e')
 
-        n = JacobiConformal.__name__
-        J = JacobiConformal(267.5, 147, 104.5, name='Itokawa25134')
+        n = ConformalTriaxial.__name__
+        J = ConformalTriaxial(267.5, 147, 104.5, name='Itokawa25134')
         self.test(n, repr(J), "%s(name='Itokawa25134', a=267.5, b=147, c=104.5, e2ab=" % (n,), known=startswith, nl=1)
 
         n = J.xyR2.__name__
@@ -130,7 +130,7 @@ class Tests(TestsBase):
         t = p.toDegrees(form=F_DMS)
         self.test(n, t, "('00°00′00.0″N', '035°15′33.27″E')", known=True)
 
-        n = JacobiConformal.xyQ2.name
+        n = ConformalTriaxial.xyQ2.name
         q = J.xyQ2
         self.test(n, q, '(3.13215, 1.42547)')
 
@@ -140,12 +140,12 @@ class Tests(TestsBase):
         t = q.toDegrees(form=F_DMS)
         self.test(n, t, "('179°27′32.28″N', '081°40′24.28″E')", known=True)
 
-    def testJacobiConformalSpherical(self, module):
-        self.subtitle(module, JacobiConformalSpherical.__name__)
+    def testConformalSphere(self, module):
+        self.subtitle(module, ConformalSphere.__name__)
 
-        n = JacobiConformalSpherical.__name__
+        n = ConformalSphere.__name__
         # <https://GeographicLib.sourceforge.io/1.52/jacobi.html>
-        J = JacobiConformalSpherical(6378137+35, ab=1, bc=2, name='Test')
+        J = ConformalSphere(6378137+35, ab=1, bc=2, name='Test')
         self.test(n, repr(J), "%s(name='Test', a=6378172, ab=1, bc=2, e2ab=0, " % (n,), known=startswith)
 
         n = J.xR.__name__
@@ -174,8 +174,8 @@ class Tests(TestsBase):
         p = J.volume
         self.test(n, p, '1.086869e+21', fmt='%.6e')
 
-        n = JacobiConformalSpherical.__name__
-        J = JacobiConformalSpherical(267.5, 147, 104.5, name='Itokawa25134')
+        n = ConformalSphere.__name__
+        J = ConformalSphere(267.5, 147, 104.5, name='Itokawa25134')
         self.test(n, repr(J), "%s(name='Itokawa25134', a=267.5, ab=147, bc=104.5, e2ab=0, " % (n,), known=startswith, nl=1)
 
         n = J.xyR2.__name__
@@ -188,7 +188,7 @@ class Tests(TestsBase):
         t = p.toDegrees(form=F_DMS)
         self.test(n, t, "('00°00′00.0″N', '046°53′17.58″E')", known=True)
 
-        n = JacobiConformal.xyQ2.name
+        n = ConformalSphere.xyQ2.name
         q = J.xyQ2
         self.test(n, q, '(1.933157, 1.788429)')
 
@@ -393,8 +393,8 @@ if __name__ == '__main__':
 
     t = Tests(__file__, __version__)
     t.testHartzell(triaxials, LatLon)
-    t.testJacobiConformal(triaxials)
-    t.testJacobiConformalSpherical(triaxials)
+    t.testConformalTriaxial(triaxials)
+    t.testConformalSphere(triaxials)
     t.testTriaxial(triaxials)
     if numpy:
         t.testTriaxum5()

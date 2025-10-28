@@ -227,9 +227,9 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="__divmod__"></a><span class="summary-sig-name">__divmod__</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">other</span>)</span><br />
-      Not implemented.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__divmod__" class="summary-sig-name">__divmod__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">scalar</span>)</span><br />
+      Apply <code>scalar</code> divmod to this vector's components.</td>
           <td align="right" valign="top">
             
             
@@ -281,7 +281,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__floor__" class="summary-sig-name">__floor__</a>(<span class="summary-sig-arg">self</span>)</span><br />
-      Return a vector with the <code>floor</code> of these components.</td>
+      Return a vector with the <code>floor</code> of each components.</td>
           <td align="right" valign="top">
             
             
@@ -297,9 +297,10 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="__floordiv__"></a><span class="summary-sig-name">__floordiv__</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">other</span>)</span><br />
-      Not implemented.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__floordiv__" class="summary-sig-name">__floordiv__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">scalar</span>)</span><br />
+      Floor-divide this vector by a scalar, <code>this // 
+      <b>scalar</b></code>.</td>
           <td align="right" valign="top">
             
             
@@ -387,9 +388,10 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="__ifloordiv__"></a><span class="summary-sig-name">__ifloordiv__</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">other</span>)</span><br />
-      Not implemented.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__ifloordiv__" class="summary-sig-name">__ifloordiv__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">scalar</span>)</span><br />
+      Floor-divide this vector by a scalar <i>in-place</i>, <code>this //= 
+      <b>scalar</b></code>.</td>
           <td align="right" valign="top">
             
             
@@ -478,10 +480,11 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="__ipow__"></a><span class="summary-sig-name">__ipow__</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">other</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__ipow__" class="summary-sig-name">__ipow__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">scalar</span>,
         <span class="summary-sig-arg">*mod</span>)</span><br />
-      Not implemented.</td>
+      Raise each component <i>in-place</i> as <code>pow(C, 
+      <b>scalar</b>)</code>.</td>
           <td align="right" valign="top">
             
             
@@ -590,9 +593,9 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="__mod__"></a><span class="summary-sig-name">__mod__</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">other</span>)</span><br />
-      Not implemented.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__mod__" class="summary-sig-name">__mod__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">modulus</span>)</span><br />
+      Apply <code>scalar</code> modulo to this vector's components.</td>
           <td align="right" valign="top">
             
             
@@ -678,10 +681,11 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="__pow__"></a><span class="summary-sig-name">__pow__</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">other</span>,
+          <td><span class="summary-sig"><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__pow__" class="summary-sig-name">__pow__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">scalar</span>,
         <span class="summary-sig-arg">*mod</span>)</span><br />
-      Not implemented.</td>
+      Return a vector with components as <code>pow(C, 
+      <b>scalar</b>)</code>.</td>
           <td align="right" valign="top">
             
             
@@ -699,9 +703,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#__radd__" class="summary-sig-name">__radd__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">other</span>)</span><br />
-      Add this to an other vector (<a 
-      href="pygeodesy.vector3d.Vector3d-class.html" 
-      class="link">Vector3d</a>).</td>
+      Add this vector to an other vector, <code><b>other</b> + this</code>.</td>
           <td align="right" valign="top">
             
             
@@ -865,7 +867,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a name="__rtruediv__"></a><span class="summary-sig-name">__rtruediv__</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">scalar</span>)</span><br />
+        <span class="summary-sig-arg">other</span>)</span><br />
       Not implemented.</td>
           <td align="right" valign="top">
             
@@ -1008,7 +1010,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a name="__rdiv__"></a><span class="summary-sig-name">__rdiv__</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">scalar</span>)</span><br />
+        <span class="summary-sig-arg">other</span>)</span><br />
       Not implemented.</td>
           <td align="right" valign="top">
             
@@ -1105,8 +1107,27 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#dividedBy" class="summary-sig-name">dividedBy</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">divisor</span>)</span><br />
+        <span class="summary-sig-arg">scalar</span>)</span><br />
       Divide this vector by a scalar.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#dividedBy_" class="summary-sig-name">dividedBy_</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">scalar_x</span>,
+        <span class="summary-sig-arg">*y_z</span>)</span><br />
+      Divide this vector by separate X, Y and Z divisors.</td>
           <td align="right" valign="top">
             
             
@@ -1196,6 +1217,43 @@
         <tr>
           <td><span class="summary-sig"><a name="floats"></a><span class="summary-sig-name">floats</span>(<span class="summary-sig-arg">self</span>)</span><br />
       Return the vector with <code>float</code> components.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#floorDividedBy" class="summary-sig-name">floorDividedBy</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">scalar</span>)</span><br />
+      Floor-divide this vector by a scalar.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#floorDividedBy_" class="summary-sig-name">floorDividedBy_</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">scalar_x</span>,
+        <span class="summary-sig-arg">*y_z</span>)</span><br />
+      Floor-divide this vector by separate X, Y and Z divisors.</td>
           <td align="right" valign="top">
             
             
@@ -1402,6 +1460,25 @@
         <span class="summary-sig-arg">other_x</span>,
         <span class="summary-sig-arg">*y_z</span>)</span><br />
       Sum of this vector and separate X, Y and Z components.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.vector3dBase.Vector3dBase-class.html#pow" class="summary-sig-name">pow</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">scalar</span>,
+        <span class="summary-sig-arg">*mod</span>)</span><br />
+      Raise each X, Y and Z to <code>scalar</code> power.</td>
           <td align="right" valign="top">
             
             
@@ -1657,7 +1734,17 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.vector3dBase.Vector3dBase-class.html#x2y2z2" class="summary-name">x2y2z2</a><br />
-      Get the X, Y and Z components <i>squared</i> (3-tuple <code>(x**2, 
+      Get the X, Y and Z components, <i>squared</i> (<a 
+      href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
+      class="link">Vector3Tuple</a>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.vector3dBase.Vector3dBase-class.html#x2y2z23" class="summary-name">x2y2z23</a><br />
+      Get the X, Y and Z components, <i>squared</i> (3-tuple <code>(x**2, 
       y**2, z**2)</code>).
     </td>
   </tr>
@@ -1917,6 +2004,34 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="__divmod__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__divmod__</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">scalar</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Apply <code>scalar</code> divmod to this vector's components.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>scalar</code></strong> - Divisor (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>2-Tuple <code>(d, m)</code> each a <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>.</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="__eq__"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1964,11 +2079,44 @@
     </td>
   </tr></table>
   
-  <p>Return a vector with the <code>floor</code> of these components.</p>
+  <p>Return a vector with the <code>floor</code> of each components.</p>
   <dl class="fields">
     <dt>Returns:</dt>
         <dd>Floor-ed (<a href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>).</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="__floordiv__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__floordiv__</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">scalar</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Floor-divide this vector by a scalar, <code>this // 
+  <b>scalar</b></code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>scalar</code></strong> - The divisor (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Floored quotient (<a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>scalar</code></b>.</li>
+    </ul></dd>
   </dl>
 </td></tr></table>
 </div>
@@ -2092,6 +2240,35 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="__ifloordiv__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__ifloordiv__</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">scalar</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Floor-divide this vector by a scalar <i>in-place</i>, <code>this //= 
+  <b>scalar</b></code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>scalar</code></strong> - The divisor (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>scalar</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="__imatmul__"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -2152,6 +2329,39 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>scalar</code></strong> - Factor (<code>scalar</code>).</li>
     </ul></dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>scalar</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="__ipow__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__ipow__</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">scalar</span>,
+        <span class="sig-arg">*mod</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Raise each component <i>in-place</i> as <code>pow(C, 
+  <b>scalar</b>)</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>scalar</code></strong> - Exponent (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Power (<a href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>scalar</code></b>.</li>
@@ -2322,6 +2532,33 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="__mod__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__mod__</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">modulus</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Apply <code>scalar</code> modulo to this vector's components.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>modulus</code></strong> - Modulus (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Modulo (<a href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>).</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="__mul__"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -2426,6 +2663,39 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="__pow__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__pow__</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">scalar</span>,
+        <span class="sig-arg">*mod</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return a vector with components as <code>pow(C, 
+  <b>scalar</b>)</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>scalar</code></strong> - Exponent (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Power (<a href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>scalar</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="__radd__"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -2442,12 +2712,17 @@
     </td>
   </tr></table>
   
-  <p>Add this to an other vector (<a 
-  href="pygeodesy.vector3d.Vector3d-class.html" 
-  class="link">Vector3d</a>).</p>
+  <p>Add this vector to an other vector, <code><b>other</b> + 
+  this</code>.</p>
   <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>other</code></strong> - The other vector (<a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>).</li>
+    </ul></dd>
     <dt>Returns:</dt>
-        <dd>Vectorial sum (<a href="pygeodesy.vector3d.Vector3d-class.html" 
+        <dd>Sum (<a href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
@@ -2896,7 +3171,7 @@
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">dividedBy</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">divisor</span>)</span>
+        <span class="sig-arg">scalar</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2907,7 +3182,7 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>divisor</code></strong> - The divisor (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>scalar</code></strong> - The divisor (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>New, scaled vector (<a 
@@ -2915,8 +3190,53 @@
           class="link">Vector3d</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>divisor</code></b>.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.VectorError-class.html">VectorError</a></strong></code> - Invalid or zero <b><code>divisor</code></b>.</li>
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>scalar</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.VectorError-class.html">VectorError</a></strong></code> - Invalid or zero <b><code>scalar</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="dividedBy_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">dividedBy_</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">scalar_x</span>,
+        <span class="sig-arg">*y_z</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Divide this vector by separate X, Y and Z divisors.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>scalar_x</code></strong> - X divisor (<code>scalar</code>) or a vector's X, Y, and Z 
+          components as divisors (<code>Cartesian</code>, <a 
+          href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+          class="link">Ecef9Tuple</a>, <code>Nvector</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <a 
+          href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
+          class="link">Vector3Tuple</a>, <a 
+          href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
+          class="link">Vector4Tuple</a>).</li>
+        <li><strong class="pname"><code>y_z</code></strong> - Y and Z divisors (<code>scalar</code>, <code>scalar</code>), 
+          ignored if <b><code>scalar_x</code></b> is not 
+          <code>scalar</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>New, scaled vector (<a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.VectorError-class.html">VectorError</a></strong></code> - Invalid <b><code>scalar_x</code></b> or <b><code>y_z</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -3011,6 +3331,84 @@
         Property <code>length2</code>.
       </p>
 </div></td></tr></table>
+</div>
+<a name="floorDividedBy"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">floorDividedBy</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">scalar</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Floor-divide this vector by a scalar.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>scalar</code></strong> - The divisor (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>New, scaled vector (<a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>scalar</code></b>.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.VectorError-class.html">VectorError</a></strong></code> - Invalid or zero <b><code>scalar</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="floorDividedBy_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">floorDividedBy_</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">scalar_x</span>,
+        <span class="sig-arg">*y_z</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Floor-divide this vector by separate X, Y and Z divisors.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>scalar_x</code></strong> - X divisor (<code>scalar</code>) or a vector's X, Y, and Z 
+          components as divisors (<code>Cartesian</code>, <a 
+          href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+          class="link">Ecef9Tuple</a>, <code>Nvector</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <a 
+          href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
+          class="link">Vector3Tuple</a>, <a 
+          href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
+          class="link">Vector4Tuple</a>).</li>
+        <li><strong class="pname"><code>y_z</code></strong> - Y and Z divisors (<code>scalar</code>, <code>scalar</code>), 
+          ignored if <b><code>scalar_x</code></b> is not 
+          <code>scalar</code>.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>New, scaled vector (<a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.VectorError-class.html">VectorError</a></strong></code> - Invalid <b><code>scalar_x</code></b> or <b><code>y_z</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
 </div>
 <a name="intermediateTo"></a>
 <div>
@@ -3376,12 +3774,44 @@
           <code>scalar</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>New, vectiorial vector (<a 
+        <dd>New, vectorial vector (<a 
           href="pygeodesy.vector3d.Vector3d-class.html" 
           class="link">Vector3d</a>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>other_x</code></b> or <b><code>y_z</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="pow"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">pow</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">scalar</span>,
+        <span class="sig-arg">*mod</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Raise each X, Y and Z to <code>scalar</code> power.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>scalar</code></strong> - Exponent (<code>scalar</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Power (<a href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>).</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Non-scalar <b><code>scalar</code></b>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -3856,12 +4286,40 @@ of 3+ <code>scalar</code> items).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">x2y2z2</h3>
-  <p>Get the X, Y and Z components <i>squared</i> (3-tuple <code>(x**2, 
-  y**2, z**2)</code>).</p>
+  <p>Get the X, Y and Z components, <i>squared</i> (<a 
+  href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
+  class="link">Vector3Tuple</a>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">x2y2z2(<span class="summary-sig-arg">self</span>)</span>
-        - Get the X, Y and Z components <i>squared</i> (3-tuple <code>(x**2, y**2, 
+        - Get the X, Y and Z components, <i>squared</i> (<a 
+href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
+class="link">Vector3Tuple</a>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="x2y2z23"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">x2y2z23</h3>
+  <p>Get the X, Y and Z components, <i>squared</i> (3-tuple <code>(x**2, 
+  y**2, z**2)</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">x2y2z23(<span class="summary-sig-arg">self</span>)</span>
+        - Get the X, Y and Z components, <i>squared</i> (3-tuple <code>(x**2, y**2, 
 z**2)</code>).
     </dd>
     <dt>Set method:</dt>
@@ -3956,7 +4414,7 @@ z**2)</code>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Oct 11 12:24:25 2025
+    Generated by Epydoc 3.0.1 on Tue Oct 28 08:28:12 2025
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

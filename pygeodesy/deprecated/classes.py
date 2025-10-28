@@ -18,11 +18,12 @@ from pygeodesy.namedTuples import Forward4Tuple as _Forward4Tuple, \
                                   UtmUps5Tuple  as _UtmUps5Tuple,  _NamedTuple
 from pygeodesy.props import deprecated_class, deprecated_method
 from pygeodesy.resections import TriAngle5Tuple as _TriAngle5Tuple
+from pygeodesy.triaxials import ConformalSphere, ConformalTriaxial, Conformal2Tuple
 from pygeodesy.trf import TRFXform7Tuple as _TRFXform7Tuple
 from pygeodesy.units import Bearing, Int, Lamd, Lat, Lon, Meter, Phid
 
 __all__ = _ALL_DEPRECATED.deprecated_classes
-__version__ = '25.04.11'
+__version__ = '25.10.25'
 
 
 class _Deprecated_NamedTuple(_NamedTuple):
@@ -233,6 +234,28 @@ def HeightIDWcosineForsytheAndoyerLambert(knots, **kwds):  # PYCHOK no cover
             HeightIDWcosineLaw.__init__(self, knots, corr=2, **beta_name__datum_wrap)
 
     return HeightIDWcosineForsytheAndoyerLambert(knots, **kwds)
+
+
+class JacobiConformal(ConformalTriaxial):
+    '''DEPRECATED on 2025.10.25, use class L{ConformalTriaxial}.'''
+    def __init__(self, *args, **kwds):  # PYCHOK no cover
+        deprecated_class(self.__class__)
+        ConformalTriaxial.__init__(self, *args, **kwds)
+
+
+class JacobiConformalSpherical(ConformalSphere):
+    '''DEPRECATED on 2025.10.25, use class L{ConformalSphere}.'''
+    def __init__(self, *args, **kwds):  # PYCHOK no cover
+        deprecated_class(self.__class__)
+        ConformalSphere.__init__(self, *args, **kwds)
+
+
+class Jacobi2Tuple(Conformal2Tuple):
+    '''DEPRECATED on 25.10.25, use class L{Conformal2Tuple}.
+    '''
+    def __new__(cls, *args, **kwds):
+        deprecated_class(cls)
+        return Conformal2Tuple.__new__(cls, *args, **kwds)
 
 
 class Lam_(Lamd):

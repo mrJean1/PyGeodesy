@@ -14,7 +14,7 @@ from __future__ import division as _; del _  # noqa: E702 ;
 
 from pygeodesy.basics import len2,  typename
 from pygeodesy.constants import EPS, _0_0, _1_0
-from pygeodesy.errors import _AssertionError, ClipError, PointsError
+from pygeodesy.errors import _AssertionError, ClipError, LicenseIssue, PointsError
 from pygeodesy.fmath import fabs,  Fsum
 # from pygeodesy.fsums import Fsum  # from .fmath
 # from pygeodesy.internals import typename  # from .basics
@@ -31,7 +31,7 @@ from pygeodesy.units import Bool, FIx, HeightX, Lat, Lon, Number_
 # from math import fabs  # from .fmath
 
 __all__ = _ALL_LAZY.clipy
-__version__ = '25.05.12'
+__version__ = '25.10.25'
 
 _fj_       = 'fj'
 _original_ = 'original'
@@ -303,10 +303,9 @@ class ClipGH4Tuple(ClipFHP4Tuple):
     _Units_ = ClipFHP4Tuple._Units_
 
 
-def clipGH4(points, corners, closed=False, inull=False, raiser=True, xtend=False, eps=EPS):
+def clipGH4(points, corners, closed=False, inull=False, raiser=True, xtend=False, eps=EPS):  # PYCHOK LicenseIssue
     '''Clip one or more polygons against a clip region or box using the U{Greiner-Hormann
-       <http://www.Inf.USI.CH/hormann/papers/Greiner.1998.ECO.pdf>} algorithm, U{Correia
-       <https://GitHub.com/helderco/univ-polyclip>}'s implementation modified and extended.
+       <http://www.Inf.USI.CH/hormann/papers/Greiner.1998.ECO.pdf>} algorithm, extended.
 
        @arg points: The polygon points and clips (C{LatLon}[]).
        @arg corners: Three or more points defining the clip regions (C{LatLon}[])
@@ -326,19 +325,22 @@ def clipGH4(points, corners, closed=False, inull=False, raiser=True, xtend=False
        @raise ClipError: Insufficient B{C{points}} or B{C{corners}}, an open clip,
                          a I{degenerate case} or I{unhandled} intersection.
 
+       @raise LicenseIssue: See U{issue #83<https://GitHub.com/mrJean1/PyGeodesy/issues/83>},
+                            use function L{clipFHP4} until resolved.
+
        @note: To handle I{degenerate cases} like C{point-edge} and C{point-point}
               intersections, use function L{clipFHP4}.
 
        @see: U{Greiner-Hormann<https://WikiPedia.org/wiki/Greiner–Hormann_clipping_algorithm>},
-             U{Ionel Daniel Stroe<https://Davis.WPI.edu/~matt/courses/clipping/>}, I{Correia}'s
-             U{univ-polyclip<https://GitHub.com/helderco/univ-polyclip>}, class L{BooleanGH}
-             and function L{clipFHP4}.
+             U{Ionel Daniel Stroe<https://Davis.WPI.edu/~matt/courses/clipping/>}, class
+             L{BooleanGH} and function L{clipFHP4}.
     '''
-    S = _MODS.booleans._CompositeGH(points, raiser=raiser, xtend=xtend, eps=eps,
-                                            name__=clipGH4, kind=_points_)
-    C = _4corners(corners)
-    return S._clip(C, False, False, Clas=ClipGH4Tuple, closed=closed, inull=inull,
-                                    raiser=S._raiser, xtend=S._xtend, eps=eps)
+    raise LicenseIssue(83, 'function L{pygeodesy.clipFHP4}')
+#   S = _MODS.booleans._CompositeGH(points, raiser=raiser, xtend=xtend, eps=eps,
+#                                           name__=clipGH4, kind=_points_)
+#   C = _4corners(corners)
+#   return S._clip(C, False, False, Clas=ClipGH4Tuple, closed=closed, inull=inull,
+#                                   raiser=S._raiser, xtend=S._xtend, eps=eps)
 
 
 def _LBtrim(p, q, t):

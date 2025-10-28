@@ -203,7 +203,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'INF', 'INT0', 'MANT_DIG', 'MAX', 'MAX_EXP', 'MIN', 'MIN_EXP', 'NAN', 'NEG0', 'NINF',
                                    'PI', 'PI2', 'PI_2', 'PI3', 'PI_3', 'PI3_2', 'PI4', 'PI_4', 'PI_6',
                                    'R_FM', 'R_GM', 'R_KM', 'R_M', 'R_MA', 'R_MB', 'R_NM', 'R_QM', 'R_SM', 'R_VM',
-                                   'float_', 'float0_', 'isclose', 'isfinite', 'isinf', 'isint0',
+                                   'float_', 'float0_', 'floats_', 'isclose', 'isfinite', 'isinf', 'isint0',
                                    'isnan', 'isnear0', 'isnear1', 'isnear90', 'isneg', 'isneg0', 'isninf', 'isnon0',
                                    'remainder'),
                          datums=_a('Datum', 'Datums', 'Transform', 'Transforms'),
@@ -236,7 +236,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                        elliptic=_a('Elliptic', 'EllipticError', 'Elliptic3Tuple'),
                            epsg=_a('Epsg', 'EPSGError'),
                          errors=_a('AuxError', 'ClipError', 'CrossError', 'GeodesicError', 'IntersectionError',
-                                   'NumPyError', 'LenError', 'LimitError', 'MGRSError',
+                                   'NumPyError', 'LenError', 'LicenseIssue', 'LimitError', 'MGRSError',
                                    'ParseError', 'PointsError', 'RangeError', 'RhumbError',
                                    'SciPyError', 'SciPyWarning', 'TRFError', 'TriangleError', 'UnitError', 'VectorError',
                                    'crosserrors', 'exception_chaining', 'isError', 'limiterrors', 'rangerrors'),
@@ -346,8 +346,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'lrstrip', 'pairs', 'reprs', 'strs', 'unstr'),
                             trf=_a('RefFrame', 'RefFrames', 'TransformXform', 'TRFXform', 'TRFXform7Tuple',
                                    'date2epoch', 'epoch2date', 'trfTransform0', 'trfTransforms', 'trfXform'),
-                      triaxials=_a('BetaOmega2Tuple', 'BetaOmega3Tuple', 'Jacobi2Tuple',
-                                   'JacobiConformal', 'JacobiConformalSpherical',
+                      triaxials=_a('BetaOmega2Tuple', 'BetaOmega3Tuple',
+                                   'ConformalSphere', 'ConformalTriaxial', 'Conformal2Tuple',
                                    'Triaxial', 'Triaxial_', 'TriaxialError', 'Triaxials', 'hartzell4'),
                           units=_a('Azimuth', 'Band', 'Bearing', 'Bearing_', 'Bool',
                                    'Degrees', 'Degrees_', 'Degrees2', 'Distance', 'Distance_', 'Easting', 'Epoch',
@@ -394,6 +394,7 @@ _ALL_DEPRECATED = _NamedEnum_RO(_name='_ALL_DEPRECATED',
                                          'HausdorffCosineAndoyerLambert', 'HausdorffCosineForsytheAndoyerLambert',
                                          'HeightIDW', 'HeightIDW2', 'HeightIDW3', 'HeightIDWcosineAndoyerLambert',
                                          'HeightIDWcosineForsytheAndoyerLambert', 'Helmert7Tuple',
+                                         'JacobiConformal', 'JacobiConformalSpherical', 'Jacobi2Tuple',
                                          'Lam_', 'LatLonExact4Tuple', 'NearestOn4Tuple', 'Ned3Tuple',
                                          'Phi_', 'RefFrameError', 'Rhumb7Tuple', 'RhumbOrder2Tuple',
                                          'Transform7Tuple', 'TriAngle4Tuple', 'UtmUps4Tuple', 'XDist'),
@@ -511,7 +512,7 @@ class _ALL_MODS(_internals._MODS_Base):
 _internals._MODS = _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '25.09.09'
+__version__ = '25.10.25'
 
 
 def _ALL_OTHER(*objs):

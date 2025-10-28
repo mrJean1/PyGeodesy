@@ -224,8 +224,30 @@
         <span class="summary-sig-arg">y</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">z</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">length</span>=<span class="summary-sig-default">1.0</span>)</span><br />
-      Get a 3-D vector at a cartesian <i>on and perpendicular to</i> this 
-      triaxial's surface.</td>
+      Get a 3-D vector <i>on and perpendicular to</i> this triaxial's 
+      surface.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.triaxials.Triaxial_-class.html#normal4" class="summary-sig-name">normal4</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">x_xyz</span>,
+        <span class="summary-sig-arg">y</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">z</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">height</span>=<span class="summary-sig-default">0</span>,
+        <span class="summary-sig-arg">normal</span>=<span class="summary-sig-default">True</span>)</span><br />
+      Compute a cartesian above or below this triaxial's surface.</td>
           <td align="right" valign="top">
             
             
@@ -264,7 +286,27 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.triaxials.Triaxial_-class.html#toEllipsoid" class="summary-sig-name">toEllipsoid</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">**name</span>)</span><br />
-      Convert this triaxial to an <a 
+      Convert this triaxial to a <i>biaxial</i> <a 
+      href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+      class="link">Ellipsoid</a>, provided 2 axes match.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.triaxials.Triaxial_-class.html#toBiaxial" class="summary-sig-name">toBiaxial</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">**name</span>)</span><br />
+      Convert this triaxial to a <i>biaxial</i> <a 
       href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
       class="link">Ellipsoid</a>, provided 2 axes match.</td>
           <td align="right" valign="top">
@@ -354,6 +396,14 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.triaxials.Triaxial_-class.html#a2" class="summary-name">a2</a><br />
+      Get <code>a**2</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.triaxials.Triaxial_-class.html#area" class="summary-name">area</a><br />
       Get the surface area (<code>meter</code> <i>squared</i>).
     </td>
@@ -371,9 +421,25 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.triaxials.Triaxial_-class.html#b2" class="summary-name">b2</a><br />
+      Get <code>b**2</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.triaxials.Triaxial_-class.html#c" class="summary-name">c</a><br />
       Get the <code>smallest, z</code> semi-axis (<code>meter</code>, same 
       units as <b><code>a</code></b>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.triaxials.Triaxial_-class.html#c2" class="summary-name">c2</a><br />
+      Get <code>c**2</code>.
     </td>
   </tr>
 <tr>
@@ -643,7 +709,7 @@
           (<code>bool</code>).</li>
         <li><strong class="pname"><code>eps</code></strong> - Tolerance for root finding and validation (<code>scalar</code>), 
           use a negative value to skip validation.</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=&quot;heigh4&quot;</code> 
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=&quot;height4&quot;</code> 
           (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -692,8 +758,8 @@
     </td>
   </tr></table>
   
-  <p>Get a 3-D vector at a cartesian <i>on and perpendicular to</i> this 
-  triaxial's surface.</p>
+  <p>Get a 3-D vector <i>on and perpendicular to</i> this triaxial's 
+  surface.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -711,13 +777,13 @@
           <b><code>x_xyz</code></b> if <code>scalar</code>, ignored 
           otherwise.</li>
         <li><strong class="pname"><code>z</code></strong> - Z component (<code>scalar</code>), like <b><code>y</code></b>.</li>
-        <li><strong class="pname"><code>length</code></strong> - Optional, signed length and in-/outward direction 
+        <li><strong class="pname"><code>length</code></strong> - Optional, signed length in out-/inward direction 
           (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>A <code>Vector3d(x_, y_, z_)</code> normalized to 
-          <b><code>length</code></b>, pointing in- or outward for neg- 
-          respectively positive <b><code>length</code></b>.</dd>
+          <b><code>length</code></b>, pointing out- or inward for postive 
+          respectively negative <b><code>length</code></b>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.triaxials.TriaxialError-class.html">TriaxialError</a></strong></code> - Zero length cartesian or vector.</li>
@@ -734,6 +800,79 @@
         class="link">Triaxial.height4</a> and <a 
         href="pygeodesy.triaxials.Triaxial_-class.html#sideOf" 
         class="link">Triaxial.sideOf</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="normal4"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">normal4</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">x_xyz</span>,
+        <span class="sig-arg">y</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">z</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">height</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">normal</span>=<span class="sig-default">True</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute a cartesian above or below this triaxial's surface.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x_xyz</code></strong> - X component (<code>scalar</code>) or a cartesian 
+          (<code>Cartesian</code>, <a 
+          href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+          class="link">Ecef9Tuple</a>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <a 
+          href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
+          class="link">Vector3Tuple</a> or <a 
+          href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
+          class="link">Vector4Tuple</a>).</li>
+        <li><strong class="pname"><code>y</code></strong> - Y component (<code>scalar</code>), required if 
+          <b><code>x_xyz</code></b> if <code>scalar</code>, ignored 
+          otherwise.</li>
+        <li><strong class="pname"><code>z</code></strong> - Z component (<code>scalar</code>), like <b><code>y</code></b>.</li>
+        <li><strong class="pname"><code>height</code></strong> - The signed height (<code>scalar</code>, same units as the 
+          triaxial axes).</li>
+        <li><strong class="pname"><code>normal</code></strong> - If <code>True</code>, the <b><code>height</code></b> is 
+          <i>perpendicular, plumb</i> to the triaxial's surface, otherwise 
+          <code>radially</code> to the center of this triaxial 
+          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=&quot;normal4&quot;</code> 
+          (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><a href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
+          class="link">Vector4Tuple</a><code>(x, y, z, h)</code> with the 
+          cartesian coordinates <code>x</code>, <code>y</code> and 
+          <code>z</code> and <code>h</code> the <i>signed, normal 
+          distance</i> to the triaxial's surface in <code>meter</code>, 
+          conventionally.  Positive <code>h</code> indicates, the cartesian
+          is outside the triaxial, negative <code>h</code> means inside.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.triaxials.TriaxialError-class.html">TriaxialError</a></strong></code> - Zero length cartesian or vector.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Cartesian <code>(<b>x</b>, <b>y</b>, <b>z</b>)</code> <i>must be 
+        on</i> this triaxial's surface, use method <a 
+        href="pygeodesy.triaxials.Triaxial_-class.html#sideOf" 
+        class="link">Triaxial.sideOf</a> to validate.
+      </p>
+      <p><strong>See Also:</strong>
+        Methods <a href="pygeodesy.triaxials.Triaxial_-class.html#normal3d"
+        class="link">Triaxial.normal3d</a> and <a 
+        href="pygeodesy.triaxials.Triaxial_-class.html#height4" 
+        class="link">Triaxial.height4</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -770,7 +909,7 @@
           href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
           class="link">Vector4Tuple</a>).</li>
         <li><strong class="pname"><code>y</code></strong> - Y component (<code>scalar</code>), required if 
-          <b><code>x_xyz</code></b> if <code>scalar</code>, ignored 
+          <b><code>x_xyz</code></b> is <code>scalar</code>, ignored 
           otherwise.</li>
         <li><strong class="pname"><code>z</code></strong> - Z component (<code>scalar</code>), like <b><code>y</code></b>.</li>
         <li><strong class="pname"><code>eps</code></strong> - On-surface tolerance (<code>scalar</code>, distance 
@@ -806,7 +945,48 @@
     </td>
   </tr></table>
   
-  <p>Convert this triaxial to an <a 
+  <p>Convert this triaxial to a <i>biaxial</i> <a 
+  href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+  class="link">Ellipsoid</a>, provided 2 axes match.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>An <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a> with north along this <code>Z</code> 
+          axis if <code>a == b</code>, this <code>Y</code> axis if <code>a 
+          == c</code> or this <code>X</code> axis if <code>b == c</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.triaxials.TriaxialError-class.html">TriaxialError</a></strong></code> - This <code>a != b</code>, <code>b != c</code> and <code>c != 
+        a</code>.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <a 
+        href="pygeodesy.ellipsoids.Ellipsoid-class.html#toTriaxial" 
+        class="link">Ellipsoid.toTriaxial</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="toBiaxial"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toBiaxial</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">**name</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert this triaxial to a <i>biaxial</i> <a 
   href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
   class="link">Ellipsoid</a>, provided 2 axes match.</p>
   <dl class="fields">
@@ -900,6 +1080,30 @@ conventionally).
   </dl>
 </td></tr></table>
 </div>
+<a name="a2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">a2</h3>
+  <p>Get <code>a**2</code>.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">a2(<span class="summary-sig-arg">self</span>)</span>
+        - Get <code>a**2</code>.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="area"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -950,6 +1154,30 @@ conventionally).
   </dl>
 </td></tr></table>
 </div>
+<a name="b2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">b2</h3>
+  <p>Get <code>b**2</code>.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">b2(<span class="summary-sig-arg">self</span>)</span>
+        - Get <code>b**2</code>.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="c"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -963,6 +1191,30 @@ conventionally).
     <dd class="value"><span class="summary-sig">c(<span class="summary-sig-arg">self</span>)</span>
         - Get the <code>smallest, z</code> semi-axis (<code>meter</code>, same units 
 as <b><code>a</code></b>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="c2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">c2</h3>
+  <p>Get <code>c**2</code>.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">c2(<span class="summary-sig-arg">self</span>)</span>
+        - Get <code>c**2</code>.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1188,7 +1440,7 @@ as <b><code>a</code></b>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Oct 11 12:24:24 2025
+    Generated by Epydoc 3.0.1 on Tue Oct 28 08:28:11 2025
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

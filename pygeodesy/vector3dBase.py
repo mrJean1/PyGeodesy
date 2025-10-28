@@ -10,9 +10,9 @@ A pure Python implementation of vector-based functions by I{(C) Chris Veness
 
 from pygeodesy.basics import _copysign, islistuple, isscalar, \
                               map1, map2, _signOf, _zip
-from pygeodesy.constants import EPS, EPS0, INT0, PI, PI2, \
-                               _1_0, isnear0, isnear1, isneg0, \
-                               _copysignINF, _float0, _pos_self
+from pygeodesy.constants import EPS, EPS0, INT0, PI, PI2, _1_0, \
+                               _copysignINF, isnear0, isnear1, \
+                               _flipsign, _float0, _pos_self
 from pygeodesy.errors import CrossError, VectorError, _xcallable, _xError
 from pygeodesy.fmath import euclid_, fdot, fdot_, hypot_, hypot2_  # _MODS.fmath.fma
 from pygeodesy.interns import _coincident_, _colinear_, _COMMASPACE_, _xyz_
@@ -29,7 +29,7 @@ from pygeodesy.utily import atan2, sincos2,  fabs
 from math import ceil as _ceil, floor as _floor, trunc as _trunc
 
 __all__ = _ALL_LAZY.vector3dBase
-__version__ = '25.08.31'
+__version__ = '25.10.25'
 
 
 class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
@@ -112,9 +112,20 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
 
     cmp = __cmp__
 
-    def __divmod__(self, other):  # PYCHOK no cover
-        '''Not implemented.'''
-        return _NotImplemented(self, other)
+    def __divmod__(self, scalar):  # PYCHOK no cover
+        '''Apply C{scalar} divmod to this vector's components.
+
+           @arg scalar: Divisor (C{scalar}).
+
+           @return: 2-Tuple C{(d, m)} each a L{Vector3d}.
+        '''
+        s = Scalar(divisor=scalar)
+        d, m = [], []
+        for x in self.xyz3:
+            q, r = divmod(x, s)
+            d.append(q)
+            m.append(r)
+        return self.classof(d), self.classof(m)
 
     def __eq__(self, other):
         '''Is this vector equal to an other vector?
@@ -132,15 +143,22 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
         return _NotImplemented(self)  # must return C{float}
 
     def __floor__(self):  # PYCHOK no cover
-        '''Return a vector with the C{floor} of these components.
+        '''Return a vector with the C{floor} of each components.
 
            @return: Floor-ed (L{Vector3d}).
         '''
         return self._mapped(_floor)
 
-    def __floordiv__(self, other):  # PYCHOK no cover
-        '''Not implemented.'''
-        return _NotImplemented(self, other)
+    def __floordiv__(self, scalar):  # PYCHOK no cover
+        '''Floor-divide this vector by a scalar, C{this // B{scalar}}.
+
+           @arg scalar: The divisor (C{scalar}).
+
+           @return: Floored quotient (L{Vector3d}).
+
+           @raise TypeError: Non-scalar B{C{scalar}}.
+        '''
+        return self.floorDividedBy(scalar)
 
     def __ge__(self, other):
         '''Is this vector longer than or equal to an other vector?
@@ -183,9 +201,14 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
         '''
         return self._xyz(self.plus(other))
 
-    def __ifloordiv__(self, other):  # PYCHOK no cover
-        '''Not implemented.'''
-        return _NotImplemented(self, other)
+    def __ifloordiv__(self, scalar):  # PYCHOK no cover
+        '''Floor-divide this vector by a scalar I{in-place}, C{this //= B{scalar}}.
+
+           @arg scalar: The divisor (C{scalar}).
+
+           @raise TypeError: Non-scalar B{C{scalar}}.
+        '''
+        return self._xyz(self.floorDividedBy(scalar))
 
     def __imatmul__(self, other):  # PYCHOK Python 3.5+
         '''Cross multiply this and an other vector I{in-place}, C{this @= B{other}}.
@@ -215,9 +238,16 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
         '''Not implemented, see method C{ints}.'''
         return _NotImplemented(self)  # must return C{int}
 
-    def __ipow__(self, other, *mod):  # PYCHOK no cover
-        '''Not implemented.'''
-        return _NotImplemented(self, other, *mod)
+    def __ipow__(self, scalar, *mod):  # PYCHOK no cover
+        '''Raise each component I{in-place} as C{pow(C, B{scalar})}.
+
+           @arg scalar: Exponent (C{scalar}).
+
+           @return: Power (L{Vector3d}).
+
+           @raise TypeError: Non-scalar B{C{scalar}}.
+        '''
+        return self._xyz(self.pow(scalar, *mod))
 
     def __isub__(self, other):
         '''Subtract an other vector from this one I{in-place}, C{this -= B{other}}.
@@ -280,9 +310,19 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
         '''
         return self.cross(other)
 
-    def __mod__(self, other):  # PYCHOK no cover
-        '''Not implemented.'''
-        return _NotImplemented(self, other)
+    def __mod__(self, modulus):  # PYCHOK no cover
+        '''Apply C{scalar} modulo to this vector's components.
+
+           @arg modulus: Modulus (C{scalar}).
+
+           @return: Modulo (L{Vector3d}).
+        '''
+        m = Scalar(modulus=modulus)
+
+        def _mod(x):
+            return x % m
+
+        return self._mapped(_mod)
 
     def __mul__(self, scalar):
         '''Multiply this vector by a scalar, C{this * B{scalar}}.
@@ -318,13 +358,29 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
         '''
         return self if _pos_self else self.copy()
 
-    def __pow__(self, other, *mod):  # PYCHOK no cover
-        '''Not implemented.'''
-        return _NotImplemented(self, other, *mod)
+    def __pow__(self, scalar, *mod):  # PYCHOK no cover
+        '''Return a vector with components as C{pow(C, B{scalar})}.
 
-    __radd__ = __add__  # PYCHOK no cover
+           @arg scalar: Exponent (C{scalar}).
 
-    def __rdivmod__ (self, other):  # PYCHOK no cover
+           @return: Power (L{Vector3d}).
+
+           @raise TypeError: Non-scalar B{C{scalar}}.
+        '''
+        return self.pow(scalar, *mod)
+
+    def __radd__(self, other):  # PYCHOK no cover
+        '''Add this vector to an other vector, C{B{other} + this}.
+
+           @arg other: The other vector (L{Vector3d}).
+
+           @return: Sum (L{Vector3d}).
+
+           @raise TypeError: Incompatible B{C{other}} C{type}.
+        '''
+        return self.others(other).plus(self)
+
+    def __rdivmod__(self, other):
         '''Not implemented.'''
         return _NotImplemented(self, other)
 
@@ -333,7 +389,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
 #       '''
 #       return self.toRepr()
 
-    def __rfloordiv__(self, other):  # PYCHOK no cover
+    def __rfloordiv__(self, other):
         '''Not implemented.'''
         return _NotImplemented(self, other)
 
@@ -348,11 +404,11 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
         '''
         return self.others(other).cross(self)
 
-    def __rmod__(self, other):  # PYCHOK no cover
+    def __rmod__(self, other):
         '''Not implemented.'''
         return _NotImplemented(self, other)
 
-    __rmul__ = __mul__
+    __rmul__ = __mul__  # scalar other
 
     def __round__(self, *ndigits):  # PYCHOK no cover
         '''Return a vector with these components C{rounded}.
@@ -361,8 +417,11 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
 
            @return: Rounded (L{Vector3d}).
         '''
+        def _rnd(x):
+            return round(x, *ndigits)
+
         # <https://docs.Python.org/3.12/reference/datamodel.html?#object.__round__>
-        return self.classof(*(round(_, *ndigits) for _ in self.xyz3))
+        return self._mapped(_rnd)
 
     def __rpow__(self, other, *mod):  # PYCHOK no cover
         '''Not implemented.'''
@@ -379,9 +438,9 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
         '''
         return self.others(other).minus(self)
 
-    def __rtruediv__(self, scalar):  # PYCHOK no cover
+    def __rtruediv__(self, other):
         '''Not implemented.'''
-        return _NotImplemented(self, scalar)
+        return _NotImplemented(self, other)
 
 #   def __str__(self):
 #       '''Return the default C{str(self)}.
@@ -527,22 +586,39 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
         '''
         self._crosserrors = bool(raiser)
 
-    def dividedBy(self, divisor):
+    def dividedBy(self, scalar):
         '''Divide this vector by a scalar.
 
-           @arg divisor: The divisor (C{scalar}).
+           @arg scalar: The divisor (C{scalar}).
 
            @return: New, scaled vector (L{Vector3d}).
 
-           @raise TypeError: Non-scalar B{C{divisor}}.
+           @raise TypeError: Non-scalar B{C{scalar}}.
 
-           @raise VectorError: Invalid or zero B{C{divisor}}.
+           @raise VectorError: Invalid or zero B{C{scalar}}.
         '''
-        d = Scalar(divisor=divisor)
+        d = Scalar(divisor=scalar)
         try:
             return self._times(_1_0 / d)
         except (ValueError, ZeroDivisionError) as x:
-            raise VectorError(divisor=divisor, cause=x)
+            raise VectorError(divisor=scalar, cause=x)
+
+    def dividedBy_(self, scalar_x, *y_z):
+        '''Divide this vector by separate X, Y and Z divisors.
+
+           @arg scalar_x: X divisor (C{scalar}) or a vector's
+                          X, Y, and Z components as divisors
+                          (C{Cartesian}, L{Ecef9Tuple}, C{Nvector},
+                          L{Vector3d}, L{Vector3Tuple}, L{Vector4Tuple}).
+           @arg y_z: Y and Z divisors (C{scalar}, C{scalar}), ignored
+                     if B{C{scalar_x}} is not C{scalar}.
+
+           @return: New, scaled vector (L{Vector3d}).
+
+           @raise VectorError: Invalid B{C{scalar_x}} or B{C{y_z}}.
+        '''
+        x, y, z = _xyz3(self.dividedBy_, scalar_x, *y_z)
+        return self.classof(self.x / x, self.y / y, self.z / z)
 
     def dot(self, other):
         '''Compute the dot (scalar) product of this and an other vector.
@@ -595,6 +671,43 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
         '''
         return self._mapped(_float0)
 
+    def floorDividedBy(self, scalar):
+        '''Floor-divide this vector by a scalar.
+
+           @arg scalar: The divisor (C{scalar}).
+
+           @return: New, scaled vector (L{Vector3d}).
+
+           @raise TypeError: Non-scalar B{C{scalar}}.
+
+           @raise VectorError: Invalid or zero B{C{scalar}}.
+        '''
+        d = Scalar(divisor=scalar)
+        try:
+            def _floor_d(x):
+                return x // d
+
+            return self._mapped(_floor_d)
+        except (ValueError, ZeroDivisionError) as x:
+            raise VectorError(divisor=scalar, cause=x)
+
+    def floorDividedBy_(self, scalar_x, *y_z):
+        '''Floor-divide this vector by separate X, Y and Z divisors.
+
+           @arg scalar_x: X divisor (C{scalar}) or a vector's
+                          X, Y, and Z components as divisors
+                          (C{Cartesian}, L{Ecef9Tuple}, C{Nvector},
+                          L{Vector3d}, L{Vector3Tuple}, L{Vector4Tuple}).
+           @arg y_z: Y and Z divisors (C{scalar}, C{scalar}), ignored
+                     if B{C{scalar_x}} is not C{scalar}.
+
+           @return: New, scaled vector (L{Vector3d}).
+
+           @raise VectorError: Invalid B{C{scalar_x}} or B{C{y_z}}.
+        '''
+        x, y, z = _xyz3(self.floorDividedBy_, scalar_x, *y_z)
+        return self.classof(self.x // x, self.y // y, self.z // z)
+
     @Property
     def _fromll(self):
         '''(INTERNAL) Get the latlon reference (C{LatLon}) or C{None}.
@@ -617,11 +730,8 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
             y =  y / z
 #           z = _1_0
         else:
-            if isneg0(z):
-                x = -x
-                y = -y
-            x = _copysignINF(x)
-            y = _copysignINF(y)
+            x = _copysignINF(_flipsign(x, z))
+            y = _copysignINF(_flipsign(y, z))
 #           z =  NAN
         return self.classof(x, y, _1_0)
 
@@ -705,7 +815,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
 
            @see: Properties L{length2} and L{euclid}.
         '''
-        return Float(length=hypot_(self.x, self.y, self.z))
+        return Float(length=hypot_(*self.xyz3))
 
     @Property_RO
     def length2(self):  # __dict__ value overwritten by Property_RO C{_united}
@@ -713,7 +823,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
 
            @see: Property L{length} and method C{equirectangular}.
         '''
-        return Float(length2=hypot2_(self.x, self.y, self.z))
+        return Float(length2=hypot2_(*self.xyz3))
 
     def _mapped(self, func):
         '''(INTERNAL) Apply C{func} to all components.
@@ -815,11 +925,27 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
            @arg y_z: Y and Z components (C{scalar}, C{scalar}),
                      ignored if B{C{other_x}} is not C{scalar}.
 
-           @return: New, vectiorial vector (L{Vector3d}).
+           @return: New, vectorial vector (L{Vector3d}).
 
            @raise ValueError: Invalid B{C{other_x}} or B{C{y_z}}.
         '''
         return self._plus(*_xyz3(self.plus_, other_x, *y_z))
+
+    def pow(self, scalar, *mod):
+        '''Raise each X, Y and Z to C{scalar} power.
+
+           @arg scalar: Exponent (C{scalar}).
+
+           @return: Power (L{Vector3d}).
+
+           @raise TypeError: Non-scalar B{C{scalar}}.
+        '''
+        p = Scalar(power=scalar)
+
+        def _pow(x):
+            return pow(x, p, *mod)
+
+        return self._mapped(_pow)
 
     def rotate(self, axis, theta, fma=False):
         '''Rotate this vector around an axis by a specified angle.
@@ -862,6 +988,16 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
     def rotateAround(self, axis, theta):
         '''DEPRECATED, use method C{rotate}.'''
         return self.rotate(axis, theta)  # PYCHOK no cover
+
+    def _roty(self, *pos, **name):
+        '''(INTERNAL) Prolate rotation, for C{+1 if pos else -1}.
+        '''
+        v = self.copy(**name)
+        if pos:
+            x, _, z = v.xyz3
+            _update_all(v, needed=3)
+            v._x, v._z = (-z, x) if pos[0] else (z, -x)
+        return v
 
     def times(self, factor):
         '''Multiply this vector by a scalar.
@@ -989,8 +1125,10 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
     def _xyz(self, x_xyz, *y_z):
         '''(INTERNAL) Set the C{_x}, C{_y} and C{_z} attributes.
         '''
-        _update_all(self, needed=3)
-        self._x, self._y, self._z = _xyz3(_xyz_, x_xyz, *y_z)
+        xyz = _xyz3(_xyz_, x_xyz, *y_z)
+        if self.xyz3 != xyz:
+            _update_all(self, needed=3)
+            self._x, self._y, self._z = xyz
         return self
 
     @property_RO
@@ -999,9 +1137,15 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
         '''
         return self.x, self.y, self.z
 
-    @property_RO
+    @Property_RO
     def x2y2z2(self):
-        '''Get the X, Y and Z components I{squared} (3-tuple C{(x**2, y**2, z**2)}).
+        '''Get the X, Y and Z components, I{squared} (L{Vector3Tuple}).
+        '''
+        return _MODS.namedTuples.Vector3Tuple(*self.x2y2z23, name=self.name)
+
+    @property_RO
+    def x2y2z23(self):
+        '''Get the X, Y and Z components, I{squared} (3-tuple C{(x**2, y**2, z**2)}).
         '''
         return self.x**2, self.y**2, self.z**2
 
@@ -1037,7 +1181,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
 
 
 def _xyz3(where, x_xyz, *y_z):  # in .cartesianBase._rtp3
-    '''(INTERNAL) Get , Y and Z as 3-tuple C{(x, y, z)}.
+    '''(INTERNAL) Get X, Y and Z as 3-tuple C{(x, y, z)}.
     '''
     try:
         xyz3 = map1(_float0, x_xyz, *y_z) if y_z else (  # islistuple for Vector*Tuple

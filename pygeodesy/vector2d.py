@@ -641,7 +641,7 @@ def triaxum5(points, useZ=True):
     A = []
     for i, p in enumerate(ps):
         v = _otherV3d(useZ=useZ, i=i, points=p)
-        A.append(v.x2y2z2)
+        A.append(v.x2y2z23)
 
     with _numpy(triaxum5, n=n) as _np:
         A = _np.array(A)

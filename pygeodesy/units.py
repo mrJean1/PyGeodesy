@@ -820,6 +820,11 @@ def _isMeter(obj, iscalar=True):
     return isinstance(obj, _Meters) or (iscalar and _isScalar(obj))
 
 
+def _isRadians(obj, iscalar=True):
+    # Check for valid radian types.
+    return isinstance(obj, _Radians) or (iscalar and _isScalar(obj))
+
+
 def _isRadius(obj, iscalar=True):
     # Check for valid earth radius types.
     return isinstance(obj, _Radii) or (iscalar and _isScalar(obj))

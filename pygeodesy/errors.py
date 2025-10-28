@@ -28,7 +28,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _PYTHON_X_DEV
 from copy import copy as _copy
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')  _under
-__version__ = '25.09.04'
+__version__ = '25.10.25'
 
 _argument_   = 'argument'
 _basics      = _MODS.into(basics=__name__)
@@ -253,6 +253,15 @@ class LenError(_ValueError):  # in .ecef, .fmath, .heights, .iters, .named
         vs = _vs__.join(map(str, vs))
         t  = _SPACE_(t, _len_, vs)
         _ValueError.__init__(self, t, txt=txt, cause=x)
+
+
+class LicenseIssue(Exception):
+    '''Error raised to point out a licensing issue, I{while unresolved}.
+    '''
+    def __init__(self, inr, alt):
+        issue = 'see <https://GitHub.com/mrJean1/PyGeodesy/issues/%s>' % (inr,)
+        alternate = 'use %s until resolved' % (alt,)
+        Exception.__init__(self, _COLONSPACE_(issue, alternate))
 
 
 class LimitError(_ValueError):

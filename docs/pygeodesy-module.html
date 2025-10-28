@@ -589,7 +589,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        25.10.10
+        25.10.25
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -974,19 +974,19 @@
         class="link">Triaxial</a> and <i>unordered</i> <a 
         href="pygeodesy.triaxials.Triaxial_-class.html" 
         class="link">Triaxial_</a> and Jacobi conformal projections <a 
-        href="pygeodesy.triaxials.JacobiConformal-class.html" 
-        class="link">JacobiConformal</a> and <a 
-        href="pygeodesy.triaxials.JacobiConformalSpherical-class.html" 
-        class="link">JacobiConformalSpherical</a>, transcoded from 
-        <i>Charles Karney</i>'s C++ class <a 
+        href="pygeodesy.triaxials.ConformalTriaxial-class.html" 
+        class="link">ConformalTriaxial</a> and <a 
+        href="pygeodesy.triaxials.ConformalSphere-class.html" 
+        class="link">ConformalSphere</a>, transcoded from <i>Charles 
+        Karney</i>'s GeographicLib 2.5.2 C++ class <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1JacobiConformal.html#details"
         target="_top">JacobiConformal</a> to pure Python and miscellaneous 
         classes <a href="pygeodesy.triaxials.BetaOmega2Tuple-class.html" 
         class="link">BetaOmega2Tuple</a>, <a 
         href="pygeodesy.triaxials.BetaOmega3Tuple-class.html" 
         class="link">BetaOmega3Tuple</a>, <a 
-        href="pygeodesy.triaxials.Jacobi2Tuple-class.html" 
-        class="link">Jacobi2Tuple</a> and <a 
+        href="pygeodesy.triaxials.Conformal2Tuple-class.html" 
+        class="link">Conformal2Tuple</a> and <a 
         href="pygeodesy.triaxials.TriaxialError-class.html" 
         class="link">TriaxialError</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.units-module.html">pygeodesy.units</a></strong>: <em class="summary">Various named units, all sub-classes of <code>Float</code>, 
@@ -1370,9 +1370,7 @@
       <i>Composite</i> class providing <i>boolean</i> operations between 
         two <i>composites</i> using the <a 
         href="http://www.Inf.USI.CH/hormann/papers/Greiner.1998.ECO.pdf" 
-        target="_top">Greiner-Hormann</a> algorithm and <a 
-        href="https://GitHub.com/helderco/univ-polyclip" 
-        target="_top">Correia</a>'s implementation, modified and extended.
+        target="_top">Greiner-Hormann</a> algorithm, extended.
     </td>
   </tr>
 <tr>
@@ -1655,6 +1653,36 @@
         instance of <b><code>pointA</code></b>'s (sub-)class and triangle 
         sides <code>a</code>, <code>b</code> and <code>c</code> in 
         <code>meter</code>, conventionally.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.triaxials.Conformal2Tuple-class.html" class="summary-name">Conformal2Tuple</a><br />
+      2-Tuple <code>(x, y)</code> with a <i>Jacobi Conformal</i> 
+        <code>x</code> and <code>y</code> projection, both in <a 
+        href="pygeodesy.units.Radians-class.html" class="link">Radians</a> 
+        (or <a href="pygeodesy.units.Degrees-class.html" 
+        class="link">Degrees</a>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.triaxials.ConformalSphere-class.html" class="summary-name">ConformalSphere</a><br />
+      An alternate, <i>spherical Jacobi Conformal</i> projection.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.triaxials.ConformalTriaxial-class.html" class="summary-name">ConformalTriaxial</a><br />
+      This is a <i>Jacobi Conformal</i> projection of a triaxial 
+        ellipsoid to a plane where the <code>X</code> and <code>Y</code> 
+        grid lines are straight.
     </td>
   </tr>
 <tr>
@@ -3474,32 +3502,30 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.triaxials.Jacobi2Tuple-class.html" class="summary-name">Jacobi2Tuple</a><br />
-      2-Tuple <code>(x, y)</code> with a Jacobi Conformal <code>x</code> 
-        and <code>y</code> projection, both in <a 
-        href="pygeodesy.units.Radians-class.html" class="link">Radians</a> 
-        (or <a href="pygeodesy.units.Degrees-class.html" 
-        class="link">Degrees</a>).
+        <a href="pygeodesy.deprecated.classes.Jacobi2Tuple-class.html" class="summary-name">Jacobi2Tuple</a><br />
+      DEPRECATED on 25.10.25, use class <a 
+        href="pygeodesy.triaxials.Conformal2Tuple-class.html" 
+        class="link">Conformal2Tuple</a>.
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.triaxials.JacobiConformal-class.html" class="summary-name">JacobiConformal</a><br />
-      This is a conformal projection of a triaxial ellipsoid to a plane 
-        in which the <code>X</code> and <code>Y</code> grid lines are 
-        straight.
+        <a href="pygeodesy.deprecated.classes.JacobiConformal-class.html" class="summary-name">JacobiConformal</a><br />
+      DEPRECATED on 2025.10.25, use class <a 
+        href="pygeodesy.triaxials.ConformalTriaxial-class.html" 
+        class="link">ConformalTriaxial</a>.
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.triaxials.JacobiConformalSpherical-class.html" class="summary-name">JacobiConformalSpherical</a><br />
-      An alternate, <i>spherical</i> <a 
-        href="pygeodesy.triaxials.JacobiConformal-class.html" 
-        class="link">JacobiConformal</a> projection.
+        <a href="pygeodesy.deprecated.classes.JacobiConformalSpherical-class.html" class="summary-name">JacobiConformalSpherical</a><br />
+      DEPRECATED on 2025.10.25, use class <a 
+        href="pygeodesy.triaxials.ConformalSphere-class.html" 
+        class="link">ConformalSphere</a>.
     </td>
   </tr>
 <tr>
@@ -3787,6 +3813,15 @@
     </td><td class="summary">
         <a href="pygeodesy.errors.LenError-class.html" class="summary-name">LenError</a><br />
       Error raised for mis-matching <code>len</code> values.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.errors.LicenseIssue-class.html" class="summary-name">LicenseIssue</a><br />
+      Error raised to point out a licensing issue, <i>while 
+        unresolved</i>.
     </td>
   </tr>
 <tr>
@@ -6700,9 +6735,7 @@
         <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.220446049250313e-16</span>)</span><br />
       Clip one or more polygons against a clip region or box using the <a 
       href="http://www.Inf.USI.CH/hormann/papers/Greiner.1998.ECO.pdf" 
-      target="_top">Greiner-Hormann</a> algorithm, <a 
-      href="https://GitHub.com/helderco/univ-polyclip" 
-      target="_top">Correia</a>'s implementation modified and extended.</td>
+      target="_top">Greiner-Hormann</a> algorithm, extended.</td>
           <td align="right" valign="top">
             
             
@@ -8733,9 +8766,28 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#float_" class="summary-sig-name">float_</a>(<span class="summary-sig-arg">*fs</span>,
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#float_" class="summary-sig-name">float_</a>(<span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">sets</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Get scalar as <code>float</code> or <i>intern</i>'ed 
+      <code>float</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#floats_" class="summary-sig-name">floats_</a>(<span class="summary-sig-arg">*xs</span>,
         <span class="summary-sig-arg">**sets</span>)</span><br />
-      Get scalars as <code>float</code> or <i>intern</i>'ed 
+      Yield each scalar as <code>float</code> or <i>intern</i>'ed 
       <code>float</code>.</td>
           <td align="right" valign="top">
             
@@ -9420,7 +9472,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f84e0273ad0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fed508148d0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -14626,7 +14678,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'25.10.10'">'25.10.10'</code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'25.10.25'">'25.10.25'</code><br />
       Normalized <code>pygeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -17685,9 +17737,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
   
   <p>Clip one or more polygons against a clip region or box using the <a 
   href="http://www.Inf.USI.CH/hormann/papers/Greiner.1998.ECO.pdf" 
-  target="_top">Greiner-Hormann</a> algorithm, <a 
-  href="https://GitHub.com/helderco/univ-polyclip" 
-  target="_top">Correia</a>'s implementation modified and extended.</p>
+  target="_top">Greiner-Hormann</a> algorithm, extended.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -17718,6 +17768,10 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
         <li><code><strong class='fraise'><a href="pygeodesy.errors.ClipError-class.html">ClipError</a></strong></code> - Insufficient <b><code>points</code></b> or 
         <b><code>corners</code></b>, an open clip, a <i>degenerate case</i>
         or <i>unhandled</i> intersection.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.LicenseIssue-class.html">LicenseIssue</a></strong></code> - See <a href="https://GitHub.com/mrJean1/PyGeodesy/issues/83" 
+        target="_top">issue #83</a>, use function <a 
+        href="pygeodesy.clipy-module.html#clipFHP4" 
+        class="link">clipFHP4</a> until resolved.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
@@ -17731,9 +17785,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
         href="https://WikiPedia.org/wiki/Greiner&#8211;Hormann_clipping_algorithm"
         target="_top">Greiner-Hormann</a>, <a 
         href="https://Davis.WPI.edu/~matt/courses/clipping/" 
-        target="_top">Ionel Daniel Stroe</a>, <i>Correia</i>'s <a 
-        href="https://GitHub.com/helderco/univ-polyclip" 
-        target="_top">univ-polyclip</a>, class <a 
+        target="_top">Ionel Daniel Stroe</a>, class <a 
         href="pygeodesy.booleans.BooleanGH-class.html" 
         class="link">BooleanGH</a> and function <a 
         href="pygeodesy.clipy-module.html#clipFHP4" 
@@ -21558,7 +21610,40 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">float_</span>&nbsp;(<span class="sig-arg">*fs</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">float_</span>&nbsp;(<span class="sig-arg">x</span>,
+        <span class="sig-arg">sets</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get scalar as <code>float</code> or <i>intern</i>'ed 
+  <code>float</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x</code></strong> - The scalar (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>sets</code></strong> - Use <code>True</code> to <code>intern</code> the 
+          <b><code>f</code></b>, otherwise don't (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <code>float</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>x</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="floats_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">floats_</span>&nbsp;(<span class="sig-arg">*xs</span>,
         <span class="sig-arg">**sets</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -21566,21 +21651,18 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
     </td>
   </tr></table>
   
-  <p>Get scalars as <code>float</code> or <i>intern</i>'ed 
+  <p>Yield each scalar as <code>float</code> or <i>intern</i>'ed 
   <code>float</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>fs</code></strong> - One more values (<code>scalar</code>), all positional.</li>
+        <li><strong class="pname"><code>xs</code></strong> - One more values (<code>scalar</code>), all positional.</li>
         <li><strong class="pname"><code>sets</code></strong> - Use <code><b>sets</b>=True</code> to <code>intern</code> each 
           <b><code>fs</code></b>, otherwise don't <code>intern</code>.</li>
     </ul></dd>
-    <dt>Returns:</dt>
-        <dd>A single <code>float</code> if only one <b><code>fs</code></b> is
-          given, otherwise a tuple of <code>float</code>s.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>fs</code></b> is not <code>scalar</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Some <b><code>xs</code></b> is not <code>scalar</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -22947,13 +23029,12 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
           class="link">Triaxial</a>, <a 
           href="pygeodesy.triaxials.Triaxial_-class.html" 
           class="link">Triaxial_</a>, <a 
-          href="pygeodesy.triaxials.JacobiConformal-class.html" 
-          class="link">JacobiConformal</a> or <a 
-          href="pygeodesy.triaxials.JacobiConformalSpherical-class.html" 
-          class="link">JacobiConformalSpherical</a>) or biaxial ellipsoid 
-          (<a href="pygeodesy.datums.Datum-class.html" 
-          class="link">Datum</a>, <a 
-          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          href="pygeodesy.triaxials.ConformalTriaxial-class.html" 
+          class="link">ConformalTriaxial</a> or <a 
+          href="pygeodesy.triaxials.ConformalSphere-class.html" 
+          class="link">ConformalSphere</a>) or biaxial ellipsoid (<a 
+          href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
+          <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
           class="link">Ellipsoid</a>, <a 
           href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
           class="link">Ellipsoid2</a>, <a 
@@ -23009,7 +23090,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f84e0273ad0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fed508148d0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -33635,7 +33716,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Oct 11 12:24:21 2025
+    Generated by Epydoc 3.0.1 on Tue Oct 28 08:28:07 2025
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

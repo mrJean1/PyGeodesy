@@ -92,7 +92,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        25.09.11
+        25.10.15
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -142,9 +142,9 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.constants-module.html#float_" class="summary-sig-name">float_</a>(<span class="summary-sig-arg">*fs</span>,
-        <span class="summary-sig-arg">**sets</span>)</span><br />
-      Get scalars as <code>float</code> or <i>intern</i>'ed 
+          <td><span class="summary-sig"><a href="pygeodesy.constants-module.html#float_" class="summary-sig-name">float_</a>(<span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">sets</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Get scalar as <code>float</code> or <i>intern</i>'ed 
       <code>float</code>.</td>
           <td align="right" valign="top">
             
@@ -163,6 +163,25 @@
         <tr>
           <td><span class="summary-sig"><a name="float0_"></a><span class="summary-sig-name">float0_</span>(<span class="summary-sig-arg">*xs</span>)</span><br />
       Yield <code><b>x</b>s</code> as a non-NEG0 <code>float</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.constants-module.html#floats_" class="summary-sig-name">floats_</a>(<span class="summary-sig-arg">*xs</span>,
+        <span class="summary-sig-arg">**sets</span>)</span><br />
+      Yield each scalar as <code>float</code> or <i>intern</i>'ed 
+      <code>float</code>.</td>
           <td align="right" valign="top">
             
             
@@ -665,7 +684,40 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">float_</span>&nbsp;(<span class="sig-arg">*fs</span>,
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">float_</span>&nbsp;(<span class="sig-arg">x</span>,
+        <span class="sig-arg">sets</span>=<span class="sig-default">False</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get scalar as <code>float</code> or <i>intern</i>'ed 
+  <code>float</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x</code></strong> - The scalar (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>sets</code></strong> - Use <code>True</code> to <code>intern</code> the 
+          <b><code>f</code></b>, otherwise don't (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <code>float</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>x</code></b>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="floats_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">floats_</span>&nbsp;(<span class="sig-arg">*xs</span>,
         <span class="sig-arg">**sets</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -673,21 +725,18 @@
     </td>
   </tr></table>
   
-  <p>Get scalars as <code>float</code> or <i>intern</i>'ed 
+  <p>Yield each scalar as <code>float</code> or <i>intern</i>'ed 
   <code>float</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>fs</code></strong> - One more values (<code>scalar</code>), all positional.</li>
+        <li><strong class="pname"><code>xs</code></strong> - One more values (<code>scalar</code>), all positional.</li>
         <li><strong class="pname"><code>sets</code></strong> - Use <code><b>sets</b>=True</code> to <code>intern</code> each 
           <b><code>fs</code></b>, otherwise don't <code>intern</code>.</li>
     </ul></dd>
-    <dt>Returns:</dt>
-        <dd>A single <code>float</code> if only one <b><code>fs</code></b> is
-          given, otherwise a tuple of <code>float</code>s.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>TypeError</strong></code> - Some <b><code>fs</code></b> is not <code>scalar</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Some <b><code>xs</code></b> is not <code>scalar</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -998,7 +1047,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Oct 11 12:24:21 2025
+    Generated by Epydoc 3.0.1 on Tue Oct 28 08:28:07 2025
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -27,7 +27,7 @@ from os import getenv
 from setuptools import setup
 
 __all__ = ()
-__version__ = '25.10.10'
+__version__ = '25.10.25'
 
 _PACKAGE = 'pygeodesy'  # 'PyGeodesy'
 
@@ -59,7 +59,7 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode', 'are
              'cached', 'Cagnoli', 'cartesian', 'Cassini', 'Cassini-Soldner', 'chord',
              'circle-intersections', 'circumcenter', 'circumcircle', 'circumradius',
              'clip', 'Cohen', 'Cohen-Sutherland', 'Collins', 'composite',
-             'conformal', 'conic', 'constants', 'contact-triangle',
+             'conformal', 'conformal-sphere', 'conic', 'constants', 'contact-triangle',
              'Cook', 'Correia', 'cosines-law', 'coverage', 'curvature', 'cylindrical',
              'datum', 'deprecation', 'deficit', 'development', 'discrete', 'distance', 'Douglas',
              'earth', 'east-north-up', 'eccentricity', 'ECEF', 'elevation', 'ellipsoid',

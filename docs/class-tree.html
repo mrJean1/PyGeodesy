@@ -70,6 +70,10 @@
     <li> <strong class="uidlink">exceptions.Exception</strong>:
       <em class="summary">Common base class for all non-exit exceptions.</em>
     <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.errors.LicenseIssue-class.html">pygeodesy.errors.LicenseIssue</a></strong>:
+      <em class="summary">Error raised to point out a licensing issue, <i>while 
+        unresolved</i>.</em>
+    </li>
     <li> <strong class="uidlink">exceptions.StandardError</strong>:
       <em class="summary">Base class for all standard Python exceptions that do not represent
         interpreter exiting.</em>
@@ -486,9 +490,7 @@
       <em class="summary"><i>Composite</i> class providing <i>boolean</i> operations between 
         two <i>composites</i> using the <a 
         href="http://www.Inf.USI.CH/hormann/papers/Greiner.1998.ECO.pdf" 
-        target="_top">Greiner-Hormann</a> algorithm and <a 
-        href="https://GitHub.com/helderco/univ-polyclip" 
-        target="_top">Correia</a>'s implementation, modified and extended.</em>
+        target="_top">Greiner-Hormann</a> algorithm, extended.</em>
     </li>
     </ul>
     </li>
@@ -881,9 +883,7 @@
       <em class="summary"><i>Composite</i> class providing <i>boolean</i> operations between 
         two <i>composites</i> using the <a 
         href="http://www.Inf.USI.CH/hormann/papers/Greiner.1998.ECO.pdf" 
-        target="_top">Greiner-Hormann</a> algorithm and <a 
-        href="https://GitHub.com/helderco/univ-polyclip" 
-        target="_top">Correia</a>'s implementation, modified and extended.</em>
+        target="_top">Greiner-Hormann</a> algorithm, extended.</em>
     </li>
     </ul>
     </li>
@@ -915,19 +915,19 @@
         href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
         class="link">LatLon</a> points.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
+      <em class="summary">Extended to convert geocentric, <a 
+        href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
+        class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
+        geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
+        class="link">LatLon</a>.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Cartesian-class.html">pygeodesy.ellipsoidalNvector.Cartesian</a></strong>:
       <em class="summary">Extended to convert geocentric, <a 
         href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
         class="link">Cartesian</a> points to <code>Nvector</code> and 
         n-vector-based, geodetic <a 
         href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
-        class="link">LatLon</a>.</em>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
-      <em class="summary">Extended to convert geocentric, <a 
-        href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
-        class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
-        geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
         class="link">LatLon</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
@@ -1588,19 +1588,19 @@
         href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
         class="link">LatLon</a> points.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
+      <em class="summary">Extended to convert geocentric, <a 
+        href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
+        class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
+        geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
+        class="link">LatLon</a>.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Cartesian-class.html">pygeodesy.ellipsoidalNvector.Cartesian</a></strong>:
       <em class="summary">Extended to convert geocentric, <a 
         href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
         class="link">Cartesian</a> points to <code>Nvector</code> and 
         n-vector-based, geodetic <a 
         href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
-        class="link">LatLon</a>.</em>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
-      <em class="summary">Extended to convert geocentric, <a 
-        href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
-        class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
-        geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
         class="link">LatLon</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
@@ -2184,15 +2184,25 @@
     <li> <strong class="uidlink"><a href="pygeodesy.triaxials.Triaxial-class.html">pygeodesy.triaxials.Triaxial</a></strong>:
       <em class="summary"><i>Ordered</i> triaxial ellipsoid.</em>
     <ul>
-    <li> <strong class="uidlink"><a href="pygeodesy.triaxials.JacobiConformal-class.html">pygeodesy.triaxials.JacobiConformal</a></strong>:
-      <em class="summary">This is a conformal projection of a triaxial ellipsoid to a plane 
-        in which the <code>X</code> and <code>Y</code> grid lines are 
-        straight.</em>
+    <li> <strong class="uidlink"><a href="pygeodesy.triaxials.ConformalTriaxial-class.html">pygeodesy.triaxials.ConformalTriaxial</a></strong>:
+      <em class="summary">This is a <i>Jacobi Conformal</i> projection of a triaxial 
+        ellipsoid to a plane where the <code>X</code> and <code>Y</code> 
+        grid lines are straight.</em>
     <ul>
-    <li> <strong class="uidlink"><a href="pygeodesy.triaxials.JacobiConformalSpherical-class.html">pygeodesy.triaxials.JacobiConformalSpherical</a></strong>:
-      <em class="summary">An alternate, <i>spherical</i> <a 
-        href="pygeodesy.triaxials.JacobiConformal-class.html" 
-        class="link">JacobiConformal</a> projection.</em>
+    <li> <strong class="uidlink"><a href="pygeodesy.triaxials.ConformalSphere-class.html">pygeodesy.triaxials.ConformalSphere</a></strong>:
+      <em class="summary">An alternate, <i>spherical Jacobi Conformal</i> projection.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.JacobiConformalSpherical-class.html">pygeodesy.deprecated.classes.JacobiConformalSpherical</a></strong>:
+      <em class="summary">DEPRECATED on 2025.10.25, use class <a 
+        href="pygeodesy.triaxials.ConformalSphere-class.html" 
+        class="link">ConformalSphere</a>.</em>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.JacobiConformal-class.html">pygeodesy.deprecated.classes.JacobiConformal</a></strong>:
+      <em class="summary">DEPRECATED on 2025.10.25, use class <a 
+        href="pygeodesy.triaxials.ConformalTriaxial-class.html" 
+        class="link">ConformalTriaxial</a>.</em>
     </li>
     </ul>
     </li>
@@ -3052,8 +3062,8 @@
         class="link">BetaOmega2Tuple</a>, <a 
         href="pygeodesy.triaxials.BetaOmega3Tuple-class.html" 
         class="link">BetaOmega3Tuple</a> and <a 
-        href="pygeodesy.triaxials.Jacobi2Tuple-class.html" 
-        class="link">Jacobi2Tuple</a>.</em>
+        href="pygeodesy.triaxials.Conformal2Tuple-class.html" 
+        class="link">Conformal2Tuple</a>.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.triaxials.BetaOmega2Tuple-class.html">pygeodesy.triaxials.BetaOmega2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(beta, omega)</code> with <i>ellipsoidal</i> lat- and
@@ -3072,12 +3082,19 @@
         the triaxial's surface (measured along the radial line to the 
         triaxial's center) in <code>meter</code>, conventionally.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.triaxials.Jacobi2Tuple-class.html">pygeodesy.triaxials.Jacobi2Tuple</a></strong>:
-      <em class="summary">2-Tuple <code>(x, y)</code> with a Jacobi Conformal <code>x</code> 
-        and <code>y</code> projection, both in <a 
+    <li> <strong class="uidlink"><a href="pygeodesy.triaxials.Conformal2Tuple-class.html">pygeodesy.triaxials.Conformal2Tuple</a></strong>:
+      <em class="summary">2-Tuple <code>(x, y)</code> with a <i>Jacobi Conformal</i> 
+        <code>x</code> and <code>y</code> projection, both in <a 
         href="pygeodesy.units.Radians-class.html" class="link">Radians</a> 
         (or <a href="pygeodesy.units.Degrees-class.html" 
         class="link">Degrees</a>).</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.Jacobi2Tuple-class.html">pygeodesy.deprecated.classes.Jacobi2Tuple</a></strong>:
+      <em class="summary">DEPRECATED on 25.10.25, use class <a 
+        href="pygeodesy.triaxials.Conformal2Tuple-class.html" 
+        class="link">Conformal2Tuple</a>.</em>
+    </li>
+    </ul>
     </li>
     </ul>
     </li>
@@ -4540,8 +4557,8 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         class="link">BetaOmega2Tuple</a>, <a 
         href="pygeodesy.triaxials.BetaOmega3Tuple-class.html" 
         class="link">BetaOmega3Tuple</a> and <a 
-        href="pygeodesy.triaxials.Jacobi2Tuple-class.html" 
-        class="link">Jacobi2Tuple</a>.</em>
+        href="pygeodesy.triaxials.Conformal2Tuple-class.html" 
+        class="link">Conformal2Tuple</a>.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.triaxials.BetaOmega2Tuple-class.html">pygeodesy.triaxials.BetaOmega2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(beta, omega)</code> with <i>ellipsoidal</i> lat- and
@@ -4560,12 +4577,19 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         the triaxial's surface (measured along the radial line to the 
         triaxial's center) in <code>meter</code>, conventionally.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.triaxials.Jacobi2Tuple-class.html">pygeodesy.triaxials.Jacobi2Tuple</a></strong>:
-      <em class="summary">2-Tuple <code>(x, y)</code> with a Jacobi Conformal <code>x</code> 
-        and <code>y</code> projection, both in <a 
+    <li> <strong class="uidlink"><a href="pygeodesy.triaxials.Conformal2Tuple-class.html">pygeodesy.triaxials.Conformal2Tuple</a></strong>:
+      <em class="summary">2-Tuple <code>(x, y)</code> with a <i>Jacobi Conformal</i> 
+        <code>x</code> and <code>y</code> projection, both in <a 
         href="pygeodesy.units.Radians-class.html" class="link">Radians</a> 
         (or <a href="pygeodesy.units.Degrees-class.html" 
         class="link">Degrees</a>).</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.deprecated.classes.Jacobi2Tuple-class.html">pygeodesy.deprecated.classes.Jacobi2Tuple</a></strong>:
+      <em class="summary">DEPRECATED on 25.10.25, use class <a 
+        href="pygeodesy.triaxials.Conformal2Tuple-class.html" 
+        class="link">Conformal2Tuple</a>.</em>
+    </li>
+    </ul>
     </li>
     </ul>
     </li>
@@ -4623,7 +4647,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Oct 11 12:24:20 2025
+    Generated by Epydoc 3.0.1 on Tue Oct 28 08:28:06 2025
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
