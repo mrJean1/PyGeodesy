@@ -4,13 +4,13 @@
 # Test L{clipy} module.
 
 __all__ = ('Tests',)
-__version__ = '25.10.25'  # 23.03.27
+__version__ = '23.03.27'
 
 from bases import TestsBase
 
 from pygeodesy import F_D, F__F_, boundsOf, clipCS4, \
                ClipError, clipFHP4, ClipFHP4Tuple, \
-               clipLB6, clipSH, clipSH3  # clipGH4
+               clipGH4, clipLB6, clipSH, clipSH3
 
 
 def _lles3(*lles):
@@ -216,8 +216,8 @@ class Tests(TestsBase):
         p = LatLon(0, 0, height=1.),  LatLon(7, 5, height=2.), LatLon(0, 10, height=3.)  # (0, 0)
         q = LatLon(10, 0, height=1.), LatLon(3, 5, height=2.), LatLon(10, 10, height=3.)  # (5, 0)
 
-#       r = clipGH4(p, q, raiser=True)
-#       self.test(clipGH4.__name__, tuple(r), '(ClipGH4Tuple(lat=5.0, lon=3.571429, height=1.714286, clipid=0), ClipGH4Tuple(lat=7.0, lon=5.0, height=2.0, clipid=0), ClipGH4Tuple(lat=5.0, lon=6.428571, height=2.285714, clipid=0), ClipGH4Tuple(lat=3.0, lon=5.0, height=2.0, clipid=0))', nl=1)
+        r = clipGH4(p, q, raiser=True)
+        self.test(clipGH4.__name__, tuple(r), '(ClipGH4Tuple(lat=5.0, lon=3.571429, height=1.714286, clipid=0), ClipGH4Tuple(lat=7.0, lon=5.0, height=2.0, clipid=0), ClipGH4Tuple(lat=5.0, lon=6.428571, height=2.285714, clipid=0), ClipGH4Tuple(lat=3.0, lon=5.0, height=2.0, clipid=0))', nl=1)
 
         r = clipFHP4(p, q)
         self.test(clipFHP4.__name__, tuple(r), '(ClipFHP4Tuple(lat=7.0, lon=5.0, height=2.0, clipid=0), ClipFHP4Tuple(lat=5.0, lon=6.428571, height=2.285714, clipid=0), ClipFHP4Tuple(lat=3.0, lon=5.0, height=2.0, clipid=0), ClipFHP4Tuple(lat=5.0, lon=3.571429, height=1.714286, clipid=0))', nl=1)

@@ -61,7 +61,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d,  _ALL_LAZY, _MODS
 from math import fabs, sqrt
 
 __all__ = _ALL_LAZY.triaxials
-__version__ = '25.10.25'
+__version__ = '25.10.30'
 
 _not_ordered_ = _not_('ordered')
 _omega_       = 'omega'
@@ -323,6 +323,13 @@ class Triaxial_(_NamedEnumItem):
         return self.b**2
 
     @Property_RO
+    def _b2_a2(self):
+        '''(INTERNAL) Get C{(b / a)**2}.
+        '''
+        a, b, _ = self._abc3
+        return (b / a)**2 if a != b else _1_0
+
+    @Property_RO
     def _b2c2(self):
         '''(INTERNAL) Get C{b**2 - c**2} == E_sub_y**2.
         '''
@@ -343,6 +350,13 @@ class Triaxial_(_NamedEnumItem):
         return self.c**2
 
     @Property_RO
+    def _c2_a2(self):
+        '''(INTERNAL) Get C{(c / a)**2}.
+        '''
+        a, _, c = self._abc3
+        return (c / a)**2 if a != c else _1_0
+
+    @Property_RO
     def _c2_b2(self):
         '''(INTERNAL) Get C{(c / b)**2}.
         '''
@@ -353,35 +367,25 @@ class Triaxial_(_NamedEnumItem):
     def e2ab(self):
         '''Get the C{ab} ellipse' I{(1st) eccentricity squared} (C{scalar}), M{1 - (b/a)**2}.
         '''
-        return Float(e2ab=(_1_0 - self._1e2ab) or _0_0)
+        return Float(e2ab=(_1_0 - self._b2_a2) or _0_0)
 
-    @Property_RO
-    def _1e2ab(self):
-        '''(INTERNAL) Get C{1 - e2ab} == C{(b/a)**2}.
-        '''
-        a, b, _ = self._abc3
-        return (b / a)**2 if a != b else _1_0
+#   _1e2ab = _b2_a2  # C{1 - e2ab} == C{(b / a)**2}
 
     @Property_RO
     def e2ac(self):
         '''Get the C{ac} ellipse' I{(1st) eccentricity squared} (C{scalar}), M{1 - (c/a)**2}.
         '''
-        return Float(e2ac=(_1_0 - self._1e2ac) or _0_0)
+        return Float(e2ac=(_1_0 - self._c2_a2) or _0_0)
 
-    @Property_RO
-    def _1e2ac(self):
-        '''(INTERNAL) Get C{1 - e2ac} == C{(c/a)**2}.
-        '''
-        a, _, c = self._abc3
-        return (c / a)**2 if a != c else _1_0
+#   _1e2ac = _c2_a2  # C{1 - e2ac} == C{(c / a)**2}
 
     @Property_RO
     def e2bc(self):
         '''Get the C{bc} ellipse' I{(1st) eccentricity squared} (C{scalar}), M{1 - (c/b)**2}.
         '''
-        return Float(e2bc=(_1_0 - self._1e2bc) or _0_0)
+        return Float(e2bc=(_1_0 - self._c2_b2) or _0_0)
 
-    _1e2bc = _c2_b2  # C{1 - e2bc} == C{(c/b)**2}
+#   _1e2bc = _c2_b2  # C{1 - e2bc} == C{(c / b)**2}
 
     @property_ROver
     def _Elliptic(self):
@@ -493,11 +497,11 @@ class Triaxial_(_NamedEnumItem):
         '''
         # n = 2 * (x / a2, y / b2, z / c2)
         #  == 2 * (x, y * a2 / b2, z * a2 / c2) / a2  # iff ordered
-        #  == 2 * (x, y / _1e2ab, z / _1e2ac) / a2
-        #  == unit(x, y / _1e2ab, z / _1e2ac).times(length)
+        #  == 2 * (x, y / _b2_a2, z / _c2_a2) / a2
+        #  == unit(x, y / _b2_a2, z / _c2_a2).times(length)
         x, y, z = _otherV3d_(x_xyz, y, z).xyz3
-        n = Vector3d(x, y / self._1e2ab,
-                        z / self._1e2ac, name__=self.normal3d)
+        n = Vector3d(x, y / self._b2_a2,
+                        z / self._c2_a2, name__=self.normal3d)
         u = n.length
         if u < EPS0:
             raise TriaxialError(x=x_xyz, y=y, z=z, txt=_null_)
@@ -738,7 +742,7 @@ class Triaxial(Triaxial_):
         if a != b:
             kp2, k2 = self._k2E_kp2E  # swapped!
             aE = self._Elliptic(k2, _0_0, kp2, _1_0)
-            c2 = self._1e2ac      # cos(phi)**2 = (c/a)**2
+            c2 = self._c2_a2      # cos(phi)**2 = (c/a)**2
             s  = sqrt(self.e2ac)  # sin(phi)**2 =  1 - c2
             r  = asin1(s)  # phi = atan2(sqrt(c2), s)
             b *= fsum1f_(aE.fE(r) * s, (c / a) * (c / b),
@@ -784,7 +788,7 @@ class Triaxial(Triaxial_):
         return Vector3Tuple(x, y, z, **name)
 
     def forwardBetaOmega_(self, sbeta, cbeta, somega, comega, **name):
-        '''Convert I{ellipsoidal} lat- and longitude C{beta} and C{omega}
+        '''Convert I{ellipsoidal} lat- C{beta} and longitude C{omega}
            to cartesian coordinates I{on the triaxial's surface}.
 
            @arg sbeta: Ellipsoidal latitude C{sin(beta)} (C{scalar}).
@@ -864,11 +868,11 @@ class Triaxial(Triaxial_):
         ca_x_sb = ca * sb
         h = self._Height(height)
         # 1 - (1 - (c/a)**2) * sa**2 - (1 - (b/a)**2) * ca**2 * sb**2
-        t = fsumf_(_1_0, -self.e2ac * sa**2, -self.e2ab * ca_x_sb**2)
-        n = self.a / _sqrt0(t)  # prime vertical
+        t =  fsumf_(_1_0, -self.e2ac * sa**2, -self.e2ab * ca_x_sb**2)
+        n = _over(self.a, _sqrt0(t))  # prime vertical
         x = (h + n)               * ca * cb
-        y = (h + n * self._1e2ab) * ca_x_sb
-        z = (h + n * self._1e2ac) * sa
+        y = (h + n * self._b2_a2) * ca_x_sb
+        z = (h + n * self._c2_a2) * sa
         return Vector3Tuple(x, y, z, **name)
 
     def _Height(self, height):
@@ -898,8 +902,8 @@ class Triaxial(Triaxial_):
         sa, ca  =  self._norm2(sbeta,  cbeta)
         sb, cb  =  self._norm2(somega, comega)
 
-        b2_a2   =  self._1e2ab  # ==  (b/a)**2
-        c2_a2   = -self._1e2ac  # == -(c/a)**2
+        b2_a2   =  self._b2_a2  # ==  (b/a)**2
+        c2_a2   = -self._c2_a2  # == -(c/a)**2
         a2c2_a2 =  self.  e2ac  # (a**2 - c**2) / a**2 == 1 - (c/a)**2
 
         x2 = _Fsumf_(_1_0, -b2_a2 * sa**2, c2_a2 * ca**2).fover(a2c2_a2)
@@ -988,8 +992,8 @@ class Triaxial(Triaxial_):
                  sites/111/2021/12/09_Panou.pdf>}.
         '''
         v = _otherV3d_(x_xyz, y, z)
-        s =  v.times_(self._1e2ac,  # == 1 - e_sub_x**2
-                      self._1e2bc,  # == 1 - e_sub_y**2
+        s =  v.times_(self._c2_a2,  # == 1 - e_sub_x**2
+                      self._c2_b2,  # == 1 - e_sub_y**2
                      _1_0)
         a, b, h = _reverseLatLon3(s, atan2d, v, self.forwardLatLon_)
         return LatLon3Tuple(Degrees(lat=a), Degrees(lon=b), h, **name)
@@ -1082,7 +1086,7 @@ class ConformalTriaxial(Triaxial):
 
     @Property_RO
     def _yE(self):
-        '''(INTERNAL) Get the x-elliptic function.
+        '''(INTERNAL) Get the y-elliptic function.
         '''
         kp2, k2 = self._k2E_kp2E  # swapped!
         # b2c2 / b2 == (b2 - c2) / b2 == 1 - c2 / b2 == e2bc
@@ -1266,8 +1270,8 @@ def _hartzell3(pov, los, Tun):  # in .Ellipsoid.hartzell4, .formy.hartzell
     a, b, c, T = Tun._ordered4
 
     a2     =  T.a2  # largest, factored out
-    b2, p2 = (T.b2, T._1e2ab) if b != a else (a2, _1_0)
-    c2, q2 = (T.c2, T._1e2ac) if c != a else (a2, _1_0)
+    b2, p2 = (T.b2, T._b2_a2) if b != a else (a2, _1_0)
+    c2, q2 = (T.c2, T._c2_a2) if c != a else (a2, _1_0)
 
     p3 = T._order3d(p3)
     u3 = T._order3d(u3).unit()  # unit vector, opposing signs
@@ -1499,8 +1503,8 @@ def _plumbTo5(x, y, z, Tun, eps=EPS):  # in .testTriaxials
                 w =  fabs(z / c)
                 g = _hypot2_1(u, v, w)
                 if fabs(g) > EPS02:
-                    r = T._1e2ac  # (c / a)**2
-                    s = T._1e2bc  # (c / b)**2
+                    r = T._c2_a2  # (c / a)**2
+                    s = T._c2_b2  # (c / b)**2
                     t, i = _rootNd(_1_0 / r, _1_0 / s, u, v, w, g)  # eps
                     a = _over(x, t * r + _1_0)
                     b = _over(y, t * s + _1_0)

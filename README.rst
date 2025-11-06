@@ -140,7 +140,7 @@ PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 2.7.18, both in 64-bit on 
 
 For a summary of all *Karney*-based functionality in ``pygeodesy``, see module karney_.
 
-*Last updated: Oct 25, 2025.*
+*Last updated: Nov 05, 2025.*
 
 License
 =======
@@ -169,7 +169,7 @@ DEALINGS IN THE SOFTWARE.
   :target: https://CI.AppVeyor.com/project/mrJean1/PyGeodesy/branch/master
 .. image:: https://Img.Shields.io/cirrus/github/mrJean1/PyGeodesy?branch=master&label=Cirrus
   :target: https://Cirrus-CI.com/github/mrJean1/pygeodesy
-.. image:: https://Img.Shields.io/badge/coverage-94%25-brightgreen
+.. image:: https://Img.Shields.io/badge/coverage-95%25-brightgreen
   :target: https://GitHub.com/mrJean1/PyGeodesy/blob/master/testcoverage.pdf
 .. image:: https://Img.Shields.io/pypi/wheel/pygeodesy.svg
   :target: https://PyPI.org/project/pygeodesy/#files

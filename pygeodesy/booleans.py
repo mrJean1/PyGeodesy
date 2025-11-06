@@ -20,9 +20,8 @@ from __future__ import division as _; del _  # noqa: E702 ;
 from pygeodesy.basics import _isin, isodd, issubclassof, map2, \
                              _xscalar,  typename
 from pygeodesy.constants import EPS, EPS2, INT0, _0_0, _0_5, _1_0
-from pygeodesy.errors import ClipError, _IsnotError, LicenseIssue, \
-                            _TypeError, _ValueError, _xattr, \
-                            _xkwds_get, _xkwds_pop2
+from pygeodesy.errors import ClipError, _IsnotError, _TypeError, \
+                            _ValueError, _xattr, _xkwds_get, _xkwds_pop2
 from pygeodesy.fmath import favg, Fdot_, fdot_, hypot, hypot2
 # from pygeodesy.fsums import fsum1  # _MODS
 # from pygeodesy.internals import typename  # from .basics
@@ -46,7 +45,7 @@ from pygeodesy.utily import fabs, _unrollon, _Wrap
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.booleans
-__version__ = '25.10.25'
+__version__ = '25.10.30'
 
 _0EPS  =  EPS  # near-zero, positive
 _EPS0  = -EPS  # near-zero, negative
@@ -1433,44 +1432,41 @@ class _CompositeGH(_CompositeBase):
             self._raiser = True
         _CompositeBase.__init__(self, lls, **name_kind_eps)
 
-    def _clip(self, corners, s_entry, c_entry, Clas=None,  # PYCHOK LicenseIssue
+    def _clip(self, corners, s_entry, c_entry, Clas=None,
                            **closed_inull_raiser_xtend_eps):
-        # Clip this polygon with another one, C{corners}.
+        # Clip this polygon with another one, C{corners}, using
+        # Greiner/Hormann's algorithm extended to optionally
+        # handle some so-called "degenerate cases"
+        S = self
+        C = self._class(corners, closed_inull_raiser_xtend_eps,
+                                 raiser=False, xtend=False)
+        bt = C._bottom_top_eps2
+        lr = C._left_right_eps2
+        # 1. find intersections
+        for s1, s2, Sc in S._edges3(**closed_inull_raiser_xtend_eps):
+            if not (_outside(s1.x, s2.x, *lr) or
+                    _outside(s1.y, s2.y, *bt)):
+                e = _EdgeGH(s1, s2, **closed_inull_raiser_xtend_eps)
+                if e._hypot2 > EPS2:  # non-null edge
+                    for c1, c2, Cc in C._edges3(**closed_inull_raiser_xtend_eps):
+                        for y, x, sa, ca in e._intersect4(c1, c2):
+                            s = Sc._insert(y, x, s1, s2, sa)
+                            c = Cc._insert(y, x, c1, c2, ca)
+                            s._link(c)
 
-        # Core of Greiner/Hormann's algorithm extended to
-        # optionally handle so-called "degenerate cases"
-        raise LicenseIssue(83, 'class L{pygeodesy.BooleanFHP}')
-#       S = self
-#       C = self._class(corners, closed_inull_raiser_xtend_eps,
-#                                raiser=False, xtend=False)
-#       bt = C._bottom_top_eps2
-#       lr = C._left_right_eps2
-#
-#       # 1. find intersections
-#       for s1, s2, Sc in S._edges3(**closed_inull_raiser_xtend_eps):
-#           if not (_outside(s1.x, s2.x, *lr) or
-#                   _outside(s1.y, s2.y, *bt)):
-#               e = _EdgeGH(s1, s2, **closed_inull_raiser_xtend_eps)
-#               if e._hypot2 > EPS2:  # non-null edge
-#                   for c1, c2, Cc in C._edges3(**closed_inull_raiser_xtend_eps):
-#                       for y, x, sa, ca in e._intersect4(c1, c2):
-#                           s = Sc._insert(y, x, s1, s2, sa)
-#                           c = Cc._insert(y, x, c1, c2, ca)
-#                           s._link(c)
-#
-#       # 2. identify entry/exit intersections
-#       if S._first:
-#           s_entry ^= S._first._isinside(C, *bt)
-#           for v in S._intersections():
-#               v._entry = s_entry = not s_entry
-#
-#       if C._first:
-#           c_entry ^= C._first._isinside(S)
-#           for v in C._intersections():
-#               v._entry = c_entry = not c_entry
-#
-#       # 3. yield the result(s)
-#       return S._results(S._presults(), Clas, **closed_inull_raiser_xtend_eps)
+        # 2. identify entry/exit intersections
+        if S._first:
+            s_entry ^= S._first._isinside(C, *bt)
+            for v in S._intersections():
+                v._entry = s_entry = not s_entry
+
+        if C._first:
+            c_entry ^= C._first._isinside(S)
+            for v in C._intersections():
+                v._entry = c_entry = not c_entry
+
+        # 3. yield the result(s)
+        return S._results(S._presults(), Clas, **closed_inull_raiser_xtend_eps)
 
     @property_RO
     def _first(self):
@@ -1508,13 +1504,13 @@ class _CompositeGH(_CompositeBase):
 
     @property
     def xtend(self):
-        '''Get the option to handle I{degenerate cases} (C{bool}).
+        '''Get the option to handle some I{degenerate cases} (C{bool}).
         '''
         return self._xtend
 
     @xtend.setter  # PYCHOK setter!
     def xtend(self, xtend):
-        '''Set the option to handle I{degenerate cases} (C{bool}).
+        '''Set the option to handle some I{degenerate cases} (C{bool}).
         '''
         self._xtend = bool(xtend)
 
@@ -1843,9 +1839,6 @@ class BooleanGH(_CompositeGH, _BooleanBase):
         -  A == B     or  A != B,  equivalent A and B clips
 
         -  A.isequalTo(B, eps), equivalent within tolerance
-
-       @raise LicenseIssue: See U{issue #83<https://GitHub.com/mrJean1/PyGeodesy/issues/83>},
-                            use class L{BooleanFHP} until resolved.
 
        @note: To handle I{degenerate cases} like C{point-edge} and
               C{point-point} intersections, use class L{BooleanFHP}.

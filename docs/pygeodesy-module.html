@@ -589,7 +589,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        25.10.25
+        25.11.05
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -3819,15 +3819,6 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.errors.LicenseIssue-class.html" class="summary-name">LicenseIssue</a><br />
-      Error raised to point out a licensing issue, <i>while 
-        unresolved</i>.
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
         <a href="pygeodesy.errors.LimitError-class.html" class="summary-name">LimitError</a><br />
       Error raised for lat- or longitudinal values or deltas exceeding 
         the given <b><code>limit</code></b> in functions <a 
@@ -5587,7 +5578,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#SinCos2" class="summary-sig-name">SinCos2</a>(<span class="summary-sig-arg">x</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#SinCos2" class="summary-sig-name">SinCos2</a>(<span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">unit</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.units.Radians'&gt;</span>)</span><br />
       Get <code>sin</code> and <code>cos</code> of <i>typed</i> angle.</td>
           <td align="right" valign="top">
             
@@ -9472,7 +9464,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fed508148d0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fa1003598d0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -14678,7 +14670,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'25.10.25'">'25.10.25'</code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'25.11.5'">'25.11.5'</code><br />
       Normalized <code>pygeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -15600,7 +15592,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">SinCos2</span>&nbsp;(<span class="sig-arg">x</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">SinCos2</span>&nbsp;(<span class="sig-arg">x</span>,
+        <span class="sig-arg">unit</span>=<span class="sig-default">&lt;class 'pygeodesy.units.Radians'&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -15615,6 +15608,11 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
           class="link">Degrees</a>, <a 
           href="pygeodesy.units.Radians-class.html" 
           class="link">Radians</a> or scalar <code>radians</code>).</li>
+        <li><strong class="pname"><code>unit</code></strong> - The <code><b>x</b></code> unit (<a 
+          href="pygeodesy.units.Degrees-class.html" 
+          class="link">Degrees</a>, <a 
+          href="pygeodesy.units.Radians-class.html" 
+          class="link">Radians</a>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>2-Tuple (<code>sin(<b>x</b>)</code>, <code>cos(<b>x</b>)</code>).</dd>
@@ -17696,8 +17694,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
         <dd>Yield a <a href="pygeodesy.clipy.ClipFHP4Tuple-class.html" 
           class="link">ClipFHP4Tuple</a><code>(lat, lon, height, 
           clipid)</code> for each clipped point.  The result may consist of
-          several clips, each a (closed) polygon with a unique 
-          <code>clipid</code>.</dd>
+          several <i>clips</i>, each a (closed) polygon with a unique 
+          <code>clipid</code> identifier.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.ClipError-class.html">ClipError</a></strong></code> - Insufficient <b><code>points</code></b> or 
@@ -17707,11 +17705,9 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
 <div class="fields">      <p><strong>See Also:</strong>
         <a 
         href="https://www.ScienceDirect.com/science/article/pii/S259014861930007X"
-        target="_top">Forster, Hormann and Popa</a>, class <a 
+        target="_top">Forster, Hormann and Popa</a> and class <a 
         href="pygeodesy.booleans.BooleanFHP-class.html" 
-        class="link">BooleanFHP</a> and function <a 
-        href="pygeodesy.clipy-module.html#clipGH4" 
-        class="link">clipGH4</a>.
+        class="link">BooleanFHP</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -17761,35 +17757,27 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
         <dd>Yield a <a href="pygeodesy.clipy.ClipGH4Tuple-class.html" 
           class="link">ClipGH4Tuple</a><code>(lat, lon, height, 
           clipid)</code> for each clipped point.  The result may consist of
-          several clips, each a (closed) polygon with a unique 
-          <code>clipid</code>.</dd>
+          several <i>clips</i>, each a (closed) polygon with a unique 
+          <code>clipid</code> identifier.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.errors.ClipError-class.html">ClipError</a></strong></code> - Insufficient <b><code>points</code></b> or 
         <b><code>corners</code></b>, an open clip, a <i>degenerate case</i>
         or <i>unhandled</i> intersection.</li>
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.LicenseIssue-class.html">LicenseIssue</a></strong></code> - See <a href="https://GitHub.com/mrJean1/PyGeodesy/issues/83" 
-        target="_top">issue #83</a>, use function <a 
-        href="pygeodesy.clipy-module.html#clipFHP4" 
-        class="link">clipFHP4</a> until resolved.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>Note:</strong>
         To handle <i>degenerate cases</i> like <code>point-edge</code> and 
-        <code>point-point</code> intersections, use function <a 
-        href="pygeodesy.clipy-module.html#clipFHP4" 
+        <code>point-point</code> intersections <i>properly</i>, use 
+        function <a href="pygeodesy.clipy-module.html#clipFHP4" 
         class="link">clipFHP4</a>.
       </p>
       <p><strong>See Also:</strong>
         <a 
         href="https://WikiPedia.org/wiki/Greiner&#8211;Hormann_clipping_algorithm"
-        target="_top">Greiner-Hormann</a>, <a 
-        href="https://Davis.WPI.edu/~matt/courses/clipping/" 
-        target="_top">Ionel Daniel Stroe</a>, class <a 
+        target="_top">Greiner-Hormann</a> and class <a 
         href="pygeodesy.booleans.BooleanGH-class.html" 
-        class="link">BooleanGH</a> and function <a 
-        href="pygeodesy.clipy-module.html#clipFHP4" 
-        class="link">clipFHP4</a>.
+        class="link">BooleanGH</a>.
       </p>
 </div></td></tr></table>
 </div>
@@ -23090,7 +23078,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fed508148d0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fa1003598d0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -33716,7 +33704,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Oct 28 08:28:07 2025
+    Generated by Epydoc 3.0.1 on Thu Nov  6 10:52:29 2025
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

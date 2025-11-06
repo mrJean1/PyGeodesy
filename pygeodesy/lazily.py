@@ -236,7 +236,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                        elliptic=_a('Elliptic', 'EllipticError', 'Elliptic3Tuple'),
                            epsg=_a('Epsg', 'EPSGError'),
                          errors=_a('AuxError', 'ClipError', 'CrossError', 'GeodesicError', 'IntersectionError',
-                                   'NumPyError', 'LenError', 'LicenseIssue', 'LimitError', 'MGRSError',
+                                   'NumPyError', 'LenError', 'LimitError', 'MGRSError',
                                    'ParseError', 'PointsError', 'RangeError', 'RhumbError',
                                    'SciPyError', 'SciPyWarning', 'TRFError', 'TriangleError', 'UnitError', 'VectorError',
                                    'crosserrors', 'exception_chaining', 'isError', 'limiterrors', 'rangerrors'),
@@ -348,7 +348,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'date2epoch', 'epoch2date', 'trfTransform0', 'trfTransforms', 'trfXform'),
                       triaxials=_a('BetaOmega2Tuple', 'BetaOmega3Tuple',
                                    'ConformalSphere', 'ConformalTriaxial', 'Conformal2Tuple',
-                                   'Triaxial', 'Triaxial_', 'TriaxialError', 'Triaxials', 'hartzell4'),
+                                   'Triaxial', 'Triaxial_', 'TriaxialError', 'Triaxials', 'hartzell4'),  # 'height4'
                           units=_a('Azimuth', 'Band', 'Bearing', 'Bearing_', 'Bool',
                                    'Degrees', 'Degrees_', 'Degrees2', 'Distance', 'Distance_', 'Easting', 'Epoch',
                                    'Feet', 'FIx', 'Float_', 'Height', 'Height_', 'HeightX', 'Int_',
@@ -512,7 +512,7 @@ class _ALL_MODS(_internals._MODS_Base):
 _internals._MODS = _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '25.10.25'
+__version__ = '25.10.30'
 
 
 def _ALL_OTHER(*objs):

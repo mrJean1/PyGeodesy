@@ -989,9 +989,9 @@ pygeodesy.clipy.isconvex_	pygeodesy.points-module.html#isconvex_
 pygeodesy.clipy.__package__	pygeodesy.clipy-module.html#__package__
 pygeodesy.clipy.clipCS4	pygeodesy.clipy-module.html#clipCS4
 pygeodesy.clipy.len2	pygeodesy.basics-module.html#len2
-pygeodesy.clipy._fj_	pygeodesy.clipy-module.html#_fj_
 pygeodesy.clipy._original_	pygeodesy.clipy-module.html#_original_
 pygeodesy.clipy._neq	pygeodesy.clipy-module.html#_neq
+pygeodesy.clipy._fj_	pygeodesy.clipy-module.html#_fj_
 pygeodesy.clipy._4corners	pygeodesy.clipy-module.html#_4corners
 pygeodesy.clipy.areaOf	pygeodesy.points-module.html#areaOf
 pygeodesy.clipy.clipGH4	pygeodesy.clipy-module.html#clipGH4
@@ -1000,8 +1000,8 @@ pygeodesy.clipy._box4	pygeodesy.clipy-module.html#_box4
 pygeodesy.clipy.__all__	pygeodesy.clipy-module.html#__all__
 pygeodesy.clipy.clipLB6	pygeodesy.clipy-module.html#clipLB6
 pygeodesy.clipy.clipSH3	pygeodesy.clipy-module.html#clipSH3
-pygeodesy.clipy.clipSH	pygeodesy.clipy-module.html#clipSH
 pygeodesy.clipy.typename	pygeodesy.internals-module.html#typename
+pygeodesy.clipy.clipSH	pygeodesy.clipy-module.html#clipSH
 pygeodesy.constants	pygeodesy.constants-module.html
 pygeodesy.constants.MIN	pygeodesy.constants-module.html#MIN
 pygeodesy.constants.NAN	pygeodesy.constants-module.html#NAN
@@ -9478,7 +9478,7 @@ pygeodesy.triaxials.Triaxial.forwardLatLon_	pygeodesy.triaxials.Triaxial-class.h
 pygeodesy.triaxials.Triaxial_._order_ijk	pygeodesy.triaxials.Triaxial_-class.html#_order_ijk
 pygeodesy.triaxials.Triaxial_._c2_b2	pygeodesy.triaxials.Triaxial_-class.html#_c2_b2
 pygeodesy.triaxials.Triaxial_.area_p	pygeodesy.triaxials.Triaxial_-class.html#area_p
-pygeodesy.triaxials.Triaxial_._1e2bc	pygeodesy.triaxials.Triaxial_-class.html#_1e2bc
+pygeodesy.triaxials.Triaxial_.b2	pygeodesy.triaxials.Triaxial_-class.html#b2
 pygeodesy.named._Named.sizeof	pygeodesy.named._Named-class.html#sizeof
 pygeodesy.triaxials.ConformalTriaxial.xyR2_	pygeodesy.triaxials.ConformalTriaxial-class.html#xyR2_
 pygeodesy.triaxials.Triaxial_._kji	pygeodesy.triaxials.Triaxial_-class.html#_kji
@@ -9518,8 +9518,6 @@ pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named._notImplemented	pygeodesy.named._Named-class.html#_notImplemented
 pygeodesy.triaxials.Triaxial_.volume	pygeodesy.triaxials.Triaxial_-class.html#volume
 pygeodesy.named._NamedEnumItem._register	pygeodesy.named._NamedEnumItem-class.html#_register
-pygeodesy.triaxials.Triaxial_._1e2ab	pygeodesy.triaxials.Triaxial_-class.html#_1e2ab
-pygeodesy.triaxials.Triaxial_._1e2ac	pygeodesy.triaxials.Triaxial_-class.html#_1e2ac
 pygeodesy.triaxials.Triaxial_.c2	pygeodesy.triaxials.Triaxial_-class.html#c2
 pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.triaxials.Triaxial_.b	pygeodesy.triaxials.Triaxial_-class.html#b
@@ -9533,7 +9531,6 @@ pygeodesy.triaxials.Triaxial_.normal3d	pygeodesy.triaxials.Triaxial_-class.html#
 pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
 pygeodesy.triaxials.Triaxial_.isOrdered	pygeodesy.triaxials.Triaxial_-class.html#isOrdered
 pygeodesy.named._NamedBase._update	pygeodesy.named._NamedBase-class.html#_update
-pygeodesy.triaxials.Triaxial_.b2	pygeodesy.triaxials.Triaxial_-class.html#b2
 pygeodesy.triaxials.ConformalTriaxial.xyR2	pygeodesy.triaxials.ConformalTriaxial-class.html#xyR2
 pygeodesy.triaxials.Triaxial_.isSpherical	pygeodesy.triaxials.Triaxial_-class.html#isSpherical
 pygeodesy.deprecated.classes.JacobiConformal.__init__	pygeodesy.deprecated.classes.JacobiConformal-class.html#__init__
@@ -9548,6 +9545,8 @@ pygeodesy.triaxials.ConformalTriaxial.xyQ2	pygeodesy.triaxials.ConformalTriaxial
 pygeodesy.triaxials.Triaxial_.a2	pygeodesy.triaxials.Triaxial_-class.html#a2
 pygeodesy.triaxials.Triaxial_._b2c2	pygeodesy.triaxials.Triaxial_-class.html#_b2c2
 pygeodesy.triaxials.Triaxial_.a	pygeodesy.triaxials.Triaxial_-class.html#a
+pygeodesy.triaxials.Triaxial_._b2_a2	pygeodesy.triaxials.Triaxial_-class.html#_b2_a2
+pygeodesy.triaxials.Triaxial_._c2_a2	pygeodesy.triaxials.Triaxial_-class.html#_c2_a2
 pygeodesy.triaxials.ConformalTriaxial._xE	pygeodesy.triaxials.ConformalTriaxial-class.html#_xE
 pygeodesy.triaxials.ConformalTriaxial.yR_	pygeodesy.triaxials.ConformalTriaxial-class.html#yR_
 pygeodesy.triaxials.Triaxial_.toEllipsoid	pygeodesy.triaxials.Triaxial_-class.html#toEllipsoid
@@ -9585,7 +9584,7 @@ pygeodesy.triaxials.Triaxial.forwardLatLon_	pygeodesy.triaxials.Triaxial-class.h
 pygeodesy.triaxials.Triaxial_._order_ijk	pygeodesy.triaxials.Triaxial_-class.html#_order_ijk
 pygeodesy.triaxials.Triaxial_._c2_b2	pygeodesy.triaxials.Triaxial_-class.html#_c2_b2
 pygeodesy.triaxials.ConformalSphere.radius	pygeodesy.triaxials.ConformalSphere-class.html#radius
-pygeodesy.triaxials.Triaxial_._1e2bc	pygeodesy.triaxials.Triaxial_-class.html#_1e2bc
+pygeodesy.triaxials.Triaxial_.b2	pygeodesy.triaxials.Triaxial_-class.html#b2
 pygeodesy.named._Named.sizeof	pygeodesy.named._Named-class.html#sizeof
 pygeodesy.triaxials.ConformalTriaxial.xyR2_	pygeodesy.triaxials.ConformalTriaxial-class.html#xyR2_
 pygeodesy.triaxials.Triaxial_._kji	pygeodesy.triaxials.Triaxial_-class.html#_kji
@@ -9627,8 +9626,6 @@ pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named._notImplemented	pygeodesy.named._Named-class.html#_notImplemented
 pygeodesy.triaxials.Triaxial_.volume	pygeodesy.triaxials.Triaxial_-class.html#volume
 pygeodesy.named._NamedEnumItem._register	pygeodesy.named._NamedEnumItem-class.html#_register
-pygeodesy.triaxials.Triaxial_._1e2ab	pygeodesy.triaxials.Triaxial_-class.html#_1e2ab
-pygeodesy.triaxials.Triaxial_._1e2ac	pygeodesy.triaxials.Triaxial_-class.html#_1e2ac
 pygeodesy.triaxials.Triaxial_.c2	pygeodesy.triaxials.Triaxial_-class.html#c2
 pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.triaxials.Triaxial_.b	pygeodesy.triaxials.Triaxial_-class.html#b
@@ -9643,7 +9640,6 @@ pygeodesy.triaxials.Triaxial_.normal3d	pygeodesy.triaxials.Triaxial_-class.html#
 pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
 pygeodesy.triaxials.Triaxial_.isOrdered	pygeodesy.triaxials.Triaxial_-class.html#isOrdered
 pygeodesy.triaxials.ConformalSphere.ab	pygeodesy.triaxials.ConformalSphere-class.html#ab
-pygeodesy.triaxials.Triaxial_.b2	pygeodesy.triaxials.Triaxial_-class.html#b2
 pygeodesy.triaxials.ConformalTriaxial.xyR2	pygeodesy.triaxials.ConformalTriaxial-class.html#xyR2
 pygeodesy.triaxials.Triaxial_.isSpherical	pygeodesy.triaxials.Triaxial_-class.html#isSpherical
 pygeodesy.deprecated.classes.JacobiConformalSpherical.__init__	pygeodesy.deprecated.classes.JacobiConformalSpherical-class.html#__init__
@@ -9659,6 +9655,8 @@ pygeodesy.triaxials.Triaxial_.a2	pygeodesy.triaxials.Triaxial_-class.html#a2
 pygeodesy.triaxials.ConformalSphere._ab	pygeodesy.triaxials.ConformalSphere-class.html#_ab
 pygeodesy.triaxials.ConformalSphere._b2c2	pygeodesy.triaxials.ConformalSphere-class.html#_b2c2
 pygeodesy.triaxials.Triaxial_.a	pygeodesy.triaxials.Triaxial_-class.html#a
+pygeodesy.triaxials.Triaxial_._b2_a2	pygeodesy.triaxials.Triaxial_-class.html#_b2_a2
+pygeodesy.triaxials.Triaxial_._c2_a2	pygeodesy.triaxials.Triaxial_-class.html#_c2_a2
 pygeodesy.triaxials.ConformalTriaxial._xE	pygeodesy.triaxials.ConformalTriaxial-class.html#_xE
 pygeodesy.triaxials.ConformalTriaxial.yR_	pygeodesy.triaxials.ConformalTriaxial-class.html#yR_
 pygeodesy.triaxials.Triaxial_.toEllipsoid	pygeodesy.triaxials.Triaxial_-class.html#toEllipsoid
@@ -15048,8 +15046,6 @@ pygeodesy.errors.IntersectionError	pygeodesy.errors.IntersectionError-class.html
 pygeodesy.errors.IntersectionError.__init__	pygeodesy.errors.IntersectionError-class.html#__init__
 pygeodesy.errors.LenError	pygeodesy.errors.LenError-class.html
 pygeodesy.errors.LenError.__init__	pygeodesy.errors.LenError-class.html#__init__
-pygeodesy.errors.LicenseIssue	pygeodesy.errors.LicenseIssue-class.html
-pygeodesy.errors.LicenseIssue.__init__	pygeodesy.errors.LicenseIssue-class.html#__init__
 pygeodesy.errors.LimitError	pygeodesy.errors.LimitError-class.html
 pygeodesy.errors.MGRSError	pygeodesy.errors.MGRSError-class.html
 pygeodesy.errors.NumPyError	pygeodesy.errors.NumPyError-class.html
@@ -33390,7 +33386,7 @@ pygeodesy.triaxials.Triaxial.forwardLatLon_	pygeodesy.triaxials.Triaxial-class.h
 pygeodesy.triaxials.Triaxial_._order_ijk	pygeodesy.triaxials.Triaxial_-class.html#_order_ijk
 pygeodesy.triaxials.Triaxial_._c2_b2	pygeodesy.triaxials.Triaxial_-class.html#_c2_b2
 pygeodesy.triaxials.ConformalSphere.radius	pygeodesy.triaxials.ConformalSphere-class.html#radius
-pygeodesy.triaxials.Triaxial_._1e2bc	pygeodesy.triaxials.Triaxial_-class.html#_1e2bc
+pygeodesy.triaxials.Triaxial_.b2	pygeodesy.triaxials.Triaxial_-class.html#b2
 pygeodesy.named._Named.sizeof	pygeodesy.named._Named-class.html#sizeof
 pygeodesy.triaxials.ConformalTriaxial.xyR2_	pygeodesy.triaxials.ConformalTriaxial-class.html#xyR2_
 pygeodesy.triaxials.Triaxial_._kji	pygeodesy.triaxials.Triaxial_-class.html#_kji
@@ -33432,8 +33428,6 @@ pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named._notImplemented	pygeodesy.named._Named-class.html#_notImplemented
 pygeodesy.triaxials.Triaxial_.volume	pygeodesy.triaxials.Triaxial_-class.html#volume
 pygeodesy.named._NamedEnumItem._register	pygeodesy.named._NamedEnumItem-class.html#_register
-pygeodesy.triaxials.Triaxial_._1e2ab	pygeodesy.triaxials.Triaxial_-class.html#_1e2ab
-pygeodesy.triaxials.Triaxial_._1e2ac	pygeodesy.triaxials.Triaxial_-class.html#_1e2ac
 pygeodesy.triaxials.Triaxial_.c2	pygeodesy.triaxials.Triaxial_-class.html#c2
 pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.triaxials.Triaxial_.b	pygeodesy.triaxials.Triaxial_-class.html#b
@@ -33448,7 +33442,6 @@ pygeodesy.triaxials.Triaxial_.normal3d	pygeodesy.triaxials.Triaxial_-class.html#
 pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
 pygeodesy.triaxials.Triaxial_.isOrdered	pygeodesy.triaxials.Triaxial_-class.html#isOrdered
 pygeodesy.triaxials.ConformalSphere.ab	pygeodesy.triaxials.ConformalSphere-class.html#ab
-pygeodesy.triaxials.Triaxial_.b2	pygeodesy.triaxials.Triaxial_-class.html#b2
 pygeodesy.triaxials.ConformalTriaxial.xyR2	pygeodesy.triaxials.ConformalTriaxial-class.html#xyR2
 pygeodesy.triaxials.Triaxial_.isSpherical	pygeodesy.triaxials.Triaxial_-class.html#isSpherical
 pygeodesy.triaxials.ConformalSphere.__init__	pygeodesy.triaxials.ConformalSphere-class.html#__init__
@@ -33464,6 +33457,8 @@ pygeodesy.triaxials.Triaxial_.a2	pygeodesy.triaxials.Triaxial_-class.html#a2
 pygeodesy.triaxials.ConformalSphere._ab	pygeodesy.triaxials.ConformalSphere-class.html#_ab
 pygeodesy.triaxials.ConformalSphere._b2c2	pygeodesy.triaxials.ConformalSphere-class.html#_b2c2
 pygeodesy.triaxials.Triaxial_.a	pygeodesy.triaxials.Triaxial_-class.html#a
+pygeodesy.triaxials.Triaxial_._b2_a2	pygeodesy.triaxials.Triaxial_-class.html#_b2_a2
+pygeodesy.triaxials.Triaxial_._c2_a2	pygeodesy.triaxials.Triaxial_-class.html#_c2_a2
 pygeodesy.triaxials.ConformalTriaxial._xE	pygeodesy.triaxials.ConformalTriaxial-class.html#_xE
 pygeodesy.triaxials.ConformalTriaxial.yR_	pygeodesy.triaxials.ConformalTriaxial-class.html#yR_
 pygeodesy.triaxials.Triaxial_.toEllipsoid	pygeodesy.triaxials.Triaxial_-class.html#toEllipsoid
@@ -33500,7 +33495,7 @@ pygeodesy.triaxials.Triaxial.forwardLatLon_	pygeodesy.triaxials.Triaxial-class.h
 pygeodesy.triaxials.Triaxial_._order_ijk	pygeodesy.triaxials.Triaxial_-class.html#_order_ijk
 pygeodesy.triaxials.Triaxial_._c2_b2	pygeodesy.triaxials.Triaxial_-class.html#_c2_b2
 pygeodesy.triaxials.Triaxial_.area_p	pygeodesy.triaxials.Triaxial_-class.html#area_p
-pygeodesy.triaxials.Triaxial_._1e2bc	pygeodesy.triaxials.Triaxial_-class.html#_1e2bc
+pygeodesy.triaxials.Triaxial_.b2	pygeodesy.triaxials.Triaxial_-class.html#b2
 pygeodesy.named._Named.sizeof	pygeodesy.named._Named-class.html#sizeof
 pygeodesy.triaxials.ConformalTriaxial.xyR2_	pygeodesy.triaxials.ConformalTriaxial-class.html#xyR2_
 pygeodesy.triaxials.Triaxial_._kji	pygeodesy.triaxials.Triaxial_-class.html#_kji
@@ -33540,8 +33535,6 @@ pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named._notImplemented	pygeodesy.named._Named-class.html#_notImplemented
 pygeodesy.triaxials.Triaxial_.volume	pygeodesy.triaxials.Triaxial_-class.html#volume
 pygeodesy.named._NamedEnumItem._register	pygeodesy.named._NamedEnumItem-class.html#_register
-pygeodesy.triaxials.Triaxial_._1e2ab	pygeodesy.triaxials.Triaxial_-class.html#_1e2ab
-pygeodesy.triaxials.Triaxial_._1e2ac	pygeodesy.triaxials.Triaxial_-class.html#_1e2ac
 pygeodesy.triaxials.Triaxial_.c2	pygeodesy.triaxials.Triaxial_-class.html#c2
 pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.triaxials.Triaxial_.b	pygeodesy.triaxials.Triaxial_-class.html#b
@@ -33555,7 +33548,6 @@ pygeodesy.triaxials.Triaxial_.normal3d	pygeodesy.triaxials.Triaxial_-class.html#
 pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
 pygeodesy.triaxials.Triaxial_.isOrdered	pygeodesy.triaxials.Triaxial_-class.html#isOrdered
 pygeodesy.named._NamedBase._update	pygeodesy.named._NamedBase-class.html#_update
-pygeodesy.triaxials.Triaxial_.b2	pygeodesy.triaxials.Triaxial_-class.html#b2
 pygeodesy.triaxials.ConformalTriaxial.xyR2	pygeodesy.triaxials.ConformalTriaxial-class.html#xyR2
 pygeodesy.triaxials.Triaxial_.isSpherical	pygeodesy.triaxials.Triaxial_-class.html#isSpherical
 pygeodesy.triaxials.Triaxial.__init__	pygeodesy.triaxials.Triaxial-class.html#__init__
@@ -33570,6 +33562,8 @@ pygeodesy.triaxials.ConformalTriaxial.xyQ2	pygeodesy.triaxials.ConformalTriaxial
 pygeodesy.triaxials.Triaxial_.a2	pygeodesy.triaxials.Triaxial_-class.html#a2
 pygeodesy.triaxials.Triaxial_._b2c2	pygeodesy.triaxials.Triaxial_-class.html#_b2c2
 pygeodesy.triaxials.Triaxial_.a	pygeodesy.triaxials.Triaxial_-class.html#a
+pygeodesy.triaxials.Triaxial_._b2_a2	pygeodesy.triaxials.Triaxial_-class.html#_b2_a2
+pygeodesy.triaxials.Triaxial_._c2_a2	pygeodesy.triaxials.Triaxial_-class.html#_c2_a2
 pygeodesy.triaxials.ConformalTriaxial._xE	pygeodesy.triaxials.ConformalTriaxial-class.html#_xE
 pygeodesy.triaxials.ConformalTriaxial.yR_	pygeodesy.triaxials.ConformalTriaxial-class.html#yR_
 pygeodesy.triaxials.Triaxial_.toEllipsoid	pygeodesy.triaxials.Triaxial_-class.html#toEllipsoid
@@ -33604,7 +33598,7 @@ pygeodesy.triaxials.Triaxial.forwardLatLon_	pygeodesy.triaxials.Triaxial-class.h
 pygeodesy.triaxials.Triaxial_._order_ijk	pygeodesy.triaxials.Triaxial_-class.html#_order_ijk
 pygeodesy.triaxials.Triaxial_._c2_b2	pygeodesy.triaxials.Triaxial_-class.html#_c2_b2
 pygeodesy.triaxials.Triaxial_.area_p	pygeodesy.triaxials.Triaxial_-class.html#area_p
-pygeodesy.triaxials.Triaxial_._1e2bc	pygeodesy.triaxials.Triaxial_-class.html#_1e2bc
+pygeodesy.triaxials.Triaxial_.b2	pygeodesy.triaxials.Triaxial_-class.html#b2
 pygeodesy.named._Named.sizeof	pygeodesy.named._Named-class.html#sizeof
 pygeodesy.triaxials.Triaxial_._kji	pygeodesy.triaxials.Triaxial_-class.html#_kji
 pygeodesy.triaxials.Triaxial.forwardBetaOmega_	pygeodesy.triaxials.Triaxial-class.html#forwardBetaOmega_
@@ -33641,8 +33635,6 @@ pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named._notImplemented	pygeodesy.named._Named-class.html#_notImplemented
 pygeodesy.triaxials.Triaxial_.volume	pygeodesy.triaxials.Triaxial_-class.html#volume
 pygeodesy.named._NamedEnumItem._register	pygeodesy.named._NamedEnumItem-class.html#_register
-pygeodesy.triaxials.Triaxial_._1e2ab	pygeodesy.triaxials.Triaxial_-class.html#_1e2ab
-pygeodesy.triaxials.Triaxial_._1e2ac	pygeodesy.triaxials.Triaxial_-class.html#_1e2ac
 pygeodesy.triaxials.Triaxial_.c2	pygeodesy.triaxials.Triaxial_-class.html#c2
 pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.triaxials.Triaxial_._a2_b2	pygeodesy.triaxials.Triaxial_-class.html#_a2_b2
@@ -33656,7 +33648,6 @@ pygeodesy.triaxials.Triaxial_.normal3d	pygeodesy.triaxials.Triaxial_-class.html#
 pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
 pygeodesy.triaxials.Triaxial_.isOrdered	pygeodesy.triaxials.Triaxial_-class.html#isOrdered
 pygeodesy.named._NamedBase._update	pygeodesy.named._NamedBase-class.html#_update
-pygeodesy.triaxials.Triaxial_.b2	pygeodesy.triaxials.Triaxial_-class.html#b2
 pygeodesy.triaxials.Triaxial_.isSpherical	pygeodesy.triaxials.Triaxial_-class.html#isSpherical
 pygeodesy.triaxials.Triaxial.__init__	pygeodesy.triaxials.Triaxial-class.html#__init__
 pygeodesy.triaxials.Triaxial_._a2c2	pygeodesy.triaxials.Triaxial_-class.html#_a2c2
@@ -33669,6 +33660,8 @@ pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.triaxials.Triaxial_.a2	pygeodesy.triaxials.Triaxial_-class.html#a2
 pygeodesy.triaxials.Triaxial_._b2c2	pygeodesy.triaxials.Triaxial_-class.html#_b2c2
 pygeodesy.triaxials.Triaxial_.a	pygeodesy.triaxials.Triaxial_-class.html#a
+pygeodesy.triaxials.Triaxial_._b2_a2	pygeodesy.triaxials.Triaxial_-class.html#_b2_a2
+pygeodesy.triaxials.Triaxial_._c2_a2	pygeodesy.triaxials.Triaxial_-class.html#_c2_a2
 pygeodesy.triaxials.Triaxial_.toEllipsoid	pygeodesy.triaxials.Triaxial_-class.html#toEllipsoid
 pygeodesy.triaxials.TriaxialError	pygeodesy.triaxials.TriaxialError-class.html
 pygeodesy.triaxials.Triaxial_	pygeodesy.triaxials.Triaxial_-class.html
@@ -33728,8 +33721,6 @@ pygeodesy.named._Named.dup	pygeodesy.named._Named-class.html#dup
 pygeodesy.named._Named._notImplemented	pygeodesy.named._Named-class.html#_notImplemented
 pygeodesy.triaxials.Triaxial_.volume	pygeodesy.triaxials.Triaxial_-class.html#volume
 pygeodesy.named._NamedEnumItem._register	pygeodesy.named._NamedEnumItem-class.html#_register
-pygeodesy.triaxials.Triaxial_._1e2ab	pygeodesy.triaxials.Triaxial_-class.html#_1e2ab
-pygeodesy.triaxials.Triaxial_._1e2ac	pygeodesy.triaxials.Triaxial_-class.html#_1e2ac
 pygeodesy.triaxials.Triaxial_.c2	pygeodesy.triaxials.Triaxial_-class.html#c2
 pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.triaxials.Triaxial_._a2_b2	pygeodesy.triaxials.Triaxial_-class.html#_a2_b2
@@ -33743,7 +33734,6 @@ pygeodesy.triaxials.Triaxial_.normal3d	pygeodesy.triaxials.Triaxial_-class.html#
 pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
 pygeodesy.triaxials.Triaxial_.isOrdered	pygeodesy.triaxials.Triaxial_-class.html#isOrdered
 pygeodesy.named._NamedBase._update	pygeodesy.named._NamedBase-class.html#_update
-pygeodesy.triaxials.Triaxial_._1e2bc	pygeodesy.triaxials.Triaxial_-class.html#_1e2bc
 pygeodesy.triaxials.Triaxial_.isSpherical	pygeodesy.triaxials.Triaxial_-class.html#isSpherical
 pygeodesy.triaxials.Triaxial_.__init__	pygeodesy.triaxials.Triaxial_-class.html#__init__
 pygeodesy.triaxials.Triaxial_._a2c2	pygeodesy.triaxials.Triaxial_-class.html#_a2c2
@@ -33755,6 +33745,8 @@ pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.triaxials.Triaxial_.a2	pygeodesy.triaxials.Triaxial_-class.html#a2
 pygeodesy.triaxials.Triaxial_._b2c2	pygeodesy.triaxials.Triaxial_-class.html#_b2c2
 pygeodesy.triaxials.Triaxial_.a	pygeodesy.triaxials.Triaxial_-class.html#a
+pygeodesy.triaxials.Triaxial_._b2_a2	pygeodesy.triaxials.Triaxial_-class.html#_b2_a2
+pygeodesy.triaxials.Triaxial_._c2_a2	pygeodesy.triaxials.Triaxial_-class.html#_c2_a2
 pygeodesy.triaxials.Triaxial_.toEllipsoid	pygeodesy.triaxials.Triaxial_-class.html#toEllipsoid
 pygeodesy.units.Azimuth	pygeodesy.units.Azimuth-class.html
 pygeodesy.named._Named._notOverloaded	pygeodesy.named._Named-class.html#_notOverloaded

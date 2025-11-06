@@ -28,7 +28,7 @@ from math import acos, asin, asinh, atan2 as _atan2, cos, degrees, fabs, \
                  radians, sin, sinh, tan as _tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '25.09.09'
+__version__ = '25.10.29'
 
 # sqrt(3) <https://WikiPedia.org/wiki/Square_root_of_3>
 _COS_30,  _SIN_30 = 0.86602540378443864676, _0_5  # sqrt(3) / 2
@@ -807,15 +807,16 @@ def _sin0cos2(q, r, sign):
     return s, c
 
 
-def SinCos2(x):
+def SinCos2(x, unit=Radians):
     '''Get C{sin} and C{cos} of I{typed} angle.
 
        @arg x: Angle (L{Degrees}, L{Radians} or scalar C{radians}).
+       @kwarg unit: The C{B{x}} unit (L{Degrees}, L{Radians}).
 
        @return: 2-Tuple (C{sin(B{x})}, C{cos(B{x})}).
     '''
-    return sincos2d(x) if isinstanceof(x, Degrees, Degrees_) else (
-#          sincos2(x)  if isinstanceof(x, Radians, Radians_) else
+    return sincos2d(x) if unit is Degrees or isinstanceof(x, Degrees, Degrees_) else (
+#          sincos2(x)  if unit is Radians or isinstanceof(x, Radians, Radians_) else
            sincos2(Radians(x)))  # assume C{radians}
 
 
