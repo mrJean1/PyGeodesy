@@ -14,7 +14,7 @@ from pygeodesy.basics import _copysign, isbool, iscomplex, isint, signBit
 from pygeodesy.errors import _ValueError, _xError, _xkwds_get1, _xkwds_item2
 # from pygeodesy.fsums import _isFsum_2Tuple  # _MODS
 from pygeodesy.internals import _0_0, _100_0, typename
-from pygeodesy.interns import _DMAIN_, _INF_, _NAN_
+from pygeodesy.interns import _INF_, _NAN_,  _DMAIN_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_MODS as _MODS, _ALL_LAZY
 # from pygeodesy.streprs import Fmt  # from .unitsBase
 from pygeodesy.unitsBase import Float, Int, Radius,  Fmt
@@ -26,7 +26,7 @@ except ImportError:  # Python 2-
     _inf, _nan = float(_INF_), float(_NAN_)
 
 __all__ = _ALL_LAZY.constants
-__version__ = '25.10.15'
+__version__ = '25.12.06'
 
 
 def _copysign_0_0(y):
@@ -266,27 +266,30 @@ except ImportError:  # PYCHOK no cover
     MIN_EXP  =  Int(MIN_EXP   =_log2(MIN))   # -307 base 10
 #   RADIX    =  Int(Radix     =2)            # base
 
-EPS0     = _Float( EPS0  = EPS**2)           # PYCHOK near-/non-zero comparison 4.930381e-32, or EPS or EPS_2
-EPS02    = _Float( EPS02 = EPS**4)           # PYCHOK near-zero-squared comparison 2.430865e-63
-EPS_2    = _Float( EPS_2 = EPS / _2_0)       # PYCHOK ≈ 1.110223024625e-16
-EPS1     = _Float( EPS1  =_1_0 - EPS)        # PYCHOK ≈ 0.9999999999999998
-EPS2     = _Float( EPS2  = EPS * _2_0)       # PYCHOK ≈ 4.440892098501e-16
-EPS4     = _Float( EPS4  = EPS * _4_0)       # PYCHOK ≈ 8.881784197001e-16
-# _1EPS  = _Float(_1EPS  =_1_0 + EPS)        # PYCHOK ≈ 1.0000000000000002
-_1_EPS   = _Float(_1_EPS =_1_0 / EPS)        # PYCHOK = 4503599627370496.0
-# _2_EPS = _Float(_2_EPS =_2_0 / EPS)        # PYCHOK = 9007199254740992.0
-_EPS2e4  = _Float(_EPS2e4= EPS2 * 1.e4)      # PYCHOK ≈ 4.440892098501e-12
-_EPS4e8  = _Float(_EPS4e8= EPS4 * 1.e8)      # PYCHOK ≈ 8.881784197001e-08
-_EPSjam  = _Float(_EPSjam= pow(EPS, _0_75))  # PYCHOK = 1.818989403546e-12
-_EPSmin  = _Float(_EPSmin= sqrt(MIN))        # PYCHOK = 1.49166814624e-154
-_EPSqrt  = _Float(_EPSqrt= sqrt(EPS))        # PYCHOK = 1.49011611938e5-08
-_EPStol  = _Float(_EPStol=_EPSqrt * _0_1)    # PYCHOK = 1.49011611938e5-09 == sqrt(EPS * _0_01)
+EPS0     = _Float( EPS0   = EPS**2)           # PYCHOK near-/non-zero comparison 4.930381e-32, or EPS or EPS_2
+EPS02    = _Float( EPS02  = EPS**4)           # PYCHOK near-zero-squared comparison 2.430865e-63
+EPS_2    = _Float( EPS_2  = EPS / _2_0)       # PYCHOK ≈ 1.110223024625e-16
+EPS1     = _Float( EPS1   =_1_0 - EPS)        # PYCHOK ≈ 0.9999999999999998
+EPS2     = _Float( EPS2   = EPS * _2_0)       # PYCHOK ≈ 4.440892098501e-16
+EPS4     = _Float( EPS4   = EPS * _4_0)       # PYCHOK ≈ 8.881784197001e-16
+EPS8     = _Float( EPS8   = EPS * _8_0)       # PYCHOK ≈ 1.776356839400e-15
+# _1EPS  = _Float(_1EPS   =_1_0 + EPS)        # PYCHOK ≈ 1.0000000000000002
+_1_EPS   = _Float(_1_EPS  =_1_0 / EPS)        # PYCHOK = 4503599627370496.0
+# _2_EPS = _Float(_2_EPS  =_2_0 / EPS)        # PYCHOK = 9007199254740992.0
+_EPS2e4  = _Float(_EPS2e4 = EPS2 * 1.e4)      # PYCHOK ≈ 4.440892098501e-12
+_EPS4e8  = _Float(_EPS4e8 = EPS4 * 1.e8)      # PYCHOK ≈ 8.881784197001e-08
+_EPSjam  = _Float(_EPSjam = pow(EPS, _0_75))  # PYCHOK = 1.818989403546e-12
+_EPSmin  = _Float(_EPSmin = sqrt(MIN))        # PYCHOK = 1.49166814624e-154
+_EPSqrt  = _Float(_EPSqrt = sqrt(EPS))        # PYCHOK = 1.490116119385e-08
+_EPStol  = _Float(_EPStol =_EPSqrt * _0_1)    # PYCHOK = 1.490116119385e-09 == sqrt(EPS * _0_01)
 
-_89_999  = _Float(_89_999=_90_0 * EPS1)  # just below 90.0
+_89_999  = _Float(_89_999 =_90_0 * EPS1)  # just below 90.0
 # <https://Numbers.Computation.Free.FR/Constants/Miscellaneous/digits.html>
-# _1__90 = _Float(_1__90 =_1_0 / _90_0)  # PYCHOK = 0.011_111_111_111_111_111_111_111_111_111_111_111_111_111_111_11111
-_2__PI   = _Float(_2__PI =_2_0 / _pi)    # PYCHOK = 0.636_619_772_367_581_343_075_535_053_490_057_448_137_838_582_96182
-_K0_UTM  = _Float(_K0_UTM = 0.9996)  # PYCHOK in .etm, .ktm, .utm, UTM scale at central meridian
+# _1__90 = _Float(_1__90  =_1_0 / _90_0)  # PYCHOK = 0.011_111_111_111_111_111_111_111_111_111_111_111_111_111_111_11111
+_2__PI   = _Float(_2__PI  =_2_0 / _pi)    # PYCHOK = 0.636_619_772_367_581_343_075_535_053_490_057_448_137_838_582_96182
+_K0_UTM  = _Float(_K0_UTM = 0.9996)       # PYCHOK in .etm, .ktm, .utm, UTM scale at central meridian
+_K0_UPS  = _Float(_K0_UPS = 0.994)        # PYCHOK in .ups, scale factor at central meridian
+OVERFLOW = _Float(OVERFLOW=_1_0 / EPS0)   # PYCHOK = 2.028240960365e+31
 # sqrt(2) <https://WikiPedia.org/wiki/Square_root_of_2>
 # 1.414213562373095_048_801_688_724_209_698_078_569_671_875_376_948_073_176_679_737_99
 # _1SQRT2= _Float(_1SQRT2 =sqrt(_2_0) + 1)
@@ -327,7 +330,7 @@ R_QM  = _Radius(R_QM=6372797.560856)   # PYCHOK earth' quadratic mean radius (C{
 R_VM  = _Radius(R_VM=6366707.0194937)  # PYCHOK aViation/naVigation earth radius (C{meter})
 # R_AU=  Meter( R_AU=149597870700.0)   # PYCHOK <https://WikiPedia.org/wiki/Astronomical_unit>
 
-_INF_NAN_NINF =  INF, NAN, NINF
+_INF_NAN_NINF = {INF, NAN, NINF, _inf, _nan}
 _pos_self     = _1_0.__pos__() is _1_0  # PYCHOK in .fsums, .vector3dBase
 
 
@@ -562,7 +565,7 @@ if __name__ == _DMAIN_:
 
 # **) MIT License
 #
-# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2026 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

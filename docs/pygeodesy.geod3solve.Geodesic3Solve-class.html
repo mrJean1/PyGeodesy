@@ -1,0 +1,742 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.geod3solve.Geodesic3Solve</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">pygeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        <a href="pygeodesy.geod3solve-module.html">Module&nbsp;geod3solve</a> ::
+        Class&nbsp;Geodesic3Solve
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.geod3solve.Geodesic3Solve-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class Geodesic3Solve</h1><p class="nomargin-top"></p>
+<pre class="base-tree">
+  object --+                            
+           |                            
+<a href="pygeodesy.named._Named-class.html">named._Named</a> --+                        
+               |                        
+<a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+                    
+                   |                    
+    <a href="pygeodesy.karney._CapsBase-class.html">karney._CapsBase</a> --+                
+                       |                
+<a href="pygeodesy.solveBase._SolveCapsBase-class.html">solveBase._SolveCapsBase</a> --+            
+                           |            
+        <a href="pygeodesy.solveBase._SolveBase-class.html">solveBase._SolveBase</a> --+        
+                               |        
+           solveBase._Solve3Base --+    
+                                   |    
+                 <a href="pygeodesy.geod3solve._Geodesic3SolveBase-class.html">_Geodesic3SolveBase</a> --+
+                                       |
+                                      <strong class="uidshort">Geodesic3Solve</strong>
+</pre>
+
+<hr />
+<p>Wrapper to invoke <i>Karney</i>'s <a 
+  href="https://GeographicLib.SourceForge.io/C++/doc/Geod3Solve.1.html" 
+  target="_top">Geod3Solve</a> as a <code>triaxial</code> version of 
+  <i>Karney</i>'s Python class <a 
+  href="https://GeographicLib.SourceForge.io/C++/doc/python/code.html#geographiclib.geodesic.Geodesic"
+  target="_top">Geodesic</a>.</p>
+
+<hr />
+<div class="fields">      <strong>Notes:</strong>
+      <ul class="nomargin-top">
+        <li>
+        Use property <code>GeodSolve</code> or env variable 
+        <code>PYGEODESY_GEOD3SOLVE</code> to specify the (fully qualified) 
+        path to the <code>Geod3Solve</code> executable.
+        </li>
+        <li>
+        This <code>geodesic</code> is intended <i>for testing purposes 
+        only</i>, it invokes the <code>GeodSolve</code> executable for 
+        <i>every</i> method call.
+        </li>
+      </ul>
+</div><!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Instance Methods</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geod3solve.Geodesic3Solve-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">triaxial3</span>=<span class="summary-sig-default">_Triaxial3_WGS84</span>,
+        <span class="summary-sig-arg">path</span>=<span class="summary-sig-default">''</span>,
+        <span class="summary-sig-arg">**name</span>)</span><br />
+      New <code>Solve</code> instance.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="Direct"></a><span class="summary-sig-name">Direct</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">bet1</span>,
+        <span class="summary-sig-arg">omg1</span>,
+        <span class="summary-sig-arg">alp1</span>,
+        <span class="summary-sig-arg">s12</span>,
+        <span class="summary-sig-arg">outmask</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">UNUSED</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">**unit</span>)</span><br />
+      Return the <code>Direct</code> result at distance <code>s12</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geod3solve.Geodesic3Solve-class.html#DirectLine" class="summary-sig-name">DirectLine</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">bet1</span>,
+        <span class="summary-sig-arg">omg1</span>,
+        <span class="summary-sig-arg">alp1</span>,
+        <span class="summary-sig-arg">caps</span>=<span class="summary-sig-default">32671</span>,
+        <span class="summary-sig-arg">**unit_name</span>)</span><br />
+      Set up a <a href="pygeodesy.geod3solve.GeodesicLine3Solve-class.html"
+      class="link">GeodesicLine3Solve</a> to compute several points on a 
+      single geodesic.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geod3solve.Geodesic3Solve-class.html#Line" class="summary-sig-name">Line</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">bet1</span>,
+        <span class="summary-sig-arg">omg1</span>,
+        <span class="summary-sig-arg">alp1</span>,
+        <span class="summary-sig-arg">caps</span>=<span class="summary-sig-default">32671</span>,
+        <span class="summary-sig-arg">**unit_name</span>)</span><br />
+      Set up a <a href="pygeodesy.geod3solve.GeodesicLine3Solve-class.html"
+      class="link">GeodesicLine3Solve</a> to compute several points on a 
+      single geodesic.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="Inverse"></a><span class="summary-sig-name">Inverse</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">bet1</span>,
+        <span class="summary-sig-arg">omg1</span>,
+        <span class="summary-sig-arg">bet2</span>,
+        <span class="summary-sig-arg">omg2</span>,
+        <span class="summary-sig-arg">outmask</span>=<span class="summary-sig-default"><code class="variable-quote">'</code><code class="variable-string">UNUSED</code><code class="variable-quote">'</code></span>,
+        <span class="summary-sig-arg">**unit</span>)</span><br />
+      Return the <code>Inverse</code> result.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geod3solve.Geodesic3Solve-class.html#InverseLine" class="summary-sig-name">InverseLine</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">bet1</span>,
+        <span class="summary-sig-arg">omg1</span>,
+        <span class="summary-sig-arg">bet2</span>,
+        <span class="summary-sig-arg">omg2</span>,
+        <span class="summary-sig-arg">caps</span>=<span class="summary-sig-default">32671</span>,
+        <span class="summary-sig-arg">**unit_name</span>)</span><br />
+      Set up a <a href="pygeodesy.geod3solve.GeodesicLine3Solve-class.html"
+      class="link">GeodesicLine3Solve</a> to compute several points on a 
+      single geodesic.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.geod3solve.Geodesic3Solve-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">**prec_sep_other</span>)</span><br />
+      Return this <code>Geodesic3Solve</code> as string.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html">solveBase._SolveCapsBase</a></code></b>:
+      <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html#invokat">invokat</a></code>,
+      <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html#invoke">invoke</a></code>,
+      <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html#linelimit">linelimit</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.karney._CapsBase-class.html">karney._CapsBase</a></code></b>:
+      <code><a href="pygeodesy.karney._CapsBase-class.html#caps_">caps_</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a></code></b>:
+      <code><a href="pygeodesy.named._NamedBase-class.html#__repr__">__repr__</a></code>,
+      <code><a href="pygeodesy.named._NamedBase-class.html#__str__">__str__</a></code>,
+      <code><a href="pygeodesy.named._NamedBase-class.html#others">others</a></code>,
+      <code><a href="pygeodesy.named._NamedBase-class.html#toRepr">toRepr</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#__format__">__format__</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#__imatmul__">__imatmul__</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#__matmul__">__matmul__</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#__rmatmul__">__rmatmul__</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#dup">dup</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#methodname">methodname</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#renamed">renamed</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__delattr__</code>,
+      <code>__getattribute__</code>,
+      <code>__hash__</code>,
+      <code>__new__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__setattr__</code>,
+      <code>__sizeof__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS VARIABLES ==================== -->
+<a name="section-ClassVariables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Class Variables</span></td>
+</tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.geod3solve._Geodesic3SolveBase-class.html">_Geodesic3SolveBase</a></code></b>:
+      <code><a href="pygeodesy.geod3solve._Geodesic3SolveBase-class.html#datum">datum</a></code>,
+      <code><a href="pygeodesy.geod3solve._Geodesic3SolveBase-class.html#ellipsoid">ellipsoid</a></code>,
+      <code><a href="pygeodesy.geod3solve._Geodesic3SolveBase-class.html#f">f</a></code>,
+      <code><a href="pygeodesy.geod3solve._Geodesic3SolveBase-class.html#flattening">flattening</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.karney._CapsBase-class.html">karney._CapsBase</a></code></b>:
+      <code><a href="pygeodesy.karney._CapsBase-class.html#ALL">ALL</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#AREA">AREA</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#AZIMUTH">AZIMUTH</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#DISTANCE">DISTANCE</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#DISTANCE_IN">DISTANCE_IN</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#EMPTY">EMPTY</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#GEODESICSCALE">GEODESICSCALE</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#LATITUDE">LATITUDE</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#LINE_CAPS">LINE_CAPS</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#LINE_OFF">LINE_OFF</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#LONGITUDE">LONGITUDE</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#LONG_UNROLL">LONG_UNROLL</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#NONFINITONAN">NONFINITONAN</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#REDUCEDLENGTH">REDUCEDLENGTH</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#STANDARD">STANDARD</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#STANDARD_LINE">STANDARD_LINE</a></code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Properties</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.geod3solve.Geodesic3Solve-class.html#triaxial3" class="summary-name">triaxial3</a><br />
+      Get the triaxial (<code>Triaxial3</code>).
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.geod3solve._Geodesic3SolveBase-class.html">_Geodesic3SolveBase</a></code></b>:
+      <code><a href="pygeodesy.geod3solve._Geodesic3SolveBase-class.html#Geod3Solve">Geod3Solve</a></code>,
+      <code><a href="pygeodesy.geod3solve._Geodesic3SolveBase-class.html#a">a</a></code>,
+      <code><a href="pygeodesy.geod3solve._Geodesic3SolveBase-class.html#b">b</a></code>,
+      <code><a href="pygeodesy.geod3solve._Geodesic3SolveBase-class.html#c">c</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.solveBase._SolveBase-class.html">solveBase._SolveBase</a></code></b>:
+      <code><a href="pygeodesy.solveBase._SolveBase-class.html#reverse2">reverse2</a></code>,
+      <code><a href="pygeodesy.solveBase._SolveBase-class.html#unroll">unroll</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html">solveBase._SolveCapsBase</a></code></b>:
+      <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html#Exact">Exact</a></code>,
+      <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html#invokation">invokation</a></code>,
+      <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html#prec">prec</a></code>,
+      <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html#status">status</a></code>,
+      <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html#verbose">verbose</a></code>,
+      <code><a href="pygeodesy.solveBase._SolveCapsBase-class.html#version">version</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.karney._CapsBase-class.html">karney._CapsBase</a></code></b>:
+      <code><a href="pygeodesy.karney._CapsBase-class.html#caps">caps</a></code>,
+      <code><a href="pygeodesy.karney._CapsBase-class.html#debug">debug</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#classnaming">classnaming</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#iteration">iteration</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#name">name</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named">named</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named2">named2</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named3">named3</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named4">named4</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#sizeof">sizeof</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#typename">typename</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Method Details</span></td>
+</tr>
+</table>
+<a name="__init__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">triaxial3</span>=<span class="sig-default">_Triaxial3_WGS84</span>,
+        <span class="sig-arg">path</span>=<span class="sig-default">''</span>,
+        <span class="sig-arg">**name</span>)</span>
+    <br /><em class="fname">(Constructor)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>New <code>Solve</code> instance.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>triaxial3</code></strong> - A triaxial (<a 
+          href="pygeodesy.triaxials.triaxial3.Triaxial3-class.html" 
+          class="link">Triaxial3</a>), default 
+          <code>Triaxial3s.WGS84_3r</code>.</li>
+        <li><strong class="pname"><code>path</code></strong> - Optionally, the (fully qualified) path to the 
+          <code>GeodSolve</code> or <code>RhumbSolve</code> executable 
+          (<code>filename</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>a_ellipsoid</code></b> or <b><code>f</code></b>.</li>
+    </ul></dd>
+    <dt>Overrides:
+        object.__init__
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="DirectLine"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">DirectLine</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">bet1</span>,
+        <span class="sig-arg">omg1</span>,
+        <span class="sig-arg">alp1</span>,
+        <span class="sig-arg">caps</span>=<span class="sig-default">32671</span>,
+        <span class="sig-arg">**unit_name</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set up a <a href="pygeodesy.geod3solve.GeodesicLine3Solve-class.html" 
+  class="link">GeodesicLine3Solve</a> to compute several points on a single
+  geodesic.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>bet1</code></strong> - Ellipsoidal Latitude of the first point (<code>Ang</code> or 
+          <b><code>unit</code></b>).</li>
+        <li><strong class="pname"><code>omg1</code></strong> - Ellipsoidal Longitude of the first point (<code>Ang</code> or 
+          <b><code>unit</code></b>).</li>
+        <li><strong class="pname"><code>alp1</code></strong> - Azimuth at the first point (compass <code>degrees</code>, 
+          <code>Ang</code> or <code>unit</code>).</li>
+        <li><strong class="pname"><code>caps</code></strong> - Desired capabilities for the <a 
+          href="pygeodesy.geod3solve.GeodesicLine3Solve-class.html" 
+          class="link">GeodesicLine3Solve</a> instance.</li>
+        <li><strong class="pname"><code>unit_name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>) and 
+          scalar <code><b>unit</b>=</code><a 
+          href="pygeodesy.units.Degrees-class.html" 
+          class="link">Degrees</a> (or <a 
+          href="pygeodesy.units.Degrees-class.html" 
+          class="link">Degrees</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.geod3solve.GeodesicLine3Solve-class.html" 
+          class="link">GeodesicLine3Solve</a> instance.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        C++ <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html"
+        target="_top">GeodesicExact.Line</a> and Python <a 
+        href="https://GeographicLib.SourceForge.io/Python/doc/code.html" 
+        target="_top">Geodesic.Line</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="Line"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">Line</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">bet1</span>,
+        <span class="sig-arg">omg1</span>,
+        <span class="sig-arg">alp1</span>,
+        <span class="sig-arg">caps</span>=<span class="sig-default">32671</span>,
+        <span class="sig-arg">**unit_name</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set up a <a href="pygeodesy.geod3solve.GeodesicLine3Solve-class.html" 
+  class="link">GeodesicLine3Solve</a> to compute several points on a single
+  geodesic.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>bet1</code></strong> - Ellipsoidal Latitude of the first point (<code>Ang</code> or 
+          <b><code>unit</code></b>).</li>
+        <li><strong class="pname"><code>omg1</code></strong> - Ellipsoidal Longitude of the first point (<code>Ang</code> or 
+          <b><code>unit</code></b>).</li>
+        <li><strong class="pname"><code>alp1</code></strong> - Azimuth at the first point (compass <code>degrees</code>, 
+          <code>Ang</code> or <code>unit</code>).</li>
+        <li><strong class="pname"><code>caps</code></strong> - Desired capabilities for the <a 
+          href="pygeodesy.geod3solve.GeodesicLine3Solve-class.html" 
+          class="link">GeodesicLine3Solve</a> instance.</li>
+        <li><strong class="pname"><code>unit_name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>) and 
+          scalar <code><b>unit</b>=</code><a 
+          href="pygeodesy.units.Degrees-class.html" 
+          class="link">Degrees</a> (or <a 
+          href="pygeodesy.units.Degrees-class.html" 
+          class="link">Degrees</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.geod3solve.GeodesicLine3Solve-class.html" 
+          class="link">GeodesicLine3Solve</a> instance.</dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        C++ <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html"
+        target="_top">GeodesicExact.Line</a> and Python <a 
+        href="https://GeographicLib.SourceForge.io/Python/doc/code.html" 
+        target="_top">Geodesic.Line</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="InverseLine"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">InverseLine</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">bet1</span>,
+        <span class="sig-arg">omg1</span>,
+        <span class="sig-arg">bet2</span>,
+        <span class="sig-arg">omg2</span>,
+        <span class="sig-arg">caps</span>=<span class="sig-default">32671</span>,
+        <span class="sig-arg">**unit_name</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Set up a <a href="pygeodesy.geod3solve.GeodesicLine3Solve-class.html" 
+  class="link">GeodesicLine3Solve</a> to compute several points on a single
+  geodesic.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>bet1</code></strong> - Latitude of the first point (<code>Ang</code> or 
+          <b><code>unit</code></b>).</li>
+        <li><strong class="pname"><code>omg1</code></strong> - Longitude of the first point (<code>Ang</code> or 
+          <b><code>unit</code></b>).</li>
+        <li><strong class="pname"><code>bet2</code></strong> - Latitude of the second point  (<code>Ang</code> or 
+          <b><code>unit</code></b>).</li>
+        <li><strong class="pname"><code>omg2</code></strong> - Longitude of the second point (<code>Ang</code> or 
+          <b><code>unit</code></b>).</li>
+        <li><strong class="pname"><code>caps</code></strong> - Desired capabilities for the <a 
+          href="pygeodesy.geod3solve.GeodesicLine3Solve-class.html" 
+          class="link">GeodesicLine3Solve</a> instance.</li>
+        <li><strong class="pname"><code>unit_name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>) and 
+          scalar <code><b>unit</b>=</code><a 
+          href="pygeodesy.units.Degrees-class.html" 
+          class="link">Degrees</a> (or <a 
+          href="pygeodesy.units.Degrees-class.html" 
+          class="link">Degrees</a>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.geod3solve.GeodesicLine3Solve-class.html" 
+          class="link">GeodesicLine3Solve</a> instance.</dd>
+  </dl>
+<div class="fields">      <p><strong>Note:</strong>
+        Both <b><code>bet1</code></b> and <b><code>bet2</code></b> should 
+        in the range <code>[-90, +90]</code>.
+      </p>
+      <p><strong>See Also:</strong>
+        C++ <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1GeodesicExact.html"
+        target="_top">GeodesicExact.InverseLine</a> and Python <a 
+        href="https://GeographicLib.SourceForge.io/Python/doc/code.html" 
+        target="_top">Geodesic.InverseLine</a>.
+      </p>
+</div></td></tr></table>
+</div>
+<a name="toStr"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">**prec_sep_other</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return this <code>Geodesic3Solve</code> as string.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>prec_sep</code></strong> - See toStr.</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>Geodesic3Solve items (<code>str</code>).</dd>
+    <dt>Overrides:
+        <a href="pygeodesy.named._Named-class.html#toStr">named._Named.toStr</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== PROPERTY DETAILS ==================== -->
+<a name="section-PropertyDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Property Details</span></td>
+</tr>
+</table>
+<a name="triaxial3"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">triaxial3</h3>
+  <p>Get the triaxial (<code>Triaxial3</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">triaxial3(<span class="summary-sig-arg">self</span>)</span>
+        - Get the triaxial (<code>Triaxial3</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">pygeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Sun Dec  7 17:54:50 2025
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

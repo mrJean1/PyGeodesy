@@ -17,9 +17,9 @@ from pygeodesy.basics import isbool, isidentifier, iskeyword, isstr, itemsorted,
                              len2, _xcopy, _xdup, _xinstanceof, _xsubclassof, _zip
 # from pygeodesy.ecef import EcefKarney  # _MODS
 from pygeodesy.errors import _AssertionError, _AttributeError, _ImmutableError, \
-                             _incompatible, _IndexError, _KeyError, LenError, \
-                             _NameError, _NotImplementedError, _TypeError, \
-                             _TypesError, _UnexpectedError, UnitError, _ValueError, \
+                             _incompatible, _KeyError, LenError, _NameError, \
+                             _NotImplementedError, _TypeError, _TypesError, \
+                             _UnexpectedError, UnitError, _ValueError, \
                              _xattr, _xkwds, _xkwds_item2, _xkwds_pop2
 from pygeodesy.internals import _caller3, _envPYGEODESY, _isPyPy, _sizeof, \
                                  typename, _under
@@ -35,7 +35,7 @@ from pygeodesy.streprs import attrs, Fmt, lrstrip, pairs, reprs, unstr
 # from pygeodesy.units import _toUnit  # _MODS
 
 __all__ = _ALL_LAZY.named
-__version__ = '25.09.04'
+__version__ = '25.11.29'
 
 _COMMANL_           = _COMMA_ + _NL_
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
@@ -987,10 +987,14 @@ class _NamedTuple(tuple, _Named):
         '''
         try:
             return tuple.__getitem__(self, self._Names_.index(name))
-        except IndexError as x:
-            raise _IndexError(self._DOT_(name), cause=x)
+        except IndexError:  # as x:
+            pass  # raise _IndexError(self._DOT_(name), cause=x)
         except ValueError:  # e.g. _iteration
-            return tuple.__getattr__(self, name)  # __getattribute__
+            try:  # tuple has no __getattr__?
+                return tuple.__getattr__(self, name)  # __getattribute__?
+            except AttributeError:
+                pass
+        raise _AttributeError(self._DOT_(name), txt=repr(self))
 
 #   def __getitem__(self, index):  # index, slice, etc.
 #       '''Get the item(s) at an B{C{index}} or slice.
@@ -1103,7 +1107,8 @@ class _NamedTuple(tuple, _Named):
 
            @return: Tuple items (C{str}).
         '''
-        return Fmt.PAREN(sep.join(reprs(self, prec=prec, fmt=fmt)))
+        t = reprs(self, prec=prec, fmt=fmt)
+        return Fmt.PAREN(sep.join(t)) if sep else t
 
     def toUnits(self, Error=UnitError, **name):  # overloaded in .frechet, .hausdorff
         '''Return a copy of this C{Named-Tuple} with each item value wrapped
@@ -1468,7 +1473,7 @@ __all__ += _ALL_DOCS(_Named,
 
 # **) MIT License
 #
-# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2026 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

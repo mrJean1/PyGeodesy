@@ -28,7 +28,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _PYTHON_X_DEV
 from copy import copy as _copy
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')  _under
-__version__ = '25.10.30'
+__version__ = '25.12.02'
 
 _argument_   = 'argument'
 _basics      = _MODS.into(basics=__name__)
@@ -214,7 +214,8 @@ class CrossError(_ValueError):
 
 class GeodesicError(_ValueError):
     '''Error raised for convergence or other issues in L{geodesicx<pygeodesy.geodesicx>},
-       L{geodesicw<pygeodesy.geodesicw>} or L{karney<pygeodesy.karney>}.
+       L{geodesicw<pygeodesy.geodesicw>}, L{geodsolve<pygeodesy.geodsolve>} or
+       L{karney<pygeodesy.karney>}.
     '''
     pass
 
@@ -626,7 +627,10 @@ def _xattr(obj, **name_default):
     '''
     if len(name_default) == 1:
         for n, d in name_default.items():
-            return getattr(obj, n, d)
+            try:  # obj is tuple
+                return getattr(obj, n, d)
+            except ValueError:
+                return d
     raise _xAssertionError(_xattr, obj, **name_default)
 
 
@@ -928,7 +932,7 @@ def _xStrError(*Refs, **name_value_Error):  # in .gars, .geohash, .wgrs
 
 # **) MIT License
 #
-# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2026 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

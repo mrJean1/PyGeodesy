@@ -4,6 +4,7 @@ graft pygeodesy/auxilats
 graft pygeodesy/deprecated
 graft pygeodesy/geodesicx
 graft pygeodesy/rhumb
+graft pygeodesy/triaxials
 graft test
 include test/testRoutesMap.jpg
 graft testcoverage

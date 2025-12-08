@@ -278,7 +278,7 @@
   <h1 class="heading">Tests</h1>
     <p>The tests ran with Python 3.14 (with <a 
     href="https://PyPI.org/project/geographiclib" 
-    target="_top">geographiclib</a> 2.1), Python 3.13.7 (with <a 
+    target="_top">geographiclib</a> 2.1), Python 3.13.9 (with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 2.1), <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 2.3.3, <a
@@ -313,7 +313,7 @@
     href="https://GeographicLib.SourceForge.io/C++/doc/utilities.html" 
     target="_top">IntersectTool</a> 2.5 and <a 
     href="https://GeographicLib.SourceForge.io/C++/doc/utilities.html" 
-    target="_top">RhumbSolve</a> 2.5), all in 64-bit on macOS 26.0.1 
+    target="_top">RhumbSolve</a> 2.5), all in 64-bit on macOS 26.1 
     Tahoe.</p>
     <p>All tests ran with and without <code>lazy import</code> for Python 3
     and with command line option <code>-W default</code> and env variable 
@@ -321,16 +321,16 @@
     results of those tests are included in the distribution files.</p>
     <p>Test coverage has been measured with <a 
     href="https://PyPI.org/project/coverage" target="_top">coverage</a> 
-    7.10.7 using Python 3.14, 3.13.7 and 3.12.7.  The complete coverage 
+    7.10.7 using Python 3.14, 3.13.9 and 3.12.7.  The complete coverage 
     report in HTML and a PDF summary are included in the distribution 
     files.</p>
-    <p>Python 3.14, 3.13.7, 3.12.7 and 3.11.5 run on Apple M4 Si 
+    <p>Python 3.14, 3.13.9, 3.12.7 and 3.11.5 run on Apple M4 Si 
     (<code>arm64</code>), <i>natively</i>.  Python 2.7.18 runs on Intel 
     (<code>x86_64</code>) or Intel <i>emulation</i> 
     (&quot;<code>arm64_x86_64</code>&quot;, see function <a 
     href="pygeodesy.internals-module.html#machine" 
     class="link">machine</a>).</p>
-    <p>The tests also ran with Python 3.13.7 (and <a 
+    <p>The tests also ran with Python 3.13.9 (and <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 2.1) on <a 
     href="https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master" 
@@ -348,7 +348,7 @@
     href="https://PyPI.org/project/pyinstaller" 
     target="_top">PyInstaller</a> 3.4 and 64-bit Python 3.7.3 on macOS 
     10.13.6 High Sierra.</p>
-    <p>Previously, the tests were run with Python 3.13.0-6, 3.12.0-6, 
+    <p>Previously, the tests were run with Python 3.13.0-7, 3.12.0-6, 
     3.11.2-4, 3.10.1-7, 3.9.6, 3.9.1, 3.8.7, 3.7.1, 2.7.15, <a 
     href="https://PyPy.org" target="_top">PyPy</a> 7.3.12 (Python 3.10.12),
     7.3.1 (Python 3.6.9) and <a href="https://PyPy.org" 
@@ -388,13 +388,13 @@
     href="https://GitHub.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor"
     target="_top">checked</a> with <a 
     href="https://GitHub.com/astral-sh/ruff" target="_top">Ruff</a> using 
-    Python 3.13.7 and with <a href="https://PyPI.org/project/pychecker" 
+    Python 3.13.9 and with <a href="https://PyPI.org/project/pychecker" 
     target="_top">PyChecker</a>, <a 
     href="https://PyPI.org/project/pyflakes" target="_top">PyFlakes</a>, <a
     href="https://PyPI.org/project/pycodestyle" 
     target="_top">PyCodeStyle</a> (formerly Pep8) and <a 
     href="https://PyPI.org/project/mccabe" target="_top">McCabe</a> using 
-    Python 2.7.18, both in 64-bit on macOS 26.0.1 Tahoe.</p>
+    Python 2.7.18, both in 64-bit on macOS 26.1 Tahoe.</p>
     <p>For a summary of all <i>Karney</i>-based functionality in 
     <code>pygeodesy</code>, see module <a 
     href="https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html"
@@ -443,6 +443,10 @@
       <li>
         <code>PYGEODESY_GEODSOLVE</code> - see module <a 
         href="pygeodesy.geodsolve-module.html" class="link">geodsolve</a>.
+      </li>
+      <li>
+        <code>PYGEODESY_GEOD3SOLVE</code> - see module <a 
+        href="pygeodesy.geod3solve-module.html" class="link">geodsolve</a>.
       </li>
       <li>
         <code>PYGEODESY_INTERSECTTOOL</code> - see module <a 
@@ -566,7 +570,7 @@
     </ul>
   <h1 class="heading">License</h1>
     <p>**) <a href="https://OpenSource.org/licenses/MIT" 
-    target="_top">Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights
+    target="_top">Copyright (C) 2016-2026 -- mrJean1 at Gmail -- All Rights
     Reserved.</a></p>
     <p><code>Permission is hereby granted, free of charge, to any person 
     obtaining a copy of this software and associated documentation files 
@@ -589,7 +593,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        25.11.05
+        25.12.06
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -604,6 +608,14 @@
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.__main__-module.html">pygeodesy.__main__</a></strong>: <em class="summary">Print <a href="pygeodesy-module.html" class="link">pygeodesy</a> 
         version, etc.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.albers-module.html">pygeodesy.albers</a></strong>: <em class="summary">Albers Equal-Area projections.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.angles-module.html">pygeodesy.angles</a></strong>: <em class="summary">Classes <a href="pygeodesy.angles.Ang-class.html" 
+        class="link">Ang</a>, <a href="pygeodesy.angles-module.html#Deg" 
+        class="link">Deg</a>, <a href="pygeodesy.angles-module.html#Rad" 
+        class="link">Rad</a> and <a 
+        href="pygeodesy.angles.Lambertian-class.html" 
+        class="link">Lambertian</a> accurately representing an angle as a 
+        3-tuple <code>(sine, cosine, turns)</code>, with <code>turns</code>
+        the number of full turns.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.auxilats-module.html">pygeodesy.auxilats</a></strong>: <em class="summary">Classes <a href="pygeodesy.auxilats.auxAngle.AuxAngle-class.html" 
         class="link">AuxAngle</a>, <a 
         href="pygeodesy.auxilats.auxDLat.AuxDLat-class.html" 
@@ -783,6 +795,10 @@
         <i>precision running</i> summation plus optionally, accurate 
         <i>TwoProduct</i> multiplication.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.gars-module.html">pygeodesy.gars</a></strong>: <em class="summary"><i>Global Area Reference System</i> (GARS) en-/decoding.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.geod3solve-module.html">pygeodesy.geod3solve</a></strong>: <em class="summary">Wrapper to invoke <i>Karney</i>'s <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/Geod3Solve.1.html"
+        target="_top">Geod3Solve</a> utility as a <code>triaxial</code> 
+        geodesic, but intended <i>mainly for testing purposes</i>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.geodesici-module.html">pygeodesy.geodesici</a></strong>: <em class="summary">Classes <a href="pygeodesy.geodesici.Intersectool-class.html" 
         class="link">Intersectool</a> and <a 
         href="pygeodesy.geodesici.Intersector-class.html" 
@@ -829,7 +845,7 @@
     <li> <strong class="uidlink"><a href="pygeodesy.geodsolve-module.html">pygeodesy.geodsolve</a></strong>: <em class="summary">Wrapper to invoke <i>Karney</i>'s <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html"
         target="_top">GeodSolve</a> utility as an (exact) geodesic, but 
-        intended <i>for testing purposes only</i>.</em>    </li>
+        intended <i>mainly for testing purposes</i>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.geohash-module.html">pygeodesy.geohash</a></strong>: <em class="summary"><i>Gustavo Niemeyer</i>&#8217;s <a 
         href="https://WikiPedia.org/wiki/Geohash" 
         target="_top">Geohash</a>.</em>    </li>
@@ -969,26 +985,71 @@
     <li> <strong class="uidlink"><a href="pygeodesy.sphericalTrigonometry-module.html">pygeodesy.sphericalTrigonometry</a></strong>: <em class="summary">Spherical, <code>trigonometry</code>-based geodesy.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.streprs-module.html">pygeodesy.streprs</a></strong>: <em class="summary">Floating point and other formatting utilities.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.trf-module.html">pygeodesy.trf</a></strong>: <em class="summary"><i>Veness</i>' Terrestrial Reference Frames (TRF).</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.triaxials-module.html">pygeodesy.triaxials</a></strong>: <em class="summary">Triaxal ellipsoid classes <i>ordered</i> <a 
-        href="pygeodesy.triaxials.Triaxial-class.html" 
+    <li> <strong class="uidlink"><a href="pygeodesy.triaxials-module.html">pygeodesy.triaxials</a></strong>: <em class="summary">Package of lazily imported modules <a 
+        href="pygeodesy.triaxials.conformal3-module.html" class="link" 
+        onclick="show_private();">triaxials.conformal3</a>, <a 
+        href="pygeodesy.triaxials.triaxial3-module.html" class="link" 
+        onclick="show_private();">triaxials.triaxial3</a> and <a 
+        href="pygeodesy.triaxials.triaxial5-module.html" class="link" 
+        onclick="show_private();">triaxials.triaxial5</a> for triaxial 
+        ellipsoids.</em>
+    <ul>
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.triaxials.bases-module.html" onclick="show_private();">pygeodesy.triaxials.bases</a></strong>: <em class="summary">(INTERNAL) Base classes for <i>ordered</i> triaxial ellipsoid 
+        classes <a 
+        href="pygeodesy.triaxials.triaxial5.Conformal-class.html" 
+        class="link">Conformal</a>, <a 
+        href="pygeodesy.triaxials.conformal3.Conformal3-class.html" 
+        class="link">Conformal3</a>, <a 
+        href="pygeodesy.triaxials.triaxial5.Triaxial-class.html" 
+        class="link">Triaxial</a>, <a 
+        href="pygeodesy.triaxials.triaxial3.Triaxial3-class.html" 
+        class="link">Triaxial3</a> and <i>unordered</i> <a 
+        href="pygeodesy.triaxials.triaxial5.Triaxial_-class.html" 
+        class="link">Triaxial_</a>.</em>    </li>
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.triaxials.conformal3-module.html" onclick="show_private();">pygeodesy.triaxials.conformal3</a></strong>: <em class="summary"><i>Jacobi Conformal projection</i> classes <a 
+        href="pygeodesy.triaxials.conformal3.Conformal3-class.html" 
+        class="link">Conformal3</a>, <a 
+        href="pygeodesy.triaxials.conformal3.Conformal3B-class.html" 
+        class="link">Conformal3B</a> and <a 
+        href="pygeodesy.triaxials.conformal3.Conformal3Sphere-class.html" 
+        class="link">Conformal3Sphere</a> on triaxial ellipsoids and 
+        spheres using <a href="pygeodesy.angles.Ang-class.html" 
+        class="link">Ang</a>, <a href="pygeodesy.angles-module.html#Deg" 
+        class="link">Deg</a>, <a href="pygeodesy.angles-module.html#Rad" 
+        class="link">Rad</a> lat-, longitude, heading and meridian 
+        (convergence) angles.</em>    </li>
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.triaxials.triaxial3-module.html" onclick="show_private();">pygeodesy.triaxials.triaxial3</a></strong>: <em class="summary"><i>Ordered</i> triaxial ellipsoid classes <a 
+        href="pygeodesy.triaxials.triaxial3.Triaxial3-class.html" 
+        class="link">Triaxial3</a> and <a 
+        href="pygeodesy.triaxials.triaxial3.Triaxial3B-class.html" 
+        class="link">Triaxial3B</a> for conversion between variuos 
+        lat-/longitudal and cartesian coordinates on a triaxial ellipsoid 
+        using <a href="pygeodesy.angles.Ang-class.html" 
+        class="link">Ang</a>, <a href="pygeodesy.angles-module.html#Deg" 
+        class="link">Deg</a>, <a href="pygeodesy.angles-module.html#Rad" 
+        class="link">Rad</a> lat-, longitude and heading angles.</em>    </li>
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.triaxials.triaxial5-module.html" onclick="show_private();">pygeodesy.triaxials.triaxial5</a></strong>: <em class="summary">Triaxal ellipsoid classes <a 
+        href="pygeodesy.triaxials.triaxial5.Triaxial-class.html" 
         class="link">Triaxial</a> and <i>unordered</i> <a 
-        href="pygeodesy.triaxials.Triaxial_-class.html" 
+        href="pygeodesy.triaxials.triaxial5.Triaxial_-class.html" 
         class="link">Triaxial_</a> and Jacobi conformal projections <a 
-        href="pygeodesy.triaxials.ConformalTriaxial-class.html" 
-        class="link">ConformalTriaxial</a> and <a 
-        href="pygeodesy.triaxials.ConformalSphere-class.html" 
-        class="link">ConformalSphere</a>, transcoded from <i>Charles 
-        Karney</i>'s GeographicLib 2.5.2 C++ class <a 
+        href="pygeodesy.triaxials.triaxial5.Conformal-class.html" 
+        class="link">Conformal</a> and <a 
+        href="pygeodesy.triaxials.triaxial5.ConformalSphere-class.html" 
+        class="link">ConformalSphere</a>, transcoded from <i>Karney</i>'s 
+        GeographicLib 2.5.2 C++ class <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1JacobiConformal.html#details"
         target="_top">JacobiConformal</a> to pure Python and miscellaneous 
-        classes <a href="pygeodesy.triaxials.BetaOmega2Tuple-class.html" 
+        classes <a 
+        href="pygeodesy.triaxials.triaxial5.BetaOmega2Tuple-class.html" 
         class="link">BetaOmega2Tuple</a>, <a 
-        href="pygeodesy.triaxials.BetaOmega3Tuple-class.html" 
-        class="link">BetaOmega3Tuple</a>, <a 
-        href="pygeodesy.triaxials.Conformal2Tuple-class.html" 
-        class="link">Conformal2Tuple</a> and <a 
-        href="pygeodesy.triaxials.TriaxialError-class.html" 
-        class="link">TriaxialError</a>.</em>    </li>
+        href="pygeodesy.triaxials.triaxial5.BetaOmega3Tuple-class.html" 
+        class="link">BetaOmega3Tuple</a> and <a 
+        href="pygeodesy.triaxials.triaxial5.Conformal2Tuple-class.html" 
+        class="link">Conformal2Tuple</a>, <i>all kept for backward 
+        copability</i>.</em>    </li>
+    </ul>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.units-module.html">pygeodesy.units</a></strong>: <em class="summary">Various named units, all sub-classes of <code>Float</code>, 
         <code>Int</code> or <code>Str</code> from basic <code>float</code>,
         <code>int</code> respectively <code>str</code> to named units as <a
@@ -1180,6 +1241,15 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.angles.Ang-class.html" class="summary-name">Ang</a><br />
+      An accurate representation of angles, as 3-tuple <code>(s, c, 
+        n)</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.karney.Area3Tuple-class.html" class="summary-name">Area3Tuple</a><br />
       3-Tuple <code>(number, perimeter, area)</code> with the 
         <code>number</code> of points of the polygon or polyline, the 
@@ -1318,7 +1388,33 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.triaxials.BetaOmega2Tuple-class.html" class="summary-name">BetaOmega2Tuple</a><br />
+        <a href="pygeodesy.triaxials.triaxial3.BetOmgAlp5Tuple-class.html" class="summary-name">BetOmgAlp5Tuple</a><br />
+      5-Tuple <code>(bet, omg, alp, h, llk)</code> with 
+        <i>ellipsoidal</i> lat- <code>bet</code>, longitude 
+        <code>omg</code> and azimuth <code>alp</code>, all in <a 
+        href="pygeodesy.angles.Ang-class.html" class="link">Ang</a>les on 
+        and height <code>h</code> off the triaxial's surface and kind 
+        <code>llk</code> set to <code>LLK.ELLIPSOIDAL</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.triaxials.conformal3.BetOmgGam5Tuple-class.html" class="summary-name">BetOmgGam5Tuple</a><br />
+      5-Tuple <code>(bet, omg, gam, scale, llk)</code> with 
+        <i>ellipsoidal</i> lat- <code>bet</code>, longitude 
+        <code>omg</code> and meridian convergence <code>gam</code> all <a 
+        href="pygeodesy.angles.Ang-class.html" class="link">Ang</a>les, 
+        <code>scale</code> <i>and kind</i> <code>llk</code> <i>set to</i> 
+        <code>LLK.CONFORMAL</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.triaxials.triaxial5.BetaOmega2Tuple-class.html" class="summary-name">BetaOmega2Tuple</a><br />
       2-Tuple <code>(beta, omega)</code> with <i>ellipsoidal</i> lat- and
         longitude <code>beta</code> and <code>omega</code> both in <a 
         href="pygeodesy.units.Radians-class.html" class="link">Radians</a> 
@@ -1330,7 +1426,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.triaxials.BetaOmega3Tuple-class.html" class="summary-name">BetaOmega3Tuple</a><br />
+        <a href="pygeodesy.triaxials.triaxial5.BetaOmega3Tuple-class.html" class="summary-name">BetaOmega3Tuple</a><br />
       3-Tuple <code>(beta, omega, height)</code> with <i>ellipsoidal</i> 
         lat- and longitude <code>beta</code> and <code>omega</code> both in
         <a href="pygeodesy.units.Radians-class.html" 
@@ -1410,6 +1506,18 @@
         <code>geodesic</code>, <code>rhumb</code> or <code>-lines</code> 
         capabilities (<code>caps</code>) and method results 
         (<code>outmask</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.triaxials.triaxial3.Cartesian5Tuple-class.html" class="summary-name">Cartesian5Tuple</a><br />
+      5-Tuple <code>(x, y, z, h, llk)</code> with <i>cartesian</i> 
+        <code>x</code>, <code>y</code> and <code>z</code> coordinates on 
+        and height <code>h</code> above or below the triaxial's surface and
+        kind <code>llk</code> set to the original <code>LLK</code> or 
+        <code>None</code>.
     </td>
   </tr>
 <tr>
@@ -1659,7 +1767,17 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.triaxials.Conformal2Tuple-class.html" class="summary-name">Conformal2Tuple</a><br />
+        <a href="pygeodesy.triaxials.triaxial5.Conformal-class.html" class="summary-name">Conformal</a><br />
+      This is a <i>Jacobi Conformal</i> projection of a triaxial 
+        ellipsoid to a plane where the <code>X</code> and <code>Y</code> 
+        grid lines are straight.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.triaxials.triaxial5.Conformal2Tuple-class.html" class="summary-name">Conformal2Tuple</a><br />
       2-Tuple <code>(x, y)</code> with a <i>Jacobi Conformal</i> 
         <code>x</code> and <code>y</code> projection, both in <a 
         href="pygeodesy.units.Radians-class.html" class="link">Radians</a> 
@@ -1671,18 +1789,48 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.triaxials.ConformalSphere-class.html" class="summary-name">ConformalSphere</a><br />
-      An alternate, <i>spherical Jacobi Conformal</i> projection.
+        <a href="pygeodesy.triaxials.conformal3.Conformal3-class.html" class="summary-name">Conformal3</a><br />
+      <i>Jacobi Conformal</i> projection of triaxial ellipsoid using 
+        class <a href="pygeodesy.angles.Ang-class.html" 
+        class="link">Ang</a> lat- and longitudes.
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.triaxials.ConformalTriaxial-class.html" class="summary-name">ConformalTriaxial</a><br />
-      This is a <i>Jacobi Conformal</i> projection of a triaxial 
-        ellipsoid to a plane where the <code>X</code> and <code>Y</code> 
-        grid lines are straight.
+        <a href="pygeodesy.triaxials.conformal3.Conformal3B-class.html" class="summary-name">Conformal3B</a><br />
+      <i>Jacobi Conformal projection</i> on a triaxial ellipsoid 
+        specified by its middle semi-axis and shape.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.triaxials.conformal3.Conformal3Sphere-class.html" class="summary-name">Conformal3Sphere</a><br />
+      <i>Jacobi Conformal projection</i> on a <i>spherical</i> triaxial.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.triaxials.bases.Conformal5Tuple-class.html" class="summary-name">Conformal5Tuple</a><br />
+      5-Tuple <code>(x, y, z, scale, llk)</code> with the easting 
+        <code>x</code> and northing <code>y</code> projection, 
+        <code>scale</code> or <code>NAN</code> <i>but with</i> 
+        <code>z=INT0</code> <i>and kind</i> <code>llk=LLK.CONFORMAL</code> 
+        <i>always</i>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.triaxials.triaxial5.ConformalSphere-class.html" class="summary-name">ConformalSphere</a><br />
+      Alternate, <i>Jacobi Conformal projection</i> on a <i>spherical</i>
+        triaxial.
     </td>
   </tr>
 <tr>
@@ -2635,17 +2783,33 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.karney.GeodSolve12Tuple-class.html" class="summary-name">GeodSolve12Tuple</a><br />
+        <a href="pygeodesy.geod3solve.Geod3Solve7Tuple-class.html" class="summary-name">Geod3Solve7Tuple</a><br />
+      7-Tuple <code>(bet1, omg1, alp1, bet2, omg2, alp2, s12)</code> with
+        <code>ellipsoidal</code> latitudes <code>bet1</code> and 
+        <code>bet2</code>, <code>ellipsoidal</code> longitudes 
+        <code>omg1</code> and <code>omg2</code>, forward azimuths 
+        <code>alp1</code> and <code>alp2</code> in bearings from North and 
+        distance <code>s12</code> in <code>meter</code>, conventionally, 
+        see see <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/Geod3Solve.1.html"
+        target="_top">Geod3Solve</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.geodsolve.GeodSolve12Tuple-class.html" class="summary-name">GeodSolve12Tuple</a><br />
       12-Tuple <code>(lat1, lon1, azi1, lat2, lon2, azi2, s12, a12, m12, 
         M12, M21, S12)</code> with angles <code>lat1</code>, 
         <code>lon1</code>, <code>azi1</code>, <code>lat2</code>, 
         <code>lon2</code> and <code>azi2</code> and arc <code>a12</code> 
         all in <code>degrees</code>, initial <code>azi1</code> and final 
-        <code>azi2</code> forward azimuths, distance <code>s12</code> and 
-        reduced length <code>m12</code> in <code>meter</code>, area 
-        <code>S12</code> in <code>meter</code> <i>squared</i> and geodesic 
-        scale factors <code>M12</code> and <code>M21</code>, both 
-        <code>scalar</code>, see <a 
+        <code>azi2</code> forward azimuths in bearings, degrees from North,
+        distance <code>s12</code> and reduced length <code>m12</code> in 
+        <code>meter</code>, area <code>S12</code> in <code>meter</code> 
+        <i>squared</i> and geodesic scale factors <code>M12</code> and 
+        <code>M21</code>, both <code>scalar</code>, see <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html"
         target="_top">GeodSolve</a>.
     </td>
@@ -2658,6 +2822,29 @@
       <i>Wrapper</i> around <i>Karney</i>'s class <a 
         href="https://GeographicLib.SourceForge.io/Python/doc/code.html" 
         target="_top">geographiclib.geodesic.Geodesic</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.geod3solve.Geodesic3Error-class.html" class="summary-name">Geodesic3Error</a><br />
+      Error raised for issues in <a 
+        href="pygeodesy.geod3solve-module.html" 
+        class="link">geod3solve</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.geod3solve.Geodesic3Solve-class.html" class="summary-name">Geodesic3Solve</a><br />
+      Wrapper to invoke <i>Karney</i>'s <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/Geod3Solve.1.html"
+        target="_top">Geod3Solve</a> as a <code>triaxial</code> version of 
+        <i>Karney</i>'s Python class <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/python/code.html#geographiclib.geodesic.Geodesic"
+        target="_top">Geodesic</a>.
     </td>
   </tr>
 <tr>
@@ -2679,8 +2866,9 @@
       Error raised for convergence or other issues in <a 
         href="pygeodesy.geodesicx-module.html" class="link">geodesicx</a>, 
         <a href="pygeodesy.geodesicw-module.html" 
-        class="link">geodesicw</a> or <a 
-        href="pygeodesy.karney-module.html" class="link">karney</a>.
+        class="link">geodesicw</a>, <a 
+        href="pygeodesy.geodsolve-module.html" class="link">geodsolve</a> 
+        or <a href="pygeodesy.karney-module.html" class="link">karney</a>.
     </td>
   </tr>
 <tr>
@@ -2704,6 +2892,19 @@
       <i>Wrapper</i> around <i>Karney</i>'s class <a 
         href="https://GeographicLib.SourceForge.io/Python/doc/code.html" 
         target="_top">geographiclib.geodesicline.GeodesicLine</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.geod3solve.GeodesicLine3Solve-class.html" class="summary-name">GeodesicLine3Solve</a><br />
+      Wrapper to invoke <i>Karney</i>'s <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.3.html"
+        target="_top">Geod3Solve</a> as a <code>triaxial</code> version of 
+        <i>Karney</i>'s Python class <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/python/code.html#geographiclib.geodesicline.GeodesicLine"
+        target="_top">GeodesicLine</a>.
     </td>
   </tr>
 <tr>
@@ -3503,8 +3704,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.deprecated.classes.Jacobi2Tuple-class.html" class="summary-name">Jacobi2Tuple</a><br />
-      DEPRECATED on 25.10.25, use class <a 
-        href="pygeodesy.triaxials.Conformal2Tuple-class.html" 
+      DEPRECATED on 25.11.11, use class <a 
+        href="pygeodesy.triaxials.triaxial5.Conformal2Tuple-class.html" 
         class="link">Conformal2Tuple</a>.
     </td>
   </tr>
@@ -3514,8 +3715,8 @@
     </td><td class="summary">
         <a href="pygeodesy.deprecated.classes.JacobiConformal-class.html" class="summary-name">JacobiConformal</a><br />
       DEPRECATED on 2025.10.25, use class <a 
-        href="pygeodesy.triaxials.ConformalTriaxial-class.html" 
-        class="link">ConformalTriaxial</a>.
+        href="pygeodesy.triaxials.triaxial5.Conformal-class.html" 
+        class="link">Conformal</a>.
     </td>
   </tr>
 <tr>
@@ -3524,7 +3725,7 @@
     </td><td class="summary">
         <a href="pygeodesy.deprecated.classes.JacobiConformalSpherical-class.html" class="summary-name">JacobiConformalSpherical</a><br />
       DEPRECATED on 2025.10.25, use class <a 
-        href="pygeodesy.triaxials.ConformalSphere-class.html" 
+        href="pygeodesy.triaxials.triaxial5.ConformalSphere-class.html" 
         class="link">ConformalSphere</a>.
     </td>
   </tr>
@@ -3590,6 +3791,14 @@
         target="_top">Snyder, pp 185-187</a> and <a 
         href="https://MathWorld.Wolfram.com/LambertAzimuthalEqual-AreaProjection.html"
         target="_top">MathWorld-Wolfram</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.angles.Lambertian-class.html" class="summary-name">Lambertian</a><br />
+      A <code>Lambertian</code> in <code>radians</code>.
     </td>
   </tr>
 <tr>
@@ -4255,6 +4464,19 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.triaxials.triaxial3.PhiLamZet5Tuple-class.html" class="summary-name">PhiLamZet5Tuple</a><br />
+      5-Tuple <code>(phi, lam, zet, h, llk)</code> with trixial lat- lat-
+        <code>phi</code>, longitude <code>lam</code> and azimuth 
+        <code>zet</code>, all in <a href="pygeodesy.angles.Ang-class.html" 
+        class="link">Ang</a>les on and height <code>h</code> off the 
+        triaxial's surface and kind <code>llk</code> set to an 
+        <code>LLK</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.deprecated.classes.Phi_-class.html" class="summary-name">Phi_</a><br />
       DEPRECATED on 2024.06.15, use class <a 
         href="pygeodesy.units.Phid-class.html" class="link">Phid</a>.
@@ -4517,8 +4739,9 @@
     </td><td class="summary">
         <a href="pygeodesy.deprecated.classes.Rhumb7Tuple-class.html" class="summary-name">Rhumb7Tuple</a><br />
       DEPRECATED, use class <a 
-        href="pygeodesy.karney.Rhumb8Tuple-class.html" 
-        class="link">Rhumb8Tuple</a>, ignoring item <code>a12</code>.
+        href="pygeodesy.karney.Rhumb8Tuple-class.html" class="link" 
+        onclick="show_private();">Rhumb8Tuple</a>, ignoring item 
+        <code>a12</code>.
     </td>
   </tr>
 <tr>
@@ -4884,7 +5107,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.triaxials.Triaxial-class.html" class="summary-name">Triaxial</a><br />
+        <a href="pygeodesy.triaxials.triaxial5.Triaxial-class.html" class="summary-name">Triaxial</a><br />
       <i>Ordered</i> triaxial ellipsoid.
     </td>
   </tr>
@@ -4892,17 +5115,34 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.triaxials.TriaxialError-class.html" class="summary-name">TriaxialError</a><br />
-      Raised for <a href="pygeodesy.triaxials.Triaxial-class.html" 
-        class="link">Triaxial</a> issues.
+        <a href="pygeodesy.triaxials.triaxial3.Triaxial3-class.html" class="summary-name">Triaxial3</a><br />
+      <i>Ordered</i> triaxial ellipsoid convering between cartesian and 
+        lat-/longitudes using using class <a 
+        href="pygeodesy.angles.Ang-class.html" class="link">Ang</a>.
     </td>
   </tr>
 <tr>
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.triaxials.Triaxial_-class.html" class="summary-name">Triaxial_</a><br />
-      <i>Unordered</i> triaxial ellipsoid and base class.
+        <a href="pygeodesy.triaxials.triaxial3.Triaxial3B-class.html" class="summary-name">Triaxial3B</a><br />
+      Triaxial ellipsoid specified by its middle semi-axis and shape.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.triaxials.bases.TriaxialError-class.html" class="summary-name">TriaxialError</a><br />
+      Raised for any cartesian or conformal triaxial issues.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.triaxials.triaxial5.Triaxial_-class.html" class="summary-name">Triaxial_</a><br />
+      <i>Unordered</i> triaxial ellipsoid.
     </td>
   </tr>
 <tr>
@@ -5262,6 +5502,26 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a name="Deg"></a><span class="summary-sig-name">Deg</span>(<span class="summary-sig-arg">deg</span>,
+        <span class="summary-sig-arg">**name</span>)</span><br />
+      Return an <a href="pygeodesy.angles.Ang-class.html" 
+      class="link">Ang</a> from <code>deg</code> degrees or an other <a 
+      href="pygeodesy.angles.Ang-class.html" class="link">Ang</a>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a name="EcefCartesian"></a><span class="summary-sig-name">EcefCartesian</span>(<span class="summary-sig-arg">*args</span>,
         <span class="summary-sig-arg">**kwds</span>)</span><br />
       DEPRECATED, use class <a 
@@ -5527,6 +5787,26 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#NM2m" class="summary-sig-name">NM2m</a>(<span class="summary-sig-arg">nm</span>)</span><br />
       Convert nautical miles to meter (m).</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="Rad"></a><span class="summary-sig-name">Rad</span>(<span class="summary-sig-arg">rad</span>,
+        <span class="summary-sig-arg">**name</span>)</span><br />
+      Return an <a href="pygeodesy.angles.Ang-class.html" 
+      class="link">Ang</a> from <code>rad</code> radians or an other <a 
+      href="pygeodesy.angles.Ang-class.html" class="link">Ang</a>.</td>
           <td align="right" valign="top">
             
             
@@ -9464,7 +9744,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fa1003598d0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f8168856750&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -9535,6 +9815,30 @@
       Compute the great-circle distance between two geohashes using the <a 
       href="pygeodesy.formy-module.html#haversine" 
       class="link">pygeodesy.haversine</a> formula.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#height4" class="summary-sig-name">height4</a>(<span class="summary-sig-arg">x_xyz</span>,
+        <span class="summary-sig-arg">y</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">z</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">tri_biax</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="summary-sig-arg">normal</span>=<span class="summary-sig-default">True</span>,
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.220446049250313e-16</span>,
+        <span class="summary-sig-arg">**name</span>)</span><br />
+      Compute the projection on and the height above or below a 
+      tri-/biaxial ellipsoid's surface.</td>
           <td align="right" valign="top">
             
             
@@ -9907,6 +10211,24 @@
         <span class="summary-sig-arg">**Vector_and_kwds</span>)</span><br />
       Compute the intersection of two spheres or circles, each defined by a
       (3-D) center point and a radius.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="isAng"></a><span class="summary-sig-name">isAng</span>(<span class="summary-sig-arg">ang</span>)</span><br />
+      Is <code>ang</code> an <a href="pygeodesy.angles.Ang-class.html" 
+      class="link">Ang</a> instance?</td>
           <td align="right" valign="top">
             
             
@@ -13381,7 +13703,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#tand" class="summary-sig-name">tand</a>(<span class="summary-sig-arg">deg</span>,
-        <span class="summary-sig-arg">**raiser_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**raiser_clamp_kwds</span>)</span><br />
       Return the <code>tangent</code> of an angle in <code>degrees</code>.</td>
           <td align="right" valign="top">
             
@@ -13399,7 +13721,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#tand_" class="summary-sig-name">tand_</a>(<span class="summary-sig-arg">*degs</span>,
-        <span class="summary-sig-arg">**raiser_kwds</span>)</span><br />
+        <span class="summary-sig-arg">**raiser_clamp_kwds</span>)</span><br />
       Yield the <code>tangent</code> of angle(s) in <code>degrees</code>.</td>
           <td align="right" valign="top">
             
@@ -14670,7 +14992,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'25.11.5'">'25.11.5'</code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'25.12.6'">'25.12.6'</code><br />
       Normalized <code>pygeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -14773,6 +15095,15 @@ m=Transforms.WGS84),
     </td><td class="summary">
         <a name="EPS4"></a><span class="summary-name">EPS4</span> = <code title="8.881784197001252e-16">8.881784197001252e-16</code><br />
       <i class="math">EPS * 4</i> &#8776; 8.881784197001e-16 
+      (<code>float</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="EPS8"></a><span class="summary-name">EPS8</span> = <code title="1.7763568394002505e-15">1.7763568394002505e-15</code><br />
+      <i class="math">EPS * 8</i> &#8776; 1.776356839400e-15 
       (<code>float</code>).
     </td>
   </tr>
@@ -15128,6 +15459,13 @@ Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, f=0.003\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a name="LLK"></a><span class="summary-name">LLK</span> = <code title="LLK()">LLK()</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a name="MANTIS"></a><span class="summary-name">MANTIS</span> = <code title="53">53</code>
     </td>
   </tr>
@@ -15222,6 +15560,16 @@ Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, f=0.003\
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a name="OK"></a><span class="summary-name">OK</span> = <code title="'OK'">'OK'</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="OVERFLOW"></a><span class="summary-name">OVERFLOW</span> = <code title="2.028240960365167e+31">2.028240960365167e+31</code><br />
+      Object representing <code>overflow</code> (1 / <a 
+      href="pygeodesy.constants-module.html#EPS0" class="link">EPS0</a> = 
+      4.9e+32).
     </td>
   </tr>
 <tr>
@@ -15474,7 +15822,14 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="Triaxials"></a><span class="summary-name">Triaxials</span> = <code title=""></code><br />
+        <a name="Triaxial3s"></a><span class="summary-name">Triaxial3s</span> = <code title="Triaxial3s()">Triaxial3s()</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Triaxials"></a><span class="summary-name">Triaxials</span> = <code title="Triaxials(Triaxial, Triaxial_)">Triaxials(Triaxial, Triaxial_)</code><br />
       Registered, predefined triaxial ellipsoids (<code>enum-like</code>).
     </td>
   </tr>
@@ -22971,7 +23326,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
         Class <a href="pygeodesy.ltpTuples.Los-class.html" 
         class="link">Los</a>, functions <a 
         href="pygeodesy.ltp-module.html#tyr3d" class="link">tyr3d</a> and 
-        <a href="pygeodesy.triaxials-module.html#hartzell4" 
+        <a href="pygeodesy.triaxials.triaxial5-module.html#hartzell4" 
         class="link">hartzell4</a> and methods <a 
         href="pygeodesy.ellipsoids.Ellipsoid-class.html#hartzell4" 
         class="link">Ellipsoid.hartzell4</a>, any 
@@ -23013,13 +23368,14 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
           <i>normal, perpendicular, plumb</i> to the surface of the 
           tri-/biaxial or <code>False</code> or <code>None</code> to point 
           to its center.</li>
-        <li><strong class="pname"><code>tri_biax</code></strong> - A triaxial (<a href="pygeodesy.triaxials.Triaxial-class.html" 
+        <li><strong class="pname"><code>tri_biax</code></strong> - A triaxial (<a 
+          href="pygeodesy.triaxials.triaxial5.Triaxial-class.html" 
           class="link">Triaxial</a>, <a 
-          href="pygeodesy.triaxials.Triaxial_-class.html" 
+          href="pygeodesy.triaxials.triaxial5.Triaxial_-class.html" 
           class="link">Triaxial_</a>, <a 
-          href="pygeodesy.triaxials.ConformalTriaxial-class.html" 
-          class="link">ConformalTriaxial</a> or <a 
-          href="pygeodesy.triaxials.ConformalSphere-class.html" 
+          href="pygeodesy.triaxials.triaxial5.Conformal-class.html" 
+          class="link">Conformal</a> or <a 
+          href="pygeodesy.triaxials.triaxial5.ConformalSphere-class.html" 
           class="link">ConformalSphere</a>) or biaxial ellipsoid (<a 
           href="pygeodesy.datums.Datum-class.html" class="link">Datum</a>, 
           <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
@@ -23041,7 +23397,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
           conventionally.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.triaxials.TriaxialError-class.html">TriaxialError</a></strong></code> - Invalid <b><code>pov</code></b> or <b><code>pov</code></b> inside 
+        <li><code><strong class='fraise'><a href="pygeodesy.triaxials.bases.TriaxialError-class.html">TriaxialError</a></strong></code> - Invalid <b><code>pov</code></b> or <b><code>pov</code></b> inside 
         the tri-/biaxial or invalid <b><code>los</code></b> or 
         <b><code>los</code></b> points outside or away from the 
         tri-/biaxial.</li>
@@ -23078,7 +23434,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fa1003598d0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f8168856750&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -23282,6 +23638,83 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
     </ul></dd>
   </dl>
 </td></tr></table>
+</div>
+<a name="height4"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">height4</span>&nbsp;(<span class="sig-arg">x_xyz</span>,
+        <span class="sig-arg">y</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">z</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">tri_biax</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="sig-arg">normal</span>=<span class="sig-default">True</span>,
+        <span class="sig-arg">eps</span>=<span class="sig-default">2.220446049250313e-16</span>,
+        <span class="sig-arg">**name</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the projection on and the height above or below a tri-/biaxial
+  ellipsoid's surface.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x_xyz</code></strong> - X component (<code>scalar</code>) or a cartesian 
+          (<code>Cartesian</code>, <a 
+          href="pygeodesy.ecef.Ecef9Tuple-class.html" 
+          class="link">Ecef9Tuple</a>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>, <a 
+          href="pygeodesy.namedTuples.Vector3Tuple-class.html" 
+          class="link">Vector3Tuple</a> or <a 
+          href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
+          class="link">Vector4Tuple</a>).</li>
+        <li><strong class="pname"><code>y</code></strong> - Y component (<code>scalar</code>), required if 
+          <b><code>x_xyz</code></b> if <code>scalar</code>, ignored 
+          otherwise.</li>
+        <li><strong class="pname"><code>z</code></strong> - Z component (<code>scalar</code>), like <b><code>y</code></b>.</li>
+        <li><strong class="pname"><code>normal</code></strong> - If <code>True</code>, the projection is the <i>perpendicular, 
+          plumb</i> to the tri-/biaxial's surface, otherwise the 
+          <code>radial</code> line to the center of the tri-/biaxial 
+          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>eps</code></strong> - Tolerance for root finding and validation (<code>scalar</code>), 
+          use a negative value to skip validation.</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=&quot;height4&quot;</code> 
+          (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><a href="pygeodesy.namedTuples.Vector4Tuple-class.html" 
+          class="link">Vector4Tuple</a><code>(x, y, z, h)</code> with the 
+          cartesian coordinates <code>x</code>, <code>y</code> and 
+          <code>z</code> of the projection on or the intersection with and 
+          with the height <code>h</code> above or below the tri-/biaxial's 
+          surface in <code>meter</code>, conventionally.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.triaxials.bases.TriaxialError-class.html">TriaxialError</a></strong></code> - Non-cartesian <b><code>xyz</code></b>, invalid 
+        <b><code>eps</code></b>, no convergence in root finding or 
+        validation failed.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Methods <a 
+        href="pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#normal3d"
+        class="link">Triaxial.normal3d</a> and <a 
+        href="pygeodesy.ellipsoids.Ellipsoid-class.html#height4" 
+        class="link">Ellipsoid.height4</a>, <i>Eberly</i>'s <a 
+        href="https://www.GeometricTools.com/Documentation/DistancePointEllipseEllipsoid.pdf"
+        target="_top">Distance from a Point to ...</a> and <i>Bektas</i>' 
+        <a 
+        href="https://www.ResearchGate.net/publication/272149005_SHORTEST_DISTANCE_FROM_A_POINT_TO_TRIAXIAL_ELLIPSOID"
+        target="_top">Shortest Distance from a Point to Triaxial 
+        Ellipsoid</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="heightOf"></a>
 <div>
@@ -30578,7 +31011,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">tand</span>&nbsp;(<span class="sig-arg">deg</span>,
-        <span class="sig-arg">**raiser_kwds</span>)</span>
+        <span class="sig-arg">**raiser_clamp_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -30591,8 +31024,9 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>deg</code></strong> - Angle (<code>degrees</code>).</li>
-        <li><strong class="pname"><code>raiser_kwds</code></strong> - Use <code><b>raiser</b>=False</code> to avoid ValueErrors and 
-          optional, additional ValueError keyword argments.</li>
+        <li><strong class="pname"><code>raiser_clamp_kwds</code></strong> - Use <code><b>raiser</b>=False</code> to avoid ValueErrors, 
+          <code><b>clamp</b>=</code>OVERFLOW and optional, additional 
+          ValueError keyword argments.</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd><code>tan(<b>deg</b>)</code>.</dd>
@@ -30612,7 +31046,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">tand_</span>&nbsp;(<span class="sig-arg">*degs</span>,
-        <span class="sig-arg">**raiser_kwds</span>)</span>
+        <span class="sig-arg">**raiser_clamp_kwds</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -33704,7 +34138,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Nov  6 10:52:29 2025
+    Generated by Epydoc 3.0.1 on Sun Dec  7 17:54:44 2025
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -27,7 +27,7 @@ from os import getenv
 from setuptools import setup
 
 __all__ = ()
-__version__ = '25.10.30'
+__version__ = '25.12.06'
 
 _PACKAGE = 'pygeodesy'  # 'PyGeodesy'
 
@@ -109,7 +109,7 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode', 'are
              'XYZ', 'yaw', 'You', 'zenzi-cubic', 'zenzi-quartic')
 
 setup(name=_PACKAGE,
-      packages=['pygeodesy', 'pygeodesy.auxilats', 'pygeodesy.deprecated', 'pygeodesy.geodesicx', 'pygeodesy.rhumb'],
+      packages=['pygeodesy', 'pygeodesy.auxilats', 'pygeodesy.deprecated', 'pygeodesy.geodesicx', 'pygeodesy.rhumb', 'pygeodesy.triaxials'],
       description='Pure Python geodesy tools',
       version=_version(),
 

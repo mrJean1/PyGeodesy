@@ -11,27 +11,29 @@ as an (exact) rhumb or rhumb line from I{either GeographicLib 2.0 or 2.2+}.
 from pygeodesy.basics import _xinstanceof
 from pygeodesy.constants import _180_0, _N_180_0, _over,  _0_0  # PYCHOK used!
 from pygeodesy.errors import RhumbError   # PYCHOK used!
-from pygeodesy.interns import NN, _a12_, _azi12_, _DMAIN_, _lat2_, _lon2_, _s12_, \
-                             _S12_, _UNDER_
-from pygeodesy.karney import Caps, GDict, _norm180, Rhumb8Tuple, _sincos2d, _Xables
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
+from pygeodesy.interns import NN, _a12_, _azi12_, _DMAIN_, _lat2_, \
+                             _lon2_, _s12_, _S12_, _UNDER_
+from pygeodesy.karney import Caps, GDict, _norm180, Rhumb8Tuple, \
+                            _sincos2d, _Xables
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY  # _ALL_MODS as _MODS
 from pygeodesy.namedTuples import Destination3Tuple, Distance3Tuple
-from pygeodesy.props import deprecated_method, Property, Property_RO
+from pygeodesy.props import Property, Property_RO
 from pygeodesy.solveBase import _SolveGDictBase, _SolveGDictLineBase
 from pygeodesy.utily import _unrollon, _Wrap, wrap360
 
 __all__ = _ALL_LAZY.rhumb_solve
-__version__ = '25.05.07'
+__version__ = '25.12.06'
 
 
 class _RhumbSolveBase(_SolveGDictBase):
     '''(INTERNAL) Base class for L{RhumbSolve} and L{RhumbLineSolve}.
     '''
-    _Error         =  RhumbError
-    _Names_Direct  = _lat2_, _lon2_, _S12_
-    _Names_Inverse = _azi12_, _s12_, _S12_
-    _Xable_name    = _Xables.RhumbSolve.__name__  # typename
-    _Xable_path    = _Xables.RhumbSolve()
+    _Error          =  RhumbError
+    _Names_Direct   = \
+    _Names_Distance = _lat2_, _lon2_, _S12_
+    _Names_Inverse  = _azi12_, _s12_, _S12_
+    _Xable_name     = _Xables.RhumbSolve.__name__  # typename
+    _Xable_path     = _Xables.RhumbSolve()
 
     @Property_RO
     def _cmdBasic(self):
@@ -61,19 +63,6 @@ class _RhumbSolveBase(_SolveGDictBase):
     @Property_RO
     def _s_option(self):  # == not -E for GeodSolve
         return () if self.Exact else ('-s',)
-
-    def toStr(self, **prec_sep):  # PYCHOK signature
-        '''Return this C{RhumbSolve} as string.
-
-           @kwarg prec_sep: Keyword argumens C{B{prec}=6} and C{B{sep}=", "}
-                      for the C{float} C{prec}ision, number of decimal digits
-                      (0..9) and the C{sep}arator string to join.  Trailing
-                      zero decimals are stripped for B{C{prec}} values of 1
-                      and above, but kept for negative B{C{prec}} values.
-
-           @return: RhumbSolve items (C{str}).
-        '''
-        return self._toStr(RhumbSolve=self.RhumbSolve, **prec_sep)
 
 #   @Property_RO
 #   def _u_option(self):
@@ -229,6 +218,15 @@ class RhumbSolve(_RhumbSolveBase):
 
     Line = DirectLine
 
+    def toStr(self, **prec_sep_other):  # PYCHOK signature
+        '''Return this C{RhumbSolve} as string.
+
+           @kwarg prec_sep: See L{toStr<pygeodesy.solveBase._SolveBase.toStr>}.
+
+           @return: RhumbSolve items (C{str}).
+        '''
+        return _RhumbSolveBase.toStr(self, RhumbSolve=self.RhumbSolve, **prec_sep_other)
+
 
 class RhumbLineSolve(_RhumbSolveBase, _SolveGDictLineBase):
     '''Wrapper to invoke I{Karney}'s U{RhumbSolve<https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve.1.html>}
@@ -281,7 +279,7 @@ class RhumbLineSolve(_RhumbSolveBase, _SolveGDictLineBase):
 #                   azi12, a12, s12, S12}.
 #       '''
 #       s = a12 * self._mpd
-#       a = self._GDictInvoke(self._cmdArc, self._Names_Direct, s)
+#       a = self._GDictInvoke(self._cmdArc, self._Names_Distance, s)
 #       r = GDict(a12=a12, s12=s, **self._lla1)
 #       r.updated(a)
 #       return r
@@ -316,24 +314,19 @@ class RhumbLineSolve(_RhumbSolveBase, _SolveGDictLineBase):
            @return: A L{GDict} with 7 items C{lat1, lon1, lat2, lon2,
                     azi12, s12, S12}.
         '''
-        d = self._GDictInvoke(self._cmdDistance, self._Names_Direct, s12)
+        d = self._GDictInvoke(self._cmdDistance, self._Names_Distance, s12)
         r = GDict(s12=s12, **self._lla1)  # a12=_over(s12, self._mpd)
         r.update(d)
         return r
 
-    def toStr(self, **prec_sep):  # PYCHOK signature
+    def toStr(self, **prec_sep_other):  # PYCHOK signature
         '''Return this C{RhumbLineSolve} as string.
 
-           @kwarg prec_sep: Keyword argumens C{B{prec}=6} and C{B{sep}=", "}
-                      for the C{float} C{prec}ision, number of decimal digits
-                      (0..9) and the C{sep}arator string to join.  Trailing
-                      zero decimals are stripped for B{C{prec}} values of 1
-                      and above, but kept for negative B{C{prec}} values.
+           @kwarg prec_sep: See L{toStr<pygeodesy.solveBase._SolveBase.toStr>}.
 
            @return: RhumbLineSolve items (C{str}).
         '''
-        return _SolveGDictLineBase._toStr(self, azi12=self.azi12, rhumb=self._solve,
-                                                RhumbSolve=self.RhumbSolve, **prec_sep)
+        return _SolveGDictLineBase.toStr(self, rhumb=self._solve, **prec_sep_other)
 
 
 class RhumbSolve7Tuple(Rhumb8Tuple):
@@ -345,12 +338,6 @@ class RhumbSolve7Tuple(Rhumb8Tuple):
     assert Rhumb8Tuple._Names_.index(_a12_) == 7
     _Names_ = Rhumb8Tuple._Names_[:7]  # drop a12
     _Units_ = Rhumb8Tuple._Units_[:7]
-
-    @deprecated_method
-    def _to7Tuple(self):  # PYCHOK no cover
-        '''DEPRECATED, I{don't use!}
-        '''
-        return _MODS.deprecated.classes.Rhumb7Tuple(self[:7])
 
 
 __all__ += _ALL_DOCS(_RhumbSolveBase)
@@ -391,7 +378,7 @@ if __name__ == _DMAIN_:
                 break
 
     rS = RhumbSolve(name='Test')
-    rS.verbose = '--verbose' in argv  # or '-v' in argv
+    rS.verbose = v = '--verbose' in argv  # or '-v' in argv
 
     if not _Xables.X_OK(rS.RhumbSolve):  # not set
         rS.RhumbSolve = _Xables.RhumbSolve(_Xables.bin_)
@@ -404,76 +391,83 @@ if __name__ == _DMAIN_:
         exit()
 
     r = rS.Direct(40.6, -73.8, 51, 5.5e6)
-    printf('Direct: %r', r, nl=1)
-    printf('Direct3: %r', rS.Direct3(40.6, -73.8, 51, 5.5e6))
+    printf('Direct: %r', r)
+    printf('Direct3: %r', rS.Direct3(40.6, -73.8, 51, 5.5e6), nt=v)
 
-    printf('Inverse: %r',  rS.Inverse( 40.6, -73.8, 51.6, -0.5), nl=1)
+    printf('Inverse: %r',  rS.Inverse( 40.6, -73.8, 51.6, -0.5))
     printf('Inverse1: %r', rS.Inverse1(40.6, -73.8, 51.6, -0.5))
-    printf('Inverse3: %r', rS.Inverse3(40.6, -73.8, 51.6, -0.5))
+    printf('Inverse3: %r', rS.Inverse3(40.6, -73.8, 51.6, -0.5), nt=v)
 
-    printf('Inverse: %r',  rS.Inverse( 40.6, -73.8, 35.8, 140.3), nl=1)
+    printf('Inverse: %r',  rS.Inverse( 40.6, -73.8, 35.8, 140.3))
     printf('Inverse1: %r', rS.Inverse1(40.6, -73.8, 35.8, 140.3))
-    printf('Inverse3: %r', rS.Inverse3(40.6, -73.8, 35.8, 140.3))
+    printf('Inverse3: %r', rS.Inverse3(40.6, -73.8, 35.8, 140.3), nt=v)
 
     rlS = RhumbLineSolve(rS, 40.6, -73.8, 51, name='LineTest')
+    printf('Line: %r', rlS)
     p = rlS.Position(5.5e6)
-    printf('Position:    %s  %r', p == r, p, nl=1)
+    printf('Position:    %r %s', p, p == r)
 #   p = rlS.ArcPosition(49.475527)
-#   printf('ArcPosition: %s %r', p == r, p)
+#   printf('ArcPosition: %r %s', p, p == r)
 
 
 # % python3 -m pygeodesy.rhumb.solve
 
-# version: /opt/local/bin/RhumbSolve: GeographicLib version 2.2
-
-# Direct: GDict(azi12=51, lat1=40.6, lat2=71.6889, lon1=-73.8, lon2=0.25552, s12=5500000.0, S12=44095641862956.109375)
+# version: /opt/local/bin/RhumbSolve: GeographicLib version 2.7
+# Direct: GDict(azi12=51, lat1=40.6, lat2=71.6889, lon1=-73.8, lon2=0.25552, s12=5500000.0, S12=44095641862956.132812)
 # Direct3: Destination3Tuple(lat=71.6889, lon=0.25552, final=51.0)
-
-# Inverse: GDict(a12=51.929543, azi12=77.76839, lat1=40.6, lat2=51.6, lon1=-73.8, lon2=-0.5, s12=5771083.383328, S12=37395209100030.390625)
+# Inverse: GDict(a12=51.929543, azi12=77.76839, lat1=40.6, lat2=51.6, lon1=-73.8, lon2=-0.5, s12=5771083.383328, S12=37395209100030.382812)
 # Inverse1: 51.929542507561905
 # Inverse3: Distance3Tuple(distance=5771083.383328, initial=77.76839, final=77.76839)
-
 # Inverse: GDict(a12=115.02062, azi12=-92.388888, lat1=40.6, lat2=35.8, lon1=-73.8, lon2=140.3, s12=12782581.067684, S12=-63760642939072.5)
 # Inverse1: 115.02061966879248
 # Inverse3: Distance3Tuple(distance=12782581.067684, initial=267.611112, final=267.611112)
-
-# Position:    True  GDict(azi12=51, lat1=40.6, lat2=71.6889, lon1=-73.8, lon2=0.25552, s12=5500000.0, S12=44095641862956.109375)
+# Line: RhumbLineSolve(invokation=1, rhumb=RhumbSolve(ellipsoid=Ellipsoid(name='WGS84', a=6378137, f=0.00335281, f_=298.25722356, b=6356752.31424518), invokation=9, RhumbSolve='/opt/local/bin/RhumbSolve', status=0), status=0)
+# Position:    GDict(azi12=51, lat1=40.6, lat2=71.6889, lon1=-73.8, lon2=0.25552, s12=5500000.0, S12=44095641862956.132812) True
 
 
 # % python3 -m pygeodesy.rhumb.solve --verbose
 
-# RhumbSolve 'Test' 1: /opt/local/bin/RhumbSolve --version (invoke)
-# RhumbSolve 'Test' 1: /opt/local/bin/RhumbSolve: GeographicLib version 2.2 (0)
-# version: /opt/local/bin/RhumbSolve: GeographicLib version 2.2
-# RhumbSolve 'Test' 2: /opt/local/bin/RhumbSolve -p 10 \ 40.600000000000001 -73.799999999999997 51.0 5500000.0 (Direct)
-# RhumbSolve 'Test' 2: lat2=71.688899882813018, lon2=0.255519824423402, S12=44095641862956.109 (0)
-
-# Direct: GDict(azi12=51, lat1=40.6, lat2=71.6889, lon1=-73.8, lon2=0.25552, s12=5500000.0, S12=44095641862956.109375)
-# RhumbSolve 'Test' 3: /opt/local/bin/RhumbSolve -p 10 \ 40.600000000000001 -73.799999999999997 51.0 5500000.0 (Direct3)
-# RhumbSolve 'Test' 3: lat2=71.688899882813018, lon2=0.255519824423402, S12=44095641862956.109 (0)
+# RhumbSolve 'Test'@1: /opt/local/bin/RhumbSolve --version (invoke)
+# RhumbSolve 'Test'@1: '/opt/local/bin/RhumbSolve: GeographicLib version 2.7' (0, stdout/-err)
+# RhumbSolve 'Test'@1: /opt/local/bin/RhumbSolve: GeographicLib version 2.7 (0)
+# version: /opt/local/bin/RhumbSolve: GeographicLib version 2.7
+# RhumbSolve 'Test'@2: /opt/local/bin/RhumbSolve -p 10 \ 40.6 -73.8 51.0 5500000.0 (Direct)
+# RhumbSolve 'Test'@2: '71.688899882813033 0.255519824423445 44095641862956.133' (0, stdout/-err)
+# RhumbSolve 'Test'@2: lat2=71.688899882813033, lon2=0.255519824423445, S12=44095641862956.133 (0)
+# Direct: GDict(azi12=51, lat1=40.6, lat2=71.6889, lon1=-73.8, lon2=0.25552, s12=5500000.0, S12=44095641862956.132812)
+# RhumbSolve 'Test'@3: /opt/local/bin/RhumbSolve -p 10 \ 40.6 -73.8 51.0 5500000.0 (Direct3)
+# RhumbSolve 'Test'@3: '71.688899882813033 0.255519824423445 44095641862956.133' (0, stdout/-err)
+# RhumbSolve 'Test'@3: lat2=71.688899882813033, lon2=0.255519824423445, S12=44095641862956.133 (0)
 # Direct3: Destination3Tuple(lat=71.6889, lon=0.25552, final=51.0)
-# RhumbSolve 'Test' 4: /opt/local/bin/RhumbSolve -p 10 -i \ 40.600000000000001 -73.799999999999997 51.600000000000001 -0.5 (Inverse)
-# RhumbSolve 'Test' 4: azi12=77.768389710255661, s12=5771083.383328028, S12=37395209100030.391 (0)
-
-# Inverse: GDict(a12=51.929543, azi12=77.76839, lat1=40.6, lat2=51.6, lon1=-73.8, lon2=-0.5, s12=5771083.383328, S12=37395209100030.390625)
-# RhumbSolve 'Test' 5: /opt/local/bin/RhumbSolve -p 10 -i \ 40.600000000000001 -73.799999999999997 51.600000000000001 -0.5 (Inverse1)
-# RhumbSolve 'Test' 5: azi12=77.768389710255661, s12=5771083.383328028, S12=37395209100030.391 (0)
+#
+# RhumbSolve 'Test'@4: /opt/local/bin/RhumbSolve -p 10 -i \ 40.6 -73.8 51.6 -0.5 (Inverse)
+# RhumbSolve 'Test'@4: '77.768389710255676 5771083.3833280280 37395209100030.383' (0, stdout/-err)
+# RhumbSolve 'Test'@4: azi12=77.768389710255676, s12=5771083.383328028, S12=37395209100030.383 (0)
+# Inverse: GDict(a12=51.929543, azi12=77.76839, lat1=40.6, lat2=51.6, lon1=-73.8, lon2=-0.5, s12=5771083.383328, S12=37395209100030.382812)
+# RhumbSolve 'Test'@5: /opt/local/bin/RhumbSolve -p 10 -i \ 40.6 -73.8 51.6 -0.5 (Inverse1)
+# RhumbSolve 'Test'@5: '77.768389710255676 5771083.3833280280 37395209100030.383' (0, stdout/-err)
+# RhumbSolve 'Test'@5: azi12=77.768389710255676, s12=5771083.383328028, S12=37395209100030.383 (0)
 # Inverse1: 51.929542507561905
-# RhumbSolve 'Test' 6: /opt/local/bin/RhumbSolve -p 10 -i \ 40.600000000000001 -73.799999999999997 51.600000000000001 -0.5 (Inverse3)
-# RhumbSolve 'Test' 6: azi12=77.768389710255661, s12=5771083.383328028, S12=37395209100030.391 (0)
+# RhumbSolve 'Test'@6: /opt/local/bin/RhumbSolve -p 10 -i \ 40.6 -73.8 51.6 -0.5 (Inverse3)
+# RhumbSolve 'Test'@6: '77.768389710255676 5771083.3833280280 37395209100030.383' (0, stdout/-err)
+# RhumbSolve 'Test'@6: azi12=77.768389710255676, s12=5771083.383328028, S12=37395209100030.383 (0)
 # Inverse3: Distance3Tuple(distance=5771083.383328, initial=77.76839, final=77.76839)
-# RhumbSolve 'Test' 7: /opt/local/bin/RhumbSolve -p 10 -i \ 40.600000000000001 -73.799999999999997 35.799999999999997 140.300000000000011 (Inverse)
-# RhumbSolve 'Test' 7: azi12=-92.388887981699654, s12=12782581.0676841699, S12=-63760642939072.5 (0)
-
+#
+# RhumbSolve 'Test'@7: /opt/local/bin/RhumbSolve -p 10 -i \ 40.6 -73.8 35.8 140.30000000000001 (Inverse)
+# RhumbSolve 'Test'@7: '-92.388887981699654 12782581.0676841699 -63760642939072.500' (0, stdout/-err)
+# RhumbSolve 'Test'@7: azi12=-92.388887981699654, s12=12782581.0676841699, S12=-63760642939072.5 (0)
 # Inverse: GDict(a12=115.02062, azi12=-92.388888, lat1=40.6, lat2=35.8, lon1=-73.8, lon2=140.3, s12=12782581.067684, S12=-63760642939072.5)
-# RhumbSolve 'Test' 8: /opt/local/bin/RhumbSolve -p 10 -i \ 40.600000000000001 -73.799999999999997 35.799999999999997 140.300000000000011 (Inverse1)
-# RhumbSolve 'Test' 8: azi12=-92.388887981699654, s12=12782581.0676841699, S12=-63760642939072.5 (0)
+# RhumbSolve 'Test'@8: /opt/local/bin/RhumbSolve -p 10 -i \ 40.6 -73.8 35.8 140.30000000000001 (Inverse1)
+# RhumbSolve 'Test'@8: '-92.388887981699654 12782581.0676841699 -63760642939072.500' (0, stdout/-err)
+# RhumbSolve 'Test'@8: azi12=-92.388887981699654, s12=12782581.0676841699, S12=-63760642939072.5 (0)
 # Inverse1: 115.02061966879248
-# RhumbSolve 'Test' 9: /opt/local/bin/RhumbSolve -p 10 -i \ 40.600000000000001 -73.799999999999997 35.799999999999997 140.300000000000011 (Inverse3)
-# RhumbSolve 'Test' 9: azi12=-92.388887981699654, s12=12782581.0676841699, S12=-63760642939072.5 (0)
+# RhumbSolve 'Test'@9: /opt/local/bin/RhumbSolve -p 10 -i \ 40.6 -73.8 35.8 140.30000000000001 (Inverse3)
+# RhumbSolve 'Test'@9: '-92.388887981699654 12782581.0676841699 -63760642939072.500' (0, stdout/-err)
+# RhumbSolve 'Test'@9: azi12=-92.388887981699654, s12=12782581.0676841699, S12=-63760642939072.5 (0)
 # Inverse3: Distance3Tuple(distance=12782581.067684, initial=267.611112, final=267.611112)
-
-# Position:    True  GDict(azi12=51, lat1=40.6, lat2=71.6889, lon1=-73.8, lon2=0.25552, s12=5500000.0, S12=44095641862956.109375)
+#
+# Line: RhumbLineSolve(invokation=1, rhumb=RhumbSolve(ellipsoid=Ellipsoid(name='WGS84', a=6378137, f=0.00335281, f_=298.25722356, b=6356752.31424518), invokation=9, RhumbSolve='/opt/local/bin/RhumbSolve', status=0), status=0)
+# Position:    GDict(azi12=51, lat1=40.6, lat2=71.6889, lon1=-73.8, lon2=0.25552, s12=5500000.0, S12=44095641862956.132812) True
 
 
 # % python3 -m pygeodesy.rhumb.solve 60 0 30 0 45 1e6
@@ -497,9 +491,22 @@ if __name__ == _DMAIN_:
 # 15 3083112.636 49.63458221, 25.76787606, 4.96052409e-16
 
 
+# % python3 -m pygeodesy.rhumb.solve 60 0 30 0 45 1e6
+
+# version: /opt/local/bin/RhumbSolve: GeographicLib version 2.7
+#            s23    lat3        lon3         cos()
+#  1 1000000.000 36.37559999, 7.58982303, -5.83098638e-01
+#  2 4532573.097 58.84251798, 41.57078946, 4.05349594e-01
+#  3 2233216.895 44.22871762, 17.86660260, -2.91432608e-01
+#  4 3168401.173 50.17678842, 26.60741388, 3.00555188e-02
+#  5 3082690.347 49.63189746, 25.76374255, -1.49446251e-04
+#  6 3083112.629 49.63458216, 25.76787599, -2.59865140e-09
+#  7 3083112.636 49.63458221, 25.76787606, -4.96052409e-16
+#  8 3083112.636 49.63458221, 25.76787606, 0.00000000e+00
+
 # **) MIT License
 #
-# Copyright (C) 2022-2025 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2022-2026 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

@@ -1,6 +1,6 @@
 
 # python -m coverage html --rcfile=testcoverage.rc --title="..."
-# __version__ = '25.04.12'
+# __version__ = '25.12.06'
 
 [run]
 branch = True
@@ -23,6 +23,7 @@ include =
     pygeodesy/deprecated/*.py
     pygeodesy/geodesicx/*.py
     pygeodesy/rhumb/*.py
+    pygeodesy/triaxials/*.py
 
 # omit = test/*.py
 

@@ -37,7 +37,7 @@ from math import copysign as _copysign
 # import inspect as _inspect  # _MODS
 
 __all__ = _ALL_LAZY.basics
-__version__ = '25.09.04'
+__version__ = '25.12.02'
 
 _below_           = 'below'
 _list_tuple_types = (list, tuple)
@@ -347,8 +347,8 @@ def isfloat(obj, both=False):
 
 
 try:
-    isidentifier = str.isidentifier  # Python 3, must be str
-except AttributeError:  # Python 2-
+    isidentifier = str.isidentifier  # must be str
+except AttributeError:  # 2.0-
 
     def isidentifier(obj):
         '''Is B{C{obj}}ect a Python identifier?
@@ -445,7 +445,7 @@ def isiterabletype(obj, method='__iter__'):
 
 
 try:
-    from keyword import iskeyword  # Python 2.7+
+    from keyword import iskeyword  # 2.7+
 except ImportError:
 
     def iskeyword(unused):
@@ -713,12 +713,16 @@ def _reverange(n, stop=-1, step=-1):
     return range(n - 1, stop, step)
 
 
-def signBit(x):
-    '''Return C{signbit(B{x})}, like C++, see also L{isneg}.
+try:
+    from math import signbit as signBit  # 3.15+
+except ImportError:
 
-       @return: C{True} if C{B{x} < 0} or C{NEG0} (C{bool}).
-    '''
-    return (x or _copysign(1, x)) < 0
+    def signBit(x):
+        '''Return C{signbit(B{x})}, like C++, see also L{isneg}.
+
+           @return: C{True} if C{B{x} < 0} or C{NEG0} (C{bool}).
+        '''
+        return (x or _copysign(1, x)) < 0
 
 
 def _signOf(x, ref):  # in .fsums
@@ -1029,7 +1033,7 @@ _XPACKAGES  = _splituple(_envPYGEODESY(_xpackages_).lower())  # test/bases._X_OK
 
 # **) MIT License
 #
-# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2026 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

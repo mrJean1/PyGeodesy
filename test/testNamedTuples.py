@@ -4,7 +4,7 @@
 # Test L{namedTuples} module.
 
 __all__ = ('Tests',)
-__version__ = '24.06.08'
+__version__ = '25.12.06'
 
 from bases import TestsBase
 from pygeodesy import FIx, issubclassof
@@ -18,19 +18,21 @@ from pygeodesy.namedTuples import _NamedTupleTo
 from pygeodesy.ltpTuples import _Abc4Tuple
 from pygeodesy.named import _NamedTuple, _Pass
 # from pygeodesy.rhumb.bases import _Lat as rLat, _Lon as rLon
-from pygeodesy.triaxials import _NamedTupleToX
+from pygeodesy.angles import Ang, Deg
+from pygeodesy.triaxials.bases import _HeightINT0
+from pygeodesy.triaxials.triaxial5 import _NamedTupleToX
 from pygeodesy.units import _NamedUnit
 
 _Units_ = '_Units_'
-_Xcepts = (FIx, _Float_Int, _Ks, _Pass)  # rLat, rLon
+_Xcepts = (Ang, Deg, FIx, _Float_Int, _HeightINT0, _Ks, _Pass)  # rLat, rLon
 
 
 class Tests(TestsBase):
 
     def testNamedTuple(self, T, *args):
-        m = T.__module__
+        m =  T.__module__
         n = _DOT_(T.__name__, _Units_)
-        t = T(*args)
+        t =  T(*args)
 
         U = getattr(T, _Units_, ())
         if len(U) != len(t):  # check _Units_ len
@@ -43,13 +45,14 @@ class Tests(TestsBase):
                 e = '%s[%s] %r' % (n, i, u)
                 self.test(m, e, callable.__name__)
 
-        u = t.toUnits()  # check _Units_ sample
-        ru = repr(u)
-        rt = repr(t)
-        x = ru if rt == ru.replace("'0", '0').replace("5'", '5') \
-                          .replace('True', '0.5').replace('0,', '0.5,') \
-                          .replace('0)', '0.5)') else rt
-        self.test(m, ru, x)
+        if not (Ang in U or Deg in U):
+            u = t.toUnits()  # check _Units_ sample
+            ru = repr(u)
+            rt = repr(t)
+            x = ru if rt == ru.replace("'0", '0').replace("5'", '5') \
+                              .replace('True', '0.5').replace('0,', '0.5,') \
+                              .replace('0)', '0.5)') else rt
+            self.test(m, ru, x)
 
         u = ('%s=%s' % (n, u.__name__) for (n, u) in zip(T._Names_, U))
         u = '%s(%s)' % (T.__name__, ', '.join(u))

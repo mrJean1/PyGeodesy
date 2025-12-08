@@ -11,8 +11,8 @@ U{https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html
 '''
 
 from pygeodesy.basics import _isin, _xinstanceof,  typename
-from pygeodesy.constants import EPS, EPS0, INT0, PI2, _isfinite, isnear0, \
-                               _0_0, _1_0, _N_1_0, _2_0, _4_0, _6_0
+from pygeodesy.constants import EPS, EPS0, INT0, NAN, PI2, _isfinite, \
+                               _0_0, _1_0, _N_1_0, _2_0, _4_0, _6_0, isnear0
 from pygeodesy.datums import Datum, _earth_ellipsoid, _spherical_datum, \
                              Transform, _WGS84
 # from pygeodesy.ecef import EcefKarney  # _MODS
@@ -34,7 +34,7 @@ from pygeodesy.props import deprecated_method, Property, Property_RO, \
                             property_doc_, property_RO, _update_all
 # from pygeodesy import resections as _resections  # _MODS.into
 # from pygeodesy.streprs import Fmt  # from .fsums
-# from pygeodesy.triaxials import Triaxial_  # _MODS
+# from pygeodesy.triaxials.triaxial5 import Triaxial_  # _MODS
 from pygeodesy.units import Degrees, Height, _heigHt, _isMeter, Meter, Radians
 from pygeodesy.utily import acos1, atan2, sincos2d, sincos2_,  degrees, radians
 from pygeodesy.vector3d import Vector3d, _xyzhdlln4
@@ -43,7 +43,7 @@ from pygeodesy.vector3d import Vector3d, _xyzhdlln4
 # from math import degrees, fabs, radians, sqrt  # from .fmath, .utily
 
 __all__ = _ALL_LAZY.cartesianBase
-__version__ = '25.08.24'
+__version__ = '25.11.07'
 
 _r_         = 'r'
 _resections = _MODS.into(resections=__name__)
@@ -326,7 +326,7 @@ class CartesianBase(Vector3d, _EcefLocal):
         try:
             r = self.datum.ellipsoid.height4(self, normal=True)
         except (AttributeError, ValueError):  # no datum, null cartesian,
-            r = Vector4Tuple(self.x, self.y, self.z, 0, name__=self.height4)
+            r = Vector4Tuple(self.x, self.y, self.z, NAN, name__=self.height4)
         return r
 
     def height4(self, earth=None, normal=True, **Cartesian_and_kwds):
@@ -361,7 +361,7 @@ class CartesianBase(Vector3d, _EcefLocal):
         d = self.datum if earth is None else earth
         if normal and d is self.datum:
             r = self._height4
-        elif isinstance(d, _MODS.triaxials.Triaxial_):
+        elif isinstance(d, _MODS.triaxials.triaxial5.Triaxial_):
             r = d.height4(self, normal=normal)
             try:
                 d = d.toEllipsoid(name=n)
@@ -994,7 +994,7 @@ __all__ += _ALL_DOCS(CartesianBase)
 
 # **) MIT License
 #
-# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2026 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

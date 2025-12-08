@@ -2,16 +2,19 @@
 # -*- coding: utf-8 -*-
 
 # Test L{triaxials} module.
+# make sure int/int division yields float quotient, see .basics
+from __future__ import division as _; del _  # noqa: E702 ;
 
 __all__ = ('Tests',)
-__version__ = '25.10.25'
+__version__ = '25.12.06'
 
-from bases import numpy, random, startswith, TestsBase
+from bases import Geod3Solve, numpy, random, startswith, TestsBase
 
-from pygeodesy import EPS4, F_DEG_, F_DMS, PI_2, PI_4, Ellipsoids, fstr, \
-                      ConformalSphere, ConformalTriaxial, Los, \
-                      map1, map2, signBit, sincos2d_, Triaxial, Triaxial_, \
-                      Triaxials, triaxials, triaxum5, Vector3d
+from pygeodesy import EPS4, EPS8, F_DEG_, F_DMS, PI_2, PI_4, \
+                      ConformalSphere, Conformal, Degrees, Ellipsoids, \
+                      fstr, LLK, Los, map1, map2, signBit, sincos2d_, \
+                      Triaxial, Triaxial_, Triaxials, Triaxial3s, \
+                      triaxum5, Vector3d
 from math import radians
 
 
@@ -82,12 +85,12 @@ class Tests(TestsBase):
         t = (t - c).length
         self.test(n, t, '100000.0', known=abs(t - 100000.0) < 1e-6)
 
-    def testConformalTriaxial(self, module):
-        self.subtitle(module, ConformalTriaxial.__name__)
+    def testConformal(self, module):
+        self.subtitle(module, Conformal.__name__)
 
-        n = ConformalTriaxial.__name__
+        n = Conformal.__name__
         # <https://GeographicLib.sourceforge.io/1.52/jacobi.html>
-        J = ConformalTriaxial(6378137+35, 6378137-35, 6356752, name='Test')
+        J = Conformal(6378137+35, 6378137-35, 6356752, name='Test')
         self.test(n, repr(J), "%s(name='Test', a=6378172, b=6378102, c=6356752, e2ab=" % (n,), known=startswith)
 
         n = J.xR.__name__
@@ -116,8 +119,8 @@ class Tests(TestsBase):
         p = J.volume
         self.test(n, p, '1.083207e+21', fmt='%.6e')
 
-        n = ConformalTriaxial.__name__
-        J = ConformalTriaxial(267.5, 147, 104.5, name='Itokawa25134')
+        n = Conformal.__name__
+        J = Conformal(267.5, 147, 104.5, name='Itokawa25134')
         self.test(n, repr(J), "%s(name='Itokawa25134', a=267.5, b=147, c=104.5, e2ab=" % (n,), known=startswith, nl=1)
 
         n = J.xyR2.__name__
@@ -130,8 +133,8 @@ class Tests(TestsBase):
         t = p.toDegrees(form=F_DMS)
         self.test(n, t, "('00°00′00.0″N', '035°15′33.27″E')", known=True)
 
-        n = ConformalTriaxial.xyQ2.name
-        q = J.xyQ2
+        n = Conformal.xyQR2.name
+        q = J.xyQR2
         self.test(n, q, '(3.13215, 1.42547)')
 
         n = q.toDegrees.__name__
@@ -188,8 +191,8 @@ class Tests(TestsBase):
         t = p.toDegrees(form=F_DMS)
         self.test(n, t, "('00°00′00.0″N', '046°53′17.58″E')", known=True)
 
-        n = ConformalSphere.xyQ2.name
-        q = J.xyQ2
+        n = ConformalSphere.xyQR2.name
+        q = J.xyQR2
         self.test(n, q, '(1.933157, 1.788429)')
 
         n = q.toDegrees.__name__
@@ -198,7 +201,242 @@ class Tests(TestsBase):
         t = q.toDegrees(form=F_DMS)
         self.test(n, t, "('110°45′42.27″N', '102°28′10.04″E')", known=True)
 
-    def testTriaxial(self, module):
+    def testConformal3(self, module):
+        n = module.Conformal3.__name__
+        self.subtitle(module, n)
+
+        # <https://GeographicLib.sourceforge.io/C++/doc/Cart3Convert.1.html>
+        T = TX = module.Conformal3(Triaxials.WGS84_3)
+        self.test(n, T, "name='WGS84_3', a=6378171.36, b=6378101.61, c=6356751.84, ", known=True)
+
+        n = T.forwardBetOmg.__name__
+        t = T.forwardBetOmg(33.3, 44.4, M=True, unit=Degrees)
+        self.test(n, t.toStr(prec=5), "(-5077726.43188, 3922574.86203, 0, 1.19703, 'CONFORMAL')")  # Conformal3Proj
+        n = T.reverseBetOmg.__name__
+        t = T.reverseBetOmg(t.x, t.y, M=True)
+        self.test(n, t.toDegrees(), "(Degrees(33.3), Degrees(44.4), None, 1.197032", known=startswith)  # Conformal3Proj
+
+#       n = T.forwardSphere3.__name__
+#       t, d, _ = T.forwardSphere3(33.3, 44.4, M=True, unit=Degrees)
+#       self.test(n, t, "(-5077726.431881, 3922574.862033, 0, 1.1970322930911, 'CONFORMAL')", known=TBD)  # Conformal3Proj
+#       n = T.reverseSphere.__name__
+#       t = T.reverseSphere(t, dir3d=d, M=True)
+#       self.test(n, t.toDegrees(), "(Degrees(33.3), Degrees(44.4), None, 1.197032", known=startswith)  # Conformal3Proj
+
+        n = module.Conformal3.__name__
+        T = module.Conformal3(Triaxials.WGS84_3r)  # rounded
+        self.test(n, T, "name='WGS84_3r', a=6378172, b=6378102, c=6356752, ", known=startswith, nl=1)
+        n = T.forwardBetOmg.__name__
+        t = T.forwardBetOmg(Degrees(33.3), Degrees(44.4), M=True)
+        self.test(n, t.toStr(prec=3), '(-5077732.396, 3922571.859, ', known=startswith)  # Conformal3Proj
+        n = T.reverseBetOmg.__name__
+        t = T.reverseBetOmg(t.x, t.y, M=True)
+        self.test(n, t.toDegrees(), "(Degrees(33.3), Degrees(44.4), None, 1.197034, 'CONFORMAL')")
+
+        n = T.forwardOther.__name__
+        t = T.forwardOther(TX, 33.3, 44.4, M=True, unit=Degrees)
+        self.test(n, t.toDegrees(0, prec=6), "(33.299887, 44.399927, 0.000263, 1.000046, 'CONFORMAL')")  # Conformal3Proj -tx
+        n = T.reverseOther.__name__
+        t = T.reverseOther(TX, t.bet, t.omg, M=True)
+        self.test(n, t.toDegrees(0), "(Degrees(33.3), Degrees(44.4), Degrees(0.00026262), 0.999954, 'CONFORMAL')")  # Conformal3Proj -tx -r
+
+        n = module.Conformal3.__name__
+        c = 6378137 * (1 - 1 / (298257223563 / 1000000000))
+        T = module.Conformal3(6378172, 6378102, c, name='WGS84+/-35')
+        self.test(n, T, "name='WGS84+/-35', a=6378172, b=6378102, c=6356752.314245179, ", known=startswith, nl=1)
+        n = T.forwardBetOmg.__name__
+        t = T.forwardBetOmg(Degrees(33.3), Degrees(44.4), M=True)
+        self.test(n, t.toStr(prec=3), '(-5077732.419, 3922572.019, 0', known=startswith)  # Conformal3Proj -t 6378172 6378102 6356752.314245179
+        n = T.reverseBetOmg.__name__
+        t = T.reverseBetOmg(t.x, t.y, M=True)
+        self.test(n, t.toDegrees(), "(Degrees(33.3), Degrees(44.4), None, 1.197", known=startswith)
+
+    def testGeod3Solve(self, Geodesic3Solve):
+        g3S = Geodesic3Solve()
+        n = g3S.__class__.__name__
+        self.test(n, g3S, 'Geod3Solve=', known=startswith, nl=1)
+        n = g3S.Direct.__name__
+        t = g3S.Direct(40.57193, -54.38111, 3.20824, 15347602)
+        self.test(n, t, '{alp1: 3.20824, alp2: ', known=startswith)
+        t = t.toGeod3Solve7Tuple()
+        self.test(n, t, '(40.57193, ', known=startswith)
+
+        n = g3S.Inverse.__name__
+        t = g3S.Inverse(40.57193, -54.38111, 1.355292, 123.419711)
+        self.test(n, t, '{alp1: 3.20824, alp2: ', known=startswith)
+        t = t.toGeod3Solve7Tuple()
+        self.test(n, t, '(40.57193, ', known=startswith)
+
+        gl3S = g3S.Line(40.57193, -54.38111, 3.20824)
+        n = gl3S.__class__.__name__
+        self.test(n, gl3S.toStr(), "alp1=", known=startswith)
+        n = gl3S.Position.__name__
+        t = gl3S.Position(15347602)
+        self.test(n, t, '{alp1: 3.20824, alp2: ', known=startswith)
+        t = t.toGeod3Solve7Tuple()
+        self.test(n, t, '(40.57193, ', known=startswith)
+
+    def testTriaxial3(self, module):
+        n = module.Triaxial3.__name__
+        self.subtitle(module, n)
+
+#       E = Ellipsoids.WGS84  # earth as testFormy
+
+        # <https://GeographicLib.sourceforge.io/C++/doc/Cart3Convert.1.html>
+        T = module.Triaxial3(3, 2, 1)
+        self.test(n, repr(T), "Triaxial3(name='', a=3, b=2, c=1, k2=0.375, kp2=0.625, ", known=startswith)
+
+        n = T.reverseLatLon.__name__
+        t = T.reverseLatLon(1, 2, 3)
+        self.test(n, t.toDegrees(0), "(Degrees(58.69140449), Degrees(75.11263103), None, 2.586065, 'ELLIPSOIDAL')")
+        n = T.forwardLatLon.__name__
+        t = T.forwardLatLon(t.bet, t.omg, h=t.h)
+        self.test(n, t, "(1.0, 2.0, 3.0, 2.586065, 'ELLIPSOIDAL')")
+
+        # <https://GeographicLib.sourceforge.io/C++/doc/Cart3Convert.1.html>
+#       T = module.Triaxial3(3, 2, 1)
+#       self.test(n, repr(T), "Triaxial3(name='', a=3, b=2, c=1, k2=0.375, kp2=0.625, ", known=startswith, nl=1)
+        for llk, x in ((LLK.ELLIPSOIDAL,   "(58.691404, 75.112631, None, 2.586065, "),  # Cart3Convert
+                       (LLK.GEOCENTRIC,    "(29.12663, 56.916602, None, 2.391078, "),  # Cart3Convert
+                       (LLK.GEOCENTRIC_X,  "(28.478775, 123.624552, None, 2.391078, "),  # Cart3Convert
+                       (LLK.GEODETIC,      "(68.626017, 73.851827, None, 2.391078, "),  # Cart3Convert
+# not WGS_3.           (LLK.GEODETIC_LON0, "(68.626017, 58.921827, None, 2.391078, "),  # Cart3Convert
+                       (LLK.GEODETIC_X,    "(5.817652, 159.397221, None, 2.391078, "),  # Cart3Convert
+                       (LLK.PARAMETRIC,    "(50.658091, 66.523762, None, 2.391078, "),  # Cart3Convert
+                       (LLK.PARAMETRIC_X,  "(14.628136, 143.06191, None, 2.391078, ")):  # Cart3Convert
+            n = str(llk)
+            t = T.reverseLatLon(1, 2, 3, llk=llk)
+            self.test(n, t.toDegrees(0, fmt=F_DEG_), x, known=startswith, nl=1)
+            t = T.forwardLatLon(t.bet, t.omg, height=t.h) if llk in LLK._NOIDAL else \
+                T.forwardLatLon(t.phi, t.lam, height=t.h, llk=llk)
+            self.test(n, t, "(1.0, 2.0, 3.0, 2.", known=startswith)
+
+        n = module.Triaxial3.__name__
+        # <http://OJS.BBWPublisher.com/index.php/JWA/article/view/74>  # Bektas
+        T = module.Triaxial3(6378388, 6378318, 6356911.9461, name='Bektas')  # a - b = 70
+        self.test(n, repr(T), "Triaxial3(name='Bektas', a=6378388, b=6378318, c=6356911.9461, k2=", known=startswith, nl=1)
+
+        n = T.forwardBetaOmega.__name__
+        q = T.forwardBetaOmega(30, 40, 1200, unit=Degrees)
+        self.test(n, q, "(4234607.381429, 3551286.590486, 3176009.080037, 1200.0, 'ELLIPSOIDAL')")
+        v = Vector3d(q.xyz3)
+        p = T.forwardBetaOmega(radians(30), radians(40))
+        self.test(n, p, "(4233813.533025, 3550620.827453, 3175409.655093, 0, 'ELLIPSOIDAL')")  # C++
+        d = v.minus_(*p[:3]).length
+        self.test('length', d, '1196.973671', known=abs(d - 1200) < 5, prec=6)
+        n = T.reverseBetaOmega.__name__
+        t = T.reverseBetaOmega(4234607.381429, 3551286.590486, 3176009.080037)
+        self.test(n, t.toDegrees(0), "(Degrees(30.0), Degrees(40.0), None, 1200.0, 'ELLIPSOIDAL')")
+        t = T.reverseBetaOmega(4233813.533025, 3550620.827453, 3175409.655093)
+        self.test(n, t.toDegrees(0), "(Degrees(30.0), Degrees(40.0), None, 0.0, 'ELLIPSOIDAL')")  # C++
+
+        n = T.forwardCartesian.__name__
+        t = T.forwardCartesian(q, normal=True)
+        self.test(n, t, "(4233813.533151, 3550620.827558, 3175409.654809, 1196.973671, 'ELLIPSOIDAL')", known=abs(t.h - 1200) < 5, nl=1)
+        f = T.forwardCartesian(q, normal=False)
+        self.test(n, f, "(4239665.951888, 3553574.566129, 3164352.410834, 12911.309173, 'ELLIPSOIDAL')", known=abs(t.h - 1200) < 100)
+
+        n = T.reverseCartesian.__name__
+        t = T.reverseCartesian(t, height=t.h)  # normal=True
+        self.test(n, t, "(4234607.381429, 3551286.590486, 3176009.080037, ", known=startswith, nl=1)  # == q above
+        f = T.reverseCartesian(f, height=f.h, normal=False)  # off by 0.27%
+        d = v.minus_(f[:3]).length * 100 / v.length
+        self.test(n, f, q, known=abs(d) < 0.5)
+
+        n = T.forwardBetaOmega_.__name__
+        p = T.forwardBetaOmega_(*sincos2d_(30, 40))  # h=0
+        self.test(n, p, "(4233813.533025, 3550620.827453, 3175409.655093, 0, 'ELLIPSOIDAL')", nl=1)
+        n = T.reverseLatLon.__name__
+        q = T.reverseLatLon(p)
+        self.test(n, q.toDegrees(0), "(Degrees(30.0), Degrees(40.0), None, ", known=startswith)
+        n = T.forwardLatLon.__name__
+        q = T.forwardLatLon(q.bet, q.omg)
+        self.test(n, q, p)
+
+        n = T.reverseBetaOmega.__name__
+        p = T.reverseBetaOmega(4235882.4602, 3554249.4108, 3171030.2321)  # Ex-2 p 82 T 2
+        self.test(n, p.toDegrees(0), "(Degrees(29.94812666), Degrees(40.01497072), None, 1203.037176, 'ELLIPSOIDAL')", nl=1)  # (30, 40, 12000)
+        t = p.toDegrees(0, fmt=F_DMS)  # sep=_COMMASPACE_
+        self.test(n, t, "(29°56′53.26″, 40°00′53.89″, None, 1203.0", known=startswith)
+        p = T.reverseBetaOmega(4233721.2616, 3554717.2818, 3173743.2226)  # Ex-2 p 82 T 2
+        self.test(n, p.toDegrees(0), "(Degrees(29.97539672), Degrees(40.03311872), None, 1387.637345, 'ELLIPSOIDAL')")
+#       self.test(n, p.toRadians(0), "(Radians(0.52316937),  Radians(0.69870973),  None, 1387.637345, 'ELLIPSOIDAL')")
+        t = p.toDegrees(0, fmt=F_DMS)  # sep=_COMMASPACE_
+        self.test(n, t, "(29°58′31.43″, 40°01′59.23″, None, 1387.6", known=startswith)  # (30°01′38.2729″, 40°01′05.2057″)
+
+        n = T.height4.__name__
+        t = T.height4(3909863.9271, 3909778.123, 3170932.5016)  # Bektas
+        self.test(n, t, '(3909251.554667, 3909165.750567, 3170432.501602, 999.999996)', nl=1)
+        ct = T.forwardCartesian(t, normal=True)
+        self.test(n, ct, '(3909251.554667, 3909165.750567, 3170432.501602, 0, None)')
+        ct = T.forwardCartesian(t, normal=False)
+        self.test(n, ct, '(3909251.554667, 3909165.750567, 3170432.501602, 0, None)')  # XXX
+
+        n = 'JFK-SIN'
+        # <https://GeographicLib.sourceforge.io/C++/doc/Geod3Solve.1.html>
+        # echo 40:38:23N 073:46:44W-19.43W X 01:21:33N 103:59:22E-19.43W | \  # note 19.43W
+        # tr X '\n' | Cart3Convert -G | Cart3Convert -E -r | tr '\n' ' ' | Geod3Solve -i -: -p 0
+        # 003:12:29.7 177:28:59.5 15347602 == 3.20824 177.48319 15347602
+        T = Triaxial3s.WGS84_35  # module.Triaxial3(Triaxials.WGS84_35)  # a - b = 70
+        self.test(n, repr(T), "Triaxial3(name='WGS84_35', a=6378172, b=6378102, c=6356752.314245179, k2=0.9967", known=startswith, nl=1)
+        d = Degrees('73 46 44W') - Degrees('19.43W')  # XXX T.lon0?
+        self.test(n, d, '-54.34', prec=5, known=startswith)
+        f = T.forwardLatLon(Degrees('40 38 23N'), Degrees(d), llk=LLK.GEODETIC)
+        self.test(n, f, "(2824949.36608, -3938333.736799, 4132149.896611, 0, 'GEODETIC')")  # 2824949.425 -3938333.819 4132149.574
+        r = T.reverseLatLon(f)
+        self.test(n, r.toDegrees(0, fmt=F_DMS), "(40°38′23.0″, 54°20′56.0″, None, 0", known=startswith)
+        t = T.reverseLatLon(f, llk=LLK.ELLIPSOIDAL)
+        self.test(n, t.toDegrees(0), "(Degrees(40.57193395), Degrees(-54.38110954), None, 0, 'ELLIPSOIDAL')")  # 40.57193215 -54.38110906
+
+        d = Degrees('103 59 22E') - Degrees('19.43W')  # XXX T.lon0?
+        self.test(n, d, '123.4', prec=2, known=startswith, nl=1)
+        f = T.forwardLatLon(Degrees('1 21 33N'), Degrees(d), llk=LLK.GEODETIC)
+        self.test(n, f, "(-3511912.82574, 5322047.492059, 150275.382099, 0, 'GEODETIC')")  # -3511912.826 5322047.492 150275.367
+        r = T.reverseLatLon(f)  # llk=LLK.GEODETIC)
+        self.test(n, r.toDegrees(0, fmt=F_DMS), "(1°21′33.0″, 123°25′10.0″, None, ", known=startswith)
+        t = T.reverseLatLon(f, llk=LLK.ELLIPSOIDAL)
+        self.test(n, t.toDegrees(0, prec=6), "(1.355287, 123.419709, None, 0", known=startswith)  # 1.35528738 123.41970939
+
+        # echo 40:38:23N 073:46:44W-14.93W X 01:21:33N 103:59:22E-14.93W | \  # note 14.93W
+        # tr X '\n' | Cart3Convert -G | Cart3Convert -E -r | tr '\n' ' ' | Geod3Solve -i -: -p 0
+        # 003:12:53.4 177:29:00.3 15347592 == 3.21482 177.48341 15347592
+        f = T.forwardLatLon(Degrees('40 38 23N'), Degrees('73 46 44W'), llk=LLK.GEODETIC_LON0)
+        self.test(n, f, "(2507237.249613, -4147833.171672, 4132151.785141, 0, 'GEODETIC_LON0')")  # 2507237.302 -4147833.258 4132151.463
+        r = T.reverseLatLon(f, llk=LLK.ELLIPSOIDAL)
+        self.test(n, r.toDegrees(0), "(Degrees(40.56616585), Degrees(-58.87899203), ", known=startswith)  # 40.56616414 -58.87899158
+
+        f = T.forwardLatLon(Degrees('1 21 33N'), Degrees('103 59 22E'), llk=LLK.GEODETIC_LON0)
+        self.test(n, f, "(-3083516.921703, 5581181.10656, 150275.496647, 0, 'GEODETIC_LON0')")  # -3083516.922 5581181.107 150275.482
+        r = T.reverseLatLon(f, llk=LLK.ELLIPSOIDAL)
+        self.test(n, r.toDegrees(0), "(Degrees(1.35513418), Degrees(118.9196884), ", known=startswith)  # 1.35513411 118.91968840
+
+        for n, llk in sorted(LLK.items()):
+            if llk is not LLK.CONFORMAL:
+                ct, d3 = T.random2(llk, True)
+                self.test(n, ct, ct, nl=1)
+                self.test(n, d3, d3)
+                if llk is LLK.ELLIPSOIDAL:
+                    r    = T.reverseBetOmgAlp(ct, dir3d=d3)
+                    f, d = T.forwardBetOmgAlp2(r.bet, r.omg, r.alp)
+                else:
+                    r    = T.reversePhiLamZet(ct, dir3d=d3, llk=llk)
+                    f, d = T.forwardPhiLamZet2(r.phi, r.lam, r.zet, llk=llk)
+                self.test(n, r, r)
+                self.test(n, f, ct)
+                self.test(n, d, d3, known=True)
+                _ = T.normed2(ct, d3)  # PYCHOK coverage
+
+        self.test(T.Lon0.name, T.Lon0, -14.93, nl=1)
+        n = T.forwardLatLon.__name__
+        t = T.forwardLatLon(0, T.Lon0)  # bi- to triaxial lon
+        self.test(n, t, "(6162853.284268, -1643246.23441, 0.0, 0, 'ELLIPSOIDAL')")
+        n = T.reverseLatLon.__name__
+        t = T.reverseLatLon(t)
+        self.test(n, t.toDegrees(0), "(Degrees(0.0), Degrees(-14.93), None, ", known=startswith)
+        t = t.omg - T.Lon0
+        self.test(n, t.degrees0, 0, known=abs(t.degrees0) < EPS8)  # tri- to biaxial lon
+
+    def testTriaxial5(self, module):
         n = Triaxial.__name__
         self.subtitle(module, n)
 
@@ -224,23 +462,23 @@ class Tests(TestsBase):
         n = T.forwardBetaOmega.__name__
         q = T.forwardBetaOmega(radians(30), radians(40), 1200)
         self.test(n, q, '(4234607.381429, 3551286.590486, 3176009.080037)', nl=1)
-        v = Vector3d(q)
+        v = Vector3d(q.xyz3)
         p = T.forwardBetaOmega(radians(30), radians(40))
         self.test(n, p, '(4233813.533025, 3550620.827453, 3175409.655093)')
-        d = v.minus_(*p).length
+        d = v.minus_(*p[:3]).length
         self.test('length', d, '1196.973671', known=abs(d - 1200) < 5, prec=6)
 
         n = T.forwardCartesian.__name__
-        t = T.forwardCartesian(*q, normal=True)
+        t = T.forwardCartesian(q, normal=True)
         self.test(n, t, '(4233813.533151, 3550620.827558, 3175409.654809, 1196.973671)', known=abs(t.h - 1200) < 5, nl=1)
-        f = T.forwardCartesian(*q, normal=False)
+        f = T.forwardCartesian(q, normal=False)
         self.test(n, f, '(4239665.951888, 3553574.566129, 3164352.410834, 12911.309173)', known=abs(t.h - 1200) < 100)
 
         n = T.reverseCartesian.__name__
         t = T.reverseCartesian(*t)  # normal=True
         self.test(n, t, q, nl=1)  # q above
         f = T.reverseCartesian(*f, normal=False)  # off by 0.27%
-        d = v.minus_(*f).length * 100 / v.length
+        d = v.minus_(f[:3]).length * 100 / v.length
         self.test(n, f, q, known=abs(d) < 0.5)
 
         n = T.forwardBetaOmega_.__name__
@@ -248,7 +486,7 @@ class Tests(TestsBase):
         self.test(n, p, '(4233813.533025, 3550620.827453, 3175409.655093)', nl=1)
 
         n = T.reverseLatLon.__name__
-        q = T.reverseLatLon(*p)
+        q = T.reverseLatLon(p)
         self.test(n, q, '(30.051881, 39.984967, 0.0)', nl=1)
         n = T.forwardLatLon.__name__
         q = T.forwardLatLon(*q)
@@ -370,7 +608,7 @@ class Tests(TestsBase):
         t = str(e)
         self.test(n, t, t)
 
-        self.test('Triaxials', len(Triaxials.items(all=True)), 12, nl=1)
+        self.test('Triaxials', len(Triaxials.items(all=True)), 14, nl=1)
         for t in Triaxials.values(all=True):
             self.test(t.name, t, getattr(Triaxials, t.name))
 
@@ -390,15 +628,23 @@ class Tests(TestsBase):
 if __name__ == '__main__':
 
     from pygeodesy.ellipsoidalVincenty import LatLon
+    import pygeodesy.triaxials.triaxial5 as triaxial5
+    import pygeodesy.triaxials.conformal3 as conformal3
+    import pygeodesy.triaxials.triaxial3 as triaxial3
 
     t = Tests(__file__, __version__)
-    t.testHartzell(triaxials, LatLon)
-    t.testConformalTriaxial(triaxials)
-    t.testConformalSphere(triaxials)
-    t.testTriaxial(triaxials)
+    t.testHartzell(triaxial5, LatLon)
+    t.testConformal(triaxial5)
+    t.testConformalSphere(triaxial5)
+    t.testTriaxial5(triaxial5)
+    t.testTriaxial3(triaxial3)
+    t.testConformal3(conformal3)
     if numpy:
         t.testTriaxum5()
     else:
         t.skip(triaxum5.__name__, 2)
+    if Geod3Solve:
+        from pygeodesy.geod3solve import Geodesic3Solve
+        t.testGeod3Solve(Geodesic3Solve)
     t.results()
     t.exit()

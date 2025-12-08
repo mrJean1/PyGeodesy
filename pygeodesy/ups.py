@@ -22,7 +22,7 @@ other than C{"std"}, zones C{'A'} and C{'Y'} are used for negative, west longitu
 '''
 
 # from pygeodesy.basics import neg as _neg  # from .dms
-from pygeodesy.constants import EPS, EPS0, _EPSmin as _Tol90, \
+from pygeodesy.constants import EPS, EPS0, _EPSmin as _Tol90, _K0_UPS, \
                                 isnear90, _0_0, _0_5, _1_0, _2_0
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.dms import degDMS, _neg, parseDMS2
@@ -53,7 +53,6 @@ __version__ = '25.04.14'
 
 _BZ_UPS  = _envPYGEODESY('UPS_POLES', _std_) == _std_
 _Falsing =  Meter(2000e3)  # false easting and northing (C{meter})
-_K0_UPS  =  Float(_K0_UPS= 0.994)  # scale factor at central meridian
 _K1_UPS  =  Float(_K1_UPS=_1_0)    # rescale point scale factor
 
 
@@ -509,7 +508,7 @@ def upsZoneBand5(lat, lon, strict=True, **name):
 
 # **) MIT License
 #
-# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2026 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

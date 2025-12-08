@@ -23,7 +23,7 @@ from pygeodesy.units import Precision_
 from pygeodesy.utily import unroll180
 
 __all__ = _ALL_LAZY.solveBase
-__version__ = '25.09.02'
+__version__ = '25.12.06'
 
 _ERROR_ = 'ERROR'
 
@@ -54,8 +54,8 @@ class _SolveCapsBase(_CapsBase):
     _invokat    = _AT_
     _invokation =  0
     _linelimit  =  0
-    _prec       =  Precision_(prec=DIG)
-    _prec2stdin =  DIG
+    _prec       =  Precision_(prec=DIG)  # -5 stdout
+    _prec2stdin =  DIG - 1
     _Xable_name =  NN  # executable basename
     _Xable_path =  NN  # executable path
     _status     =  None
@@ -304,6 +304,11 @@ class _SolveCapsBase(_CapsBase):
         '''
         return self._status
 
+    def _toStdin(self, floats):
+        '''(INTERNAL) Convert C{floats} to strings.
+        '''
+        return strs(floats, prec=self._prec2stdin, fmt=Fmt.F)  # not .G!
+
     @property
     def verbose(self):
         '''Get the C{verbose} option (C{bool}).
@@ -347,6 +352,17 @@ class _SolveBase(_SolveCapsBase):
             _update_all(self)
             self._reverse2 = reverse2
 
+    def toStr(self, prec=6, sep=_COMMASPACE_, **other):  # PYCHOK signature
+        '''Return this instance as string.
+
+           @kwarg prec_sep: Keyword argumens C{B{prec}=6} and C{B{sep}=", "}
+                       for the C{float} C{prec}ision, number of decimal digits
+                       (0..9) and the C{sep}arator string to join.  Trailing
+                       zero decimals are stripped for B{C{prec}} values of 1
+                       and above, but kept for negative B{C{prec}} values.
+        '''
+        return sep.join(pairs(other, prec=prec))
+
     @Property
     def unroll(self):
         '''Get the C{lon2} unroll'ing (C{bool}).
@@ -363,7 +379,51 @@ class _SolveBase(_SolveCapsBase):
             self._unroll = unroll
 
 
-class _SolveGDictBase(_SolveBase):
+class _Solve3Base(_SolveBase):
+    '''(NTERNAL) Base class for C{_Geodesic[3]SolveBase}.
+    '''
+
+    @Property_RO
+    def _cmdDirect(self):
+        '''(INTERNAL) Get the C{[3]Solve} I{Direct} cmd (C{tuple}).
+        '''
+        return self._cmdBasic
+
+    @Property_RO
+    def _cmdInverse(self):
+        '''(INTERNAL) Get the C{[3]Solve} I{Inverse} cmd (C{tuple}).
+        '''
+        return self._cmdBasic + ('-i',)
+
+    def _GDictDirect(self, lat, lon, azi, arcmode, s12_a12, outmask=_UNUSED_, **floats):  # PYCHOK for .geodesicx.gxarea
+        '''(INTERNAL) Get C{_GenDirect}-like result as C{GDict}.
+        '''
+        if arcmode:
+            raise self._Error(arcmode=arcmode, txt=str(NotImplemented))
+        return self._GDictInvoke(self._cmdDirect, self._Names_Direct,
+                                                  lat, lon, azi, s12_a12, **floats)
+
+    def _GDictInverse(self, lat1, lon1, lat2, lon2, outmask=_UNUSED_, **floats):  # PYCHOK for .geodesicx.gxarea
+        '''(INTERNAL) Get C{_GenInverse}-like result as C{GDict}, but I{without} C{_SALP_CALPs_}.
+        '''
+        return self._GDictInvoke(self._cmdInverse, self._Names_Inverse,
+                                                   lat1, lon1, lat2, lon2, **floats)
+
+    def _GDictInvoke(self, cmd,  Names, *args, **floats):
+        '''(INTERNAL) Invoke C{Solve}, return results as C{Dict}.
+        '''
+        return self._DictInvoke2(cmd, args, Names, GDict, **floats)[0]  # _R
+
+    def toStr(self, **prec_sep_other):  # PYCHOK signature
+        '''Return this instance as string.
+
+           @kwarg prec_sep: See L{toStr<pygeodesy.solveBase._SolveBase.toStr>}.
+        '''
+        return _SolveBase.toStr(self, invokation=self.invokation,
+                                      status=self.status, **prec_sep_other)
+
+
+class _SolveGDictBase(_Solve3Base):
     '''(NTERNAL) Base class for C{_GeodesicSolveBase} and C{_RhumbSolveBase}.
     '''
 
@@ -392,41 +452,10 @@ class _SolveGDictBase(_SolveBase):
         '''
         return self._GDictDirect(lat1, lon1, azi1, True, a12)
 
-    @Property_RO
-    def _cmdDirect(self):
-        '''(INTERNAL) Get the C{Solve} I{Direct} cmd (C{tuple}).
-        '''
-        return self._cmdBasic
-
-    @Property_RO
-    def _cmdInverse(self):
-        '''(INTERNAL) Get the C{Solve} I{Inverse} cmd (C{tuple}).
-        '''
-        return self._cmdBasic + ('-i',)
-
     def Direct(self, lat1, lon1, azi1, s12, outmask=_UNUSED_):  # PYCHOK unused
         '''Return the C{Direct} result at distance C{s12}.
         '''
         return self._GDictDirect(lat1, lon1, azi1, False, s12)
-
-    def _GDictDirect(self, lat, lon, azi, arcmode, s12_a12, outmask=_UNUSED_, **floats):  # PYCHOK for .geodesicx.gxarea
-        '''(INTERNAL) Get C{_GenDirect}-like result as C{GDict}.
-        '''
-        if arcmode:
-            raise self._Error(arcmode=arcmode, txt=str(NotImplemented))
-        return self._GDictInvoke(self._cmdDirect, self._Names_Direct,
-                                                  lat, lon, azi, s12_a12, **floats)
-
-    def _GDictInverse(self, lat1, lon1, lat2, lon2, outmask=_UNUSED_, **floats):  # PYCHOK for .geodesicx.gxarea
-        '''(INTERNAL) Get C{_GenInverse}-like result as C{GDict}, but I{without} C{_SALP_CALPs_}.
-        '''
-        return self._GDictInvoke(self._cmdInverse, self._Names_Inverse,
-                                                   lat1, lon1, lat2, lon2, **floats)
-
-    def _GDictInvoke(self, cmd,  Names, *args, **floats):
-        '''(INTERNAL) Invoke C{Solve}, return results as C{Dict}.
-        '''
-        return self._DictInvoke2(cmd, args, Names, GDict, **floats)[0]  # _R
 
     def Inverse(self, lat1, lon1, lat2, lon2, outmask=_UNUSED_):  # PYCHOK unused
         '''Return the C{Inverse} result.
@@ -443,12 +472,10 @@ class _SolveGDictBase(_SolveBase):
         # XXX self.DISTANCE needed for 'a12'?
         return abs(float(r.a12))
 
-    def _toStr(self, prec=6, sep=_COMMASPACE_, **Solve):  # PYCHOK signature
-        '''(INTERNAL) Return this C{_Solve} as string..
+    def toStr(self, **prec_sep_other):  # PYCHOK signature
+        '''Return this C{_Solve} as string.
         '''
-        d = dict(ellipsoid=self.ellipsoid, invokation=self.invokation,
-                                           status=self.status, **Solve)
-        return sep.join(pairs(d, prec=prec))
+        return _Solve3Base.toStr(self, ellipsoid=self.ellipsoid, **prec_sep_other)
 
 
 class _SolveGDictLineBase(_SolveGDictBase):
@@ -476,8 +503,7 @@ class _SolveGDictLineBase(_SolveGDictBase):
             _, azi = _xkwds_item2(azi)
             return lat1, lon1, azi
 
-        t = strs(_lla3(**self._lla1), prec=DIG, fmt=Fmt.F)  # self._solve.prec
-        return self._cmdBasic + ('-L',) + t
+        return self._cmdBasic + ('-L',) + self._toStdin(_lla3(**self._lla1))
 
     @property_RO
     def datum(self):
@@ -503,20 +529,17 @@ class _SolveGDictLineBase(_SolveGDictBase):
         '''
         return self._lla1.lon1
 
-    def _toStr(self, prec=6, sep=_COMMASPACE_, **solve):  # PYCHOK signature
-        '''(INTERNAL) Return this C{_LineSolve} as string..
+    def toStr(self, **prec_sep_other):  # PYCHOK signature
+        '''Return this C{_LineSolve} as string.
         '''
-        d = dict(ellipsoid=self.ellipsoid, invokation=self._solve.invokation,
-                                           lat1=self.lat1, lon1=self.lon1,
-                                           status=self._solve.status, **solve)
-        return sep.join(pairs(d, prec=prec))
+        return _Solve3Base.toStr(self, **prec_sep_other)
 
 
 __all__ += _ALL_DOCS(_SolveBase, _SolveCapsBase, _SolveGDictBase, _SolveGDictLineBase)
 
 # **) MIT License
 #
-# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2026 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

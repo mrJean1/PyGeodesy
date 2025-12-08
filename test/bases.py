@@ -39,13 +39,13 @@ _TILDE_   = interns._TILDE_
 _HOME_dir = dirname(PyGeodesy_dir or _TILDE_) or _TILDE_
 _xcopy    = basics._xcopy
 
-__all__ = ('bits_mach2', 'coverage', 'GeodSolve', 'geographiclib', 'isAppleSi',
-           'isiOS', 'ismacOS', 'isNix', 'isPyPy', 'isPython2',  # 'isIntelPython'
+__all__ = ('bits_mach2', 'coverage', 'GeodSolve', 'Geod3Solve', 'geographiclib',
+           'isAppleSi', 'isiOS', 'ismacOS', 'isNix', 'isPyPy', 'isPython2',  # 'isIntelPython'
            'isPython3', 'isPython37', 'isPython39', 'isWindows', 'numpy',
            'property_RO', 'PyGeodesy_dir', 'PythonX', 'scipy', 'test_dir',
            'RandomLatLon', 'TestsBase',  # classes
            'secs2str', 'tilde', 'type2str', 'versions')  # functions
-__version__ = '25.10.06'
+__version__ = '25.12.06'
 
 try:
     _Ints = int, long
@@ -546,6 +546,7 @@ def _X_OK(_Xables, which):
 _Xables       =  karney._Xables  # PYCHOK blank
 GeoConvert    = _X_OK(_Xables, _Xables.GeoConvert)
 GeodSolve     = _X_OK(_Xables, _Xables.GeodSolve)
+Geod3Solve    = _X_OK(_Xables, _Xables.Geod3Solve)
 IntersectTool = _X_OK(_Xables, _Xables.IntersectTool)
 RhumbSolve    = _X_OK(_Xables, _Xables.RhumbSolve)
 del basics, _Xables, _X_OK
@@ -578,7 +579,7 @@ if __name__ == interns._DMAIN_:
 
 # **) MIT License
 #
-# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2026 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

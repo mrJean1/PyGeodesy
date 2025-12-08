@@ -88,7 +88,7 @@ from pygeodesy.namedTuples import Distance2Tuple, Vector3Tuple, Vector4Tuple
 from pygeodesy.props import deprecated_Property_RO, Property_RO, property_doc_, \
                             deprecated_property_RO, property_RO, property_ROver
 from pygeodesy.streprs import Fmt, fstr, instr, strs, unstr
-# from pygeodesy.triaxials import _hartzell3  # _MODS
+# from pygeodesy.triaxials.triaxial5 import _hartzell3, _plumbTo3  # _MODS
 from pygeodesy.units import Azimuth, Bearing, Distance, Float, Float_, Height, Lamd, Lat, \
                             Meter, Meter2, Meter3, Phi, Phid, Radius, Radius_, Scalar
 from pygeodesy.utily import atan1, atan1d, atan2b, degrees90, m2radians, radians2m, sincos2d
@@ -96,11 +96,12 @@ from pygeodesy.utily import atan1, atan1d, atan2b, degrees90, m2radians, radians
 from math import asinh, atan, atanh, cos, degrees, exp, fabs, radians, sin, sinh, sqrt, tan  # as _tan
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '25.08.31'
+__version__ = '25.11.26'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
 # see U{WGS84_f<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Constants.html>}
+# _f_WGS84  = Float(f =_1_0 / (298257223563 / 1000000000))  # 0.003_352_810_664_747_480_5
 _f__WGS84 = Float(f_=_1_0 / (1000000000 / 298257223563))  # 298.257223562_999_97 vs 298.257223563
 
 
@@ -1133,7 +1134,7 @@ class Ellipsoid(_NamedEnumItem):
                  methods L{Ellipsoid.height4} and L{Triaxial.hartzell4}.
         '''
         try:
-            v, d, i = _MODS.triaxials._hartzell3(pov, los, self._triaxial)
+            v, d, i = _MODS.triaxials.triaxial5._hartzell3(pov, los, self._triaxial)
         except Exception as x:
             raise IntersectionError(pov=pov, los=los, cause=x)
         return Vector4Tuple(v.x, v.y, v.z, d, iteration=i, name__=self.hartzell4)
@@ -1187,7 +1188,7 @@ class Ellipsoid(_NamedEnumItem):
                 v = v.times_(t, t, 0)  # force z=0.0
                 h = x - a  # equatorial
             else:  # normal in 1st quadrant
-                x, y, i = _MODS.triaxials._plumbTo3(x, y, self)
+                x, y, i = _MODS.triaxials.triaxial5._plumbTo3(x, y, self)
                 t, v = v, v.times_(x, x, y)
                 h = t.minus(v).length
 
@@ -2411,7 +2412,7 @@ Ellipsoids._assert(  # <https://WikiPedia.org/wiki/Earth_ellipsoid>
     WGS60          = _lazy('WGS60',          *_T(6378165.0,    6356783.28695944,  298.3)),
     WGS66          = _lazy('WGS66',          *_T(6378145.0,    6356759.76948868,  298.25)),
     WGS72          = _lazy(_WGS72_,          *_T(6378135.0,   _0_0,               298.26)),  # b=6356750.52
-    WGS84          = _lazy(_WGS84_,          *_T(R_MA,        _0_0,           _f__WGS84)),  # GPS b=6356752.3142451793
+    WGS84          = _lazy(_WGS84_,          *_T(R_MA,        _0_0,           _f__WGS84)),   # b=6356752.3142451793
 #   U{NOAA/NOS/NGS/inverse<https://GitHub.com/noaa-ngs/inverse/blob/main/invers3d.f>}
     WGS84_NGS      = _lazy('WGS84_NGS',      *_T(R_MA,        _0_0,               298.257222100882711243162836600094))
 )
@@ -2475,7 +2476,7 @@ if __name__ == _DMAIN_:
 
 # **) MIT License
 #
-# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2026 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

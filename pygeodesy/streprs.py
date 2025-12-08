@@ -22,7 +22,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from math import fabs, log10 as _log10
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '25.10.10'
+__version__ = '25.11.24'
 
 _at_        = 'at'         # PYCHOK used!
 _EN_PREC    =  6           # max MGRS/OSGR precision, 1 micrometer
@@ -321,9 +321,11 @@ def fstr(floats, prec=6, fmt=Fmt.F, ints=False, sep=_COMMASPACE_, strepr=None, f
                 C{strs((floats,), ...)} (C{str}) if B{C{floats}} is C{scalar}.
     '''
     if isscalar(floats):  # see Fstr.__call__ above
-        return next(_streprs(prec, (floats,), fmt, ints, force, strepr))
+        t =  next(_streprs(prec, (floats,), fmt, ints, force, strepr))
     else:
-        return sep.join(_streprs(prec, floats, fmt, ints, force, strepr))
+        t = _streprs(prec, floats, fmt, ints, force, strepr)
+        t =  sep.join(t) if sep else tuple(t)
+    return t
 
 
 def _fstrENH2(inst, prec, m, fmt=Fmt.F):  # in .css, .lcc, .utmupsBase
@@ -605,7 +607,7 @@ def _xzipairs(names, values, sep=_COMMASPACE_, fmt=NN, pair_fmt=Fmt.COLON):
 
 # **) MIT License
 #
-# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2026 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

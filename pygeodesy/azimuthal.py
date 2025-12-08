@@ -48,7 +48,7 @@ from pygeodesy.constants import EPS, EPS0, EPS1, NAN, isnon0, _umod_360, \
 from pygeodesy.ellipsoidalBase import LatLonEllipsoidalBase as _LLEB, \
                                      _isin, _xinstanceof
 from pygeodesy.datums import _spherical_datum, _WGS84
-from pygeodesy.errors import _ValueError, _xdatum, _xkwds
+from pygeodesy.errors import _ValueError, _xattr, _xdatum, _xkwds
 from pygeodesy.fmath import euclid, hypot as _hypot,  Fsum
 # from pygeodesy.fsums import Fsum  # from .fmath
 # from pygeodesy.formy import antipode  # _MODS
@@ -71,7 +71,7 @@ from pygeodesy.utily import asin1, atan1, atan2, atan2b, atan2d, \
 from math import acos, degrees, fabs, sin, sqrt
 
 __all__ = _ALL_LAZY.azimuthal
-__version__ = '25.09.29'
+__version__ = '25.11.29'
 
 _EPS_K         = _EPStol * _0_1  # Karney's eps_ or _EPSmin * _0_1?
 _over_horizon_ = 'over horizon'
@@ -195,8 +195,9 @@ class _AzimuthalBase(_NamedBase):
         '''
         B = _LLEB if self.datum.isEllipsoidal else _LLB
         _xinstanceof(B, LatLon2Tuple, LatLon4Tuple, latlon0=latlon0)
-        if hasattr(latlon0, _datum_):
-            _xdatum(self.datum, latlon0.datum, Error=AzimuthalError)
+        D = _xattr(latlon0, datum=B)
+        if D is not B:
+            _xdatum(self.datum, D, Error=AzimuthalError)
         self.reset(latlon0.lat, latlon0.lon)
 
     @Property_RO
@@ -1118,7 +1119,7 @@ __all__ += _ALL_DOCS(_AzimuthalBase, _AzimuthalGeodesic, _EquidistantBase, _Gnom
 
 # **) MIT License
 #
-# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2026 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

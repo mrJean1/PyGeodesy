@@ -25,7 +25,7 @@ from math import fabs, sqrt  # pow
 import operator as _operator  # in .datums, .trf, .utm
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '25.09.15'
+__version__ = '25.12.02'
 
 # sqrt(2) - 1 <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142  =  0.41421356237309504880  # ~ 3_730_904_090_310_553 / 9_007_199_254_740_992
@@ -260,7 +260,6 @@ def bqrt(x):
 
 try:
     from math import cbrt as _cbrt  # Python 3.11+
-
 except ImportError:  # Python 3.10-
 
     def _cbrt(x):
@@ -314,8 +313,9 @@ def euclid(x, y):
        @see: Function L{euclid_}.
     '''
     x, y = abs(x), abs(y)  # NOT fabs!
-    return (x + y * _0_4142) if x > y else \
-           (y + x * _0_4142)  # * _0_5 before 20.10.02
+    if x < y:
+        x, y = y, x
+    return x + y * _0_4142  # * _0_5 before 20.10.02
 
 
 def euclid_(*xs):
@@ -332,10 +332,17 @@ def euclid_(*xs):
     e = _0_0
     for x in sorted(map(abs, xs)):  # NOT fabs, reverse=True!
         # e = euclid(x, e)
-        if e < x:
-            e, x = x, e
         if x:
-            e += x * _0_4142
+            if e < x:
+                e, x = x, e
+            x *= _0_4142
+#           s  = e + x
+#           if e < x:  # like .fsums._2sum
+#               x -= s  # e = (x - s) + e
+#           else:
+#               e -= s  # e = (e - s) + x
+            e += x
+#           e += s
     return e
 
 
@@ -1115,7 +1122,7 @@ def zqrt(x):
 
 # **) MIT License
 #
-# Copyright (C) 2016-2025 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2016-2026 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

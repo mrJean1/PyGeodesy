@@ -72,6 +72,14 @@
     <li class="private"> <strong class="uidlink"><a href="pygeodesy.__main__-module.html">pygeodesy.__main__</a></strong>: <em class="summary">Print <a href="pygeodesy-module.html" class="link">pygeodesy</a> 
         version, etc.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.albers-module.html">pygeodesy.albers</a></strong>: <em class="summary">Albers Equal-Area projections.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.angles-module.html">pygeodesy.angles</a></strong>: <em class="summary">Classes <a href="pygeodesy.angles.Ang-class.html" 
+        class="link">Ang</a>, <a href="pygeodesy.angles-module.html#Deg" 
+        class="link">Deg</a>, <a href="pygeodesy.angles-module.html#Rad" 
+        class="link">Rad</a> and <a 
+        href="pygeodesy.angles.Lambertian-class.html" 
+        class="link">Lambertian</a> accurately representing an angle as a 
+        3-tuple <code>(sine, cosine, turns)</code>, with <code>turns</code>
+        the number of full turns.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.auxilats-module.html">pygeodesy.auxilats</a></strong>: <em class="summary">Classes <a href="pygeodesy.auxilats.auxAngle.AuxAngle-class.html" 
         class="link">AuxAngle</a>, <a 
         href="pygeodesy.auxilats.auxDLat.AuxDLat-class.html" 
@@ -251,6 +259,10 @@
         <i>precision running</i> summation plus optionally, accurate 
         <i>TwoProduct</i> multiplication.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.gars-module.html">pygeodesy.gars</a></strong>: <em class="summary"><i>Global Area Reference System</i> (GARS) en-/decoding.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.geod3solve-module.html">pygeodesy.geod3solve</a></strong>: <em class="summary">Wrapper to invoke <i>Karney</i>'s <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/Geod3Solve.1.html"
+        target="_top">Geod3Solve</a> utility as a <code>triaxial</code> 
+        geodesic, but intended <i>mainly for testing purposes</i>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.geodesici-module.html">pygeodesy.geodesici</a></strong>: <em class="summary">Classes <a href="pygeodesy.geodesici.Intersectool-class.html" 
         class="link">Intersectool</a> and <a 
         href="pygeodesy.geodesici.Intersector-class.html" 
@@ -297,7 +309,7 @@
     <li> <strong class="uidlink"><a href="pygeodesy.geodsolve-module.html">pygeodesy.geodsolve</a></strong>: <em class="summary">Wrapper to invoke <i>Karney</i>'s <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html"
         target="_top">GeodSolve</a> utility as an (exact) geodesic, but 
-        intended <i>for testing purposes only</i>.</em>    </li>
+        intended <i>mainly for testing purposes</i>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.geohash-module.html">pygeodesy.geohash</a></strong>: <em class="summary"><i>Gustavo Niemeyer</i>&#8217;s <a 
         href="https://WikiPedia.org/wiki/Geohash" 
         target="_top">Geohash</a>.</em>    </li>
@@ -437,26 +449,71 @@
     <li> <strong class="uidlink"><a href="pygeodesy.sphericalTrigonometry-module.html">pygeodesy.sphericalTrigonometry</a></strong>: <em class="summary">Spherical, <code>trigonometry</code>-based geodesy.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.streprs-module.html">pygeodesy.streprs</a></strong>: <em class="summary">Floating point and other formatting utilities.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.trf-module.html">pygeodesy.trf</a></strong>: <em class="summary"><i>Veness</i>' Terrestrial Reference Frames (TRF).</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.triaxials-module.html">pygeodesy.triaxials</a></strong>: <em class="summary">Triaxal ellipsoid classes <i>ordered</i> <a 
-        href="pygeodesy.triaxials.Triaxial-class.html" 
+    <li> <strong class="uidlink"><a href="pygeodesy.triaxials-module.html">pygeodesy.triaxials</a></strong>: <em class="summary">Package of lazily imported modules <a 
+        href="pygeodesy.triaxials.conformal3-module.html" class="link" 
+        onclick="show_private();">triaxials.conformal3</a>, <a 
+        href="pygeodesy.triaxials.triaxial3-module.html" class="link" 
+        onclick="show_private();">triaxials.triaxial3</a> and <a 
+        href="pygeodesy.triaxials.triaxial5-module.html" class="link" 
+        onclick="show_private();">triaxials.triaxial5</a> for triaxial 
+        ellipsoids.</em>
+    <ul>
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.triaxials.bases-module.html" onclick="show_private();">pygeodesy.triaxials.bases</a></strong>: <em class="summary">(INTERNAL) Base classes for <i>ordered</i> triaxial ellipsoid 
+        classes <a 
+        href="pygeodesy.triaxials.triaxial5.Conformal-class.html" 
+        class="link">Conformal</a>, <a 
+        href="pygeodesy.triaxials.conformal3.Conformal3-class.html" 
+        class="link">Conformal3</a>, <a 
+        href="pygeodesy.triaxials.triaxial5.Triaxial-class.html" 
+        class="link">Triaxial</a>, <a 
+        href="pygeodesy.triaxials.triaxial3.Triaxial3-class.html" 
+        class="link">Triaxial3</a> and <i>unordered</i> <a 
+        href="pygeodesy.triaxials.triaxial5.Triaxial_-class.html" 
+        class="link">Triaxial_</a>.</em>    </li>
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.triaxials.conformal3-module.html" onclick="show_private();">pygeodesy.triaxials.conformal3</a></strong>: <em class="summary"><i>Jacobi Conformal projection</i> classes <a 
+        href="pygeodesy.triaxials.conformal3.Conformal3-class.html" 
+        class="link">Conformal3</a>, <a 
+        href="pygeodesy.triaxials.conformal3.Conformal3B-class.html" 
+        class="link">Conformal3B</a> and <a 
+        href="pygeodesy.triaxials.conformal3.Conformal3Sphere-class.html" 
+        class="link">Conformal3Sphere</a> on triaxial ellipsoids and 
+        spheres using <a href="pygeodesy.angles.Ang-class.html" 
+        class="link">Ang</a>, <a href="pygeodesy.angles-module.html#Deg" 
+        class="link">Deg</a>, <a href="pygeodesy.angles-module.html#Rad" 
+        class="link">Rad</a> lat-, longitude, heading and meridian 
+        (convergence) angles.</em>    </li>
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.triaxials.triaxial3-module.html" onclick="show_private();">pygeodesy.triaxials.triaxial3</a></strong>: <em class="summary"><i>Ordered</i> triaxial ellipsoid classes <a 
+        href="pygeodesy.triaxials.triaxial3.Triaxial3-class.html" 
+        class="link">Triaxial3</a> and <a 
+        href="pygeodesy.triaxials.triaxial3.Triaxial3B-class.html" 
+        class="link">Triaxial3B</a> for conversion between variuos 
+        lat-/longitudal and cartesian coordinates on a triaxial ellipsoid 
+        using <a href="pygeodesy.angles.Ang-class.html" 
+        class="link">Ang</a>, <a href="pygeodesy.angles-module.html#Deg" 
+        class="link">Deg</a>, <a href="pygeodesy.angles-module.html#Rad" 
+        class="link">Rad</a> lat-, longitude and heading angles.</em>    </li>
+    <li class="private"> <strong class="uidlink"><a href="pygeodesy.triaxials.triaxial5-module.html" onclick="show_private();">pygeodesy.triaxials.triaxial5</a></strong>: <em class="summary">Triaxal ellipsoid classes <a 
+        href="pygeodesy.triaxials.triaxial5.Triaxial-class.html" 
         class="link">Triaxial</a> and <i>unordered</i> <a 
-        href="pygeodesy.triaxials.Triaxial_-class.html" 
+        href="pygeodesy.triaxials.triaxial5.Triaxial_-class.html" 
         class="link">Triaxial_</a> and Jacobi conformal projections <a 
-        href="pygeodesy.triaxials.ConformalTriaxial-class.html" 
-        class="link">ConformalTriaxial</a> and <a 
-        href="pygeodesy.triaxials.ConformalSphere-class.html" 
-        class="link">ConformalSphere</a>, transcoded from <i>Charles 
-        Karney</i>'s GeographicLib 2.5.2 C++ class <a 
+        href="pygeodesy.triaxials.triaxial5.Conformal-class.html" 
+        class="link">Conformal</a> and <a 
+        href="pygeodesy.triaxials.triaxial5.ConformalSphere-class.html" 
+        class="link">ConformalSphere</a>, transcoded from <i>Karney</i>'s 
+        GeographicLib 2.5.2 C++ class <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1JacobiConformal.html#details"
         target="_top">JacobiConformal</a> to pure Python and miscellaneous 
-        classes <a href="pygeodesy.triaxials.BetaOmega2Tuple-class.html" 
+        classes <a 
+        href="pygeodesy.triaxials.triaxial5.BetaOmega2Tuple-class.html" 
         class="link">BetaOmega2Tuple</a>, <a 
-        href="pygeodesy.triaxials.BetaOmega3Tuple-class.html" 
-        class="link">BetaOmega3Tuple</a>, <a 
-        href="pygeodesy.triaxials.Conformal2Tuple-class.html" 
-        class="link">Conformal2Tuple</a> and <a 
-        href="pygeodesy.triaxials.TriaxialError-class.html" 
-        class="link">TriaxialError</a>.</em>    </li>
+        href="pygeodesy.triaxials.triaxial5.BetaOmega3Tuple-class.html" 
+        class="link">BetaOmega3Tuple</a> and <a 
+        href="pygeodesy.triaxials.triaxial5.Conformal2Tuple-class.html" 
+        class="link">Conformal2Tuple</a>, <i>all kept for backward 
+        copability</i>.</em>    </li>
+    </ul>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.units-module.html">pygeodesy.units</a></strong>: <em class="summary">Various named units, all sub-classes of <code>Float</code>, 
         <code>Int</code> or <code>Str</code> from basic <code>float</code>,
         <code>int</code> respectively <code>str</code> to named units as <a
@@ -538,7 +595,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Nov  6 10:52:28 2025
+    Generated by Epydoc 3.0.1 on Sun Dec  7 17:54:41 2025
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

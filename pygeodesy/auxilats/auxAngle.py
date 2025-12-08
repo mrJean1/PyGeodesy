@@ -16,8 +16,8 @@ from __future__ import division as _; del _  # noqa: E702 ;
 
 from pygeodesy.auxilats.auxily import Aux, _Aux2Greek,  AuxError
 from pygeodesy.basics import map1, map2, _xinstanceof
-from pygeodesy.constants import EPS, _INF_NAN_NINF, MAX, NAN, _0_0, _0_5, _1_0, \
-                               _copysign_1_0, isfinite, isnan, _over, _pos_self
+from pygeodesy.constants import EPS, MAX, NAN, _0_0, _0_5, _1_0, _copysign_1_0, \
+                                isfinite, isnan, _over, _pos_self
 # from pygeodesy.errors import AuxError  # from .auxilats.auxily
 from pygeodesy.fmath import hypot,  unstr
 from pygeodesy.fsums import _add_op_, _iadd_op_, _isub_op_, _sub_op_
@@ -32,11 +32,10 @@ from pygeodesy.utily import atan2, atan2d, sincos2, sincos2d
 from math import asinh, copysign, degrees, fabs, radians, sinh
 
 __all__ = ()
-__version__ = '25.08.31'
+__version__ = '25.12.02'
 
-_0_INF_NAN_NINF = (0, _0_0) + _INF_NAN_NINF
-_MAX_2          =  MAX * _0_5  # PYCHOK used!
-# del _INF_NAN_NINF, MAX
+_MAX_2 = MAX * _0_5  # PYCHOK used!
+# del MAX
 
 
 class AuxAngle(_Named):
@@ -519,7 +518,7 @@ def _yx2(yx):
     try:
         y, x = yx
         y, x = map1(float, y, x)
-        if y in _0_INF_NAN_NINF:
+        if not (y and isfinite(y)):
             x = _copysign_1_0(x)
     except (TypeError, ValueError) as X:
         raise AuxError(y=y, x=x, cause=X)
@@ -530,7 +529,7 @@ __all__ += _ALL_DOCS(AuxAngle, *_AUXClass.values())
 
 # **) MIT License
 #
-# Copyright (C) 2023-2025 -- mrJean1 at Gmail -- All Rights Reserved.
+# Copyright (C) 2023-2026 -- mrJean1 at Gmail -- All Rights Reserved.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a
 # copy of this software and associated documentation files (the "Software"),

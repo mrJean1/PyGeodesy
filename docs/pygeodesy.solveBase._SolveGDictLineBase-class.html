@@ -61,21 +61,23 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class _SolveGDictLineBase</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-  object --+                        
-           |                        
-<a href="pygeodesy.named._Named-class.html">named._Named</a> --+                    
-               |                    
-<a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+                
-                   |                
-    <a href="pygeodesy.karney._CapsBase-class.html">karney._CapsBase</a> --+            
-                       |            
-          <a href="pygeodesy.solveBase._SolveCapsBase-class.html">_SolveCapsBase</a> --+        
-                           |        
-                  <a href="pygeodesy.solveBase._SolveBase-class.html">_SolveBase</a> --+    
-                               |    
-                 <a href="pygeodesy.solveBase._SolveGDictBase-class.html">_SolveGDictBase</a> --+
-                                   |
-                                  <strong class="uidshort">_SolveGDictLineBase</strong>
+  object --+                            
+           |                            
+<a href="pygeodesy.named._Named-class.html">named._Named</a> --+                        
+               |                        
+<a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+                    
+                   |                    
+    <a href="pygeodesy.karney._CapsBase-class.html">karney._CapsBase</a> --+                
+                       |                
+          <a href="pygeodesy.solveBase._SolveCapsBase-class.html">_SolveCapsBase</a> --+            
+                           |            
+                  <a href="pygeodesy.solveBase._SolveBase-class.html">_SolveBase</a> --+        
+                               |        
+                     _Solve3Base --+    
+                                   |    
+                     <a href="pygeodesy.solveBase._SolveGDictBase-class.html">_SolveGDictBase</a> --+
+                                       |
+                                      <strong class="uidshort">_SolveGDictLineBase</strong>
 </pre>
 
 <dl><dt>Known Subclasses:</dt>
@@ -118,6 +120,24 @@
       
     </td>
   </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.solveBase._SolveGDictLineBase-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">**prec_sep_other</span>)</span><br />
+      Return this <code>_LineSolve</code> as string.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
   <tr>
     <td colspan="2" class="summary">
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.solveBase._SolveGDictBase-class.html">_SolveGDictBase</a></code></b>:
@@ -138,8 +158,7 @@
       <code><a href="pygeodesy.named._NamedBase-class.html#__repr__">__repr__</a></code>,
       <code><a href="pygeodesy.named._NamedBase-class.html#__str__">__str__</a></code>,
       <code><a href="pygeodesy.named._NamedBase-class.html#others">others</a></code>,
-      <code><a href="pygeodesy.named._NamedBase-class.html#toRepr">toRepr</a></code>,
-      <code><a href="pygeodesy.named._NamedBase-class.html#toStr">toStr</a></code>
+      <code><a href="pygeodesy.named._NamedBase-class.html#toRepr">toRepr</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
       <code><a href="pygeodesy.named._Named-class.html#__format__">__format__</a></code>,
@@ -337,6 +356,34 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="toStr"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">**prec_sep_other</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return this <code>_LineSolve</code> as string.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>prec_sep</code></strong> - See <a href="pygeodesy.solveBase._SolveBase-class.html#toStr" 
+          class="link">toStr</a>.</li>
+    </ul></dd>
+    <dt>Overrides:
+        <a href="pygeodesy.named._Named-class.html#toStr">named._Named.toStr</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
 <br />
 <!-- ==================== PROPERTY DETAILS ==================== -->
 <a name="section-PropertyDetails"></a>
@@ -475,7 +522,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Nov  6 10:52:33 2025
+    Generated by Epydoc 3.0.1 on Sun Dec  7 17:54:51 2025
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

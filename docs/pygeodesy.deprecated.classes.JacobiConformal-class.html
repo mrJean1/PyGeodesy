@@ -62,27 +62,29 @@
 <!-- ==================== CLASS DESCRIPTION ==================== -->
 <h1 class="epydoc">Class JacobiConformal</h1><p class="nomargin-top"></p>
 <pre class="base-tree">
-  object --+                        
-           |                        
-<a href="pygeodesy.named._Named-class.html">named._Named</a> --+                    
-               |                    
-<a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+                
-                   |                
-<a href="pygeodesy.named._NamedEnumItem-class.html">named._NamedEnumItem</a> --+            
-                       |            
-     <a href="pygeodesy.triaxials.Triaxial_-class.html">triaxials.Triaxial_</a> --+        
-                           |        
-          <a href="pygeodesy.triaxials.Triaxial-class.html">triaxials.Triaxial</a> --+    
-                               |    
-     <a href="pygeodesy.triaxials.ConformalTriaxial-class.html">triaxials.ConformalTriaxial</a> --+
-                                   |
-                                  <strong class="uidshort">JacobiConformal</strong>
+                object --+                            
+                         |                            
+              <a href="pygeodesy.named._Named-class.html">named._Named</a> --+                        
+                             |                        
+              <a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+                    
+                                 |                    
+              <a href="pygeodesy.named._NamedEnumItem-class.html">named._NamedEnumItem</a> --+                
+                                     |                
+<a href="pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html">triaxials.bases._UnOrderedTriaxialBase</a> --+            
+                                         |            
+      <a href="pygeodesy.triaxials.bases._OrderedTriaxialBase-class.html">triaxials.bases._OrderedTriaxialBase</a> --+        
+                                             |        
+                  <a href="pygeodesy.triaxials.triaxial5.Triaxial-class.html">triaxials.triaxial5.Triaxial</a> --+    
+                                                 |    
+                     <a href="pygeodesy.triaxials.triaxial5.Conformal-class.html">triaxials.triaxial5.Conformal</a> --+
+                                                     |
+                                                    <strong class="uidshort">JacobiConformal</strong>
 </pre>
 
 <hr />
 <p>DEPRECATED on 2025.10.25, use class <a 
-  href="pygeodesy.triaxials.ConformalTriaxial-class.html" 
-  class="link">ConformalTriaxial</a>.</p>
+  href="pygeodesy.triaxials.triaxial5.Conformal-class.html" 
+  class="link">Conformal</a>.</p>
 
 <!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
@@ -101,8 +103,15 @@
           <td><span class="summary-sig"><a href="pygeodesy.deprecated.classes.JacobiConformal-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">*args</span>,
         <span class="summary-sig-arg">**kwds</span>)</span><br />
-      New <i>ordered</i> <a href="pygeodesy.triaxials.Triaxial-class.html" 
-      class="link">Triaxial</a>.</td>
+      New <i>ordered</i> <a 
+      href="pygeodesy.triaxials.triaxial5.Triaxial-class.html" 
+      class="link">Triaxial</a>, <a 
+      href="pygeodesy.triaxials.triaxial3.Triaxial3-class.html" 
+      class="link">Triaxial3</a>, <a 
+      href="pygeodesy.triaxials.triaxial5.Conformal-class.html" 
+      class="link">Conformal</a> or <a 
+      href="pygeodesy.triaxials.conformal3.Conformal3-class.html" 
+      class="link">Conformal3</a>.</td>
           <td align="right" valign="top">
             
             
@@ -114,35 +123,38 @@
   </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.triaxials.ConformalTriaxial-class.html">triaxials.ConformalTriaxial</a></code></b>:
-      <code><a href="pygeodesy.triaxials.ConformalTriaxial-class.html#xR">xR</a></code>,
-      <code><a href="pygeodesy.triaxials.ConformalTriaxial-class.html#xR_">xR_</a></code>,
-      <code><a href="pygeodesy.triaxials.ConformalTriaxial-class.html#xyR2">xyR2</a></code>,
-      <code><a href="pygeodesy.triaxials.ConformalTriaxial-class.html#xyR2_">xyR2_</a></code>,
-      <code><a href="pygeodesy.triaxials.ConformalTriaxial-class.html#yR">yR</a></code>,
-      <code><a href="pygeodesy.triaxials.ConformalTriaxial-class.html#yR_">yR_</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.triaxials.triaxial5.Conformal-class.html">triaxials.triaxial5.Conformal</a></code></b>:
+      <code><a href="pygeodesy.triaxials.triaxial5.Conformal-class.html#x">x</a></code>,
+      <code><a href="pygeodesy.triaxials.triaxial5.Conformal-class.html#xR">xR</a></code>,
+      <code><a href="pygeodesy.triaxials.triaxial5.Conformal-class.html#xR_">xR_</a></code>,
+      <code><a href="pygeodesy.triaxials.triaxial5.Conformal-class.html#xy">xy</a></code>,
+      <code><a href="pygeodesy.triaxials.triaxial5.Conformal-class.html#xyR2">xyR2</a></code>,
+      <code><a href="pygeodesy.triaxials.triaxial5.Conformal-class.html#xyR2_">xyR2_</a></code>,
+      <code><a href="pygeodesy.triaxials.triaxial5.Conformal-class.html#y">y</a></code>,
+      <code><a href="pygeodesy.triaxials.triaxial5.Conformal-class.html#yR">yR</a></code>,
+      <code><a href="pygeodesy.triaxials.triaxial5.Conformal-class.html#yR_">yR_</a></code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.triaxials.Triaxial-class.html">triaxials.Triaxial</a></code></b>:
-      <code><a href="pygeodesy.triaxials.Triaxial-class.html#forwardBetaOmega">forwardBetaOmega</a></code>,
-      <code><a href="pygeodesy.triaxials.Triaxial-class.html#forwardBetaOmega_">forwardBetaOmega_</a></code>,
-      <code><a href="pygeodesy.triaxials.Triaxial-class.html#forwardCartesian">forwardCartesian</a></code>,
-      <code><a href="pygeodesy.triaxials.Triaxial-class.html#forwardLatLon">forwardLatLon</a></code>,
-      <code><a href="pygeodesy.triaxials.Triaxial-class.html#forwardLatLon_">forwardLatLon_</a></code>,
-      <code><a href="pygeodesy.triaxials.Triaxial-class.html#reverseBetaOmega">reverseBetaOmega</a></code>,
-      <code><a href="pygeodesy.triaxials.Triaxial-class.html#reverseCartesian">reverseCartesian</a></code>,
-      <code><a href="pygeodesy.triaxials.Triaxial-class.html#reverseLatLon">reverseLatLon</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.triaxials.triaxial5.Triaxial-class.html">triaxials.triaxial5.Triaxial</a></code></b>:
+      <code><a href="pygeodesy.triaxials.triaxial5.Triaxial-class.html#forwardBetaOmega">forwardBetaOmega</a></code>,
+      <code><a href="pygeodesy.triaxials.triaxial5.Triaxial-class.html#forwardBetaOmega_">forwardBetaOmega_</a></code>,
+      <code><a href="pygeodesy.triaxials.triaxial5.Triaxial-class.html#forwardCartesian">forwardCartesian</a></code>,
+      <code><a href="pygeodesy.triaxials.triaxial5.Triaxial-class.html#forwardLatLon">forwardLatLon</a></code>,
+      <code><a href="pygeodesy.triaxials.triaxial5.Triaxial-class.html#forwardLatLon_">forwardLatLon_</a></code>,
+      <code><a href="pygeodesy.triaxials.triaxial5.Triaxial-class.html#reverseBetaOmega">reverseBetaOmega</a></code>,
+      <code><a href="pygeodesy.triaxials.triaxial5.Triaxial-class.html#reverseCartesian">reverseCartesian</a></code>,
+      <code><a href="pygeodesy.triaxials.triaxial5.Triaxial-class.html#reverseLatLon">reverseLatLon</a></code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.triaxials.Triaxial_-class.html">triaxials.Triaxial_</a></code></b>:
-      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#__str__">__str__</a></code>,
-      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#area_p">area_p</a></code>,
-      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#hartzell4">hartzell4</a></code>,
-      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#height4">height4</a></code>,
-      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#normal3d">normal3d</a></code>,
-      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#normal4">normal4</a></code>,
-      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#sideOf">sideOf</a></code>,
-      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#toBiaxial">toBiaxial</a></code>,
-      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#toEllipsoid">toEllipsoid</a></code>,
-      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#toStr">toStr</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html">triaxials.bases._UnOrderedTriaxialBase</a></code></b>:
+      <code><a href="pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#__str__">__str__</a></code>,
+      <code><a href="pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#area_p">area_p</a></code>,
+      <code><a href="pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#hartzell4">hartzell4</a></code>,
+      <code><a href="pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#height4">height4</a></code>,
+      <code><a href="pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#normal3d">normal3d</a></code>,
+      <code><a href="pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#normal4">normal4</a></code>,
+      <code><a href="pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#sideOf">sideOf</a></code>,
+      <code><a href="pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#toBiaxial">toBiaxial</a></code>,
+      <code><a href="pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#toEllipsoid">toEllipsoid</a></code>,
+      <code><a href="pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#toStr">toStr</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedEnumItem-class.html">named._NamedEnumItem</a></code></b>:
       <code><a href="pygeodesy.named._NamedEnumItem-class.html#unregister">unregister</a></code>
@@ -190,26 +202,27 @@
 </tr>
   <tr>
     <td colspan="2" class="summary">
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.triaxials.ConformalTriaxial-class.html">triaxials.ConformalTriaxial</a></code></b>:
-      <code><a href="pygeodesy.triaxials.ConformalTriaxial-class.html#xyQ2">xyQ2</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.triaxials.triaxial5.Conformal-class.html">triaxials.triaxial5.Conformal</a></code></b>:
+      <code><a href="pygeodesy.triaxials.triaxial5.Conformal-class.html#xyQ2">xyQ2</a></code>,
+      <code><a href="pygeodesy.triaxials.triaxial5.Conformal-class.html#xyQR2">xyQR2</a></code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.triaxials.Triaxial-class.html">triaxials.Triaxial</a></code></b>:
-      <code><a href="pygeodesy.triaxials.Triaxial-class.html#area">area</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.triaxials.bases._OrderedTriaxialBase-class.html">triaxials.bases._OrderedTriaxialBase</a></code></b>:
+      <code><a href="pygeodesy.triaxials.bases._OrderedTriaxialBase-class.html#area">area</a></code>
       </p>
-    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.triaxials.Triaxial_-class.html">triaxials.Triaxial_</a></code></b>:
-      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#a">a</a></code>,
-      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#a2">a2</a></code>,
-      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#b">b</a></code>,
-      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#b2">b2</a></code>,
-      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#c">c</a></code>,
-      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#c2">c2</a></code>,
-      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#e2ab">e2ab</a></code>,
-      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#e2ac">e2ac</a></code>,
-      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#e2bc">e2bc</a></code>,
-      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#isOrdered">isOrdered</a></code>,
-      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#isSpherical">isSpherical</a></code>,
-      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#unOrdered">unOrdered</a></code>,
-      <code><a href="pygeodesy.triaxials.Triaxial_-class.html#volume">volume</a></code>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html">triaxials.bases._UnOrderedTriaxialBase</a></code></b>:
+      <code><a href="pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#a">a</a></code>,
+      <code><a href="pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#a2">a2</a></code>,
+      <code><a href="pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#b">b</a></code>,
+      <code><a href="pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#b2">b2</a></code>,
+      <code><a href="pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#c">c</a></code>,
+      <code><a href="pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#c2">c2</a></code>,
+      <code><a href="pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#e2ab">e2ab</a></code>,
+      <code><a href="pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#e2ac">e2ac</a></code>,
+      <code><a href="pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#e2bc">e2bc</a></code>,
+      <code><a href="pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#isOrdered">isOrdered</a></code>,
+      <code><a href="pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#isSpherical">isSpherical</a></code>,
+      <code><a href="pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#unOrdered">unOrdered</a></code>,
+      <code><a href="pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#volume">volume</a></code>
       </p>
     <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedEnumItem-class.html">named._NamedEnumItem</a></code></b>:
       <code><a href="pygeodesy.named._NamedEnumItem-class.html#name">name</a></code>
@@ -257,16 +270,23 @@
     </td>
   </tr></table>
   
-  <p>New <i>ordered</i> <a href="pygeodesy.triaxials.Triaxial-class.html" 
-  class="link">Triaxial</a>.</p>
+  <p>New <i>ordered</i> <a 
+  href="pygeodesy.triaxials.triaxial5.Triaxial-class.html" 
+  class="link">Triaxial</a>, <a 
+  href="pygeodesy.triaxials.triaxial3.Triaxial3-class.html" 
+  class="link">Triaxial3</a>, <a 
+  href="pygeodesy.triaxials.triaxial5.Conformal-class.html" 
+  class="link">Conformal</a> or <a 
+  href="pygeodesy.triaxials.conformal3.Conformal3-class.html" 
+  class="link">Conformal3</a>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>a_triaxial</code></strong> - Largest semi-axis (<code>scalar</code>, conventionally in 
           <code>meter</code>) or an other <a 
-          href="pygeodesy.triaxials.Triaxial-class.html" 
+          href="pygeodesy.triaxials.triaxial5.Triaxial-class.html" 
           class="link">Triaxial</a> or <a 
-          href="pygeodesy.triaxials.Triaxial_-class.html" 
+          href="pygeodesy.triaxials.triaxial5.Triaxial_-class.html" 
           class="link">Triaxial_</a> instance.</li>
         <li><strong class="pname"><code>b</code></strong> - Middle semi-axis (<code>meter</code>, same units as 
           <b><code>a</code></b>), required if <code><b>a_triaxial</b> is 
@@ -277,7 +297,7 @@
     </ul></dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.triaxials.TriaxialError-class.html">TriaxialError</a></strong></code> - Semi-axes unordered, spherical or invalid.</li>
+        <li><code><strong class='fraise'><a href="pygeodesy.triaxials.bases.TriaxialError-class.html">TriaxialError</a></strong></code> - Semi-axes unordered, spherical or invalid.</li>
     </ul></dd>
     <dt>Overrides:
         object.__init__
@@ -318,7 +338,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Nov  6 10:52:30 2025
+    Generated by Epydoc 3.0.1 on Sun Dec  7 17:54:49 2025
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.triaxials.triaxial3</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">pygeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        <a href="pygeodesy.triaxials-module.html">Package&nbsp;triaxials</a> ::
+        Module&nbsp;triaxial3
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.triaxials.triaxial3-module.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== MODULE DESCRIPTION ==================== -->
+<h1 class="epydoc">Module triaxial3</h1><p class="nomargin-top"></p>
+<p><i>Ordered</i> triaxial ellipsoid classes <a 
+  href="pygeodesy.triaxials.triaxial3.Triaxial3-class.html" 
+  class="link">Triaxial3</a> and <a 
+  href="pygeodesy.triaxials.triaxial3.Triaxial3B-class.html" 
+  class="link">Triaxial3B</a> for conversion between variuos 
+  lat-/longitudal and cartesian coordinates on a triaxial ellipsoid using 
+  <a href="pygeodesy.angles.Ang-class.html" class="link">Ang</a>, <a 
+  href="pygeodesy.angles-module.html#Deg" class="link">Deg</a>, <a 
+  href="pygeodesy.angles-module.html#Rad" class="link">Rad</a> lat-, 
+  longitude and heading angles.</p>
+  <p>Transcoded to pure Python from <i>Karney</i>'s GeographicLib 2.7 C++ 
+  classes <a 
+  href="https://GeographicLib.sourceforge.io/C++/doc/classGeographicLib_1_1Triaxial_1_1Ellipsoidal3.html"
+  target="_top">Ellipsoidal3</a> and <a 
+  href="https://GeographicLib.sourceforge.io/C++/doc/classGeographicLib_1_1Triaxial_1_1Cartesian3.html"
+  target="_top">Cartesian3</a>.</p>
+  <p>Copyright (C) <a href="mailto:Karney@Alum.MIT.edu" 
+  target="_top">Charles Karney</a> (2024-2025) and licensed under the 
+  MIT/X11 License.  For more information, see the <a 
+  href="https://GeographicLib.sourceforge.io/" target="_top">GeographicLib 
+  2.7</a> documentation.</p>
+
+<hr />
+<div class="fields">      <p><strong>Version:</strong>
+        25.12.06
+      </p>
+</div><!-- ==================== CLASSES ==================== -->
+<a name="section-Classes"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Classes</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.triaxials.triaxial3.BetOmgAlp5Tuple-class.html" class="summary-name">BetOmgAlp5Tuple</a><br />
+      5-Tuple <code>(bet, omg, alp, h, llk)</code> with 
+        <i>ellipsoidal</i> lat- <code>bet</code>, longitude 
+        <code>omg</code> and azimuth <code>alp</code>, all in <a 
+        href="pygeodesy.angles.Ang-class.html" class="link">Ang</a>les on 
+        and height <code>h</code> off the triaxial's surface and kind 
+        <code>llk</code> set to <code>LLK.ELLIPSOIDAL</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.triaxials.triaxial3.Cartesian5Tuple-class.html" class="summary-name">Cartesian5Tuple</a><br />
+      5-Tuple <code>(x, y, z, h, llk)</code> with <i>cartesian</i> 
+        <code>x</code>, <code>y</code> and <code>z</code> coordinates on 
+        and height <code>h</code> above or below the triaxial's surface and
+        kind <code>llk</code> set to the original <code>LLK</code> or 
+        <code>None</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.triaxials.triaxial3.PhiLamZet5Tuple-class.html" class="summary-name">PhiLamZet5Tuple</a><br />
+      5-Tuple <code>(phi, lam, zet, h, llk)</code> with trixial lat- lat-
+        <code>phi</code>, longitude <code>lam</code> and azimuth 
+        <code>zet</code>, all in <a href="pygeodesy.angles.Ang-class.html" 
+        class="link">Ang</a>les on and height <code>h</code> off the 
+        triaxial's surface and kind <code>llk</code> set to an 
+        <code>LLK</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.triaxials.triaxial3.Triaxial3-class.html" class="summary-name">Triaxial3</a><br />
+      <i>Ordered</i> triaxial ellipsoid convering between cartesian and 
+        lat-/longitudes using using class <a 
+        href="pygeodesy.angles.Ang-class.html" class="link">Ang</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.triaxials.triaxial3.Triaxial3B-class.html" class="summary-name">Triaxial3B</a><br />
+      Triaxial ellipsoid specified by its middle semi-axis and shape.
+    </td>
+  </tr>
+</table>
+<!-- ==================== VARIABLES ==================== -->
+<a name="section-Variables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Variables</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__all__"></a><span class="summary-name">__all__</span> = <code title="_ALL_LAZY.triaxials_triaxial3">_ALL_LAZY.triaxials_triaxial3</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Triaxial3s"></a><span class="summary-name">Triaxial3s</span> = <code title="Triaxial3s()">Triaxial3s()</code><br />
+      Some pre-defined <a 
+      href="pygeodesy.triaxials.triaxial3.Triaxial3-class.html" 
+      class="link">Triaxial3</a>s, like <a 
+      href="pygeodesy.triaxials-module.html#Triaxials" 
+      class="link">Triaxials</a>.
+    </td>
+  </tr>
+</table>
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">pygeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Sun Dec  7 17:54:46 2025
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

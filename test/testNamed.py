@@ -4,10 +4,10 @@
 # Test L{named} module.
 
 __all__ = ('Tests',)
-__version__ = '24.06.02'
+__version__ = '25.12.06'  # '24.06.02'
 
 from bases import endswith, TestsBase
-from pygeodesy import geohash, Datum, Datums, ltpTuples, \
+from pygeodesy import angles, geohash, Datum, Datums, ltpTuples, \
                       named, namedTuples, nameof, NN, ub2str
 
 from os import linesep
@@ -16,6 +16,7 @@ _B_    = ')}'
 _C_    = '}C{'
 _DEP_D = 'DEPRECATED'  # interns._DEPRECATED_
 _DICT  = 'Dict'
+_HEADS = 'Geod3',
 _LINK  = 'L{'
 _TUPLE = 'Tuple'
 
@@ -98,7 +99,8 @@ class Tests(TestsBase):
     def testNamedTuples(self):
         self.subtitle(namedTuples, 'ing %s ' % ('NamedTuples',))
         self.testNamed_classes(_TUPLE, '_Names_', self._NamedTuples,
-                                named._NamedTuple, ltpTuples._Abc4Tuple)
+                                named._NamedTuple, ltpTuples._Abc4Tuple,
+                                angles._Ang3Tuple)
 
     _NamedTuples = {}  # [<name>] = 'L{<name>}C{(...)}'
 
@@ -120,6 +122,10 @@ class Tests(TestsBase):
                     self.test(n, d[:len(t)].strip(), t)
                     # check the count
                     d = n[:-len(_Nclass)]
+                    for h in _HEADS:
+                        if d.startswith(h):
+                            d = d[len(h):]
+                            break
                     while d and not d[:1].isdigit():
                         d = d[1:]
                     if d:

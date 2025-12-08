@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.triaxials.conformal3</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">pygeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        <a href="pygeodesy.triaxials-module.html">Package&nbsp;triaxials</a> ::
+        Module&nbsp;conformal3
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.triaxials.conformal3-module.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== MODULE DESCRIPTION ==================== -->
+<h1 class="epydoc">Module conformal3</h1><p class="nomargin-top"></p>
+<p><i>Jacobi Conformal projection</i> classes <a 
+  href="pygeodesy.triaxials.conformal3.Conformal3-class.html" 
+  class="link">Conformal3</a>, <a 
+  href="pygeodesy.triaxials.conformal3.Conformal3B-class.html" 
+  class="link">Conformal3B</a> and <a 
+  href="pygeodesy.triaxials.conformal3.Conformal3Sphere-class.html" 
+  class="link">Conformal3Sphere</a> on triaxial ellipsoids and spheres 
+  using <a href="pygeodesy.angles.Ang-class.html" class="link">Ang</a>, <a 
+  href="pygeodesy.angles-module.html#Deg" class="link">Deg</a>, <a 
+  href="pygeodesy.angles-module.html#Rad" class="link">Rad</a> lat-, 
+  longitude, heading and meridian (convergence) angles.</p>
+  <p>Transcoded to pure Python from <i>Karney</i>'s GeographicLib 2.7 C++ 
+  class <a 
+  href="https://GeographicLib.sourceforge.io/C++/doc/classGeographicLib_1_1Triaxial_1_1Conformal3.html"
+  target="_top">Conformal3</a>.</p>
+  <p>Copyright (C) <a href="malto:Karney@Alum.MIT.edu" 
+  target="_top">Charles Karney</a> (2024-2025) and licensed under the 
+  MIT/X11 License.  For more information, see the <a 
+  href="https://GeographicLib.sourceforge.io/" target="_top">GeographicLib 
+  2.7</a> documentation.</p>
+
+<hr />
+<div class="fields">      <p><strong>Version:</strong>
+        25.11.29
+      </p>
+</div><!-- ==================== CLASSES ==================== -->
+<a name="section-Classes"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Classes</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.triaxials.bases.Conformal5Tuple-class.html" class="summary-name">Conformal5Tuple</a><br />
+      5-Tuple <code>(x, y, z, scale, llk)</code> with the easting 
+        <code>x</code> and northing <code>y</code> projection, 
+        <code>scale</code> or <code>NAN</code> <i>but with</i> 
+        <code>z=INT0</code> <i>and kind</i> <code>llk=LLK.CONFORMAL</code> 
+        <i>always</i>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.triaxials.conformal3.BetOmgGam5Tuple-class.html" class="summary-name">BetOmgGam5Tuple</a><br />
+      5-Tuple <code>(bet, omg, gam, scale, llk)</code> with 
+        <i>ellipsoidal</i> lat- <code>bet</code>, longitude 
+        <code>omg</code> and meridian convergence <code>gam</code> all <a 
+        href="pygeodesy.angles.Ang-class.html" class="link">Ang</a>les, 
+        <code>scale</code> <i>and kind</i> <code>llk</code> <i>set to</i> 
+        <code>LLK.CONFORMAL</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.triaxials.conformal3.Conformal3-class.html" class="summary-name">Conformal3</a><br />
+      <i>Jacobi Conformal</i> projection of triaxial ellipsoid using 
+        class <a href="pygeodesy.angles.Ang-class.html" 
+        class="link">Ang</a> lat- and longitudes.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.triaxials.conformal3.Conformal3B-class.html" class="summary-name">Conformal3B</a><br />
+      <i>Jacobi Conformal projection</i> on a triaxial ellipsoid 
+        specified by its middle semi-axis and shape.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.triaxials.conformal3.Conformal3Sphere-class.html" class="summary-name">Conformal3Sphere</a><br />
+      <i>Jacobi Conformal projection</i> on a <i>spherical</i> triaxial.
+    </td>
+  </tr>
+</table>
+<!-- ==================== VARIABLES ==================== -->
+<a name="section-Variables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Variables</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__all__"></a><span class="summary-name">__all__</span> = <code title="_ALL_LAZY.triaxials_conformal3">_ALL_LAZY.triaxials_conformal3</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="c"></a><span class="summary-name">c</span> = <code title="6378137*(1-1/(298257223563/ 1000000000))">6378137*(1-1/(298257223563/ 1000000000))</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="T"></a><span class="summary-name">T</span> = <code title="Conformal3(6378172, 6378102, c)">Conformal3(6378172, 6378102, c)</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="t"></a><span class="summary-name">t</span> = <code title="T.reverseBetOmg(* t [: 2], M= True)">T.reverseBetOmg(* t [: 2], M= True)</code>
+    </td>
+  </tr>
+</table>
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">pygeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Sun Dec  7 17:54:46 2025
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>
