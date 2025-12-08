@@ -6,7 +6,7 @@
 from __future__ import division as _; del _  # noqa: E702 ;
 
 __all__ = ('Tests',)
-__version__ = '25.12.06'
+__version__ = '25.12.08'
 
 from bases import Geod3Solve, numpy, random, startswith, TestsBase
 
@@ -268,6 +268,15 @@ class Tests(TestsBase):
         self.test(n, t, '(40.57193, ', known=startswith)
 
         gl3S = g3S.Line(40.57193, -54.38111, 3.20824)
+        n = gl3S.__class__.__name__
+        self.test(n, gl3S.toStr(), "alp1=", known=startswith)
+        n = gl3S.Position.__name__
+        t = gl3S.Position(15347602)
+        self.test(n, t, '{alp1: 3.20824, alp2: ', known=startswith)
+        t = t.toGeod3Solve7Tuple()
+        self.test(n, t, '(40.57193, ', known=startswith)
+
+        gl3S = g3S.InverseLine(40.57193, -54.38111, 1.355292, 123.419711)
         n = gl3S.__class__.__name__
         self.test(n, gl3S.toStr(), "alp1=", known=startswith)
         n = gl3S.Position.__name__

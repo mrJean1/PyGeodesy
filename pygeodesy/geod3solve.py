@@ -22,7 +22,7 @@ from pygeodesy.triaxials.triaxial3 import Triaxial3, Triaxial3s
 from pygeodesy.units import Degrees, Meter
 
 __all__ = _ALL_LAZY.geod3solve
-__version__ = '25.12.06'
+__version__ = '25.12.08'
 
 _Triaxial3_WGS84 = Triaxial3s.WGS84_3r  # a=6378172, b=6378102, c=6356752
 
@@ -185,7 +185,7 @@ class Geodesic3Solve(_Geodesic3SolveBase):
         '''
         return self._GDictInverse(*_toDegrees(bet1, omg1, bet2, omg2, **unit))
 
-    def InverseLine(self, bet1, omg1, bet2, omg2, caps=Caps.ALL, **unit_name):  # PYCHOK no cover
+    def InverseLine(self, bet1, omg1, bet2, omg2, caps=Caps.ALL, **unit_name):
         '''Set up a L{GeodesicLine3Solve} to compute several points
            on a single geodesic.
 

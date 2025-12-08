@@ -45,7 +45,7 @@ __all__ = ('bits_mach2', 'coverage', 'GeodSolve', 'Geod3Solve', 'geographiclib',
            'property_RO', 'PyGeodesy_dir', 'PythonX', 'scipy', 'test_dir',
            'RandomLatLon', 'TestsBase',  # classes
            'secs2str', 'tilde', 'type2str', 'versions')  # functions
-__version__ = '25.12.06'
+__version__ = '25.12.08'
 
 try:
     _Ints = int, long
@@ -505,7 +505,7 @@ def versions():
             if t:
                 vs += typename(r.Math), t
 
-        for t in (GeoConvert, GeodSolve, IntersectTool, RhumbSolve):
+        for t in (GeoConvert, GeodSolve, Geod3Solve, IntersectTool, RhumbSolve):
             if t:
                 vs += karney._Xables.name_version(t),
 
