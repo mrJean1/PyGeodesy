@@ -10,7 +10,7 @@ __version__ = '25.12.12'
 
 from bases import Geod3Solve, numpy, random, startswith, TestsBase
 
-from pygeodesy import EPS4, EPS8, F_DEG_, F_DMS, PI_2, PI_4, \
+from pygeodesy import EPS4, F_DEG_, F_DMS, PI_2, PI_4, \
                       ConformalSphere, Conformal, Degrees, Ellipsoids, \
                       fstr, LLK, Los, map1, map2, signBit, sincos2d_, \
                       Triaxial, Triaxial_, Triaxials, Triaxial3s, \
@@ -443,7 +443,7 @@ class Tests(TestsBase):
         t = T.reverseLatLon(t)
         self.test(n, t.toDegrees(0), "(Degrees(0.0), Degrees(-14.93), None, ", known=startswith)
         t = t.omg - T.Lon0
-        self.test(n, t.degrees0, 0, known=abs(t.degrees0) < EPS8)  # tri- to biaxial lon
+        self.test(n, t.degrees0, 0, known=abs(t.degrees0) < 1e-13)  # tri- to biaxial lon
 
     def testTriaxial5(self, module):
         n = Triaxial.__name__
