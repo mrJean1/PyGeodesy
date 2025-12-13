@@ -253,7 +253,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                           formy=_a('Radical2Tuple',
                                    'angle2chord', 'antipode', 'antipode_', 'bearing', 'bearing_',
                                    'chord2angle', 'compassAngle', 'cosineLaw', 'cosineLaw_',
-                                   'equirectangular', 'equirectangular4', 'euclidean', 'euclidean_',
+                                   'elliperim', 'equirectangular', 'equirectangular4', 'euclidean', 'euclidean_',
                                    'excessAbc_', 'excessCagnoli_', 'excessGirard_', 'excessLHuilier_',
                                    'excessKarney', 'excessKarney_', 'excessQuad', 'excessQuad_',
                                    'flatLocal', 'flatLocal_', 'flatPolar', 'flatPolar_',
@@ -276,7 +276,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                       geodesicx=_a('gx', 'gxarea', 'gxbases', 'gxline',  # modules
                                    'GeodesicAreaExact', 'GeodesicExact', 'GeodesicLineExact', 'PolygonArea'),
                       geodsolve=_a('GeodesicSolve', 'GeodesicLineSolve', 'GeodSolve12Tuple'),
-                     geod3solve=_a('Geodesic3Solve', 'GeodesicLine3Solve', 'Geod3Solve7Tuple', 'Geodesic3Error'),
+                     geod3solve=_a('Geodesic3Solve', 'GeodesicLine3Solve', 'Geod3Solve8Tuple', 'Geodesic3Error'),
                         geohash=_a('Geohash', 'Geohashed', 'GeohashError', 'Neighbors8Dict', 'Resolutions2Tuple', 'Sizes3Tuple'),
                          geoids=_a('GeoidError', 'GeoidEGM96', 'GeoidG2012B', 'GeoidKarney', 'GeoidPGM', 'egmGeoidHeights',
                                    'PGMError', 'GeoidHeight5Tuple'),
@@ -520,7 +520,7 @@ class _ALL_MODS(_internals._MODS_Base):
 _internals._MODS = _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '25.12.06'
+__version__ = '25.12.12'
 
 
 def _ALL_OTHER(*objs):

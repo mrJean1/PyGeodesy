@@ -80,13 +80,13 @@ class Tests(TestsBase):
         I = Intersect(G())  # noqa: E741 I is eye
         self.test(I.named2, I, I)
 
-        # <https://GeographicLib.sourceforge.io/C++/doc/classGeographicLib_1_1Intersect.html>
+        # <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Intersect.html>
         a = I.Line( 0.0,  0.0,  45.0)
         b = I.Line(45.0, 10.0, 135.0)
         self.testItems('Closest.1',  I.Closest( a, b, **_C))
         self.testItems('Closest5.1', I.Closest5(a, b))
 
-        # <https://GeographicLib.sourceforge.io/C++/doc/IntersectTool.1.html>
+        # <https://GeographicLib.SourceForge.io/C++/doc/IntersectTool.1.html>
         a = I.Line(50.0, -4.0, -147.7)
         b = I.Line( 0.0,  0.0,   90.0)
         self.testItems('Closest.2',  I.Closest( a, b, **_C))

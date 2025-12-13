@@ -11,7 +11,7 @@ from pygeodesy.basics import _copysign, _isin  # _args_kwds_count2
 from pygeodesy.constants import EPS, EPS0, EPS1, PI, PI2, PI3, PI_2, R_M, \
                                _0_0s, float0_, isnon0, remainder, _umod_PI2, \
                                _0_0, _0_125, _0_25, _0_5, _1_0, _2_0, _4_0, \
-                               _90_0, _180_0, _360_0
+                               _90_0, _180_0, _360_0, MANT_DIG as _DIG53
 from pygeodesy.datums import Datum, Ellipsoid, _ellipsoidal_datum, \
                             _mean_radius, _spherical_datum, _WGS84,  _EWGS84
 # from pygeodesy.ellipsoids import Ellipsoid, _EWGS84  # from .datums
@@ -42,10 +42,11 @@ from contextlib import contextmanager
 from math import atan, cos, degrees, fabs, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '25.11.07'
+__version__ = '25.12.12'
 
 _RADIANS2 =  radians(_1_0)**2  # degree to radians-squared
 _ratio_   = 'ratio'
+_TOL53    =  sqrt(pow(_0_5, _DIG53))  # elliperim
 _xline_   = 'xline'
 
 
@@ -365,6 +366,107 @@ def _dS(fun_, radius, wrap, *lls, **adjust):
         lat1, _, lat2, _ = lls
         radius = _mean_radius(radius, lat1, lat2)
     return r * radius
+
+
+def elliperim(a, b):
+    '''Compute the perimeter of an ellipse with semi-axes C{a} and C{b} using U{SciPy's
+       ellipe<https://www.JohnDCook.com/perimeter_ellipse.html>} function or the U{AGM
+       <https://PaulBourke.net/geometry/ellipsecirc>} (Arithmetic Geometric Mean) method.
+
+       @return: The perimeter (C{scalar}, same units as C{a} and C{b}).
+    '''
+    if a < b:
+        a, b = b, a
+    if 0 < b < a:
+        try:
+            from scipy.special import ellipe
+            a *= float(ellipe(_1_0 - (b / a)**2)) * _4_0
+        except (AttributeError, ImportError):
+            # relative accuracy is about _TOL53**2
+            if (b * _DIG53) > (a * _TOL53):
+                c = a + b
+                d = a - b
+                m, s = -1, [c**2]
+                _s = s.append
+                while d > (b * _TOL53) and len(s) < 32:  # 4..5 trips
+                    b  = sqrt(a * b)
+                    a  = c * _0_5
+                    c  = a + b
+                    d  = a - b
+                    m *= 2
+                    _s(m * d**2)
+                a = fsumf_(*s) * PI / c
+            else:  # near flat
+                a *= _4_0
+    elif b < 0:
+        raise _ValueError(unstr(elliperim, a, b))
+    else:  # circle or flat
+        a *= PI2 if b else _4_0
+    return a
+
+
+# def elliperimR2(a, b):
+#     '''Compute the perimeter of an ellipse with semi-axes C{a} and C{b} using
+#        Ramanujan's U{2nd approximation<https://PaulBourke.net/geometry/ellipsecirc>}.
+#     '''
+#     if a < 0 or b < 0:
+#         raise ValueError(unstr(elliperimR2, a, b))
+#     p = a + b
+#     if p:
+#         t  = ((a - b) / p)**2 * _3_0
+#         t  = t / (_10_0 + sqrt(_4_0 - t)) + _1_0
+#         p *= t * PI
+#     return p
+
+
+# def elliperim4arc3(a, b):
+#     '''Compute the perimeter of an ellipse with semi-axes C{a} and C{b} using
+#        the U{4 arc approximation<https://PaulBourke.net/geometry/ellipsecirc>}.
+#
+#        @return: 3-Tuple C{(p, ra, rb)} with perimeter C{p}, arc radius C{ra}
+#                 at the major and arc radius C{rb} at the minor semi-axes.
+#     '''
+#     _r = a < b
+#     if _r:
+#         a, b = b, a
+#     if 0 < b < a:
+#         h = hypot(a, b)
+#         L = (h - b) * _0_5
+#         p = atan2(b, a)
+#         s, c = sincos2(p)
+#         ra =  L / c
+#         rb = (h - L) / s
+#         p  = rb * p + ra * (PI_2 - p)
+#     elif b < 0:
+#         raise ValueError(unstr(elliperim4arc3, a, b))
+#     elif b == a:
+#         ra = rb = a
+#         p = a * PI_2
+#     else:  # b == 0
+#         ra, rb = _0_0, a
+#         p = a
+#     p *= _4_0
+#     if _r:
+#         ra, rb = rb, ra
+#     return p, ra, rb
+
+
+# def elliperimGKS(a, b):
+#     '''Compute the perimeter of an ellipse with semi-axes C{a} and C{b} using the U{Gauss-Kummer
+#        Series<https://www.JohnDCook.com/blog/2023/05/28/approximate-ellipse-perimeter/>}.
+#     '''
+#     if a < b:
+#         a, b = b, a
+#     if b < 0:
+#         raise ValueError(unstr(elliperimGKS, a, b))
+#     if b:
+#         p  =  a + b
+#         h  = (a - b) / p
+#         h *=  h
+#         p *= (1 + h * (1 / 4 + h * (1 / 64 + h * (1 / 256 + h * (25 / 16384 + h * (49 / 65536)))))) * PI
+#     else:
+#         p  = _4_0 * a
+#     return p
 
 
 def _ellipsoidal(earth, where):

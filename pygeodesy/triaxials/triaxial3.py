@@ -6,11 +6,11 @@ variuos lat-/longitudal and cartesian coordinates on a triaxial ellipsoid using 
 L{Rad} lat-, longitude and heading angles.
 
 Transcoded to pure Python from I{Karney}'s GeographicLib 2.7 C++ classes U{Ellipsoidal3<https://
-GeographicLib.sourceforge.io/C++/doc/classGeographicLib_1_1Triaxial_1_1Ellipsoidal3.html>} and U{Cartesian3
-<https://GeographicLib.sourceforge.io/C++/doc/classGeographicLib_1_1Triaxial_1_1Cartesian3.html>}.
+GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Triaxial_1_1Ellipsoidal3.html>} and U{Cartesian3
+<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Triaxial_1_1Cartesian3.html>}.
 
 Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2024-2025) and licensed under the MIT/X11
-License.  For more information, see the U{GeographicLib 2.7 <https://GeographicLib.sourceforge.io/>}
+License.  For more information, see the U{GeographicLib 2.7 <https://GeographicLib.SourceForge.io/>}
 documentation.
 '''
 # make sure int/int division yields float quotient, see .basics
@@ -42,7 +42,7 @@ from pygeodesy.vector3d import Vector3d
 from random import random
 
 __all__ = _ALL_LAZY.triaxials_triaxial3
-__version__ = '25.12.06'
+__version__ = '25.12.12'
 
 _alp_  = 'alp'
 _NAN3d =  Vector3d(NAN, NAN, NAN)

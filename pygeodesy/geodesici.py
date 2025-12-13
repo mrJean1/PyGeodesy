@@ -487,7 +487,7 @@ class Intersectool(_IntersectBase, _SolveCapsBase):
            @raise GeodesicError: The eccentricity of the B{C{geodesic}}'s ellipsoid is too
                                  large or no initial convergence.
 
-           @see: The B{Note} at I{Karney}'s C++ U{Intersect<https://GeographicLib.sourceforge.io/
+           @see: The B{Note} at I{Karney}'s C++ U{Intersect<https://GeographicLib.SourceForge.io/
                  C++/doc/classGeographicLib_1_1Intersect.html#ae41f54c9a44836f6c8f140f6994930cf>}.
         '''
         g = self._GeodesicExact() if a_geodesic is None else (a_geodesic if f is None else
@@ -777,7 +777,7 @@ class Intersector(_IntersectBase):
        wrapped L{GeodesicLine<pygeodesy.geodesicw.GeodesicLine>} or
        L{GeodesicLineSolve<pygeodesy.geodsolve.GeodesicLineSolve>}.
 
-       @see: I{Karney}'s C++ class U{Intersect<https://GeographicLib.sourceforge.io/
+       @see: I{Karney}'s C++ class U{Intersect<https://GeographicLib.SourceForge.io/
              C++/doc/classGeographicLib_1_1Intersect.html#details>} for more details.
     '''
 
@@ -792,7 +792,7 @@ class Intersector(_IntersectBase):
            @raise GeodesicError: The eccentricity of the B{C{geodesic}}'s ellipsoid is too
                                  large or no initial convergence.
 
-           @see: The B{Note} at I{Karney}'s C++ U{Intersect<https://GeographicLib.sourceforge.io/
+           @see: The B{Note} at I{Karney}'s C++ U{Intersect<https://GeographicLib.SourceForge.io/
                  C++/doc/classGeographicLib_1_1Intersect.html#ae41f54c9a44836f6c8f140f6994930cf>}.
         '''
         _IntersectBase.__init__(self, geodesic, **name)

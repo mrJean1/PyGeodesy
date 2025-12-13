@@ -125,7 +125,7 @@ C{epydoc --html --no-private --no-source --name=pygeodesy --url=... -v pygeodesy
 Tests
 =====
 
-The tests ran with Python 3.14 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.1),
+The tests ran with Python 3.14.2 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.1),
 Python 3.13.9 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.1),
 U{numpy<https://PyPI.org/project/numpy>} 2.3.3, U{scipy<https://PyPI.org/project/scipy>} 1.16.2,
 U{GeoConvert<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.5 and
@@ -150,10 +150,10 @@ env variable C{PYGEODESY_WARNINGS=on} for all Python versions.  The results of t
 the distribution files.
 
 Test coverage has been measured with U{coverage<https://PyPI.org/project/coverage>} 7.10.7 using Python
-3.14, 3.13.9 and 3.12.7.  The complete coverage report in HTML and a PDF summary are included in the
+3.14.2, 3.13.9 and 3.12.7.  The complete coverage report in HTML and a PDF summary are included in the
 distribution files.
 
-Python 3.14, 3.13.9, 3.12.7 and 3.11.5 run on Apple M4 Si (C{arm64}), I{natively}.  Python 2.7.18 runs
+Python 3.14.2, 3.13.9, 3.12.7 and 3.11.5 run on Apple M4 Si (C{arm64}), I{natively}.  Python 2.7.18 runs
 on Intel (C{x86_64}) or Intel I{emulation} ("C{arm64_x86_64}", see function L{machine<pygeodesy.machine>}).
 
 The tests also ran with Python 3.13.9 (and U{geographiclib<https://PyPI.org/project/geographiclib>} 2.1) on
@@ -618,7 +618,7 @@ else:
 
 from pygeodesy.internals import _version2,  _DOT_  # noqa: E402
 # from pygeodesy.interns import _DOT_  # from .internals
-__version__ = '25.12.06'
+__version__ = '25.12.12'
 # see setup.py for similar logic
 version     = _DOT_(*_version2(__version__, n=3))
 

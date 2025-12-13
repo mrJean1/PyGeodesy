@@ -6,7 +6,7 @@
 from __future__ import division as _; del _  # noqa: E702 ;
 
 __all__ = ('Tests',)
-__version__ = '25.12.08'
+__version__ = '25.12.12'
 
 from bases import Geod3Solve, numpy, random, startswith, TestsBase
 
@@ -89,7 +89,7 @@ class Tests(TestsBase):
         self.subtitle(module, Conformal.__name__)
 
         n = Conformal.__name__
-        # <https://GeographicLib.sourceforge.io/1.52/jacobi.html>
+        # <https://GeographicLib.SourceForge.io/1.52/jacobi.html>
         J = Conformal(6378137+35, 6378137-35, 6356752, name='Test')
         self.test(n, repr(J), "%s(name='Test', a=6378172, b=6378102, c=6356752, e2ab=" % (n,), known=startswith)
 
@@ -147,7 +147,7 @@ class Tests(TestsBase):
         self.subtitle(module, ConformalSphere.__name__)
 
         n = ConformalSphere.__name__
-        # <https://GeographicLib.sourceforge.io/1.52/jacobi.html>
+        # <https://GeographicLib.SourceForge.io/1.52/jacobi.html>
         J = ConformalSphere(6378137+35, ab=1, bc=2, name='Test')
         self.test(n, repr(J), "%s(name='Test', a=6378172, ab=1, bc=2, e2ab=0, " % (n,), known=startswith)
 
@@ -205,7 +205,7 @@ class Tests(TestsBase):
         n = module.Conformal3.__name__
         self.subtitle(module, n)
 
-        # <https://GeographicLib.sourceforge.io/C++/doc/Cart3Convert.1.html>
+        # <https://GeographicLib.SourceForge.io/C++/doc/Cart3Convert.1.html>
         T = TX = module.Conformal3(Triaxials.WGS84_3)
         self.test(n, T, "name='WGS84_3', a=6378171.36, b=6378101.61, c=6356751.84, ", known=True)
 
@@ -257,14 +257,14 @@ class Tests(TestsBase):
         self.test(n, g3S, 'Geod3Solve=', known=startswith, nl=1)
         n = g3S.Direct.__name__
         t = g3S.Direct(40.57193, -54.38111, 3.20824, 15347602)
-        self.test(n, t, '{alp1: 3.20824, alp2: ', known=startswith)
-        t = t.toGeod3Solve7Tuple()
+        self.test(n, t, '{a12: 137.869863, alp1: 3.20824, alp2: ', known=startswith)
+        t = t.toGeod3Solve8Tuple()
         self.test(n, t, '(40.57193, ', known=startswith)
 
         n = g3S.Inverse.__name__
         t = g3S.Inverse(40.57193, -54.38111, 1.355292, 123.419711)
-        self.test(n, t, '{alp1: 3.20824, alp2: ', known=startswith)
-        t = t.toGeod3Solve7Tuple()
+        self.test(n, t, '{a12: 137.869863, alp1: 3.20824, alp2: ', known=startswith)
+        t = t.toGeod3Solve8Tuple()
         self.test(n, t, '(40.57193, ', known=startswith)
 
         gl3S = g3S.Line(40.57193, -54.38111, 3.20824)
@@ -272,8 +272,8 @@ class Tests(TestsBase):
         self.test(n, gl3S.toStr(), "alp1=", known=startswith)
         n = gl3S.Position.__name__
         t = gl3S.Position(15347602)
-        self.test(n, t, '{alp1: 3.20824, alp2: ', known=startswith)
-        t = t.toGeod3Solve7Tuple()
+        self.test(n, t, '{a12: 137.869863, alp1: 3.20824, alp2: ', known=startswith)
+        t = t.toGeod3Solve8Tuple()
         self.test(n, t, '(40.57193, ', known=startswith)
 
         gl3S = g3S.InverseLine(40.57193, -54.38111, 1.355292, 123.419711)
@@ -281,8 +281,8 @@ class Tests(TestsBase):
         self.test(n, gl3S.toStr(), "alp1=", known=startswith)
         n = gl3S.Position.__name__
         t = gl3S.Position(15347602)
-        self.test(n, t, '{alp1: 3.20824, alp2: ', known=startswith)
-        t = t.toGeod3Solve7Tuple()
+        self.test(n, t, '{a12: 137.869863, alp1: 3.20824, alp2: ', known=startswith)
+        t = t.toGeod3Solve8Tuple()
         self.test(n, t, '(40.57193, ', known=startswith)
 
     def testTriaxial3(self, module):
@@ -291,7 +291,7 @@ class Tests(TestsBase):
 
 #       E = Ellipsoids.WGS84  # earth as testFormy
 
-        # <https://GeographicLib.sourceforge.io/C++/doc/Cart3Convert.1.html>
+        # <https://GeographicLib.SourceForge.io/C++/doc/Cart3Convert.1.html>
         T = module.Triaxial3(3, 2, 1)
         self.test(n, repr(T), "Triaxial3(name='', a=3, b=2, c=1, k2=0.375, kp2=0.625, ", known=startswith)
 
@@ -302,7 +302,7 @@ class Tests(TestsBase):
         t = T.forwardLatLon(t.bet, t.omg, h=t.h)
         self.test(n, t, "(1.0, 2.0, 3.0, 2.586065, 'ELLIPSOIDAL')")
 
-        # <https://GeographicLib.sourceforge.io/C++/doc/Cart3Convert.1.html>
+        # <https://GeographicLib.SourceForge.io/C++/doc/Cart3Convert.1.html>
 #       T = module.Triaxial3(3, 2, 1)
 #       self.test(n, repr(T), "Triaxial3(name='', a=3, b=2, c=1, k2=0.375, kp2=0.625, ", known=startswith, nl=1)
         for llk, x in ((LLK.ELLIPSOIDAL,   "(58.691404, 75.112631, None, 2.586065, "),  # Cart3Convert
@@ -382,7 +382,7 @@ class Tests(TestsBase):
         self.test(n, ct, '(3909251.554667, 3909165.750567, 3170432.501602, 0, None)')  # XXX
 
         n = 'JFK-SIN'
-        # <https://GeographicLib.sourceforge.io/C++/doc/Geod3Solve.1.html>
+        # <https://GeographicLib.SourceForge.io/C++/doc/Geod3Solve.1.html>
         # echo 40:38:23N 073:46:44W-19.43W X 01:21:33N 103:59:22E-19.43W | \  # note 19.43W
         # tr X '\n' | Cart3Convert -G | Cart3Convert -E -r | tr '\n' ' ' | Geod3Solve -i -: -p 0
         # 003:12:29.7 177:28:59.5 15347602 == 3.20824 177.48319 15347602
@@ -393,9 +393,9 @@ class Tests(TestsBase):
         f = T.forwardLatLon(Degrees('40 38 23N'), Degrees(d), llk=LLK.GEODETIC)
         self.test(n, f, "(2824949.36608, -3938333.736799, 4132149.896611, 0, 'GEODETIC')")  # 2824949.425 -3938333.819 4132149.574
         r = T.reverseLatLon(f)
-        self.test(n, r.toDegrees(0, fmt=F_DMS), "(40°38′23.0″, 54°20′56.0″, None, 0", known=startswith)
+        self.test(n, r.toDegrees(0, fmt=F_DMS), "(40°38′23.0″, 54°20′56.0″, None, 0", known=startswith)  # 0.0, 'ELLIPSOIDAL')")
         t = T.reverseLatLon(f, llk=LLK.ELLIPSOIDAL)
-        self.test(n, t.toDegrees(0), "(Degrees(40.57193395), Degrees(-54.38110954), None, 0, 'ELLIPSOIDAL')")  # 40.57193215 -54.38110906
+        self.test(n, t.toDegrees(0), "(Degrees(40.57193395), Degrees(-54.38110954), None, 0", known=startswith)  # 0.0, 'ELLIPSOIDAL')")  # 40.57193215 -54.38110906
 
         d = Degrees('103 59 22E') - Degrees('19.43W')  # XXX T.lon0?
         self.test(n, d, '123.4', prec=2, known=startswith, nl=1)

@@ -19,18 +19,24 @@ Karney-based functionality
 
 1. The following classes and functions in C{pygeodesy}
 
-  - L{AlbersEqualArea}, L{AlbersEqualArea2}, L{AlbersEqualArea4},
-    L{AlbersEqualAreaCylindrical}, L{AlbersEqualAreaNorth}, L{AlbersEqualAreaSouth} --
-    U{AlbersEqualArea<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AlbersEqualArea.html>}
+  - L{AlbersEqualArea}, L{AlbersEqualArea2}, L{AlbersEqualArea4}, L{AlbersEqualAreaCylindrical},
+    L{AlbersEqualAreaNorth}, L{AlbersEqualAreaSouth} -- U{AlbersEqualArea
+    <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AlbersEqualArea.html>}
 
-  - L{AuxAngle}, L{AuxDST}, L{AuxDLat}, L{AuxLat} -- U{AuxAngle
-    <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AuxAngle.html>},
-    U{DST<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1DST.html>},
-    U{DAuxLatitude<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1DAuxLatitude.html>},
-    U{AuxLatitude<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AuxLatitude.html>} in I{GeographicLib 2.2+}
+  - L{Ang}, L{Deg}, L{Rad} -- U{AngleT<https://GeographicLib.SourceForge.io/C++/doc/
+    classGeographicLib_1_1AngleT.html>} in I{GeographicLib 2.7}.
+
+  - L{AuxAngle}, L{AuxDST}, L{AuxDLat}, L{AuxLat} -- U{AuxAngle<https://GeographicLib.SourceForge.io/C++/doc/
+    classGeographicLib_1_1AuxAngle.html>}, U{DST<https://GeographicLib.SourceForge.io/C++/doc/
+    classGeographicLib_1_1DST.html>}, U{DAuxLatitude<https://GeographicLib.SourceForge.io/C++/doc/
+    classGeographicLib_1_1DAuxLatitude.html>}, U{AuxLatitude<https://GeographicLib.SourceForge.io/C++/doc/
+    classGeographicLib_1_1AuxLatitude.html>} in I{GeographicLib 2.2+}
 
   - L{CassiniSoldner} -- U{CassiniSoldner<https://GeographicLib.SourceForge.io/C++/doc/
     classGeographicLib_1_1CassiniSoldner.html>}
+
+  - L{Conformal3}, L{Conformal3B}, L{Conformal3Sphere} -- U{Conformal3<https://GeographicLib.SourceForge.io/C++/doc/
+    classGeographicLib_1_1Triaxial_1_1Conformal3.html>} in I{GeographicLib 2.7}
 
   - L{EcefKarney} -- U{Geocentric<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Geocentric.html>}
 
@@ -40,8 +46,8 @@ Karney-based functionality
   - L{EquidistantExact}, L{EquidistantGeodSolve}, L{EquidistantKarney} -- U{AzimuthalEquidistant
     <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AzimuthalEquidistant.html>}
 
-  - L{Etm}, L{ExactTransverseMercator} -- U{TransverseMercatorExact
-    <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1TransverseMercatorExact.html>}
+  - L{Etm}, L{ExactTransverseMercator} -- U{TransverseMercatorExact<https://GeographicLib.SourceForge.io/C++/doc/
+    classGeographicLib_1_1TransverseMercatorExact.html>}
 
   - L{Geodesic}, L{GeodesicLine} -- I{wrapped} U{geodesic.Geodesic<https://PyPI.org/project/geographiclib>},
     I{wrapped} U{geodesicline.GeodesicLine<https://PyPI.org/project/geographiclib>}
@@ -60,29 +66,32 @@ Karney-based functionality
   - L{GnomonicExact}, L{GnomonicGeodSolve}, L{GnomonicKarney} -- U{Gnomonic
     <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Gnomonic.html>}
 
-  - L{Intersector} -- U{Intersect
-    <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Intersect.html>} from I{GeographicLib 2.3+}
+  - L{Intersector} -- U{Intersect<https://GeographicLib.SourceForge.io/C++/doc/
+    classGeographicLib_1_1Intersect.html>} from I{GeographicLib 2.3+}
 
   - L{JacobiConformal} -- U{JacobiConformal
     <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1experimental_1_1JacobiConformal.html>}
 
-  - L{KTransverseMercator} - U{TransverseMercator
-    <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1TransverseMercator.html>}
+  - L{KTransverseMercator} - U{TransverseMercator<https://GeographicLib.SourceForge.io/C++/doc/
+    classGeographicLib_1_1TransverseMercator.html>}
 
   - L{LocalCartesian}, L{Ltp} -- U{LocalCartesian<https://GeographicLib.SourceForge.io/C++/doc/
     classGeographicLib_1_1LocalCartesian.html>}
 
   - L{Osgr} -- U{OSGB<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1OSGB.html>}
 
-  - L{rhumb.aux_}, L{RhumbAux}, L{RhumbLineAux} -- U{Rhumb
-    <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Rhumb.html>} and U{RhumbLine
-    <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1RhumbLine.html>} from I{GeographicLib 2.2+}
+  - L{rhumb.aux_}, L{RhumbAux}, L{RhumbLineAux} -- U{Rhumb<https://GeographicLib.SourceForge.io/C++/doc/
+    classGeographicLib_1_1Rhumb.html>} and U{RhumbLine<https://GeographicLib.SourceForge.io/C++/doc/
+    classGeographicLib_1_1RhumbLine.html>} from I{GeographicLib 2.2+}
 
-  - L{rhumb.ekx}, L{Rhumb}, L{RhumbLine} -- U{Rhumb
-    <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Rhumb.html>},
-    U{RhumbLine<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1RhumbLine.html>},
-    U{TransverseMercator<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1TransverseMercator.html>}
-    from I{GeographicLib 2.0}
+  - L{rhumb.ekx}, L{Rhumb}, L{RhumbLine} -- U{Rhumb<https://GeographicLib.SourceForge.io/C++/doc/
+    classGeographicLib_1_1Rhumb.html>}, U{RhumbLine<https://GeographicLib.SourceForge.io/C++/doc/
+    classGeographicLib_1_1RhumbLine.html>}, U{TransverseMercator<https://GeographicLib.SourceForge.io/C++/doc/
+    classGeographicLib_1_1TransverseMercator.html>} from I{GeographicLib 2.0}
+
+  - L{Triaxial3}, L{Triaxial3B} -- U{Cartesian3<https://GeographicLib.SourceForge.io/C++/doc/
+    classGeographicLib_1_1Triaxial_1_1Cartesian3.html>}, U{Ellipsoidal3<https://GeographicLib.SourceForge.io/C++/doc/
+    classGeographicLib_1_1Triaxial_1_1Ellipsoidal3.html>} in I{GeographicLib 2.7}
 
   - L{Ups} -- U{PolarStereographic<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1PolarStereographic.html>}
 
@@ -90,8 +99,8 @@ Karney-based functionality
 
   - L{UtmUps}, L{Epsg} -- U{UTMUPS<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1UTMUPS.html>}
 
-  - L{atan1d}, L{atan2d}, L{sincos2}, L{sincos2d}, L{tand} -- U{geomath.Math
-    <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Math.html>}
+  - L{atan1d}, L{atan2d}, L{sincos2}, L{sincos2d}, L{tand} -- U{geomath.Math<https://GeographicLib.SourceForge.io/C++/doc/
+    classGeographicLib_1_1Math.html>}
 
 are I{transcoded} from C++ classes in I{Karney}'s U{GeographicLib<https://GeographicLib.SourceForge.io/C++/doc/annotated.html>}.
 
@@ -101,8 +110,8 @@ are I{transcoded} from C++ classes in I{Karney}'s U{GeographicLib<https://Geogra
   - L{EquidistantKarney}, L{FrechetKarney}, L{GeodesicSolve}, L{GeodesicLineSolve}, L{Geodesic3Solve},
     L{GeodesicLine3Solve}, L{GnomonicGeodSolve}, L{GnomonicKarney}, L{HeightIDWkarney}, L{Intersectool}
 
-are or use I{wrappers} around I{Karney}'s Python U{geographiclib<https://PyPI.org/project/geographiclib>}
-or C++ utility U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>}, U{Geod3Solve
+are or use I{wrappers} around I{Karney}'s Python U{geographiclib<https://PyPI.org/project/geographiclib>} or
+C++ utility U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>}, U{Geod3Solve
 <https://GeographicLib.SourceForge.io/C++/doc/Geod3Solve.1.html>}, U{IntersectTool
 <https://GeographicLib.SourceForge.io/C++/doc/IntersectTool.1.html>} or U{RhumbSolve
 <https://GeographicLib.SourceForge.io/C++/doc/RhumbSolve.1.html>}.
@@ -150,7 +159,7 @@ from pygeodesy.constants import NAN, _isfinite as _math_isfinite, \
                                _0_0, _1_0, _2_0, _180_0, _N_180_0, _360_0
 # from pygeodesy.deprecated.classes import Rhumb7Tuple  # _MODS
 from pygeodesy.errors import GeodesicError, _ValueError, _xkwds
-# from pygeodesy.geod3Solve import Geod3Solve7Tuple  # _MODS
+# from pygeodesy.geod3Solve import Geod3Solve8Tuple  # _MODS
 from pygeodesy.fmath import cbrt, fremainder, norm2  # Fhorner, Fsum
 from pygeodesy.internals import _getenv, _popen2, _PYGEODESY_ENV, typename, \
                                 _version_info
@@ -168,7 +177,7 @@ from pygeodesy.utily import atan2d, sincos2d, tand, _unrollon,  fabs
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '25.12.06'
+__version__ = '25.12.12'
 
 _1_16th     = _1_0 / 16
 _2_4_       = '2.4'
@@ -458,16 +467,16 @@ class GDict(ADict):  # XXX _NamedDict
         '''
         return self._toTuple(_MODS.geodsolve.GeodSolve12Tuple, dflt)
 
-    def toGeod3Solve7Tuple(self, dflt=NAN):  # PYCHOK 12 args
-        '''Convert this L{GDict} result to a t-Tuple, compatible with I{Karney}'s
+    def toGeod3Solve8Tuple(self, dflt=NAN):  # PYCHOK 12 args
+        '''Convert this L{GDict} result to an 8-Tuple, compatible with I{Karney}'s
            U{Geod3Solve<https://GeographicLib.SourceForge.io/C++/doc/Geod3Solve.1.html>}
            result.
 
            @kwarg dflt: Default value for missing items (C{any}).
 
-           @return: L{Geod3Solve7Tuple}C{(bet1, omg1, alp1, bet2, omg2, alp2, s12)}.
+           @return: L{Geod3Solve8Tuple}C{(bet1, omg1, alp1, bet2, omg2, alp2, s12, a12)}.
         '''
-        return self._toTuple(_MODS.geod3solve.Geod3Solve7Tuple, dflt)
+        return self._toTuple(_MODS.geod3solve.Geod3Solve8Tuple, dflt)
 
     def toInverse10Tuple(self, dflt=NAN):
         '''Convert this L{GDict} result to a 10-tuple, like I{Karney}'s

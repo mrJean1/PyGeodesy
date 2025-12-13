@@ -154,7 +154,7 @@ class Tests(_TestsLL, _TestsV):
             self.test('neareston8', t, '(LatLon(45°30′03.93″N, 020°00′00.0″E), 39078.779519, 1.501069, 2, LatLon(45°00′00.0″N, 020°00′00.0″E), LatLon(46°00′00.0″N, 020°00′00.0″E), 270.356041, 269.999412)')
             self.test('iteration', t.iteration, t.iteration)
 
-        # <https://sourceforge.net/p/geographiclib/discussion/1026621/thread/21aaff9f/>
+        # <https://SourceForge.net/p/geographiclib/discussion/1026621/thread/21aaff9f/>
         if X and hasattr(LatLon, 'nearestOn'):  # intercept.cpp 2014-11-09
             t = LatLon(64, -22).nearestOn(LatLon(42, 29), LatLon(39, -77))
             self.test('nearestOn', t.toStr(form=F_D), '54.928536°N, 021.934843°W')
@@ -640,7 +640,7 @@ class Tests(_TestsLL, _TestsV):
         except Exception as x:
             self.test('#58', x.__class__, IntersectionError)  # ...: no convergence (7660.82): tolerance (0.001) too low, near-polar?
 
-        # <https://sourceforge.net/p/geographiclib/discussion/1026621/thread/21aaff9f/>
+        # <https://SourceForge.net/p/geographiclib/discussion/1026621/thread/21aaff9f/>
         if X and hasattr(LL, 'intersection3'):  # intersect.cpp 2014-11-09
             t = LL(42, 29).intersection3(LL(39, -77), LL(64, -22), LL(6, 0))
             self.test('intersection3', t, "(LatLon(54°43′01.31″N, 014°33′49.88″W), 0, 0)")

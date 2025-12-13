@@ -6,10 +6,10 @@ triaxial ellipsoids and spheres using L{Ang}, L{Deg}, L{Rad} lat-, longitude, he
 (convergence) angles.
 
 Transcoded to pure Python from I{Karney}'s GeographicLib 2.7 C++ class U{Conformal3<https://
-GeographicLib.sourceforge.io/C++/doc/classGeographicLib_1_1Triaxial_1_1Conformal3.html>}.
+GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Triaxial_1_1Conformal3.html>}.
 
 Copyright (C) U{Charles Karney<malto:Karney@Alum.MIT.edu>} (2024-2025) and licensed under the MIT/X11
-License.  For more information, see the U{GeographicLib 2.7<https://GeographicLib.sourceforge.io/>}
+License.  For more information, see the U{GeographicLib 2.7<https://GeographicLib.SourceForge.io/>}
 documentation.
 '''
 # make sure int/int division yields float quotient, see .basics
@@ -109,7 +109,7 @@ class Conformal3(_Triaxial3Base):
            @see: Classes L{Conformal3Sphere<triaxials.spheres.Conformal3Sphere>} and
                  L{ConformalSphere<triaxials.triaxial5.ConformalSphere>} and I{Karney}'s
                  GeographicLib 2.7 C++ U{Triaxial::Conformal3<https://GeographicLib.
-                 sourceforge.io/C++/doc/classGeographicLib_1_1Triaxial_1_1Conformal3.html>}
+                 SourceForge.io/C++/doc/classGeographicLib_1_1Triaxial_1_1Conformal3.html>}
                  for more information.
         '''
         x, y = self.xyQ2
@@ -556,7 +556,7 @@ if __name__ == _DMAIN_:
     from pygeodesy import Degrees, printf
     from pygeodesy.triaxials import Triaxials
 
-    # <https://GeographicLib.sourceforge.io/C++/doc/Cart3Convert.1.html>
+    # <https://GeographicLib.SourceForge.io/C++/doc/Cart3Convert.1.html>
     T = Conformal3(Triaxials.WGS84_3)
     printf(T)
     # name='WGS84_3', a=6378171.36, b=6378101.609999999, c=6356751.84, ...

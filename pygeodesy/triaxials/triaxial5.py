@@ -772,7 +772,7 @@ Triaxials = Triaxials(Triaxial, Triaxial_)  # PYCHOK singleton
 # <https://ArxIV.org/pdf/1909.06452.pdf> Table 1 Semi-axes in Km
 # <https://www.JPS.NASA.gov/education/images/pdf/ss-moons.pdf>
 # <https://link.Springer.com/article/10.1007/s00190-022-01650-9>
-# <https://GeographicLib.sourceforge.io/C++/doc/classGeographicLib_1_1Constants.html>
+# <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Constants.html>
 _abc84_35 = (_EWGS84.a + 35), (_EWGS84.a - 35), _EWGS84.b
 Triaxials._assert(                 # a (Km)       b (Km)      c (Km)       planet
     Amalthea  = _lazy('Amalthea',  125.0,        73.0,      _64_0),      # Jupiter

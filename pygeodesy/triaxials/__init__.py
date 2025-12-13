@@ -5,8 +5,8 @@ u'''Package of lazily imported modules L{triaxials.conformal3}, L{triaxials.tria
 and L{triaxials.triaxial5} for triaxial ellipsoids.
 
 Mostly transcoded to pure Python from I{Karney}'s U{GeographicLib 2.7 Triaxial<https://
-GeographicLib.sourceforge.io/C++/doc/namespaceGeographicLib_1_1Triaxial.html} classes
-and the I{experimental} U{GeographicLib 2.52 Jacobi<https://GeographicLib.sourceforge.io/
+GeographicLib.SourceForge.io/C++/doc/namespaceGeographicLib_1_1Triaxial.html} classes
+and the I{experimental} U{GeographicLib 2.52 Jacobi<https://GeographicLib.SourceForge.io/
 C++/2.5.2/jacobi.html>} class.
 
 Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2008-2024, 2024-2025) and

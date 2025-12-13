@@ -5,11 +5,11 @@ u'''Classes L{Ang}, L{Deg}, L{Rad} and L{Lambertian} accurately representing an 
 as a 3-tuple C{(sine, cosine, turns)}, with C{turns} the number of full turns.
 
 Transcoded to pure Python from I{Karney}'s GeographicLib 2.7 C++ class U{AngleT
-<https://GeographicLib.sourceforge.io/C++/doc/classGeographicLib_1_1AngleT.html>}.
+<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1AngleT.html>}.
 
 Copyright (C) U{Charles Karney <mailto:Karney@Alum.MIT.edu>} (2024-2025) and licensed
 under the MIT/X11 License.  For more information, see the U{GeographicLib 2.7
-<https://GeographicLib.sourceforge.io/>} documentation.
+<https://GeographicLib.SourceForge.io/>} documentation.
 '''
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # noqa: E702 ;

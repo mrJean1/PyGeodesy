@@ -5,17 +5,17 @@ u'''(INTERNAL) Base classes for I{ordered} triaxial ellipsoid classes L{Conforma
 L{Triaxial}, L{Triaxial3} and I{unordered} L{Triaxial_}.
 
 Transcoded to pure Python from I{Karney}'s GeographicLib 2.7 C++ classes U{Ellipsoid3<https://
-GeographicLib.sourceforge.io/C++/doc/classGeographicLib_1_1Triaxial_1_1Ellipsoid3.html>},
-U{Cartesian3<https://GeographicLib.sourceforge.io/C++/doc/classGeographicLib_1_1Triaxial_1_1Cartesian3.html>} and
-U{Conformal3<https://GeographicLib.sourceforge.io/C++/doc/classGeographicLib_1_1Triaxial_1_1Conformal3.html>}.
+GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Triaxial_1_1Ellipsoid3.html>},
+U{Cartesian3<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Triaxial_1_1Cartesian3.html>} and
+U{Conformal3<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Triaxial_1_1Conformal3.html>}.
 
 GeographicLib 2.5.2 C++ class U{JacobiConformal<https://GeographicLib.SourceForge.io/C++/doc/
 classGeographicLib_1_1JacobiConformal.html#details>}.
 
 Copyright (C) U{Charles Karney<mailto:Karney@Alum.MIT.edu>} (2008-2024, 2025) and licensed under the MIT/X11 License.
-For more information, see the U{GeographicLib 2.5.2 and 2.7<https://GeographicLib.sourceforge.io/>} documentation.
+For more information, see the U{GeographicLib 2.5.2 and 2.7<https://GeographicLib.SourceForge.io/>} documentation.
 
-Enum-like C{Lat-/Longitude Kinds (LLK)}, see I{Karney}'s U{coord<https://GeographicLib.sourceforge.io/
+Enum-like C{Lat-/Longitude Kinds (LLK)}, see I{Karney}'s U{coord<https://GeographicLib.SourceForge.io/
 C++/doc/classGeographicLib_1_1Triaxial_1_1Cartesian3.html>}:
 
 @var LLK.CONFORMAL: Jacobi conformal X and Y projection
@@ -40,8 +40,9 @@ from pygeodesy.constants import EPS, EPS0, EPS02, EPS4, _EPS2e4, INT0, NAN, PI2,
                                _isfinite, float0_, _0_0, _1_0, _N_1_0,  _4_0  # PYCHOK used!
 # from pygeodesy.ellipsoids import Ellipsoid  # _MODS
 # from pygeodesy.elliptic import Elliptic  # _MODS
-from pygeodesy.errors import _ValueError, _xkwds
+# from pygeodesy.errors import _ValueError, _xkwds  # from .formy
 from pygeodesy.fmath import fmean_, hypot, norm2, sqrt0,  fabs, sqrt
+from pygeodesy.formy import elliperim,  _ValueError, _xkwds
 from pygeodesy.fsums import _Fsumf_, fsumf_, fsum1f_
 from pygeodesy.interns import _a_, _b_, _c_, _inside_, _not_, _NOTEQUAL_, _null_, \
                               _outside_, _scale_, _SPACE_, _spherical_, _x_, _y_, _z_
@@ -57,7 +58,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d
 # from math import fabs, sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.triaxials_bases
-__version__ = '25.12.04'
+__version__ = '25.12.12'
 
 _bet_         = 'bet'  # PYCHOK shared
 _llk_         = 'llk'  # PYCHOK shared
@@ -89,7 +90,7 @@ class _LLK(str):
 
 class LLK(object):
     '''Enum-like C{Lat-/Longitude Kinds (LLK)}, see U{coord<https://GeographicLib.
-       sourceforge.io/C++/doc/classGeographicLib_1_1Triaxial_1_1Cartesian3.html>}.
+       SourceForge.io/C++/doc/classGeographicLib_1_1Triaxial_1_1Cartesian3.html>}.
     '''
     CONFORMAL        = _LLK('CONFORMAL')
 
@@ -212,6 +213,13 @@ class _UnOrderedTriaxialBase(_NamedEnumItem):
         return self.a2, self.b2, self.c2
 
     @Property_RO
+    def _ab_elliperim(self):
+        '''(INTERNAL) Get C{ab} ellipse' perimeter.
+        '''
+        a, b, _ = self._abc3
+        return elliperim(a, b)
+
+    @Property_RO
     def _a2c2(self):
         '''(INTERNAL) Get C{a**2 - c**2} == E_sub_x**2.
         '''
@@ -270,6 +278,13 @@ class _UnOrderedTriaxialBase(_NamedEnumItem):
         _, b, c = self._abc3
         d = b - c
         return (d * (b + c)) if d else _0_0
+
+    @Property_RO
+    def _bc_elliperim(self):
+        '''(INTERNAL) Get C{bc} ellipse' perimeter.
+        '''
+        _, b, c = self._abc3
+        return elliperim(b, c)
 
     @Property_RO
     def c(self):
