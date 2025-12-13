@@ -276,7 +276,7 @@
     command line: <code>epydoc --html --no-private --no-source 
     --name=pygeodesy --url=... -v pygeodesy</code>).</p>
   <h1 class="heading">Tests</h1>
-    <p>The tests ran with Python 3.14 (with <a 
+    <p>The tests ran with Python 3.14.2 (with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 2.1), Python 3.13.9 (with <a 
     href="https://PyPI.org/project/geographiclib" 
@@ -321,10 +321,10 @@
     results of those tests are included in the distribution files.</p>
     <p>Test coverage has been measured with <a 
     href="https://PyPI.org/project/coverage" target="_top">coverage</a> 
-    7.10.7 using Python 3.14, 3.13.9 and 3.12.7.  The complete coverage 
+    7.10.7 using Python 3.14.2, 3.13.9 and 3.12.7.  The complete coverage 
     report in HTML and a PDF summary are included in the distribution 
     files.</p>
-    <p>Python 3.14, 3.13.9, 3.12.7 and 3.11.5 run on Apple M4 Si 
+    <p>Python 3.14.2, 3.13.9, 3.12.7 and 3.11.5 run on Apple M4 Si 
     (<code>arm64</code>), <i>natively</i>.  Python 2.7.18 runs on Intel 
     (<code>x86_64</code>) or Intel <i>emulation</i> 
     (&quot;<code>arm64_x86_64</code>&quot;, see function <a 
@@ -593,7 +593,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        25.12.06
+        25.12.12
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -2783,14 +2783,14 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.geod3solve.Geod3Solve7Tuple-class.html" class="summary-name">Geod3Solve7Tuple</a><br />
-      7-Tuple <code>(bet1, omg1, alp1, bet2, omg2, alp2, s12)</code> with
-        <code>ellipsoidal</code> latitudes <code>bet1</code> and 
+        <a href="pygeodesy.geod3solve.Geod3Solve8Tuple-class.html" class="summary-name">Geod3Solve8Tuple</a><br />
+      8-Tuple <code>(bet1, omg1, alp1, bet2, omg2, alp2, s12, a12)</code>
+        with <code>ellipsoidal</code> latitudes <code>bet1</code> and 
         <code>bet2</code>, <code>ellipsoidal</code> longitudes 
         <code>omg1</code> and <code>omg2</code>, forward azimuths 
-        <code>alp1</code> and <code>alp2</code> in bearings from North and 
-        distance <code>s12</code> in <code>meter</code>, conventionally, 
-        see see <a 
+        <code>alp1</code> and <code>alp2</code> in bearings from North, 
+        distanc <code>s12</code> in <code>meter</code>, conventionally and 
+        <i>approximate</i> arc length {a12} in degrees, see <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/Geod3Solve.1.html"
         target="_top">Geod3Solve</a>.
     </td>
@@ -7885,6 +7885,29 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#elliperim" class="summary-sig-name">elliperim</a>(<span class="summary-sig-arg">a</span>,
+        <span class="summary-sig-arg">b</span>)</span><br />
+      Compute the perimeter of an ellipse with semi-axes <code>a</code> and
+      <code>b</code> using <a 
+      href="https://www.JohnDCook.com/perimeter_ellipse.html" 
+      target="_top">SciPy's ellipe</a> function or the <a 
+      href="https://PaulBourke.net/geometry/ellipsecirc" 
+      target="_top">AGM</a> (Arithmetic Geometric Mean) method.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#enStr2" class="summary-sig-name">enStr2</a>(<span class="summary-sig-arg">easting</span>,
         <span class="summary-sig-arg">northing</span>,
         <span class="summary-sig-arg">prec</span>,
@@ -9744,7 +9767,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f8168856750&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fdc7864aed0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -14992,7 +15015,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'25.12.6'">'25.12.6'</code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'25.12.12'">'25.12.12'</code><br />
       Normalized <code>pygeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -19708,6 +19731,34 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
       </p>
 </div></td></tr></table>
 </div>
+<a name="elliperim"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">elliperim</span>&nbsp;(<span class="sig-arg">a</span>,
+        <span class="sig-arg">b</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Compute the perimeter of an ellipse with semi-axes <code>a</code> and 
+  <code>b</code> using <a 
+  href="https://www.JohnDCook.com/perimeter_ellipse.html" 
+  target="_top">SciPy's ellipe</a> function or the <a 
+  href="https://PaulBourke.net/geometry/ellipsecirc" target="_top">AGM</a> 
+  (Arithmetic Geometric Mean) method.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>The perimeter (<code>scalar</code>, same units as <code>a</code> 
+          and <code>b</code>).</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="enStr2"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -23434,7 +23485,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f8168856750&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fdc7864aed0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -34138,7 +34189,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sun Dec  7 17:54:44 2025
+    Generated by Epydoc 3.0.1 on Fri Dec 12 18:16:00 2025
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
