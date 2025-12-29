@@ -5,16 +5,16 @@ u'''Class L{Fsum} for precision floating point summation similar to
 Python's C{math.fsum}, but enhanced with I{precision running} summation
 plus optionally, accurate I{TwoProduct} multiplication.
 
-Accurate multiplication is based on the C{math.fma} function from
-Python 3.13 and newer or an equivalent C{fma} implementation for
-Python 3.12 and older.  To enable accurate multiplication, set env
-variable C{PYGEODESY_FSUM_F2PRODUCT} to C{"std"} or any non-empty
-string or invoke function C{pygeodesy.f2product(True)} or set.  With
-C{"std"} the C{fma} implemention follows the C{math.fma} function,
-otherwise the C{PyGeodesy 24.09.09} release.
+Accurate multiplication is based on the C{math.fma} function from Python
+3.13 and newer or an equivalent C{fma} implementation for Python 3.12 and
+older.  Set env variable C{PYGEODESY_FSUM_F2PRODUCT} to C{"std"} or any
+non-empty string or invoke function C{pygeodesy.f2product(True)} to enable
+accurate multiplication.  With C{"std"} the C{fma} implemention follows
+the C{math.fma} function, otherwise the implementation of the C{PyGeodesy
+24.09.09} release.
 
 Generally, an L{Fsum} instance is considered a C{float} plus a small or
-zero C{residue} aka C{residual} value, see property L{Fsum.residual}.
+zero C{residue} aka C{residual}, see property L{Fsum.residual}.
 
 Set env variable C{PYGEODESY_FSUM_RESIDUAL} to a C{float} string greater
 than C{"0.0"} as the threshold to throw a L{ResidualError} for a division,
@@ -28,7 +28,7 @@ L{Fsum.fint2} and L{Fsum.is_integer}.  Also, L{Fsum} methods L{Fsum.pow},
 L{Fsum.__ipow__}, L{Fsum.__pow__} and L{Fsum.__rpow__} return a (very long)
 C{int} if invoked with optional argument C{mod} set to C{None}.  The
 C{residual} of an C{integer} L{Fsum} is between C{-1.0} and C{+1.0} and
-will be C{INT0} if that is considered to be I{exact}.
+will be C{INT0} if that L{Fsum} is an I{exact float} or I{exact integer}.
 
 Set env variable C{PYGEODESY_FSUM_NONFINITES} to C{"std"} or use function
 C{pygeodesy.nonfiniterrors(False)} to allow I{non-finite} C{float}s like
@@ -62,7 +62,7 @@ from math import fabs, isinf, isnan, \
                  ceil as _ceil, floor as _floor  # PYCHOK used! .ltp
 
 __all__ = _ALL_LAZY.fsums
-__version__ = '25.06.03'
+__version__ = '25.12.24'
 
 from pygeodesy.interns import (
   _PLUS_     as _add_op_,  # in .auxilats.auxAngle
@@ -321,8 +321,8 @@ def nonfiniterrors(raiser=None):
     '''
     d = Fsum._isfine
     if raiser is not None:
-        Fsum._isfine = {} if bool(raiser) else Fsum._nonfinites_isfine_kwds[True]
-    return (False if d is Fsum._nonfinites_isfine_kwds[True] else
+        Fsum._isfine = {} if bool(raiser) else _nonfinites_isfine_kwds[True]
+    return (False if d is _nonfinites_isfine_kwds[True] else
          _xkwds_get1(d, _isfine=_isfinite) is _isfinite) if d else True
 
 
@@ -370,7 +370,7 @@ def _Psum(ps, **name_f2product_nonfinites_RESIDUAL):
     return F
 
 
-def _Psum_(*ps, **name_f2product_nonfinites_RESIDUAL):  # in .fmath
+def _Psum_(*ps, **name_f2product_nonfinites_RESIDUAL):
     '''(INTERNAL) Return an C{Fsum} from I{known scalar} C{ps}.
     '''
     return _Psum(ps, **name_f2product_nonfinites_RESIDUAL)
@@ -486,7 +486,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
 
        @note: Handling of I{non-finites} as C{inf}, C{INF}, C{NINF}, C{nan} and C{NAN} is
               determined by function L{nonfiniterrors<fsums.nonfiniterrors>} for the default
-              and by method L{nonfinites<Fsum.nonfinites>} for individual C{Fsum} instances,
+              or by method L{nonfinites<Fsum.nonfinites>} for individual C{Fsum} instances,
               overruling the default.  For backward compatibility, I{non-finites} raise
               exceptions by default.
 
@@ -829,7 +829,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
         return self._cmp_0(other, _lt_op_ + _fset_op_) <= 0
 
     def __len__(self):
-        '''Return the number of values accumulated (C{int}).
+        '''Return the number of (non-zero) values accumulated (C{int}).
         '''
         return self._n
 
@@ -1447,7 +1447,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
            @arg other2: Addend (C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
            @kwarg nonfinites: Use C{B{nonfinites}=True} or C{False}, to
                               override L{nonfinites<Fsum.nonfinites>} and
-                              L{nonfiniterrors} default (C{bool}).
+                              the L{nonfiniterrors} default (C{bool}).
         '''
         op  = typename(self.fma)
         _fs = self._ps_other
@@ -1479,7 +1479,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
                      an L{Fsum} or L{Fsum2Tuple}), all positional.
            @kwarg nonfinites: Use C{B{nonfinites}=True} or C{False}, to
                               override L{nonfinites<Fsum.nonfinites>} and
-                              L{nonfiniterrors} default (C{bool}).
+                              the L{nonfiniterrors} default (C{bool}).
 
            @note: Equivalent to L{fdot_<pygeodesy.fmath.fdot_>}C{(*xys,
                   start=self)}.
@@ -1615,8 +1615,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
         '''
         if two:  # delattrof(self, _f2product=None)
             t = _xkwds_pop(self.__dict__, _f2product=None)
-            if two[0] is not None:
-                self._f2product = bool(two[0])
+            self._optionals(f2product=two[0])
         else:  # getattrof(self, _f2product=None)
             t = _xkwds_get(self.__dict__, _f2product=None)
         return t
@@ -2070,24 +2069,20 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
            @see: Function L{nonfiniterrors<fsums.nonfiniterrors>}.
 
            @note: Use property L{nonfinitesOK<Fsum.nonfinitesOK>} to determine
-                  whether I{non-finites} are C{OK} for this L{Fsum} and by the
+                  whether I{non-finites} are C{OK} for this L{Fsum} or by the
                   L{nonfiniterrors} default.
         '''
-        _ks = Fsum._nonfinites_isfine_kwds
         if OK:  # delattrof(self, _isfine=None)
             k = _xkwds_pop(self.__dict__, _isfine=None)
-            if OK[0] is not None:
-                self._isfine = _ks[bool(OK[0])]
+            self._optionals(nonfinites=OK[0])
             self._update()
         else:  # getattrof(self, _isfine=None)
             k = _xkwds_get(self.__dict__, _isfine=None)
+        _ks = _nonfinites_isfine_kwds
         # dict(map(reversed, _ks.items())).get(k, None)
         # raises a TypeError: unhashable type: 'dict'
         return True  if k is _ks[True]  else (
                False if k is _ks[False] else None)
-
-    _nonfinites_isfine_kwds = {True:  dict(_isfine=_isOK),
-                               False: dict(_isfine=_isfinite)}
 
     @property_RO
     def nonfinitesOK(self):
@@ -2111,9 +2106,9 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
         '''(INTERNAL) Re/set options from keyword arguments.
         '''
         if f2product is not None:
-            self.f2product(f2product)
+            self._f2product = bool(f2product)
         if nonfinites is not None:
-            self.nonfinites(nonfinites)
+            self._isfine = _nonfinites_isfine_kwds[bool(nonfinites)]
         if name_RESIDUAL:  # MUST be last
             n, kwds = _name2__(**name_RESIDUAL)
             if kwds:
@@ -2535,6 +2530,8 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
 
 _ROs = _allPropertiesOf_n(3, Fsum, Property_RO)  # PYCHOK see Fsum._update
 
+_nonfinites_isfine_kwds = {True:  dict(_isfine=_isOK),
+                           False: dict(_isfine=_isfinite)}
 if _NONFINITES == _std_:  # PYCHOK no cover
     _ = nonfiniterrors(False)
 
@@ -2683,6 +2680,21 @@ class Fsum2Tuple(_NamedTuple):  # in .fstats
         return Fmt.PAREN(fstr(self, fmt=fmt, strepr=str, force=False, **prec_sep))
 
 _Fsum_2Tuple_types = Fsum, Fsum2Tuple  # PYCHOK lines
+
+
+class _Ksum(Fsum):
+    '''(INTERNAL) For C{.karney._sum3}, specifically and only.
+    '''
+    _isfine = _nonfinites_isfine_kwds[True]
+
+    def __init__(self, s, t, *xs):
+        ps = [t, s] if t else [s]
+        self._ps = self._ps_acc(ps, xs, up=False)
+
+    @property_RO
+    def _s_t_n3(self):
+        s, t = self._fprs2
+        return s, t, self._n
 
 
 class ResidualError(_ValueError):

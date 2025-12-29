@@ -35,7 +35,7 @@ from pygeodesy.streprs import attrs, Fmt, lrstrip, pairs, reprs, unstr
 # from pygeodesy.units import _toUnit  # _MODS
 
 __all__ = _ALL_LAZY.named
-__version__ = '25.11.29'
+__version__ = '25.11.13'
 
 _COMMANL_           = _COMMA_ + _NL_
 _COMMASPACEDOT_     = _COMMASPACE_ + _DOT_
@@ -1188,7 +1188,7 @@ def callername(up=1, dflt=NN, source=False, underOK=False):
 
        @return: The callable name (C{str}) or B{C{dflt}} if none found.
     '''
-    try:  # see .lazily._caller3
+    try:  # see .internals._caller3
         for u in range(up, up + 32):
             n, f, s = _caller3(u)
             if n and (underOK or n.startswith(_DUNDER_) or

@@ -101,6 +101,10 @@ and L{GnomonicGeodSolve} depend on I{Karney}'s C++ utility U{GeodSolve
 <https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>} to be executable and set with
 env variable C{PYGEODESY_GEODSOLVE} or with property L{Ellipsoid.geodsolve}.
 
+Triaxial geodesic classes L{Geodesic3Solve} and L{GeodesicLine3Solve} in module L{geod3solve} need
+I{Karney}'s C++ utility U{Geod3Solve<https://GeographicLib.SourceForge.io/C++/doc/Geod3Solve.1.html>}
+to be executable and set with env variable C{PYGEODESY_GEOD3SOLVE}.
+
 Class L{Intersectool} in module L{geodesici} needs I{Karney}'s C++ utility U{IntersectTool
 <https://GeographicLib.SourceForge.io/C++/doc/IntersectTool.1.html>} to be executable and set with
 env variable C{PYGEODESY_INTERSECTTOOL}.
@@ -143,7 +147,7 @@ U{GeoConvert<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.5,
 U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.5,
 U{IntersectTool<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.5 and
 U{RhumbSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.5), all in 64-bit on
-macOS 26.1 Tahoe.
+macOS 26.2 Tahoe.
 
 All tests ran with and without C{lazy import} for Python 3 and with command line option C{-W default} and
 env variable C{PYGEODESY_WARNINGS=on} for all Python versions.  The results of those tests are included in
@@ -190,7 +194,7 @@ All Python source code has been statically U{checked<https://GitHub.com/ActiveSt
 546532_PyChecker_postprocessor>} with U{Ruff<https://GitHub.com/astral-sh/ruff>} using Python 3.13.9 and with
 U{PyChecker<https://PyPI.org/project/pychecker>}, U{PyFlakes<https://PyPI.org/project/pyflakes>}, U{PyCodeStyle
 <https://PyPI.org/project/pycodestyle>} (formerly Pep8) and U{McCabe<https://PyPI.org/project/mccabe>} using Python
-2.7.18, both in 64-bit on macOS 26.1 Tahoe.
+2.7.18, both in 64-bit on macOS 26.2 Tahoe.
 
 For a summary of all I{Karney}-based functionality in C{pygeodesy}, see module U{karney
 <https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html>}.
@@ -618,7 +622,7 @@ else:
 
 from pygeodesy.internals import _version2,  _DOT_  # noqa: E402
 # from pygeodesy.interns import _DOT_  # from .internals
-__version__ = '25.12.12'
+__version__ = '25.12.31'
 # see setup.py for similar logic
 version     = _DOT_(*_version2(__version__, n=3))
 

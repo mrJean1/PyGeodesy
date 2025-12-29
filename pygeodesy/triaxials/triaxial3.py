@@ -18,10 +18,10 @@ from __future__ import division as _; del _  # noqa: E702 ;
 
 from pygeodesy.angles import Ang, Ang_, _Ang3Tuple,  atan2, sincos2, _SinCos2
 from pygeodesy.basics import _copysign, map1
-from pygeodesy.constants import EPS, EPS02, EPS8, _EPSqrt, INT0, NAN, \
-                               _copysign_0_0, _copysign_1_0, _flipsign, \
-                               _isfinite, _over, _1_over, _0_0, _0_5, \
-                               _1_0, _N_1_0, _2_0, _3_0, _4_0, _9_0
+from pygeodesy.constants import EPS, EPS_2, EPS02, EPS8, INT0, NAN, \
+                               _EPSqrt, _copysign_0_0, _copysign_1_0, \
+                               _flipsign, _isfinite, _over, _1_over, _0_0, \
+                               _0_5, _N_1_0, _1_0, _2_0, _3_0, _4_0, _9_0
 from pygeodesy.errors import _xattr, _xkwds, _xkwds_get, _xkwds_pop2
 from pygeodesy.fmath import cbrt2, fdot, hypot, hypot2, norm2,  fabs, sqrt
 from pygeodesy.fsums import Fsum, fsumf_,  Fmt
@@ -42,7 +42,7 @@ from pygeodesy.vector3d import Vector3d
 from random import random
 
 __all__ = _ALL_LAZY.triaxials_triaxial3
-__version__ = '25.12.12'
+__version__ = '25.12.14'
 
 _alp_  = 'alp'
 _NAN3d =  Vector3d(NAN, NAN, NAN)
@@ -80,8 +80,6 @@ class Cartesian5Tuple(Vector4Tuple):
 class _Fp2(object):
     '''(INTERNAL) Function and derivate evaluation.
     '''
-    _D = EPS * _0_5
-
     def __init__(self, rs, ls, n=1):
         # assert 0 < n <= 2
         self._2   = n == 2
@@ -92,7 +90,7 @@ class _Fp2(object):
         # k=0..2) - 1} and its derivative C{fp}.
         f  = _N_1_0
         fc =  fp = _0_0
-        _D =  self._D
+        _D =  EPS_2
         _2 =  self._2
         for g, q in self._rls:
             q  = _1_over(p + q)
@@ -647,8 +645,6 @@ class Triaxial3(_Triaxial3Base):
             v = v._roty(True)  # +1
         phi = Ang_(v.z, hypot(v.x, v.y), **name)
         lam = Ang_(v.y, v.x, **name)  # Ang(0, 0) -> 0
-        if llk is LLK.GEODETIC_LON0:
-            lam += self.Lon0
 
         if dir3d is None:
             zet = None
@@ -658,6 +654,8 @@ class Triaxial3(_Triaxial3Base):
                         dir3d.dot(n), **name)
         else:
             raise TriaxialError(dir3d=dir3d)
+        if llk is LLK.GEODETIC_LON0:
+            lam += self.Lon0
         return PhiLamZet5Tuple(phi, lam, zet, h, llk, **name)
 
     def random2(self, llk=LLK.ELLIPSOIDAL, both=False, _rand=random):
@@ -769,7 +767,7 @@ class Triaxial3(_Triaxial3Base):
             s =  r.times_(*T._abc3)
             p =  max(fabs(s.z), hypot(s.x, s.y) - l1, s.length - l0)
             h = _solve(_Fp2(s.xyz3, ls, n=2), p, T.b2)
-            v =  r.times_(*(_over(_, h + l_) for _, l_ in zip(T._a2b2c23, ls)))
+            v =  r.times_(*(_over(n, h + l_) for n, l_ in zip(T._a2b2c23, ls)))
             if not h:  # handle h == 0, v.y indeterminate
                 x = v.x if l0 else r.x  # sphere
                 y = v.y if l1 else r.y  # sphere or prolate
@@ -843,7 +841,7 @@ def _cubic(rs, rt, l0, l1):  # Cartesian3.cubic
     a = l0 + l1
     b = l0 * l1
     c = -b * rs[2]  # z2
-    # cubic equation z^3 + a*z^2 + b*z + c = 0
+    # cubic equation z**3 + a*z**2 + b*z + c = 0
     b -= fdot(rs, l1, l0, a)
     a -= rt
     _r = b > 0
@@ -905,7 +903,8 @@ def _solve(_fp2, p, pscale, **n):
         if not (fv > _TOL2):
             break
         p, d = _P2(-fv / fp)  # d is positive
-        if i and d <= dt and (fv <= EPS8 or d <= (max(pt, p) * _TOL)):
+        if i and d <= dt and (fv <= EPS8 or
+                 d <= (max(pt, p) * _TOL)):
             break
         dt = d
     else:

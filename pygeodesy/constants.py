@@ -332,6 +332,8 @@ R_VM  = _Radius(R_VM=6366707.0194937)  # PYCHOK aViation/naVigation earth radius
 
 _INF_NAN_NINF = {INF, NAN, NINF, _inf, _nan}
 _pos_self     = _1_0.__pos__() is _1_0  # PYCHOK in .fsums, .vector3dBase
+_1_3rd        =  1 / 3  # in .fmath
+_2_3rd        =  2 / 3  # in .fmath, .formy
 
 
 def _0_0s(n):

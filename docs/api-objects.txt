@@ -30,6 +30,7 @@ pygeodesy.isLazy	pygeodesy-module.html#isLazy
 pygeodesy.float0_	pygeodesy-module.html#float0_
 pygeodesy.opposing_	pygeodesy-module.html#opposing_
 pygeodesy.itemsorted	pygeodesy-module.html#itemsorted
+pygeodesy.Elliperim	pygeodesy-module.html#Elliperim
 pygeodesy.trfTransforms	pygeodesy-module.html#trfTransforms
 pygeodesy.isnon0	pygeodesy-module.html#isnon0
 pygeodesy.radical2	pygeodesy-module.html#radical2
@@ -1122,6 +1123,7 @@ pygeodesy.constants._1_75	pygeodesy.constants-module.html#_1_75
 pygeodesy.constants._3_0	pygeodesy.constants-module.html#_3_0
 pygeodesy.constants._copysignINF	pygeodesy.constants-module.html#_copysignINF
 pygeodesy.constants._360_0	pygeodesy.constants-module.html#_360_0
+pygeodesy.constants._2_3rd	pygeodesy.constants-module.html#_2_3rd
 pygeodesy.constants._xkwds_get1	pygeodesy.errors-module.html#_xkwds_get1
 pygeodesy.constants._copysign_0_0	pygeodesy.constants-module.html#_copysign_0_0
 pygeodesy.constants.remainder	pygeodesy.constants-module.html#remainder
@@ -1196,6 +1198,7 @@ pygeodesy.constants._90_0	pygeodesy.constants-module.html#_90_0
 pygeodesy.constants._EPS2e4	pygeodesy.constants-module.html#_EPS2e4
 pygeodesy.constants._1_0_1T	pygeodesy.constants-module.html#_1_0_1T
 pygeodesy.constants._float0	pygeodesy.constants-module.html#_float0
+pygeodesy.constants._1_3rd	pygeodesy.constants-module.html#_1_3rd
 pygeodesy.constants._N_0_0	pygeodesy.constants-module.html#_N_0_0
 pygeodesy.constants._xkwds_item2	pygeodesy.errors-module.html#_xkwds_item2
 pygeodesy.constants._copysign	pygeodesy.geodesicx.gx-module.html#copysign
@@ -1918,12 +1921,13 @@ pygeodesy.ellipsoids._isin	pygeodesy.basics-module.html#_isin
 pygeodesy.ellipsoids.a_b2f2	pygeodesy.ellipsoids-module.html#a_b2f2
 pygeodesy.ellipsoids.fstr	pygeodesy.streprs-module.html#fstr
 pygeodesy.ellipsoids.f2e22	pygeodesy.ellipsoids-module.html#f2e22
+pygeodesy.ellipsoids.fpowers	pygeodesy.fmath-module.html#fpowers
 pygeodesy.ellipsoids.f2n	pygeodesy.ellipsoids-module.html#f2n
 pygeodesy.ellipsoids.isbool	pygeodesy.basics-module.html#isbool
 pygeodesy.ellipsoids._isfinite	pygeodesy.constants-module.html#_isfinite
 pygeodesy.ellipsoids.cbrt	pygeodesy.fmath-module.html#cbrt
 pygeodesy.ellipsoids.hypot_	pygeodesy.fmath-module.html#hypot_
-pygeodesy.ellipsoids.fpowers	pygeodesy.fmath-module.html#fpowers
+pygeodesy.ellipsoids._sin2cos2	pygeodesy.ellipsoids-module.html#_sin2cos2
 pygeodesy.ellipsoids.sincos2d	pygeodesy.utily-module.html#sincos2d
 pygeodesy.ellipsoids.a_b2e32	pygeodesy.ellipsoids-module.html#a_b2e32
 pygeodesy.ellipsoids._a2b2e2	pygeodesy.ellipsoids-module.html#_a2b2e2
@@ -1948,7 +1952,6 @@ pygeodesy.ellipsoids.n2e2	pygeodesy.ellipsoids-module.html#n2e2
 pygeodesy.ellipsoids.f2e32	pygeodesy.ellipsoids-module.html#f2e32
 pygeodesy.ellipsoids.f2e2	pygeodesy.ellipsoids-module.html#f2e2
 pygeodesy.ellipsoids.__all__	pygeodesy.ellipsoids-module.html#__all__
-pygeodesy.ellipsoids._s2_c2	pygeodesy.ellipsoids-module.html#_s2_c2
 pygeodesy.ellipsoids.hypot1	pygeodesy.fmath-module.html#hypot1
 pygeodesy.ellipsoids._ispherical_a_b	pygeodesy.ellipsoids-module.html#_ispherical_a_b
 pygeodesy.ellipsoids.f_2f	pygeodesy.ellipsoids-module.html#f_2f
@@ -2151,7 +2154,6 @@ pygeodesy.fmath.fdot_	pygeodesy.fmath-module.html#fdot_
 pygeodesy.fmath.fremainder	pygeodesy.fmath-module.html#fremainder
 pygeodesy.fmath._powers	pygeodesy.fmath-module.html#_powers
 pygeodesy.fmath.favg	pygeodesy.fmath-module.html#favg
-pygeodesy.fmath._2_3rd	pygeodesy.fmath-module.html#_2_3rd
 pygeodesy.fmath._isHeight	pygeodesy.units-module.html#_isHeight
 pygeodesy.fmath._copysign_0_0	pygeodesy.constants-module.html#_copysign_0_0
 pygeodesy.fmath.remainder	pygeodesy.constants-module.html#remainder
@@ -2189,7 +2191,6 @@ pygeodesy.fmath.sqrt_a	pygeodesy.fmath-module.html#sqrt_a
 pygeodesy.fmath.isint	pygeodesy.basics-module.html#isint
 pygeodesy.fmath.fdot	pygeodesy.fmath-module.html#fdot
 pygeodesy.fmath.fasin1	pygeodesy.fmath-module.html#fasin1
-pygeodesy.fmath._1_3rd	pygeodesy.fmath-module.html#_1_3rd
 pygeodesy.fmath.fpolynomial	pygeodesy.fmath-module.html#fpolynomial
 pygeodesy.fmath._copysign	pygeodesy.geodesicx.gx-module.html#copysign
 pygeodesy.fmath.fmean	pygeodesy.fmath-module.html#fmean
@@ -2207,7 +2208,6 @@ pygeodesy.formy.hubeny	pygeodesy.formy-module.html#hubeny
 pygeodesy.formy.flatLocal	pygeodesy.formy-module.html#flatLocal
 pygeodesy.formy.float0_	pygeodesy.constants-module.html#float0_
 pygeodesy.formy._maprod	pygeodesy.formy-module.html#_maprod
-pygeodesy.formy._TOL53	pygeodesy.formy-module.html#_TOL53
 pygeodesy.formy._sincosa6	pygeodesy.formy-module.html#_sincosa6
 pygeodesy.formy._xnamed	pygeodesy.named-module.html#_xnamed
 pygeodesy.formy.cosineLaw	pygeodesy.formy-module.html#cosineLaw
@@ -2216,7 +2216,9 @@ pygeodesy.formy._name__	pygeodesy.named-module.html#_name__
 pygeodesy.formy.isantipode	pygeodesy.formy-module.html#isantipode
 pygeodesy.formy.euclidean_	pygeodesy.formy-module.html#euclidean_
 pygeodesy.formy._normal2	pygeodesy.formy-module.html#_normal2
+pygeodesy.formy.equirectangular4	pygeodesy.formy-module.html#equirectangular4
 pygeodesy.formy.bearing_	pygeodesy.formy-module.html#bearing_
+pygeodesy.formy.callername	pygeodesy.named-module.html#callername
 pygeodesy.formy.acos1	pygeodesy.utily-module.html#acos1
 pygeodesy.formy.heightOf	pygeodesy.formy-module.html#heightOf
 pygeodesy.formy._ratio_	pygeodesy.formy-module.html#_ratio_
@@ -2230,7 +2232,7 @@ pygeodesy.formy.fprod	pygeodesy.fmath-module.html#fprod
 pygeodesy.formy.excessGirard_	pygeodesy.formy-module.html#excessGirard_
 pygeodesy.formy._RADIANS2	pygeodesy.formy-module.html#_RADIANS2
 pygeodesy.formy._mean_radius	pygeodesy.datums-module.html#_mean_radius
-pygeodesy.formy.heightOrthometric	pygeodesy.formy-module.html#heightOrthometric
+pygeodesy.formy.Elliperim	pygeodesy.formy-module.html#Elliperim
 pygeodesy.formy.radical2	pygeodesy.formy-module.html#radical2
 pygeodesy.formy.hypot	pygeodesy.fmath-module.html#hypot
 pygeodesy.formy._isequalTo_	pygeodesy.formy-module.html#_isequalTo_
@@ -2249,7 +2251,6 @@ pygeodesy.formy.hubeny_	pygeodesy.formy-module.html#hubeny_
 pygeodesy.formy.fdot_	pygeodesy.fmath-module.html#fdot_
 pygeodesy.formy._isin	pygeodesy.basics-module.html#_isin
 pygeodesy.formy.flatPolar_	pygeodesy.formy-module.html#flatPolar_
-pygeodesy.formy.tan_2	pygeodesy.utily-module.html#tan_2
 pygeodesy.formy.antipode_	pygeodesy.formy-module.html#antipode_
 pygeodesy.formy._isHeight	pygeodesy.units-module.html#_isHeight
 pygeodesy.formy._d3	pygeodesy.formy-module.html#_d3
@@ -2262,11 +2263,12 @@ pygeodesy.formy.cosineLaw_	pygeodesy.formy-module.html#cosineLaw_
 pygeodesy.formy._hartzell	pygeodesy.formy-module.html#_hartzell
 pygeodesy.formy.intersection2	pygeodesy.formy-module.html#intersection2
 pygeodesy.formy.excessKarney	pygeodesy.formy-module.html#excessKarney
-pygeodesy.formy.unstr	pygeodesy.streprs-module.html#unstr
+pygeodesy.formy.fsum	pygeodesy.fsums-module.html#fsum
 pygeodesy.formy.isnormal	pygeodesy.formy-module.html#isnormal
 pygeodesy.formy.equirectangular	pygeodesy.formy-module.html#equirectangular
 pygeodesy.formy.asin1	pygeodesy.utily-module.html#asin1
 pygeodesy.formy._isequalTo	pygeodesy.formy-module.html#_isequalTo
+pygeodesy.formy.fhorner	pygeodesy.fmath-module.html#fhorner
 pygeodesy.formy.opposing_	pygeodesy.formy-module.html#opposing_
 pygeodesy.formy.haversine_	pygeodesy.formy-module.html#haversine_
 pygeodesy.formy._radistance	pygeodesy.formy-module.html#_radistance
@@ -2274,11 +2276,13 @@ pygeodesy.formy.intersections2	pygeodesy.formy-module.html#intersections2
 pygeodesy.formy.angle2chord	pygeodesy.formy-module.html#angle2chord
 pygeodesy.formy.excessAbc_	pygeodesy.formy-module.html#excessAbc_
 pygeodesy.formy._isDegrees	pygeodesy.units-module.html#_isDegrees
+pygeodesy.formy.heightOrthometric	pygeodesy.formy-module.html#heightOrthometric
 pygeodesy.formy.chord2angle	pygeodesy.formy-module.html#chord2angle
 pygeodesy.formy.sqrt0	pygeodesy.fmath-module.html#sqrt0
 pygeodesy.formy.opposing	pygeodesy.formy-module.html#opposing
 pygeodesy.formy.thomas_	pygeodesy.formy-module.html#thomas_
 pygeodesy.formy.vincentys_	pygeodesy.formy-module.html#vincentys_
+pygeodesy.formy.tan_2	pygeodesy.utily-module.html#tan_2
 pygeodesy.formy.degrees2m	pygeodesy.utily-module.html#degrees2m
 pygeodesy.formy.isnon0	pygeodesy.constants-module.html#isnon0
 pygeodesy.formy.hartzell	pygeodesy.formy-module.html#hartzell
@@ -2292,7 +2296,6 @@ pygeodesy.formy.bearing	pygeodesy.formy-module.html#bearing
 pygeodesy.formy._spherical_datum	pygeodesy.datums-module.html#_spherical_datum
 pygeodesy.formy.excessQuad_	pygeodesy.formy-module.html#excessQuad_
 pygeodesy.formy.flatPolar	pygeodesy.formy-module.html#flatPolar
-pygeodesy.formy.equirectangular4	pygeodesy.formy-module.html#equirectangular4
 pygeodesy.formy.haversine	pygeodesy.formy-module.html#haversine
 pygeodesy.formy.sincos2_	pygeodesy.utily-module.html#sincos2_
 pygeodesy.formy._xkwds_pop2	pygeodesy.errors-module.html#_xkwds_pop2
@@ -2312,6 +2315,7 @@ pygeodesy.formy.normal_	pygeodesy.formy-module.html#normal_
 pygeodesy.formy._radical2	pygeodesy.formy-module.html#_radical2
 pygeodesy.formy._loneg	pygeodesy.utily-module.html#_loneg
 pygeodesy.formy.limiterrors	pygeodesy.errors-module.html#limiterrors
+pygeodesy.formy.unstr	pygeodesy.streprs-module.html#unstr
 pygeodesy.formy._copysign	pygeodesy.geodesicx.gx-module.html#copysign
 pygeodesy.formy.compassAngle	pygeodesy.formy-module.html#compassAngle
 pygeodesy.formy.atan2	pygeodesy.utily-module.html#atan2
@@ -2396,6 +2400,7 @@ pygeodesy.fsums.__all__	pygeodesy.fsums-module.html#__all__
 pygeodesy.fsums._NONFINITEr	pygeodesy.fsums-module.html#_NONFINITEr
 pygeodesy.fsums._significant_	pygeodesy.fsums-module.html#_significant_
 pygeodesy.fsums._2split3s	pygeodesy.fsums-module.html#_2split3s
+pygeodesy.fsums._nonfinites_isfine_kwds	pygeodesy.fsums-module.html#_nonfinites_isfine_kwds
 pygeodesy.fsums.unstr	pygeodesy.streprs-module.html#unstr
 pygeodesy.fsums.fsum1	pygeodesy.fsums-module.html#fsum1
 pygeodesy.fsums._	pygeodesy.fsums-module.html#_
@@ -2650,18 +2655,20 @@ pygeodesy.geodesicx.gx._copysign	pygeodesy.geodesicx.gx-module.html#copysign
 pygeodesy.geodesicx.gx._unrollon	pygeodesy.utily-module.html#_unrollon
 pygeodesy.geodesicx.gx._signBit	pygeodesy.basics-module.html#signBit
 pygeodesy.geodesicx.gxarea	pygeodesy.geodesicx.gxarea-module.html
+pygeodesy.geodesicx.gxarea.unsigned0	pygeodesy.basics-module.html#unsigned0
 pygeodesy.geodesicx.gxarea._diff182	pygeodesy.karney-module.html#_diff182
 pygeodesy.geodesicx.gxarea._remainder	pygeodesy.karney-module.html#_remainder
-pygeodesy.geodesicx.gxarea.unsigned0	pygeodesy.basics-module.html#unsigned0
+pygeodesy.geodesicx.gxarea._s_t2	pygeodesy.geodesicx.gxarea-module.html#_s_t2
 pygeodesy.geodesicx.gxarea.printf	pygeodesy.internals-module.html#printf
 pygeodesy.geodesicx.gxarea._ALL_DOCS	pygeodesy.lazily-module.html#_ALL_OTHER
-pygeodesy.geodesicx.gxarea._sum3	pygeodesy.karney-module.html#_sum3
+pygeodesy.geodesicx.gxarea.callername	pygeodesy.named-module.html#callername
 pygeodesy.geodesicx.gxarea.__package__	pygeodesy.geodesicx.gxarea-module.html#__package__
+pygeodesy.geodesicx.gxarea._fma	pygeodesy.fmath-module.html#_fma
+pygeodesy.geodesicx.gxarea._sum2	pygeodesy.karney-module.html#_sum2
 pygeodesy.geodesicx.gxarea.pairs	pygeodesy.streprs-module.html#pairs
 pygeodesy.geodesicx.gxarea.isodd	pygeodesy.basics-module.html#isodd
 pygeodesy.geodesicx.gxarea._copysign	pygeodesy.geodesicx.gx-module.html#copysign
 pygeodesy.geodesicx.gxarea._norm180	pygeodesy.karney-module.html#_norm180
-pygeodesy.geodesicx.gxarea.callername	pygeodesy.named-module.html#callername
 pygeodesy.geodesicx.gxarea.typename	pygeodesy.internals-module.html#typename
 pygeodesy.geodesicx.gxbases	pygeodesy.geodesicx.gxbases-module.html
 pygeodesy.geodesicx.gxbases._sincos2d	pygeodesy.karney-module.html#_sincos2d
@@ -3274,10 +3281,11 @@ pygeodesy.karney._unsigned2	pygeodesy.karney-module.html#_unsigned2
 pygeodesy.karney.neg	pygeodesy.basics-module.html#neg
 pygeodesy.karney._wrapped	pygeodesy.karney-module.html#_wrapped
 pygeodesy.karney._PYGEODESY_ENV	pygeodesy.internals-module.html#_PYGEODESY_ENV
+pygeodesy.karney.fremainder	pygeodesy.fmath-module.html#fremainder
 pygeodesy.karney._xgeographiclib	pygeodesy.basics-module.html#_xgeographiclib
 pygeodesy.karney._copyBit	pygeodesy.karney-module.html#_copyBit
 pygeodesy.karney._isin	pygeodesy.basics-module.html#_isin
-pygeodesy.karney.fremainder	pygeodesy.fmath-module.html#fremainder
+pygeodesy.karney.fhorner	pygeodesy.fmath-module.html#fhorner
 pygeodesy.karney._key2Caps	pygeodesy.karney-module.html#_key2Caps
 pygeodesy.karney._isfinite	pygeodesy.karney-module.html#_isfinite
 pygeodesy.karney._perimeter_	pygeodesy.karney-module.html#_perimeter_
@@ -3295,7 +3303,6 @@ pygeodesy.karney._K_2_0	pygeodesy.karney-module.html#_K_2_0
 pygeodesy.karney._unroll2	pygeodesy.karney-module.html#_unroll2
 pygeodesy.karney.typename	pygeodesy.internals-module.html#typename
 pygeodesy.karney._Xables	pygeodesy.karney-module.html#_Xables
-pygeodesy.karney.unsigned0	pygeodesy.basics-module.html#unsigned0
 pygeodesy.karney._version_info	pygeodesy.internals-module.html#_version_info
 pygeodesy.karney._poly_fma	pygeodesy.karney-module.html#_poly_fma
 pygeodesy.karney.fabs	pygeodesy.booleans-module.html#fabs
@@ -9909,7 +9916,6 @@ pygeodesy.named._NamedEnumItem._enum	pygeodesy.named._NamedEnumItem-class.html#_
 pygeodesy.triaxials.triaxial5.Triaxial.reverseCartesian	pygeodesy.triaxials.triaxial5.Triaxial-class.html#reverseCartesian
 pygeodesy.triaxials.triaxial5.Conformal.xR	pygeodesy.triaxials.triaxial5.Conformal-class.html#xR
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
-pygeodesy.triaxials.bases._UnOrderedTriaxialBase._bc_elliperim	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_bc_elliperim
 pygeodesy.named._Named._notImplemented	pygeodesy.named._Named-class.html#_notImplemented
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.volume	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#volume
 pygeodesy.named._NamedEnumItem._register	pygeodesy.named._NamedEnumItem-class.html#_register
@@ -9918,6 +9924,8 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.b	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#b
 pygeodesy.triaxials.triaxial5.Triaxial.forwardCartesian	pygeodesy.triaxials.triaxial5.Triaxial-class.html#forwardCartesian
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.height4	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#height4
+pygeodesy.triaxials.bases._UnOrderedTriaxialBase.perimeter4ab	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#perimeter4ab
+pygeodesy.triaxials.bases._UnOrderedTriaxialBase.perimeter4ac	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#perimeter4ac
 pygeodesy.named._Named.iteration	pygeodesy.named._Named-class.html#iteration
 pygeodesy.named._Named.typename	pygeodesy.named._Named-class.html#typename
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._ordered4	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_ordered4
@@ -9927,10 +9935,10 @@ pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.isOrdered	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#isOrdered
 pygeodesy.named._NamedBase._update	pygeodesy.named._NamedBase-class.html#_update
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._Ellipsoid	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_Ellipsoid
-pygeodesy.triaxials.bases._UnOrderedTriaxialBase._ab_elliperim	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_ab_elliperim
 pygeodesy.triaxials.triaxial5.Conformal.xyR2	pygeodesy.triaxials.triaxial5.Conformal-class.html#xyR2
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.isSpherical	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#isSpherical
 pygeodesy.deprecated.classes.JacobiConformal.__init__	pygeodesy.deprecated.classes.JacobiConformal-class.html#__init__
+pygeodesy.triaxials.bases._UnOrderedTriaxialBase.perimeter4bc	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#perimeter4bc
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._a2c2	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_a2c2
 pygeodesy.named._Named.__format__	pygeodesy.named._Named-class.html#__format__
 pygeodesy.triaxials.bases._OrderedTriaxialBase._k2E_kp2E	pygeodesy.triaxials.bases._OrderedTriaxialBase-class.html#_k2E_kp2E
@@ -10032,15 +10040,16 @@ pygeodesy.named._NamedEnumItem._enum	pygeodesy.named._NamedEnumItem-class.html#_
 pygeodesy.triaxials.triaxial5.Triaxial.reverseCartesian	pygeodesy.triaxials.triaxial5.Triaxial-class.html#reverseCartesian
 pygeodesy.triaxials.triaxial5.Conformal.xR	pygeodesy.triaxials.triaxial5.Conformal-class.html#xR
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
-pygeodesy.triaxials.bases._UnOrderedTriaxialBase._bc_elliperim	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_bc_elliperim
 pygeodesy.named._Named._notImplemented	pygeodesy.named._Named-class.html#_notImplemented
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.volume	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#volume
-pygeodesy.named._NamedEnumItem._register	pygeodesy.named._NamedEnumItem-class.html#_register
+pygeodesy.triaxials.bases._UnOrderedTriaxialBase._b2_a2	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_b2_a2
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.c2	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#c2
 pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.b	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#b
 pygeodesy.triaxials.triaxial5.ConformalSphere._a2b2	pygeodesy.triaxials.triaxial5.ConformalSphere-class.html#_a2b2
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.height4	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#height4
+pygeodesy.triaxials.bases._UnOrderedTriaxialBase.perimeter4ab	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#perimeter4ab
+pygeodesy.triaxials.bases._UnOrderedTriaxialBase.perimeter4ac	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#perimeter4ac
 pygeodesy.named._Named.iteration	pygeodesy.named._Named-class.html#iteration
 pygeodesy.named._Named.typename	pygeodesy.named._Named-class.html#typename
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._ordered4	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_ordered4
@@ -10051,10 +10060,10 @@ pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.isOrdered	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#isOrdered
 pygeodesy.triaxials.triaxial5.ConformalSphere.ab	pygeodesy.triaxials.triaxial5.ConformalSphere-class.html#ab
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._Ellipsoid	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_Ellipsoid
-pygeodesy.triaxials.bases._UnOrderedTriaxialBase._ab_elliperim	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_ab_elliperim
 pygeodesy.triaxials.triaxial5.Conformal.xyR2	pygeodesy.triaxials.triaxial5.Conformal-class.html#xyR2
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.isSpherical	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#isSpherical
 pygeodesy.deprecated.classes.JacobiConformalSpherical.__init__	pygeodesy.deprecated.classes.JacobiConformalSpherical-class.html#__init__
+pygeodesy.triaxials.bases._UnOrderedTriaxialBase.perimeter4bc	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#perimeter4bc
 pygeodesy.triaxials.triaxial5.ConformalSphere._a2c2	pygeodesy.triaxials.triaxial5.ConformalSphere-class.html#_a2c2
 pygeodesy.named._Named.__format__	pygeodesy.named._Named-class.html#__format__
 pygeodesy.triaxials.bases._OrderedTriaxialBase._k2E_kp2E	pygeodesy.triaxials.bases._OrderedTriaxialBase-class.html#_k2E_kp2E
@@ -10069,7 +10078,7 @@ pygeodesy.triaxials.triaxial5.ConformalSphere._ab	pygeodesy.triaxials.triaxial5.
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._order_ijk	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_order_ijk
 pygeodesy.triaxials.triaxial5.ConformalSphere._b2c2	pygeodesy.triaxials.triaxial5.ConformalSphere-class.html#_b2c2
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.a	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#a
-pygeodesy.triaxials.bases._UnOrderedTriaxialBase._b2_a2	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_b2_a2
+pygeodesy.named._NamedEnumItem._register	pygeodesy.named._NamedEnumItem-class.html#_register
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._c2_a2	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_c2_a2
 pygeodesy.triaxials.triaxial5.Conformal._xE	pygeodesy.triaxials.triaxial5.Conformal-class.html#_xE
 pygeodesy.triaxials.triaxial5.Conformal.yR_	pygeodesy.triaxials.triaxial5.Conformal-class.html#yR_
@@ -14818,6 +14827,7 @@ pygeodesy.ellipsoids.Ellipsoid._hubeny_2	pygeodesy.ellipsoids.Ellipsoid-class.ht
 pygeodesy.ellipsoids.Ellipsoid.es_c	pygeodesy.ellipsoids.Ellipsoid-class.html#es_c
 pygeodesy.named._Named._classnaming	pygeodesy.named._Named-class.html#_classnaming
 pygeodesy.ellipsoids.Ellipsoid.toEllipsoid2	pygeodesy.ellipsoids.Ellipsoid-class.html#toEllipsoid2
+pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
 pygeodesy.ellipsoids.Ellipsoid.e12	pygeodesy.ellipsoids.Ellipsoid-class.html#e12
 pygeodesy.ellipsoids.Ellipsoid.roc2	pygeodesy.ellipsoids.Ellipsoid-class.html#roc2
 pygeodesy.named._Named._xnamed	pygeodesy.named._Named-class.html#_xnamed
@@ -14897,7 +14907,7 @@ pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
 pygeodesy.ellipsoids.Ellipsoid.quarteradius	pygeodesy.ellipsoids.Ellipsoid-class.html#quarteradius
 pygeodesy.ellipsoids.Ellipsoid.isProlate	pygeodesy.ellipsoids.Ellipsoid-class.html#isProlate
 pygeodesy.ellipsoids.Ellipsoid.Rrectifying	pygeodesy.ellipsoids.Ellipsoid-class.html#Rrectifying
-pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
+pygeodesy.ellipsoids.Ellipsoid.polarimeter	pygeodesy.ellipsoids.Ellipsoid-class.html#polarimeter
 pygeodesy.ellipsoids.Ellipsoid.rocBearing	pygeodesy.ellipsoids.Ellipsoid-class.html#rocBearing
 pygeodesy.named._NamedBase.__repr__	pygeodesy.named._NamedBase-class.html#__repr__
 pygeodesy.ellipsoids.Ellipsoid._hash	pygeodesy.ellipsoids.Ellipsoid-class.html#_hash
@@ -14976,6 +14986,7 @@ pygeodesy.ellipsoids.Ellipsoid.es_tauf	pygeodesy.ellipsoids.Ellipsoid-class.html
 pygeodesy.ellipsoids.Ellipsoid.e22abs	pygeodesy.ellipsoids.Ellipsoid-class.html#e22abs
 pygeodesy.ellipsoids.Ellipsoid._Kseries	pygeodesy.ellipsoids.Ellipsoid-class.html#_Kseries
 pygeodesy.ellipsoids.Ellipsoid.eccentricity3rd2	pygeodesy.ellipsoids.Ellipsoid-class.html#eccentricity3rd2
+pygeodesy.ellipsoids.Ellipsoid.equatorimeter	pygeodesy.ellipsoids.Ellipsoid-class.html#equatorimeter
 pygeodesy.ellipsoids.Ellipsoid.Rlat	pygeodesy.ellipsoids.Ellipsoid-class.html#Rlat
 pygeodesy.ellipsoids.Ellipsoid.A	pygeodesy.ellipsoids.Ellipsoid-class.html#A
 pygeodesy.ellipsoids.Ellipsoid.Rmean	pygeodesy.ellipsoids.Ellipsoid-class.html#Rmean
@@ -15017,6 +15028,7 @@ pygeodesy.ellipsoids.Ellipsoid._hubeny_2	pygeodesy.ellipsoids.Ellipsoid-class.ht
 pygeodesy.ellipsoids.Ellipsoid.Rr	pygeodesy.ellipsoids.Ellipsoid-class.html#Rr
 pygeodesy.named._Named._classnaming	pygeodesy.named._Named-class.html#_classnaming
 pygeodesy.ellipsoids.Ellipsoid.__eq__	pygeodesy.ellipsoids.Ellipsoid-class.html#__eq__
+pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
 pygeodesy.ellipsoids.Ellipsoid.e12	pygeodesy.ellipsoids.Ellipsoid-class.html#e12
 pygeodesy.ellipsoids.Ellipsoid.roc2	pygeodesy.ellipsoids.Ellipsoid-class.html#roc2
 pygeodesy.named._Named._xnamed	pygeodesy.named._Named-class.html#_xnamed
@@ -15096,7 +15108,7 @@ pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
 pygeodesy.ellipsoids.Ellipsoid.quarteradius	pygeodesy.ellipsoids.Ellipsoid-class.html#quarteradius
 pygeodesy.ellipsoids.Ellipsoid.isProlate	pygeodesy.ellipsoids.Ellipsoid-class.html#isProlate
 pygeodesy.ellipsoids.Ellipsoid.Rrectifying	pygeodesy.ellipsoids.Ellipsoid-class.html#Rrectifying
-pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
+pygeodesy.ellipsoids.Ellipsoid.polarimeter	pygeodesy.ellipsoids.Ellipsoid-class.html#polarimeter
 pygeodesy.ellipsoids.Ellipsoid.rocBearing	pygeodesy.ellipsoids.Ellipsoid-class.html#rocBearing
 pygeodesy.named._NamedBase.__repr__	pygeodesy.named._NamedBase-class.html#__repr__
 pygeodesy.ellipsoids.Ellipsoid._hash	pygeodesy.ellipsoids.Ellipsoid-class.html#_hash
@@ -15175,6 +15187,7 @@ pygeodesy.ellipsoids.Ellipsoid.es_tauf	pygeodesy.ellipsoids.Ellipsoid-class.html
 pygeodesy.ellipsoids.Ellipsoid.e22abs	pygeodesy.ellipsoids.Ellipsoid-class.html#e22abs
 pygeodesy.ellipsoids.Ellipsoid._Kseries	pygeodesy.ellipsoids.Ellipsoid-class.html#_Kseries
 pygeodesy.ellipsoids.Ellipsoid.R2x	pygeodesy.ellipsoids.Ellipsoid-class.html#R2x
+pygeodesy.ellipsoids.Ellipsoid.equatorimeter	pygeodesy.ellipsoids.Ellipsoid-class.html#equatorimeter
 pygeodesy.ellipsoids.Ellipsoid.Rlat	pygeodesy.ellipsoids.Ellipsoid-class.html#Rlat
 pygeodesy.ellipsoids.Ellipsoid.radians2m	pygeodesy.ellipsoids.Ellipsoid-class.html#radians2m
 pygeodesy.ellipsoids.Ellipsoid.Rmean	pygeodesy.ellipsoids.Ellipsoid-class.html#Rmean
@@ -15743,7 +15756,6 @@ pygeodesy.fsums.Fsum.__rmod__	pygeodesy.fsums.Fsum-class.html#__rmod__
 pygeodesy.fsums.Fsum._ps_mul	pygeodesy.fsums.Fsum-class.html#_ps_mul
 pygeodesy.fsums.Fsum._facc_power	pygeodesy.fsums.Fsum-class.html#_facc_power
 pygeodesy.fsums.Fsum.as_integer_ratio	pygeodesy.fsums.Fsum-class.html#as_integer_ratio
-pygeodesy.fsums.Fsum._ErrorXs	pygeodesy.fsums.Fsum-class.html#_ErrorXs
 pygeodesy.fsums.Fsum.partials	pygeodesy.fsums.Fsum-class.html#partials
 pygeodesy.fsums.Fsum.is_math_fsum	pygeodesy.fsums.Fsum-class.html#is_math_fsum
 pygeodesy.fsums.Fsum.fsum_	pygeodesy.fsums.Fsum-class.html#fsum_
@@ -15752,7 +15764,7 @@ pygeodesy.fsums.Fsum.__ne__	pygeodesy.fsums.Fsum-class.html#__ne__
 pygeodesy.fsums.Fsum._pow_int	pygeodesy.fsums.Fsum-class.html#_pow_int
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.fsums.Fsum.__ifloordiv__	pygeodesy.fsums.Fsum-class.html#__ifloordiv__
-pygeodesy.fsums.Fsum._nonfinites_isfine_kwds	pygeodesy.fsums.Fsum-class.html#_nonfinites_isfine_kwds
+pygeodesy.fsums.Fsum._ErrorXs	pygeodesy.fsums.Fsum-class.html#_ErrorXs
 pygeodesy.fsums.Fsum._fmul	pygeodesy.fsums.Fsum-class.html#_fmul
 pygeodesy.fsums.Fsum.residual	pygeodesy.fsums.Fsum-class.html#residual
 pygeodesy.fsums.Fsum.rdiv	pygeodesy.fsums.Fsum-class.html#rdiv
@@ -15944,7 +15956,6 @@ pygeodesy.fsums.Fsum.__rmod__	pygeodesy.fsums.Fsum-class.html#__rmod__
 pygeodesy.fsums.Fsum._ps_mul	pygeodesy.fsums.Fsum-class.html#_ps_mul
 pygeodesy.fsums.Fsum._facc_power	pygeodesy.fsums.Fsum-class.html#_facc_power
 pygeodesy.fsums.Fsum.as_integer_ratio	pygeodesy.fsums.Fsum-class.html#as_integer_ratio
-pygeodesy.fsums.Fsum._ErrorXs	pygeodesy.fsums.Fsum-class.html#_ErrorXs
 pygeodesy.fsums.Fsum.partials	pygeodesy.fsums.Fsum-class.html#partials
 pygeodesy.fsums.Fsum.is_math_fsum	pygeodesy.fsums.Fsum-class.html#is_math_fsum
 pygeodesy.fsums.Fsum.fsum_	pygeodesy.fsums.Fsum-class.html#fsum_
@@ -15953,7 +15964,7 @@ pygeodesy.fsums.Fsum.__ne__	pygeodesy.fsums.Fsum-class.html#__ne__
 pygeodesy.fsums.Fsum._pow_int	pygeodesy.fsums.Fsum-class.html#_pow_int
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.fsums.Fsum.__ifloordiv__	pygeodesy.fsums.Fsum-class.html#__ifloordiv__
-pygeodesy.fsums.Fsum._nonfinites_isfine_kwds	pygeodesy.fsums.Fsum-class.html#_nonfinites_isfine_kwds
+pygeodesy.fsums.Fsum._ErrorXs	pygeodesy.fsums.Fsum-class.html#_ErrorXs
 pygeodesy.fsums.Fsum._fmul	pygeodesy.fsums.Fsum-class.html#_fmul
 pygeodesy.fsums.Fsum.residual	pygeodesy.fsums.Fsum-class.html#residual
 pygeodesy.fsums.Fsum.rdiv	pygeodesy.fsums.Fsum-class.html#rdiv
@@ -16145,7 +16156,6 @@ pygeodesy.fsums.Fsum.__rmod__	pygeodesy.fsums.Fsum-class.html#__rmod__
 pygeodesy.fsums.Fsum._ps_mul	pygeodesy.fsums.Fsum-class.html#_ps_mul
 pygeodesy.fsums.Fsum._facc_power	pygeodesy.fsums.Fsum-class.html#_facc_power
 pygeodesy.fsums.Fsum.as_integer_ratio	pygeodesy.fsums.Fsum-class.html#as_integer_ratio
-pygeodesy.fsums.Fsum._ErrorXs	pygeodesy.fsums.Fsum-class.html#_ErrorXs
 pygeodesy.fsums.Fsum.partials	pygeodesy.fsums.Fsum-class.html#partials
 pygeodesy.fsums.Fsum.is_math_fsum	pygeodesy.fsums.Fsum-class.html#is_math_fsum
 pygeodesy.fsums.Fsum.fsum_	pygeodesy.fsums.Fsum-class.html#fsum_
@@ -16154,7 +16164,7 @@ pygeodesy.fsums.Fsum.__ne__	pygeodesy.fsums.Fsum-class.html#__ne__
 pygeodesy.fsums.Fsum._pow_int	pygeodesy.fsums.Fsum-class.html#_pow_int
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.fsums.Fsum.__ifloordiv__	pygeodesy.fsums.Fsum-class.html#__ifloordiv__
-pygeodesy.fsums.Fsum._nonfinites_isfine_kwds	pygeodesy.fsums.Fsum-class.html#_nonfinites_isfine_kwds
+pygeodesy.fsums.Fsum._ErrorXs	pygeodesy.fsums.Fsum-class.html#_ErrorXs
 pygeodesy.fsums.Fsum._fmul	pygeodesy.fsums.Fsum-class.html#_fmul
 pygeodesy.fsums.Fsum.residual	pygeodesy.fsums.Fsum-class.html#residual
 pygeodesy.fsums.Fsum.rdiv	pygeodesy.fsums.Fsum-class.html#rdiv
@@ -16346,7 +16356,6 @@ pygeodesy.fsums.Fsum.__rmod__	pygeodesy.fsums.Fsum-class.html#__rmod__
 pygeodesy.fsums.Fsum._ps_mul	pygeodesy.fsums.Fsum-class.html#_ps_mul
 pygeodesy.fsums.Fsum._facc_power	pygeodesy.fsums.Fsum-class.html#_facc_power
 pygeodesy.fsums.Fsum.as_integer_ratio	pygeodesy.fsums.Fsum-class.html#as_integer_ratio
-pygeodesy.fsums.Fsum._ErrorXs	pygeodesy.fsums.Fsum-class.html#_ErrorXs
 pygeodesy.fsums.Fsum.partials	pygeodesy.fsums.Fsum-class.html#partials
 pygeodesy.fsums.Fsum.is_math_fsum	pygeodesy.fsums.Fsum-class.html#is_math_fsum
 pygeodesy.fsums.Fsum.fsum_	pygeodesy.fsums.Fsum-class.html#fsum_
@@ -16355,7 +16364,7 @@ pygeodesy.fsums.Fsum.__ne__	pygeodesy.fsums.Fsum-class.html#__ne__
 pygeodesy.fsums.Fsum._pow_int	pygeodesy.fsums.Fsum-class.html#_pow_int
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.fsums.Fsum.__ifloordiv__	pygeodesy.fsums.Fsum-class.html#__ifloordiv__
-pygeodesy.fsums.Fsum._nonfinites_isfine_kwds	pygeodesy.fsums.Fsum-class.html#_nonfinites_isfine_kwds
+pygeodesy.fsums.Fsum._ErrorXs	pygeodesy.fsums.Fsum-class.html#_ErrorXs
 pygeodesy.fsums.Fsum._fmul	pygeodesy.fsums.Fsum-class.html#_fmul
 pygeodesy.fsums.Fsum.residual	pygeodesy.fsums.Fsum-class.html#residual
 pygeodesy.fsums.Fsum.rdiv	pygeodesy.fsums.Fsum-class.html#rdiv
@@ -16547,7 +16556,6 @@ pygeodesy.fsums.Fsum.__rmod__	pygeodesy.fsums.Fsum-class.html#__rmod__
 pygeodesy.fsums.Fsum._ps_mul	pygeodesy.fsums.Fsum-class.html#_ps_mul
 pygeodesy.fsums.Fsum._facc_power	pygeodesy.fsums.Fsum-class.html#_facc_power
 pygeodesy.fsums.Fsum.as_integer_ratio	pygeodesy.fsums.Fsum-class.html#as_integer_ratio
-pygeodesy.fsums.Fsum._ErrorXs	pygeodesy.fsums.Fsum-class.html#_ErrorXs
 pygeodesy.fsums.Fsum.partials	pygeodesy.fsums.Fsum-class.html#partials
 pygeodesy.fsums.Fsum.is_math_fsum	pygeodesy.fsums.Fsum-class.html#is_math_fsum
 pygeodesy.fsums.Fsum.fsum_	pygeodesy.fsums.Fsum-class.html#fsum_
@@ -16556,7 +16564,7 @@ pygeodesy.fsums.Fsum.__ne__	pygeodesy.fsums.Fsum-class.html#__ne__
 pygeodesy.fsums.Fsum._pow_int	pygeodesy.fsums.Fsum-class.html#_pow_int
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.fsums.Fsum.__ifloordiv__	pygeodesy.fsums.Fsum-class.html#__ifloordiv__
-pygeodesy.fsums.Fsum._nonfinites_isfine_kwds	pygeodesy.fsums.Fsum-class.html#_nonfinites_isfine_kwds
+pygeodesy.fsums.Fsum._ErrorXs	pygeodesy.fsums.Fsum-class.html#_ErrorXs
 pygeodesy.fsums.Fsum._fmul	pygeodesy.fsums.Fsum-class.html#_fmul
 pygeodesy.fsums.Fsum.residual	pygeodesy.fsums.Fsum-class.html#residual
 pygeodesy.fsums.Fsum.rdiv	pygeodesy.fsums.Fsum-class.html#rdiv
@@ -16748,7 +16756,6 @@ pygeodesy.fsums.Fsum.__rmod__	pygeodesy.fsums.Fsum-class.html#__rmod__
 pygeodesy.fsums.Fsum._ps_mul	pygeodesy.fsums.Fsum-class.html#_ps_mul
 pygeodesy.fsums.Fsum._facc_power	pygeodesy.fsums.Fsum-class.html#_facc_power
 pygeodesy.fsums.Fsum.as_integer_ratio	pygeodesy.fsums.Fsum-class.html#as_integer_ratio
-pygeodesy.fsums.Fsum._ErrorXs	pygeodesy.fsums.Fsum-class.html#_ErrorXs
 pygeodesy.fsums.Fsum.partials	pygeodesy.fsums.Fsum-class.html#partials
 pygeodesy.fsums.Fsum.is_math_fsum	pygeodesy.fsums.Fsum-class.html#is_math_fsum
 pygeodesy.fsums.Fsum.fsum_	pygeodesy.fsums.Fsum-class.html#fsum_
@@ -16757,7 +16764,7 @@ pygeodesy.fsums.Fsum.__ne__	pygeodesy.fsums.Fsum-class.html#__ne__
 pygeodesy.fsums.Fsum._pow_int	pygeodesy.fsums.Fsum-class.html#_pow_int
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.fsums.Fsum.__ifloordiv__	pygeodesy.fsums.Fsum-class.html#__ifloordiv__
-pygeodesy.fsums.Fsum._nonfinites_isfine_kwds	pygeodesy.fsums.Fsum-class.html#_nonfinites_isfine_kwds
+pygeodesy.fsums.Fsum._ErrorXs	pygeodesy.fsums.Fsum-class.html#_ErrorXs
 pygeodesy.fsums.Fsum._fmul	pygeodesy.fsums.Fsum-class.html#_fmul
 pygeodesy.fsums.Fsum.residual	pygeodesy.fsums.Fsum-class.html#residual
 pygeodesy.fsums.Fsum.rdiv	pygeodesy.fsums.Fsum-class.html#rdiv
@@ -16949,7 +16956,6 @@ pygeodesy.fsums.Fsum.__rmod__	pygeodesy.fsums.Fsum-class.html#__rmod__
 pygeodesy.fsums.Fsum._ps_mul	pygeodesy.fsums.Fsum-class.html#_ps_mul
 pygeodesy.fsums.Fsum._facc_power	pygeodesy.fsums.Fsum-class.html#_facc_power
 pygeodesy.fsums.Fsum.as_integer_ratio	pygeodesy.fsums.Fsum-class.html#as_integer_ratio
-pygeodesy.fsums.Fsum._ErrorXs	pygeodesy.fsums.Fsum-class.html#_ErrorXs
 pygeodesy.fsums.Fsum.partials	pygeodesy.fsums.Fsum-class.html#partials
 pygeodesy.fsums.Fsum.is_math_fsum	pygeodesy.fsums.Fsum-class.html#is_math_fsum
 pygeodesy.fsums.Fsum.fsum_	pygeodesy.fsums.Fsum-class.html#fsum_
@@ -16958,7 +16964,7 @@ pygeodesy.fsums.Fsum.__ne__	pygeodesy.fsums.Fsum-class.html#__ne__
 pygeodesy.fsums.Fsum._pow_int	pygeodesy.fsums.Fsum-class.html#_pow_int
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.fsums.Fsum.__ifloordiv__	pygeodesy.fsums.Fsum-class.html#__ifloordiv__
-pygeodesy.fsums.Fsum._nonfinites_isfine_kwds	pygeodesy.fsums.Fsum-class.html#_nonfinites_isfine_kwds
+pygeodesy.fsums.Fsum._ErrorXs	pygeodesy.fsums.Fsum-class.html#_ErrorXs
 pygeodesy.fsums.Fsum._fmul	pygeodesy.fsums.Fsum-class.html#_fmul
 pygeodesy.fsums.Fsum.residual	pygeodesy.fsums.Fsum-class.html#residual
 pygeodesy.fsums.Fsum.rdiv	pygeodesy.fsums.Fsum-class.html#rdiv
@@ -17150,7 +17156,6 @@ pygeodesy.fsums.Fsum.__rmod__	pygeodesy.fsums.Fsum-class.html#__rmod__
 pygeodesy.fsums.Fsum._ps_mul	pygeodesy.fsums.Fsum-class.html#_ps_mul
 pygeodesy.fsums.Fsum._facc_power	pygeodesy.fsums.Fsum-class.html#_facc_power
 pygeodesy.fsums.Fsum.as_integer_ratio	pygeodesy.fsums.Fsum-class.html#as_integer_ratio
-pygeodesy.fsums.Fsum._ErrorXs	pygeodesy.fsums.Fsum-class.html#_ErrorXs
 pygeodesy.fsums.Fsum.partials	pygeodesy.fsums.Fsum-class.html#partials
 pygeodesy.fsums.Fsum.is_math_fsum	pygeodesy.fsums.Fsum-class.html#is_math_fsum
 pygeodesy.fsums.Fsum.fsum_	pygeodesy.fsums.Fsum-class.html#fsum_
@@ -17159,7 +17164,7 @@ pygeodesy.fsums.Fsum.__ne__	pygeodesy.fsums.Fsum-class.html#__ne__
 pygeodesy.fsums.Fsum._pow_int	pygeodesy.fsums.Fsum-class.html#_pow_int
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.fsums.Fsum.__ifloordiv__	pygeodesy.fsums.Fsum-class.html#__ifloordiv__
-pygeodesy.fsums.Fsum._nonfinites_isfine_kwds	pygeodesy.fsums.Fsum-class.html#_nonfinites_isfine_kwds
+pygeodesy.fsums.Fsum._ErrorXs	pygeodesy.fsums.Fsum-class.html#_ErrorXs
 pygeodesy.fsums.Fsum._fmul	pygeodesy.fsums.Fsum-class.html#_fmul
 pygeodesy.fsums.Fsum.residual	pygeodesy.fsums.Fsum-class.html#residual
 pygeodesy.fsums.Fsum.rdiv	pygeodesy.fsums.Fsum-class.html#rdiv
@@ -17351,7 +17356,6 @@ pygeodesy.fsums.Fsum.__rmod__	pygeodesy.fsums.Fsum-class.html#__rmod__
 pygeodesy.fsums.Fsum._ps_mul	pygeodesy.fsums.Fsum-class.html#_ps_mul
 pygeodesy.fsums.Fsum._facc_power	pygeodesy.fsums.Fsum-class.html#_facc_power
 pygeodesy.fsums.Fsum.as_integer_ratio	pygeodesy.fsums.Fsum-class.html#as_integer_ratio
-pygeodesy.fsums.Fsum._ErrorXs	pygeodesy.fsums.Fsum-class.html#_ErrorXs
 pygeodesy.fsums.Fsum.partials	pygeodesy.fsums.Fsum-class.html#partials
 pygeodesy.fsums.Fsum.is_math_fsum	pygeodesy.fsums.Fsum-class.html#is_math_fsum
 pygeodesy.fsums.Fsum.fsum_	pygeodesy.fsums.Fsum-class.html#fsum_
@@ -17360,7 +17364,7 @@ pygeodesy.fsums.Fsum.__ne__	pygeodesy.fsums.Fsum-class.html#__ne__
 pygeodesy.fsums.Fsum._pow_int	pygeodesy.fsums.Fsum-class.html#_pow_int
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.fsums.Fsum.__ifloordiv__	pygeodesy.fsums.Fsum-class.html#__ifloordiv__
-pygeodesy.fsums.Fsum._nonfinites_isfine_kwds	pygeodesy.fsums.Fsum-class.html#_nonfinites_isfine_kwds
+pygeodesy.fsums.Fsum._ErrorXs	pygeodesy.fsums.Fsum-class.html#_ErrorXs
 pygeodesy.fsums.Fsum._fmul	pygeodesy.fsums.Fsum-class.html#_fmul
 pygeodesy.fsums.Fsum.residual	pygeodesy.fsums.Fsum-class.html#residual
 pygeodesy.fsums.Fsum.rdiv	pygeodesy.fsums.Fsum-class.html#rdiv
@@ -18920,7 +18924,6 @@ pygeodesy.fsums.Fsum.__rmod__	pygeodesy.fsums.Fsum-class.html#__rmod__
 pygeodesy.fsums.Fsum._ps_mul	pygeodesy.fsums.Fsum-class.html#_ps_mul
 pygeodesy.fsums.Fsum._facc_power	pygeodesy.fsums.Fsum-class.html#_facc_power
 pygeodesy.fsums.Fsum.as_integer_ratio	pygeodesy.fsums.Fsum-class.html#as_integer_ratio
-pygeodesy.fsums.Fsum._nonfinites_isfine_kwds	pygeodesy.fsums.Fsum-class.html#_nonfinites_isfine_kwds
 pygeodesy.fsums.Fsum.partials	pygeodesy.fsums.Fsum-class.html#partials
 pygeodesy.fsums.Fsum.is_math_fsum	pygeodesy.fsums.Fsum-class.html#is_math_fsum
 pygeodesy.fsums.Fsum.fsum_	pygeodesy.fsums.Fsum-class.html#fsum_
@@ -34094,7 +34097,6 @@ pygeodesy.triaxials.bases._UnOrderedTriaxialBase._order3d	pygeodesy.triaxials.ba
 pygeodesy.triaxials.bases._OrderedTriaxialBase.area	pygeodesy.triaxials.bases._OrderedTriaxialBase-class.html#area
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._Elliptic	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_Elliptic
 pygeodesy.named._Named.dup	pygeodesy.named._Named-class.html#dup
-pygeodesy.triaxials.bases._UnOrderedTriaxialBase._bc_elliperim	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_bc_elliperim
 pygeodesy.named._Named._notImplemented	pygeodesy.named._Named-class.html#_notImplemented
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.volume	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#volume
 pygeodesy.named._NamedEnumItem._register	pygeodesy.named._NamedEnumItem-class.html#_register
@@ -34103,6 +34105,8 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._a2_b2	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_a2_b2
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._a2b2	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_a2b2
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.height4	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#height4
+pygeodesy.triaxials.bases._UnOrderedTriaxialBase.perimeter4ab	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#perimeter4ab
+pygeodesy.triaxials.bases._UnOrderedTriaxialBase.perimeter4ac	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#perimeter4ac
 pygeodesy.named._Named.iteration	pygeodesy.named._Named-class.html#iteration
 pygeodesy.named._Named.typename	pygeodesy.named._Named-class.html#typename
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._ordered4	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_ordered4
@@ -34112,9 +34116,9 @@ pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.isOrdered	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#isOrdered
 pygeodesy.named._NamedBase._update	pygeodesy.named._NamedBase-class.html#_update
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._Ellipsoid	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_Ellipsoid
-pygeodesy.triaxials.bases._UnOrderedTriaxialBase._ab_elliperim	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_ab_elliperim
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.isSpherical	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#isSpherical
 pygeodesy.triaxials.bases._OrderedTriaxialBase.__init__	pygeodesy.triaxials.bases._OrderedTriaxialBase-class.html#__init__
+pygeodesy.triaxials.bases._UnOrderedTriaxialBase.perimeter4bc	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#perimeter4bc
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._a2c2	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_a2c2
 pygeodesy.named._Named.__format__	pygeodesy.named._Named-class.html#__format__
 pygeodesy.triaxials.bases._OrderedTriaxialBase._k2E_kp2E	pygeodesy.triaxials.bases._OrderedTriaxialBase-class.html#_k2E_kp2E
@@ -34199,7 +34203,6 @@ pygeodesy.triaxials.bases._UnOrderedTriaxialBase._Elliptic	pygeodesy.triaxials.b
 pygeodesy.triaxials.bases._Triaxial3Base._yE	pygeodesy.triaxials.bases._Triaxial3Base-class.html#_yE
 pygeodesy.named._Named.dup	pygeodesy.named._Named-class.html#dup
 pygeodesy.triaxials.bases._Triaxial3Base._xyE	pygeodesy.triaxials.bases._Triaxial3Base-class.html#_xyE
-pygeodesy.triaxials.bases._UnOrderedTriaxialBase._bc_elliperim	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_bc_elliperim
 pygeodesy.named._Named._notImplemented	pygeodesy.named._Named-class.html#_notImplemented
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.volume	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#volume
 pygeodesy.named._NamedEnumItem._register	pygeodesy.named._NamedEnumItem-class.html#_register
@@ -34208,6 +34211,8 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.b	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#b
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._a2b2	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_a2b2
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.height4	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#height4
+pygeodesy.triaxials.bases._UnOrderedTriaxialBase.perimeter4ab	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#perimeter4ab
+pygeodesy.triaxials.bases._UnOrderedTriaxialBase.perimeter4ac	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#perimeter4ac
 pygeodesy.named._Named.iteration	pygeodesy.named._Named-class.html#iteration
 pygeodesy.named._Named.typename	pygeodesy.named._Named-class.html#typename
 pygeodesy.triaxials.bases._Triaxial3Base.isOblate	pygeodesy.triaxials.bases._Triaxial3Base-class.html#isOblate
@@ -34218,9 +34223,9 @@ pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.isOrdered	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#isOrdered
 pygeodesy.named._NamedBase._update	pygeodesy.named._NamedBase-class.html#_update
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._Ellipsoid	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_Ellipsoid
-pygeodesy.triaxials.bases._UnOrderedTriaxialBase._ab_elliperim	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_ab_elliperim
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.isSpherical	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#isSpherical
 pygeodesy.triaxials.bases._OrderedTriaxialBase.__init__	pygeodesy.triaxials.bases._OrderedTriaxialBase-class.html#__init__
+pygeodesy.triaxials.bases._UnOrderedTriaxialBase.perimeter4bc	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#perimeter4bc
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._a2c2	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_a2c2
 pygeodesy.named._Named.__format__	pygeodesy.named._Named-class.html#__format__
 pygeodesy.triaxials.bases._OrderedTriaxialBase._k2E_kp2E	pygeodesy.triaxials.bases._OrderedTriaxialBase-class.html#_k2E_kp2E
@@ -34295,7 +34300,6 @@ pygeodesy.triaxials.bases._UnOrderedTriaxialBase._order3d	pygeodesy.triaxials.ba
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.area	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#area
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._Elliptic	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_Elliptic
 pygeodesy.named._Named.dup	pygeodesy.named._Named-class.html#dup
-pygeodesy.triaxials.bases._UnOrderedTriaxialBase._bc_elliperim	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_bc_elliperim
 pygeodesy.named._Named._notImplemented	pygeodesy.named._Named-class.html#_notImplemented
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.volume	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#volume
 pygeodesy.named._NamedEnumItem._register	pygeodesy.named._NamedEnumItem-class.html#_register
@@ -34304,6 +34308,8 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._a2_b2	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_a2_b2
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._a2b2	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_a2b2
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.height4	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#height4
+pygeodesy.triaxials.bases._UnOrderedTriaxialBase.perimeter4ab	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#perimeter4ab
+pygeodesy.triaxials.bases._UnOrderedTriaxialBase.perimeter4ac	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#perimeter4ac
 pygeodesy.named._Named.iteration	pygeodesy.named._Named-class.html#iteration
 pygeodesy.named._Named.typename	pygeodesy.named._Named-class.html#typename
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._ordered4	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_ordered4
@@ -34313,9 +34319,9 @@ pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.isOrdered	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#isOrdered
 pygeodesy.named._NamedBase._update	pygeodesy.named._NamedBase-class.html#_update
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._Ellipsoid	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_Ellipsoid
-pygeodesy.triaxials.bases._UnOrderedTriaxialBase._ab_elliperim	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_ab_elliperim
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.isSpherical	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#isSpherical
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.__init__	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#__init__
+pygeodesy.triaxials.bases._UnOrderedTriaxialBase.perimeter4bc	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#perimeter4bc
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._a2c2	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_a2c2
 pygeodesy.named._Named.__format__	pygeodesy.named._Named-class.html#__format__
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.normal4	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#normal4
@@ -34465,9 +34471,8 @@ pygeodesy.triaxials.bases._Triaxial3Base._yE	pygeodesy.triaxials.bases._Triaxial
 pygeodesy.triaxials.conformal3.Conformal3.reverseBetOmg	pygeodesy.triaxials.conformal3.Conformal3-class.html#reverseBetOmg
 pygeodesy.triaxials.conformal3.Conformal3.forwardSphere3	pygeodesy.triaxials.conformal3.Conformal3-class.html#forwardSphere3
 pygeodesy.named._Named.dup	pygeodesy.named._Named-class.html#dup
-pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.triaxials.bases._Triaxial3Base._xyE	pygeodesy.triaxials.bases._Triaxial3Base-class.html#_xyE
-pygeodesy.triaxials.bases._UnOrderedTriaxialBase._bc_elliperim	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_bc_elliperim
+pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named._notImplemented	pygeodesy.named._Named-class.html#_notImplemented
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.volume	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#volume
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._b2_a2	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_b2_a2
@@ -34476,7 +34481,8 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.b	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#b
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._a2b2	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_a2b2
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.height4	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#height4
-pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
+pygeodesy.triaxials.bases._UnOrderedTriaxialBase.perimeter4ab	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#perimeter4ab
+pygeodesy.triaxials.bases._UnOrderedTriaxialBase.perimeter4ac	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#perimeter4ac
 pygeodesy.named._Named.iteration	pygeodesy.named._Named-class.html#iteration
 pygeodesy.named._Named.typename	pygeodesy.named._Named-class.html#typename
 pygeodesy.triaxials.bases._Triaxial3Base.isOblate	pygeodesy.triaxials.bases._Triaxial3Base-class.html#isOblate
@@ -34488,12 +34494,12 @@ pygeodesy.triaxials.bases._UnOrderedTriaxialBase.isOrdered	pygeodesy.triaxials.b
 pygeodesy.named._NamedBase._update	pygeodesy.named._NamedBase-class.html#_update
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._Ellipsoid	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_Ellipsoid
 pygeodesy.triaxials.conformal3.Conformal3.equi3Sphere	pygeodesy.triaxials.conformal3.Conformal3-class.html#equi3Sphere
-pygeodesy.triaxials.bases._UnOrderedTriaxialBase._ab_elliperim	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_ab_elliperim
 pygeodesy.named._Named._classnaming	pygeodesy.named._Named-class.html#_classnaming
 pygeodesy.triaxials.conformal3.Conformal3._sphScale_m	pygeodesy.triaxials.conformal3.Conformal3-class.html#_sphScale_m
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.isSpherical	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#isSpherical
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
 pygeodesy.triaxials.bases._OrderedTriaxialBase.__init__	pygeodesy.triaxials.bases._OrderedTriaxialBase-class.html#__init__
+pygeodesy.triaxials.bases._UnOrderedTriaxialBase.perimeter4bc	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#perimeter4bc
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._a2c2	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_a2c2
 pygeodesy.named._Named.__format__	pygeodesy.named._Named-class.html#__format__
 pygeodesy.triaxials.conformal3.Conformal3._C3S	pygeodesy.triaxials.conformal3.Conformal3-class.html#_C3S
@@ -34510,6 +34516,7 @@ pygeodesy.triaxials.bases._Triaxial3Base._k_kp	pygeodesy.triaxials.bases._Triaxi
 pygeodesy.named._NamedEnumItem._register	pygeodesy.named._NamedEnumItem-class.html#_register
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._c2_a2	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_c2_a2
 pygeodesy.triaxials.bases._Triaxial3Base._xE	pygeodesy.triaxials.bases._Triaxial3Base-class.html#_xE
+pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
 pygeodesy.triaxials.bases._Triaxial3Base._k2_kp2	pygeodesy.triaxials.bases._Triaxial3Base-class.html#_k2_kp2
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.toEllipsoid	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#toEllipsoid
 pygeodesy.triaxials.conformal3.Conformal3B	pygeodesy.triaxials.conformal3.Conformal3B-class.html
@@ -34594,9 +34601,8 @@ pygeodesy.triaxials.bases._Triaxial3Base._yE	pygeodesy.triaxials.bases._Triaxial
 pygeodesy.triaxials.conformal3.Conformal3.reverseBetOmg	pygeodesy.triaxials.conformal3.Conformal3-class.html#reverseBetOmg
 pygeodesy.triaxials.conformal3.Conformal3.forwardSphere3	pygeodesy.triaxials.conformal3.Conformal3-class.html#forwardSphere3
 pygeodesy.named._Named.dup	pygeodesy.named._Named-class.html#dup
-pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.triaxials.bases._Triaxial3Base._xyE	pygeodesy.triaxials.bases._Triaxial3Base-class.html#_xyE
-pygeodesy.triaxials.bases._UnOrderedTriaxialBase._bc_elliperim	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_bc_elliperim
+pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named._notImplemented	pygeodesy.named._Named-class.html#_notImplemented
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.volume	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#volume
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._b2_a2	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_b2_a2
@@ -34605,7 +34611,8 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.b	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#b
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._a2b2	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_a2b2
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.height4	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#height4
-pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
+pygeodesy.triaxials.bases._UnOrderedTriaxialBase.perimeter4ab	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#perimeter4ab
+pygeodesy.triaxials.bases._UnOrderedTriaxialBase.perimeter4ac	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#perimeter4ac
 pygeodesy.named._Named.iteration	pygeodesy.named._Named-class.html#iteration
 pygeodesy.named._Named.typename	pygeodesy.named._Named-class.html#typename
 pygeodesy.triaxials.bases._Triaxial3Base.isOblate	pygeodesy.triaxials.bases._Triaxial3Base-class.html#isOblate
@@ -34617,12 +34624,12 @@ pygeodesy.triaxials.bases._UnOrderedTriaxialBase.isOrdered	pygeodesy.triaxials.b
 pygeodesy.named._NamedBase._update	pygeodesy.named._NamedBase-class.html#_update
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._Ellipsoid	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_Ellipsoid
 pygeodesy.triaxials.conformal3.Conformal3.equi3Sphere	pygeodesy.triaxials.conformal3.Conformal3-class.html#equi3Sphere
-pygeodesy.triaxials.bases._UnOrderedTriaxialBase._ab_elliperim	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_ab_elliperim
 pygeodesy.named._Named._classnaming	pygeodesy.named._Named-class.html#_classnaming
 pygeodesy.triaxials.conformal3.Conformal3._sphScale_m	pygeodesy.triaxials.conformal3.Conformal3-class.html#_sphScale_m
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.isSpherical	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#isSpherical
 pygeodesy.named._Named._name	pygeodesy.named._Named-class.html#_name
 pygeodesy.triaxials.conformal3.Conformal3B.__init__	pygeodesy.triaxials.conformal3.Conformal3B-class.html#__init__
+pygeodesy.triaxials.bases._UnOrderedTriaxialBase.perimeter4bc	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#perimeter4bc
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._a2c2	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_a2c2
 pygeodesy.named._Named.__format__	pygeodesy.named._Named-class.html#__format__
 pygeodesy.triaxials.conformal3.Conformal3._C3S	pygeodesy.triaxials.conformal3.Conformal3-class.html#_C3S
@@ -34639,6 +34646,7 @@ pygeodesy.triaxials.bases._Triaxial3Base._k_kp	pygeodesy.triaxials.bases._Triaxi
 pygeodesy.named._NamedEnumItem._register	pygeodesy.named._NamedEnumItem-class.html#_register
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._c2_a2	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_c2_a2
 pygeodesy.triaxials.bases._Triaxial3Base._xE	pygeodesy.triaxials.bases._Triaxial3Base-class.html#_xE
+pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
 pygeodesy.triaxials.bases._Triaxial3Base._k2_kp2	pygeodesy.triaxials.bases._Triaxial3Base-class.html#_k2_kp2
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.toEllipsoid	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#toEllipsoid
 pygeodesy.triaxials.conformal3.Conformal3Sphere	pygeodesy.triaxials.conformal3.Conformal3Sphere-class.html
@@ -34723,11 +34731,10 @@ pygeodesy.named._NamedEnumItem._enum	pygeodesy.named._NamedEnumItem-class.html#_
 pygeodesy.triaxials.triaxial3.Triaxial3.reverseCartesian	pygeodesy.triaxials.triaxial3.Triaxial3-class.html#reverseCartesian
 pygeodesy.named._Named.dup	pygeodesy.named._Named-class.html#dup
 pygeodesy.triaxials.triaxial3.Triaxial3._cardinal2	pygeodesy.triaxials.triaxial3.Triaxial3-class.html#_cardinal2
-pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named._instr	pygeodesy.named._Named-class.html#_instr
 pygeodesy.triaxials.triaxial3.Triaxial3.reverseBetOmgAlp	pygeodesy.triaxials.triaxial3.Triaxial3-class.html#reverseBetOmgAlp
 pygeodesy.triaxials.bases._Triaxial3Base._xyE	pygeodesy.triaxials.bases._Triaxial3Base-class.html#_xyE
-pygeodesy.triaxials.bases._UnOrderedTriaxialBase._bc_elliperim	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_bc_elliperim
+pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named._notImplemented	pygeodesy.named._Named-class.html#_notImplemented
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.volume	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#volume
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._b2_a2	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_b2_a2
@@ -34738,6 +34745,8 @@ pygeodesy.triaxials.triaxial3.Triaxial3.toTriaxial5	pygeodesy.triaxials.triaxial
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.b	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#b
 pygeodesy.triaxials.triaxial3.Triaxial3.forwardCartesian	pygeodesy.triaxials.triaxial3.Triaxial3-class.html#forwardCartesian
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.height4	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#height4
+pygeodesy.triaxials.bases._UnOrderedTriaxialBase.perimeter4ab	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#perimeter4ab
+pygeodesy.triaxials.bases._UnOrderedTriaxialBase.perimeter4ac	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#perimeter4ac
 pygeodesy.named._Named.iteration	pygeodesy.named._Named-class.html#iteration
 pygeodesy.named._Named.typename	pygeodesy.named._Named-class.html#typename
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._ordered4	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_ordered4
@@ -34749,10 +34758,10 @@ pygeodesy.triaxials.bases._UnOrderedTriaxialBase.isOrdered	pygeodesy.triaxials.b
 pygeodesy.named._NamedBase._update	pygeodesy.named._NamedBase-class.html#_update
 pygeodesy.triaxials.triaxial3.Triaxial3.toOther	pygeodesy.triaxials.triaxial3.Triaxial3-class.html#toOther
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._Ellipsoid	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_Ellipsoid
-pygeodesy.triaxials.bases._UnOrderedTriaxialBase._ab_elliperim	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_ab_elliperim
 pygeodesy.triaxials.triaxial3.Triaxial3.reversePhiLamZet	pygeodesy.triaxials.triaxial3.Triaxial3-class.html#reversePhiLamZet
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.isSpherical	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#isSpherical
 pygeodesy.triaxials.conformal3.Conformal3Sphere.__init__	pygeodesy.triaxials.conformal3.Conformal3Sphere-class.html#__init__
+pygeodesy.triaxials.bases._UnOrderedTriaxialBase.perimeter4bc	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#perimeter4bc
 pygeodesy.triaxials.triaxial3.Triaxial3.forwardPhiLam	pygeodesy.triaxials.triaxial3.Triaxial3-class.html#forwardPhiLam
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._a2c2	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_a2c2
 pygeodesy.named._Named.__format__	pygeodesy.named._Named-class.html#__format__
@@ -35024,11 +35033,10 @@ pygeodesy.named._NamedEnumItem._enum	pygeodesy.named._NamedEnumItem-class.html#_
 pygeodesy.triaxials.triaxial3.Triaxial3.reverseCartesian	pygeodesy.triaxials.triaxial3.Triaxial3-class.html#reverseCartesian
 pygeodesy.named._Named.dup	pygeodesy.named._Named-class.html#dup
 pygeodesy.triaxials.triaxial3.Triaxial3._cardinal2	pygeodesy.triaxials.triaxial3.Triaxial3-class.html#_cardinal2
-pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named._instr	pygeodesy.named._Named-class.html#_instr
 pygeodesy.triaxials.triaxial3.Triaxial3.reverseBetOmgAlp	pygeodesy.triaxials.triaxial3.Triaxial3-class.html#reverseBetOmgAlp
 pygeodesy.triaxials.bases._Triaxial3Base._xyE	pygeodesy.triaxials.bases._Triaxial3Base-class.html#_xyE
-pygeodesy.triaxials.bases._UnOrderedTriaxialBase._bc_elliperim	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_bc_elliperim
+pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named._notImplemented	pygeodesy.named._Named-class.html#_notImplemented
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.volume	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#volume
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._b2_a2	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_b2_a2
@@ -35039,6 +35047,8 @@ pygeodesy.triaxials.triaxial3.Triaxial3.toTriaxial5	pygeodesy.triaxials.triaxial
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.b	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#b
 pygeodesy.triaxials.triaxial3.Triaxial3.forwardCartesian	pygeodesy.triaxials.triaxial3.Triaxial3-class.html#forwardCartesian
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.height4	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#height4
+pygeodesy.triaxials.bases._UnOrderedTriaxialBase.perimeter4ab	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#perimeter4ab
+pygeodesy.triaxials.bases._UnOrderedTriaxialBase.perimeter4ac	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#perimeter4ac
 pygeodesy.named._Named.iteration	pygeodesy.named._Named-class.html#iteration
 pygeodesy.named._Named.typename	pygeodesy.named._Named-class.html#typename
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._ordered4	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_ordered4
@@ -35050,10 +35060,10 @@ pygeodesy.triaxials.bases._UnOrderedTriaxialBase.isOrdered	pygeodesy.triaxials.b
 pygeodesy.named._NamedBase._update	pygeodesy.named._NamedBase-class.html#_update
 pygeodesy.triaxials.triaxial3.Triaxial3.toOther	pygeodesy.triaxials.triaxial3.Triaxial3-class.html#toOther
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._Ellipsoid	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_Ellipsoid
-pygeodesy.triaxials.bases._UnOrderedTriaxialBase._ab_elliperim	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_ab_elliperim
 pygeodesy.triaxials.triaxial3.Triaxial3.reversePhiLamZet	pygeodesy.triaxials.triaxial3.Triaxial3-class.html#reversePhiLamZet
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.isSpherical	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#isSpherical
 pygeodesy.triaxials.bases._OrderedTriaxialBase.__init__	pygeodesy.triaxials.bases._OrderedTriaxialBase-class.html#__init__
+pygeodesy.triaxials.bases._UnOrderedTriaxialBase.perimeter4bc	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#perimeter4bc
 pygeodesy.triaxials.triaxial3.Triaxial3.forwardPhiLam	pygeodesy.triaxials.triaxial3.Triaxial3-class.html#forwardPhiLam
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._a2c2	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_a2c2
 pygeodesy.named._Named.__format__	pygeodesy.named._Named-class.html#__format__
@@ -35159,11 +35169,10 @@ pygeodesy.named._NamedEnumItem._enum	pygeodesy.named._NamedEnumItem-class.html#_
 pygeodesy.triaxials.triaxial3.Triaxial3.reverseCartesian	pygeodesy.triaxials.triaxial3.Triaxial3-class.html#reverseCartesian
 pygeodesy.named._Named.dup	pygeodesy.named._Named-class.html#dup
 pygeodesy.triaxials.triaxial3.Triaxial3._cardinal2	pygeodesy.triaxials.triaxial3.Triaxial3-class.html#_cardinal2
-pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named._instr	pygeodesy.named._Named-class.html#_instr
 pygeodesy.triaxials.triaxial3.Triaxial3.reverseBetOmgAlp	pygeodesy.triaxials.triaxial3.Triaxial3-class.html#reverseBetOmgAlp
 pygeodesy.triaxials.bases._Triaxial3Base._xyE	pygeodesy.triaxials.bases._Triaxial3Base-class.html#_xyE
-pygeodesy.triaxials.bases._UnOrderedTriaxialBase._bc_elliperim	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_bc_elliperim
+pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.named._Named._notImplemented	pygeodesy.named._Named-class.html#_notImplemented
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.volume	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#volume
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._b2_a2	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_b2_a2
@@ -35174,6 +35183,8 @@ pygeodesy.triaxials.triaxial3.Triaxial3.toTriaxial5	pygeodesy.triaxials.triaxial
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.b	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#b
 pygeodesy.triaxials.triaxial3.Triaxial3.forwardCartesian	pygeodesy.triaxials.triaxial3.Triaxial3-class.html#forwardCartesian
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.height4	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#height4
+pygeodesy.triaxials.bases._UnOrderedTriaxialBase.perimeter4ab	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#perimeter4ab
+pygeodesy.triaxials.bases._UnOrderedTriaxialBase.perimeter4ac	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#perimeter4ac
 pygeodesy.named._Named.iteration	pygeodesy.named._Named-class.html#iteration
 pygeodesy.named._Named.typename	pygeodesy.named._Named-class.html#typename
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._ordered4	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_ordered4
@@ -35185,10 +35196,10 @@ pygeodesy.triaxials.bases._UnOrderedTriaxialBase.isOrdered	pygeodesy.triaxials.b
 pygeodesy.named._NamedBase._update	pygeodesy.named._NamedBase-class.html#_update
 pygeodesy.triaxials.triaxial3.Triaxial3.toOther	pygeodesy.triaxials.triaxial3.Triaxial3-class.html#toOther
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._Ellipsoid	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_Ellipsoid
-pygeodesy.triaxials.bases._UnOrderedTriaxialBase._ab_elliperim	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_ab_elliperim
 pygeodesy.triaxials.triaxial3.Triaxial3.reversePhiLamZet	pygeodesy.triaxials.triaxial3.Triaxial3-class.html#reversePhiLamZet
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.isSpherical	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#isSpherical
 pygeodesy.triaxials.triaxial3.Triaxial3B.__init__	pygeodesy.triaxials.triaxial3.Triaxial3B-class.html#__init__
+pygeodesy.triaxials.bases._UnOrderedTriaxialBase.perimeter4bc	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#perimeter4bc
 pygeodesy.triaxials.triaxial3.Triaxial3.forwardPhiLam	pygeodesy.triaxials.triaxial3.Triaxial3-class.html#forwardPhiLam
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._a2c2	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_a2c2
 pygeodesy.named._Named.__format__	pygeodesy.named._Named-class.html#__format__
@@ -35404,7 +35415,6 @@ pygeodesy.named._NamedEnumItem._enum	pygeodesy.named._NamedEnumItem-class.html#_
 pygeodesy.triaxials.triaxial5.Triaxial.reverseCartesian	pygeodesy.triaxials.triaxial5.Triaxial-class.html#reverseCartesian
 pygeodesy.triaxials.triaxial5.Conformal.xR	pygeodesy.triaxials.triaxial5.Conformal-class.html#xR
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
-pygeodesy.triaxials.bases._UnOrderedTriaxialBase._bc_elliperim	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_bc_elliperim
 pygeodesy.named._Named._notImplemented	pygeodesy.named._Named-class.html#_notImplemented
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.volume	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#volume
 pygeodesy.named._NamedEnumItem._register	pygeodesy.named._NamedEnumItem-class.html#_register
@@ -35413,6 +35423,8 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.b	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#b
 pygeodesy.triaxials.triaxial5.Triaxial.forwardCartesian	pygeodesy.triaxials.triaxial5.Triaxial-class.html#forwardCartesian
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.height4	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#height4
+pygeodesy.triaxials.bases._UnOrderedTriaxialBase.perimeter4ab	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#perimeter4ab
+pygeodesy.triaxials.bases._UnOrderedTriaxialBase.perimeter4ac	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#perimeter4ac
 pygeodesy.named._Named.iteration	pygeodesy.named._Named-class.html#iteration
 pygeodesy.named._Named.typename	pygeodesy.named._Named-class.html#typename
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._ordered4	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_ordered4
@@ -35422,10 +35434,10 @@ pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.isOrdered	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#isOrdered
 pygeodesy.named._NamedBase._update	pygeodesy.named._NamedBase-class.html#_update
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._Ellipsoid	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_Ellipsoid
-pygeodesy.triaxials.bases._UnOrderedTriaxialBase._ab_elliperim	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_ab_elliperim
 pygeodesy.triaxials.triaxial5.Conformal.xyR2	pygeodesy.triaxials.triaxial5.Conformal-class.html#xyR2
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.isSpherical	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#isSpherical
 pygeodesy.triaxials.triaxial5.Conformal.__init__	pygeodesy.triaxials.triaxial5.Conformal-class.html#__init__
+pygeodesy.triaxials.bases._UnOrderedTriaxialBase.perimeter4bc	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#perimeter4bc
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._a2c2	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_a2c2
 pygeodesy.named._Named.__format__	pygeodesy.named._Named-class.html#__format__
 pygeodesy.triaxials.bases._OrderedTriaxialBase._k2E_kp2E	pygeodesy.triaxials.bases._OrderedTriaxialBase-class.html#_k2E_kp2E
@@ -35584,7 +35596,6 @@ pygeodesy.named._NamedEnumItem._enum	pygeodesy.named._NamedEnumItem-class.html#_
 pygeodesy.triaxials.triaxial5.Triaxial.reverseCartesian	pygeodesy.triaxials.triaxial5.Triaxial-class.html#reverseCartesian
 pygeodesy.triaxials.triaxial5.Conformal.xR	pygeodesy.triaxials.triaxial5.Conformal-class.html#xR
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
-pygeodesy.triaxials.bases._UnOrderedTriaxialBase._bc_elliperim	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_bc_elliperim
 pygeodesy.named._Named._notImplemented	pygeodesy.named._Named-class.html#_notImplemented
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.volume	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#volume
 pygeodesy.named._NamedEnumItem._register	pygeodesy.named._NamedEnumItem-class.html#_register
@@ -35593,6 +35604,8 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.b	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#b
 pygeodesy.triaxials.triaxial5.ConformalSphere._a2b2	pygeodesy.triaxials.triaxial5.ConformalSphere-class.html#_a2b2
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.height4	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#height4
+pygeodesy.triaxials.bases._UnOrderedTriaxialBase.perimeter4ab	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#perimeter4ab
+pygeodesy.triaxials.bases._UnOrderedTriaxialBase.perimeter4ac	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#perimeter4ac
 pygeodesy.named._Named.iteration	pygeodesy.named._Named-class.html#iteration
 pygeodesy.named._Named.typename	pygeodesy.named._Named-class.html#typename
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._ordered4	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_ordered4
@@ -35603,10 +35616,10 @@ pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.isOrdered	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#isOrdered
 pygeodesy.triaxials.triaxial5.ConformalSphere.ab	pygeodesy.triaxials.triaxial5.ConformalSphere-class.html#ab
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._Ellipsoid	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_Ellipsoid
-pygeodesy.triaxials.bases._UnOrderedTriaxialBase._ab_elliperim	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_ab_elliperim
 pygeodesy.triaxials.triaxial5.Conformal.xyR2	pygeodesy.triaxials.triaxial5.Conformal-class.html#xyR2
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.isSpherical	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#isSpherical
 pygeodesy.triaxials.triaxial5.ConformalSphere.__init__	pygeodesy.triaxials.triaxial5.ConformalSphere-class.html#__init__
+pygeodesy.triaxials.bases._UnOrderedTriaxialBase.perimeter4bc	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#perimeter4bc
 pygeodesy.triaxials.triaxial5.ConformalSphere._a2c2	pygeodesy.triaxials.triaxial5.ConformalSphere-class.html#_a2c2
 pygeodesy.named._Named.__format__	pygeodesy.named._Named-class.html#__format__
 pygeodesy.triaxials.bases._OrderedTriaxialBase._k2E_kp2E	pygeodesy.triaxials.bases._OrderedTriaxialBase-class.html#_k2E_kp2E
@@ -35694,7 +35707,6 @@ pygeodesy.named._NamedEnumItem._enum	pygeodesy.named._NamedEnumItem-class.html#_
 pygeodesy.triaxials.triaxial5.Triaxial.reverseCartesian	pygeodesy.triaxials.triaxial5.Triaxial-class.html#reverseCartesian
 pygeodesy.named._Named.dup	pygeodesy.named._Named-class.html#dup
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
-pygeodesy.triaxials.bases._UnOrderedTriaxialBase._bc_elliperim	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_bc_elliperim
 pygeodesy.named._Named._notImplemented	pygeodesy.named._Named-class.html#_notImplemented
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.volume	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#volume
 pygeodesy.named._NamedEnumItem._register	pygeodesy.named._NamedEnumItem-class.html#_register
@@ -35703,6 +35715,8 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.b	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#b
 pygeodesy.triaxials.triaxial5.Triaxial.forwardCartesian	pygeodesy.triaxials.triaxial5.Triaxial-class.html#forwardCartesian
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.height4	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#height4
+pygeodesy.triaxials.bases._UnOrderedTriaxialBase.perimeter4ab	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#perimeter4ab
+pygeodesy.triaxials.bases._UnOrderedTriaxialBase.perimeter4ac	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#perimeter4ac
 pygeodesy.named._Named.iteration	pygeodesy.named._Named-class.html#iteration
 pygeodesy.named._Named.typename	pygeodesy.named._Named-class.html#typename
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._ordered4	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_ordered4
@@ -35712,9 +35726,9 @@ pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.isOrdered	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#isOrdered
 pygeodesy.named._NamedBase._update	pygeodesy.named._NamedBase-class.html#_update
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._Ellipsoid	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_Ellipsoid
-pygeodesy.triaxials.bases._UnOrderedTriaxialBase._ab_elliperim	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_ab_elliperim
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.isSpherical	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#isSpherical
 pygeodesy.triaxials.triaxial5.Triaxial.__init__	pygeodesy.triaxials.triaxial5.Triaxial-class.html#__init__
+pygeodesy.triaxials.bases._UnOrderedTriaxialBase.perimeter4bc	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#perimeter4bc
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._a2c2	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_a2c2
 pygeodesy.named._Named.__format__	pygeodesy.named._Named-class.html#__format__
 pygeodesy.triaxials.bases._OrderedTriaxialBase._k2E_kp2E	pygeodesy.triaxials.bases._OrderedTriaxialBase-class.html#_k2E_kp2E
@@ -35787,7 +35801,6 @@ pygeodesy.triaxials.bases._UnOrderedTriaxialBase._order3d	pygeodesy.triaxials.ba
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.area	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#area
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._Elliptic	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_Elliptic
 pygeodesy.named._Named.dup	pygeodesy.named._Named-class.html#dup
-pygeodesy.triaxials.bases._UnOrderedTriaxialBase._bc_elliperim	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_bc_elliperim
 pygeodesy.named._Named._notImplemented	pygeodesy.named._Named-class.html#_notImplemented
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.volume	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#volume
 pygeodesy.named._NamedEnumItem._register	pygeodesy.named._NamedEnumItem-class.html#_register
@@ -35796,6 +35809,8 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._a2_b2	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_a2_b2
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._a2b2	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_a2b2
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.height4	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#height4
+pygeodesy.triaxials.bases._UnOrderedTriaxialBase.perimeter4ab	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#perimeter4ab
+pygeodesy.triaxials.bases._UnOrderedTriaxialBase.perimeter4ac	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#perimeter4ac
 pygeodesy.named._Named.iteration	pygeodesy.named._Named-class.html#iteration
 pygeodesy.named._Named.typename	pygeodesy.named._Named-class.html#typename
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._ordered4	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_ordered4
@@ -35805,9 +35820,9 @@ pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.isOrdered	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#isOrdered
 pygeodesy.named._NamedBase._update	pygeodesy.named._NamedBase-class.html#_update
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._Ellipsoid	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_Ellipsoid
-pygeodesy.triaxials.bases._UnOrderedTriaxialBase._ab_elliperim	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_ab_elliperim
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.isSpherical	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#isSpherical
 pygeodesy.triaxials.triaxial5.Triaxial_.__init__	pygeodesy.triaxials.triaxial5.Triaxial_-class.html#__init__
+pygeodesy.triaxials.bases._UnOrderedTriaxialBase.perimeter4bc	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#perimeter4bc
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase._a2c2	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#_a2c2
 pygeodesy.named._Named.__format__	pygeodesy.named._Named-class.html#__format__
 pygeodesy.triaxials.bases._UnOrderedTriaxialBase.normal4	pygeodesy.triaxials.bases._UnOrderedTriaxialBase-class.html#normal4

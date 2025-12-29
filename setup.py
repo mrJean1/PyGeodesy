@@ -27,7 +27,7 @@ from os import getenv
 from setuptools import setup
 
 __all__ = ()
-__version__ = '25.12.06'
+__version__ = '25.12.15'
 
 _PACKAGE = 'pygeodesy'  # 'PyGeodesy'
 
@@ -53,8 +53,9 @@ def _version():
                 return '.'.join(map(str, map(int, v.split('.')))) + c
 
 
-_KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode', 'area', 'attitude',
-             'Authalic', 'auxiliary', 'azimuth', 'azimuthal', 'azimuth-elevation-range',
+_KeyWords = ('AER', 'AGM', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode',
+             'area', 'Arithmetic-Geometric-Mean', 'attitude', 'Authalic', 'auxiliary',
+             'azimuth', 'azimuthal', 'azimuth-elevation-range',
              'bearing', 'bank', 'Barsky', 'Barth', 'beta', 'bi-quadratic', 'boolean',
              'cached', 'Cagnoli', 'cartesian', 'Cassini', 'Cassini-Soldner', 'chord',
              'circle-intersections', 'circumcenter', 'circumcircle', 'circumradius',
@@ -69,8 +70,8 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode', 'are
              'Ferrari-solution', 'Field-Of-View', 'flattening', 'fma', 'fmath',
              'footpoint', 'footprint', 'Forster', 'Forster-Hormann-Popa', 'Forsythe', 'FOV',
              'fractional', 'Frechet', 'Fréchet', 'frustum', 'Fsum', 'fused-multiply-add',
-             'GARS', 'geocentric', 'GeoConvert', 'GeodesicExact', 'geodesy', 'geodetic', 'GeodSolve', 'GeodTest',
-             'geographiclib', 'Geohash', 'geoid', 'geoidHeight', 'GeoidHeights',
+             'GARS', 'Gauss-Kummer', 'geocentric', 'GeoConvert', 'GeodesicExact', 'geodesy', 'geodetic',
+             'GeodSolve', 'Geod3Solve', 'GeodTest', 'geographiclib', 'Geohash', 'geoid', 'geoidHeight', 'GeoidHeights',
              'georef', 'Girard', 'gnomonic', 'gons', 'grades', 'gradians', 'Greiner', 'Greiner-Hormann',
              'Hartzell', 'Hausdorff', 'Haversine', 'heading', 'hectare', 'height', 'Heikkinen', 'Heron',
              'Hodgman', 'horizon', 'Hormann', 'Hubeny',
@@ -80,7 +81,7 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode', 'are
              'Jacobi', 'Jacobi-Conformal', 'Jarque-Bera', 'Jekel',
              'Karney', 'Krueger', 'Krüger', 'kurtosis',
              'Lambert', 'latitude', 'law-of-cosines', 'least-squares', 'Lesh',
-             'L_Huilier', 'LHuilier', 'Liang', 'Liang-Barsky', 'linearize', 'Line-Of-Sight',
+             'L_Huilier', 'LHuilier', 'Liang', 'Liang-Barsky', 'Linderholm-Segal', 'linearize', 'Line-Of-Sight',
              'LocalCartesian', 'local-tangent-plane', 'local-x-y-z', 'longitude', 'LOS', 'loxodrome',
              'lstsq', 'LTP', 'lune', 'LV03', 'LV95',
              'mean', 'memoize', 'memoized', 'Mercator', 'Meeus', 'MGRS',
@@ -91,7 +92,7 @@ _KeyWords = ('AER', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode', 'are
              'precision-cubic-root', 'precision-hypotenuse', 'precision-powers',
              'precision-running-summation', 'precision-square-root', 'precision-summation',
              'prolate', 'Pseudo-Mercator', _PACKAGE, 'PyInstaller', 'PyPy', 'quartic',
-             'radical', 'radii', 'radius', 'Ramer', 'Ramer-Douglas-Peucker', 'Rectifying',
+             'radical', 'radii', 'radius', 'Ramanujan', 'Ramer', 'Ramer-Douglas-Peucker', 'Rectifying',
              'Reduced', 'resect', 'resection', 'Rey-Jer', 'Reumann', 'Reumann-Witkam', 'rho-theta-phi', 'rhumb', 'RhumbSolve',
              'running-linear-regression', 'running-statistics', 'running-stats', 'running-summation',
              'scipy', 'secant', 'semi-perimeter', 'sexagecimal', 'simplify', 'skewness',

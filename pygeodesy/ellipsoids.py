@@ -67,10 +67,10 @@ from __future__ import division as _; del _  # noqa: E702 ;
 # from pygeodesy.albers import AlbersEqualAreaCylindrical  # _MODS
 from pygeodesy.basics import copysign0, isbool, _isin, isint,  typename
 from pygeodesy.constants import EPS, EPS_2, EPS0, EPS02, EPS1, INF, NINF, \
-                               _over, PI_2, PI_3, PI4, R_M, R_MA, R_FM, _EPSqrt, \
+                               _EPSqrt, PI_2, PI_3, PI2, PI4, R_M, R_MA, R_FM, \
                                _EPStol as _TOL, _floatuple as _T, _isfinite, \
-                               _0_0s, _0_0, _0_5, _1_0, _1_EPS, _2_0, _4_0, _90_0, \
-                               _0_25, _3_0  # PYCHOK used!
+                               _over, _0_0s, _0_0, _0_5, _1_0, _1_EPS, _2_0, \
+                               _4_0, _90_0, _0_25, _3_0  # PYCHOK used!
 from pygeodesy.errors import _AssertionError, IntersectionError, _ValueError, _xattr, _xkwds_not
 from pygeodesy.fmath import cbrt, cbrt2, fdot, Fhorner, fpowers, hypot, hypot_, \
                             hypot1, hypot2, sqrt3,  Fsum
@@ -96,7 +96,7 @@ from pygeodesy.utily import atan1, atan1d, atan2b, degrees90, m2radians, radians
 from math import asinh, atan, atanh, cos, degrees, exp, fabs, radians, sin, sinh, sqrt, tan  # as _tan
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '25.11.26'
+__version__ = '25.12.14'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -111,19 +111,19 @@ def _aux(lat, inverse, auxLat, clip=90):
     return Lat(lat, clip=clip, name=_lat_ if inverse else typename(auxLat))
 
 
-def _s2_c2(phi):
+def _sin2cos2(rad):
     '''(INTERNAL) Return 2-tuple C{(sin(B{phi})**2, cos(B{phi})**2)}.
     '''
-    if phi:
-        s2 = sin(phi)**2
+    if rad:
+        s2 = sin(rad)**2
         if s2 > EPS:
             c2 = _1_0 - s2
             if c2 > EPS:
                 if c2 < EPS1:
                     return s2, c2
             else:
-                return _1_0, _0_0  # phi == PI_2
-    return _0_0, _1_0  # phi == 0
+                return _1_0, _0_0  # rad == PI_2
+    return _0_0, _1_0  # rad == 0
 
 
 class a_f2Tuple(_NamedTuple):
@@ -871,6 +871,12 @@ class Ellipsoid(_NamedEnumItem):
 
     equatoradius = a  # Requatorial
 
+    @Property_RO
+    def equatorimeter(self):
+        '''Get the ellipsoid's I{equatorial} perimeter (C{meter}).
+        '''
+        return Meter(equatorimeter=self.a * PI2)
+
     def e2s(self, s):
         '''Compute norm M{sqrt(1 - e2 * s**2)}.
 
@@ -1381,6 +1387,12 @@ class Ellipsoid(_NamedEnumItem):
 
     polaradius = b  # Rpolar
 
+    @property_RO
+    def polarimeter(self):
+        '''Get the ellipsoid's I{polar}, meridional perimeter (C{meter}).
+        '''
+        return Meter(polarimeter=self.L * _4_0)
+
 #   Q = A  # I{meridian arc unit} C{Q}, the mean, meridional length I{per radian}
 
     @deprecated_Property_RO
@@ -1484,7 +1496,7 @@ class Ellipsoid(_NamedEnumItem):
         r, p = self.a, Phid(lat)
         if p and self.f:
             if fabs(p) < PI_2:
-                s2, c2 = _s2_c2(p)
+                s2, c2 = _sin2cos2(p)
                 # R == sqrt((a2**2 * c2 + b2**2 * s2) / (a2 * c2 + b2 * s2))
                 #   == sqrt(a2**2 * (c2 + (b2 / a2)**2 * s2) / (a2 * (c2 + b2 / a2 * s2)))
                 #   == sqrt(a2 * (c2 + (b2 / a2)**2 * s2) / (c2 + (b2 / a2) * s2))
@@ -1709,7 +1721,7 @@ class Ellipsoid(_NamedEnumItem):
         '''(INTERNAL) Helper for C{rocAzimuth} and C{rocBearing}.
         '''
         if self.f:
-            s2, c2 = _s2_c2(radians(deg))
+            s2, c2 = _sin2cos2(radians(deg))
             m, n = self.roc2_(Phid(lat))
             if n < m:  # == n / (c2 * n / m + s2)
                 c2 *= n / m
@@ -1751,7 +1763,7 @@ class Ellipsoid(_NamedEnumItem):
         # ... requires 1 or 2 sqrt
         g = self.b
         if self.f:
-            s2, c2 = _s2_c2(Phid(lat))
+            s2, c2 = _sin2cos2(Phid(lat))
             g = _over(g, c2 + self.b2_a2 * s2)
         return Radius(rocGauss=g)
 

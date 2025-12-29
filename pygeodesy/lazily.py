@@ -250,7 +250,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'fpolynomial', 'fpowers', 'fprod', 'frandoms', 'frange', 'freduce', 'fremainder',
                                    'hypot', 'hypot_', 'hypot1', 'hypot2', 'hypot2_',
                                    'norm2', 'norm_', 'sqrt0', 'sqrt3', 'sqrt_a', 'zcrt', 'zqrt'),
-                          formy=_a('Radical2Tuple',
+                          formy=_a('Elliperim', 'Radical2Tuple',
                                    'angle2chord', 'antipode', 'antipode_', 'bearing', 'bearing_',
                                    'chord2angle', 'compassAngle', 'cosineLaw', 'cosineLaw_',
                                    'elliperim', 'equirectangular', 'equirectangular4', 'euclidean', 'euclidean_',
@@ -520,7 +520,7 @@ class _ALL_MODS(_internals._MODS_Base):
 _internals._MODS = _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '25.12.12'
+__version__ = '25.12.23'
 
 
 def _ALL_OTHER(*objs):

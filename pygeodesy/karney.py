@@ -153,14 +153,14 @@ in C{pygeodesy} are based on I{Karney}'s post U{Area of a spherical polygon
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # noqa: E702 ;
 
-from pygeodesy.basics import _copysign, _isin, isint, neg, unsigned0, \
-                             _xgeographiclib, _zip
+from pygeodesy.basics import _copysign, _isin, isint, neg, _xgeographiclib, _zip
 from pygeodesy.constants import NAN, _isfinite as _math_isfinite, \
                                _0_0, _1_0, _2_0, _180_0, _N_180_0, _360_0
 # from pygeodesy.deprecated.classes import Rhumb7Tuple  # _MODS
 from pygeodesy.errors import GeodesicError, _ValueError, _xkwds
 # from pygeodesy.geod3Solve import Geod3Solve8Tuple  # _MODS
-from pygeodesy.fmath import cbrt, fremainder, norm2  # Fhorner, Fsum
+from pygeodesy.fmath import cbrt, fhorner, fremainder, norm2
+from pygeodesy.fsums import _Ksum
 from pygeodesy.internals import _getenv, _popen2, _PYGEODESY_ENV, typename, \
                                 _version_info
 from pygeodesy.interns import NN, _a12_, _area_, _azi2_, _azi12_, _composite_, \
@@ -177,7 +177,7 @@ from pygeodesy.utily import atan2d, sincos2d, tand, _unrollon,  fabs
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '25.12.12'
+__version__ = '25.12.23'
 
 _1_16th     = _1_0 / 16
 _2_4_       = '2.4'
@@ -913,20 +913,18 @@ try:
 
 except ImportError:  # Python 3.12-
 
-    def _poly_fma(x, s, *cs):  # PYCHOK redef
-        t = _0_0
-        for c in cs:
-            s, t, _ = _sum3(s * x, t * x, c)
-        return s + t
+    def _poly_fma(x, *cs):  # PYCHOK redef
+        return fhorner(x, *cs, incx=False)
 
 #   def _poly_fma(x, s, *cs):
-#       S  = Fhorner(x, *cs, incx=False)
-#       S += s
-#       return float(S)
+#       t = _0_0
+#       for c in cs:
+#           s, t, _ = _sum3(s * x, t * x, c)
+#       return s + t
 
 def _polynomial(x, cs, i, j):  # PYCHOK shared
-    '''(INTERNAL) Like C++ C{GeographicLib.Math.hpp.polyval} but with a
-       signature and cascaded summation different from C{karney._sum3}.
+    '''(INTERNAL) Like C++ C{GeographicLib.Math.hpp.polyval} but
+       with a different signature and cascaded summation.
 
        @return: M{sum(x**(j - k - 1) * cs[k] for k in range(i, j)}
     '''
@@ -1007,18 +1005,18 @@ def _sum2(a, b):  # mimick geomath.Math.sum, actually sum2
         r = s - b
         t = s - r
         # elif C_CPP:  # Math::sum C/C++
-        #   r -= a; t -= b; t += r; t = -t
-        # else:
-        t = (a - r) + (b - t)
+        #   r -= a; t -= b; t += r; t = (-t) if s else s
+        # else:  # if s == 0: t = _copysign_0_0(s)
+        t = ((a - r) + (b - t)) if s else s
         # assert fabs(s) >= fabs(t)
         return s, t
 
 
 def _sum3(s, t, *xs):
-    '''Accumulate any B{C{xs}} into a previous C{_sum2(s, t)}.
+    '''Accumulate all B{C{xs}} scalars into a previous C{_sum2(s, t)}.
 
        @return: 3-Tuple C{(s, t, n)} where C{s} is the sum of B{s}, B{t} and all
-                B{xs}, C{t} the residual and C{n} the number of zero C{xs}.
+                B{xs}, C{t} the residual and C{n} the number of non-zero C{xs}.
 
        @see: I{Karney's} C++ U{Accumulator<https://GeographicLib.SourceForge.io/
              C++/doc/Accumulator_8hpp_source.html>} comments for more details and
@@ -1026,23 +1024,10 @@ def _sum3(s, t, *xs):
 
        @note: Not "error-free", see C{pygeodesy.test/testKarney.py}.
     '''
-    z = 0
-    for x in xs:
-        if x:
-            t, r = _sum2(t, x)  # start at the least-
-            if s:
-                s, t = _sum2(s, t)  # -significant end
-                if s:
-                    t += r  # accumulate r into t
-                else:
-                    # assert t == 0  # s == 0 implies t == 0
-                    s = unsigned0(r)  # result is r, t = 0
-            else:
-                s, t = unsigned0(t), r
-        else:
-            z += 1
-    # assert fabs(s) >= fabs(t)
-    return s, t, z
+    return _Ksum(s, t, *xs)._s_t_n3 if xs else (s, t, 0)
+    # previous _sum3 in .geodesicx.gxarea._Accumulator.Add
+    # which fails .fmath.frandoms tests, but does pass
+    # _sum3(1e20, 1, 2, 100, 5000, -1e20) ... 5103.0, 0.0, 4
 
 
 def _tand(x):

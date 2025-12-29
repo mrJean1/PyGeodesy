@@ -164,8 +164,8 @@ class Geodesic3Solve(_Geodesic3SolveBase):
             z = _toAzi(r.alp1) + _toAzi(r.alp2)
             s, c = sincos2d(z * _0_5)
             t  = self.triaxial3
-            a *= hypot(s / t._ab_elliperim,  # azimuth!
-                       c / t._bc_elliperim) * _360_0
+            a *= hypot(s / t.perimeter4ab,  # azimuth!
+                       c / t.perimeter4bc) * _360_0
         r[_a12_] = a
         return r
 

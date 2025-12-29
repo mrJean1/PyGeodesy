@@ -19,19 +19,20 @@ from __future__ import division as _; del _  # noqa: E702 ;
 
 from pygeodesy.basics import _copysign, isodd, unsigned0
 from pygeodesy.constants import NAN, _0_0, _0_5, _720_0
+from pygeodesy.fmath import _fma
 from pygeodesy.internals import printf, typename
 # from pygeodesy.interns import _COMMASPACE_  # from .lazily
 from pygeodesy.karney import Area3Tuple, _diff182, GeodesicError, \
-                            _norm180, _remainder, _sum3
+                            _norm180, _remainder, _sum2
 from pygeodesy.lazily import _ALL_DOCS,  _COMMASPACE_
 from pygeodesy.named import ADict, callername, _NamedBase,  pairs
 from pygeodesy.props import Property, Property_RO, property_RO
 # from pygeodesy.streprs import pairs  # from .named
 
-from math import fmod as _fmod
+from math import fabs, fmod as _fmod
 
 __all__ = ()
-__version__ = '25.09.16'
+__version__ = '25.12.23'
 
 
 class GeodesicAreaExact(_NamedBase):
@@ -427,30 +428,39 @@ class _Accumulator(_NamedBase):
            @kwarg y: Initial value (C{scalar}).
            @kwarg name: Optional C{B{name}=NN} (C{str}).
         '''
-        if isinstance(y, _Accumulator):
-            self._s, self._t, self._n = y._s, y._t, 1
-        elif y:
-            self._s, self._n = float(y), 1
+        self._s_t(*_s_t2(y))
+        self._n = 1
         if name:
             self.name = name
 
-    def Add(self, y):
-        '''Add a value.
+    def Add(self, *ys):
+        '''Add one or more scalars or L{_Accumulator}s.
 
            @return: Current C{sum}.
+
+           @see: C++ U{Accumulator.Add<https://GeographicLib.sourceforge.io/C++/doc/Accumulator_8hpp_source.html>}
+                 for more details about Karney's and Shewchuk's addition.
         '''
-        self._n += 1
-        self._s, self._t, _ = _sum3(self._s, self._t, y)
-        return self._s  # current .Sum()
+        # _Accumulator().Add(1, 1e20, 2, 100, 5000, -1e20) ... 5103.0
+        s, t = self._s, self._t
+        for y in ys:
+            for y in _s_t2(y):
+                if y:
+                    t, u = _sum2(t, y)
+                    s, t = _sum2(s, t)
+                    if s:  # accumlate u in t
+                        t += u
+                    else:  # s == 0 implies t == 0
+                        s  = u
+                    self._n += 1
+        return self._s_t(s, t)
 
     def Negate(self):
         '''Negate sum.
 
            @return: Current C{sum}.
         '''
-        self._s = s = -self._s
-        self._t =     -self._t
-        return s  # current .Sum()
+        return self._s_t(-self._s, -self._t)
 
     @property_RO
     def num(self):
@@ -459,21 +469,26 @@ class _Accumulator(_NamedBase):
         return self._n
 
     def Remainder(self, y):
-        '''Remainder on division by B{C{y}}.
+        '''Remainder of division by B{C{y}}.
 
            @return: Remainder of C{sum} / B{C{y}}.
         '''
-        self._s = _remainder(self._s, y)
-#       self._t = _remainder(self._t, y)
-        self._n = -1
-        return self.Add(_0_0)
+        return self._s_t(_remainder(self._s, y),
+                         _remainder(self._t, y))
 
     def Reset(self, y=0):
-        '''Set value from argument.
+        '''Reset from scalar or L{_Accumulator}.
         '''
-        self._n, self._s, self._t = 0, float(y), _0_0
+        self._s_t(*_s_t2(y))
+        self._n = 0
 
     Set = Reset
+
+    def _s_t(self, s, t=0):
+        if t and fabs(s) < fabs(t):
+            s, t = t, s
+        self._s, self._t = s, t
+        return s
 
     def Sum(self, y=0):
         '''Return C{sum + B{y}}.
@@ -488,6 +503,17 @@ class _Accumulator(_NamedBase):
             s = self
         return s._s
 
+    def Times(self, y):
+        '''Multiply by a scalar.
+
+           @return: Current C{sum}.
+        '''
+        s  = d = self._s
+        s *= y
+        d = _fma(y, d, -s)
+        t = _fma(y, self._t, d)
+        return self._s_t(s, t)  # current .Sum()
+
     def toStr(self, prec=6, sep=_COMMASPACE_, **unused):  # PYCHOK signature
         '''Return this C{_Accumulator} as string.
 
@@ -500,6 +526,10 @@ class _Accumulator(_NamedBase):
         '''
         d = dict(n=self.num, s=self._s, t=self._t)
         return sep.join(pairs(d, prec=prec))
+
+
+def _s_t2(y):
+    return (y._s, y._t) if isinstance(y, _Accumulator) else (float(y),)  # PYCHOK OK
 
 
 __all__ += _ALL_DOCS(GeodesicAreaExact, PolygonArea)

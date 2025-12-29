@@ -4,13 +4,13 @@
 # Test L{formy} module.
 
 __all__ = ('Tests',)
-__version__ = '24.11.14'
+__version__ = '24.11.21'
 
-from bases import TestsBase
+from bases import startswith, TestsBase
 
 from pygeodesy import PI, PI_2, R_M, angle2chord, antipode, bearing, cosineAndoyerLambert, \
                       chord2angle, cosineForsytheAndoyerLambert as _cosineForsythe_, \
-                      cosineLaw, Datums, equirectangular, euclidean, \
+                      cosineLaw, Datums, Elliperim, elliperim, equirectangular, euclidean, \
                       excessAbc_, excessCagnoli_, excessGirard_, excessLHuilier_, \
                       excessKarney, excessQuad, Degrees, flatLocal, flatPolar, formy, \
                       hartzell, haversine, heightOf, heightOrthometric, horizon, hubeny, \
@@ -74,7 +74,7 @@ class Tests(TestsBase):
         # same as flatLocal
         self.test('hubeny' + t, hubeny, flatLocal, nt=1)
 
-    def testFormy(self):
+    def testFormy(self):  # MCCABE 13
 
         t = angle2chord(Degrees(90))
         self.test('angle2chord', angle2chord(PI_2), t, prec=3)
@@ -215,6 +215,30 @@ class Tests(TestsBase):
         p = LatLon_(1, 2, height=3)
         self.test(heightOrthometric.__name__, heightOrthometric(p, 4), -1.0, nl=1)
         self.test(heightOrthometric.__name__, heightOrthometric(5, 4),  1.0)
+
+        a = 6378172.0
+        for b, x in ((6378102.0, '40075016.6858801'),
+                     (a * 0.9,   '38097844.6222377'),
+                     (a / 2,     '30897294.5'),
+                     (a / 4,     '273573'),
+                     (a / 8,     '26106')):
+            self.test('a, b, b/a', (a, b, b/a), '(6378172.0, ', known=startswith, nl=1)
+            m = Elliperim.Arc43
+            n = m.__name__
+            self.test(n, m(a, b), '(', known=startswith)
+            for m in (Elliperim.E2k, Elliperim.e2k, Elliperim.AGM,
+                      Elliperim.HG,  Elliperim.GK,  Elliperim.R2):
+                p = m(a, b)
+                if p is not None:
+                    n = 'Elliperim.' + (m.__name__ + ' ')[:3]
+                    self.test(n, p, x, known=startswith, prec=9)
+            n = elliperim.__name__ + '    '
+            x = x.split('.')[0]  # str(int(float(x)))
+            self.test(n, elliperim(a, b), x, known=startswith)
+            self.test(n, elliperim(a, a), 40075236.597, prec=3)
+            self.test(n, elliperim(a, 0), a * 4, prec=1)
+            self.test(n, elliperim(0, b), b * 4, prec=1)
+            self.test(n, elliperim(0, 0), '0.0')
 
     def testIntersections2(self, datum):
         # centers at 2 opposite corners of a "square" and

@@ -243,6 +243,16 @@
     <code>PYGEODESY_GEODSOLVE</code> or with property <a 
     href="pygeodesy.ellipsoids.Ellipsoid-class.html#geodsolve" 
     class="link">Ellipsoid.geodsolve</a>.</p>
+    <p>Triaxial geodesic classes <a 
+    href="pygeodesy.geod3solve.Geodesic3Solve-class.html" 
+    class="link">Geodesic3Solve</a> and <a 
+    href="pygeodesy.geod3solve.GeodesicLine3Solve-class.html" 
+    class="link">GeodesicLine3Solve</a> in module <a 
+    href="pygeodesy.geod3solve-module.html" class="link">geod3solve</a> 
+    need <i>Karney</i>'s C++ utility <a 
+    href="https://GeographicLib.SourceForge.io/C++/doc/Geod3Solve.1.html" 
+    target="_top">Geod3Solve</a> to be executable and set with env variable
+    <code>PYGEODESY_GEOD3SOLVE</code>.</p>
     <p>Class <a href="pygeodesy.geodesici.Intersectool-class.html" 
     class="link">Intersectool</a> in module <a 
     href="pygeodesy.geodesici-module.html" class="link">geodesici</a> needs
@@ -313,7 +323,7 @@
     href="https://GeographicLib.SourceForge.io/C++/doc/utilities.html" 
     target="_top">IntersectTool</a> 2.5 and <a 
     href="https://GeographicLib.SourceForge.io/C++/doc/utilities.html" 
-    target="_top">RhumbSolve</a> 2.5), all in 64-bit on macOS 26.1 
+    target="_top">RhumbSolve</a> 2.5), all in 64-bit on macOS 26.2 
     Tahoe.</p>
     <p>All tests ran with and without <code>lazy import</code> for Python 3
     and with command line option <code>-W default</code> and env variable 
@@ -394,7 +404,7 @@
     href="https://PyPI.org/project/pycodestyle" 
     target="_top">PyCodeStyle</a> (formerly Pep8) and <a 
     href="https://PyPI.org/project/mccabe" target="_top">McCabe</a> using 
-    Python 2.7.18, both in 64-bit on macOS 26.1 Tahoe.</p>
+    Python 2.7.18, both in 64-bit on macOS 26.2 Tahoe.</p>
     <p>For a summary of all <i>Karney</i>-based functionality in 
     <code>pygeodesy</code>, see module <a 
     href="https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html"
@@ -593,7 +603,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        25.12.12
+        25.12.31
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -5134,7 +5144,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.triaxials.bases.TriaxialError-class.html" class="summary-name">TriaxialError</a><br />
-      Raised for any cartesian or conformal triaxial issues.
+      Raised for any triaxial issue.
     </td>
   </tr>
 <tr>
@@ -7888,11 +7898,8 @@
           <td><span class="summary-sig"><a href="pygeodesy-module.html#elliperim" class="summary-sig-name">elliperim</a>(<span class="summary-sig-arg">a</span>,
         <span class="summary-sig-arg">b</span>)</span><br />
       Compute the perimeter of an ellipse with semi-axes <code>a</code> and
-      <code>b</code> using <a 
-      href="https://www.JohnDCook.com/perimeter_ellipse.html" 
-      target="_top">SciPy's ellipe</a> function or the <a 
-      href="https://PaulBourke.net/geometry/ellipsecirc" 
-      target="_top">AGM</a> (Arithmetic Geometric Mean) method.</td>
+      <code>b</code> using the <code>Elliperim.e2k</code> or 
+      <code>Elliperim.AGM</code> method.</td>
           <td align="right" valign="top">
             
             
@@ -9767,7 +9774,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fdc7864aed0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fbd081b2d50&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -13579,8 +13586,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#sqrt_a" class="summary-sig-name">sqrt_a</a>(<span class="summary-sig-arg">h</span>,
         <span class="summary-sig-arg">b</span>)</span><br />
-      Compute <code><i>a</i></code> side of a right-angled triangle from 
-      <code>sqrt(<b>h</b>**2 - <b>b</b>**2)</code>.</td>
+      Compute the <code><i>a</i></code> side of a right-angled triangle 
+      from <code>sqrt(<b>h</b>**2 - <b>b</b>**2)</code>.</td>
           <td align="right" valign="top">
             
             
@@ -15015,7 +15022,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'25.12.12'">'25.12.12'</code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'25.12.31'">'25.12.31'</code><br />
       Normalized <code>pygeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -15137,6 +15144,13 @@ m=Transforms.WGS84),
         <a name="EPS_2"></a><span class="summary-name">EPS_2</span> = <code title="1.1102230246251565e-16">1.1102230246251565e-16</code><br />
       <i class="math">EPS / 2</i> &#8776; 1.110223024625e-16 
       (<code>float</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="Elliperim"></a><span class="summary-name">Elliperim</span> = <code title="Elliperim()">Elliperim()</code>
     </td>
   </tr>
 <tr>
@@ -19747,11 +19761,8 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
   </tr></table>
   
   <p>Compute the perimeter of an ellipse with semi-axes <code>a</code> and 
-  <code>b</code> using <a 
-  href="https://www.JohnDCook.com/perimeter_ellipse.html" 
-  target="_top">SciPy's ellipe</a> function or the <a 
-  href="https://PaulBourke.net/geometry/ellipsecirc" target="_top">AGM</a> 
-  (Arithmetic Geometric Mean) method.</p>
+  <code>b</code> using the <code>Elliperim.e2k</code> or 
+  <code>Elliperim.AGM</code> method.</p>
   <dl class="fields">
     <dt>Returns:</dt>
         <dd>The perimeter (<code>scalar</code>, same units as <code>a</code> 
@@ -23485,7 +23496,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fdc7864aed0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fbd081b2d50&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -30828,7 +30839,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
     </td>
   </tr></table>
   
-  <p>Compute <code><i>a</i></code> side of a right-angled triangle from 
+  <p>Compute the <code><i>a</i></code> side of a right-angled triangle from
   <code>sqrt(<b>h</b>**2 - <b>b</b>**2)</code>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
@@ -34189,7 +34200,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Fri Dec 12 18:16:00 2025
+    Generated by Epydoc 3.0.1 on Mon Dec 29 15:57:12 2025
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

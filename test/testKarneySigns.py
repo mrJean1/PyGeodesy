@@ -5,12 +5,12 @@
 # <https://GitHub.com/geographiclib/geographiclib-python/tree/main/geographiclib/>}.
 
 __all__ = ('Tests',)
-__version__ = '25.10.05'
+__version__ = '25.12.23'
 
 from bases import TestsBase
 
 from pygeodesy import EPS, INF, NAN, signBit  # atan2d, sincos2d
-from pygeodesy.geodesicx import GeodesicExact as Geodesic
+from pygeodesy.geodesicx import GeodesicExact as Geodesic, gxarea
 from pygeodesy.karney import _around, _atan2d, _diff182, \
                              _norm180, _sincos2d, _sum2
 
@@ -254,6 +254,9 @@ class Tests(TestsBase):
                (+0.0, +0.0, +0.0)):
             s, _ = _sum2(a, b)
             self.test_eqv(n, s, x)
+
+        s = gxarea._Accumulator().Add(1, 1e20, 2, 100, 5000, -1e20)
+        self.test('Accu', s, 5103.0, nl=1)
 
 
 if __name__ == '__main__':

@@ -4,7 +4,7 @@
 # Test L{karney} module and wrappers.
 
 __all__ = ('Tests',)
-__version__ = '25.04.14'
+__version__ = '25.12.20'
 
 from bases import endswith, GeodSolve, geographiclib, startswith, TestsBase
 
@@ -212,7 +212,7 @@ class Tests(TestsBase):
         self.test('_sum3.s', s, txt, known=True, fmt='%.3e', nl=1)
         self.test('_sum3.t', t, 0.0, known=True, fmt='%.3e')
         t = fsum_(x, *xs)
-        self.test('fsum_',   t, txt, known=True, fmt='%.3e')  # XXX wrong to
+        self.test('fsum_',   t, txt, known=True, fmt='%.3e')  # XXX wrong too!
 
 
 if __name__ == '__main__':

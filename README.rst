@@ -76,6 +76,9 @@ Modules ``ellipsoidalGeodSolve`` and ``geodsolve`` and ``azimuthal`` classes ``E
 and ``GnomonicGeodSolve`` depend on *Karney*\'s C++ utility GeodSolve_ to be executable and set with
 env variable ``PYGEODESY_GEODSOLVE`` or with property ``Ellipsoid.geodsolve``.
 
+Triaxial geodesic classes ``Geodesic3Solve`` and ``GeodesicLine3Solve`` in module ``geod3solve`` need
+*Karney*\'s C++ utility Geod3Solve_ to be executable and set with env variable ``PYGEODESY_GEOD3SOLVE``.
+
 Class ``Intersectool`` in module ``geodesici`` needs *Karney*\'s C++ utility IntersectTool_ to be
 executable and set with env variable ``PYGEODESY_INTERSECTTOOL``.
 
@@ -100,7 +103,7 @@ numpy_ 2.3.3, scipy_ 1.16.2, GeoConvert_ 2.5 and GeodSolve_ 2.5), Python 3.12.7 
 numpy_ 2.1.0, scipy_ 1.14.1, GeodSolve_ 2.5, IntersectTool_ 2.5 and RhumbSolve_ 2.5), Python 3.11.5 (with
 geographiclib_ 2.0, numpy_ 1.24.2 and scipy_ 1.10.1) and with Python 2.7.18 (with geographiclib_ 1.50,
 numpy_ 1.16.6, scipy_ 1.2.2, GeoConvert_ 2.5, GeodSolve_ 2.5, IntersectTool_ 2.5 and RhumbSolve_ 2.5),
-all on macOS 26.1 Tahoe in 64-bit.
+all on macOS 26.2 Tahoe in 64-bit.
 
 All tests ran with and without ``lazy import`` for Python 3 and with command line option ``-W default``
 and env variable ``PYGEODESY_WARNINGS=on`` for all Python versions.  The results of those tests are
@@ -136,11 +139,11 @@ Notes
 =====
 
 All Python source code has been statically checked_ with Ruff_ using Python 3.13.9 and with PyChecker_, PyFlakes_,
-PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 2.7.18, both in 64-bit on macOS 26.1 Tahoe only.
+PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 2.7.18, both in 64-bit on macOS 26.2 Tahoe only.
 
 For a summary of all *Karney*-based functionality in ``pygeodesy``, see module karney_.
 
-*Last updated: Dec 12, 2025.*
+*Last updated: Dec 31, 2025.*
 
 License
 =======
@@ -199,6 +202,7 @@ DEALINGS IN THE SOFTWARE.
 .. _Garefs (GARS): https://WikiPedia.org/wiki/Global_Area_Reference_System
 .. _GeoConvert: https://GeographicLib.SourceForge.io/C++/doc/utilities.html
 .. _GeodSolve: https://GeographicLib.SourceForge.io/C++/doc/utilities.html
+.. _Geod3Solve: https://GeographicLib.SourceForge.io/C++/doc/Geod3Solve.1.html
 .. _geographiclib: https://PyPI.org/project/geographiclib
 .. _GeographicLib.: https://GeographicLib.SourceForge.io/C++/doc/index.html
 .. _Geohashes: https://www.Movable-Type.co.UK/scripts/geohash.html

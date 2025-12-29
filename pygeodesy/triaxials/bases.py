@@ -58,7 +58,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d
 # from math import fabs, sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.triaxials_bases
-__version__ = '25.12.12'
+__version__ = '25.12.28'
 
 _bet_         = 'bet'  # PYCHOK shared
 _llk_         = 'llk'  # PYCHOK shared
@@ -213,13 +213,6 @@ class _UnOrderedTriaxialBase(_NamedEnumItem):
         return self.a2, self.b2, self.c2
 
     @Property_RO
-    def _ab_elliperim(self):
-        '''(INTERNAL) Get C{ab} ellipse' perimeter.
-        '''
-        a, b, _ = self._abc3
-        return elliperim(a, b)
-
-    @Property_RO
     def _a2c2(self):
         '''(INTERNAL) Get C{a**2 - c**2} == E_sub_x**2.
         '''
@@ -278,13 +271,6 @@ class _UnOrderedTriaxialBase(_NamedEnumItem):
         _, b, c = self._abc3
         d = b - c
         return (d * (b + c)) if d else _0_0
-
-    @Property_RO
-    def _bc_elliperim(self):
-        '''(INTERNAL) Get C{bc} ellipse' perimeter.
-        '''
-        _, b, c = self._abc3
-        return elliperim(b, c)
 
     @Property_RO
     def c(self):
@@ -512,6 +498,27 @@ class _UnOrderedTriaxialBase(_NamedEnumItem):
         '''(INTERNAL) Get the un-/order indices.
         '''
         return self._kji if reverse else self._ijk
+
+    @Property_RO
+    def perimeter4ab(self):
+        '''Get the C{ab} ellipse' perimeter (C{scalar}).
+        '''
+        a, b, _ = self._abc3
+        return Float(perimeter4ab=elliperim(a, b))
+
+    @Property_RO
+    def perimeter4ac(self):
+        '''Get the C{ac} ellipse' perimeter (C{scalar}).
+        '''
+        a, _, c = self._abc3
+        return Float(perimeter4ac=elliperim(a, c))
+
+    @Property_RO
+    def perimeter4bc(self):
+        '''Get the C{bc} ellipse' perimeter (C{scalar}).
+        '''
+        _, b, c = self._abc3
+        return Float(perimeter4bc=elliperim(b, c))
 
     def _radialTo3(self, sbeta, cbeta, somega, comega):
         '''(INTERNAL) I{Unordered} helper for C{.height4}.
@@ -827,7 +834,8 @@ class _Triaxial3Base(_OrderedTriaxialBase):
     @property_doc_(" longitude of the I{earth}'s major semi-axis C{a}, (L{Ang}), Karney's C{Triaxial_Earth_lon0}.")
     def Lon0(self):
         if self._Lon0 is None:
-            self.Lon0 = -(1493 / 100) if self.name.startswith('WGS84_3') else 0
+            WGS84_3 = self.name.startswith('WGS84_3')
+            self.Lon0 = -(1493 / 100) if WGS84_3 else 0
         return self._Lon0
 
     @Lon0.setter  # PYCHOK setter!
@@ -863,7 +871,7 @@ class _Triaxial3Base(_OrderedTriaxialBase):
 
 
 class TriaxialError(_ValueError):
-    '''Raised for any cartesian or conformal triaxial issues.
+    '''Raised for any triaxial issue.
     '''
     pass  # ...
 
