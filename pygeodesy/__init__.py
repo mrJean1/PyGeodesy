@@ -132,21 +132,23 @@ Tests
 The tests ran with Python 3.14.2 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.1),
 Python 3.13.9 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.1),
 U{numpy<https://PyPI.org/project/numpy>} 2.3.3, U{scipy<https://PyPI.org/project/scipy>} 1.16.2,
-U{GeoConvert<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.5 and
-U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.5),
+U{GeoConvert<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.7 and
+U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.7),
 Python 3.12.7 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0,
 U{numpy<https://PyPI.org/project/numpy>} 2.1.0, U{scipy<https://PyPI.org/project/scipy>} 1.14.1,
-U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.5,
-U{IntersectTool<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.5 and
-U{RhumbSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.5),
+U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.7,
+U{GeodS3olve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.7,
+U{IntersectTool<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.7 and
+U{RhumbSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.7),
 Python 3.11.5 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0,
 U{numpy<https://PyPI.org/project/numpy>} 1.24.2 and U{scipy<https://PyPI.org/project/scipy>} 1.10.1),
 and with Python 2.7.18 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 1.50,
 U{numpy<https://PyPI.org/project/numpy>} 1.16.6, U{scipy<https://PyPI.org/project/scipy>} 1.2.2,
-U{GeoConvert<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.5,
-U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.5,
-U{IntersectTool<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.5 and
-U{RhumbSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.5), all in 64-bit on
+U{GeoConvert<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.7,
+U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.7,
+U{Geod3Solve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.7,
+U{IntersectTool<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.7 and
+U{RhumbSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.7), all in 64-bit on
 macOS 26.2 Tahoe.
 
 All tests ran with and without C{lazy import} for Python 3 and with command line option C{-W default} and
@@ -157,11 +159,11 @@ Test coverage has been measured with U{coverage<https://PyPI.org/project/coverag
 3.14.2, 3.13.9 and 3.12.7.  The complete coverage report in HTML and a PDF summary are included in the
 distribution files.
 
-Python 3.14.2, 3.13.9, 3.12.7 and 3.11.5 run on Apple M4 Si (C{arm64}), I{natively}.  Python 2.7.18 runs
+Python 3.14.2, 3.13.9, 3.12.7 and 3.11.5 run on Apple Si M4 (C{arm64}), I{natively}.  Python 2.7.18 runs
 on Intel (C{x86_64}) or Intel I{emulation} ("C{arm64_x86_64}", see function L{machine<pygeodesy.machine>}).
 
-The tests also ran with Python 3.13.9 (and U{geographiclib<https://PyPI.org/project/geographiclib>} 2.1) on
-U{Debian 12<https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>} in 64-bit only, with Python 3.12.8 (and
+The tests also ran with Python 3.14.2 (and U{geographiclib<https://PyPI.org/project/geographiclib>} 2.1) on
+U{Debian 12<https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>} in 64-bit only, with Python 3.13.9 (and
 U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0) on U{Windows 2019Server
 <https://CI.AppVeyor.com/project/mrJean1/pygeodesy>} in 64-bit only and with Python 2.7.18 (and U{geographiclib
 <https://PyPI.org/project/geographiclib>} 1.52) on U{Windows 10<https://CI.AppVeyor.com/project/mrJean1/pygeodesy>}

@@ -1,9 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-u'''I{Veness}' Terrestrial Reference Frames (TRF).
-
-Classes L{RefFrame}, registry L{RefFrames} and L{TRFError}.
+u'''I{Veness}' Terrestrial Reference Frames (TRF), classes L{RefFrame}, registry L{RefFrames} and L{TRFError}.
 
 Transcoded from I{Chris Veness'} (C) 2006-2024 JavaScript originals U{latlon-ellipsoidal-referenceframe.js
 <https://GitHub.com/ChrisVeness/geodesy/blob/master/latlon-ellipsoidal-referenceframe.js>} and

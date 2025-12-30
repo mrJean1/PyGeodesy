@@ -3,13 +3,13 @@
 
 # The setuptools script to build, test and install a PyGeodesy distribution.
 
-# Tested with 64-bit Python 3.14, 3.13.0-6, 3.12.0-4, 3.11.0, 3.10.1-5, 3.9.6,
-# 3.8.10, 3.7.0, 3.6.4-5, 3.5.3, 2.7,13 and 2.6.9 on macOS 26.0.1 Tahoe, 10.15
-# Sequioa, 10.12 Sierra, 10.1 High Sierra, 10.15.5-7 Catalina, 11.0-2 (10.16)
-# Big Sur, 12.0-4 (10.16) Monterey, 13.0.1 Ventura and 14.005 Sonoma on Intel
-# (x86_64), Intel emulation ("arm64_x86_64") and/or Apple-Silicon M1 native
-# (arm64) and with Pythonista 3.1 and 3.2 on iOS 10.3, 11.0, 11.1 and 11.3-4
-# and on iPhone 15.5.
+# Tested with 64-bit Python 3.14.0-2, 3.13.0-6, 3.12.0-4, 3.11.0, 3.10.1-5,
+# 3.9.6, 3.8.10, 3.7.0, 3.6.4-5, 3.5.3, 2.7,13 and 2.6.9 on macOS 26.2-0
+# Tahoe, 10.15 Sequioa, 10.12 Sierra, 10.1 High Sierra, 10.15.5-7 Catalina,
+# 11.0-2 (10.16) Big Sur, 12.0-4 (10.16) Monterey, 13.0.1 Ventura and 14.005
+# Sonoma on Intel (x86_64), Intel emulation ("arm64_x86_64") and/or Apple M1,
+# M3 and M4 Silicon native (arm64) and with Pythonista 3.1 and 3.2 on iOS 10.3,
+# 11.0-1 and 11.3-4 and on iPhone 15.5.
 
 # python setup.py sdist --formats=gztar,bztar,zip  # ztar,tar
 # python setup.py bdist_wheel --universal  # XXX
@@ -27,7 +27,7 @@ from os import getenv
 from setuptools import setup
 
 __all__ = ()
-__version__ = '25.12.15'
+__version__ = '25.12.31'
 
 _PACKAGE = 'pygeodesy'  # 'PyGeodesy'
 
@@ -150,6 +150,7 @@ setup(name=_PACKAGE,
                    _c('Programming Language', 'Python', '3.12'),
                    _c('Programming Language', 'Python', '3.13'),
                    _c('Programming Language', 'Python', '3.14'),
+                   _c('Programming Language', 'Python', '3.15'),
                    _c('Topic', 'Software Development'),
                    _c('Topic', 'Scientific/Engineering', 'GIS'),
       ],  # PYCHOK indent
