@@ -2500,6 +2500,7 @@ pygeodesy.geod3solve._Triaxial3_WGS84	pygeodesy.geod3solve-module.html#_Triaxial
 pygeodesy.geod3solve._toAzi	pygeodesy.geod3solve-module.html#_toAzi
 pygeodesy.geod3solve.__all__	pygeodesy.geod3solve-module.html#__all__
 pygeodesy.geod3solve.isAng	pygeodesy.angles-module.html#isAng
+pygeodesy.geod3solve._over	pygeodesy.constants-module.html#_over
 pygeodesy.geod3solve._toDegrees	pygeodesy.geod3solve-module.html#_toDegrees
 pygeodesy.geod3solve.Deg	pygeodesy.angles-module.html#Deg
 pygeodesy.geod3solve._xinstanceof	pygeodesy.basics-module.html#_xinstanceof

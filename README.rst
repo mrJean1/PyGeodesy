@@ -8,8 +8,8 @@ models using precision exact, elliptic, trigonometric, vector-based, iterative a
 methods for geodetic (lat-/longitude), geocentric (ECEF_ cartesian), local (LTP_) and certain
 `triaxial ellipsoidal`_ coordinates.
 
-Transcoded in part from `JavaScript originals`_ by *Chris Veness (C) 2005-2024* and from several
-`C++ classes`_ by *Charles F.F. Karney (C) 2008-2024* and published under the same `MIT License`_.
+Transcoded in part from `JavaScript originals`_ by *Chris Veness (C) 2005-2025* and from several
+`C++ classes`_ by *Charles F.F. Karney (C) 2008-2025* and published under the same `MIT License`_.
 
 There are four modules for ellipsoidal earth models, *ellipsoidalExact*, *-Karney*, *-Vincenty*
 and *-Nvector* and two for spherical ones, *sphericalTrigonometry* and *-Nvector*.  Each module
@@ -77,10 +77,12 @@ and ``GnomonicGeodSolve`` depend on *Karney*\'s C++ utility GeodSolve_ to be exe
 env variable ``PYGEODESY_GEODSOLVE`` or with property ``Ellipsoid.geodsolve``.
 
 Triaxial geodesic classes ``Geodesic3Solve`` and ``GeodesicLine3Solve`` in module ``geod3solve`` need
-*Karney*\'s C++ utility Geod3Solve_ to be executable and set with env variable ``PYGEODESY_GEOD3SOLVE``.
+*Karney*\'s C++ utility Geod3Solve_ to be executable and set with env variable ``PYGEODESY_GEOD3SOLVE``
+or with property ``Geodesic3Solve.Geod3Solve``.
 
 Class ``Intersectool`` in module ``geodesici`` needs *Karney*\'s C++ utility IntersectTool_ to be
-executable and set with env variable ``PYGEODESY_INTERSECTTOOL``.
+executable and set with env variable ``PYGEODESY_INTERSECTTOOL`` or with property
+``Intersectool.IntersectTool``.
 
 To compare ``MGRS`` results from modules ``mgrs`` and ``testMgrs`` with *Karney*\'s C++ utility
 GeoConvert_, the latter must be executable and set with env variable ``PYGEODESY_GEOCONVERT``.
@@ -103,7 +105,7 @@ numpy_ 2.3.3, scipy_ 1.16.2, GeoConvert_ 2.7, GeodSolve_ 2.7 and Geod3Solve_ 2.7
 geographiclib_ 2.0, numpy_ 2.1.0, scipy_ 1.14.1, GeodSolve_ 2.7, Geod3Solve_ 2.7, IntersectTool_ 2.7
 and RhumbSolve_ 2.7), Python 3.11.5 (with geographiclib_ 2.0, numpy_ 1.24.2 and scipy_ 1.10.1) and with
 Python 2.7.18 (with geographiclib_ 1.50, numpy_ 1.16.6, scipy_ 1.2.2, GeoConvert_ 2.7, GeodSolve_ 2.7,
-Geod3Solve_ 2.7, IntersectTool_ 2.5 and RhumbSolve_ 2.7), all on macOS 26.2 Tahoe in 64-bit.
+Geod3Solve_ 2.7, IntersectTool_ 2.7 and RhumbSolve_ 2.7), all on macOS 26.2 Tahoe in 64-bit.
 
 All tests ran with and without ``lazy import`` for Python 3 and with command line option ``-W default``
 and env variable ``PYGEODESY_WARNINGS=on`` for all Python versions.  The results of those tests are

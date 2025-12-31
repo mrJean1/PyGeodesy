@@ -8,8 +8,8 @@ geodetic (lat-/longitude), geocentric (U{ECEF<https://WikiPedia.org/wiki/ECEF>} 
 <https://GeographicLib.SourceForge.io/1.44/triaxial.html>} coordinates.
 
 Transcoded in part from U{JavaScript originals<https://GitHub.com/ChrisVeness/geodesy>} by I{Chris Veness (C)
-2005-2024} and from several U{C++ classes<https://GeographicLib.SourceForge.io/C++/doc/annotated.html>} by I{Charles
-F. F. Karney (C) 2008-2024} and published under the same U{MIT License<https://OpenSource.org/licenses/MIT>}**.
+2005-2025} and from several U{C++ classes<https://GeographicLib.SourceForge.io/C++/doc/annotated.html>} by I{Charles
+F. F. Karney (C) 2008-2025} and published under the same U{MIT License<https://OpenSource.org/licenses/MIT>}**.
 
 There are four modules for ellipsoidal earth models, C{ellipsoidalExact}, C{-Karney}, C{-Vincenty} and C{-Nvector}
 and two for spherical ones, C{sphericalTrigonometry} and C{-Nvector}.  Each module provides a geodetic B{C{LatLon}}
@@ -103,11 +103,13 @@ env variable C{PYGEODESY_GEODSOLVE} or with property L{Ellipsoid.geodsolve}.
 
 Triaxial geodesic classes L{Geodesic3Solve} and L{GeodesicLine3Solve} in module L{geod3solve} need
 I{Karney}'s C++ utility U{Geod3Solve<https://GeographicLib.SourceForge.io/C++/doc/Geod3Solve.1.html>}
-to be executable and set with env variable C{PYGEODESY_GEOD3SOLVE}.
+to be executable and set with env variable C{PYGEODESY_GEOD3SOLVE} or with property
+L{Geodesic3Solve.Geod3Solve<geod3solve._Geodesic3SolveBase.Geod3Solve>}.
 
 Class L{Intersectool} in module L{geodesici} needs I{Karney}'s C++ utility U{IntersectTool
 <https://GeographicLib.SourceForge.io/C++/doc/IntersectTool.1.html>} to be executable and set with
-env variable C{PYGEODESY_INTERSECTTOOL}.
+env variable C{PYGEODESY_INTERSECTTOOL} or with property L{Intersectool.IntersectTool
+<geodesici.Intersectool.IntersectTool>}.
 
 To compare C{MGRS} results from modules L{mgrs} and C{testMgrs} with I{Karney}'s C++ utility
 U{GeoConvert<https://GeographicLib.SourceForge.io/C++/doc/GeoConvert.1.html>}, the latter must

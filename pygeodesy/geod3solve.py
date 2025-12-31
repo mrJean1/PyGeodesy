@@ -11,7 +11,7 @@ of the C{Geod3Solve} executable.
 
 from pygeodesy.angles import Ang, Deg, isAng,  hypot
 from pygeodesy.basics import _xinstanceof  # typename
-from pygeodesy.constants import _0_0, _0_5, _360_0
+from pygeodesy.constants import _0_0, _0_5, _360_0, _over
 from pygeodesy.errors import GeodesicError, _xkwds_get
 # from pygeodesy.fmath import hypot  # from .angles
 # from pygeodesy.geodesicx import GeodesicAreaExact  # _MODS
@@ -25,7 +25,7 @@ from pygeodesy.units import Degrees, Meter
 # from pygeodesy.utily import sincos2d  # from .karney
 
 __all__ = _ALL_LAZY.geod3solve
-__version__ = '25.12.12'
+__version__ = '25.12.31'
 
 _Triaxial3_WGS84 = Triaxial3s.WGS84_3r  # a=6378172, b=6378102, c=6356752
 
@@ -39,8 +39,8 @@ class Geodesic3Error(GeodesicError):
 class Geod3Solve8Tuple(_GTuple):
     '''8-Tuple C{(bet1, omg1, alp1, bet2, omg2, alp2, s12, a12)} with C{ellipsoidal}
        latitudes C{bet1} and C{bet2}, C{ellipsoidal} longitudes C{omg1} and C{omg2},
-       forward azimuths C{alp1} and C{alp2} in bearings from North, distanc C{s12} in
-       C{meter}, conventionally and I{approximate} arc length {a12} in degrees, see
+       forward azimuths C{alp1} and C{alp2} in bearings from North, distance C{s12} in
+       C{meter}, conventionally and I{approximate} arc length C{a12} in degrees, see
        U{Geod3Solve<https://GeographicLib.SourceForge.io/C++/doc/Geod3Solve.1.html>}.
     '''
     # from Geod3Solve --help option -f ... bet1 omg1 alp1 bet2 omg2 alp2 s12
@@ -161,11 +161,11 @@ class Geodesic3Solve(_Geodesic3SolveBase):
         '''
         a = r.s12 or _0_0
         if a:
+            t = self.triaxial3
             z = _toAzi(r.alp1) + _toAzi(r.alp2)
             s, c = sincos2d(z * _0_5)
-            t  = self.triaxial3
-            a *= hypot(s / t.perimeter4ab,  # azimuth!
-                       c / t.perimeter4bc) * _360_0
+            a *= hypot(_over(s, t.perimeter4ab),  # azimuth!
+                       _over(c, t.perimeter4bc)) * _360_0
         r[_a12_] = a
         return r
 
