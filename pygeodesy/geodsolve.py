@@ -5,8 +5,9 @@ u'''Wrapper to invoke I{Karney}'s U{GeodSolve
 <https://GeographicLib.SourceForge.io/C++/doc/GeodSolve.1.html>} utility
 as an (exact) geodesic, but intended I{mainly for testing purposes}.
 
-Set env variable C{PYGEODESY_GEODSOLVE} to the (fully qualified) path
-of the C{GeodSolve} executable.
+Set env variable C{PYGEODESY_GEODSOLVE} to the (fully qualified) path of
+the C{GeodSolve} executable or use property L{GeodesicSolve.GeodSolve
+<geodsolve._GeodesicSolveBase.GeodSolve>}.
 '''
 
 from pygeodesy.basics import _xinstanceof  # typename
@@ -28,7 +29,7 @@ from pygeodesy.solveBase import _SolveGDictBase, _SolveGDictLineBase
 from pygeodesy.utily import _unrollon, _Wrap, wrap360
 
 __all__ = _ALL_LAZY.geodsolve
-__version__ = '25.12.06'
+__version__ = '25.12.31'
 
 
 class GeodSolve12Tuple(_GTuple):

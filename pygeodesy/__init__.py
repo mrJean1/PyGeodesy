@@ -218,7 +218,7 @@ The following environment variables are observed by C{pygeodesy}:
  - C{PYGEODESY_FSUM_RESIDUAL} - see module L{fsums<pygeodesy.fsums>} and method L{RESIDUAL<pygeodesy.Fsum.RESIDUAL>}.
  - C{PYGEODESY_GEOCONVERT} - see module L{mgrs<pygeodesy.mgrs>}.
  - C{PYGEODESY_GEODSOLVE} - see module L{geodsolve<pygeodesy.geodsolve>}.
- - C{PYGEODESY_GEOD3SOLVE} - see module L{geodsolve<pygeodesy.geod3solve>}.
+ - C{PYGEODESY_GEOD3SOLVE} - see module L{geod3solve<pygeodesy.geod3solve>}.
  - C{PYGEODESY_INTERSECTTOOL} - see module L{geodesici<pygeodesy.geodesici>}.
  - C{PYGEODESY_LAZY_IMPORT} - see module L{lazily<pygeodesy.lazily>} and variable L{isLazy<pygeodesy.isLazy>}.
  - C{PYGEODESY_NOTIMPLEMENTED} - C{__special__} methods return C{NotImplemented} if set to "std".

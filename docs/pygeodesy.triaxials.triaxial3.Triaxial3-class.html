@@ -472,7 +472,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.triaxials.triaxial3.Triaxial3-class.html#random2" class="summary-sig-name">random2</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">llk</span>=<span class="summary-sig-default">'ELLIPSOIDAL'</span>,
         <span class="summary-sig-arg">both</span>=<span class="summary-sig-default">False</span>,
-        <span class="summary-sig-arg">_rand</span>=<span class="summary-sig-default">&lt;built-in method random of Random object at 0x7fb68a097a20&gt;</span>)</span><br />
+        <span class="summary-sig-arg">_rand</span>=<span class="summary-sig-default">&lt;built-in method random of Random object at 0x7fd09c845420&gt;</span>)</span><br />
       Return a random cartesian with/out direction on this triaxial's 
       surface.</td>
           <td align="right" valign="top">
@@ -895,7 +895,8 @@
         <li><strong class="pname"><code>lon</code></strong> - Longitude (<code>Ang</code> or <b><code>unit</code></b>).</li>
         <li><strong class="pname"><code>height</code></strong> - Height above or below this triaxial's surface 
           (<code>meter</code>, same units as this triaxial's semi-axes).</li>
-        <li><strong class="pname"><code>llk</code></strong> - The kind (an LLK).</li>
+        <li><strong class="pname"><code>llk</code></strong> - The kind (an <a href="pygeodesy.triaxials.bases.LLK-class.html" 
+          class="link">LLK</a>).</li>
         <li><strong class="pname"><code>unit_name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>) and 
           scalar <code><b>unit</b>=</code><a 
           href="pygeodesy.units.Degrees-class.html" 
@@ -945,7 +946,8 @@
         <li><strong class="pname"><code>lam</code></strong> - Longitude (<code>Ang</code> or <b><code>unit</code></b>).</li>
         <li><strong class="pname"><code>height</code></strong> - Height above or below this triaxial's surface 
           (<code>meter</code>, same units as this triaxial's semi-axes).</li>
-        <li><strong class="pname"><code>llk</code></strong> - The kind (an LLK).</li>
+        <li><strong class="pname"><code>llk</code></strong> - The kind (an <a href="pygeodesy.triaxials.bases.LLK-class.html" 
+          class="link">LLK</a>).</li>
         <li><strong class="pname"><code>unit_name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>) and 
           scalar <code><b>unit</b>=</code><a 
           href="pygeodesy.units.Radians-class.html" 
@@ -1002,7 +1004,8 @@
           <b><code>unit</code></b> or <code>None</code>).</li>
         <li><strong class="pname"><code>height</code></strong> - Height above or below this triaxial's surface 
           (<code>meter</code>, same units as this triaxial's semi-axes).</li>
-        <li><strong class="pname"><code>llk</code></strong> - The kind (an LLK).</li>
+        <li><strong class="pname"><code>llk</code></strong> - The kind (an <a href="pygeodesy.triaxials.bases.LLK-class.html" 
+          class="link">LLK</a>).</li>
         <li><strong class="pname"><code>unit_name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>) and 
           scalar <code><b>unit</b>=</code><a 
           href="pygeodesy.units.Radians-class.html" 
@@ -1482,7 +1485,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">random2</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">llk</span>=<span class="sig-default">'ELLIPSOIDAL'</span>,
         <span class="sig-arg">both</span>=<span class="sig-default">False</span>,
-        <span class="sig-arg">_rand</span>=<span class="sig-default">&lt;built-in method random of Random object at 0x7fb68a097a20&gt;</span>)</span>
+        <span class="sig-arg">_rand</span>=<span class="sig-default">&lt;built-in method random of Random object at 0x7fd09c845420&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1494,7 +1497,8 @@
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>llk</code></strong> - The kind (an LLK).</li>
+        <li><strong class="pname"><code>llk</code></strong> - The kind (an <a href="pygeodesy.triaxials.bases.LLK-class.html" 
+          class="link">LLK</a>).</li>
         <li><strong class="pname"><code>both</code></strong> - If <code>True</code>, generate a random direction 
           (<code>bool</code>).</li>
     </ul></dd>
@@ -1534,8 +1538,12 @@
     <dd><ul class="nomargin-top">
         <li><strong class="pname"><code>lat</code></strong> - Latitude (<code>Ang</code> or <b><code>unit</code></b>).</li>
         <li><strong class="pname"><code>lon</code></strong> - Longitude (<code>Ang</code> or <b><code>unit</code></b>).</li>
-        <li><strong class="pname"><code>llk1</code></strong> - The given kind (an LLK).</li>
-        <li><strong class="pname"><code>llk2</code></strong> - The result kind (an LLK).</li>
+        <li><strong class="pname"><code>llk1</code></strong> - The given kind (an <a 
+          href="pygeodesy.triaxials.bases.LLK-class.html" 
+          class="link">LLK</a>).</li>
+        <li><strong class="pname"><code>llk2</code></strong> - The result kind (an <a 
+          href="pygeodesy.triaxials.bases.LLK-class.html" 
+          class="link">LLK</a>).</li>
         <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
@@ -1652,7 +1660,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Dec 31 13:09:19 2025
+    Generated by Epydoc 3.0.1 on Fri Jan  2 12:50:50 2026
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

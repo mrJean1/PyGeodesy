@@ -44,12 +44,14 @@ from pygeodesy.constants import EPS, EPS0, EPS02, EPS4, _EPS2e4, INT0, NAN, PI2,
 from pygeodesy.fmath import fmean_, hypot, norm2, sqrt0,  fabs, sqrt
 from pygeodesy.formy import elliperim,  _ValueError, _xkwds
 from pygeodesy.fsums import _Fsumf_, fsumf_, fsum1f_
+# from pygeodesy.internals import typename  # _MODS
 from pygeodesy.interns import _a_, _b_, _c_, _inside_, _not_, _NOTEQUAL_, _null_, \
                               _outside_, _scale_, _SPACE_, _spherical_, _x_, _y_, _z_
-from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
+from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS
 from pygeodesy.named import _NamedEnumItem, _NamedTuple, _Pass
 from pygeodesy.namedTuples import Vector4Tuple
 from pygeodesy.props import Property_RO, property_doc_, property_RO, property_ROver
+# from pygeodesy.streprs import Fmt  # _MODS
 from pygeodesy.units import Degrees, Easting, Float, Height, Height_, Meter2, Meter3, \
                             Northing, Radius_, Scalar
 from pygeodesy.utily import asin1
@@ -58,7 +60,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d
 # from math import fabs, sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.triaxials_bases
-__version__ = '25.12.28'
+__version__ = '25.12.31'
 
 _bet_         = 'bet'  # PYCHOK shared
 _llk_         = 'llk'  # PYCHOK shared
@@ -112,21 +114,42 @@ class LLK(object):
     _NOIDAL   = (None, ELLIPSOIDAL)
 #   _XCLUDE   = (CONFORMAL, GEOGRAPHIC, PLANETOCENTRIC, PLANETODETIC)
 
+    def __getitem__(self, name):
+        llk = self.get(name, None)
+        if llk is None:
+            t = _MODS.internals.typename(self)
+            t = _MODS.streprs.Fmt.SQUARE(t, name)
+            raise _ValueError(t, name)
+        return llk
+
+    def get(self, name, dflt=None):
+        '''Get an C{LLK} by C{name}.
+        '''
+        llk = getattr(self, name, None)
+        return llk if isinstance(llk, _LLK) else dflt
+
     def items(self):
+        '''Yield all C{LLK (name, value)} pairs.
+        '''
         for n, llk in LLK.__class__.__dict__.items():
             if isinstance(llk, _LLK):
                 yield n, llk
 
     def keys(self):
+        '''Yield all C{LLK} names.
+        '''
         for n, _ in self.items():
             yield n
 
     def values(self):
+        '''Yield all C{LLK} values.
+        '''
         for _, llk in self.items():
             yield llk
 
-LLK = LLK()  # PYCHOK singleton
-# del _LLK
+if not _FOR_DOCS:  # PYCHOK force epydoc
+    LLK = LLK()  # singleton
+del _FOR_DOCS
 
 
 def _HeightINT0(h):

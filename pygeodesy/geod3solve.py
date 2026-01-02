@@ -5,8 +5,9 @@ u'''Wrapper to invoke I{Karney}'s U{Geod3Solve
 <https://GeographicLib.SourceForge.io/C++/doc/Geod3Solve.1.html>} utility
 as a C{triaxial} geodesic, but intended I{mainly for testing purposes}.
 
-Set env variable C{PYGEODESY_GEOD3SOLVE} to the (fully qualified) path
-of the C{Geod3Solve} executable.
+Set env variable C{PYGEODESY_GEOD3SOLVE} to the (fully qualified) path of
+the C{Geod3Solve} executable or use property L{Geodesic3Solve.Geod3Solve
+<geod3solve._Geodesic3SolveBase.Geod3Solve>}.
 '''
 
 from pygeodesy.angles import Ang, Deg, isAng,  hypot

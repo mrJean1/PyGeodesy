@@ -7,10 +7,11 @@ Class L{Intersector} is a pure Python version of I{Karney}'s C++ class U{Interse
 <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Intersect.html>}.
 
 Class L{Intersectool} is a wrapper to invoke I{Karney}'s U{IntersectTool
-<https://GeographicLib.SourceForge.io/C++/doc/IntersectTool.1.html>} utility, but intended I{for testing purposes only}.
+<https://GeographicLib.SourceForge.io/C++/doc/IntersectTool.1.html>} utility, mainly intended I{for testing purposes}.
 
-Set env variable C{PYGEODESY_INTERSECTTOOL} to the (fully qualified) path of the C{IntersectTool} executable.  For usage
-and some examples run C{"env PYGEODESY_INTERSECTTOOL=<IntersectTool-path> python3 -m pygeodesy.geodesici --help"}.
+Set env variable C{PYGEODESY_INTERSECTTOOL} to the (fully qualified) path of the C{IntersectTool} executable or use
+property L{Intersectool.IntersectTool}.  For usage and some examples run C{"env PYGEODESY_INTERSECTTOOL=<IntersectTool-path>
+python3 -m pygeodesy.geodesici --help"}.
 
 Both L{Intersectool} and L{Intersector} provide methods C{All}, C{Closest}, C{Next} and C{Segment} and produce
 L{XDict} instances with 4 or more items.  Adjacent methods C{All5}, C{Closest5}, C{Next5} and C{Segment} return
@@ -57,7 +58,7 @@ from pygeodesy.utily import atan2, sincos2,  fabs, radians
 # from math import ceil as _ceil, fabs, radians  # .fsums, .utily
 
 __all__ = _ALL_LAZY.geodesici
-__version__ = '25.06.02'
+__version__ = '25.12.31'
 
 _0t     =  0,  # int
 _1_1t   = -1, +1

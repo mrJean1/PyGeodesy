@@ -24,7 +24,7 @@ from pygeodesy.fmath import euclid, fdot_, fhorner, fprod, hypot, hypot2, sqrt0
 from pygeodesy.fsums import fsum, fsumf_,  Fmt, unstr
 # from pygeodesy.internals import typename  # from .named
 from pygeodesy.interns import _delta_, _distant_, _DOT_, _inside_, _SPACE_, _too_
-from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS
 from pygeodesy.named import callername, _name__, _name2__, _NamedTuple, \
                            _xnamed,  typename
 from pygeodesy.namedTuples import Bearing2Tuple, Distance4Tuple, LatLon2Tuple, \
@@ -46,7 +46,7 @@ from contextlib import contextmanager
 from math import atan, cos, degrees, fabs, radians, sin, sqrt  # pow
 
 __all__ = _ALL_LAZY.formy
-__version__ = '25.12.21'
+__version__ = '25.12.31'
 
 _RADIANS2 =  radians(_1_0)**2  # degree to radians-squared
 _ratio_   = 'ratio'
@@ -58,15 +58,16 @@ class Elliperim(object):
     '''
     _TOL53    =  sqrt(EPS_2)     # sqrt(pow(_0_5, _DIG53))
     _TOL53_53 = _TOL53 / _DIG53  # "flat" b/a tolerance, 1.9e-10
+    # assert _DIG53 == 53
 
     def AGM(self, a, b, maxit=_DIG53):
-        '''Compute the perimeter of an ellipse with semi-axes C{a} and C{b} using the U{AGM
+        '''Return the perimeter of an ellipse with semi-axes C{a} and C{b} using the U{AGM
            <https://PaulBourke.net/geometry/ellipsecirc>} (Arithmetic-Geometric Mean) method.
 
-            @kwarg maxit: Number of iterations (C{int}).
+           @kwarg maxit: Number of iterations (C{int}).
 
            @raise ValueError: No convergence for B{C{maxit}} iterations.
-       '''
+        '''
         _, p, a, b = self._pab4(a, b)
         if p is None:
             c_ = []
@@ -96,7 +97,7 @@ class Elliperim(object):
         c_.append(c)  # kludge
 
     def Arc43(self, a, b):
-        '''Compute the perimeter (and arcs) of an ellipse with semi-axes C{a} and C{b}
+        '''Return the perimeter (and arcs) of an ellipse with semi-axes C{a} and C{b}
            with the U{4-Arc<https://PaulBourke.net/geometry/ellipsecirc>} approximation.
 
            @return: 3-Tuple C{(p, Ra, Rb)} with perimeter C{p}, arc radius C{Ra} at the
@@ -117,7 +118,7 @@ class Elliperim(object):
         return (p, Rb, Ra) if _r else (p, Ra, Rb)
 
 #   def CR(self, a, b):
-#       '''Compute the perimeter of an ellipse with semi-axes C{a} and C{b} using U{Rackauckas'
+#       '''Return the perimeter of an ellipse with semi-axes C{a} and C{b} using U{Rackauckas'
 #          <https://www.ChrisRackauckas.com/assets/Papers/ChrisRackauckas-The_Circumference_of_an_Ellipse.pdf>}
 #          approximation, also U{here<https://ExtremeLearning.com.AU/a-formula-for-the-perimeter-of-an-ellipse>}.
 #       '''
@@ -130,18 +131,18 @@ class Elliperim(object):
 #       return p
 
     def E2k(self, a, b):
-        '''Compute the perimeter of an ellipse with semi-axes C{a} and C{b} from the complete
+        '''Return the perimeter of an ellipse with semi-axes C{a} and C{b} from the complete
            elliptic integral of the 2nd kind L{E(k)<pygeodesy.elliptic.Elliptic.cE>}.
         '''
         return self._ellip2k(a, b, self._ellipE)
 
     def e2k(self, a, b, E_alt=None):
-        '''Compute the perimeter of an ellipse with semi-axes C{a} and C{b} using
-           U{SciPy's ellipe<https://www.JohnDCook.com/perimeter_ellipse.html>}
-           function or C{E_alt}, otherwise C{None}.
+        '''Return the perimeter of an ellipse with semi-axes C{a} and C{b} using U{SciPy's
+           ellipe<https://www.JohnDCook.com/perimeter_ellipse.html>} function or method
+           C{E_alt}, otherwise C{None}.
 
-           @kwarg E_alt: An other L{Elliperim}C{(a, b)} method to use in case
-                         C{SciPy's ellipe} is not available.
+           @kwarg E_alt: An other C{Elliperim}C{(a, b)} method to use in case C{SciPy's
+                         ellipe} is not available.
         '''
         p = self._ellipe
         if p is not None:  # i.e. callable
@@ -182,7 +183,7 @@ class Elliperim(object):
         return _ValueError(maxit=maxit, txt=Fmt.no_convergence(d, t))
 
     def GK(self, a, b):
-        '''Compute the perimeter of an ellipse with semi-axes C{a} and C{b} using the U{Gauss-Kummer
+        '''Return the perimeter of an ellipse with semi-axes C{a} and C{b} using the U{Gauss-Kummer
            <https://www.JohnDCook.com/blog/2023/05/28/approximate-ellipse-perimeter>} series, and
            U{here<https://www.MathsIsFun.com/geometry/ellipse-perimeter.html>}, C{B{b / a} > 0.75}.
         '''
@@ -201,7 +202,7 @@ class Elliperim(object):
                 441 / 1048576, 1089 / 4194304)  # overwrite property_ROnce
 
     def HG(self, a, b, maxit=_DIG53):
-        '''Compute the perimeter of an ellipse with semi-axes C{a} and C{b} using the U{HG
+        '''Return the perimeter of an ellipse with semi-axes C{a} and C{b} using the U{HG
            <https://web.Tecnico.ULisboa.PT/~mcasquilho/compute/com/,ellips/PerimeterOfEllipse.pdf>}
            (HyperGeometric Gauss-Kummer) series.
 
@@ -236,7 +237,7 @@ class Elliperim(object):
             raise self._Error(maxit, t2, s)
 
 #   def LS(self, a, b):
-#       '''Compute the perimeter of an ellipse with semi-axes C{a} and C{b} using the U{Linderholm-Segal
+#       '''Return the perimeter of an ellipse with semi-axes C{a} and C{b} using the U{Linderholm-Segal
 #          <https://www.JohnDCook.com/blog/2021/03/24/perimeter-of-an-ellipse>} formula, aka C{3/2 norm}.
 #       '''
 #       _, p, a, b = self._pab4(a, b)
@@ -254,7 +255,7 @@ class Elliperim(object):
                 p = None
             elif b < 0:
                 t =  callername()  # underOK=True
-                t = _DOT_(typename(Elliperim), t)
+                t = _DOT_(typename(self), t)
                 raise _ValueError(unstr(t, a, b))
             else:  # "flat"
                 p = a * _4_0
@@ -263,7 +264,7 @@ class Elliperim(object):
         return _r, p, a, b
 
     def R2(self, a, b):
-        '''Compute the perimeter of an ellipse with semi-axes C{a} and C{b} using U{Ramanujan's
+        '''Return the perimeter of an ellipse with semi-axes C{a} and C{b} using U{Ramanujan's
            2nd<https://PaulBourke.net/geometry/ellipsecirc>} approximation, C{B{b / a} > 0.9}.
         '''
         _, p, a, b = self._pab4(a, b)
@@ -275,7 +276,9 @@ class Elliperim(object):
             p *= (h + _1_0) * PI
         return p
 
-Elliperim = Elliperim()  # PYCHOK singleton
+if not _FOR_DOCS:  # PYCHOK force epydoc
+    Elliperim = Elliperim()  # singleton
+del _FOR_DOCS
 
 
 def angle2chord(rad, radius=R_M):

@@ -464,7 +464,8 @@
       </li>
       <li>
         <code>PYGEODESY_GEOD3SOLVE</code> - see module <a 
-        href="pygeodesy.geod3solve-module.html" class="link">geodsolve</a>.
+        href="pygeodesy.geod3solve-module.html" 
+        class="link">geod3solve</a>.
       </li>
       <li>
         <code>PYGEODESY_INTERSECTTOOL</code> - see module <a 
@@ -559,7 +560,7 @@
       <li>
         <code>PYGEODESY_WARNINGS</code> - see module <a 
         href="pygeodesy.props-module.html" class="link">props</a> and 
-        function <a href="pygeodesy-module.html#DeprecationWarnings" 
+        function <a href="pygeodesy.props.DeprecationWarnings-class.html" 
         class="link">DeprecationWarnings</a>.
       </li>
       <li>
@@ -1930,6 +1931,14 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.props.DeprecationWarnings-class.html" class="summary-name">DeprecationWarnings</a><br />
+      (INTERNAL) Handle <code>DeprecationWaring</code>s.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.namedTuples.Destination2Tuple-class.html" class="summary-name">Destination2Tuple</a><br />
       2-Tuple <code>(destination, final)</code>, <code>destination</code>
         in <code>LatLon</code> and <code>final</code> bearing in compass 
@@ -2236,6 +2245,15 @@
         <a href="pygeodesy.elevations.Elevation2Tuple-class.html" class="summary-name">Elevation2Tuple</a><br />
       2-Tuple <code>(elevation, data_source)</code> in <code>meter</code>
         and <code>str</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.formy.Elliperim-class.html" class="summary-name">Elliperim</a><br />
+      Singleton with various methods to compute the perimeter of an 
+        ellipse.
     </td>
   </tr>
 <tr>
@@ -3782,6 +3800,16 @@
         <a href="pygeodesy.lcc.LCCError-class.html" class="summary-name">LCCError</a><br />
       Lambert Conformal Conic <code>LCC</code> or other <a 
         href="pygeodesy.lcc.Lcc-class.html" class="link">Lcc</a> issue.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.triaxials.bases.LLK-class.html" class="summary-name">LLK</a><br />
+      Enum-like <code>Lat-/Longitude Kinds (LLK)</code>, see <a 
+        href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Triaxial_1_1Cartesian3.html"
+        target="_top">coord</a>.
     </td>
   </tr>
 <tr>
@@ -9787,7 +9815,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fb68056dd50&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fd0c04540d0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -15078,13 +15106,6 @@ m=Transforms.WGS84),
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="DeprecationWarnings"></a><span class="summary-name">DeprecationWarnings</span> = <code title="DeprecationWarnings()">DeprecationWarnings()</code>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
         <a name="EPS"></a><span class="summary-name">EPS</span> = <code title="2.220446049250313e-16">2.220446049250313e-16</code><br />
       System's <i class="math">epsilon</i> &#8776; 2.22044604925e-16 
       (<code>float</code>).
@@ -15157,13 +15178,6 @@ m=Transforms.WGS84),
         <a name="EPS_2"></a><span class="summary-name">EPS_2</span> = <code title="1.1102230246251565e-16">1.1102230246251565e-16</code><br />
       <i class="math">EPS / 2</i> &#8776; 1.110223024625e-16 
       (<code>float</code>).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="Elliperim"></a><span class="summary-name">Elliperim</span> = <code title="Elliperim()">Elliperim()</code>
     </td>
   </tr>
 <tr>
@@ -15503,13 +15517,6 @@ Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, f=0.003\
       href="pygeodesy.constants-module.html#isint0" 
       class="link">isint0</a>, <a 
       href="pygeodesy.vector2d-module.html#meeus2" class="link">meeus2</a>
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-        <a name="LLK"></a><span class="summary-name">LLK</span> = <code title="LLK()">LLK()</code>
     </td>
   </tr>
 <tr>
@@ -23509,7 +23516,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fb68056dd50&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fd0c04540d0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -34213,7 +34220,7 @@ Transforms.WGS84: Transform(name='WGS84', tx=0.0, ty=0.0, tz=0.0, s1=1<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Dec 31 13:09:12 2025
+    Generated by Epydoc 3.0.1 on Fri Jan  2 12:50:43 2026
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
