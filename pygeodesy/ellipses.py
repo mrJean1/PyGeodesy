@@ -11,25 +11,25 @@ from pygeodesy.constants import EPS, EPS_2, INT0, NEG0, PI, PI_2, PI3_2, PI2, \
                                _0_0, _1_0, _4_0, _isfinite, _over, _1_over  # _N_1_0
 from pygeodesy.constants import _0_5, _3_0, _10_0, MANT_DIG as _DIG53  # PYCHOK used!
 # from pygeodesy.ellipsoids import Ellipsoid  # _MODS
-from pygeodesy.errors import _ConvergenceError, _ValueError
-from pygeodesy.fmath import fhorner, hypot
+from pygeodesy.errors import _ConvergenceError, _ValueError, _xkwds, _xkwds_pop2
+from pygeodesy.fmath import euclid, fhorner, fmean_, hypot
 from pygeodesy.fsums import _fsum  # PYCHOK used!
-from pygeodesy.internals import typename,  _DOT_
-# from pygeodesy.interns import _DOT_  # from .internals
-# from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS  # from .utily
+from pygeodesy.internals import typename,  _DOT_, _UNDER_
+# from pygeodesy.interns import _DOT_, _UNDER_  # from .internals
+from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _NamedBase,  unstr
 from pygeodesy.props import Property_RO, property_RO, property_ROnce
 # from pygeodesy.streprs import unstr  # from .named
 # from pygeodesy.triaxials import Triaxial_ , TriaxialError # _MODS
 from pygeodesy.units import Degrees, Meter, Meter2, Radians, Radius, Scalar
-from pygeodesy.utily import atan2, sincos2, sincos2d,  _ALL_LAZY, _MODS
+from pygeodesy.utily import atan2, atan2b, atan2p, sincos2, sincos2d
 # from pygeodesy.vector3d import Vector3d  # _MODS
 
 from math import degrees, fabs, radians, sqrt
 # import operator as _operator  # from .fmath
 
 __all__ = _ALL_LAZY.ellipses
-__version__ = '26.02.23'
+__version__ = '26.03.25'
 
 _TOL53    =  sqrt(EPS_2)     # sqrt(pow(_0_5, _DIG53))
 _TOL53_53 = _TOL53 / _DIG53  # "flat" b/a tolerance, 1.9e-10
@@ -43,6 +43,8 @@ class Ellipse(_NamedBase):
     _flat  =  False
     _maxit = _DIG53
 #   _Pab4  = (r, P, a, b)  # a >= b, ordered
+    _4_PI_ = _4_0 / PI - (14 / 11)
+    _tEPS  =  None
 
     def __init__(self, a, b, **name):
         '''New L{Ellipse} with semi-axes B{C{a}} and B{C{b}}.
@@ -55,6 +57,8 @@ class Ellipse(_NamedBase):
            @arg b: Y semi-axis length (C{meter}, conventionally).
 
            @raise ValueError: Invalid B{C{a}} or B{C{b}}.
+
+           @see: U{Ellipse<https://MathWorld.Wolfram.com/Ellipse.html>}.
         '''
         if name:
             self.name = name
@@ -73,6 +77,7 @@ class Ellipse(_NamedBase):
                 P = None
         else:  # circular
             P = a * PI2
+#           b = a
         self._Pab4 = r, P, a, b  # ordered
 
     @Property_RO
@@ -81,6 +86,18 @@ class Ellipse(_NamedBase):
         '''
         a, _, _ = self._ab3
         return Meter(a=a)
+
+    @Property_RO
+    def apses2(self):
+        '''Get 2-tuple C{(apoapsis, periapsis)} with the U{apo-<https://MathWorld.Wolfram.com/Apoapsis.html>}
+           and U{periapsis<https://MathWorld.Wolfram.com/Periapsis.html>} of this ellipse, both C{meter}.
+        '''
+        _, _, a, p = self._Pab4
+        c = self.c
+        if c:  # a != p
+            p  = a - c
+            a += c
+        return a, p
 
     def arc(self, deg2, deg1=0):
         '''Compute the length of U{elliptic arc<https://www.JohnDCook.com/blog/2022/11/02/elliptic-arc-length/>}
@@ -102,29 +119,18 @@ class Ellipse(_NamedBase):
 
            @return: Arc length, signed (C{meter}, conventionally).
         '''
-        r, L, a, _ = self._Pab4
-        if L is None:
-            _e = self._ellipe or self._ellipE
-            k  = self.e2
-            r  = PI_2 if r else _0_0
-            L  = self._arc(_e, k, r + rad2)
+        r, R, a, _ = self._Pab4
+        if R is None:
+            _e =  self._ellipe or self._ellipE
+            k  =  self.e2
+            r  =  PI_2 if r else _0_0
+            R  = _arc(_e, k, r + rad2)
             r += rad1
             if r:
-                L -= self._arc(_e, k, r)
-            L *= a
+                R -= _arc(_e, k, r)
         else:
-            L *= (rad2 - rad1) / PI2
-        return Meter(arc=L)
-
-    def _arc(self, _e, k, r):
-        '''(INTERNAL) Helper for method C{.arc_}.
-        '''
-        t, r = divmod(r, PI2)
-        L = _e(k, r)  # phi=r
-        if t:  # + t * perimeter
-            t *= _e(k) * _4_0
-            L +=  t
-        return L
+            a = (rad2 - rad1) / PI2
+        return Meter(arc=R * a)
 
     @Property_RO
     def area(self):
@@ -142,24 +148,26 @@ class Ellipse(_NamedBase):
 
     @Property_RO
     def c(self):
-        '''Get the C{linear excentricity B{c}}, I{unsigned} (C{meter}, conventionally).
+        '''Get the U{linear eccentricity<https://WikiPedia.org/wiki/Ellipse#Linear_eccentricity>}
+           C{c}, I{unsigned} (C{meter}, conventionally).
         '''
         return Meter(c=fabs(self.foci))
 
     @Property_RO
     def e(self):
-        '''Get the excentricity (C{scalar, 0 <= B{e} <= 1}).
+        '''Get the eccentricity (C{scalar, 0 <= B{e} <= 1}).
         '''
-        e = self.e2
-        return Scalar(e=sqrt(e) if 0 < e < 1 else e)
+        e2 = self.e2
+        return Scalar(e=sqrt(e2) if 0 < e2 < 1 else e2)
 
     @Property_RO
     def e2(self):
-        '''Get the excentricity I{squared} (C{scalar, 0 <= B{e2} <= 1}).
+        '''Get the eccentricity I{squared} (C{scalar, 0 <= B{e2} <= 1}).
         '''
         # C{e2} is aka C{k}, Elliptic C{k2} and SciPy's C{m}
         _, _, a, b = self._Pab4
-        return Scalar(e2=((_1_0 - (b / a)**2) if 0 < b else _1_0) if b < a else _0_0)
+        e2 = ((_1_0 - (b / a)**2) if 0 < b else _1_0) if b < a else _0_0
+        return Scalar(e2=e2)
 
     @Property_RO
     def _Ek(self):
@@ -200,7 +208,7 @@ class Ellipse(_NamedBase):
 
     @Property_RO
     def foci(self):
-        '''Get the U{linear excentricity<https://WikiPedia.org/wiki/Ellipse#Standard_equation>},
+        '''Get the U{linear eccentricity<https://WikiPedia.org/wiki/Ellipse#Linear_eccentricity>},
            I{signed} (C{meter}, conventionally), C{positive} if this ellipse is oblate, C{negative}
            if prolate or C{0} if circular.  See also property L{Ellipse.c}.
         '''
@@ -312,7 +320,7 @@ class Ellipse(_NamedBase):
 
     @Property_RO
     def lati(self):
-        '''Get the U{semi-latus rectum<https://WikiPedia.org/wiki/Ellipse#Standard_equation>},
+        '''Get the U{semi-latus rectum<https://WikiPedia.org/wiki/Ellipse#Semi-latus_rectum>},
            I{signed} (C{meter}, conventionally), C{positive} if this ellipse is oblate or
            circular, C{0} if "flat" and oblate, C{negative} if prolate or C{NEG0} if "flat"
            and prolate.  See also property L{Ellipse.p}.
@@ -364,8 +372,8 @@ class Ellipse(_NamedBase):
 
     @Property_RO
     def p(self):
-        '''Get the C{semi-latus rectum B{p} (aka B{𝓁}, script-small-l)}, I{unsigned}
-           (C{meter}, conventionally).
+        '''Get the U{semi-latus rectum<https://WikiPedia.org/wiki/Ellipse#Semi-latus_rectum>}
+           C{p (aka B{𝓁}, script-small-l)}, I{unsigned} (C{meter}, conventionally).
         '''
         return Meter(p=fabs(self.lati))
 
@@ -398,9 +406,10 @@ class Ellipse(_NamedBase):
     @Property_RO
     def perimeter4Arc3(self):
         '''Compute the perimeter (and arcs) of this ellipse using the U{4-Arc
-           <https://PaulBourke.net/geometry/ellipsecirc>} approximation as a
-           3-Tuple C{(P, Ra, Rb)} with perimeter C{P}, arc radii C{Ra} and C{Rb}
-           at the respective semi-axes (all in C{meter}, conventionally).
+           <https://PaulBourke.net/geometry/ellipsecirc>} (aka 4-Center)
+           approximation as a 3-Tuple C{(P, Ra, Rb)} with perimeter C{P}, arc
+           radii C{Ra} and C{Rb} at the respective semi-axes (all in C{meter},
+           conventionally).
         '''
         r, P, a, b = self._Pab4
         if P is None:
@@ -420,19 +429,30 @@ class Ellipse(_NamedBase):
         return Meter(perimeter4Arc=P), Radius(Ra=a), Radius(Rb=b)
 
 #   @Property_RO
-#   def perimeterCR(self):
-#       '''Compute the perimeter of this ellipse using U{Rackauckas'
-#          <https://www.ChrisRackauckas.com/assets/Papers/ChrisRackauckas-The_Circumference_of_an_Ellipse.pdf>}
-#          approximation, also U{here<https://ExtremeLearning.com.AU/a-formula-for-the-perimeter-of-an-ellipse>}
+#   def perimeterBPA(self):
+#       '''Compute the perimeter of this ellipse using the U{Bronshtein Padé
+#          Approximant <https://www.math.TTU.edu/~pearce/papers/schov.pdf>}
 #          (C{meter}, conventionally).
 #       '''
-#       _, P, a, b = self._Pab4
-#       if P is None:
-#           P  =   a + b
-#           h  = ((a - b) / P)**2
-#           P *= (fhorner(h, 135168, -85760,  -5568, 3867) /
-#                 fhorner(h, 135168, -119552, 22208, 345)) * PI
-#       return Meter(perimeterCR=P)
+#       P, h = self._Ph2
+#       if h:
+#           h *=  h
+#           P *= _over(h**2 * _3_0 - _64_0, h * _16_0 - _64_0) * PI
+#       return Meter(perimeterBPA=P)
+
+    @Property_RO
+    def perimeterCR(self):
+        '''Compute the perimeter of this ellipse using U{Rackauckas'
+           <https://www.ChrisRackauckas.com/assets/Papers/ChrisRackauckas-The_Circumference_of_an_Ellipse.pdf>}
+           approximation, also U{here<https://ExtremeLearning.com.AU/a-formula-for-the-perimeter-of-an-ellipse>} and
+           U{here<http://www.EByte.IT/library/docs/math05a/EllipsePerimeterApprox05.html>} (C{meter}, conventionally).
+        '''
+        P, h = self._Ph2
+        if h:
+            h *=  h
+            P *= _over(fhorner(h, 135168,  -85760, -5568, 3867),
+                       fhorner(h, 135168, -119552, 22208, -345)) * PI
+        return Meter(perimeterCR=P)
 
     @Property_RO
     def perimeterGK(self):
@@ -446,41 +466,6 @@ class Ellipse(_NamedBase):
         return Meter(perimeterGK=P)
 
     @Property_RO
-    def perimeter2k(self):
-        '''Compute the perimeter of this ellipse using the complete integral
-           of the 2nd kind, C{Elliptic.cE} (C{meter}, conventionally).
-        '''
-        return self._perimeter2k(self._ellipE)
-
-    @Property_RO
-    def perimeter2k_(self):
-        '''Compute the perimeter of this ellipse using U{SciPy's ellipe
-           <https://www.JohnDCook.com/perimeter_ellipse.html>} function
-           if available, otherwise use property C{perimeter2k} (C{meter},
-           conventionally).
-        '''
-        return self._perimeter2k(self._ellipe or self._ellipE)
-
-    def _perimeter2k(self, _ellip):
-        '''(INTERNAL) Helper for methods C{.PE2k} and C{.Pe2k}.
-        '''
-        _, P, a, _ = self._Pab4
-        if P is None:  # see .ellipsoids.Ellipsoid.L
-            k =  self.e2
-            P = _ellip(k) * a * _4_0
-        return Meter(perimeter2k=P)
-
-    @Property_RO
-    def _Ph2(self):
-        _, P, a, b = self._Pab4
-        if P is None:
-            P =  a + b
-            h = (a - b) / P
-        else:
-            h =  None
-        return P, h
-
-    @Property_RO
     def perimeterHGK(self):
         '''Compute the perimeter of this ellipse using the U{Hypergeometric Gauss-Kummer
            <https://web.Tecnico.ULisboa.PT/~mcasquilho/compute/com/,ellips/PerimeterOfEllipse.pdf>}
@@ -491,6 +476,44 @@ class Ellipse(_NamedBase):
             hs =  self._HGKs(h, self._maxit)
             P *= _fsum(hs) * PI  # nonfinites=True
         return Meter(perimeterHGK=P)
+
+#   @Property_RO
+#   def perimeterJWPA(self):
+#       '''Compute the perimeter of this ellipse using the U{Jacobson-Waadeland
+#          Padé Approximant <https://www.math.TTU.edu/~pearce/papers/schov.pdf>}
+#          (C{meter}, conventionally).
+#       '''
+#       P, h = self._Ph2
+#       if h:
+#           h *=  h
+#           P *= _over(fhorner(h, 256,  -48, -21),
+#                      fhorner(h, 256, -112,   3)) * PI
+#       return Meter(perimeterJWPA=P)
+
+    @Property_RO
+    def perimeter2k(self):
+        '''Compute the perimeter of this ellipse using the complete integral
+           of the 2nd kind, C{Elliptic.cE} (C{meter}, conventionally).
+        '''
+        return Meter(perimeter2k=self._perimeter2k(self._ellipE))
+
+    @Property_RO
+    def perimeter2k_(self):
+        '''Compute the perimeter of this ellipse using U{SciPy's ellipe
+           <https://www.JohnDCook.com/perimeter_ellipse.html>} function
+           if available, otherwise use property C{perimeter2k} (C{meter},
+           conventionally).
+        '''
+        return Meter(perimeter2k_=self._perimeter2k(self._ellipe or self._ellipE))
+
+    def _perimeter2k(self, _ellip):
+        '''(INTERNAL) Helper for methods C{.PE2k} and C{.Pe2k}.
+        '''
+        _, P, a, _ = self._Pab4
+        if P is None:  # see .ellipsoids.Ellipsoid.L
+            k =  self.e2
+            P = _ellip(k) * a * _4_0
+        return P
 
 #   @Property_RO
 #   def perimeterLS(self):
@@ -512,65 +535,183 @@ class Ellipse(_NamedBase):
         '''
         P, h = self._Ph2
         if h:
-            h *= _3_0 * h
-            h /=  sqrt(_4_0 - h) + _10_0  # /= chokes PyChecker?
-            P *= (h + _1_0) * PI
+            P *= _2RC(h, _1_0)
         return Meter(perimeter2R=P)
 
     @Property_RO
+    def perimeter2RC(self):
+        '''Compute the perimeter of this ellipse using U{Cantrell Ramanujan's 2nd
+           <http://www.EByte.IT/library/docs/math05a/EllipsePerimeterApprox05.html>}
+           approximation, C{B{b / a} > 0.9} (C{meter}, conventionally).
+        '''
+        P, h = self._Ph2
+        if h:
+            P *= _2RC(h, pow(h, 24) * self._4_PI_ + _1_0)
+        return Meter(perimeter2RC=P)
+
+#   @Property_RO
+#   def perimeterSPA(self):
+#       '''Compute the perimeter of this ellipse using the U{Selmer Padé Approximant
+#          <http://www.EByte.IT/library/docs/math05a/EllipsePerimeterApprox05.html>}
+#          (C{meter}, conventionally).
+#       '''
+#       P, h = self._Ph2
+#       if h:
+#           h *=  h
+#           P *= _over(h * _3_0 + _16_0, _16_0 - h) * PI
+#       return Meter(perimeterSPA=P)
+
+    @Property_RO
+    def _Ph2(self):
+        _, P, a, b = self._Pab4
+        if P is None:
+            if b:
+                P =  a + b
+                h = (a - b) / P
+            else:
+                P =  a
+                h = _1_0
+        else:
+            h = None
+        return P, h
+
+    def point(self, deg_x, y=None):
+        '''Return the point I{on} this ellipse at C{B{deg}} or C{atan2d(B{y}, B{x})
+           degrees} along this ellipse.
+
+           @return: A 2-tuple C{(x, y)}.
+        '''
+        s, c = sincos2d(deg_x) if y is None else self._sc2(deg_x, y, eps=None)
+        return (self.a * c), (self.b * s)
+
+    def points(self, np, nq=4, ccw=False, ended=False, eps=EPS):  # MCCABE 13
+        '''Yield up to C{np} points along this ellipse, each a 2-tuple C{(x, y)},
+           starting at semi-axis C{+a}, in (counter-)clockwise order and distributed
+           evenly along the minor semi-axis.
+
+           @arg np: Number of points to generate (C{int}).
+           @kwarg nq: Number of quarters to cover (C{int}, 1..4).
+           @kwarg ccw: Use C{B{ccw}=True} for counter-clockwise order (C{bool}).
+           @kwarg ended: If C{True}, include the last quadrant's end point (C{bool}).
+           @kwarg eps: Tolerance for duplicate points (C{meter}, conventionally).
+
+           @see: U{Directrix<https://MathWorld.Wolfram.com/ConicSectionDirectrix.html>}.
+        '''
+        a, b, _ = self._ab3
+        if min(a, b) > eps and not self.isFlat:
+            q  =  max(min(int(nq),  4), 1)
+            n  =  max(    int(np) // q, 1)
+            if not ccw:
+                b = -b
+            ps = list(_q1ps(a, b, n, eps))
+            for p in ps:  # 1st quadrant
+                yield p
+            p0 =  ps.pop(0)  # E
+            pq = _0_0, b  # N/S
+            if q > 1:
+                yield pq
+                for x, y in reversed(ps):  # 2nd
+                    yield (-x), y
+                pq = (-a), _0_0  # W
+                if q > 2:
+                    yield pq
+                    for x, y in ps:  # 3rd
+                        yield (-x), (-y)
+                    pq = _0_0, (-b)  # S/N
+                    if q > 3:
+                        yield pq
+                        for x, y in reversed(ps):  # 4th
+                            yield x, (-y)
+                        pq = p0
+            if ended:
+                yield pq
+        else:  # "flat"
+            p0 = a, b
+            yield p0
+            if max(a, b) > eps:
+                yield (-a), (-b)
+                if ended:
+                    yield p0
+
+    def polar2d(self, deg_x, y=None):
+        '''For a point at C{B{deg}} or C{atan2d(B{y}, B{x}) degrees} along this
+           ellipse, return 2-tuple C{(radius, angle)} with the polar U{radius
+           <https://WikiPedia.org/wiki/Ellipse#Polar_form_relative_to_center>}
+           from the center (C{meter}, conventionally) and C{angle} in C{degrees}.
+        '''
+        s, c = sincos2d(deg_x) if y is None else self._sc2(deg_x, y, eps=None)
+        a, b, ab = self._ab3
+        r = (_over(ab, hypot(a * s, b * c)) if c else b) if s else a
+        return r, atan2b(s, c)
+
+    @Property_RO
+    def R1(self):
+        '''Get this ellipse' I{arithmetic mean} radius, C{(2 * a + b) / 3} (C{meter}, conventionally).
+        '''
+        _, _, a, r = self._Pab4
+        if r:
+            r = fmean_(a, a, r) if a > r else a
+        return Radius(R1=r or _0_0)
+
+    @Property_RO
     def R2(self):
-        '''Get the I{authalic} radius of this ellipse, C{sqrt(B{a} * B{b})}
-           (C{meter}, conventionally).
+        '''Get this ellipse' I{authalic} radius, C{sqrt(B{a} * B{b})} (C{meter}, conventionally).
         '''
         a, b, ab = self._ab3
-        return Radius(R2=sqrt(ab) if a != b else float(a))
+        return Radius(R2=(sqrt(ab) if a != b else float(a)) if ab else _0_0)
 
-    def Roc(self, deg_x, y=None, **eps):
-        '''Compute the U{radius of curvature<https://WikiPedia.org/wiki/Radius_of_curvature>} at
-           point C{(B{x}, B{y})} I{on} this ellipse or at C{B{deg} degrees} along this ellipse.
+    Rauthalic = Rgeometric = R2
+
+    def Roc(self, deg_x, y=None, eps=None):
+        '''Compute the U{radius of curvature<https://WikiPedia.org/wiki/Radius_of_curvature>}
+           at a point C{B{deg}} or C{atan2d(B{y}, B{x}) degrees} along this ellipse.
 
            @see: Method L{Roc_<Ellipse.Roc_>} for ruther details.
         '''
         x = radians(deg_x) if y is None else deg_x
-        return self.Roc_(x, y, **eps)
+        return self.Roc_(x, y, eps=eps)
 
-    def Roc_(self, rad_x, y=None, **eps):
-        '''Compute the U{radius of curvature<https://WikiPedia.org/wiki/Radius_of_curvature>} at
-           point C{(B{x}, B{y})} I{on} this ellipse or at C{B{rad} radians} along this ellipse.
+    def Roc_(self, rad_x, y=None, eps=None):
+        '''Compute the U{radius of curvature<https://WikiPedia.org/wiki/Radius_of_curvature>}
+           at a point C{B{rad}} or C{atan2(B{y}, B{x}) radians} along this ellipse.
 
            @kwarg eps: See method C{sideOf}, use C{B{eps}=0} to permit any points.
 
            @return: Curvature (C{meter}, conventionally).
 
-           @raise ValueError: Point C{(B{x}, B{y})} not near this ellipse, unless C{B{eps}=0}.
+           @raise ValueError: Point C{(B{x}, B{y})} off this ellipse, unless C{B{eps}=0}.
         '''
         try:
             a, b, ab = self._ab3
             if b != a:
-                s, c, _ = self._scr3(rad_x, y, **eps)
-                r = _over(hypot(s * a, c * b)**3, ab)
+                s, c = sincos2(rad_x) if y is None else self._sc2(rad_x, y, eps=eps)
+                r = _over(hypot(a * s, b * c)**3, ab)
             else:  # circular
                 r = float(a)
-        except Exception as x:
-            raise self._Error(self.Roc_, cause=x)
+        except Exception as X:
+            raise self._Error(self.Roc_, cause=X)
         return Radius(Roc=r)
 
-    def _scr3(self, rad_x, y, eps=EPS):
-        '''(INTERNAL) Helper for methods C{.Roc_} and C{.slope_}.
+    @Property_RO
+    def Rrectifying(self):
+        '''Get this ellipse' I{rectifying} radius, C{perimeter2k_ / PI2} (C{meter}, conventionally).
         '''
-        r = float(rad_x)
-        if y is not None:
-            x, y = r, float(y)
-            if eps and eps > 0:
-                s = self._sideOf(x, y, eps)
-                if s:
-                    raise _ValueError(x=x, y=y, eps=eps, sideOf=s)
-            r = atan2(y, x)
-        s, c = sincos2(r)
-        return s, c, r
+        return Radius(Rrectifying=self.perimeter2k_ / PI2)
+
+    def _sc2(self, x, y, eps=EPS):
+        '''(INTERNAL) Helper for methods C{.point}, C{.polar}, C{.Roc_} and C{.slope_}.
+        '''
+        if eps and eps > 0:
+            s = self._sideOf(x, y, eps)
+            if s:
+                raise _ValueError(x=x, y=y, eps=eps, sideOf=s)
+        h = hypot(x, y)
+        s = _over(y, h)
+        c = _over(x, h)
+        return s, c
 
     def _sideOf(self, x, y, eps):
-        '''(INTERNAL) Helper for methods C{._scr3} and C{.sideOf}.
+        '''(INTERNAL) Helper for methods C{._sc2} and C{.sideOf}.
         '''
         a, b, ab = self._ab3
         s = ab or max(a, b)
@@ -590,42 +731,44 @@ class Ellipse(_NamedBase):
         except Exception as X:
             raise self._Error(self.sideOf, x=x, y=y, cause=X)
 
-    def slope(self, deg_x, y=None, **eps):
-        '''Compute the slope of the tangent at point C{(B{x}, B{y})} I{on} this ellipse
-           or at C{B{deg} degrees} along this ellipse.
+    def slope(self, deg_x, y=None, eps=None):
+        '''Compute the U{tangent slope<https://WikiPedia.org/wiki/Ellipse#Tangent_slope_as_parameter>}
+           at a point C{B{deg}} or C{atan2d(B{y}, B{x}) degrees} along this ellipse.
 
-           @see: Method L{slope_<Ellipse.slope_>} for ruther details.
+           @return: Slope (C{degrees}), negative for C{0 <= B{deg} < 90}.
+
+           @see: Method L{slope_<Ellipse.slope_>} for further details.
         '''
         x = radians(deg_x) if y is None else deg_x
-        return Degrees(slope=degrees(self.slope_(x, y, **eps)))
+        return Degrees(slope=degrees(self.slope_(x, y, eps=eps)))
 
-    def slope_(self, rad_x, y=None, **eps):
-        '''Compute the slope of the tangent at point C{(B{x}, B{y})} I{on} this ellipse
-           or at C{B{rad} radians} along this ellipse.
+    def slope_(self, rad_x, y=None, eps=None):
+        '''Compute the U{tangent slope<https://WikiPedia.org/wiki/Ellipse#Tangent_slope_as_parameter>}
+           at a point C{B{rad}} or C{atan2(B{y}, B{x}) radians} along this ellipse.
 
            @kwarg eps: See method C{sideOf}, use C{B{eps}=0} to permit any points.
 
            @return: Slope (C{radians}), negative for C{0 <= B{rad} < PI/2}.
 
-           @raise ValueError: C{(B{x}, B{y})} not near this ellipse, unless C{B{eps}=0}.
+           @raise ValueError: C{(B{x}, B{y})} off this ellipse, unless C{B{eps}=0}.
         '''
-        try:
-            s, c, _ = self._scr3(rad_x, y, **eps)
-            a, b, _ = self._ab3
-            r = atan2(-b**2 * c, a**2 * s)
-            if r < 0:
-                r += PI2
-            if r >= PI3_2:
-                r -= PI2
-        except Exception as x:
-            raise self._Error(self.slope_, cause=x)
+        # <https://UNacademy.com/content/jee/study-material/mathematics/equation-of-a-tangent-to-the-ellipse/>
+        s, c = sincos2(rad_x) if y is None else self._sc2(rad_x, y, eps=eps)
+        r = atan2p(-self.b * c, self.a * s)
+        if r >= PI3_2:
+            r -= PI2
         return Radians(slope=r or _0_0)  # no -0.0
 
-    def toEllipsoid(self):
+    def toEllipsoid(self, **Ellipsoid_and_kwds):
         '''Return an L{Ellipsoid<pygeodesy.Ellipsoid>} from this ellipse'
            C{a} and C{b} semi-axes.
+
+           @kwarg Ellipsoid_and_kwds: Optional C{B{Ellipsoid}=Ellipsoid} class
+                                and additional C{Ellipsoid} keyword arguments.
         '''
-        return _MODS.ellipsoids.Ellipsoid(self.a, b=self.b, name=self.name)
+        E, kwds = _xkwds_pop2(Ellipsoid_and_kwds, Ellipsoid=
+                                 _MODS.ellipsoids.Ellipsoid)
+        return E(self.a, b=self.b, **_xkwds(kwds, name=self.name))
 
     def toStr(self, prec=8, terse=2, **sep_name):  # PYCHOK signature
         '''Return this ellipse as a text string.
@@ -647,20 +790,27 @@ class Ellipse(_NamedBase):
                 t = t[:terse]
         return self._instr(prec=prec, props=t, **sep_name)
 
-    def toTriaxial_(self, c=EPS):
-        '''Return a L{Triaxial_<pygeodesy.Triaxial_>} from this ellipse'
-           C{a} and C{b} semi-axes with B{C{c}} as minor semi-axis.
+    def toTriaxial_(self, c=EPS, **Triaxial_and_kwds):  # like .Ellipse5Tuple.toTriaxial_
+        '''Return a L{Triaxial_<pygeodesy.Triaxial_>} from this ellipse' semi-axes.
+
+           @kwarg c: Near-zero, minor semi-axis (C{meter}, conventionally).
+           @kwarg Triaxial_and_kwds: Optional C{B{Triaxial}=Triaxial_} class and
+                               additional C{Triaxial} keyword arguments.
         '''
-        return _MODS.triaxials.Triaxial_(self.a, b=self.b, c=c, name=self.name)  # 'NN'
+        T, kwds = _xkwds_pop2(Triaxial_and_kwds, Triaxial=_MODS.triaxials.Triaxial_)
+        return T(self.a, b=self.b, c=c, **_xkwds(kwds, name=self.name or _UNDER_))  # 'NN'
 
     def _triaxialX(self, method, *args, **kwds):
-        '''(INTERNAL) Map triaxial exceptions to L{EllipseError}s.
+        '''(INTERNAL) Invoke a triaxial method and map exceptions to L{EllipseError}s.
         '''
         try:
-            _m = getattr(self.toTriaxial_(), method.__name__)
+            t = self._tEPS
+            if t is None:
+                self._tEPS = t = self.toTriaxial_(EPS)
+            _m = getattr(t, method.__name__)
             return _m(*args, **kwds)
         except Exception as x:
-            raise self._Error(method, cause=x)
+            raise self._Error(method, Triaxial_=t, cause=x)
 
     def _xy03(self, deg_x, y):
         if y is None:
@@ -679,10 +829,54 @@ class EllipseError(_ValueError):
     pass  # ...
 
 
+def _arc(_e, k, r):
+    # in C{Ellipse.arc_}
+    t, r = divmod(r, PI2)
+    R = _e(k, r)  # phi=r
+    if t:  # + t * perimeter
+        t *= _e(k) * _4_0
+        R +=  t
+    return R
+
+
 def _isFlat(a, b):  # in .triaxials.bases
-    '''(INTERNAL) Is C{b <<< a}?
-    '''
+    # is C{b <<< a}?
     return b < (a * _TOL53_53)
+
+
+def _q1ps(a, b, n, eps):
+    # yield the 1st quadrant C{Ellipse.points}
+    if a > b:  # oblate
+        def _yx2(i):
+            y = i / n
+            return y, sqrt(_1_0 - y**2)
+
+    elif a < b:  # prolate
+        def _yx2(i):  # PYCHOK redef
+            x = (n - i) / n
+            return sqrt(_1_0 - x**2), x
+
+    else:  # circular
+        r = PI_2 / n
+        def _yx2(i):  # PYCHOK redef
+            return sincos2(r * i)
+
+    p = a, _0_0  # == p0
+    yield p
+    for i in range(1, n):
+        y, x = _yx2(i)
+        y *= b
+        x *= a
+        if euclid(x, y, *p) > eps:
+            p = x, y
+            yield p
+
+
+def _2RC(h, r):
+    # in C{Ellipse.perimeter2R} and C{.perimeter2RC}
+    h *= _3_0 * h
+    r +=  h / (sqrt(_4_0 - h) + _10_0)
+    return r * PI
 
 # **) MIT License
 #

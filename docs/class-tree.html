@@ -948,13 +948,6 @@
         geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
         class="link">LatLon</a>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
-      <em class="summary">Extended to convert <code>Karney</code>-based <a 
-        href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
-        class="link">Cartesian</a> to <code>Karney</code>-based <a 
-        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
-        class="link">LatLon</a> points.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Cartesian-class.html">pygeodesy.ellipsoidalNvector.Cartesian</a></strong>:
       <em class="summary">Extended to convert geocentric, <a 
         href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
@@ -962,6 +955,13 @@
         n-vector-based, geodetic <a 
         href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
+      <em class="summary">Extended to convert <code>Karney</code>-based <a 
+        href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
+        class="link">Cartesian</a> to <code>Karney</code>-based <a 
+        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
+        class="link">LatLon</a> points.</em>
     </li>
     </ul>
     </li>
@@ -1624,13 +1624,6 @@
         geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
         class="link">LatLon</a>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
-      <em class="summary">Extended to convert <code>Karney</code>-based <a 
-        href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
-        class="link">Cartesian</a> to <code>Karney</code>-based <a 
-        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
-        class="link">LatLon</a> points.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Cartesian-class.html">pygeodesy.ellipsoidalNvector.Cartesian</a></strong>:
       <em class="summary">Extended to convert geocentric, <a 
         href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
@@ -1638,6 +1631,13 @@
         n-vector-based, geodetic <a 
         href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
+      <em class="summary">Extended to convert <code>Karney</code>-based <a 
+        href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
+        class="link">Cartesian</a> to <code>Karney</code>-based <a 
+        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
+        class="link">LatLon</a> points.</em>
     </li>
     </ul>
     </li>
@@ -2406,13 +2406,12 @@
         contact points of the <i>inscribed</i> aka <i>In- circle</i> of a 
         triangle.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoids.Circle4Tuple-class.html">pygeodesy.ellipsoids.Circle4Tuple</a></strong>:
-      <em class="summary">4-Tuple <code>(radius, height, lat, beta)</code> of the 
-        <code>radius</code> and <code>height</code>, both conventionally in
-        <code>meter</code> of a parallel <i>circle of latitude</i> at 
-        (geodetic) latitude <code>lat</code> and the <i>parametric (or 
-        reduced) auxiliary latitude</i> <code>beta</code>, both in 
-        <code>degrees90</code>.</em>
+    <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.Circle4Tuple-class.html">pygeodesy.namedTuples.Circle4Tuple</a></strong>:
+      <em class="summary">4-Tuple <code>(radius, height, lat, beta)</code> with the 
+        <code>radius</code> and <code>height</code> of a parallel <i>circle
+        of latitude</i> at (geodetic) latitude <code>lat</code> and 
+        <i>parametric (or reduced) auxiliary latitude</i> <code>beta</code>
+        on a <i>biaxial ellipsoid</i>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.vector2d.Circum3Tuple-class.html">pygeodesy.vector2d.Circum3Tuple</a></strong>:
       <em class="summary">3-Tuple <code>(radius, center, deltas)</code> with the 
@@ -2573,6 +2572,13 @@
     <li> <strong class="uidlink"><a href="pygeodesy.elevations.Elevation2Tuple-class.html">pygeodesy.elevations.Elevation2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(elevation, data_source)</code> in <code>meter</code>
         and <code>str</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.Ellipse5Tuple-class.html">pygeodesy.namedTuples.Ellipse5Tuple</a></strong>:
+      <em class="summary">5-Tuple <code>(a, b, height, lat, beta)</code> with semi-axes 
+        <code>a</code> and <code>b</code> of a parallel <i>ellipse of 
+        latitude</i> at (geodetic) latitude <code>lat</code> and 
+        <i>parametric (or reduced) auxiliary latitude</i> <code>beta</code>
+        of a <i>triaxial ellipsoid</i>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.elliptic.Elliptic3Tuple-class.html">pygeodesy.elliptic.Elliptic3Tuple</a></strong>:
       <em class="summary">3-Tuple <code>(sn, cn, dn)</code> all <code>scalar</code>.</em>
@@ -3968,13 +3974,12 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         contact points of the <i>inscribed</i> aka <i>In- circle</i> of a 
         triangle.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoids.Circle4Tuple-class.html">pygeodesy.ellipsoids.Circle4Tuple</a></strong>:
-      <em class="summary">4-Tuple <code>(radius, height, lat, beta)</code> of the 
-        <code>radius</code> and <code>height</code>, both conventionally in
-        <code>meter</code> of a parallel <i>circle of latitude</i> at 
-        (geodetic) latitude <code>lat</code> and the <i>parametric (or 
-        reduced) auxiliary latitude</i> <code>beta</code>, both in 
-        <code>degrees90</code>.</em>
+    <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.Circle4Tuple-class.html">pygeodesy.namedTuples.Circle4Tuple</a></strong>:
+      <em class="summary">4-Tuple <code>(radius, height, lat, beta)</code> with the 
+        <code>radius</code> and <code>height</code> of a parallel <i>circle
+        of latitude</i> at (geodetic) latitude <code>lat</code> and 
+        <i>parametric (or reduced) auxiliary latitude</i> <code>beta</code>
+        on a <i>biaxial ellipsoid</i>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.vector2d.Circum3Tuple-class.html">pygeodesy.vector2d.Circum3Tuple</a></strong>:
       <em class="summary">3-Tuple <code>(radius, center, deltas)</code> with the 
@@ -4135,6 +4140,13 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
     <li> <strong class="uidlink"><a href="pygeodesy.elevations.Elevation2Tuple-class.html">pygeodesy.elevations.Elevation2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(elevation, data_source)</code> in <code>meter</code>
         and <code>str</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.Ellipse5Tuple-class.html">pygeodesy.namedTuples.Ellipse5Tuple</a></strong>:
+      <em class="summary">5-Tuple <code>(a, b, height, lat, beta)</code> with semi-axes 
+        <code>a</code> and <code>b</code> of a parallel <i>ellipse of 
+        latitude</i> at (geodetic) latitude <code>lat</code> and 
+        <i>parametric (or reduced) auxiliary latitude</i> <code>beta</code>
+        of a <i>triaxial ellipsoid</i>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.elliptic.Elliptic3Tuple-class.html">pygeodesy.elliptic.Elliptic3Tuple</a></strong>:
       <em class="summary">3-Tuple <code>(sn, cn, dn)</code> all <code>scalar</code>.</em>
@@ -4875,7 +4887,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Feb 23 17:47:07 2026
+    Generated by Epydoc 3.0.1 on Wed Mar 25 13:27:17 2026
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

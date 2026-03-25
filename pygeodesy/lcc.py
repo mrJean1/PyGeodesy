@@ -66,7 +66,7 @@ class Conic(_NamedEnumItem):
     _datum = None  # datum (L{Datum})
     _name  = NN    # Conic.__name__, set below
 
-    _e  = _0_0  # ellipsoid excentricity (C{float})
+    _e  = _0_0  # ellipsoid eccentricity (C{float})
     _E0 = _0_0  # false easting (C{float})
     _k0 = _1_0  # scale factor (C{float})
     _N0 = _0_0  # false northing (C{float})

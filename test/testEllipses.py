@@ -4,11 +4,11 @@
 # Test module L{ellipses}.
 
 __all__ = ('Tests',)
-__version__ = '26.02.22'
+__version__ = '26.03.25'
 
 from bases import startswith, TestsBase
 
-from pygeodesy import Ellipse, Ellipsoids, EPS, elliperim
+from pygeodesy import Ellipse, Ellipsoids, EPS, elliperim, polar2d
 
 
 class Tests(TestsBase):
@@ -36,7 +36,9 @@ class Tests(TestsBase):
                          (E.perimeter2k_, '2k_'),  # scipy?
                          (E.perimeterAGM, 'AGM'),
                          (E.perimeterHGK, 'HGK'),
+                         (E.perimeterCR,  'CR'),
                          (E.perimeterGK,  'GK'),
+                         (E.perimeter2RC, '2RC'),
                          (E.perimeter2R,  '2R')):
                 if p is not None:
                     self.test(_n(n), p, x, known=startswith, prec=9)
@@ -53,6 +55,7 @@ class Tests(TestsBase):
             self.test(n, elliperim(0, b), b * 4, prec=1)
             self.test(n, elliperim(0, 0), '0.0')
 
+            self.test(_a('apses2'), E.apses2, E.apses2, nl=1)
             m =  Ellipse(b, a).arc
             n = _a('arc')
             x =  E.arc(45)
@@ -66,11 +69,20 @@ class Tests(TestsBase):
             self.test(_a('e '),   E.e, E.e)
             self.test(_a('c '),   E.c, E.c)
             self.test(_a('p '),   E.p, E.p)
-            self.test(_a('R2'),   E.R2, E.R2)
+            x = E.point(45)
+            self.test(_a('point 45'), x, x)
+            x = E.polar2d(45)
+            self.test(_a('polar2d 45'), x, x)
+            self.test(_a('R1'), E.R1, E.R1)
+            self.test(_a('R2'), E.R2, E.R2)
             x = E.Roc(60)
             self.test(_a('Roc 60'), x, x)
+            x = E.Roc_(-1, 1)
+            self.test(_a('Roc_(-1, 1)'), x, x)
+            self.test(_a('Rrectifying'), E.Rrectifying, E.Rrectifying)
             x = E.sideOf(0, 1)
             self.test(_a('sideOf'), x, x)
+            self.test(_a('sideOf(c, p)'), E.sideOf(E.c, E.p), 0.0)
             x = E.slope(60)
             self.test(_a('slope 60'), x, x)
 
@@ -89,6 +101,28 @@ class Tests(TestsBase):
             self.test(_a('toEllipsoid', n=-12), x, x)
             x = E.toTriaxial_().toStr()
             self.test(_a('toTriaxial_', n=-12), x, x)
+
+            if not E.isFlat:  # coverage
+                cw = tuple(E.points(20, ccw=False, ended=True))
+                n  = sum(int(bool(E.sideOf(*t))) for t in cw)
+                self.total += len(cw)
+                self.test(_a('sideOfs'), n, 0, nl=1)
+                self.test(_a('sideOf point'),  E.sideOf(*E.point(45)), '0.0')
+                ccw = tuple(E.points(20, ccw=True, ended=True))
+                self.test(_a('cw vs ccw'), len(cw), len(ccw))
+                t = str(cw == tuple(reversed(ccw)))
+                self.test(_a("cw vs ccw'd"), t, True)
+                n = 0
+                for d in range(0, 360, 15):
+                    x, y, _, _ = E.normal4(d, height=10000)
+                    _, p = polar2d(x, y, *E.point(d))
+                    s = p - E.slope(d)
+                    if abs(s - 90) > 1e-11:
+                        self.test(_a('slopes at %d' % (d,)), s, 90.0)
+                        n += 1
+                    else:
+                        self.total += 1
+                self.test(_a('slopes'), n, 0)
 
         self.test(_a('isCircular'), E.isCircular, E.isCircular, nl=1)
         self.test(_a('isFlat'),     E.isFlat, E.isFlat)

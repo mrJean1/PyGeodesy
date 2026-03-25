@@ -73,31 +73,31 @@ from pygeodesy.constants import EPS, EPS_2, EPS0, EPS02, EPS1, INF, NINF, \
                                _2_0, _4_0, _90_0, _0_25, _3_0  # PYCHOK used!
 # from pygeodesy.ellipses import Ellipse  # _MODS
 from pygeodesy.errors import _AssertionError, IntersectionError, _ValueError, _xattr, _xkwds_not
-from pygeodesy.fmath import cbrt, cbrt2, fdot, Fhorner, fpowers, hypot, hypot_, \
+from pygeodesy.fmath import cbrt, cbrt2, fdot, fmean_, Fhorner, fpowers, hypot, hypot_, \
                             hypot1, hypot2, sqrt3,  Fsum
 # from pygeodesy.fsums import Fsum  # from .fmath
 # from pygeodesy.internals import typename  # from .basics
-from pygeodesy.interns import NN, _a_, _Airy1830_, _AiryModified_, _b_, _Bessel1841_, _beta_, \
+from pygeodesy.interns import NN, _a_, _Airy1830_, _AiryModified_, _b_, _Bessel1841_, \
                              _Clarke1866_, _Clarke1880IGN_, _DMAIN_, _DOT_, _f_, _GRS80_, \
-                             _height_, _Intl1924_, _incompatible_, _invalid_, _Krassovski1940_, \
+                             _Intl1924_, _incompatible_, _invalid_, _Krassovski1940_, \
                              _Krassowsky1940_, _lat_, _meridional_, _negative_, _not_finite_, \
-                             _prime_vertical_, _radius_, _Sphere_, _SPACE_, _vs_, _WGS72_, _WGS84_
+                             _prime_vertical_, _Sphere_, _SPACE_, _vs_, _WGS72_, _WGS84_
 # from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS  # from .named
 from pygeodesy.named import _lazyNamedEnumItem as _lazy, _name__, _NamedEnum, \
                                 _NamedEnumItem, _NamedTuple, _Pass,  _ALL_LAZY, _MODS
-from pygeodesy.namedTuples import Distance2Tuple, Vector3Tuple, Vector4Tuple
+from pygeodesy.namedTuples import Circle4Tuple, Distance2Tuple, Vector3Tuple, Vector4Tuple
 from pygeodesy.props import deprecated_Property_RO, Property_RO, property_doc_, \
                             deprecated_property_RO, property_RO, property_ROver
 from pygeodesy.streprs import Fmt, fstr, instr, strs, unstr
 # from pygeodesy.triaxials.triaxial5 import _hartzell3, _plumbTo3  # _MODS
-from pygeodesy.units import Azimuth, Bearing, Distance, Float, Float_, Height, Lamd, Lat, \
+from pygeodesy.units import Azimuth, Bearing, Distance, Float, Float_, Lamd, Lat, _Lat0, \
                             Meter, Meter2, Meter3, Phi, Phid, Radius, Radius_, Scalar
 from pygeodesy.utily import atan1, atan1d, atan2b, degrees90, m2radians, radians2m, sincos2d
 
 from math import asinh, atan, atanh, cos, degrees, exp, fabs, radians, sin, sinh, sqrt, tan  # as _tan
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '26.02.14'
+__version__ = '26.03.25'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -181,21 +181,6 @@ class a_f2Tuple(_NamedTuple):
         return f2f_(self.f)  # PYCHOK .f
 
 
-class Circle4Tuple(_NamedTuple):
-    '''4-Tuple C{(radius, height, lat, beta)} of the C{radius} and C{height},
-       both conventionally in C{meter} of a parallel I{circle of latitude} at
-       (geodetic) latitude C{lat} and the I{parametric (or reduced) auxiliary
-       latitude} C{beta}, both in C{degrees90}.
-
-       The C{height} is the (signed) distance along the z-axis between the
-       parallel and the equator.  At near-polar C{lat}s, the C{radius} is C{0},
-       the C{height} is the ellipsoid's (signed) polar radius and C{beta}
-       equals C{lat}.
-    '''
-    _Names_ = (_radius_, _height_, _lat_, _beta_)
-    _Units_ = ( Radius,   Height,   Lat,   Lat)
-
-
 class Curvature2Tuple(_NamedTuple):
     '''2-Tuple C{(meridional, prime_vertical)} of radii of curvature, both in
        C{meter}, conventionally.
@@ -266,7 +251,7 @@ class Ellipsoid(_NamedEnumItem):
                 f_ = f = 0
                 b  = a  # superfluous
 
-            if not f < _1_0:  # sanity check, see .ecef.Ecef.__init__
+            if not (f < _1_0):  # sanity check, see .ecef.Ecef.__init__
                 raise ValueError(_SPACE_(_f_, _invalid_))
             if not _isfinite(b):
                 raise ValueError(_SPACE_(_b_, _not_finite_))
@@ -331,6 +316,31 @@ class Ellipsoid(_NamedEnumItem):
         return Float(a2_=_1_0 / self.a2)
 
     @Property_RO
+    def A(self):
+        '''Get the UTM I{meridional (or rectifying)} radius (C{meter}).
+
+           @note: C{A * PI / 2} ≈= L{L<Ellipsoid.L>}, the I{quarter meridian}.
+
+           @see: I{Meridian arc unit} U{Q<https://StudyLib.net/doc/7443565/>},
+                 the mean, meridional length I{per radian}.
+        '''
+        A, n = self.a, self.n
+        if n:
+            d = (n + _1_0) * 1048576 / A
+            if d:  # use 6 n**2 terms, half-way between the _KsOrder's 4, 6, 8
+                # <https://GeographicLib.SourceForge.io/C++/doc/tmseries30.html>
+                # <https://GeographicLib.SourceForge.io/C++/doc/transversemercator.html> and
+                # <https://www.MyGeodesy.id.AU/documents/Karney-Krueger%20equations.pdf> (3)
+                # A *= fhorner(n**2, 1048576, 262144, 16384, 4096, 1600, 784, 441) / 1048576) / (1 + n)
+                A = Radius(A=Fhorner(n**2, 1048576, 262144, 16384, 4096, 1600, 784, 441).fover(d))
+        return A
+#       # Moritz, H. <https://Geodesy.Geology.Ohio-State.edu/course/refpapers/00740128.pdf>
+#       # q =  4 / self.rocPolar
+#       # Q = (1 - 3 / 4 * e'2 + 45 / 64 * e'4 - 175 / 256 * e'6 + 11025 / 16384 * e'8) * rocPolar
+#       #   = (4 + e'2 * (-3 + e'2 * (45 / 16 + e'2 * (-175 / 64 + e'2 * 11025 / 4096)))) / q
+#       return Radius(Q=Fhorner(self.e22, 4, -3, 45 / 16, -175 / 64, 11025 / 4096).fover(q))
+
+    @Property_RO
     def a_b(self):
         '''Get the ratio I{equatorial} over I{polar} radius (C{float}), M{a / b} == M{1 / (1 - f)}.
         '''
@@ -365,31 +375,6 @@ class Ellipsoid(_NamedEnumItem):
         return a_f2Tuple(self.a, self.f, name=self.name)
 
     a_f2 = a_f  # synonym
-
-    @Property_RO
-    def A(self):
-        '''Get the UTM I{meridional (or rectifying)} radius (C{meter}).
-
-           @note: C{A * PI / 2} ≈= L{L<Ellipsoid.L>}, the I{quarter meridian}.
-
-           @see: I{Meridian arc unit} U{Q<https://StudyLib.net/doc/7443565/>},
-                 the mean, meridional length I{per radian}.
-        '''
-        A, n = self.a, self.n
-        if n:
-            d = (n + _1_0) * 1048576 / A
-            if d:  # use 6 n**2 terms, half-way between the _KsOrder's 4, 6, 8
-                # <https://GeographicLib.SourceForge.io/C++/doc/tmseries30.html>
-                # <https://GeographicLib.SourceForge.io/C++/doc/transversemercator.html> and
-                # <https://www.MyGeodesy.id.AU/documents/Karney-Krueger%20equations.pdf> (3)
-                # A *= fhorner(n**2, 1048576, 262144, 16384, 4096, 1600, 784, 441) / 1048576) / (1 + n)
-                A = Radius(A=Fhorner(n**2, 1048576, 262144, 16384, 4096, 1600, 784, 441).fover(d))
-        return A
-#       # Moritz, H. <https://Geodesy.Geology.Ohio-State.EDU/course/refpapers/00740128.pdf>
-#       # q =  4 / self.rocPolar
-#       # Q = (1 - 3 / 4 * e'2 + 45 / 64 * e'4 - 175 / 256 * e'6 + 11025 / 16384 * e'8) * rocPolar
-#       #   = (4 + e'2 * (-3 + e'2 * (45 / 16 + e'2 * (-175 / 64 + e'2 * 11025 / 4096)))) / q
-#       return Radius(Q=Fhorner(self.e22, 4, -3, 45 / 16, -175 / 64, 11025 / 4096).fover(q))
 
     @Property_RO
     def _albersCyl(self):
@@ -459,9 +444,9 @@ class Ellipsoid(_NamedEnumItem):
                  U{Snyder<https://Pubs.USGS.gov/pp/1395/report.pdf>}, p 16.
         '''
         if self.f:
-            f   = self._albersCyl._tanf if inverse else \
+            _f  = self._albersCyl._tanf if inverse else \
                   self._albersCyl._txif  # PYCHOK attr
-            lat = atan1d(f(tan(Phid(lat))))  # PYCHOK attr
+            lat = atan1d(_f(tan(Phid(lat))))  # PYCHOK attr
         return _aux(lat, inverse, Ellipsoid.auxAuthalic)
 
     def auxConformal(self, lat, inverse=False):
@@ -479,8 +464,8 @@ class Ellipsoid(_NamedEnumItem):
                  U{Snyder<https://Pubs.USGS.gov/pp/1395/report.pdf>}, pp 15-16.
         '''
         if self.f:
-            f   = self.es_tauf if inverse else self.es_taupf  # PYCHOK attr
-            lat = atan1d(f(tan(Phid(lat))))  # PYCHOK attr
+            _f  = self.es_tauf if inverse else self.es_taupf  # PYCHOK attr
+            lat = atan1d(_f(tan(Phid(lat))))  # PYCHOK attr
         return _aux(lat, inverse, Ellipsoid.auxConformal)
 
     def auxGeocentric(self, lat, inverse=False, height=_0_0):
@@ -554,7 +539,7 @@ class Ellipsoid(_NamedEnumItem):
                  and U{Snyder<https://Pubs.USGS.gov/pp/1395/report.pdf>}, p 18.
         '''
         if self.f:
-            lat = self._beta(Lat(lat), inverse=inverse)
+            lat = self._Betad(Lat(lat), inverse=inverse)
         return _aux(lat, inverse, Ellipsoid.auxParametric)
 
     auxReduced = auxParametric  # synonymous
@@ -621,12 +606,12 @@ class Ellipsoid(_NamedEnumItem):
         '''
         return Float(b2_a2=self.b_a**2 if self.f else _1_0)
 
-    def _beta(self, lat, inverse=False):
+    def _Betad(self, lat, inverse=False):
         '''(INTERNAL) Get the I{parametric (or reduced) auxiliary latitude} or inverse thereof.
         '''
         s, c = sincos2d(lat)  # like Karney's tand(lat)
         s *= self.a_b if inverse else self.b_a
-        return atan1d(s, c)
+        return atan1d(s, c)  # (s * a, c * b) if inverse else (s * b, c * a)
 
     @Property_RO
     def BetaKs(self):
@@ -688,11 +673,11 @@ class Ellipsoid(_NamedEnumItem):
     def circle4(self, lat):
         '''Get the equatorial or a parallel I{circle of latitude}.
 
-           @arg lat: Geodetic latitude (C{degrees90}, C{str}).
+           @arg lat: Geodetic latitude (C{degrees90} or C{str}).
 
            @return: A L{Circle4Tuple}C{(radius, height, lat, beta)}.
 
-           @raise RangeError: Latitude B{C{lat}} outside valid range and
+           @raise RangeError: Latitude B{C{lat}} outside valid range, only if
                               L{rangerrors<pygeodesy.rangerrors>} is C{True}.
 
            @raise TypeError: Invalid B{C{lat}}.
@@ -702,27 +687,27 @@ class Ellipsoid(_NamedEnumItem):
            @see: Definition of U{I{p} and I{z} under B{Parametric (or reduced) latitude}
                  <https://WikiPedia.org/wiki/Latitude>}, I{Karney's} C++ U{CircleRadius and CircleHeight
                  <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Ellipsoid.html>}
-                 and method C{Rlat}.
+                 and method C{Triaxial.ellipse5}.
         '''
-        lat = Lat(lat)
+        lat = _Lat0(lat)
         if lat:
             B = lat  # beta
             if fabs(lat) < _90_0:
                 if self.f:
-                    B = self._beta(lat)
+                    B = self._Betad(lat)
                 z, r = sincos2d(B)
                 r *= self.a
                 z *= self.b
             else:  # near-polar
                 r, z = _0_0, copysign0(self.b, lat)
-        else:  # equator
+        else:  # equatorial
             r = self.a
             z = lat = B = _0_0
         return Circle4Tuple(r, z, lat, B)
 
     def degrees2m(self, deg, lat=0):
-        '''Convert an angle along the equator or along a parallel
-           of (geodetic) latitude to the distance.
+        '''Convert an arc in degrees to a distance along the equator or
+           along a parallel of (geodetic) latitude.
 
            @arg deg: The angle (C{degrees}).
            @kwarg lat: Parallel latitude (C{degrees90}, C{str}).
@@ -1170,7 +1155,7 @@ class Ellipsoid(_NamedEnumItem):
            @raise TypeError: Non-cartesian B{C{xyz}}.
 
            @see: U{Distance to<https://StackOverflow.com/questions/22959698/distance-from-given-point-to-given-ellipse>}
-                 and U{intersection with<https://MathWorld.wolfram.com/Ellipse-LineIntersection.html>} an ellipse and
+                 and U{intersection with<https://MathWorld.Wolfram.com/Ellipse-LineIntersection.html>} an ellipse and
                  methods L{Ellipsoid.hartzell4} and L{Triaxial.height4}.
         '''
         v = _MODS.vector3d._otherV3d(xyz=xyz)
@@ -1340,13 +1325,13 @@ class Ellipsoid(_NamedEnumItem):
         return self.a
 
     def m2degrees(self, distance, lat=0):
-        '''Convert a distance to an angle along the equator or along
-           a parallel of (geodetic) latitude.
+        '''Convert a distance to an arc in degrees along the equator or
+           along a parallel of (geodetic) latitude.
 
            @arg distance: Distance (C{meter}).
            @kwarg lat: Parallel latitude (C{degrees90}, C{str}).
 
-           @return: Angle (C{degrees}) or C{INF} for near-polar B{C{lat}}.
+           @return: Angle (C{degrees}) or C{0} for near-polar B{C{lat}}.
 
            @raise RangeError: Latitude B{C{lat}} outside valid range and
                               L{rangerrors<pygeodesy.rangerrors>} is C{True}.
@@ -1410,8 +1395,7 @@ class Ellipsoid(_NamedEnumItem):
            @see: U{Earth radius<https://WikiPedia.org/wiki/Earth_radius>}
                  and method C{Rgeometric}.
         '''
-        r = Fsum(self.a, self.a, self.b).fover(_3_0) if self.f else self.a
-        return Radius(R1=r)
+        return Radius(R1=fmean_(self.a, self.a, self.b) if self.f else self.a)
 
     Rmean = R1
 
@@ -1423,7 +1407,7 @@ class Ellipsoid(_NamedEnumItem):
                  <https://WikiPedia.org/wiki/Earth_radius>}.
         '''
         return Radius(R2=sqrt(self.c2) if self.f else self.a)
-#       # Moritz, H. <https://Geodesy.Geology.Ohio-State.EDU/course/refpapers/00740128.pdf>
+#       # Moritz, H. <https://Geodesy.Geology.Ohio-State.edu/course/refpapers/00740128.pdf>
 #       # R2 = (1 - 2/3 * e'2 + 26/45 * e'4 - 100/189 * e'6 + 7034/14175 * e'8) * rocPolar
 #       #    = (3 + e'2 * (-2 + e'2 * (26/15 + e'2 * (-100/63 + e'2 * 7034/4725)))) * rocPolar / 3
 #       return Fhorner(self.e22, 3, -2, 26 / 15, -100 / 63, 7034 / 4725).fover(3 / self.rocPolar)
@@ -1588,28 +1572,27 @@ class Ellipsoid(_NamedEnumItem):
         return self.rhumbekx
 
     def Rlat(self, lat):
-        '''I{Approximate} the earth radius of (geodetic) latitude.
+        '''I{Average} the earth radius between C{equatoradius} at C{0} and
+           C{polaradius} at C{+/-90} degrees latitude.
 
-           @arg lat: Latitude (C{degrees90}).
+           @arg lat: Latitude (C{degrees90}, C{str} or C{Ang}).
 
-           @return: Approximate earth radius (C{meter}).
+           @return: Averaged earth radius (C{meter}).
 
-           @raise RangeError: Latitude B{C{lat}} outside valid range and
+           @raise RangeError: Latitude B{C{lat}} outside valid range, only if
                               L{rangerrors<pygeodesy.rangerrors>} is C{True}.
 
            @raise TypeError: Invalid B{C{lat}}.
 
            @raise ValueError: Invalid B{C{lat}}.
-
-           @note: C{Rlat(B{90})} equals C{Rpolar}.
-
-           @see: Method C{circle4}.
         '''
         # r = a - (a - b) * |lat| / 90
         r = self.a
-        if self.f and lat:  # .isEllipsoidal
-            r -= (r - self.b) * fabs(Lat(lat)) / _90_0
-            r  =  Radius(Rlat=r)
+        if self.f:  # .isEllipsoidal
+            lat = _Lat0(lat)
+            if lat:
+                r -= (r - self.b) * fabs(lat) / _90_0
+                r  =  Radius(Rlat=r)
         return r
 
     Rpolar = b  # for consistent naming

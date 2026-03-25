@@ -34,7 +34,7 @@ C++/doc/classGeographicLib_1_1Triaxial_1_1Cartesian3.html>}:
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # noqa: E702 ;
 
-# from pygeodesy.angles import Ang, isAng  # _MODS
+# from pygeodesy.angles import Ang  # _MODS
 # from pygeodesy.basics import map1  # from .namedTuples
 from pygeodesy.constants import EPS, EPS0, EPS02, EPS4, INT0, NAN, PI_3, PI2, PI4, \
                                _EPS2e4, _isfinite, float0_, _1_over, _0_0, _1_0, \
@@ -51,19 +51,19 @@ from pygeodesy.interns import _a_, _b_, _c_, _inside_, _not_, _NOTEQUAL_, _null_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS
 from pygeodesy.named import _NamedEnum, _NamedEnumItem, _NamedTuple, _Pass
 # from pygeodesy.named import _lazyNamedEnumItem as _lazy  # _MODS
-from pygeodesy.namedTuples import Vector4Tuple,  map1
+from pygeodesy.namedTuples import Ellipse5Tuple, Vector4Tuple,  map1
 from pygeodesy.props import Property_RO, property_doc_, property_RO, \
                             deprecated_method, deprecated_property_RO
 # from pygeodesy.streprs import Fmt  # _MODS
-from pygeodesy.units import Degrees, Easting, Float, Height, Height_, Meter, \
-                            Meter2, Meter3, Northing, Radius_, Scalar
+from pygeodesy.units import Degrees, Easting, Float, Height, Height_, _Lat0, \
+                            Meter, Meter2, Meter3, Northing, Radius_, Scalar
 from pygeodesy.utily import asin1, km2m, m2km,  _ValueError, _xkwds
 from pygeodesy.vector3d import _otherV3d, Vector3d
 
 # from math import fabs, sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.triaxials_bases
-__version__ = '26.02.19'
+__version__ = '26.03.12'
 
 _bet_         = 'bet'  # PYCHOK shared
 _llk_         = 'llk'  # PYCHOK shared
@@ -371,6 +371,37 @@ class _UnOrderedTriaxialBase(_NamedEnumItem):
 
 #   _1e2bc = _c2_b2  # == C{1 - e2bc} == C{(c/b)**2}
 
+    def ellipse5(self, lat):
+        '''Get the equatorial or a parallel I{ellipse of lattitude}.
+
+           @arg lat: Geodetic latitude (C{degrees90}, C{str} or C{Ang}).
+
+           @return: An L{Ellipse5Tuple}C{(a, b, height, lat, beta)} with C{a},
+                    C{b} and C{height} measured along this trixial's semi-axis
+                    C{a}, C{b} and C{c}, respectively.
+
+           @see: Method L{Ellipsoid.circle4<pygeodesy.Ellipsoid.circle4>} for
+                 further details.
+        '''
+        a, b, c = self._abc3
+        lat = _Lat0(lat)
+        if lat and c > 0:
+            E = _MODS.ellipsoids.Ellipsoid
+            if a > b:
+                r, z, lat, B = E(a, b=c).circle4(lat)
+                b *= r / a
+                a  = r
+            elif b > a:
+                r, z, lat, B = E(b, b=c).circle4(lat)
+                a *= r / b
+                b  = r
+            else:  # a == b
+                r, z, lat, B = E(a, b=c).circle4(lat)
+                a = b = r
+        else:  # equatorial or "flat"
+            z = lat = B = _0_0
+        return Ellipse5Tuple(a, b, z, lat, B)
+
     def hartzell4(self, pov, los=False, **name):
         '''Compute the intersection of this triaxial's surface with a Line-Of-Sight
            from a Point-Of-View in space.
@@ -495,7 +526,7 @@ class _UnOrderedTriaxialBase(_NamedEnumItem):
                 h  = n.length
                 n += v
             else:
-                h = h / v.length
+                h = h / v.length  # /= chokes PyChecker
                 n = v.times(h + _1_0)
         else:
             n = v
@@ -973,6 +1004,7 @@ class _TriaxialsBase(_NamedEnum):
             # <https://www.JPS.NASA.gov/education/images/pdf/ss-moons.pdf>
             # <https://link.Springer.com/article/10.1007/s00190-022-01650-9>
             # <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Constants.html>
+            # <https://www.ResearchGate.net/publication/344992491_Fitting_a_triaxial_ellipsoid_to_a_geoid_model>
             for n, abc in dict(  # a (Km)       b (Km)      c (Km)       planet
                       Amalthea= (125.0,        73.0,       64.0),      # Jupiter
                       Ariel=    (581.1,       577.9,      577.7),      # Uranus
@@ -987,6 +1019,7 @@ class _TriaxialsBase(_NamedEnum):
                       Tethys=   (535.6,       528.2,      525.8),      # Saturn
                       WGS84_3= (6378.17136,  6378.10161, 6356.75184),  # C++
                       WGS84_3r=(6378.172,    6378.102,   6356.752),    # C++, rounded
+#                     Panou=   (6378.17188,  6378.10203, 6356.75224),  # et.al. Fitting ...
                       WGS84_35=abc84_35).items():
                 kwds[n] = _lazy(n, *map(km2m, abc))
         _NamedEnum._assert(self, **kwds)

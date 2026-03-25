@@ -27,7 +27,7 @@ from os import getenv
 from setuptools import setup
 
 __all__ = ()
-__version__ = '26.02.02'
+__version__ = '26.03.26'
 
 _PACKAGE = 'pygeodesy'  # 'PyGeodesy'
 
@@ -53,7 +53,7 @@ def _version():
                 return '.'.join(map(str, map(int, v.split('.')))) + c
 
 
-_KeyWords = ('AER', 'AGM', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode',
+_KeyWords = ('AER', 'AGM', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode', 'apoapsis', 'apses',
              'area', 'Arithmetic-Geometric-Mean', 'attitude', 'Authalic', 'auxiliary',
              'azimuth', 'azimuthal', 'azimuth-elevation-range',
              'bearing', 'bank', 'Barsky', 'Barth', 'beta', 'bi-quadratic', 'boolean',
@@ -87,7 +87,7 @@ _KeyWords = ('AER', 'AGM', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode
              'mean', 'memoize', 'memoized', 'Mercator', 'Meeus', 'MGRS',
              'nearest', 'NED', 'Niemeyer', 'non-finite', 'normalize', 'Norrdine', 'north-east-down', 'numpy', 'n-vector', 'Nvector',
              'oblate', 'omega', 'orthographic', 'orthometric-height', 'OSGB', 'OSGR', 'overlap',
-             'parallel', 'parallel-of-latitude', 'Parametric', 'path-intersection',
+             'parallel', 'parallel-of-latitude', 'Parametric', 'path-intersection', 'periapsis',
              'perimeter', 'Peucker', 'Pierlot', 'pitch', 'plumb', 'Point-Of-View', 'polar', 'Popa', 'POV',
              'precision-cubic-root', 'precision-hypotenuse', 'precision-powers',
              'precision-running-summation', 'precision-square-root', 'precision-summation',
@@ -95,7 +95,7 @@ _KeyWords = ('AER', 'AGM', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode
              'radical', 'radii', 'radius', 'Ramanujan', 'Ramer', 'Ramer-Douglas-Peucker', 'Rectifying',
              'Reduced', 'resect', 'resection', 'Rey-Jer', 'Reumann', 'Reumann-Witkam', 'rho-theta-phi', 'rhumb', 'RhumbSolve',
              'running-linear-regression', 'running-statistics', 'running-stats', 'running-summation',
-             'scipy', 'secant', 'semi-perimeter', 'sexagecimal', 'simplify', 'skewness',
+             'scipy', 'secant', 'semi-latus-rectum', 'semi-perimeter', 'sexagecimal', 'simplify', 'skewness',
              'Snellius', 'Snellius-Pothenot', 'Snyder', 'Soddy', 'Soddy-circles', 'Soldner',
              'sphere', 'sphere-intersections', 'spherical-deficit', 'spherical-excess', 'spherical-polar', 'spherical-triangle',
              'squared-quartic', 'standard-deviation', 'stereographic', 'Sudano', 'surface-area', 'Sutherland',

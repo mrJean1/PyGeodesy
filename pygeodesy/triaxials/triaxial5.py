@@ -63,7 +63,7 @@ from pygeodesy.vector3d import _otherV3d, Vector3d
 # from math import fabs, sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.triaxials_triaxial5
-__version__ = '26.02.20'
+__version__ = '26.03.09'
 
 _omega_ = 'omega'
 _TRIPS  =  359  # Eberly 1074?
@@ -1116,7 +1116,7 @@ def _rootNd(r, s, u, v, w, g, eps=EPS0):
 
 
 def _tri_biaxial(tri_biax, where):
-    '''(INTERNAL) Get a triaxail for C{tri_biax}.
+    '''(INTERNAL) Get a triaxial for C{tri_biax}.
     '''
     if isinstance(tri_biax, _UnOrderedTriaxialBase):
         T = tri_biax

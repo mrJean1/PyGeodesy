@@ -36,7 +36,7 @@ from contextlib import contextmanager
 # from math import fabs, sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.vector2d
-__version__ = '25.05.26'
+__version__ = '26.02.27'
 
 _cA_        = 'cA'
 _cB_        = 'cB'
@@ -275,7 +275,7 @@ def circum4(points, useZ=True, **Vector_and_kwds):
              U{"Least Squares Sphere Fit"<https://Jekel.me/2015/Least-Squares-Sphere-Fit/>},
              U{Appendix A<https://hdl.handle.net/10019.1/98627>}, U{numpy.linalg.lstsq
              <https://NumPy.org/doc/stable/reference/generated/numpy.linalg.lstsq.html>} and U{Eberly
-             6<https://www.sci.Utah.EDU/~balling/FEtools/doc_files/LeastSquaresFitting.pdf>}.
+             6<https://www.sci.Utah.edu/~balling/FEtools/doc_files/LeastSquaresFitting.pdf>}.
     '''
     n, ps = len2(points)
     if n < 3:

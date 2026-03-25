@@ -29,7 +29,7 @@ from math import acos, asin, asinh, atan2 as _atan2, cos, degrees, fabs, \
                  radians, sin, sinh, tan as _tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '26.01.14'
+__version__ = '26.03.20'
 
 _SIN_30 = _0_5
 _SIN_45 = _COS_45
@@ -43,8 +43,9 @@ _M = _Enum(  # meter per ...
     CHAIN   = _float(   20.1168),        # yard2m(1) * 22
     FATHOM  = _float(    1.8288),        # yard2m(1) * 2 or _M.NM * 1e-3
     FOOT    = _float(    0.3048),        # Int'l foot, 1 / 3.280_839_895_0131 == (254 * 12) / 10_000
-    FOOT_GE = _float(    0.31608),       # German Fuss, 1 / 3.163_756_011_1364
     FOOT_FR = _float(    0.3248406),     # French Pied-du-Roi or pied, 1 / 3.078_432_929_8739
+    FOOT_GE = _float(    0.31608),       # German Fuss, 1 / 3.163_756_011_1364
+    FOOT_IN = _float(    0.304799514),   # India foot, 1 / 3.280_845_126_281_9
     FOOT_US = _float(    0.3048006096012192),  # US Survey foot, 1_200 / 3_937
     FURLONG = _float(  201.168),         # furlong, 220 * yard2m(1) = 10 * m2chain(1)
     HA      = _float(10000.0),           # hectare, 100 * 100, squared
@@ -52,7 +53,8 @@ _M = _Enum(  # meter per ...
     NM      = _M_NM,                     # nautical mile
     SM      = _M_SM,                     # statute mile
     TOISE   = _float(    1.9490436),     # French toise, 6 pieds = 6 / 3.078_432_929_8739
-    YARD_UK = _float(    0.9144))        # yard, 254 * 12 * 3 / 10_000 = 3 * _M.FOOT
+    YARD    = _float(    0.9144),        # Int'l yard, 254 * 12 * 3 / 10_000 = 3 * _M.FOOT
+    YARD_UK = _float(    0.914398415))   # Imperial yard, until 1959
 
 
 def _abs1nan(x):
@@ -68,11 +70,11 @@ def acos1(x):
 
 
 def acre2ha(acres):
-    '''Convert acres to hectare.
+    '''Convert an area in I{acres} to I{hectares}.
 
-       @arg acres: Value in acres (C{scalar}).
+       @arg acres: Area in acres (C{scalar}).
 
-       @return: Value in C{hectare} (C{float}).
+       @return: Area in hectares (C{float}).
 
        @raise ValueError: Invalid B{C{acres}}.
     '''
@@ -80,11 +82,11 @@ def acre2ha(acres):
 
 
 def acre2m2(acres):
-    '''Convert acres to I{square} meter.
+    '''Convert an area in I{acres} to I{square} meter.
 
-       @arg acres: Value in acres (C{scalar}).
+       @arg acres: Area in acres (C{scalar}).
 
-       @return: Value in C{meter^2} (C{float}).
+       @return: Area in C{square} meter (C{float}).
 
        @raise ValueError: Invalid B{C{acres}}.
     '''
@@ -137,16 +139,13 @@ def _atan1u(y, x, _2u):
 
 atan2 = _atan2
 '''Return C{atan2(B{y}, B{x})} in radians M{[-PI..+PI]}.
-
-   @see: I{Karney}'s C++ function U{Math.atan2d
-         <https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Math.html>}.
 '''
 
 
 def atan2b(y, x):
-    '''Return C{atan2(B{y}, B{x})} in degrees M{[0..+360], counter-clockwise}.
+    '''Return C{atan2(B{y}, B{x})} in degrees M{[0..+360), counter-clockwise}.
 
-       @see: Function L{pygeodesy.atan2d}.
+       @see: Function L{pygeodesy.atan2p} and L{pygeodesy.atan2d}.
     '''
     b = atan2d(y, x)
     if b < 0:
@@ -165,18 +164,29 @@ def atan2d(y, x, reverse=False):
     return _azireversed(d) if reverse else d
 
 
-def _azireversed(azi):  # in .rhumbBase
+def atan2p(y, x):  # in .fmath.polar2
+    '''Return C{atan2(B{y}, B{x})} in radians M{[0..+PI2), counter-clockwise}.
+
+       @see: Function L{pygeodesy.atan2b}.
+    '''
+    p = atan2(y, x)
+    if p < 0:
+        p += PI2
+    return p or _0_0  # unsigned-0
+
+
+def _azireversed(azi):  # in .rhumb.bases
     '''(INTERNAL) Return the I{reverse} B{C{azi}} in degrees M{[-180..+180]}.
     '''
-    return azi - _copysign(_180_0, azi)
+    return (azi + _180_0) if azi < 0 else (azi - _180_0)
 
 
 def chain2m(chains):
-    '''Convert I{UK} chains to meter.
+    '''Convert a length in I{UK} chains to meter.
 
-       @arg chains: Value in chains (C{scalar}).
+       @arg chains: Length in chains (C{scalar}).
 
-       @return: Value in C{meter} (C{float}).
+       @return: Length in C{meter} (C{float}).
 
        @raise ValueError: Invalid B{C{chains}}.
     '''
@@ -203,7 +213,7 @@ def circle4(earth, lat):
     return E.circle4(lat)
 
 
-def _circle4radius(earth, lat, **radius):
+def _circle4radius(earth, lat=0, **radius):
     '''(INTERNAL) Get C{circle4(earth, lat).radius}.
     '''
     e = _xkwds_get(radius, radius=earth) if radius else earth
@@ -325,10 +335,10 @@ def degrees2grades(deg):
 
 
 def degrees2m(deg, earth=R_M, lat=0, **radius):
-    '''Convert an angle to a distance along the equator or along a parallel
-       at (geodetic) latitude.
+    '''Convert an arc in degrees to a distance along the equator or along a
+       parallel at (geodetic) latitude.
 
-       @arg deg: The angle (C{degrees}).
+       @arg deg: The (longitudinal) angle (C{degrees} or C{str}).
        @arg earth: The earth radius (C{meter}) or an ellipsoid or datum
                    (L{Ellipsoid}, L{Ellipsoid2}, L{Datum} or L{a_f2Tuple}).
        @kwarg lat: Parallel latitude (C{degrees90}, C{str}).
@@ -337,7 +347,7 @@ def degrees2m(deg, earth=R_M, lat=0, **radius):
        @return: Distance (C{meter}, same units as B{C{earth}} or polar and
                 equatorial radii) or C{0.0} for near-polar B{C{lat}}.
 
-       @raise RangeError: Latitude B{C{lat}} outside valid range and
+       @raise RangeError: Latitude B{C{lat}} outside valid range, only if
                           L{rangerrors<pygeodesy.rangerrors>} is C{True}.
 
        @raise TypeError: Invalid B{C{earth}} or B{C{radius}}.
@@ -346,16 +356,15 @@ def degrees2m(deg, earth=R_M, lat=0, **radius):
 
        @see: Function L{radians2m} and L{m2degrees}.
     '''
-    m = _circle4radius(earth, lat, **radius)
-    return _Radians2m(Lamd(deg=deg, clip=0), m)
+    return _rad2m(Lamd(deg=deg, clip=0), earth, lat, **radius)
 
 
 def fathom2m(fathoms):
-    '''Convert I{Imperial} fathom to meter.
+    '''Convert a length in I{Imperial} fathoms to meter.
 
-       @arg fathoms: Value in fathoms (C{scalar}).
+       @arg fathoms: Length in fathoms (C{scalar}).
 
-       @return: Value in C{meter} (C{float}).
+       @return: Length in C{meter} (C{float}).
 
        @raise ValueError: Invalid B{C{fathoms}}.
 
@@ -365,31 +374,33 @@ def fathom2m(fathoms):
     return Meter(Float(fathoms=fathoms) * _M.FATHOM)
 
 
-def ft2m(feet, usurvey=False, pied=False, fuss=False):
-    '''Convert I{International}, I{US Survey}, I{French} or I{German}
-       B{C{feet}} to C{meter}.
+def ft2m(feet, usurvey=False, pied=False, india=False, fuss=False):
+    '''Convert a length in I{International}, I{US Survey}, I{French},
+       I{Indian} or I{German} feet to meter.
 
-       @arg feet: Value in feet (C{scalar}).
+       @arg feet: Length in feet (C{scalar}).
        @kwarg usurvey: If C{True}, convert I{US Survey} foot else ...
        @kwarg pied: If C{True}, convert French I{pied-du-Roi} else ...
+       @kwarg india: If C{True}, convert I{India foot} else ...
        @kwarg fuss: If C{True}, convert German I{Fuss}, otherwise
                     I{International} foot to C{meter}.
 
-       @return: Value in C{meter} (C{float}).
+       @return: Length in C{meter} (C{float}).
 
        @raise ValueError: Invalid B{C{feet}}.
     '''
     return Meter(Feet(feet) * (_M.FOOT_US if usurvey else
                               (_M.FOOT_FR if pied    else
-                              (_M.FOOT_GE if fuss    else _M.FOOT))))
+                              (_M.FOOT_IN if india   else
+                              (_M.FOOT_GE if fuss    else _M.FOOT)))))
 
 
 def furlong2m(furlongs):
-    '''Convert a furlong to meter.
+    '''Convert a length in I{furlongs} to meter.
 
-       @arg furlongs: Value in furlongs (C{scalar}).
+       @arg furlongs: Length in furlongs (C{scalar}).
 
-       @return: Value in C{meter} (C{float}).
+       @return: Length in C{meter} (C{float}).
 
        @raise ValueError: Invalid B{C{furlongs}}.
     '''
@@ -450,11 +461,11 @@ def grades2radians(gon):
 
 
 def ha2acre(ha):
-    '''Convert hectare to acre.
+    '''Convert an area in I{hectares} to I{acres}.
 
-       @arg ha: Value in hectare (C{scalar}).
+       @arg ha: Area in hectares (C{scalar}).
 
-       @return: Value in acres (C{float}).
+       @return: Area in C{acres} (C{float}).
 
        @raise ValueError: Invalid B{C{ha}}.
     '''
@@ -462,11 +473,11 @@ def ha2acre(ha):
 
 
 def ha2m2(ha):
-    '''Convert hectare to I{square} meter.
+    '''Convert an area in I{hectares} to I{square} meter.
 
-       @arg ha: Value in hectare (C{scalar}).
+       @arg ha: Area in hectares (C{scalar}).
 
-       @return: Value in C{meter^2} (C{float}).
+       @return: Area in C{square} meter (C{float}).
 
        @raise ValueError: Invalid B{C{ha}}.
     '''
@@ -484,11 +495,11 @@ def hav(rad):
 
 
 def km2m(km):
-    '''Convert kilo meter to meter (m).
+    '''Convert a length in I{kilo meter} to meter (C{m}).
 
-       @arg km: Value in kilo meter (C{scalar}).
+       @arg km: Length in kilo meter (C{scalar}).
 
-       @return: Value in meter (C{float}).
+       @return: Length in meter (C{float}).
 
        @raise ValueError: Invalid B{C{km}}.
     '''
@@ -502,11 +513,11 @@ def _loneg(lon):
 
 
 def m2acre(meter2):
-    '''Convert I{square} meter to acres.
+    '''Convert an area in I{square} meter to I{acres}.
 
-       @arg meter2: Value in C{meter^2} (C{scalar}).
+       @arg meter2: Area in C{square} meter (C{scalar}).
 
-       @return: Value in acres (C{float}).
+       @return: Area in acres (C{float}).
 
        @raise ValueError: Invalid B{C{meter2}}.
     '''
@@ -514,11 +525,11 @@ def m2acre(meter2):
 
 
 def m2chain(meter):
-    '''Convert meter to I{UK} chains.
+    '''Convert a length in meter to I{UK} chains.
 
-       @arg meter: Value in meter (C{scalar}).
+       @arg meter: Length in meter (C{scalar}).
 
-       @return: Value in C{chains} (C{float}).
+       @return: Length in C{chains} (C{float}).
 
        @raise ValueError: Invalid B{C{meter}}.
     '''
@@ -526,8 +537,8 @@ def m2chain(meter):
 
 
 def m2degrees(distance, earth=R_M, lat=0, **radius):
-    '''Convert a distance to an angle along the equator or along a parallel
-       at (geodetic) latitude.
+    '''Convert a distance to an arc in degrees along the equator or along a
+       parallel at (geodetic) latitude.
 
        @arg distance: Distance (C{meter}, same units as B{C{radius}}).
        @kwarg earth: Mean earth radius (C{meter}) or an ellipsoid or datum
@@ -535,9 +546,9 @@ def m2degrees(distance, earth=R_M, lat=0, **radius):
        @kwarg lat: Parallel latitude (C{degrees90}, C{str}).
        @kwarg radius: For backward compatibility C{B{radius}=B{earth}}.
 
-       @return: Angle (C{degrees}) or C{INF} or C{NINF} for near-polar B{C{lat}}.
+       @return: Angle (C{degrees}) or C{0.0,} for near-polar B{C{lat}}.
 
-       @raise RangeError: Latitude B{C{lat}} outside valid range and
+       @raise RangeError: Latitude B{C{lat}} outside valid range, only if
                           L{rangerrors<pygeodesy.rangerrors>} is C{True}.
 
        @raise TypeError: Invalid B{C{earth}} or B{C{radius}}.
@@ -546,15 +557,15 @@ def m2degrees(distance, earth=R_M, lat=0, **radius):
 
        @see: Function L{m2radians} and L{degrees2m}.
     '''
-    return degrees(m2radians(distance, earth=earth, lat=lat, **radius))
+    return Degrees(degrees(_m2rad(distance, earth, lat, **radius)))
 
 
 def m2fathom(meter):
-    '''Convert meter to I{Imperial} fathoms.
+    '''Convert a length in meter to I{Imperial} fathoms.
 
-       @arg meter: Value in meter (C{scalar}).
+       @arg meter: Length in meter (C{scalar}).
 
-       @return: Value in C{fathoms} (C{float}).
+       @return: Length in C{fathoms} (C{float}).
 
        @raise ValueError: Invalid B{C{meter}}.
 
@@ -564,17 +575,18 @@ def m2fathom(meter):
     return Float(fathom=Meter(meter) / _M.FATHOM)  # * 0.546_806_649
 
 
-def m2ft(meter, usurvey=False, pied=False, fuss=False):
-    '''Convert meter to I{International}, I{US Survey}, I{French} or
-       or I{German} feet (C{ft}).
+def m2ft(meter, usurvey=False, pied=False, india=False, fuss=False):
+    '''Convert a length in meter to I{International}, I{US Survey},
+       I{French}, I{Indian} or I{German} feet (C{ft}).
 
-       @arg meter: Value in meter (C{scalar}).
+       @arg meter: Length in meter (C{scalar}).
        @kwarg usurvey: If C{True}, convert to I{US Survey} foot else ...
        @kwarg pied: If C{True}, convert to French I{pied-du-Roi} else ...
+       @kwarg india: If C{True}, convert to I{India foot} else ...
        @kwarg fuss: If C{True}, convert to German I{Fuss}, otherwise to
                     I{International} foot.
 
-       @return: Value in C{feet} (C{float}).
+       @return: Length in C{feet} (C{float}).
 
        @raise ValueError: Invalid B{C{meter}}.
     '''
@@ -582,15 +594,16 @@ def m2ft(meter, usurvey=False, pied=False, fuss=False):
     # * 3.280_839_895_013_1235, Int'l 10_000 / (254 * 12)
     return Float(feet=Meter(meter) / (_M.FOOT_US if usurvey else
                                      (_M.FOOT_FR if pied    else
-                                     (_M.FOOT_GE if fuss    else _M.FOOT))))
+                                     (_M.FOOT_IN if india   else
+                                     (_M.FOOT_GE if fuss    else _M.FOOT)))))
 
 
 def m2furlong(meter):
-    '''Convert meter to furlongs.
+    '''Convert a length in meter to furlongs.
 
-       @arg meter: Value in meter (C{scalar}).
+       @arg meter: Length in meter (C{scalar}).
 
-       @return: Value in C{furlongs} (C{float}).
+       @return: Length in C{furlongs} (C{float}).
 
        @raise ValueError: Invalid B{C{meter}}.
     '''
@@ -598,11 +611,11 @@ def m2furlong(meter):
 
 
 def m2ha(meter2):
-    '''Convert I{square} meter to hectare.
+    '''Convert an area in I{square} meter to I{hectares}.
 
-       @arg meter2: Value in C{meter^2} (C{scalar}).
+       @arg meter2: Area in C{square} meter (C{scalar}).
 
-       @return: Value in hectare (C{float}).
+       @return: Area in hectares (C{float}).
 
        @raise ValueError: Invalid B{C{meter2}}.
     '''
@@ -610,11 +623,11 @@ def m2ha(meter2):
 
 
 def m2km(meter):
-    '''Convert meter to kilo meter (Km).
+    '''Convert a length in meter to kilo meter (C{Km}).
 
-       @arg meter: Value in meter (C{scalar}).
+       @arg meter: Length in meter (C{scalar}).
 
-       @return: Value in Km (C{float}).
+       @return: Length in C{Km} (C{float}).
 
        @raise ValueError: Invalid B{C{meter}}.
     '''
@@ -622,20 +635,28 @@ def m2km(meter):
 
 
 def m2NM(meter):
-    '''Convert meter to nautical miles (NM).
+    '''Convert a length in meter to nautical miles (C{NM}).
 
-       @arg meter: Value in meter (C{scalar}).
+       @arg meter: Length in meter (C{scalar}).
 
-       @return: Value in C{NM} (C{float}).
+       @return: Length in C{NM} (C{float}).
 
        @raise ValueError: Invalid B{C{meter}}.
     '''
     return Float(NM=Meter(meter) / _M.NM)  # * 5.399_568_04e-4
 
 
+def _m2rad(distance, earth, lat, **radius):
+    '''(INTERNAL) Helper for C{m2degrees} and C{m2radians}.
+    '''
+    d =  Float(distance=distance)
+    m = _circle4radius(earth, lat, **radius)
+    return _copysign_0_0(d) if m < EPS0 else (d / m)  # radians
+
+
 def m2radians(distance, earth=R_M, lat=0, **radius):
-    '''Convert a distance to an angle along the equator or along a parallel
-       at (geodetic) latitude.
+    '''Convert a distance to an arc in radians along the equator or along a
+       parallel at (geodetic) latitude.
 
        @arg distance: Distance (C{meter}, same units as B{C{radius}}).
        @kwarg earth: Mean earth radius (C{meter}) or an ellipsoid or datum
@@ -643,9 +664,9 @@ def m2radians(distance, earth=R_M, lat=0, **radius):
        @kwarg lat: Parallel latitude (C{degrees90}, C{str}).
        @kwarg radius: For backward compatibility C{B{radius}=B{earth}}.
 
-       @return: Angle (C{radians}) or C{INF} or C{NINF} for near-polar B{C{lat}}.
+       @return: Angle (C{radians}) or C{0.0} for near-polar B{C{lat}}.
 
-       @raise RangeError: Latitude B{C{lat}} outside valid range and
+       @raise RangeError: Latitude B{C{lat}} outside valid range, only if
                           L{rangerrors<pygeodesy.rangerrors>} is C{True}.
 
        @raise TypeError: Invalid B{C{earth}} or B{C{radius}}.
@@ -654,17 +675,15 @@ def m2radians(distance, earth=R_M, lat=0, **radius):
 
        @see: Function L{m2degrees} and L{radians2m}.
     '''
-    m = _circle4radius(earth, lat, **radius)
-    return _copysign_0_0(distance) if m < EPS0 else \
-            Radians(Float(distance=distance) / m)
+    return Radians(_m2rad(distance, earth, lat, **radius))
 
 
 def m2SM(meter):
-    '''Convert meter to statute miles (SM).
+    '''Convert a length in meter to statute miles (SM).
 
-       @arg meter: Value in meter (C{scalar}).
+       @arg meter: Length in meter (C{scalar}).
 
-       @return: Value in C{SM} (C{float}).
+       @return: Length in C{SM} (C{float}).
 
        @raise ValueError: Invalid B{C{meter}}.
     '''
@@ -672,11 +691,12 @@ def m2SM(meter):
 
 
 def m2toise(meter):
-    '''Convert meter to French U{toises<https://WikiPedia.org/wiki/Toise>}.
+    '''Convert a length in meter to French U{toises
+       <https://WikiPedia.org/wiki/Toise>}.
 
-       @arg meter: Value in meter (C{scalar}).
+       @arg meter: Length in meter (C{scalar}).
 
-       @return: Value in C{toises} (C{float}).
+       @return: Length in C{toises} (C{float}).
 
        @raise ValueError: Invalid B{C{meter}}.
 
@@ -685,24 +705,27 @@ def m2toise(meter):
     return Float(toise=Meter(meter) / _M.TOISE)  # * 0.513_083_632_632_119
 
 
-def m2yard(meter):
-    '''Convert meter to I{UK} yards.
+def m2yard(meter, imperial=False):
+    '''Convert a length in meter to I{International} or U{Imperial
+       Standard <https://WikiPedia.org/wiki/Imperial_units>} yards.
 
-       @arg meter: Value in meter (C{scalar}).
+       @arg meter: Length in meter (C{scalar}).
+       @kwarg imperial: If C{True}, convert to I{Imperial Standard} yards.
 
-       @return: Value in C{yards} (C{float}).
+       @return: Length in C{yards} (C{float}).
 
        @raise ValueError: Invalid B{C{meter}}.
     '''
-    return Float(yard=Meter(meter) / _M.YARD_UK)  # * 1.093_613_298_337_707_8
+    return Float(yard=Meter(meter) / (_M.YARD_UK if imperial else
+                                      _M.YARD))  # * 1.093_613_298_337_707_8
 
 
 def NM2m(nm):
-    '''Convert nautical miles to meter (m).
+    '''Convert a length in nautical miles to meter (C{m}).
 
-       @arg nm: Value in nautical miles (C{scalar}).
+       @arg nm: Length in nautical miles (C{scalar}).
 
-       @return: Value in meter (C{float}).
+       @return: Length in meter (C{float}).
 
        @raise ValueError: Invalid B{C{nm}}.
     '''
@@ -720,10 +743,10 @@ def _nonfinite(where, x, raiser=True, **kwds):  # PYCHOK no cover
 
 
 def radians2m(rad, earth=R_M, lat=0, **radius):
-    '''Convert an angle to a distance along the equator or along a parallel
-       at (geodetic) latitude.
+    '''Convert an arc in radians to a distance along the equator or along a
+       parallel at (geodetic) latitude.
 
-       @arg rad: The angle (C{radians}).
+       @arg rad: The (longitudinal) angle (C{radians} or C{str}).
        @kwarg earth: Mean earth radius (C{meter}) or an ellipsoid or datum
                      (L{Ellipsoid}, L{Ellipsoid2}, L{Datum} or L{a_f2Tuple}).
        @kwarg lat: Parallel latitude (C{degrees90}, C{str}).
@@ -732,7 +755,7 @@ def radians2m(rad, earth=R_M, lat=0, **radius):
        @return: Distance (C{meter}, same units as B{C{earth}} or polar and
                 equatorial radii) or C{0.0} for near-polar B{C{lat}}.
 
-       @raise RangeError: Latitude B{C{lat}} outside valid range and
+       @raise RangeError: Latitude B{C{lat}} outside valid range, only if
                           L{rangerrors<pygeodesy.rangerrors>} is C{True}.
 
        @raise TypeError: Invalid B{C{earth}} or B{C{radius}}.
@@ -741,14 +764,7 @@ def radians2m(rad, earth=R_M, lat=0, **radius):
 
        @see: Function L{degrees2m} and L{m2radians}.
     '''
-    m = _circle4radius(earth, lat, **radius)
-    return _Radians2m(Lam(rad=rad, clip=0), m)
-
-
-def _Radians2m(rad, m):
-    '''(INTERNAL) Helper for C{degrees2m} and C{radians2m}.
-    '''
-    return _copysign_0_0(rad) if m < EPS0 else (rad * m)
+    return _rad2m(Lam(rad=rad, clip=0), earth, lat, **radius)
 
 
 def radiansPI(deg):
@@ -779,6 +795,13 @@ def radiansPI_2(deg):
        @return: Radians, wrapped (C{radiansPI_2})
     '''
     return wrapPI_2(radians(deg))
+
+
+def _rad2m(rad, earth, lat, **radius):
+    '''(INTERNAL) Helper for C{degrees2m} and C{radians2m}.
+    '''
+    m = _circle4radius(earth, lat, **radius)
+    return Meter(_copysign_0_0(rad) if m < EPS0 else (rad * m))
 
 
 def _sin0cos2(q, r, sign):
@@ -929,11 +952,11 @@ def sincostan3d(deg):
 
 
 def SM2m(sm):
-    '''Convert statute miles to meter (m).
+    '''Convert a length in statute miles to meter (C{m}).
 
-       @arg sm: Value in statute miles (C{scalar}).
+       @arg sm: Length in statute miles (C{scalar}).
 
-       @return: Value in meter (C{float}).
+       @return: Length in meter (C{float}).
 
        @raise ValueError: Invalid B{C{sm}}.
     '''
@@ -1059,11 +1082,12 @@ def _tanu(s, c, clamp=OVERFLOW, **unused):
 
 
 def toise2m(toises):
-    '''Convert French U{toises<https://WikiPedia.org/wiki/Toise>} to meter.
+    '''Convert a length in French U{toises<https://WikiPedia.org/wiki/Toise>}
+       to meter.
 
-       @arg toises: Value in toises (C{scalar}).
+       @arg toises: Length in toises (C{scalar}).
 
-       @return: Value in C{meter} (C{float}).
+       @return: Length in C{meter} (C{float}).
 
        @raise ValueError: Invalid B{C{toises}}.
 
@@ -1374,16 +1398,18 @@ def _wrapu(w, H, Q):
     return (w - H) if w > Q else ((w + H) if w < (-Q) else w)
 
 
-def yard2m(yards):
-    '''Convert I{UK} yards to meter.
+def yard2m(yards, imperial=False):
+    '''Convert a length in I{International} or U{Imperial Standard
+       <https://WikiPedia.org/wiki/Imperial_units>} yards to meter.
 
-       @arg yards: Value in yards (C{scalar}).
+       @arg yards: Length in yards (C{scalar}).
+       @kwarg imperial: If C{True}, convert from I{Imperial Standard} yards.
 
-       @return: Value in C{meter} (C{float}).
+       @return: Length in C{meter} (C{float}).
 
        @raise ValueError: Invalid B{C{yards}}.
     '''
-    return Float(yards=yards) * _M.YARD_UK
+    return Meter(Float(yards=yards) * (_M.YARD_UK if imperial else _M.YARD))
 
 # **) MIT License
 #

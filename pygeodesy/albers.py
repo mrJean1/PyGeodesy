@@ -38,7 +38,7 @@ from pygeodesy.utily import atan1, atan1d, atan2, degrees360, sincos2, \
 from math import atanh, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.albers
-__version__ = '26.01.06'
+__version__ = '26.02.27'
 
 _k1_    = 'k1'
 _MAXIT  =   9  # XXX 4?
@@ -786,7 +786,7 @@ def _Dsn(x, y, sx, sy):
        (1 + x^2) * (1 + y^2))}.
 
        @see: U{W. M. Kahan and R. J. Fateman, "Sympbolic Computation of Divided
-             Differences"<https://People.EECS.Berkeley.EDU/~fateman/papers/divdiff.pdf>},
+             Differences"<https://People.EECS.Berkeley.edu/~fateman/papers/divdiff.pdf>},
              U{ACM SIGSAM Bulletin 33(2), 7-28 (1999)<https://DOI.org/10.1145/334714.334716>}
              and U{AlbersEqualArea.hpp
              <https://GeographicLib.SourceForge.io/C++/doc/AlbersEqualArea_8hpp_source.html>}.

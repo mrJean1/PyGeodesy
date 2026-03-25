@@ -10,12 +10,12 @@ of C{_NamedTuple} defined in C{pygeodesy.named}.
 
 from pygeodesy.basics import isinstanceof, issubclassof, map1, _xinstanceof
 # from pygeodesy.cartesianBase import CartesianBase  # _MODS
-from pygeodesy.constants import INT0
+from pygeodesy.constants import INT0,  fabs
 # from pygeodesy.dms import toDMS  # _MODS
-from pygeodesy.errors import _TypeError, _xattr, _xkwds, _xkwds_not
+from pygeodesy.errors import _TypeError, _xattr, _xkwds, _xkwds_not, _xkwds_pop2
 from pygeodesy.interns import NN, _1_, _2_, _a_, _A_, _area_, _angle_, _b_, _B_, \
-                             _band_, _c_, _C_, _D_, _datum_, _distance_, _E_, \
-                             _easting_, _end_, _fi_, _gamma_, _h_, _height_, \
+                             _band_, _beta_, _c_, _C_, _D_, _datum_, _distance_, \
+                             _E_, _easting_, _end_, _fi_, _gamma_, _h_, _height_, \
                              _hemipole_, _initial_, _j_, _lam_, _lat_, _lon_, \
                              _n_, _northing_, _number_, _outside_, _phi_, \
                              _point_, _precision_, _points_, _radius_, _scale_, \
@@ -27,9 +27,10 @@ from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, FIx, \
                             Height, Int, Lam, Lat, Lon, Meter, Meter2, \
                             Northing, Number_, Phi, Precision_, Radians, \
                             Radius, Scalar, Str
+# from math import fabs  # from .constants
 
 __all__ = _ALL_LAZY.namedTuples
-__version__ = '25.05.12'
+__version__ = '26.03.12'
 
 # __DUNDER gets mangled in class
 _closest_     = 'closest'
@@ -94,6 +95,29 @@ class Bounds4Tuple(_NamedTuple):  # .geohash.py, .points.py
         S, W, N, E = map1(float, S_other, *W_N_E) if W_N_E else S_other
         return None if s > N or n < S or w > E or e < W else \
                Bounds4Tuple(max(s, S), max(w, W), min(n, N), min(e, E))
+
+
+class Circle4Tuple(_NamedTuple):
+    '''4-Tuple C{(radius, height, lat, beta)} with the C{radius} and C{height}
+       of a parallel I{circle of latitude} at (geodetic) latitude C{lat} and
+       I{parametric (or reduced) auxiliary latitude} C{beta} on a I{biaxial
+       ellipsoid}.
+
+       The C{height} is the (signed) distance along the z-axis between the
+       parallel and the equator.  At near-polar C{lat}s, the C{radius} is C{0},
+       the C{height} is the ellipsoid's polar radius (signed) and C{beta}
+       equals C{lat}.  The latter are in C{degrees90}, always.
+
+       @see: Class L{Ellipse5Tuple}.
+    '''
+    _Names_ = (_radius_, _height_, _lat_, _beta_)
+    _Units_ = ( Radius,   Height,   Lat,   Lat)
+
+    @property_RO
+    def abc3(self):
+        '''Get the non-negative semi-axes as 3-tuple C{(a, b, c)}.
+        '''
+        return map1(fabs, self.radius, self.radius, self.height)  # PYCHOK named
 
 
 class Destination2Tuple(_NamedTuple):  # .ellipsoidalKarney.py, -Vincenty.py
@@ -167,28 +191,73 @@ class _Convergence(object):
         return self.gamma  # PYCHOK self[.]
 
 
+class Ellipse5Tuple(_NamedTuple):  # in .triaxials.bases._UnOrderedTriaxialBase.ellipse5
+    '''5-Tuple C{(a, b, height, lat, beta)} with semi-axes C{a} and C{b} of a parallel
+       I{ellipse of latitude} at (geodetic) latitude C{lat} and I{parametric (or reduced)
+       auxiliary latitude} C{beta} of a I{triaxial ellipsoid}.
+
+       The C{height} is the (signed) distance between the parallel and the triaxial's
+       equatorial plane.  At near-polar C{lat}s, C{a} and C{b} are C{0}, the C{height}
+       is the triaxial semi-axis C{c} (signed) and C{beta} equals C{lat}.  The latter
+       are in C{degrees90}, always.
+
+       @see: Class L{Circle4Tuple}.
+    '''
+    _Names_ = (_a_,    _b_,    _height_, _lat_, _beta_)
+    _Units_ = ( Radius, Radius, Height,   Lat,   Lat)
+
+    @property_RO
+    def abc3(self):
+        '''Get the semi-axes as 3-tuple C{(a, b, c)}, non-negative.
+        '''
+        return map1(fabs, self.a, self.b, self.height)  # PYCHOK namedTuple
+
+    @property_RO
+    def abc3ordered(self):
+        '''Get the semi-axes as 3-tuple C{(a, b, c)}, non-negative, ordered.
+        '''
+        return tuple(reversed(sorted(self.abc3)))
+
+    def toTriaxial(self, **Triaxial_and_kwds):  # like .Ellipse.toTriaxial_
+        '''Return a L{Triaxial_<pygeodesy.Triaxial>} from this tuple's semi-axes C{abc3ordered}.
+
+           @kwarg Triaxial_and_kwds: Optional C{B{Triaxial}=Triaxial} class and additional
+                               C{Triaxial} keyword arguments.
+        '''
+        T, kwds = _xkwds_pop2(Triaxial_and_kwds, Triaxial=_MODS.triaxials.Triaxial)
+        return T(*self.abc3ordered, **_xkwds(kwds, name=self.name))  # 'NN'
+
+    def toTriaxial_(self, **Triaxial_and_kwds):  # like .Ellipse.toTriaxial_
+        '''Return a L{Triaxial_<pygeodesy.Triaxial_>} from this tuple's semi-axes C{abc3}.
+
+           @kwarg Triaxial_and_kwds: Optional C{B{Triaxial}=Triaxial_} class and additional
+                               C{Triaxial_} keyword arguments.
+        '''
+        T, kwds = _xkwds_pop2(Triaxial_and_kwds, Triaxial=_MODS.triaxials.Triaxial_)
+        return T(*self.abc3, **_xkwds(kwds, name=self.name))  # 'NN'
+
+
 class Forward4Tuple(_NamedTuple, _Convergence):
-    '''4-Tuple C{(easting, northing, gamma, scale)} in
-       C{meter}, C{meter}, meridian convergence C{gamma} at
-       point in C{degrees} and the C{scale} of projection
-       at point C{scalar}.
+    '''4-Tuple C{(easting, northing, gamma, scale)} in C{meter}, C{meter}, meridian
+       convergence C{gamma} at point in C{degrees} and the C{scale} of projection at
+       point C{scalar}.
     '''
     _Names_ = (_easting_, _northing_, _gamma_, _scale_)
     _Units_ = ( Easting,   Northing,   Degrees, Scalar)
 
 
 class Intersection3Tuple(_NamedTuple):  # .css.py, .lcc.py
-    '''3-Tuple C{(point, outside1, outside2)} of an intersection
-       C{point} and C{outside1}, the position of the C{point},
-       C{-1} if before the start, C{+1} if after the end and C{0}
-       if on or between the start and end point of the first line.
-       Similarly, C{outside2} is C{-2}, C{+2} or C{0} to indicate
-       the position of C{point} on the second line or path.  If a
-       path was specified with an initial bearing instead of an
-       end point, C{outside1} and/or C{outside2} will be C{0} if
-       the intersection C{point} is on the start point or C{+1}
-       respectively C{+2} if the intersection C{point} is after
-       the start point, in the direction of the bearing.
+    '''3-Tuple C{(point, outside1, outside2)} of an intersection C{point} and C{outside1},
+       the position of the C{point}, C{-1} if before the start, C{+1} if after the end and
+       C{0} if on or between the start and end point of the first line.
+
+       Similarly, C{outside2} is C{-2}, C{+2} or C{0} to indicate the position of the
+       intersection C{point} on the second line or path.
+
+       If a path was specified with an initial bearing instead of an end point, C{outside1}
+       and/or C{outside2} will be C{0} if the intersection C{point} is on the start point
+       or C{+1} respectively C{+2} if the intersection C{point} is after the start point,
+       in the direction of the bearing.
     '''
     _Names_ = (_point_, _outside_ + _1_, _outside_ + _2_)
     _Units_ = (_Pass,    Int,             Int)

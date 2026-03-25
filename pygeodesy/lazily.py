@@ -229,7 +229,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
               ellipsoidalKarney=_a(),  # module only
              ellipsoidalNvector=_a(),  # module only
             ellipsoidalVincenty=_a('VincentyError',),  # nothing else
-                     ellipsoids=_a('a_f2Tuple', 'Circle4Tuple', 'Curvature2Tuple',
+                     ellipsoids=_a('a_f2Tuple', 'Curvature2Tuple',
                                    'Ellipsoid', 'Ellipsoid2', 'Ellipsoids',
                                    'a_b2e', 'a_b2e2', 'a_b2e22', 'a_b2e32', 'a_b2f', 'a_b2f_', 'a_b2f2', 'a_b2n',
                                    'a_f2b', 'a_f_2b', 'b_f2a', 'b_f_2a',
@@ -250,7 +250,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'fdot', 'fdot_', 'fdot3', 'fma', 'fmean', 'fmean_', 'fhorner', 'fidw', 'f2mul_',
                                    'fpolynomial', 'fpowers', 'fprod', 'frandoms', 'frange', 'freduce', 'fremainder',
                                    'hypot', 'hypot_', 'hypot1', 'hypot2', 'hypot2_',
-                                   'norm2', 'norm_', 'sqrt0', 'sqrt3', 'sqrt_a', 'zcrt', 'zqrt'),
+                                   'norm2', 'norm_', 'polar2', 'polar2d',
+                                   'sqrt0', 'sqrt3', 'sqrt_a', 'zcrt', 'zqrt'),
                           formy=_a('Radical2Tuple',
                                    'angle2chord', 'antipode', 'antipode_', 'bearing', 'bearing_',
                                    'chord2angle', 'compassAngle', 'cosineLaw', 'cosineLaw_',
@@ -310,9 +311,10 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'callername', 'classname', 'classnaming', 'modulename',
                                    'nameof', 'notImplemented', 'notOverloaded'),
                     namedTuples=_a('Bearing2Tuple', 'Bounds2Tuple', 'Bounds4Tuple',
-                                   'Destination2Tuple', 'Destination3Tuple',
+                                   'Circle4Tuple', 'Destination2Tuple', 'Destination3Tuple',
                                    'Distance2Tuple', 'Distance3Tuple', 'Distance4Tuple',
-                                   'EasNor2Tuple', 'EasNor3Tuple', 'Forward4Tuple', 'Intersection3Tuple',
+                                   'EasNor2Tuple', 'EasNor3Tuple', 'Ellipse5Tuple',
+                                   'Forward4Tuple', 'Intersection3Tuple',
                                    'LatLon2Tuple', 'LatLon3Tuple', 'LatLon4Tuple',
                                    'LatLonDatum3Tuple', 'LatLonDatum5Tuple',
                                    'LatLonPrec3Tuple', 'LatLonPrec5Tuple',
@@ -367,7 +369,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'Radius_', 'Scalar', 'Scalar_', 'Zone'),
                       unitsBase=_a('Float', 'Int', 'Radius', 'Str'),
                             ups=_a('Ups', 'UPSError', 'parseUPS5', 'toUps8', 'upsZoneBand5'),
-                          utily=_a('acos1', 'acre2ha', 'acre2m2', 'agdf', 'asin1', 'atan1', 'atan1d', 'atan2', 'atan2b', 'atan2d',
+                          utily=_a('acos1', 'acre2ha', 'acre2m2', 'agdf', 'asin1',
+                                   'atan1', 'atan1d', 'atan2', 'atan2b', 'atan2d', 'atan2p',
                                    'chain2m', 'circle4', 'cot', 'cot_', 'cotd', 'cotd_',
                                    'degrees', 'degrees90', 'degrees180', 'degrees360', 'degrees2grades', 'degrees2m',
                                    'fathom2m', 'ft2m', 'furlong2m',                  # 'degrees2grades as degrees2gons',
@@ -528,7 +531,7 @@ class _ALL_MODS(_internals._MODS_Base):
 _internals._MODS = _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '26.02.18'
+__version__ = '26.03.20'
 
 
 def _ALL_OTHER(*objs):

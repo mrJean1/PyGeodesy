@@ -6,6 +6,7 @@ basic C{float}, C{int} respectively C{str} to named units as L{Degrees},
 L{Feet}, L{Meter}, L{Radians}, etc.
 '''
 
+# from pygeodesy.angles import isAng  # _MODS
 from pygeodesy.basics import isscalar, issubclassof, signOf,  typename
 from pygeodesy.constants import EPS, EPS1, PI, PI2, PI_2, _umod_360, _0_0, _0_001
 from pygeodesy.dms import F__F, F__F_, S_NUL, S_SEP, parseDMS, parseRad, _toDMS
@@ -27,7 +28,7 @@ from pygeodesy.unitsBase import Float, Int, _NamedUnit, Radius, Str,  Fmt, fstr
 from math import degrees, isnan, radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '25.05.12'
+__version__ = '26.03.12'
 
 
 class Float_(Float):
@@ -624,6 +625,12 @@ class Lat_(Degrees_):
         '''See L{Degrees_}.
         '''
         return Degrees_.__new__(cls, arg=arg, name=name, suffix=_NS_, low=low, high=high, **Error_name_arg)
+
+
+def _Lat0(lat):  # in .ellipsods and .triaxials.bases
+    '''(INTERNAL) Get latitude.
+    '''
+    return Lat(lat.degrees0 if _MODS.angles.isAng(lat) else lat)
 
 
 class Lon(Degrees):

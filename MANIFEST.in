@@ -11,3 +11,4 @@ graft testcoverage
 include testcoverage.pdf
 include testcoverage.rc
 graft testresults
+include testresults-PyGeodesy-26.02.26-GeoidHeights-dat.pdf

@@ -45,7 +45,7 @@ __all__ = ('bits_mach2', 'coverage', 'GeodSolve', 'Geod3Solve', 'geographiclib',
            'property_RO', 'PyGeodesy_dir', 'PythonX', 'scipy', 'test_dir',
            'RandomLatLon', 'TestsBase',  # classes
            'secs2str', 'tilde', 'type2str', 'versions')  # functions
-__version__ = '25.12.08'
+__version__ = '26.03.20'
 
 try:
     _Ints = int, long
@@ -316,7 +316,7 @@ class TestsBase(object):
                 f = '%s (%g)' % (f, error)
             f = '  FAILED%s, expected %s' % (f, expect)
 
-        self.total += 1  # tests
+        self.total += 1  # tests, in .testEllipses
         if f or self._verbose:
             self.printf('test %d %s: %s%s', self.total, name, v, f, **kwds)
         if r and self._raiser:

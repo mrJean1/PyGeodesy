@@ -132,7 +132,7 @@ Tests
 =====
 
 The tests ran with Python 3.14.3 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.1),
-Python 3.13.11 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.1),
+Python 3.13.12 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.1),
 U{numpy<https://PyPI.org/project/numpy>} 2.3.3, U{scipy<https://PyPI.org/project/scipy>} 1.16.2,
 U{GeoConvert<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.7 and
 U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.7),
@@ -158,14 +158,14 @@ env variable C{PYGEODESY_WARNINGS=on} for all Python versions.  The results of t
 the distribution files.
 
 Test coverage has been measured with U{coverage<https://PyPI.org/project/coverage>} 7.10.7 using Python
-3.14.3, 3.13.11 and 3.12.10.  The complete coverage report in HTML and a PDF summary are included in the
+3.14.3, 3.13.12 and 3.12.10.  The complete coverage report in HTML and a PDF summary are included in the
 distribution files.
 
-Python 3.14.3, 3.13.11, 3.12.10 and 3.11.9 run on Apple Si M4 (C{arm64}), I{natively}.  Python 2.7.18 runs
+Python 3.14.3, 3.13.12, 3.12.10 and 3.11.9 run on Apple Si M4 (C{arm64}), I{natively}.  Python 2.7.18 runs
 on Intel (C{x86_64}) or Intel I{emulation} ("C{arm64_x86_64}", see function L{machine<pygeodesy.machine>}).
 
 The tests also ran with Python 3.14.3 (and U{geographiclib<https://PyPI.org/project/geographiclib>} 2.1) on
-U{Debian 12<https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>} in 64-bit only, with Python 3.13.11 (and
+U{Debian 12<https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master>} in 64-bit only, with Python 3.13.12 (and
 U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0) on U{Windows 2019Server
 <https://CI.AppVeyor.com/project/mrJean1/pygeodesy>} in 64-bit only and with Python 2.7.18 (and U{geographiclib
 <https://PyPI.org/project/geographiclib>} 1.52) on U{Windows 10<https://CI.AppVeyor.com/project/mrJean1/pygeodesy>}
@@ -195,7 +195,7 @@ Notes
 =====
 
 All Python source code has been statically U{checked<https://GitHub.com/ActiveState/code/tree/master/recipes/Python/
-546532_PyChecker_postprocessor>} with U{Ruff<https://GitHub.com/astral-sh/ruff>} using Python 3.13.11 and with
+546532_PyChecker_postprocessor>} with U{Ruff<https://GitHub.com/astral-sh/ruff>} using Python 3.13.12 and with
 U{PyChecker<https://PyPI.org/project/pychecker>}, U{PyFlakes<https://PyPI.org/project/pyflakes>}, U{PyCodeStyle
 <https://PyPI.org/project/pycodestyle>} (formerly Pep8) and U{McCabe<https://PyPI.org/project/mccabe>} using Python
 2.7.18, both in 64-bit on macOS 26.3 Tahoe.
@@ -629,7 +629,7 @@ else:
 
 from pygeodesy.internals import _version2,  _DOT_  # noqa: E402
 # from pygeodesy.interns import _DOT_  # from .internals
-__version__ = '26.02.26'
+__version__ = '26.03.26'
 # see setup.py for similar logic
 version     = _DOT_(*_version2(__version__, n=3))
 

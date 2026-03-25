@@ -71,7 +71,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        26.01.14
+        26.03.20
       </p>
 </div><!-- ==================== FUNCTIONS ==================== -->
 <a name="section-Functions"></a>
@@ -139,7 +139,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#acre2ha" class="summary-sig-name">acre2ha</a>(<span class="summary-sig-arg">acres</span>)</span><br />
-      Convert acres to hectare.</td>
+      Convert an area in <i>acres</i> to <i>hectares</i>.</td>
           <td align="right" valign="top">
             
             
@@ -156,7 +156,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#acre2m2" class="summary-sig-name">acre2m2</a>(<span class="summary-sig-arg">acres</span>)</span><br />
-      Convert acres to <i>square</i> meter.</td>
+      Convert an area in <i>acres</i> to <i>square</i> meter.</td>
           <td align="right" valign="top">
             
             
@@ -271,7 +271,7 @@
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#atan2b" class="summary-sig-name">atan2b</a>(<span class="summary-sig-arg">y</span>,
         <span class="summary-sig-arg">x</span>)</span><br />
       Return <code>atan2(<b>y</b>, <b>x</b>)</code> in degrees <i 
-      class="math">[0..+360], counter-clockwise</i>.</td>
+      class="math">[0..+360), counter-clockwise</i>.</td>
           <td align="right" valign="top">
             
             
@@ -308,8 +308,27 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#atan2p" class="summary-sig-name">atan2p</a>(<span class="summary-sig-arg">y</span>,
+        <span class="summary-sig-arg">x</span>)</span><br />
+      Return <code>atan2(<b>y</b>, <b>x</b>)</code> in radians <i 
+      class="math">[0..+PI2), counter-clockwise</i>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#chain2m" class="summary-sig-name">chain2m</a>(<span class="summary-sig-arg">chains</span>)</span><br />
-      Convert <i>UK</i> chains to meter.</td>
+      Convert a length in <i>UK</i> chains to meter.</td>
           <td align="right" valign="top">
             
             
@@ -490,8 +509,8 @@
         <span class="summary-sig-arg">earth</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">lat</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">**radius</span>)</span><br />
-      Convert an angle to a distance along the equator or along a parallel 
-      at (geodetic) latitude.</td>
+      Convert an arc in degrees to a distance along the equator or along a 
+      parallel at (geodetic) latitude.</td>
           <td align="right" valign="top">
             
             
@@ -508,7 +527,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#fathom2m" class="summary-sig-name">fathom2m</a>(<span class="summary-sig-arg">fathoms</span>)</span><br />
-      Convert <i>Imperial</i> fathom to meter.</td>
+      Convert a length in <i>Imperial</i> fathoms to meter.</td>
           <td align="right" valign="top">
             
             
@@ -527,9 +546,10 @@
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#ft2m" class="summary-sig-name">ft2m</a>(<span class="summary-sig-arg">feet</span>,
         <span class="summary-sig-arg">usurvey</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">pied</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">india</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">fuss</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Convert <i>International</i>, <i>US Survey</i>, <i>French</i> or 
-      <i>German</i> <b><code>feet</code></b> to <code>meter</code>.</td>
+      Convert a length in <i>International</i>, <i>US Survey</i>, 
+      <i>French</i>, <i>Indian</i> or <i>German</i> feet to meter.</td>
           <td align="right" valign="top">
             
             
@@ -546,7 +566,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#furlong2m" class="summary-sig-name">furlong2m</a>(<span class="summary-sig-arg">furlongs</span>)</span><br />
-      Convert a furlong to meter.</td>
+      Convert a length in <i>furlongs</i> to meter.</td>
           <td align="right" valign="top">
             
             
@@ -653,7 +673,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#ha2acre" class="summary-sig-name">ha2acre</a>(<span class="summary-sig-arg">ha</span>)</span><br />
-      Convert hectare to acre.</td>
+      Convert an area in <i>hectares</i> to <i>acres</i>.</td>
           <td align="right" valign="top">
             
             
@@ -670,7 +690,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#ha2m2" class="summary-sig-name">ha2m2</a>(<span class="summary-sig-arg">ha</span>)</span><br />
-      Convert hectare to <i>square</i> meter.</td>
+      Convert an area in <i>hectares</i> to <i>square</i> meter.</td>
           <td align="right" valign="top">
             
             
@@ -705,7 +725,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#km2m" class="summary-sig-name">km2m</a>(<span class="summary-sig-arg">km</span>)</span><br />
-      Convert kilo meter to meter (m).</td>
+      Convert a length in <i>kilo meter</i> to meter (<code>m</code>).</td>
           <td align="right" valign="top">
             
             
@@ -722,7 +742,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#m2acre" class="summary-sig-name">m2acre</a>(<span class="summary-sig-arg">meter2</span>)</span><br />
-      Convert <i>square</i> meter to acres.</td>
+      Convert an area in <i>square</i> meter to <i>acres</i>.</td>
           <td align="right" valign="top">
             
             
@@ -739,7 +759,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#m2chain" class="summary-sig-name">m2chain</a>(<span class="summary-sig-arg">meter</span>)</span><br />
-      Convert meter to <i>UK</i> chains.</td>
+      Convert a length in meter to <i>UK</i> chains.</td>
           <td align="right" valign="top">
             
             
@@ -759,8 +779,8 @@
         <span class="summary-sig-arg">earth</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">lat</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">**radius</span>)</span><br />
-      Convert a distance to an angle along the equator or along a parallel 
-      at (geodetic) latitude.</td>
+      Convert a distance to an arc in degrees along the equator or along a 
+      parallel at (geodetic) latitude.</td>
           <td align="right" valign="top">
             
             
@@ -777,7 +797,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#m2fathom" class="summary-sig-name">m2fathom</a>(<span class="summary-sig-arg">meter</span>)</span><br />
-      Convert meter to <i>Imperial</i> fathoms.</td>
+      Convert a length in meter to <i>Imperial</i> fathoms.</td>
           <td align="right" valign="top">
             
             
@@ -796,9 +816,10 @@
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#m2ft" class="summary-sig-name">m2ft</a>(<span class="summary-sig-arg">meter</span>,
         <span class="summary-sig-arg">usurvey</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">pied</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">india</span>=<span class="summary-sig-default">False</span>,
         <span class="summary-sig-arg">fuss</span>=<span class="summary-sig-default">False</span>)</span><br />
-      Convert meter to <i>International</i>, <i>US Survey</i>, 
-      <i>French</i> or or <i>German</i> feet (<code>ft</code>).</td>
+      Convert a length in meter to <i>International</i>, <i>US Survey</i>, 
+      <i>French</i>, <i>Indian</i> or <i>German</i> feet (<code>ft</code>).</td>
           <td align="right" valign="top">
             
             
@@ -815,7 +836,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#m2furlong" class="summary-sig-name">m2furlong</a>(<span class="summary-sig-arg">meter</span>)</span><br />
-      Convert meter to furlongs.</td>
+      Convert a length in meter to furlongs.</td>
           <td align="right" valign="top">
             
             
@@ -832,7 +853,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#m2ha" class="summary-sig-name">m2ha</a>(<span class="summary-sig-arg">meter2</span>)</span><br />
-      Convert <i>square</i> meter to hectare.</td>
+      Convert an area in <i>square</i> meter to <i>hectares</i>.</td>
           <td align="right" valign="top">
             
             
@@ -849,7 +870,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#m2km" class="summary-sig-name">m2km</a>(<span class="summary-sig-arg">meter</span>)</span><br />
-      Convert meter to kilo meter (Km).</td>
+      Convert a length in meter to kilo meter (<code>Km</code>).</td>
           <td align="right" valign="top">
             
             
@@ -866,7 +887,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#m2NM" class="summary-sig-name">m2NM</a>(<span class="summary-sig-arg">meter</span>)</span><br />
-      Convert meter to nautical miles (NM).</td>
+      Convert a length in meter to nautical miles (<code>NM</code>).</td>
           <td align="right" valign="top">
             
             
@@ -886,8 +907,8 @@
         <span class="summary-sig-arg">earth</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">lat</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">**radius</span>)</span><br />
-      Convert a distance to an angle along the equator or along a parallel 
-      at (geodetic) latitude.</td>
+      Convert a distance to an arc in radians along the equator or along a 
+      parallel at (geodetic) latitude.</td>
           <td align="right" valign="top">
             
             
@@ -904,7 +925,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#m2SM" class="summary-sig-name">m2SM</a>(<span class="summary-sig-arg">meter</span>)</span><br />
-      Convert meter to statute miles (SM).</td>
+      Convert a length in meter to statute miles (SM).</td>
           <td align="right" valign="top">
             
             
@@ -921,8 +942,8 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#m2toise" class="summary-sig-name">m2toise</a>(<span class="summary-sig-arg">meter</span>)</span><br />
-      Convert meter to French <a href="https://WikiPedia.org/wiki/Toise" 
-      target="_top">toises</a>.</td>
+      Convert a length in meter to French <a 
+      href="https://WikiPedia.org/wiki/Toise" target="_top">toises</a>.</td>
           <td align="right" valign="top">
             
             
@@ -938,8 +959,11 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#m2yard" class="summary-sig-name">m2yard</a>(<span class="summary-sig-arg">meter</span>)</span><br />
-      Convert meter to <i>UK</i> yards.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#m2yard" class="summary-sig-name">m2yard</a>(<span class="summary-sig-arg">meter</span>,
+        <span class="summary-sig-arg">imperial</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Convert a length in meter to <i>International</i> or <a 
+      href="https://WikiPedia.org/wiki/Imperial_units" 
+      target="_top">Imperial Standard</a> yards.</td>
           <td align="right" valign="top">
             
             
@@ -956,7 +980,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#NM2m" class="summary-sig-name">NM2m</a>(<span class="summary-sig-arg">nm</span>)</span><br />
-      Convert nautical miles to meter (m).</td>
+      Convert a length in nautical miles to meter (<code>m</code>).</td>
           <td align="right" valign="top">
             
             
@@ -976,8 +1000,8 @@
         <span class="summary-sig-arg">earth</span>=<span class="summary-sig-default">6371008.771415</span>,
         <span class="summary-sig-arg">lat</span>=<span class="summary-sig-default">0</span>,
         <span class="summary-sig-arg">**radius</span>)</span><br />
-      Convert an angle to a distance along the equator or along a parallel 
-      at (geodetic) latitude.</td>
+      Convert an arc in radians to a distance along the equator or along a 
+      parallel at (geodetic) latitude.</td>
           <td align="right" valign="top">
             
             
@@ -1173,7 +1197,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#SM2m" class="summary-sig-name">SM2m</a>(<span class="summary-sig-arg">sm</span>)</span><br />
-      Convert statute miles to meter (m).</td>
+      Convert a length in statute miles to meter (<code>m</code>).</td>
           <td align="right" valign="top">
             
             
@@ -1297,7 +1321,7 @@
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#toise2m" class="summary-sig-name">toise2m</a>(<span class="summary-sig-arg">toises</span>)</span><br />
-      Convert French <a href="https://WikiPedia.org/wiki/Toise" 
+      Convert a length in French <a href="https://WikiPedia.org/wiki/Toise"
       target="_top">toises</a> to meter.</td>
           <td align="right" valign="top">
             
@@ -1492,8 +1516,11 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#yard2m" class="summary-sig-name">yard2m</a>(<span class="summary-sig-arg">yards</span>)</span><br />
-      Convert <i>UK</i> yards to meter.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.utily-module.html#yard2m" class="summary-sig-name">yard2m</a>(<span class="summary-sig-arg">yards</span>,
+        <span class="summary-sig-arg">imperial</span>=<span class="summary-sig-default">False</span>)</span><br />
+      Convert a length in <i>International</i> or <a 
+      href="https://WikiPedia.org/wiki/Imperial_units" 
+      target="_top">Imperial Standard</a> yards to meter.</td>
           <td align="right" valign="top">
             
             
@@ -1543,14 +1570,14 @@
     </td>
   </tr></table>
   
-  <p>Convert acres to hectare.</p>
+  <p>Convert an area in <i>acres</i> to <i>hectares</i>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>acres</code></strong> - Value in acres (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>acres</code></strong> - Area in acres (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Value in <code>hectare</code> (<code>float</code>).</dd>
+        <dd>Area in hectares (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>acres</code></b>.</li>
@@ -1572,14 +1599,14 @@
     </td>
   </tr></table>
   
-  <p>Convert acres to <i>square</i> meter.</p>
+  <p>Convert an area in <i>acres</i> to <i>square</i> meter.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>acres</code></strong> - Value in acres (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>acres</code></strong> - Area in acres (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Value in <code>meter^2</code> (<code>float</code>).</dd>
+        <dd>Area in <code>square</code> meter (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>acres</code></b>.</li>
@@ -1681,11 +1708,13 @@
   </tr></table>
   
   <p>Return <code>atan2(<b>y</b>, <b>x</b>)</code> in degrees <i 
-  class="math">[0..+360], counter-clockwise</i>.</p>
+  class="math">[0..+360), counter-clockwise</i>.</p>
   <dl class="fields">
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.utily-module.html#atan2d" 
+        Function <a href="pygeodesy.utily-module.html#atan2p" 
+        class="link">pygeodesy.atan2p</a> and <a 
+        href="pygeodesy.utily-module.html#atan2d" 
         class="link">pygeodesy.atan2d</a>.
       </p>
 </div></td></tr></table>
@@ -1718,6 +1747,31 @@
       </p>
 </div></td></tr></table>
 </div>
+<a name="atan2p"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">atan2p</span>&nbsp;(<span class="sig-arg">y</span>,
+        <span class="sig-arg">x</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return <code>atan2(<b>y</b>, <b>x</b>)</code> in radians <i 
+  class="math">[0..+PI2), counter-clockwise</i>.</p>
+  <dl class="fields">
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Function <a href="pygeodesy.utily-module.html#atan2b" 
+        class="link">pygeodesy.atan2b</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="chain2m"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1732,14 +1786,14 @@
     </td>
   </tr></table>
   
-  <p>Convert <i>UK</i> chains to meter.</p>
+  <p>Convert a length in <i>UK</i> chains to meter.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>chains</code></strong> - Value in chains (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>chains</code></strong> - Length in chains (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Value in <code>meter</code> (<code>float</code>).</dd>
+        <dd>Length in <code>meter</code> (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>chains</code></b>.</li>
@@ -1777,7 +1831,7 @@
         <li><strong class="pname"><code>lat</code></strong> - Geodetic latitude (<code>degrees90</code>, <code>str</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>A <a href="pygeodesy.ellipsoids.Circle4Tuple-class.html" 
+        <dd>A <a href="pygeodesy.namedTuples.Circle4Tuple-class.html" 
           class="link">Circle4Tuple</a><code>(radius, height, lat, 
           beta)</code>.</dd>
     <dt>Raises:</dt>
@@ -2041,12 +2095,13 @@
     </td>
   </tr></table>
   
-  <p>Convert an angle to a distance along the equator or along a parallel 
-  at (geodetic) latitude.</p>
+  <p>Convert an arc in degrees to a distance along the equator or along a 
+  parallel at (geodetic) latitude.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>deg</code></strong> - The angle (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>deg</code></strong> - The (longitudinal) angle (<code>degrees</code> or 
+          <code>str</code>).</li>
         <li><strong class="pname"><code>earth</code></strong> - The earth radius (<code>meter</code>) or an ellipsoid or datum 
           (<a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
           class="link">Ellipsoid</a>, <a 
@@ -2065,7 +2120,7 @@
           <code>0.0</code> for near-polar <b><code>lat</code></b>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Latitude <b><code>lat</code></b> outside valid range and <a 
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Latitude <b><code>lat</code></b> outside valid range, only if <a 
         href="pygeodesy.errors-module.html#rangerrors" 
         class="link">rangerrors</a> is <code>True</code>.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>earth</code></b> or <b><code>radius</code></b>.</li>
@@ -2095,14 +2150,14 @@
     </td>
   </tr></table>
   
-  <p>Convert <i>Imperial</i> fathom to meter.</p>
+  <p>Convert a length in <i>Imperial</i> fathoms to meter.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>fathoms</code></strong> - Value in fathoms (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>fathoms</code></strong> - Length in fathoms (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Value in <code>meter</code> (<code>float</code>).</dd>
+        <dd>Length in <code>meter</code> (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>fathoms</code></b>.</li>
@@ -2127,6 +2182,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">ft2m</span>&nbsp;(<span class="sig-arg">feet</span>,
         <span class="sig-arg">usurvey</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">pied</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">india</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">fuss</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -2134,19 +2190,20 @@
     </td>
   </tr></table>
   
-  <p>Convert <i>International</i>, <i>US Survey</i>, <i>French</i> or 
-  <i>German</i> <b><code>feet</code></b> to <code>meter</code>.</p>
+  <p>Convert a length in <i>International</i>, <i>US Survey</i>, 
+  <i>French</i>, <i>Indian</i> or <i>German</i> feet to meter.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>feet</code></strong> - Value in feet (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>feet</code></strong> - Length in feet (<code>scalar</code>).</li>
         <li><strong class="pname"><code>usurvey</code></strong> - If <code>True</code>, convert <i>US Survey</i> foot else ...</li>
         <li><strong class="pname"><code>pied</code></strong> - If <code>True</code>, convert French <i>pied-du-Roi</i> else ...</li>
+        <li><strong class="pname"><code>india</code></strong> - If <code>True</code>, convert <i>India foot</i> else ...</li>
         <li><strong class="pname"><code>fuss</code></strong> - If <code>True</code>, convert German <i>Fuss</i>, otherwise 
           <i>International</i> foot to <code>meter</code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Value in <code>meter</code> (<code>float</code>).</dd>
+        <dd>Length in <code>meter</code> (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>feet</code></b>.</li>
@@ -2168,14 +2225,14 @@
     </td>
   </tr></table>
   
-  <p>Convert a furlong to meter.</p>
+  <p>Convert a length in <i>furlongs</i> to meter.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>furlongs</code></strong> - Value in furlongs (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>furlongs</code></strong> - Length in furlongs (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Value in <code>meter</code> (<code>float</code>).</dd>
+        <dd>Length in <code>meter</code> (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>furlongs</code></b>.</li>
@@ -2331,14 +2388,14 @@
     </td>
   </tr></table>
   
-  <p>Convert hectare to acre.</p>
+  <p>Convert an area in <i>hectares</i> to <i>acres</i>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>ha</code></strong> - Value in hectare (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>ha</code></strong> - Area in hectares (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Value in acres (<code>float</code>).</dd>
+        <dd>Area in <code>acres</code> (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>ha</code></b>.</li>
@@ -2360,14 +2417,14 @@
     </td>
   </tr></table>
   
-  <p>Convert hectare to <i>square</i> meter.</p>
+  <p>Convert an area in <i>hectares</i> to <i>square</i> meter.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>ha</code></strong> - Value in hectare (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>ha</code></strong> - Area in hectares (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Value in <code>meter^2</code> (<code>float</code>).</dd>
+        <dd>Area in <code>square</code> meter (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>ha</code></b>.</li>
@@ -2415,14 +2472,14 @@
     </td>
   </tr></table>
   
-  <p>Convert kilo meter to meter (m).</p>
+  <p>Convert a length in <i>kilo meter</i> to meter (<code>m</code>).</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>km</code></strong> - Value in kilo meter (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>km</code></strong> - Length in kilo meter (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Value in meter (<code>float</code>).</dd>
+        <dd>Length in meter (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>km</code></b>.</li>
@@ -2444,14 +2501,14 @@
     </td>
   </tr></table>
   
-  <p>Convert <i>square</i> meter to acres.</p>
+  <p>Convert an area in <i>square</i> meter to <i>acres</i>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>meter2</code></strong> - Value in <code>meter^2</code> (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>meter2</code></strong> - Area in <code>square</code> meter (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Value in acres (<code>float</code>).</dd>
+        <dd>Area in acres (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>meter2</code></b>.</li>
@@ -2473,14 +2530,14 @@
     </td>
   </tr></table>
   
-  <p>Convert meter to <i>UK</i> chains.</p>
+  <p>Convert a length in meter to <i>UK</i> chains.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>meter</code></strong> - Value in meter (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>meter</code></strong> - Length in meter (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Value in <code>chains</code> (<code>float</code>).</dd>
+        <dd>Length in <code>chains</code> (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>meter</code></b>.</li>
@@ -2505,8 +2562,8 @@
     </td>
   </tr></table>
   
-  <p>Convert a distance to an angle along the equator or along a parallel 
-  at (geodetic) latitude.</p>
+  <p>Convert a distance to an arc in degrees along the equator or along a 
+  parallel at (geodetic) latitude.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -2525,11 +2582,11 @@
           <code><b>radius</b>=<b>earth</b></code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Angle (<code>degrees</code>) or <code>INF</code> or 
-          <code>NINF</code> for near-polar <b><code>lat</code></b>.</dd>
+        <dd>Angle (<code>degrees</code>) or <code>0.0,</code> for near-polar 
+          <b><code>lat</code></b>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Latitude <b><code>lat</code></b> outside valid range and <a 
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Latitude <b><code>lat</code></b> outside valid range, only if <a 
         href="pygeodesy.errors-module.html#rangerrors" 
         class="link">rangerrors</a> is <code>True</code>.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>earth</code></b> or <b><code>radius</code></b>.</li>
@@ -2559,14 +2616,14 @@
     </td>
   </tr></table>
   
-  <p>Convert meter to <i>Imperial</i> fathoms.</p>
+  <p>Convert a length in meter to <i>Imperial</i> fathoms.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>meter</code></strong> - Value in meter (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>meter</code></strong> - Length in meter (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Value in <code>fathoms</code> (<code>float</code>).</dd>
+        <dd>Length in <code>fathoms</code> (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>meter</code></b>.</li>
@@ -2591,6 +2648,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">m2ft</span>&nbsp;(<span class="sig-arg">meter</span>,
         <span class="sig-arg">usurvey</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">pied</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">india</span>=<span class="sig-default">False</span>,
         <span class="sig-arg">fuss</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
@@ -2598,20 +2656,21 @@
     </td>
   </tr></table>
   
-  <p>Convert meter to <i>International</i>, <i>US Survey</i>, <i>French</i>
-  or or <i>German</i> feet (<code>ft</code>).</p>
+  <p>Convert a length in meter to <i>International</i>, <i>US Survey</i>, 
+  <i>French</i>, <i>Indian</i> or <i>German</i> feet (<code>ft</code>).</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>meter</code></strong> - Value in meter (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>meter</code></strong> - Length in meter (<code>scalar</code>).</li>
         <li><strong class="pname"><code>usurvey</code></strong> - If <code>True</code>, convert to <i>US Survey</i> foot else ...</li>
         <li><strong class="pname"><code>pied</code></strong> - If <code>True</code>, convert to French <i>pied-du-Roi</i> else 
           ...</li>
+        <li><strong class="pname"><code>india</code></strong> - If <code>True</code>, convert to <i>India foot</i> else ...</li>
         <li><strong class="pname"><code>fuss</code></strong> - If <code>True</code>, convert to German <i>Fuss</i>, otherwise to
           <i>International</i> foot.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Value in <code>feet</code> (<code>float</code>).</dd>
+        <dd>Length in <code>feet</code> (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>meter</code></b>.</li>
@@ -2633,14 +2692,14 @@
     </td>
   </tr></table>
   
-  <p>Convert meter to furlongs.</p>
+  <p>Convert a length in meter to furlongs.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>meter</code></strong> - Value in meter (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>meter</code></strong> - Length in meter (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Value in <code>furlongs</code> (<code>float</code>).</dd>
+        <dd>Length in <code>furlongs</code> (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>meter</code></b>.</li>
@@ -2662,14 +2721,14 @@
     </td>
   </tr></table>
   
-  <p>Convert <i>square</i> meter to hectare.</p>
+  <p>Convert an area in <i>square</i> meter to <i>hectares</i>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>meter2</code></strong> - Value in <code>meter^2</code> (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>meter2</code></strong> - Area in <code>square</code> meter (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Value in hectare (<code>float</code>).</dd>
+        <dd>Area in hectares (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>meter2</code></b>.</li>
@@ -2691,14 +2750,14 @@
     </td>
   </tr></table>
   
-  <p>Convert meter to kilo meter (Km).</p>
+  <p>Convert a length in meter to kilo meter (<code>Km</code>).</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>meter</code></strong> - Value in meter (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>meter</code></strong> - Length in meter (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Value in Km (<code>float</code>).</dd>
+        <dd>Length in <code>Km</code> (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>meter</code></b>.</li>
@@ -2720,14 +2779,14 @@
     </td>
   </tr></table>
   
-  <p>Convert meter to nautical miles (NM).</p>
+  <p>Convert a length in meter to nautical miles (<code>NM</code>).</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>meter</code></strong> - Value in meter (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>meter</code></strong> - Length in meter (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Value in <code>NM</code> (<code>float</code>).</dd>
+        <dd>Length in <code>NM</code> (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>meter</code></b>.</li>
@@ -2752,8 +2811,8 @@
     </td>
   </tr></table>
   
-  <p>Convert a distance to an angle along the equator or along a parallel 
-  at (geodetic) latitude.</p>
+  <p>Convert a distance to an arc in radians along the equator or along a 
+  parallel at (geodetic) latitude.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -2772,11 +2831,11 @@
           <code><b>radius</b>=<b>earth</b></code>.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Angle (<code>radians</code>) or <code>INF</code> or 
-          <code>NINF</code> for near-polar <b><code>lat</code></b>.</dd>
+        <dd>Angle (<code>radians</code>) or <code>0.0</code> for near-polar 
+          <b><code>lat</code></b>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Latitude <b><code>lat</code></b> outside valid range and <a 
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Latitude <b><code>lat</code></b> outside valid range, only if <a 
         href="pygeodesy.errors-module.html#rangerrors" 
         class="link">rangerrors</a> is <code>True</code>.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>earth</code></b> or <b><code>radius</code></b>.</li>
@@ -2806,14 +2865,14 @@
     </td>
   </tr></table>
   
-  <p>Convert meter to statute miles (SM).</p>
+  <p>Convert a length in meter to statute miles (SM).</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>meter</code></strong> - Value in meter (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>meter</code></strong> - Length in meter (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Value in <code>SM</code> (<code>float</code>).</dd>
+        <dd>Length in <code>SM</code> (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>meter</code></b>.</li>
@@ -2835,15 +2894,15 @@
     </td>
   </tr></table>
   
-  <p>Convert meter to French <a href="https://WikiPedia.org/wiki/Toise" 
-  target="_top">toises</a>.</p>
+  <p>Convert a length in meter to French <a 
+  href="https://WikiPedia.org/wiki/Toise" target="_top">toises</a>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>meter</code></strong> - Value in meter (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>meter</code></strong> - Length in meter (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Value in <code>toises</code> (<code>float</code>).</dd>
+        <dd>Length in <code>toises</code> (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>meter</code></b>.</li>
@@ -2862,21 +2921,25 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">m2yard</span>&nbsp;(<span class="sig-arg">meter</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">m2yard</span>&nbsp;(<span class="sig-arg">meter</span>,
+        <span class="sig-arg">imperial</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Convert meter to <i>UK</i> yards.</p>
+  <p>Convert a length in meter to <i>International</i> or <a 
+  href="https://WikiPedia.org/wiki/Imperial_units" target="_top">Imperial 
+  Standard</a> yards.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>meter</code></strong> - Value in meter (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>meter</code></strong> - Length in meter (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>imperial</code></strong> - If <code>True</code>, convert to <i>Imperial Standard</i> yards.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Value in <code>yards</code> (<code>float</code>).</dd>
+        <dd>Length in <code>yards</code> (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>meter</code></b>.</li>
@@ -2898,14 +2961,14 @@
     </td>
   </tr></table>
   
-  <p>Convert nautical miles to meter (m).</p>
+  <p>Convert a length in nautical miles to meter (<code>m</code>).</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>nm</code></strong> - Value in nautical miles (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>nm</code></strong> - Length in nautical miles (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Value in meter (<code>float</code>).</dd>
+        <dd>Length in meter (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>nm</code></b>.</li>
@@ -2930,12 +2993,13 @@
     </td>
   </tr></table>
   
-  <p>Convert an angle to a distance along the equator or along a parallel 
-  at (geodetic) latitude.</p>
+  <p>Convert an arc in radians to a distance along the equator or along a 
+  parallel at (geodetic) latitude.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>rad</code></strong> - The angle (<code>radians</code>).</li>
+        <li><strong class="pname"><code>rad</code></strong> - The (longitudinal) angle (<code>radians</code> or 
+          <code>str</code>).</li>
         <li><strong class="pname"><code>earth</code></strong> - Mean earth radius (<code>meter</code>) or an ellipsoid or datum 
           (<a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
           class="link">Ellipsoid</a>, <a 
@@ -2954,7 +3018,7 @@
           <code>0.0</code> for near-polar <b><code>lat</code></b>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Latitude <b><code>lat</code></b> outside valid range and <a 
+        <li><code><strong class='fraise'><a href="pygeodesy.errors.RangeError-class.html">RangeError</a></strong></code> - Latitude <b><code>lat</code></b> outside valid range, only if <a 
         href="pygeodesy.errors-module.html#rangerrors" 
         class="link">rangerrors</a> is <code>True</code>.</li>
         <li><code><strong class='fraise'>TypeError</strong></code> - Invalid <b><code>earth</code></b> or <b><code>radius</code></b>.</li>
@@ -3294,14 +3358,14 @@
     </td>
   </tr></table>
   
-  <p>Convert statute miles to meter (m).</p>
+  <p>Convert a length in statute miles to meter (<code>m</code>).</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>sm</code></strong> - Value in statute miles (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>sm</code></strong> - Length in statute miles (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Value in meter (<code>float</code>).</dd>
+        <dd>Length in meter (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>sm</code></b>.</li>
@@ -3511,15 +3575,15 @@
     </td>
   </tr></table>
   
-  <p>Convert French <a href="https://WikiPedia.org/wiki/Toise" 
+  <p>Convert a length in French <a href="https://WikiPedia.org/wiki/Toise" 
   target="_top">toises</a> to meter.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>toises</code></strong> - Value in toises (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>toises</code></strong> - Length in toises (<code>scalar</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Value in <code>meter</code> (<code>float</code>).</dd>
+        <dd>Length in <code>meter</code> (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>toises</code></b>.</li>
@@ -3834,21 +3898,26 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">yard2m</span>&nbsp;(<span class="sig-arg">yards</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">yard2m</span>&nbsp;(<span class="sig-arg">yards</span>,
+        <span class="sig-arg">imperial</span>=<span class="sig-default">False</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Convert <i>UK</i> yards to meter.</p>
+  <p>Convert a length in <i>International</i> or <a 
+  href="https://WikiPedia.org/wiki/Imperial_units" target="_top">Imperial 
+  Standard</a> yards to meter.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>yards</code></strong> - Value in yards (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>yards</code></strong> - Length in yards (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>imperial</code></strong> - If <code>True</code>, convert from <i>Imperial Standard</i> 
+          yards.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>Value in <code>meter</code> (<code>float</code>).</dd>
+        <dd>Length in <code>meter</code> (<code>float</code>).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'>ValueError</strong></code> - Invalid <b><code>yards</code></b>.</li>
@@ -3888,7 +3957,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Feb 23 17:47:09 2026
+    Generated by Epydoc 3.0.1 on Wed Mar 25 13:27:18 2026
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

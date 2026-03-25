@@ -6,7 +6,7 @@
 from __future__ import division as _; del _  # noqa: E702 ;
 
 __all__ = ('Tests',)
-__version__ = '26.02.19'
+__version__ = '26.03.12'
 
 from bases import Geod3Solve, numpy, random, startswith, TestsBase
 
@@ -34,14 +34,23 @@ class Tests(TestsBase):
 
     def testAreas(self):
         for t in Triaxials.values(all=True, asorted=True):
+            s = str(t)
+            self.test(t.name, s, s, nl=1)
             n = t.name + '.'
-            self.test(n+'area   ', t.area, t.area, nl=1)
+            self.test(n+'area    ', t.area, t.area)
             a = str(t.areaKT())
-            self.test(n+'areaKT ', a, a)
+            self.test(n+'areaKT  ', a, a)
             a = t.areaRG
-            self.test(n+'areaRG ', a, a)
+            self.test(n+'areaRG  ', a, a)
             if t.isOrdered:
-                self.test(n+'area21k', t.area21k, a, known=fabs(t.area21k - a) < 1)
+                self.test(n+'area21k ', t.area21k, a, known=fabs(t.area21k - a) < 1)
+            e = t.ellipse5(45)
+            s = repr(e)
+            self.test(n+'ellipse5', s, s)
+            s = str(e.toTriaxial_())
+            self.test(n+'toTriaxial_', s, s)
+            s = str(e.toTriaxial())
+            self.test(n+'toTriaxial ', s, s)
 
     def testHartzell(self, module, LatLon):
         self.subtitle(module, 'Hartzell')

@@ -242,13 +242,82 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipses.Ellipse-class.html#point" class="summary-sig-name">point</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">deg_x</span>,
+        <span class="summary-sig-arg">y</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Return the point <i>on</i> this ellipse at <code><b>deg</b></code> or
+      <code>atan2d(<b>y</b>, <b>x</b>) degrees</code> along this ellipse.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ellipses.Ellipse-class.html#points" class="summary-sig-name">points</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">np</span>,
+        <span class="summary-sig-arg">nq</span>=<span class="summary-sig-default">4</span>,
+        <span class="summary-sig-arg">ccw</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">ended</span>=<span class="summary-sig-default">False</span>,
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">2.220446049250313e-16</span>)</span><br />
+      Yield up to <code>np</code> points along this ellipse, each a 2-tuple
+      <code>(x, y)</code>, starting at semi-axis <code>+a</code>, in 
+      (counter-)clockwise order and distributed evenly along the minor 
+      semi-axis.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="polar2d"></a><span class="summary-sig-name">polar2d</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">deg_x</span>,
+        <span class="summary-sig-arg">y</span>=<span class="summary-sig-default">None</span>)</span><br />
+      For a point at <code><b>deg</b></code> or <code>atan2d(<b>y</b>, 
+      <b>x</b>) degrees</code> along this ellipse, return 2-tuple 
+      <code>(radius, angle)</code> with the polar <a 
+      href="https://WikiPedia.org/wiki/Ellipse#Polar_form_relative_to_center"
+      target="_top">radius</a> from the center (<code>meter</code>, 
+      conventionally) and <code>angle</code> in <code>degrees</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.ellipses.Ellipse-class.html#Roc" class="summary-sig-name">Roc</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">deg_x</span>,
         <span class="summary-sig-arg">y</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">**eps</span>)</span><br />
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">None</span>)</span><br />
       Compute the <a href="https://WikiPedia.org/wiki/Radius_of_curvature" 
-      target="_top">radius of curvature</a> at point <code>(<b>x</b>, 
-      <b>y</b>)</code> <i>on</i> this ellipse or at <code><b>deg</b> 
+      target="_top">radius of curvature</a> at a point 
+      <code><b>deg</b></code> or <code>atan2d(<b>y</b>, <b>x</b>) 
       degrees</code> along this ellipse.</td>
           <td align="right" valign="top">
             
@@ -268,10 +337,10 @@
           <td><span class="summary-sig"><a href="pygeodesy.ellipses.Ellipse-class.html#Roc_" class="summary-sig-name">Roc_</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">rad_x</span>,
         <span class="summary-sig-arg">y</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">**eps</span>)</span><br />
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">None</span>)</span><br />
       Compute the <a href="https://WikiPedia.org/wiki/Radius_of_curvature" 
-      target="_top">radius of curvature</a> at point <code>(<b>x</b>, 
-      <b>y</b>)</code> <i>on</i> this ellipse or at <code><b>rad</b> 
+      target="_top">radius of curvature</a> at a point 
+      <code><b>rad</b></code> or <code>atan2(<b>y</b>, <b>x</b>) 
       radians</code> along this ellipse.</td>
           <td align="right" valign="top">
             
@@ -314,10 +383,11 @@
           <td><span class="summary-sig"><a href="pygeodesy.ellipses.Ellipse-class.html#slope" class="summary-sig-name">slope</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">deg_x</span>,
         <span class="summary-sig-arg">y</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">**eps</span>)</span><br />
-      Compute the slope of the tangent at point <code>(<b>x</b>, 
-      <b>y</b>)</code> <i>on</i> this ellipse or at <code><b>deg</b> 
-      degrees</code> along this ellipse.</td>
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Compute the <a 
+      href="https://WikiPedia.org/wiki/Ellipse#Tangent_slope_as_parameter" 
+      target="_top">tangent slope</a> at a point <code><b>deg</b></code> or
+      <code>atan2d(<b>y</b>, <b>x</b>) degrees</code> along this ellipse.</td>
           <td align="right" valign="top">
             
             
@@ -336,10 +406,11 @@
           <td><span class="summary-sig"><a href="pygeodesy.ellipses.Ellipse-class.html#slope_" class="summary-sig-name">slope_</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">rad_x</span>,
         <span class="summary-sig-arg">y</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">**eps</span>)</span><br />
-      Compute the slope of the tangent at point <code>(<b>x</b>, 
-      <b>y</b>)</code> <i>on</i> this ellipse or at <code><b>rad</b> 
-      radians</code> along this ellipse.</td>
+        <span class="summary-sig-arg">eps</span>=<span class="summary-sig-default">None</span>)</span><br />
+      Compute the <a 
+      href="https://WikiPedia.org/wiki/Ellipse#Tangent_slope_as_parameter" 
+      target="_top">tangent slope</a> at a point <code><b>rad</b></code> or
+      <code>atan2(<b>y</b>, <b>x</b>) radians</code> along this ellipse.</td>
           <td align="right" valign="top">
             
             
@@ -355,7 +426,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="toEllipsoid"></a><span class="summary-sig-name">toEllipsoid</span>(<span class="summary-sig-arg">self</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy.ellipses.Ellipse-class.html#toEllipsoid" class="summary-sig-name">toEllipsoid</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">**Ellipsoid_and_kwds</span>)</span><br />
       Return an <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
       class="link">Ellipsoid</a> from this ellipse' <code>a</code> and 
       <code>b</code> semi-axes.</td>
@@ -394,12 +466,11 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="toTriaxial_"></a><span class="summary-sig-name">toTriaxial_</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">c</span>=<span class="summary-sig-default">2.220446049250313e-16</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy.ellipses.Ellipse-class.html#toTriaxial_" class="summary-sig-name">toTriaxial_</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">c</span>=<span class="summary-sig-default">2.220446049250313e-16</span>,
+        <span class="summary-sig-arg">**Triaxial_and_kwds</span>)</span><br />
       Return a <a href="pygeodesy.triaxials.triaxial5.Triaxial_-class.html"
-      class="link">Triaxial_</a> from this ellipse' <code>a</code> and 
-      <code>b</code> semi-axes with <b><code>c</code></b> as minor 
-      semi-axis.</td>
+      class="link">Triaxial_</a> from this ellipse' semi-axes.</td>
           <td align="right" valign="top">
             
             
@@ -466,6 +537,18 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.ellipses.Ellipse-class.html#apses2" class="summary-name">apses2</a><br />
+      Get 2-tuple <code>(apoapsis, periapsis)</code> with the <a 
+      href="https://MathWorld.Wolfram.com/Apoapsis.html" 
+      target="_top">apo-</a> and <a 
+      href="https://MathWorld.Wolfram.com/Periapsis.html" 
+      target="_top">periapsis</a> of this ellipse, both <code>meter</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.ellipses.Ellipse-class.html#area" class="summary-name">area</a><br />
       Get the area of this ellipse (<code>meter**2</code>, conventionally).
     </td>
@@ -484,7 +567,9 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipses.Ellipse-class.html#c" class="summary-name">c</a><br />
-      Get the <code>linear excentricity <b>c</b></code>, <i>unsigned</i> 
+      Get the <a 
+      href="https://WikiPedia.org/wiki/Ellipse#Linear_eccentricity" 
+      target="_top">linear eccentricity</a> <code>c</code>, <i>unsigned</i>
       (<code>meter</code>, conventionally).
     </td>
   </tr>
@@ -493,7 +578,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipses.Ellipse-class.html#e" class="summary-name">e</a><br />
-      Get the excentricity (<code>scalar, 0 &lt;= <b>e</b> &lt;= 1</code>).
+      Get the eccentricity (<code>scalar, 0 &lt;= <b>e</b> &lt;= 1</code>).
     </td>
   </tr>
 <tr>
@@ -501,7 +586,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipses.Ellipse-class.html#e2" class="summary-name">e2</a><br />
-      Get the excentricity <i>squared</i> (<code>scalar, 0 &lt;= <b>e2</b> 
+      Get the eccentricity <i>squared</i> (<code>scalar, 0 &lt;= <b>e2</b> 
       &lt;= 1</code>).
     </td>
   </tr>
@@ -511,8 +596,8 @@
     </td><td class="summary">
         <a href="pygeodesy.ellipses.Ellipse-class.html#foci" class="summary-name">foci</a><br />
       Get the <a 
-      href="https://WikiPedia.org/wiki/Ellipse#Standard_equation" 
-      target="_top">linear excentricity</a>, <i>signed</i> 
+      href="https://WikiPedia.org/wiki/Ellipse#Linear_eccentricity" 
+      target="_top">linear eccentricity</a>, <i>signed</i> 
       (<code>meter</code>, conventionally), <code>positive</code> if this 
       ellipse is oblate, <code>negative</code> if prolate or <code>0</code>
       if circular.
@@ -559,7 +644,7 @@
     </td><td class="summary">
         <a href="pygeodesy.ellipses.Ellipse-class.html#lati" class="summary-name">lati</a><br />
       Get the <a 
-      href="https://WikiPedia.org/wiki/Ellipse#Standard_equation" 
+      href="https://WikiPedia.org/wiki/Ellipse#Semi-latus_rectum" 
       target="_top">semi-latus rectum</a>, <i>signed</i> 
       (<code>meter</code>, conventionally), <code>positive</code> if this 
       ellipse is oblate or circular, <code>0</code> if &quot;flat&quot; and
@@ -572,7 +657,9 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ellipses.Ellipse-class.html#p" class="summary-name">p</a><br />
-      Get the <code>semi-latus rectum <b>p</b> (aka <b>&#120001;</b>, 
+      Get the <a 
+      href="https://WikiPedia.org/wiki/Ellipse#Semi-latus_rectum" 
+      target="_top">semi-latus rectum</a> <code>p (aka <b>&#120001;</b>, 
       script-small-l)</code>, <i>unsigned</i> (<code>meter</code>, 
       conventionally).
     </td>
@@ -595,10 +682,24 @@
         <a href="pygeodesy.ellipses.Ellipse-class.html#perimeter4Arc3" class="summary-name">perimeter4Arc3</a><br />
       Compute the perimeter (and arcs) of this ellipse using the <a 
       href="https://PaulBourke.net/geometry/ellipsecirc" 
-      target="_top">4-Arc</a> approximation as a 3-Tuple <code>(P, Ra, 
-      Rb)</code> with perimeter <code>P</code>, arc radii <code>Ra</code> 
-      and <code>Rb</code> at the respective semi-axes (all in 
-      <code>meter</code>, conventionally).
+      target="_top">4-Arc</a> (aka 4-Center) approximation as a 3-Tuple 
+      <code>(P, Ra, Rb)</code> with perimeter <code>P</code>, arc radii 
+      <code>Ra</code> and <code>Rb</code> at the respective semi-axes (all 
+      in <code>meter</code>, conventionally).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipses.Ellipse-class.html#perimeterCR" class="summary-name">perimeterCR</a><br />
+      Compute the perimeter of this ellipse using <a 
+      href="https://www.ChrisRackauckas.com/assets/Papers/ChrisRackauckas-The_Circumference_of_an_Ellipse.pdf"
+      target="_top">Rackauckas'</a> approximation, also <a 
+      href="https://ExtremeLearning.com.AU/a-formula-for-the-perimeter-of-an-ellipse"
+      target="_top">here</a> and <a 
+      href="http://www.EByte.IT/library/docs/math05a/EllipsePerimeterApprox05.html"
+      target="_top">here</a> (<code>meter</code>, conventionally).
     </td>
   </tr>
 <tr>
@@ -610,6 +711,17 @@
       href="https://www.JohnDCook.com/blog/2023/05/28/approximate-ellipse-perimeter"
       target="_top">Gauss-Kummer</a> series, <code><b>b / a</b> &gt; 
       0.75</code> (<code>meter</code>, conventionally).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipses.Ellipse-class.html#perimeterHGK" class="summary-name">perimeterHGK</a><br />
+      Compute the perimeter of this ellipse using the <a 
+      href="https://web.Tecnico.ULisboa.PT/~mcasquilho/compute/com/,ellips/PerimeterOfEllipse.pdf"
+      target="_top">Hypergeometric Gauss-Kummer</a> series 
+      (<code>meter</code>, conventionally).
     </td>
   </tr>
 <tr>
@@ -638,17 +750,6 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ellipses.Ellipse-class.html#perimeterHGK" class="summary-name">perimeterHGK</a><br />
-      Compute the perimeter of this ellipse using the <a 
-      href="https://web.Tecnico.ULisboa.PT/~mcasquilho/compute/com/,ellips/PerimeterOfEllipse.pdf"
-      target="_top">Hypergeometric Gauss-Kummer</a> series 
-      (<code>meter</code>, conventionally).
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
         <a href="pygeodesy.ellipses.Ellipse-class.html#perimeter2R" class="summary-name">perimeter2R</a><br />
       Compute the perimeter of this ellipse using <a 
       href="https://PaulBourke.net/geometry/ellipsecirc" 
@@ -660,9 +761,56 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.ellipses.Ellipse-class.html#perimeter2RC" class="summary-name">perimeter2RC</a><br />
+      Compute the perimeter of this ellipse using <a 
+      href="http://www.EByte.IT/library/docs/math05a/EllipsePerimeterApprox05.html"
+      target="_top">Cantrell Ramanujan's 2nd</a> approximation, <code><b>b 
+      / a</b> &gt; 0.9</code> (<code>meter</code>, conventionally).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipses.Ellipse-class.html#R1" class="summary-name">R1</a><br />
+      Get this ellipse' <i>arithmetic mean</i> radius, <code>(2 * a + b) / 
+      3</code> (<code>meter</code>, conventionally).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.ellipses.Ellipse-class.html#R2" class="summary-name">R2</a><br />
-      Get the <i>authalic</i> radius of this ellipse, <code>sqrt(<b>a</b> *
+      Get this ellipse' <i>authalic</i> radius, <code>sqrt(<b>a</b> * 
       <b>b</b>)</code> (<code>meter</code>, conventionally).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipses.Ellipse-class.html#Rgeometric" class="summary-name">Rgeometric</a><br />
+      Get this ellipse' <i>authalic</i> radius, <code>sqrt(<b>a</b> * 
+      <b>b</b>)</code> (<code>meter</code>, conventionally).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipses.Ellipse-class.html#Rauthalic" class="summary-name">Rauthalic</a><br />
+      Get this ellipse' <i>authalic</i> radius, <code>sqrt(<b>a</b> * 
+      <b>b</b>)</code> (<code>meter</code>, conventionally).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ellipses.Ellipse-class.html#Rrectifying" class="summary-name">Rrectifying</a><br />
+      Get this ellipse' <i>rectifying</i> radius, <code>perimeter2k_ / 
+      PI2</code> (<code>meter</code>, conventionally).
     </td>
   </tr>
   <tr>
@@ -734,7 +882,11 @@
         object.__init__
     </dt>
   </dl>
-</td></tr></table>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="https://MathWorld.Wolfram.com/Ellipse.html" 
+        target="_top">Ellipse</a>.
+      </p>
+</div></td></tr></table>
 </div>
 <a name="arc"></a>
 <div>
@@ -1009,6 +1161,72 @@
       </p>
 </div></td></tr></table>
 </div>
+<a name="point"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">point</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">deg_x</span>,
+        <span class="sig-arg">y</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return the point <i>on</i> this ellipse at <code><b>deg</b></code> or 
+  <code>atan2d(<b>y</b>, <b>x</b>) degrees</code> along this ellipse.</p>
+  <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>A 2-tuple <code>(x, y)</code>.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="points"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">points</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">np</span>,
+        <span class="sig-arg">nq</span>=<span class="sig-default">4</span>,
+        <span class="sig-arg">ccw</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">ended</span>=<span class="sig-default">False</span>,
+        <span class="sig-arg">eps</span>=<span class="sig-default">2.220446049250313e-16</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Yield up to <code>np</code> points along this ellipse, each a 2-tuple 
+  <code>(x, y)</code>, starting at semi-axis <code>+a</code>, in 
+  (counter-)clockwise order and distributed evenly along the minor 
+  semi-axis.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>np</code></strong> - Number of points to generate (<code>int</code>).</li>
+        <li><strong class="pname"><code>nq</code></strong> - Number of quarters to cover (<code>int</code>, 1..4).</li>
+        <li><strong class="pname"><code>ccw</code></strong> - Use <code><b>ccw</b>=True</code> for counter-clockwise order 
+          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>ended</code></strong> - If <code>True</code>, include the last quadrant's end point 
+          (<code>bool</code>).</li>
+        <li><strong class="pname"><code>eps</code></strong> - Tolerance for duplicate points (<code>meter</code>, 
+          conventionally).</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        <a href="https://MathWorld.Wolfram.com/ConicSectionDirectrix.html" 
+        target="_top">Directrix</a>.
+      </p>
+</div></td></tr></table>
+</div>
 <a name="Roc"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1019,7 +1237,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">Roc</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">deg_x</span>,
         <span class="sig-arg">y</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">**eps</span>)</span>
+        <span class="sig-arg">eps</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1027,9 +1245,9 @@
   </tr></table>
   
   <p>Compute the <a href="https://WikiPedia.org/wiki/Radius_of_curvature" 
-  target="_top">radius of curvature</a> at point <code>(<b>x</b>, 
-  <b>y</b>)</code> <i>on</i> this ellipse or at <code><b>deg</b> 
-  degrees</code> along this ellipse.</p>
+  target="_top">radius of curvature</a> at a point <code><b>deg</b></code> 
+  or <code>atan2d(<b>y</b>, <b>x</b>) degrees</code> along this 
+  ellipse.</p>
   <dl class="fields">
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
@@ -1048,7 +1266,7 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">Roc_</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">rad_x</span>,
         <span class="sig-arg">y</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">**eps</span>)</span>
+        <span class="sig-arg">eps</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1056,9 +1274,8 @@
   </tr></table>
   
   <p>Compute the <a href="https://WikiPedia.org/wiki/Radius_of_curvature" 
-  target="_top">radius of curvature</a> at point <code>(<b>x</b>, 
-  <b>y</b>)</code> <i>on</i> this ellipse or at <code><b>rad</b> 
-  radians</code> along this ellipse.</p>
+  target="_top">radius of curvature</a> at a point <code><b>rad</b></code> 
+  or <code>atan2(<b>y</b>, <b>x</b>) radians</code> along this ellipse.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -1069,8 +1286,8 @@
         <dd>Curvature (<code>meter</code>, conventionally).</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - Point <code>(<b>x</b>, <b>y</b>)</code> not near this ellipse, 
-        unless <code><b>eps</b>=0</code>.</li>
+        <li><code><strong class='fraise'>ValueError</strong></code> - Point <code>(<b>x</b>, <b>y</b>)</code> off this ellipse, unless 
+        <code><b>eps</b>=0</code>.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1085,21 +1302,25 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">slope</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">deg_x</span>,
         <span class="sig-arg">y</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">**eps</span>)</span>
+        <span class="sig-arg">eps</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Compute the slope of the tangent at point <code>(<b>x</b>, 
-  <b>y</b>)</code> <i>on</i> this ellipse or at <code><b>deg</b> 
-  degrees</code> along this ellipse.</p>
+  <p>Compute the <a 
+  href="https://WikiPedia.org/wiki/Ellipse#Tangent_slope_as_parameter" 
+  target="_top">tangent slope</a> at a point <code><b>deg</b></code> or 
+  <code>atan2d(<b>y</b>, <b>x</b>) degrees</code> along this ellipse.</p>
   <dl class="fields">
+    <dt>Returns:</dt>
+        <dd>Slope (<code>degrees</code>), negative for <code>0 &lt;= 
+          <b>deg</b> &lt; 90</code>.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Method <a href="pygeodesy.ellipses.Ellipse-class.html#slope_" 
-        class="link">slope_</a> for ruther details.
+        class="link">slope_</a> for further details.
       </p>
 </div></td></tr></table>
 </div>
@@ -1113,16 +1334,17 @@
   <h3 class="epydoc"><span class="sig"><span class="sig-name">slope_</span>&nbsp;(<span class="sig-arg">self</span>,
         <span class="sig-arg">rad_x</span>,
         <span class="sig-arg">y</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">**eps</span>)</span>
+        <span class="sig-arg">eps</span>=<span class="sig-default">None</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
     </td>
   </tr></table>
   
-  <p>Compute the slope of the tangent at point <code>(<b>x</b>, 
-  <b>y</b>)</code> <i>on</i> this ellipse or at <code><b>rad</b> 
-  radians</code> along this ellipse.</p>
+  <p>Compute the <a 
+  href="https://WikiPedia.org/wiki/Ellipse#Tangent_slope_as_parameter" 
+  target="_top">tangent slope</a> at a point <code><b>rad</b></code> or 
+  <code>atan2(<b>y</b>, <b>x</b>) radians</code> along this ellipse.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -1134,8 +1356,35 @@
           <b>rad</b> &lt; PI/2</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
-        <li><code><strong class='fraise'>ValueError</strong></code> - <code>(<b>x</b>, <b>y</b>)</code> not near this ellipse, unless 
+        <li><code><strong class='fraise'>ValueError</strong></code> - <code>(<b>x</b>, <b>y</b>)</code> off this ellipse, unless 
         <code><b>eps</b>=0</code>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="toEllipsoid"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toEllipsoid</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">**Ellipsoid_and_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return an <a href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+  class="link">Ellipsoid</a> from this ellipse' <code>a</code> and 
+  <code>b</code> semi-axes.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>Ellipsoid_and_kwds</code></strong> - Optional <code><b>Ellipsoid</b>=Ellipsoid</code> class and 
+          additional <code>Ellipsoid</code> keyword arguments.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -1177,6 +1426,34 @@
   </dl>
 </td></tr></table>
 </div>
+<a name="toTriaxial_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toTriaxial_</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">c</span>=<span class="sig-default">2.220446049250313e-16</span>,
+        <span class="sig-arg">**Triaxial_and_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Return a <a href="pygeodesy.triaxials.triaxial5.Triaxial_-class.html" 
+  class="link">Triaxial_</a> from this ellipse' semi-axes.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>c</code></strong> - Near-zero, minor semi-axis (<code>meter</code>, conventionally).</li>
+        <li><strong class="pname"><code>Triaxial_and_kwds</code></strong> - Optional <code><b>Triaxial</b>=Triaxial_</code> class and 
+          additional <code>Triaxial</code> keyword arguments.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
 <br />
 <!-- ==================== PROPERTY DETAILS ==================== -->
 <a name="section-PropertyDetails"></a>
@@ -1200,6 +1477,36 @@
     <dd class="value"><span class="summary-sig">a(<span class="summary-sig-arg">self</span>)</span>
         - Get semi-axis <code><b>a</b></code> of this ellipse (<code>meter</code>, 
 conventionally).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="apses2"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">apses2</h3>
+  <p>Get 2-tuple <code>(apoapsis, periapsis)</code> with the <a 
+  href="https://MathWorld.Wolfram.com/Apoapsis.html" target="_top">apo-</a>
+  and <a href="https://MathWorld.Wolfram.com/Periapsis.html" 
+  target="_top">periapsis</a> of this ellipse, both <code>meter</code>.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">apses2(<span class="summary-sig-arg">self</span>)</span>
+        - Get 2-tuple <code>(apoapsis, periapsis)</code> with the <a 
+href="https://MathWorld.Wolfram.com/Apoapsis.html" target="_top">apo-</a> 
+and <a href="https://MathWorld.Wolfram.com/Periapsis.html" 
+target="_top">periapsis</a> of this ellipse, both <code>meter</code>.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1270,12 +1577,15 @@ conventionally).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">c</h3>
-  <p>Get the <code>linear excentricity <b>c</b></code>, <i>unsigned</i> 
+  <p>Get the <a 
+  href="https://WikiPedia.org/wiki/Ellipse#Linear_eccentricity" 
+  target="_top">linear eccentricity</a> <code>c</code>, <i>unsigned</i> 
   (<code>meter</code>, conventionally).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">c(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <code>linear excentricity <b>c</b></code>, <i>unsigned</i> 
+        - Get the <a href="https://WikiPedia.org/wiki/Ellipse#Linear_eccentricity" 
+target="_top">linear eccentricity</a> <code>c</code>, <i>unsigned</i> 
 (<code>meter</code>, conventionally).
     </dd>
     <dt>Set method:</dt>
@@ -1296,12 +1606,12 @@ conventionally).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">e</h3>
-  <p>Get the excentricity (<code>scalar, 0 &lt;= <b>e</b> &lt;= 
+  <p>Get the eccentricity (<code>scalar, 0 &lt;= <b>e</b> &lt;= 
   1</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">e(<span class="summary-sig-arg">self</span>)</span>
-        - Get the excentricity (<code>scalar, 0 &lt;= <b>e</b> &lt;= 1</code>).
+        - Get the eccentricity (<code>scalar, 0 &lt;= <b>e</b> &lt;= 1</code>).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1321,12 +1631,12 @@ conventionally).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">e2</h3>
-  <p>Get the excentricity <i>squared</i> (<code>scalar, 0 &lt;= <b>e2</b> 
+  <p>Get the eccentricity <i>squared</i> (<code>scalar, 0 &lt;= <b>e2</b> 
   &lt;= 1</code>).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">e2(<span class="summary-sig-arg">self</span>)</span>
-        - Get the excentricity <i>squared</i> (<code>scalar, 0 &lt;= <b>e2</b> &lt;= 
+        - Get the eccentricity <i>squared</i> (<code>scalar, 0 &lt;= <b>e2</b> &lt;= 
 1</code>).
     </dd>
     <dt>Set method:</dt>
@@ -1347,8 +1657,9 @@ conventionally).
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">foci</h3>
-  <p>Get the <a href="https://WikiPedia.org/wiki/Ellipse#Standard_equation"
-  target="_top">linear excentricity</a>, <i>signed</i> (<code>meter</code>,
+  <p>Get the <a 
+  href="https://WikiPedia.org/wiki/Ellipse#Linear_eccentricity" 
+  target="_top">linear eccentricity</a>, <i>signed</i> (<code>meter</code>,
   conventionally), <code>positive</code> if this ellipse is oblate, 
   <code>negative</code> if prolate or <code>0</code> if circular.  See also
   property <a href="pygeodesy.ellipses.Ellipse-class.html#c" 
@@ -1356,8 +1667,8 @@ conventionally).
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">foci(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <a href="https://WikiPedia.org/wiki/Ellipse#Standard_equation" 
-target="_top">linear excentricity</a>, <i>signed</i> (<code>meter</code>, 
+        - Get the <a href="https://WikiPedia.org/wiki/Ellipse#Linear_eccentricity" 
+target="_top">linear eccentricity</a>, <i>signed</i> (<code>meter</code>, 
 conventionally), <code>positive</code> if this ellipse is oblate, 
 <code>negative</code> if prolate or <code>0</code> if circular.
     </dd>
@@ -1480,7 +1791,7 @@ conventionally), <code>positive</code> if this ellipse is oblate,
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">lati</h3>
-  <p>Get the <a href="https://WikiPedia.org/wiki/Ellipse#Standard_equation"
+  <p>Get the <a href="https://WikiPedia.org/wiki/Ellipse#Semi-latus_rectum"
   target="_top">semi-latus rectum</a>, <i>signed</i> (<code>meter</code>, 
   conventionally), <code>positive</code> if this ellipse is oblate or 
   circular, <code>0</code> if &quot;flat&quot; and oblate, 
@@ -1491,7 +1802,7 @@ conventionally), <code>positive</code> if this ellipse is oblate,
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">lati(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <a href="https://WikiPedia.org/wiki/Ellipse#Standard_equation" 
+        - Get the <a href="https://WikiPedia.org/wiki/Ellipse#Semi-latus_rectum" 
 target="_top">semi-latus rectum</a>, <i>signed</i> (<code>meter</code>, 
 conventionally), <code>positive</code> if this ellipse is oblate or 
 circular, <code>0</code> if &quot;flat&quot; and oblate, 
@@ -1516,13 +1827,15 @@ and prolate.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">p</h3>
-  <p>Get the <code>semi-latus rectum <b>p</b> (aka <b>&#120001;</b>, 
+  <p>Get the <a href="https://WikiPedia.org/wiki/Ellipse#Semi-latus_rectum"
+  target="_top">semi-latus rectum</a> <code>p (aka <b>&#120001;</b>, 
   script-small-l)</code>, <i>unsigned</i> (<code>meter</code>, 
   conventionally).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">p(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <code>semi-latus rectum <b>p</b> (aka <b>&#120001;</b>, 
+        - Get the <a href="https://WikiPedia.org/wiki/Ellipse#Semi-latus_rectum" 
+target="_top">semi-latus rectum</a> <code>p (aka <b>&#120001;</b>, 
 script-small-l)</code>, <i>unsigned</i> (<code>meter</code>, 
 conventionally).
     </dd>
@@ -1576,18 +1889,54 @@ conventionally).
   <h3 class="epydoc">perimeter4Arc3</h3>
   <p>Compute the perimeter (and arcs) of this ellipse using the <a 
   href="https://PaulBourke.net/geometry/ellipsecirc" 
-  target="_top">4-Arc</a> approximation as a 3-Tuple <code>(P, Ra, 
-  Rb)</code> with perimeter <code>P</code>, arc radii <code>Ra</code> and 
-  <code>Rb</code> at the respective semi-axes (all in <code>meter</code>, 
-  conventionally).</p>
+  target="_top">4-Arc</a> (aka 4-Center) approximation as a 3-Tuple 
+  <code>(P, Ra, Rb)</code> with perimeter <code>P</code>, arc radii 
+  <code>Ra</code> and <code>Rb</code> at the respective semi-axes (all in 
+  <code>meter</code>, conventionally).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">perimeter4Arc3(<span class="summary-sig-arg">self</span>)</span>
         - Compute the perimeter (and arcs) of this ellipse using the <a 
 href="https://PaulBourke.net/geometry/ellipsecirc" target="_top">4-Arc</a> 
-approximation as a 3-Tuple <code>(P, Ra, Rb)</code> with perimeter 
-<code>P</code>, arc radii <code>Ra</code> and <code>Rb</code> at the 
-respective semi-axes (all in <code>meter</code>, conventionally).
+(aka 4-Center) approximation as a 3-Tuple <code>(P, Ra, Rb)</code> with 
+perimeter <code>P</code>, arc radii <code>Ra</code> and <code>Rb</code> at 
+the respective semi-axes (all in <code>meter</code>, conventionally).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="perimeterCR"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">perimeterCR</h3>
+  <p>Compute the perimeter of this ellipse using <a 
+  href="https://www.ChrisRackauckas.com/assets/Papers/ChrisRackauckas-The_Circumference_of_an_Ellipse.pdf"
+  target="_top">Rackauckas'</a> approximation, also <a 
+  href="https://ExtremeLearning.com.AU/a-formula-for-the-perimeter-of-an-ellipse"
+  target="_top">here</a> and <a 
+  href="http://www.EByte.IT/library/docs/math05a/EllipsePerimeterApprox05.html"
+  target="_top">here</a> (<code>meter</code>, conventionally).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">perimeterCR(<span class="summary-sig-arg">self</span>)</span>
+        - Compute the perimeter of this ellipse using <a 
+href="https://www.ChrisRackauckas.com/assets/Papers/ChrisRackauckas-The_Circumference_of_an_Ellipse.pdf"
+target="_top">Rackauckas'</a> approximation, also <a 
+href="https://ExtremeLearning.com.AU/a-formula-for-the-perimeter-of-an-ellipse"
+target="_top">here</a> and <a 
+href="http://www.EByte.IT/library/docs/math05a/EllipsePerimeterApprox05.html"
+target="_top">here</a> (<code>meter</code>, conventionally).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1618,6 +1967,36 @@ respective semi-axes (all in <code>meter</code>, conventionally).
 href="https://www.JohnDCook.com/blog/2023/05/28/approximate-ellipse-perimeter"
 target="_top">Gauss-Kummer</a> series, <code><b>b / a</b> &gt; 0.75</code> 
 (<code>meter</code>, conventionally).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="perimeterHGK"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">perimeterHGK</h3>
+  <p>Compute the perimeter of this ellipse using the <a 
+  href="https://web.Tecnico.ULisboa.PT/~mcasquilho/compute/com/,ellips/PerimeterOfEllipse.pdf"
+  target="_top">Hypergeometric Gauss-Kummer</a> series (<code>meter</code>,
+  conventionally).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">perimeterHGK(<span class="summary-sig-arg">self</span>)</span>
+        - Compute the perimeter of this ellipse using the <a 
+href="https://web.Tecnico.ULisboa.PT/~mcasquilho/compute/com/,ellips/PerimeterOfEllipse.pdf"
+target="_top">Hypergeometric Gauss-Kummer</a> series (<code>meter</code>, 
+conventionally).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1689,36 +2068,6 @@ property <code>perimeter2k</code> (<code>meter</code>, conventionally).
   </dl>
 </td></tr></table>
 </div>
-<a name="perimeterHGK"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <h3 class="epydoc">perimeterHGK</h3>
-  <p>Compute the perimeter of this ellipse using the <a 
-  href="https://web.Tecnico.ULisboa.PT/~mcasquilho/compute/com/,ellips/PerimeterOfEllipse.pdf"
-  target="_top">Hypergeometric Gauss-Kummer</a> series (<code>meter</code>,
-  conventionally).</p>
-  <dl class="fields">
-    <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">perimeterHGK(<span class="summary-sig-arg">self</span>)</span>
-        - Compute the perimeter of this ellipse using the <a 
-href="https://web.Tecnico.ULisboa.PT/~mcasquilho/compute/com/,ellips/PerimeterOfEllipse.pdf"
-target="_top">Hypergeometric Gauss-Kummer</a> series (<code>meter</code>, 
-conventionally).
-    </dd>
-    <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
-        - Zap the <i>cached/memoized</i> <code>property</code> value.
-    </dd>
-  </dl>
-</td></tr></table>
-</div>
 <a name="perimeter2R"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -1749,19 +2098,153 @@ target="_top">Ramanujan's 2nd</a> approximation, <code><b>b / a</b> &gt;
   </dl>
 </td></tr></table>
 </div>
+<a name="perimeter2RC"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">perimeter2RC</h3>
+  <p>Compute the perimeter of this ellipse using <a 
+  href="http://www.EByte.IT/library/docs/math05a/EllipsePerimeterApprox05.html"
+  target="_top">Cantrell Ramanujan's 2nd</a> approximation, <code><b>b / 
+  a</b> &gt; 0.9</code> (<code>meter</code>, conventionally).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">perimeter2RC(<span class="summary-sig-arg">self</span>)</span>
+        - Compute the perimeter of this ellipse using <a 
+href="http://www.EByte.IT/library/docs/math05a/EllipsePerimeterApprox05.html"
+target="_top">Cantrell Ramanujan's 2nd</a> approximation, <code><b>b / 
+a</b> &gt; 0.9</code> (<code>meter</code>, conventionally).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="R1"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">R1</h3>
+  <p>Get this ellipse' <i>arithmetic mean</i> radius, <code>(2 * a + b) / 
+  3</code> (<code>meter</code>, conventionally).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">R1(<span class="summary-sig-arg">self</span>)</span>
+        - Get this ellipse' <i>arithmetic mean</i> radius, <code>(2 * a + b) / 
+3</code> (<code>meter</code>, conventionally).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="R2"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">R2</h3>
-  <p>Get the <i>authalic</i> radius of this ellipse, <code>sqrt(<b>a</b> * 
+  <p>Get this ellipse' <i>authalic</i> radius, <code>sqrt(<b>a</b> * 
   <b>b</b>)</code> (<code>meter</code>, conventionally).</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">R2(<span class="summary-sig-arg">self</span>)</span>
-        - Get the <i>authalic</i> radius of this ellipse, <code>sqrt(<b>a</b> * 
+        - Get this ellipse' <i>authalic</i> radius, <code>sqrt(<b>a</b> * 
 <b>b</b>)</code> (<code>meter</code>, conventionally).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="Rgeometric"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">Rgeometric</h3>
+  <p>Get this ellipse' <i>authalic</i> radius, <code>sqrt(<b>a</b> * 
+  <b>b</b>)</code> (<code>meter</code>, conventionally).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">R2(<span class="summary-sig-arg">self</span>)</span>
+        - Get this ellipse' <i>authalic</i> radius, <code>sqrt(<b>a</b> * 
+<b>b</b>)</code> (<code>meter</code>, conventionally).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="Rauthalic"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">Rauthalic</h3>
+  <p>Get this ellipse' <i>authalic</i> radius, <code>sqrt(<b>a</b> * 
+  <b>b</b>)</code> (<code>meter</code>, conventionally).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">R2(<span class="summary-sig-arg">self</span>)</span>
+        - Get this ellipse' <i>authalic</i> radius, <code>sqrt(<b>a</b> * 
+<b>b</b>)</code> (<code>meter</code>, conventionally).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="Rrectifying"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">Rrectifying</h3>
+  <p>Get this ellipse' <i>rectifying</i> radius, <code>perimeter2k_ / 
+  PI2</code> (<code>meter</code>, conventionally).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">Rrectifying(<span class="summary-sig-arg">self</span>)</span>
+        - Get this ellipse' <i>rectifying</i> radius, <code>perimeter2k_ / PI2</code>
+(<code>meter</code>, conventionally).
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -1807,7 +2290,7 @@ target="_top">Ramanujan's 2nd</a> approximation, <code><b>b / a</b> &gt;
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Feb 23 17:47:10 2026
+    Generated by Epydoc 3.0.1 on Wed Mar 25 13:27:19 2026
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
