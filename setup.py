@@ -27,7 +27,7 @@ from os import getenv
 from setuptools import setup
 
 __all__ = ()
-__version__ = '26.03.26'
+__version__ = '26.04.18'
 
 _PACKAGE = 'pygeodesy'  # 'PyGeodesy'
 

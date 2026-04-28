@@ -290,7 +290,7 @@
     command line: <code>epydoc --html --no-private --no-source 
     --name=pygeodesy --url=... -v pygeodesy</code>).</p>
   <h1 class="heading">Tests</h1>
-    <p>The tests ran with Python 3.14.3 (with <a 
+    <p>The tests ran with Python 3.14.4 (with <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 2.1), Python 3.13.12 (with <a 
     href="https://PyPI.org/project/geographiclib" 
@@ -331,7 +331,7 @@
     href="https://GeographicLib.SourceForge.io/C++/doc/utilities.html" 
     target="_top">IntersectTool</a> 2.7 and <a 
     href="https://GeographicLib.SourceForge.io/C++/doc/utilities.html" 
-    target="_top">RhumbSolve</a> 2.7), all in 64-bit on macOS 26.3 
+    target="_top">RhumbSolve</a> 2.7), all in 64-bit on macOS 26.4.1 
     Tahoe.</p>
     <p>All tests ran with and without <code>lazy import</code> for Python 3
     and with command line option <code>-W default</code> and env variable 
@@ -339,16 +339,16 @@
     results of those tests are included in the distribution files.</p>
     <p>Test coverage has been measured with <a 
     href="https://PyPI.org/project/coverage" target="_top">coverage</a> 
-    7.10.7 using Python 3.14.3, 3.13.12 and 3.12.10.  The complete coverage
+    7.10.7 using Python 3.14.4, 3.13.12 and 3.12.10.  The complete coverage
     report in HTML and a PDF summary are included in the distribution 
     files.</p>
-    <p>Python 3.14.3, 3.13.12, 3.12.10 and 3.11.9 run on Apple Si M4 
+    <p>Python 3.14.4, 3.13.12, 3.12.10 and 3.11.9 run on Apple Si M4 
     (<code>arm64</code>), <i>natively</i>.  Python 2.7.18 runs on Intel 
     (<code>x86_64</code>) or Intel <i>emulation</i> 
     (&quot;<code>arm64_x86_64</code>&quot;, see function <a 
     href="pygeodesy.internals-module.html#machine" 
     class="link">machine</a>).</p>
-    <p>The tests also ran with Python 3.14.3 (and <a 
+    <p>The tests also ran with Python 3.14.4 (and <a 
     href="https://PyPI.org/project/geographiclib" 
     target="_top">geographiclib</a> 2.1) on <a 
     href="https://Cirrus-CI.com/github/mrJean1/PyGeodesy/master" 
@@ -412,7 +412,7 @@
     href="https://PyPI.org/project/pycodestyle" 
     target="_top">PyCodeStyle</a> (formerly Pep8) and <a 
     href="https://PyPI.org/project/mccabe" target="_top">McCabe</a> using 
-    Python 2.7.18, both in 64-bit on macOS 26.3 Tahoe.</p>
+    Python 2.7.18, both in 64-bit on macOS 26.4.1 Tahoe.</p>
     <p>For a summary of all <i>Karney</i>-based functionality in 
     <code>pygeodesy</code>, see module <a 
     href="https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html"
@@ -612,7 +612,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        26.03.26
+        26.04.28
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -4978,6 +4978,14 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.datums.Similarity-class.html" class="summary-name">Similarity</a><br />
+      Similarity transformation.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.geohash.Sizes3Tuple-class.html" class="summary-name">Sizes3Tuple</a><br />
       3-Tuple <code>(height, width, radius)</code> with latitudinal 
         <a href=pygeodesy.heights-module.html><code>height</code></a>, longitudinal <code>width</code> and area 
@@ -9015,8 +9023,8 @@
         <span class="summary-sig-arg">*cs</span>,
         <span class="summary-sig-arg">**incx</span>)</span><br />
       Horner form evaluation of polynomial <i class="math">sum(cs[i] * x**i
-      for i=0..n)</i> as in- or decreasing exponent <i class="math">sum(...
-      i=n..0)</i>, where <code>n = len(cs) - 1</code>.</td>
+      for i=0..n)</i> as in- or decreasing exponents <i 
+      class="math">sum(... i=n..0)</i>, where <code>n = len(cs) - 1</code>.</td>
           <td align="right" valign="top">
             
             
@@ -9896,7 +9904,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fc1d033fed0&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fa6a8765d50&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -15193,7 +15201,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'26.3.26'">'26.3.26'</code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'26.4.28'">'26.4.28'</code><br />
       Normalized <code>pygeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -21811,8 +21819,8 @@ c=6356752, k2=0.996726547, kp2=0.003273453, volume=1083207266220584468\
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.fmath-module.html#fdot" 
-        class="link">fdot</a> for further details.
+        Function <a href="pygeodesy.fmath-module.html#fdot" class="link" 
+        onclick="show_private();">fdot</a> for further details.
       </p>
 </div></td></tr></table>
 </div>
@@ -21845,8 +21853,8 @@ c=6356752, k2=0.996726547, kp2=0.003273453, volume=1083207266220584468\
         <dd>Dot product (<code>float</code>).</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        Function <a href="pygeodesy.fmath-module.html#fdot" 
-        class="link">fdot</a> for further details.
+        Function <a href="pygeodesy.fmath-module.html#fdot" class="link" 
+        onclick="show_private();">fdot</a> for further details.
       </p>
 </div></td></tr></table>
 </div>
@@ -21867,7 +21875,7 @@ c=6356752, k2=0.996726547, kp2=0.003273453, volume=1083207266220584468\
   </tr></table>
   
   <p>Horner form evaluation of polynomial <i class="math">sum(cs[i] * x**i 
-  for i=0..n)</i> as in- or decreasing exponent <i class="math">sum(... 
+  for i=0..n)</i> as in- or decreasing exponents <i class="math">sum(... 
   i=n..0)</i>, where <code>n = len(cs) - 1</code>.</p>
   <dl class="fields">
     <dt>Returns:</dt>
@@ -23730,7 +23738,7 @@ c=6356752, k2=0.996726547, kp2=0.003273453, volume=1083207266220584468\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fc1d033fed0&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fa6a8765d50&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -34596,7 +34604,7 @@ c=6356752, k2=0.996726547, kp2=0.003273453, volume=1083207266220584468<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Wed Mar 25 13:27:18 2026
+    Generated by Epydoc 3.0.1 on Tue Apr 28 16:37:15 2026
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

@@ -25,6 +25,7 @@ datum, q.v. U{"A Guide to Coordinate Systems in Great Britain", Section 6
 <https://www.OrdnanceSurvey.co.UK/docs/support/guide-coordinate-systems-great-britain.pdf>}.
 
 @var Datums.BD72: Datum(name='BD72', ellipsoid=Ellipsoids.Intl1924, transform=Transforms.BD72)
+@var Datums.Bessel1841: Datum(name='Bessel1841', ellipsoid=Ellipsoids.Bessel1841, transform=Transforms.Bessel1841)
 @var Datums.DHDN: Datum(name='DHDN', ellipsoid=Ellipsoids.Bessel1841, transform=Transforms.DHDN)
 @var Datums.ED50: Datum(name='ED50', ellipsoid=Ellipsoids.Intl1924, transform=Transforms.ED50)
 @var Datums.GDA2020: Datum(name='GDA2020', ellipsoid=Ellipsoids.GRS80, transform=Transforms.WGS84)
@@ -69,19 +70,21 @@ from __future__ import division as _; del _  # noqa: E702 ;
 
 from pygeodesy.basics import _isin, islistuple, map2, neg, _xinstanceof, _zip
 from pygeodesy.constants import R_M, _float as _F, _0_0, _1_0, _2_0, _8_0, _3600_0
+# from pygeodesy.ecef import _4Ecef  # _MODS
 # from pygeodesy.ellipsoidalBase import CartesianEllipsoidalBase as _CEB, \
-#                                          LatLonEllipsoidalBase as _LLEB  # MODS
+#                                          LatLonEllipsoidalBase as _LLEB  # _MODS
 from pygeodesy.ellipsoids import a_f2Tuple, Ellipsoid, Ellipsoid2, Ellipsoids, _EWGS84, \
                                  Vector3Tuple
-from pygeodesy.errors import _IsnotError, _TypeError, _xellipsoidall, _xkwds, _xkwds_pop2
-from pygeodesy.fmath import fdot, fmean,  Fmt, _operator
+from pygeodesy.errors import _IsnotError, _TypeError, _xellipsoidall, _xkwds_pop2
+# from pygeodesy.etm import ExactTransverseMercator  # _MODS
+from pygeodesy.fmath import _fdotf, fmean,  Fmt, _operator
 from pygeodesy.internals import _passarg, _under
 from pygeodesy.interns import NN, _a_, _Airy1830_, _AiryModified_, _BAR_, _Bessel1841_, \
                              _Clarke1866_, _Clarke1880IGN_, _COMMASPACE_, _DMAIN_,_DOT_, \
                              _earth_, _ellipsoid_, _ellipsoidal_, _GRS80_, _Intl1924_, \
-                             _MINUS_, _Krassovski1940_, _Krassowsky1940_, _NAD27_, _NAD83_, \
-                             _s_, _PLUS_, _Sphere_, _spherical_, _transform_, _UNDER_, \
-                             _WGS72_, _WGS84_
+                             _Krassovski1940_, _Krassowsky1940_, _MINUS_, _NAD27_, _NAD83_, \
+                             _PLUS_, _s_, _Sphere_, _spherical_, _transform_, _Txyzsxyz7, \
+                             _UNDER_, _WGS72_, _WGS84_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from pygeodesy.named import _lazyNamedEnumItem as _lazy, _name__, _name2__, _NamedEnum, \
                                 _NamedEnumItem
@@ -89,12 +92,13 @@ from pygeodesy.named import _lazyNamedEnumItem as _lazy, _name__, _name2__, _Nam
 from pygeodesy.props import Property_RO, property_RO
 # from pygeodesy.streprs import Fmt  # from .fmath
 from pygeodesy.units import _isRadius, Radius_,  radians
+# from pygeodesy.utily import sincos2_  # _MODS
 
 # from math import radians  # from .units
 # import operator as _operator  # from .fmath
 
 __all__ = _ALL_LAZY.datums
-__version__ = '26.01.13'
+__version__ = '26.04.23'
 
 _a_ellipsoid_ = _UNDER_(_a_, _ellipsoid_)
 _BD72_        = 'BD72'
@@ -107,14 +111,24 @@ _Identity_    = 'Identity'
 _Irl1965_     = 'Irl1965'
 _Irl1975_     = 'Irl1975'
 _MGI_         = 'MGI'
-_Names7       = 'tx', 'ty', 'tz', _s_, 'sx', 'sy', 'sz'  # in .trf
-_Names11      = _Names7[:3]  +  ('s1', 'rx', 'ry', 'rz') + _Names7[3:]
 _NTF_         = 'NTF'
 _OSGB36_      = 'OSGB36'
 _Potsdam_     = 'Potsdam'
 _RPS          =  radians(_1_0 / _3600_0)  # radians per arc-second
+_SPR          = _1_0 / _RPS  # arc-seconds per radian
 _S1_S         =  1.e-6  # in .trf
 _TokyoJapan_  = 'TokyoJapan'
+_uRad         = _S1_S  # PYCHOK micro-radians to radian
+
+
+def _rps2(s_):  # to C{radians} and C{arc-seconds}.
+    # _MR == _RPS * 1.e-3  # radians per milli-arc-second, equ (2)
+    # <https://www.NGS.NOAA.gov/CORS/Articles/SolerSnayASCE.pdf>
+    return (_RPS * s_), s_
+
+
+def _spr2(r_):  # to C{micro-radians} and C{micro-arc-seconds}
+    return r_, (_SPR * r_)
 
 
 class Transform(_NamedEnumItem):
@@ -122,6 +136,9 @@ class Transform(_NamedEnumItem):
 
        @see: L{TransformXform<trf.TransformXform>}.
     '''
+    _Txyzs7  = _Txyzsxyz7
+    _Txyzs11 = _Txyzsxyz7[:3] + ('s1', 'rx', 'ry', 'rz') + _Txyzsxyz7[3:]
+
     tx = _0_0  # x translation (C{meter})
     ty = _0_0  # y translation (C{meter})
     tz = _0_0  # z translation (C{meter})
@@ -137,7 +154,7 @@ class Transform(_NamedEnumItem):
     sy = _0_0  # y rotation (C{arc-seconds})
     sz = _0_0  # z rotation (C{arc-seconds})
 
-    def __init__(self, name=NN, tx=0, ty=0, tz=0,
+    def __init__(self, name=NN, tx=0, ty=0, tz=0,  # _Txyzsxyz7 order
                            s=0, sx=0, sy=0, sz=0):
         '''New L{Transform}.
 
@@ -149,6 +166,8 @@ class Transform(_NamedEnumItem):
            @kwarg sx: X rotation (C{arc-seconds}).
            @kwarg sy: Y rotation (C{arc-seconds}).
            @kwarg sz: Z rotation (C{arc-seconds}).
+           @kwarg rx_ry_rz: Optional X, Y and Z rotation (C{micro-radians}),
+                            overriding C{sx}, C{sy} and C{sz}.
 
            @raise NameError: Transform with that B{C{name}} already exists.
         '''
@@ -162,11 +181,11 @@ class Transform(_NamedEnumItem):
             self.s  =    s
             self.s1 = _F(s * _S1_S + _1_0)  # normalize ppM to (s + 1)
         if sx:  # secs to rads
-            self.rx, self.sx = self._rps2(sx)
+            self.rx, self.sx = _rps2(sx)
         if sy:
-            self.ry, self.sy = self._rps2(sy)
+            self.ry, self.sy = _rps2(sy)
         if sz:
-            self.rz, self.sz = self._rps2(sz)
+            self.rz, self.sz = _rps2(sz)
 
         self._register(Transforms, name)
 
@@ -186,7 +205,7 @@ class Transform(_NamedEnumItem):
     def __iter__(self):
         '''Yield the initial attribute values, I{in order}.
         '''
-        for n in _Names7:
+        for n in self._Txyzs7:
             yield getattr(self, n)
 
     def __matmul__(self, point):  # PYCHOK Python 3.5+
@@ -211,11 +230,11 @@ class Transform(_NamedEnumItem):
 
            @return: Inverse (L{Transform}), unregistered.
         '''
-        r =  type(self)(**dict(self.items(inverse=True)))
+        T =  type(self)(**dict(self.items(inverse=True)))
         n = _name__(**name) or _negastr(self.name)
         if n:
-            r.name = n  # unregistered
-        return r
+            T.name = n  # unregistered
+        return T
 
     @Property_RO
     def isunity(self):
@@ -230,15 +249,8 @@ class Transform(_NamedEnumItem):
            @kwarg inverse: If C{True}, negate the values (C{bool}).
         '''
         _p = neg if inverse else _passarg
-        for n, x in _zip(_Names7, self):
+        for n, x in _zip(self._Txyzs7, self):
             yield n, _p(x)
-
-    def _rps2(self, s_):
-        '''(INTERNAL) Rotation in C{radians} and C{arc-seconds}.
-        '''
-        # _MR == _RPS * 1.e-3  # radians per milli-arc-second, equ (2)
-        # <https://www.NGS.NOAA.gov/CORS/Articles/SolerSnayASCE.pdf>
-        return (_RPS * s_), s_
 
     def _s_s1(self, s1):  # in .trf
         '''(INTERNAL) Set C{s1} and C{s}.
@@ -259,7 +271,7 @@ class Transform(_NamedEnumItem):
 
            @return: Transform attributes (C{str}).
         '''
-        return self._instr(*_Names11, fmt=fmt, prec=prec, **sep_name)
+        return self._instr(*self._Txyzs11, fmt=fmt, prec=prec, **sep_name)
 
     def transform(self, x, y, z, inverse=False, **Vector_and_kwds):
         '''Transform a (cartesian) position, forward or inverse.
@@ -276,7 +288,7 @@ class Transform(_NamedEnumItem):
                     unless some B{C{Vector_and_kwds}} are specified.
         '''
         if self.isunity:
-            r = Vector3Tuple(x, y, z, name=self.name)  # == inverse
+            pass  # == inverse
         else:
             xyz1 = x, y, z, _1_0
             s1   = self.s1
@@ -286,15 +298,112 @@ class Transform(_NamedEnumItem):
             # x', y', z' = (x * .s1 - y * .rz + z * .ry + .tx,
             #               x * .rz + y * .s1 - z * .rx + .ty,
             #              -x * .ry + y * .rx + z * .s1 + .tz)
-            r = Vector3Tuple(fdot(xyz1,       s1, -self.rz,  self.ry, self.tx),
-                             fdot(xyz1,  self.rz,       s1, -self.rx, self.ty),
-                             fdot(xyz1, -self.ry,  self.rx,       s1, self.tz),
-                             name=self.name)
-        if Vector_and_kwds:
-            V, kwds = _xkwds_pop2(Vector_and_kwds, Vector=None)
-            if V:
-                r = V(r, **_xkwds(kwds, name=self.name))
+            x = _fdotf(xyz1,       s1, -self.rz,  self.ry, self.tx)
+            y = _fdotf(xyz1,  self.rz,       s1, -self.rx, self.ty)
+            z = _fdotf(xyz1, -self.ry,  self.rx,       s1, self.tz)
+
+        return self._V(x, y, z, **Vector_and_kwds)
+
+    def _V(self, x, y, z, Vector=None, **kwds):
+        '''(INTERNAL) Return C{r} as a C{Vector}.
+        '''
+        n, kwds = _xkwds_pop2(kwds, name=self.name)
+        r = Vector3Tuple(x, y, z, name=n)
+        if Vector:
+            r = Vector(r, name=n, **kwds)
         return r
+
+
+class Similarity(Transform):  # in .PyRDNAP
+    '''Similarity transformation.
+    '''
+    _Txyzs7  = \
+    _Txyzs11 = _Txyzsxyz7[:4] + ('rx', 'ry', 'rz')
+
+    def __init__(self, name=NN, tx=0, ty=0, tz=0,  # _Txyzsxyz7 order
+                           s=0, rx=0, ry=0, rz=0):
+        '''New L{Similarity}.
+
+           @kwarg name: Optional, unique name (C{str}).
+           @kwarg tx: X translation (C{meter}).
+           @kwarg ty: Y translation (C{meter}).
+           @kwarg tz: Z translation (C{meter}).
+           @kwarg s: Scale (C{float}), ppm.
+           @kwarg rx: X rotation (C{micro-radians}).
+           @kwarg ry: Y rotation (C{micro-radians}).
+           @kwarg rz: Z rotation (C{micro-radians}).
+
+           @raise NameError: Similarity with that B{C{name}} already exists.
+        '''
+        Transform.__init__(self, name, tx, ty, tz, s)  # _Txyzsxyz7 order
+
+        if rx:
+            self.rx, self.sx = _spr2(rx)
+        if ry:
+            self.ry, self.sy = _spr2(ry)
+        if rz:
+            self.rz, self.sz = _spr2(rz)
+
+    def transform(self, x, y, z, xyz0=(), inverse=False, **Vector_and_kwds):  # PYCHOK signature
+        '''Transform a (cartesian) position, forward or inverse.
+
+           @arg x: X coordinate (C{meter}).
+           @arg y: Y coordinate (C{meter}).
+           @arg z: Z coordinate (C{meter}).
+           @arg xyz0: Optional pivot point (3-tuple C{meter}).
+           @kwarg inverse: If C{True}, apply the inverse transform (C{bool}).
+           @kwarg Vector_and_kwds: An optional, (3-D) C{B{Vector}=None} or
+                         cartesian class and additional C{B{Vector}} keyword
+                         arguments to return the transformed position.
+
+           @return: The transformed position (L{Vector3Tuple}C{(x, y, z)})
+                    unless some B{C{Vector_and_kwds}} are specified.
+        '''
+        if self.isunity:
+            pass  # == inverse
+        else:
+            if xyz0:
+                x0, y0, z0 = xyz0
+                x -= x0
+                y -= y0
+                z -= z0
+            else:
+                x0 = y0 = z0 = _0_0
+            s1 = self.s1
+            _1xyz1 = _1_0, (x * s1), (y * s1), (z * s1), _1_0
+
+            S =  self._sInverse if inverse else self._sForward
+            x = _fdotf(_1xyz1, x0, *S[0:4])
+            y = _fdotf(_1xyz1, y0, *S[4:8])
+            z = _fdotf(_1xyz1, z0, *S[8:12])
+
+        return self._V(x, y, z, **Vector_and_kwds)
+
+    @Property_RO
+    def _sForward(self):
+        '''(INTERNAL) Get the forward 3-D similarity transform, [3x4] matrix.
+        '''
+        sx, cx, sy, cy, sz, cz = _MODS.utily.sincos2_(self.rx * _uRad,
+                                                      self.ry * _uRad,
+                                                      self.rz * _uRad)
+        czsy = cz * sy
+        szsy = sz * sy
+        return (cz * cy, sz * cx + czsy * sx, sz * sx - czsy * cx, self.tx,
+               -sz * cy, cz * cx - szsy * sx, cz * sx + szsy * cx, self.ty,
+                     sy,            -cy * sx,             cy * cx, self.tz)
+
+    @Property_RO
+    def _sInverse(self):
+        '''(INTERNAL) Get the inverse 3-D similarity transform, [3x4] matrix.
+        '''
+        return self.inverse()._sForward
+
+    def _s_s1(self, s1):  # in .trf
+        '''(INTERNAL) Set C{s1} and C{s}.
+        '''
+        Similarity._sForward._update(self)
+        Similarity._sInverse._update(self)
+        return Transform._s_s1(self, s1)
 
 
 class Transforms(_NamedEnum):
@@ -335,7 +444,8 @@ Transforms._assert(
                                    # <https://GeoNet.ESRI.com/thread/36583> sz=_F(-0.156)
                                    # <https://GitHub.com/ChrisVeness/geodesy/blob/master/latlon-ellipsoidal.js>
                                    # <https://www.Gov.UK/guidance/oil-and-gas-petroleum-operations-notices#pon-4>
-                                                             sz=_F(  0.156)),
+                                                                     sz=_F(  0.156)),
+
     Identity       = _lazy(_Identity_),
 
     Irl1965        = _lazy(_Irl1965_, tx=_F(-482.530), ty=_F(130.596), tz=_F(-564.557), s=_F(-8.15),
@@ -398,7 +508,7 @@ class Datum(_NamedEnumItem):
         self._transform = transform or Datum._transform
         _xinstanceof(Transform, transform=self.transform)
 
-        self._register(Datums, _name__(name) or self.transform.name
+        self._register(Datums, _name__(name) or self.transform.name  # first
                                              or self.ellipsoid.name)
 
     def __eq__(self, other):
@@ -504,7 +614,7 @@ def _earth_datum(inst, a_earth, f=None, raiser=_a_ellipsoid_, **name):  # in .ka
     '''(INTERNAL) Set C{inst._datum} from C{(B{a_..}, B{f})} or C{B{.._ellipsoid}}
        (L{Ellipsoid}, L{Ellipsoid2}, L{Datum}, C{a_f2Tuple} or C{scalar} earth radius).
 
-       @note: C{B{raiser}='a_ellipsoid'} for backward naming compatibility.
+       @note: Using C{B{raiser}='a_ellipsoid'} for backward naming compatibility.
     '''
     if f is not None:
         E, n, D = _EnD3((a_earth, f), name)
@@ -661,6 +771,9 @@ Datums._assert(
     # <https://NL.WikiPedia.org/wiki/Belgian_Datum_1972>
     # <https://SpatialReference.org/ref/sr-org/7718/html/>
     BD72           = _lazy(_BD72_, _Intl1924_, _BD72_),
+
+    # Netherlands' RD-NAP RijksDriehoeksmeting-NormaalAmsterdamsPeil, ETRS89
+    Bessel1841     = _lazy(_Bessel1841_, _Bessel1841_, _Bessel1841_),
 
     # Germany <https://WikiPedia.org/wiki/Bessel-Ellipsoid>
     #         <https://WikiPedia.org/wiki/Helmert_transformation>

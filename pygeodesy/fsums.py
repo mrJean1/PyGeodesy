@@ -2733,7 +2733,7 @@ try:
 except ImportError:
     _sum =  sum
 
-    def _fsum(xs):  # in .elliptic, .geoids
+    def _fsum(xs):  # in .elliptic, .fmath, .geoids
         '''(INTERNAL) Precision summation, Python 2.5-.
         '''
         F = Fsum(name=_fsum.name, f2product=False, nonfinites=True)

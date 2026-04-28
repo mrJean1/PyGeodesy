@@ -535,14 +535,14 @@ def _PYGEODESY_ENV(which):
     return _UNDER_(_pygeodesy_, typename(which, which)).upper()
 
 
-def _Pythonarchine(sep=NN):  # in .lazily, test/bases versions
+def _Pythonarchine(sep=NN):  # in .lazily, .test/bases versions
     '''(INTERNAL) Get PyPy and Python versions, bits and machine as C{3- or 4-list} or C{str}.
     '''
     l3 = _MODS.Pythonarchine
     return sep.join(l3) if sep else l3  # 3- or 4-list
 
 
-def _secs2str(secs):  # in .geoids, ../test/bases
+def _secs2str(secs):  # in .geoids, ../test/bases, .pyrdnap
     '''Convert a time in C{secs} to C{str}.
     '''
     if secs < _100_0:
@@ -708,15 +708,15 @@ def _version_ints(vs):
     return tuple(_ints(vs))
 
 
-def _versions(sep=_SPACE_):
-    '''(INTERNAL) Get pygeodesy, PyPy and Python versions, bits, machine and OS as C{8- or 9-list} or C{str}.
+def _versions(sep=_SPACE_):  # in PyRDNAP
+    '''(INTERNAL) Get pygeodesy, PyPy and Python versions, bits, machine and OS as C{8- or 10-list} or C{str}.
     '''
-    l7 = [_pygeodesy_, _MODS.version] + _Pythonarchine() + _osversion2()
-    return sep.join(l7) if sep else l7  # 5- or 6-list
+    vl = [_pygeodesy_, _MODS.version] + _Pythonarchine() + _osversion2()
+    return sep.join(vl) if sep else vl
 
 
 __all__ = tuple(map(typename, (machine, print_, printf, typename)))
-__version__ = '26.01.13'
+__version__ = '26.04.23'
 
 if __name__ == _DMAIN_:
 

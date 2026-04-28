@@ -4,7 +4,7 @@
 # Test L{interns} module.
 
 __all__ = ('Tests',)
-__version__ = '25.04.12'
+__version__ = '26.04.27'
 
 from bases import ismacOS, sys, TestsBase
 
@@ -29,6 +29,7 @@ _exceptions = {_0to9_, _AtoZnoIO_,
                interns._not_scalar_,
                interns._PyPy__,
                interns._semi_circular_,
+               interns._Txyzsxyz7,
                interns._utf_8_}
 
 
@@ -44,7 +45,8 @@ class Tests(TestsBase):
                 if k:  # hide home dir
                     n = n.replace(_cwd, _DOT_)
                 n = _EQUALSPACED_(a, clips(n))
-                self.test(n, isinstance(i, (float, str)), True, known=k)
+                self.test(n, isinstance(i, (float, str)) or
+                            (isinstance(i,  tuple) and a == '_Txyzsxyz7'), True, known=k)
                 # check the naming conventions
                 s = a.strip(_UNDER_)
                 if isinstance(i, str) and not k:

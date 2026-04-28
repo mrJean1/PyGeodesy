@@ -44,8 +44,8 @@ __all__ = ('bits_mach2', 'coverage', 'GeodSolve', 'Geod3Solve', 'geographiclib',
            'isPython3', 'isPython37', 'isPython39', 'isWindows', 'numpy',
            'property_RO', 'PyGeodesy_dir', 'PythonX', 'scipy', 'test_dir',
            'RandomLatLon', 'TestsBase',  # classes
-           'secs2str', 'tilde', 'type2str', 'versions')  # functions
-__version__ = '26.03.20'
+           'clips', 'secs2str', 'tilde', 'type2str', 'versions')  # functions
+__version__ = '26.03.24'
 
 try:
     _Ints = int, long
@@ -57,7 +57,7 @@ except NameError:  # Python 3+
 endswith   = str.endswith
 startswith = str.startswith
 try:
-    if float(_getenv('PYGEODESY_COVERAGE', '0')) > 0:
+    if float(_getenv('PYGEODESY_COVERAGE', '0')) > 0:  # _envPYGEODESY
         import coverage
     else:
         coverage = None  # ignore coverage

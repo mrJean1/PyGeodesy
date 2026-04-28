@@ -26,7 +26,7 @@ except ImportError:  # Python 2-
     _inf, _nan = float(_INF_), float(_NAN_)
 
 __all__ = _ALL_LAZY.constants
-__version__ = '26.02.09'
+__version__ = '26.03.28'
 
 
 def _copysign_0_0(y):
@@ -317,7 +317,7 @@ PI4   = _Float(PI4  =_pi * _4_0)  # PYCHOK Four PI, M{PI * 4}
 PI_4  = _Float(PI_4 =_pi / _4_0)  # PYCHOK Quarter PI, M{PI / 4}
 PI_6  = _Float(PI_6 =_pi / _6_0)  # PYCHOK One sixth PI, M{PI / 6}
 
-R_MA  = _Radius(R_MA=6378137.0)       # PYCHOK equatorial earth radius (C{meter}), WGS84, EPSG:3785
+R_MA  = _Radius(R_MA=6378137.0)       # PYCHOK equatorial earth radius (C{meter}), WGS84, GRS80, EPSG:3785
 R_MB  = _Radius(R_MB=6356752.3)       # PYCHOK polar earth radius (C{meter}), WGS84, EPSG:3785
 R_M   = _Radius(R_M =6371008.771415)  # PYCHOK mean, spherical earth radius (C{meter})
 R_KM  = _Radius(R_KM=R_M / _M_KM)     # PYCHOK mean, spherical earth radius (C{KM}, Kilo meter)

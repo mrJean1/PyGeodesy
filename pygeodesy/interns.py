@@ -441,9 +441,11 @@ _LR_PAIRS  = {_LANGLE_:  _RANGLE_,
               _LPAREN_:  _RPAREN_,
               _LSQUARE_: _RSQUARE_}  # PYCHOK OK
 
+_Txyzsxyz7 = 'tx', 'ty', 'tz', _s_, 'sx', 'sy', 'sz'  # PYCHOK in .datums, .trf
+
 __all__ = (_NN_,  # NOT MISSING!
             Str_.__name__)  # classes
-__version__ = '25.11.07'
+__version__ = '26.04.23'
 
 if __name__ == _DMAIN_:
 

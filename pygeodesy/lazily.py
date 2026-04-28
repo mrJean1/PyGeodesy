@@ -39,7 +39,7 @@ from pygeodesy.interns import _attribute_, _by_, _COLONSPACE_, _COMMASPACE_, _DA
                               _pygeodesy_abspath_, _SPACE_, _SUB_PACKAGES, _or_, \
                               _UNDER_, _version_,  _sys, _intern  # function, _1_
 try:
-    from importlib import import_module
+    from importlib import import_module  # in .rdnap._v_grid
 except ImportError as x:  # Python 2.6-
     raise ImportError(_COLONSPACE_(x, _versions()))
 # import sys as _sys  # from .interns
@@ -180,7 +180,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'AlbersEqualAreaCylindrical', 'AlbersEqualAreaNorth', 'AlbersEqualAreaSouth',
                                    'AlbersError', 'Albers7Tuple'),
                          angles=_a('Ang', 'Deg', 'Lambertian', 'Rad', 'isAng'),
-                       auxilats=_a(),  # module only
+                       auxilats=_a(),  # package only
                       azimuthal=_a('AzimuthalError', 'Azimuthal7Tuple',
                                    'Equidistant', 'EquidistantExact', 'EquidistantGeodSolve', 'EquidistantKarney',
                                    'Gnomonic', 'GnomonicExact', 'GnomonicGeodSolve', 'GnomonicKarney',
@@ -207,7 +207,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'float_', 'float0_', 'floats_', 'isclose', 'isfinite', 'isinf', 'isint0',
                                    'isnan', 'isnear0', 'isnear1', 'isnear90', 'isneg', 'isneg0', 'isninf', 'isnon0',
                                    'remainder'),
-                         datums=_a('Datum', 'Datums', 'Transform', 'Transforms'),
+                         datums=_a('Datum', 'Datums', 'Similarity', 'Transform', 'Transforms'),
 #                    deprecated=_a(),  # module only
                             dms=_a('F_D',   'F_DM',   'F_DMS',   'F_DEG',   'F_MIN',   'F_SEC',   'F_D60',   'F__E',   'F__F',   'F__G',   'F_RAD',
                                    'F_D_',  'F_DM_',  'F_DMS_',  'F_DEG_',  'F_MIN_',  'F_SEC_',  'F_D60_',  'F__E_',  'F__F_',  'F__G_',  'F_RAD_',
@@ -338,7 +338,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'cassini', 'collins5', 'pierlot', 'pierlotx', 'tienstra7',
                                    'snellius3', 'wildberger3',
                                    'triAngle', 'triAngle5', 'triArea', 'triSide', 'triSide2', 'triSide4'),
-                          rhumb=_a(),  # module only
+                          rhumb=_a(),  # package only
                      rhumb_aux_=_a('RhumbAux', 'RhumbLineAux'),
                       rhumb_ekx=_a('Rhumb', 'RhumbLine'),
                     rhumb_solve=_a('RhumbSolve', 'RhumbLineSolve', 'RhumbSolve7Tuple', 'Rhumb8Tuple'),  # in .karney
@@ -351,7 +351,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'lrstrip', 'pairs', 'reprs', 'strs', 'unstr'),
                             trf=_a('RefFrame', 'RefFrames', 'TransformXform', 'TRFXform', 'TRFXform7Tuple',
                                    'date2epoch', 'epoch2date', 'trfTransform0', 'trfTransforms', 'trfXform'),
-                      triaxials=_a(),  # module only
+                      triaxials=_a(),  # package only
                 triaxials_bases=_a('LLK', 'TriaxialError'),
            triaxials_conformal3=_a('BetOmgGam5Tuple',
                                    'Conformal3', 'Conformal3B', 'Conformal3Sphere', 'Conformal5Tuple'),
@@ -531,7 +531,7 @@ class _ALL_MODS(_internals._MODS_Base):
 _internals._MODS = _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '26.03.20'
+__version__ = '26.04.16'
 
 
 def _ALL_OTHER(*objs):

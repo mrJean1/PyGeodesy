@@ -8,17 +8,17 @@ C{fused-multiply-add}, polynomials, roots, etc.
 from __future__ import division as _; del _  # noqa: E702 ;
 
 from pygeodesy.basics import _copysign, copysign0, isbool, isint, isodd, \
-                              isscalar, len2, _xiterable,  typename
+                              isscalar, len2, _xiterable, _zip,  typename
 from pygeodesy.constants import EPS0, EPS02, EPS1, NAN, PI, PI_2, PI_4, \
                                _0_0, _0_125, _0_25, _1_3rd, _0_5, _2_3rd, \
                                _1_0, _1_5, _copysign_0_0, isfinite, remainder
 from pygeodesy.errors import _IsnotError, LenError, _TypeError, _ValueError, \
-                             _xError, _xkwds, _xkwds_pop2, _xsError
-from pygeodesy.fsums import _2float, Fsum, fsum, _isFsum_2Tuple,  Fmt, unstr
+                             _xError, _xkwds, _xkwds_get, _xkwds_pop2, _xsError
+from pygeodesy.fsums import _2float, Fsum, fsum, _isFsum_2Tuple
 # from pygeodesy.internals import typename  # from .basics
 from pygeodesy.interns import MISSING, _negative_, _not_scalar_
 from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
-# from pygeodesy.streprs import Fmt, unstr  # from .fsums
+from pygeodesy.streprs import Fmt, unstr
 from pygeodesy.units import Int_, _isHeight, _isRadius
 # from utily import atan2b, atan2p  # _MODS, circular import!
 
@@ -26,7 +26,7 @@ from math import fabs, sqrt  # pow
 import operator as _operator  # in .datums, .elliptic, .trf, .utm
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '26.03.25'
+__version__ = '26.03.31'
 
 # sqrt(2) - 1 <https://WikiPedia.org/wiki/Square_root_of_2>
 _0_4142  =  0.41421356237309504880  # ~ 3_730_904_090_310_553 / 9_007_199_254_740_992
@@ -506,9 +506,20 @@ def fdot3(xs, ys, zs, **start_f2product_nonfinites):
     return float(D)
 
 
+if _zip is zip:  # Python 3.9-
+    _fdotf = fdot
+else:
+    from pygeodesy.fsums import _fsum  # math.fsum
+
+    def _fdotf(xs, *ys):  # in .datums, .ecef
+        '''(INTERNAL) Dot product for C{float} tuples of matching C{len}gths.
+        '''
+        return _fsum(x * y for x, y in _zip(xs, ys))  # strict=True
+
+
 def fhorner(x, *cs, **incx):
     '''Horner form evaluation of polynomial M{sum(cs[i] * x**i for i=0..n)} as
-       in- or decreasing exponent M{sum(... i=n..0)}, where C{n = len(cs) - 1}.
+       in- or decreasing exponents M{sum(... i=n..0)}, where C{n = len(cs) - 1}.
 
        @return: Horner sum (C{float}).
 
@@ -581,7 +592,21 @@ def fidw(xs, ds, beta=2):
 
 try:
     from math import fma as _fma  # in .resections
+
+    def _fhornerf(x, *cs, **incx):
+        '''(INTERNAL) Horner form for C{float} coefficients C{cs} and C{x}
+           and C{B{incx}=True} in- or decreasing with exponents=.
+        '''
+        h = _0_0
+        if cs:
+            if _xkwds_get(incx, incx=True):
+                cs = reversed(cs)
+            for c in cs:
+                h = _fma(x, h, c) if h else c
+        return h
+
 except  ImportError:  # PYCHOK DSPACE!
+    _fhornerf = fhorner  # PYCHOK redef
 
     def _fma(x, y, z):  # no need for accuracy
         return x * y + z
@@ -916,7 +941,7 @@ def hypot2(x, y, *xy0):
        @return: C{B{x}**2 + B{y}**2} (C{float}).
     '''
     x, y = _map0(abs, x, y, *xy0)  # NOT fabs!
-    if y > x:
+    if x < y:
         x, y = y, x
     h2 = x**2
     if h2 and y:

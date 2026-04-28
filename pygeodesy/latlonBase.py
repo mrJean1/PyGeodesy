@@ -48,7 +48,7 @@ from contextlib import contextmanager
 from math import asin, cos, degrees, fabs, radians
 
 __all__ = _ALL_LAZY.latlonBase
-__version__ = '25.08.18'
+__version__ = '26.03.28'
 
 _formy = _MODS.into(formy=__name__)
 
@@ -431,16 +431,16 @@ class LatLonBase(_NamedBase, _EcefLocal):
         return r * (radius or D.ellipsoid.a)
 
     @Property_RO
-    def _Ecef_forward(self):
-        '''(INTERNAL) Helper for L{_ecef9} and L{toEcef} (C{callable}).
-        '''
-        return self.Ecef(self.datum, name=self.name).forward
-
-    @Property_RO
     def _ecef9(self):
         '''(INTERNAL) Helper for L{toCartesian}, L{toEcef} and L{toCartesian} (L{Ecef9Tuple}).
         '''
         return self._Ecef_forward(self, M=True)
+
+    @Property_RO
+    def _Ecef_forward(self):
+        '''(INTERNAL) Helper for L{_ecef9} and L{toEcef} (C{callable}).
+        '''
+        return self.Ecef(self.datum, name=self.name).forward
 
     @property_RO
     def ellipsoidalLatLon(self):

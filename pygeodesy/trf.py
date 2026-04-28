@@ -70,15 +70,15 @@ en/how-to-deal-with-etrs89-datum-and-time-dependent-transformation-parameters-45
 from pygeodesy.basics import _isin, map1, neg, isidentifier, isstr, _xinstanceof, \
                              _xscalar,  typename
 from pygeodesy.constants import _float as _F, _0_0s, _0_0, _0_001, _0_5, _0_75, _1_0
-from pygeodesy.datums import Datums, _earth_datum, _equall, _GDA2020_, _Names7, \
-                            _negastr, Transform, _WGS84,  _EWGS84, _operator
+from pygeodesy.datums import Datums, _earth_datum, _equall, _GDA2020_, _negastr, \
+                            Transform, _WGS84,  _EWGS84, _operator
 # from pygeodesy.ellipsoids import _EWGS84  # from .datums
 from pygeodesy.errors import TRFError, _xattr, _xellipsoidall, _xkwds, _xkwds_item2
 # from pygeodesy.internals import typename  # from .basics
 from pygeodesy.interns import MISSING, NN, _AT_, _COMMASPACE_, _conversion_, \
                              _datum_, _DMAIN_, _DOT_, _exists_, _invalid_, _MINUS_, \
                              _NAD83_, _no_, _PLUS_, _reframe_, _s_, _SPACE_, _to_, \
-                             _STAR_, _vs_, _WGS84_, _x_, _intern as _i
+                             _STAR_, _Txyzsxyz7, _vs_, _WGS84_, _x_, _intern as _i
 # from pygeodesy.lazily import _ALL_LAZY  # from .units
 from pygeodesy.named import ADict, classname, _lazyNamedEnumItem as _lazy, _name2__, \
                            _Named, _NamedEnum, _NamedEnumItem, _NamedTuple,  Fmt, unstr
@@ -91,7 +91,7 @@ from math import ceil as _ceil, fabs
 # import operator as _operator  # from .datums
 
 __all__ = _ALL_LAZY.trf
-__version__ = '25.09.11'
+__version__ = '26.04.23'
 
 _EP0CH    =  Epoch(0, low=0)
 _Es       = {_EP0CH: _EP0CH}  # L{Epoch}s, deleted below
@@ -557,8 +557,8 @@ class TRFXform7Tuple(_NamedTuple):
 
        @see: Class L{TransformXform}'s matching keyword argument names.
     '''
-    _Names_ = _Names7  # ('tx', 'ty', 'tz', _s_,  'sx', 'sy', 'sz') == TransformXform.__init__
-    _Units_ =            (_MM,  _MM,  _MM,  _PPB, _MAS, _MAS, _MAS)
+    _Names_ = _Txyzsxyz7  # ('tx', 'ty', 'tz', _s_,  'sx', 'sy', 'sz') == TransformXform.__init__
+    _Units_ =               (_MM,  _MM,  _MM,  _PPB, _MAS, _MAS, _MAS)
 
     def __add__(self, other):
         return self._add_sub(other, True)
@@ -1304,7 +1304,7 @@ def _R(*ps):  # deleted below
     return _P(ps, _rates_, _Rs)  # noqa: F821 del
 
 
-_P_0_0s = TRFXform7Tuple(_0_0s(len(_Names7)), name='unity')
+_P_0_0s = TRFXform7Tuple(_0_0s(len(_Txyzsxyz7)), name='unity')
 
 # TRF conversions specified as an epoch and 2 sets of 7 parameters.  Most from Altamimi, Z. U{"EUREF Technical
 # Note 1: Relationship and Transformation between the International and the European Terrestrial Reference

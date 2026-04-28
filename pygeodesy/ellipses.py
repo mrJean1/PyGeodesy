@@ -12,7 +12,7 @@ from pygeodesy.constants import EPS, EPS_2, INT0, NEG0, PI, PI_2, PI3_2, PI2, \
 from pygeodesy.constants import _0_5, _3_0, _10_0, MANT_DIG as _DIG53  # PYCHOK used!
 # from pygeodesy.ellipsoids import Ellipsoid  # _MODS
 from pygeodesy.errors import _ConvergenceError, _ValueError, _xkwds, _xkwds_pop2
-from pygeodesy.fmath import euclid, fhorner, fmean_, hypot
+from pygeodesy.fmath import euclid, fhorner, fmean_, hypot, polar2d
 from pygeodesy.fsums import _fsum  # PYCHOK used!
 from pygeodesy.internals import typename,  _DOT_, _UNDER_
 # from pygeodesy.interns import _DOT_, _UNDER_  # from .internals
@@ -22,14 +22,14 @@ from pygeodesy.props import Property_RO, property_RO, property_ROnce
 # from pygeodesy.streprs import unstr  # from .named
 # from pygeodesy.triaxials import Triaxial_ , TriaxialError # _MODS
 from pygeodesy.units import Degrees, Meter, Meter2, Radians, Radius, Scalar
-from pygeodesy.utily import atan2, atan2b, atan2p, sincos2, sincos2d
+from pygeodesy.utily import atan2, atan2p, sincos2, sincos2d
 # from pygeodesy.vector3d import Vector3d  # _MODS
 
 from math import degrees, fabs, radians, sqrt
 # import operator as _operator  # from .fmath
 
 __all__ = _ALL_LAZY.ellipses
-__version__ = '26.03.25'
+__version__ = '26.03.27'
 
 _TOL53    =  sqrt(EPS_2)     # sqrt(pow(_0_5, _DIG53))
 _TOL53_53 = _TOL53 / _DIG53  # "flat" b/a tolerance, 1.9e-10
@@ -72,7 +72,8 @@ class Ellipse(_NamedBase):
         if a > b:
             if _isFlat(a, b):
                 self._flat = True
-                P = a * _4_0
+                P = _4_0 * a
+#               b = _0_0
             else:  # pro-/oblate
                 P = None
         else:  # circular
@@ -329,7 +330,7 @@ class Ellipse(_NamedBase):
         if 0 < p < a:
             p *= p / a
         if r:
-            p = -p if p else NEG0
+            p = (-p) if p else NEG0
         return Meter(lati=p)  # signed
 
     def normal3d(self, deg_x, y=None, **length):
@@ -581,7 +582,7 @@ class Ellipse(_NamedBase):
 
            @return: A 2-tuple C{(x, y)}.
         '''
-        s, c = sincos2d(deg_x) if y is None else self._sc2(deg_x, y, eps=None)
+        s, c = sincos2d(deg_x) if y is None else self._sc2(deg_x, y, None)
         return (self.a * c), (self.b * s)
 
     def points(self, np, nq=4, ccw=False, ended=False, eps=EPS):  # MCCABE 13
@@ -639,10 +640,7 @@ class Ellipse(_NamedBase):
            <https://WikiPedia.org/wiki/Ellipse#Polar_form_relative_to_center>}
            from the center (C{meter}, conventionally) and C{angle} in C{degrees}.
         '''
-        s, c = sincos2d(deg_x) if y is None else self._sc2(deg_x, y, eps=None)
-        a, b, ab = self._ab3
-        r = (_over(ab, hypot(a * s, b * c)) if c else b) if s else a
-        return r, atan2b(s, c)
+        return polar2d(*self.point(deg_x, y))
 
     @Property_RO
     def R1(self):
@@ -684,7 +682,7 @@ class Ellipse(_NamedBase):
         try:
             a, b, ab = self._ab3
             if b != a:
-                s, c = sincos2(rad_x) if y is None else self._sc2(rad_x, y, eps=eps)
+                s, c = sincos2(rad_x) if y is None else self._sc2(rad_x, y, eps)
                 r = _over(hypot(a * s, b * c)**3, ab)
             else:  # circular
                 r = float(a)
@@ -698,7 +696,7 @@ class Ellipse(_NamedBase):
         '''
         return Radius(Rrectifying=self.perimeter2k_ / PI2)
 
-    def _sc2(self, x, y, eps=EPS):
+    def _sc2(self, x, y, eps):
         '''(INTERNAL) Helper for methods C{.point}, C{.polar}, C{.Roc_} and C{.slope_}.
         '''
         if eps and eps > 0:
@@ -753,7 +751,7 @@ class Ellipse(_NamedBase):
            @raise ValueError: C{(B{x}, B{y})} off this ellipse, unless C{B{eps}=0}.
         '''
         # <https://UNacademy.com/content/jee/study-material/mathematics/equation-of-a-tangent-to-the-ellipse/>
-        s, c = sincos2(rad_x) if y is None else self._sc2(rad_x, y, eps=eps)
+        s, c = sincos2(rad_x) if y is None else self._sc2(rad_x, y, eps)
         r = atan2p(-self.b * c, self.a * s)
         if r >= PI3_2:
             r -= PI2
@@ -872,8 +870,7 @@ def _q1ps(a, b, n, eps):
             yield p
 
 
-def _2RC(h, r):
-    # in C{Ellipse.perimeter2R} and C{.perimeter2RC}
+def _2RC(h, r):  # in Ellipse.perimeter2R and .perimeter2RC
     h *= _3_0 * h
     r +=  h / (sqrt(_4_0 - h) + _10_0)
     return r * PI

@@ -177,7 +177,7 @@ from pygeodesy.utily import atan2d, sincos2d, tand, _unrollon,  fabs
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.karney
-__version__ = '25.12.23'
+__version__ = '26.04.03'
 
 _1_16th     = _1_0 / 16
 _2_4_       = '2.4'
@@ -745,6 +745,20 @@ def _around(x):  # in .utily.sincos2d
         if w > 0:  # don't "simplify" z - (z - x) to x
             x = _copysign(z - w, x)
         return x
+
+
+# def _atan2(y, x):
+#     # equivalent to math.atan2
+#     r = fabs(y)
+#     if r > fabs(x):  # y, x = x, y
+#         r = atan2(x, r)
+#       # q = 3 if y < 0 else 2
+#         r = (r - PI_2) if y < 0 else (PI_2 - r)
+#     elif x < 0:  # q = 1
+#         r = (-PI if y < 0 else PI) - atan2(y, -x)
+#     else:  # q = 0
+#         r = atan2(y, x)
+#     return r
 
 
 def _atan2d(y, x):
