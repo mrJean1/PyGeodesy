@@ -27,7 +27,7 @@ from os import getenv
 from setuptools import setup
 
 __all__ = ()
-__version__ = '26.04.18'
+__version__ = '26.05.01'
 
 _PACKAGE = 'pygeodesy'  # 'PyGeodesy'
 
@@ -95,7 +95,7 @@ _KeyWords = ('AER', 'AGM', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode
              'radical', 'radii', 'radius', 'Ramanujan', 'Ramer', 'Ramer-Douglas-Peucker', 'Rectifying',
              'Reduced', 'resect', 'resection', 'Rey-Jer', 'Reumann', 'Reumann-Witkam', 'rho-theta-phi', 'rhumb', 'RhumbSolve',
              'running-linear-regression', 'running-statistics', 'running-stats', 'running-summation',
-             'scipy', 'secant', 'semi-latus-rectum', 'semi-perimeter', 'sexagecimal', 'simplify', 'skewness',
+             'scipy', 'secant', 'semi-latus-rectum', 'semi-perimeter', 'sexagecimal', 'similarity', 'simplify', 'skewness',
              'Snellius', 'Snellius-Pothenot', 'Snyder', 'Soddy', 'Soddy-circles', 'Soldner',
              'sphere', 'sphere-intersections', 'spherical-deficit', 'spherical-excess', 'spherical-polar', 'spherical-triangle',
              'squared-quartic', 'standard-deviation', 'stereographic', 'Sudano', 'surface-area', 'Sutherland',

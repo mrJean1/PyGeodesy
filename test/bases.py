@@ -45,7 +45,7 @@ __all__ = ('bits_mach2', 'coverage', 'GeodSolve', 'Geod3Solve', 'geographiclib',
            'property_RO', 'PyGeodesy_dir', 'PythonX', 'scipy', 'test_dir',
            'RandomLatLon', 'TestsBase',  # classes
            'clips', 'secs2str', 'tilde', 'type2str', 'versions')  # functions
-__version__ = '26.03.24'
+__version__ = '26.05.01'
 
 try:
     _Ints = int, long
@@ -82,7 +82,7 @@ if _W_opts:
 
 v2 = sys.version_info[:2]
 bits_mach2 = internals._MODS.bits_machine2
-isAppleSi  = internals._isAppleSi
+isAppleSi  = internals._isAppleSi()
 # isiOS is used by some tests known to fail on iOS only
 isiOS      = internals._isiOS()  # public
 ismacOS    = internals._ismacOS()  # public
