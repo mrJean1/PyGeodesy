@@ -98,7 +98,7 @@ from pygeodesy.units import _isRadius, Radius_,  radians
 # import operator as _operator  # from .fmath
 
 __all__ = _ALL_LAZY.datums
-__version__ = '26.04.23'
+__version__ = '26.05.04'
 
 _a_ellipsoid_ = _UNDER_(_a_, _ellipsoid_)
 _BD72_        = 'BD72'
@@ -344,6 +344,32 @@ class Similarity(Transform):  # in .PyRDNAP
         if rz:
             self.rz, self.sz = _spr2(rz)
 
+    @Property_RO
+    def _sForward(self):
+        '''(INTERNAL) Get the forward 3-D similarity transform, [3x4] matrix.
+        '''
+        sx, cx, sy, cy, sz, cz = _MODS.utily.sincos2_(self.rx * _uRad,
+                                                      self.ry * _uRad,
+                                                      self.rz * _uRad)
+        czsy = cz * sy
+        szsy = sz * sy
+        return (cz * cy, sz * cx + czsy * sx, sz * sx - czsy * cx, self.tx,
+               -sz * cy, cz * cx - szsy * sx, cz * sx + szsy * cx, self.ty,
+                     sy,            -cy * sx,             cy * cx, self.tz)
+
+    @Property_RO
+    def _sInverse(self):
+        '''(INTERNAL) Get the inverse 3-D similarity transform, [3x4] matrix.
+        '''
+        return self.inverse()._sForward
+
+    def _s_s1(self, s1):  # in .trf
+        '''(INTERNAL) Set C{s1} and C{s}.
+        '''
+        Similarity._sForward._update(self)
+        Similarity._sInverse._update(self)
+        return Transform._s_s1(self, s1)
+
     def transform(self, x, y, z, xyz0=(), inverse=False, **Vector_and_kwds):  # PYCHOK signature
         '''Transform a (cartesian) position, forward or inverse.
 
@@ -378,32 +404,6 @@ class Similarity(Transform):  # in .PyRDNAP
             z = _fdotf(_1xyz1, z0, *S[8:12])
 
         return self._V(x, y, z, **Vector_and_kwds)
-
-    @Property_RO
-    def _sForward(self):
-        '''(INTERNAL) Get the forward 3-D similarity transform, [3x4] matrix.
-        '''
-        sx, cx, sy, cy, sz, cz = _MODS.utily.sincos2_(self.rx * _uRad,
-                                                      self.ry * _uRad,
-                                                      self.rz * _uRad)
-        czsy = cz * sy
-        szsy = sz * sy
-        return (cz * cy, sz * cx + czsy * sx, sz * sx - czsy * cx, self.tx,
-               -sz * cy, cz * cx - szsy * sx, cz * sx + szsy * cx, self.ty,
-                     sy,            -cy * sx,             cy * cx, self.tz)
-
-    @Property_RO
-    def _sInverse(self):
-        '''(INTERNAL) Get the inverse 3-D similarity transform, [3x4] matrix.
-        '''
-        return self.inverse()._sForward
-
-    def _s_s1(self, s1):  # in .trf
-        '''(INTERNAL) Set C{s1} and C{s}.
-        '''
-        Similarity._sForward._update(self)
-        Similarity._sInverse._update(self)
-        return Transform._s_s1(self, s1)
 
 
 class Transforms(_NamedEnum):
@@ -610,7 +610,7 @@ class Datum(_NamedEnumItem):
         return self._transform
 
 
-def _earth_datum(inst, a_earth, f=None, raiser=_a_ellipsoid_, **name):  # in .karney, .trf, ...
+def _earth_datum(inst, a_earth, f=None, raiser=_a_ellipsoid_, **name):  # in .karney, .trf, ..., pyrdnap
     '''(INTERNAL) Set C{inst._datum} from C{(B{a_..}, B{f})} or C{B{.._ellipsoid}}
        (L{Ellipsoid}, L{Ellipsoid2}, L{Datum}, C{a_f2Tuple} or C{scalar} earth radius).
 

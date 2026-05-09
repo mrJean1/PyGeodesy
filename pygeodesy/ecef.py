@@ -63,7 +63,7 @@ from pygeodesy.basics import copysign0, _isin, isscalar, issubclassof, neg, map1
                             _xinstanceof, _xsubclassof,  typename  # _args_kwds_names
 from pygeodesy.constants import EPS, EPS0, EPS02, EPS1, INT0, PI, PI_2, _0_0, \
                                _0_5, _1_0, _1_0_1T, _2_0, _3_0, _4_0, _6_0, _90_0, \
-                               _copysign_1_0,  isnon0  # PYCHOK used!
+                               _copysign_1_0, _isNAN,  isnon0  # PYCHOK used!
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84,  a_f2Tuple, _EWGS84
 from pygeodesy.ecefLocals import _EcefLocal
 # from pygeodesy.ellipsoids import a_f2Tuple, _EWGS84  # from .datums
@@ -91,7 +91,7 @@ from pygeodesy.utily import atan1, atan1d, atan2, atan2d, degrees90, degrees180,
 from math import cos, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '26.03.28'
+__version__ = '26.05.06'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -209,10 +209,11 @@ class _EcefBase(_NamedBase):
 
         E =  self.ellipsoid
         n =  E.roc1_(sa, ca) if self._isYou else E.roc1_(sa)
-        c = (h + n) * ca
+        H = _0_0 if _isNAN(h) else h
+        c = (H + n) * ca
         x = cb * c
         y = sb * c
-        z = (h + n * E.e21) * sa
+        z = (H + n * E.e21) * sa
 
         m = self._Matrix(sa, ca, sb, cb) if M else None
         return Ecef9Tuple(x, y, z, lat, lon, h,

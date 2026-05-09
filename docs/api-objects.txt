@@ -1101,6 +1101,7 @@ pygeodesy.constants._0_001	pygeodesy.constants-module.html#_0_001
 pygeodesy.constants._main	pygeodesy.constants-module.html#_main
 pygeodesy.constants._SQRT3	pygeodesy.constants-module.html#_SQRT3
 pygeodesy.constants._log2	pygeodesy.constants-module.html#_log2
+pygeodesy.constants._isNAN	pygeodesy.constants-module.html#_isNAN
 pygeodesy.constants._60_0	pygeodesy.constants-module.html#_60_0
 pygeodesy.constants._INF_NAN_NINF	pygeodesy.constants-module.html#_INF_NAN_NINF
 pygeodesy.constants.R_KM	pygeodesy.constants-module.html#R_KM
@@ -1641,6 +1642,7 @@ pygeodesy.ecef._xinstanceof	pygeodesy.basics-module.html#_xinstanceof
 pygeodesy.ecef.atan2d	pygeodesy.utily-module.html#atan2d
 pygeodesy.ecef._llhn4	pygeodesy.ecef-module.html#_llhn4
 pygeodesy.ecef.sincos2d_	pygeodesy.utily-module.html#sincos2d_
+pygeodesy.ecef._isNAN	pygeodesy.constants-module.html#_isNAN
 pygeodesy.ecef.hypot	pygeodesy.fmath-module.html#hypot
 pygeodesy.ecef.sincos2_	pygeodesy.utily-module.html#sincos2_
 pygeodesy.ecef.__all__	pygeodesy.ecef-module.html#__all__
