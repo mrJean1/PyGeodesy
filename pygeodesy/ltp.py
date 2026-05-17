@@ -16,28 +16,29 @@ from __future__ import division as _; del _  # noqa: E702 ;
 from pygeodesy.basics import _args_kwds_names, _isin, map1, map2, _xinstanceof, \
                              _xsubclassof,  typename   # .datums
 from pygeodesy.constants import EPS, INT0, _umod_360, _0_0, _0_01, _0_5, _1_0, \
-                               _2_0, _60_0, _90_0, _100_0, _180_0, _3600_0, \
+                               _2_0, _8_0, _60_0, _90_0, _100_0, _180_0, _3600_0, \
                                _N_1_0  # PYCHOK used!
-# from pygeodesy.datums import _WGS84  # from .ecef
-from pygeodesy.ecef import _EcefBase, EcefKarney, Ecef9Tuple, _llhn4, \
-                           _xyzn4,  _WGS84
+from pygeodesy.datums import Datums, _WGS84
+# from pygeodesy.dms import parseDMS  # from .units
+from pygeodesy.ecef import _EcefBase, EcefKarney, Ecef9Tuple, _llhn4, _xyzn4
 from pygeodesy.errors import _NotImplementedError, _ValueError, _xattr, \
                              _xkwds, _xkwds_get, _xkwds_pop2
 from pygeodesy.fmath import fabs, fdot, Fdot_, fdot_, Fhorner
 from pygeodesy.fsums import _floor, fsumf_
 # from pygeodesy.internals import typename  # from .basics
-from pygeodesy.interns import _0_, _COMMASPACE_, _DOT_, _ecef_, _height_, _M_, \
-                              _invalid_, _lat0_, _lon0_, _name_, _too_
+from pygeodesy.interns import _0_, _COMMASPACE_, _DOT_, _ecef_, _height_, \
+                              _invalid_, _lat0_, _lon0_, _M_, _name_, _too_
 # from pygeodesy.lazily import _ALL_LAZY  # from vector3d
 from pygeodesy.ltpTuples import Attitude4Tuple, ChLVEN2Tuple, ChLV9Tuple, \
                                 ChLVYX2Tuple, Footprint5Tuple, Local9Tuple, \
                                 ChLVyx2Tuple, _XyzLocals4, _XyzLocals5, Xyz4Tuple
 from pygeodesy.named import _name__, _name2__, _NamedBase, notOverloaded
-from pygeodesy.namedTuples import LatLon3Tuple, LatLon4Tuple, Vector3Tuple
+from pygeodesy.namedTuples import LatLon3Tuple, LatLon4Tuple, Vector3Tuple, \
+                                  RDregion4Tuple  # PYCHOK used!
 from pygeodesy.props import Property, Property_RO, property_doc_, \
                             property_ROver, _update_all
 from pygeodesy.streprs import Fmt, strs, unstr
-from pygeodesy.units import Bearing, Degrees, _isHeight, Meter
+from pygeodesy.units import Bearing, Degrees, _isHeight, Meter,  parseDMS
 from pygeodesy.utily import cotd, _loneg, sincos2d, sincos2d_, tand, tand_, \
                             wrap180, wrap360
 from pygeodesy.vector3d import _ALL_LAZY, Vector3d
@@ -45,11 +46,14 @@ from pygeodesy.vector3d import _ALL_LAZY, Vector3d
 # from math import fabs, floor as _floor  # from .fmath, .fsums
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '25.05.12'
+__version__ = '26.05.16'
 
 _height0_ = _height_ + _0_
 _narrow_  = 'narrow'
 _wide_    = 'wide'
+
+_GRS80    =  Datums.GRS80
+# del Datums
 
 
 class Attitude(_NamedBase):
@@ -685,9 +689,9 @@ class Ltp(LocalCartesian):
         '''New C{Ltp}, see L{LocalCartesian.__init__} for more details.
 
            @kwarg ecef: Optional ECEF converter (L{EcefKarney}, L{EcefFarrell21},
-                        L{EcefFarrell22}, L{EcefSudano}, L{EcefVeness} or
-                        L{EcefYou} I{instance}), overriding the default
-                        L{EcefKarney}C{(datum=Datums.WGS84)} for C{scalar}.
+                        L{EcefFarrell22}, L{EcefSudano}, L{EcefVeness} or L{EcefYou}
+                        I{instance}), overriding the default L{EcefKarney}C{(datum=Datums.WGS84)}
+                        for C{scalar} B{C{latlonh0}}.
 
            @see: Class L{LocalCartesian<LocalCartesian.__init__>} for further details.
 
@@ -712,6 +716,82 @@ class Ltp(LocalCartesian):
         if self._ecef != ecef:  # PYCHOK no cover
             self.reset(self._t0)
             self._ecef = ecef
+
+
+class LqRD(Ltp):
+    '''A I{local tangent plan} (LTP) for conversion between I{GRS80 (ETRS89) geodetic} and
+       I{local Netherlands}' C{quasi-B{R}ijksB{D}riehoeksmeting (RD)} coordinates.
+
+       This C{quasi-RD} transformer B{does not} implement any U{RD NAP<https://www.NSGI.NL/
+       coordinatenstelsels-en-transformaties/coordinatentransformaties/rdnap-etrs89-rdnaptrans>}
+       specification and B{does not} provide I{Netherlands}' C{B{N}ormaal B{A}msterdams B{P}eil
+       (NAP)} quasi-geodetic-height.
+
+       The L{LqRD.forward} C{x} and C{y} results differ 2 meter near the center up to 600 meter
+       at the corners of the L{RD region<LqRD.region>} with C{RDx} and C{RDy} values from formal
+       C{RD NAP 2018} implementations like U{pyrdnap<https://PyPI.org/project/pyrdnap>}.
+
+       The L{LqRD.forward} C{z} values represent perpendicular distances to this local tangent
+       plane (LTP).  Other heights in L{LqRD} are I{GRS80 (ETRS89) heights} above or below the
+       ellipsoid (geoid).  B{None} are C{NAP} quasi-geodetic-heights.
+    '''
+    _ecef      = EcefKarney(_GRS80)
+    Amersfoort = LatLon4Tuple(parseDMS('52  9 22.178N'),  # height=0.0, not .h0!
+                              parseDMS(' 5 23 15.5E'), _0_0, _GRS80, name='Amersfoort')
+
+    def __init__(self, latlonh0=Amersfoort, **other_Ltp_kwds):
+        '''New ECEF-based I{GRS80 (ETRS89)} L{LqRD} converter, centered at I{Amersfoort}.
+
+           @kwarg latlonh0: The I{geodetic} origin and height, overriding C{Amersfoort}.
+           @kwarg other_Ltp_kwds: Optional, other L{Ltp.__init__} keyword arguments.
+
+           @see: L{Ltp.__init__} for more information.
+        '''
+        Ltp.__init__(self, latlonh0, **_xkwds(other_Ltp_kwds, ecef=None, name=LqRD.Amersfoort.name))
+
+    def forward(self, lat_latlonh, lon=None, height=0, **M_name):  # PYCHOK signature
+        '''Convert I{geodetic} C{(lat, lon, height)} to I{local} C{quasi-RD (x, y, z)}.
+
+           @see: L{Ltp.forward} for more information.
+        '''
+        r = Ltp.forward(self, lat_latlonh, lon, height, **M_name)
+        return r.dup(x=r.x + self.x0, y=r.y + self.y0)
+
+    @property_ROver
+    def h0(self):
+        '''Get C{Amersfoort}'s I{GRS80 (ETRS89) height} (C{Meter}).
+        '''
+        return Meter(h0=43.0)  # see pyrdnap
+
+    @property_ROver
+    def region(self):
+        '''Get the C{RD} region as L{RDregion4Tuple}C{(S, W, N, E)}, all C{GRS80 (ETRS89) degrees}.
+        '''
+        return RDregion4Tuple(50.0, _2_0, 56.0, _8_0)  # see pyrdnap
+
+    def reverse(self, x_xyz, y=None, z=None, **M_name):  # PYCHOK signature
+        '''Convert I{local} C{quasi-RD (x, y, z)} to I{geodetic} C{(lat, lon, height)}.
+
+           @see: L{Ltp.reverse} for more information.
+        '''
+        try:
+            x, y, z = x_xyz.xyz
+        except AttributeError:
+            x, y, z = map1(Meter, x_xyz, y, z)
+        r = Ltp.reverse(self, x - self.x0, y - self.y0, z, **M_name)
+        return r.dup(x=x, y=y)
+
+    @property_ROver
+    def x0(self):
+        '''Get the C{quasi-RD} false Easting (C{Meter}).
+        '''
+        return Meter(x0=155029.8)  # 155000.0 see pyrdnap -v1 -forward Amersfoort.latlon
+
+    @property_ROver
+    def y0(self):
+        '''Get the C{quasi-RD} false Northing (C{Meter}).
+        '''
+        return Meter(y0=463109.9)  # 463000.0 see pyrdnap -v1 -forward Amersfoort.latlon
 
 
 class _ChLV(object):

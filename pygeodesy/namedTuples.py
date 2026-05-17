@@ -17,12 +17,12 @@ from pygeodesy.interns import NN, _1_, _2_, _a_, _A_, _area_, _angle_, _b_, _B_,
                              _band_, _beta_, _c_, _C_, _D_, _datum_, _distance_, \
                              _E_, _easting_, _end_, _fi_, _gamma_, _h_, _height_, \
                              _hemipole_, _initial_, _j_, _lam_, _lat_, _lon_, \
-                             _n_, _northing_, _number_, _outside_, _phi_, \
-                             _point_, _precision_, _points_, _radius_, _scale_, \
-                             _start_, _x_, _y_, _z_, _zone_
+                             _N_, _n_, _northing_, _number_, _outside_, _phi_, \
+                             _point_, _precision_, _points_, _radius_, _S_, \
+                             _scale_, _start_, _W_, _x_, _y_, _z_, _zone_
 # from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS  # from .named
 from pygeodesy.named import _NamedTuple, _Pass,  _ALL_LAZY, _MODS
-from pygeodesy.props import deprecated_property_RO, property_RO
+from pygeodesy.props import deprecated_property_RO, Property_RO, property_RO
 from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, FIx, \
                             Height, Int, Lam, Lat, Lon, Meter, Meter2, \
                             Northing, Number_, Phi, Precision_, Radians, \
@@ -30,7 +30,7 @@ from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, FIx, \
 # from math import fabs  # from .constants
 
 __all__ = _ALL_LAZY.namedTuples
-__version__ = '26.03.12'
+__version__ = '26.05.15'
 
 # __DUNDER gets mangled in class
 _closest_     = 'closest'
@@ -581,6 +581,29 @@ class Points2Tuple(_NamedTuple):  # .formy, .latlonBase
     '''
     _Names_ = (_number_, _points_)
     _Units_ = ( Number_, _Pass)
+
+
+class RDregion4Tuple(_NamedTuple):
+    '''4-Tuple C{(S, W, N, E)} with the Netherlands' C{RD} region in C{GRS80 (ETRS89) degrees}.
+    '''
+    _Names_ = (_S_, _W_, _N_, _E_)
+    _Units_ = ( Lat, Lon, Lat, Lon)
+
+    def __new__(cls, *swne, **iteration_name):  # PYCHOK signature
+        kwds = _xkwds(iteration_name, name='RD region ')
+        return _NamedTuple.__new__(cls, swne, **kwds)
+
+    @Property_RO
+    def SW(self):
+        '''Get the C{SW} corner as (L{LatLon2Tuple}C{(lat, lon)}).
+        '''
+        return LatLon2Tuple(self.S, self.W, name=self.name)
+
+    @Property_RO
+    def NE(self):
+        '''Get the C{NE} corner as (L{LatLon2Tuple}C{(lat, lon)}).
+        '''
+        return LatLon2Tuple(self.N, self.E, name=self.name)
 
 
 class Reverse4Tuple(_NamedTuple, _Convergence):

@@ -301,7 +301,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                          lazily=_a('LazyAttributeError', 'LazyImportError', 'isLazy'),
                             lcc=_a('Conic', 'Conics', 'Lcc', 'LCCError', 'toLcc'),
                             ltp=_a('Attitude', 'AttitudeError', 'ChLV', 'ChLVa', 'ChLVe', 'Frustum',
-                                   'LocalCartesian', 'LocalError', 'Ltp', 'tyr3d'),
+                                   'LocalCartesian', 'LocalError', 'Ltp', 'LqRD', 'tyr3d'),
                       ltpTuples=_a('Aer', 'Aer4Tuple', 'Attitude4Tuple',
                                    'ChLVEN2Tuple', 'ChLV9Tuple', 'ChLVYX2Tuple', 'ChLVyx2Tuple',
                                    'Enu', 'Enu4Tuple', 'Footprint5Tuple', 'Local9Tuple', 'Los',
@@ -320,7 +320,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'LatLonPrec3Tuple', 'LatLonPrec5Tuple',
                                    'NearestOn2Tuple', 'NearestOn3Tuple', 'NearestOn6Tuple', 'NearestOn8Tuple',
                                    'PhiLam2Tuple', 'PhiLam3Tuple', 'PhiLam4Tuple', 'Point3Tuple', 'Points2Tuple',
-                                   'Reverse4Tuple', 'Triangle7Tuple', 'Triangle8Tuple', 'Trilaterate5Tuple',
+                                   'RDregion4Tuple', 'Reverse4Tuple',
+                                   'Triangle7Tuple', 'Triangle8Tuple', 'Trilaterate5Tuple',
                                    'UtmUps2Tuple', 'UtmUps5Tuple', 'UtmUps8Tuple', 'UtmUpsLatLon5Tuple',
                                    'Vector2Tuple', 'Vector3Tuple', 'Vector4Tuple'),
                     nvectorBase=_a('NorthPole', 'SouthPole', 'n_xyz2latlon', 'n_xyz2philam'),
@@ -529,9 +530,6 @@ class _ALL_MODS(_internals._MODS_Base):
         return self.triaxials.triaxial5
 
 _internals._MODS = _ALL_MODS = _ALL_MODS()  # PYCHOK singleton
-
-__all__ = _ALL_LAZY.lazily
-__version__ = '26.04.16'
 
 
 def _ALL_OTHER(*objs):
@@ -903,6 +901,9 @@ def _lazy_module(name):  # overwritten by _lazy_import2
 #
 #     return _ALL_OTHER(*sm.values())
 
+
+__all__ = _ALL_LAZY.lazily
+__version__ = '26.05.15'
 
 if __name__ == _DMAIN_:
 

@@ -27,7 +27,7 @@ from os import getenv
 from setuptools import setup
 
 __all__ = ()
-__version__ = '26.05.01'
+__version__ = '26.05.15'
 
 _PACKAGE = 'pygeodesy'  # 'PyGeodesy'
 
@@ -85,7 +85,8 @@ _KeyWords = ('AER', 'AGM', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode
              'LocalCartesian', 'local-tangent-plane', 'local-x-y-z', 'longitude', 'LOS', 'loxodrome',
              'lstsq', 'LTP', 'lune', 'LV03', 'LV95',
              'mean', 'memoize', 'memoized', 'Mercator', 'Meeus', 'MGRS',
-             'nearest', 'NED', 'Niemeyer', 'non-finite', 'normalize', 'Norrdine', 'north-east-down', 'numpy', 'n-vector', 'Nvector',
+             'nearest', 'NED', 'Niemeyer', 'non-finite', 'normalize',
+             'Norrdine', 'north-east-down', 'numpy', 'n-vector', 'Nvector',
              'oblate', 'omega', 'orthographic', 'orthometric-height', 'OSGB', 'OSGR', 'overlap',
              'parallel', 'parallel-of-latitude', 'Parametric', 'path-intersection', 'periapsis',
              'perimeter', 'Peucker', 'Pierlot', 'pitch', 'plumb', 'Point-Of-View', 'polar', 'Popa', 'POV',
@@ -93,8 +94,8 @@ _KeyWords = ('AER', 'AGM', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode
              'precision-running-summation', 'precision-square-root', 'precision-summation',
              'prolate', 'Pseudo-Mercator', _PACKAGE, 'PyInstaller', 'PyPy', 'quartic',
              'radical', 'radii', 'radius', 'Ramanujan', 'Ramer', 'Ramer-Douglas-Peucker', 'Rectifying',
-             'Reduced', 'resect', 'resection', 'Rey-Jer', 'Reumann', 'Reumann-Witkam', 'rho-theta-phi', 'rhumb', 'RhumbSolve',
-             'running-linear-regression', 'running-statistics', 'running-stats', 'running-summation',
+             'Reduced', 'resect', 'resection', 'Rey-Jer', 'Reumann', 'Reumann-Witkam', 'RD', 'RijksDriehoeksmeting', 'RDNAP',
+             'rho-theta-phi', 'rhumb', 'RhumbSolve', 'running-linear-regression', 'running-statistics', 'running-stats', 'running-summation',
              'scipy', 'secant', 'semi-latus-rectum', 'semi-perimeter', 'sexagecimal', 'similarity', 'simplify', 'skewness',
              'Snellius', 'Snellius-Pothenot', 'Snyder', 'Soddy', 'Soddy-circles', 'Soldner',
              'sphere', 'sphere-intersections', 'spherical-deficit', 'spherical-excess', 'spherical-polar', 'spherical-triangle',

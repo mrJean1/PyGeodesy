@@ -4,16 +4,18 @@
 # Test L{ltp} I{local tangent plane} classes.
 
 __all__ = ('Tests',)
-__version__ = '23.11.21'
+__version__ = '26.05.16'
 
 from bases import startswith, TestsBase
 
 from pygeodesy import Aer, Attitude, ChLV, ChLVa, ChLVe, \
                       EcefFarrell21, EcefFarrell22, EcefKarney, \
-                      EcefVeness, EcefSudano, Ecef9Tuple, EcefYou, \
-                      Enu, Frustum, fstr, LatLon_, LocalCartesian, \
-                      Local9Tuple, Ltp, Ned, tyr3d, XyzLocal, latDMS, lonDMS
+                      EcefVeness, EcefSudano, Ecef9Tuple, EcefUPC, EcefYou, \
+                      Enu, EPS0, Frustum, fstr, LatLon_, LocalCartesian, \
+                      Local9Tuple, Ltp, LqRD, Ned, tyr3d, XyzLocal, latDMS, lonDMS
 from pygeodesy.deprecated import EcefCartesian  # DEPRECATED, use L{LocalCartesian}
+
+from math import fabs
 
 
 def _absdiff(a, *b):
@@ -146,6 +148,62 @@ class Tests(TestsBase):
         self.test(tyr3d.__name__, d, '(0.0, -2.0, 0.0)')
         d = tyr3d(tilt=0, yaw=0, roll=90)
         self.test(tyr3d.__name__, d, '(0.0, 0.0, -2.0)')
+
+    def testLqRD(self, LqRD, eps, **kwds):
+
+        def _x(t, x):
+            a, b = map(float, x[1:-1].replace(',', '').split()[:2])
+            x += ', diff (%.3f, %.3f)' % (t.x - a, t.y - b)
+            return x
+
+        self.test(LqRD.__name__, kwds, kwds, nl=1)
+
+        c = LqRD(name='Test', **kwds)
+        self.test('name', c.name, 'Test')
+        t = c.toRepr()
+        self.test('toStr', t, c.classname, known=True)
+
+        t = c.region
+        self.test('region', t.toRepr(), 'RD region (S=50.0, W=2.0, N=56.0, E=8.0)')
+
+        self.testCopy(c)
+        t = LqRD(c, name=c.name)  # like c.copy() or c.dup()
+        self.test('New', t, c, nt=1)
+
+        t = c.forward(*c.Amersfoort[:2], height=c.h0)  # 52.15616056, 5.38763889
+        self.test('forward', t.xyz.toStr(prec=3), _x(t, '(155000.0, 463000.0, 43.0)'), known=True)
+        t = c.reverse(*t.xyz)
+        self.test('reverse', t.latlonheight.toStr(prec=6), '(52.156161, 5.387639, 43.0)')
+
+        t = c.forward(53, 6)  # center
+        self.test('forward', t.xyz.toStr(prec=6), _x(t, '(196139.431611, 557179.026084, -826.266581)'), known=True)  # -27.8, -107.9
+        t = c.reverse(*t.xyz)
+        self.test('reverse', t.latlonheight.toStr(prec=3), '(53.0, 6.0, 0.0)', known=fabs(t.height) < eps)
+
+        t = c.forward(50, 2)  # SW
+        self.test('forward', t.xyz.toStr(prec=2), _x(t, '(-87853.983835, 228817.835659, -8916.47)'), known=True)  # -116.1, 34.9
+        t = c.reverse(*t.xyz)
+        self.test('reverse', t.latlonheight.toStr(prec=6), '(50.0, 2.0, 0.0)', known=fabs(t.height) < eps)
+
+        t = c.forward(56, 2)  # NW
+        self.test('forward', t.xyz.toStr(prec=2), _x(t, '(-56496.660094, 896141.991394, -18180.08)'), known=True)  # -225, -686.3
+        t = c.reverse(*t.xyz)
+        self.test('reverse', t.latlonheight.toStr(prec=6), '(56.0, 2.0, 0.0)', known=fabs(t.height) < eps)
+
+        t = c.forward(56, 8)  # NE
+        self.test('forward', t.xyz.toStr(prec=6), _x(t, '(318159.695836, 894090.746829, -16626.936575)'), known=True)  # -223.7, -634.2
+        t = c.reverse(*t.xyz)
+        self.test('reverse', t.latlonheight.toStr(prec=6), '(56.0, 8.0, 0.0)', known=fabs(t.height) < eps)
+
+        t = c.forward(50, 8)  # SE
+        self.test('forward', t.xyz.toStr(prec=6), _x(t, '(342349.924377, 226555.86418, -7131.753557)'), known=True)  # -119.6, -0.4
+        t = c.reverse(*t.xyz)
+        self.test('reverse', t.latlonheight.toStr(prec=6), '(50.0, 8.0, 0.0)', known=fabs(t.height) < eps)
+
+        t = c.forward(51.728601274, 4.712120126, 301.7981)
+        self.test('forward', t.xyz.toStr(prec=2), _x(t, '(108360.88, 415757.28, 258.01)'), known=True)
+        t = c.reverse(*t.xyz)
+        self.test('reverse', t.latlonheight.toStr(prec=2), '(51.73, 4.71, 301.8)')
 
     def testChLV(self, ChLV_):
 
@@ -302,6 +360,10 @@ if __name__ == '__main__':
     t.testChLV(ChLV)
     t.testChLV(ChLVa)
     t.testChLV(ChLVe)
+
+    t.testLqRD(LqRD, EPS0)
+    t.testLqRD(LqRD, 1e-8, ecef=EcefUPC(Ellipsoids.Bessel1841))
+    t.testLqRD(LqRD, 1e-9, ecef=EcefUPC(Ellipsoids.GRS80))
 
     t.results()
     t.exit()
