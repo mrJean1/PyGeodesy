@@ -26,7 +26,7 @@ except ImportError:  # Python 2-
     _inf, _nan = float(_INF_), float(_NAN_)
 
 __all__ = _ALL_LAZY.constants
-__version__ = '26.05.06'
+__version__ = '26.05.23'
 
 
 def _copysign_0_0(y):
@@ -422,10 +422,16 @@ def isint0(obj, both=False):
             not isbool(obj)
 
 
-def _isNAN(x):  # .ecef, pyrdnap
+def _isNAN(x):  # .ecef, .utily, pyrdnap
     '''(INTERNAL) Is C{x} C{NAN} or C{nan}?
     '''
     return (x is NAN) or isnan(x)
+
+
+def _isNAN0(h):  # .ecef._forward, pyrdnap
+    '''(INTERNAL) Treat height NAN as 0.
+    '''
+    return _0_0 if _isNAN(h) else h
 
 
 def isnear0(x, eps0=EPS0):

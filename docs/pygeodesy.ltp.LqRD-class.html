@@ -87,7 +87,7 @@
   (NAP)</code> quasi-geodetic-height.</p>
   <p>The <a href="pygeodesy.ltp.LqRD-class.html#forward" 
   class="link">LqRD.forward</a> <code>x</code> and <code>y</code> results 
-  differ 2 meter near the center up to 600 meter at the corners of the <a 
+  differ 3 meter near the center up to 600 meter at the corners of the <a 
   href="pygeodesy.ltp.LqRD-class.html#region" class="link">RD region</a> 
   with <code>RDx</code> and <code>RDy</code> values from formal <code>RD 
   NAP 2018</code> implementations like <a 
@@ -96,7 +96,7 @@
   class="link">LqRD.forward</a> <code>z</code> values represent 
   perpendicular distances to this local tangent plane (LTP).  Other heights
   in <a href="pygeodesy.ltp.LqRD-class.html" class="link">LqRD</a> are 
-  <i>GRS80 (ETRS89) heights</i> above or below the ellipsoid (geoid).  
+  <i>GRS80 (ETRS89) heights</i> above (or below) the ellipsoid's surface.  
   <b>None</b> are <code>NAP</code> quasi-geodetic-heights.</p>
 
 <!-- ==================== INSTANCE METHODS ==================== -->
@@ -118,7 +118,7 @@
         <span class="summary-sig-arg">**other_Ltp_kwds</span>)</span><br />
       New ECEF-based <i>GRS80 (ETRS89)</i> <a 
       href="pygeodesy.ltp.LqRD-class.html" class="link">LqRD</a> converter,
-      centered at <i>Amersfoort</i>.</td>
+      centered at <i>Amersfoort, NL</i>.</td>
           <td align="right" valign="top">
             
             
@@ -242,7 +242,7 @@ GRS80', ellipsoid=Ellipsoids.GRS80, transform=Transforms.WGS84))">Amersfoort(lat
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy.ltp.LqRD-class.html#h0" class="summary-name">h0</a><br />
+        <a href="pygeodesy.ltp.LqRD-class.html#height0_ETRS" class="summary-name">height0_ETRS</a><br />
       Get <code>Amersfoort</code>'s <i>GRS80 (ETRS89) height</i> 
       (<code>Meter</code>).
     </td>
@@ -253,9 +253,9 @@ GRS80', ellipsoid=Ellipsoids.GRS80, transform=Transforms.WGS84))">Amersfoort(lat
     </td><td class="summary">
         <a href="pygeodesy.ltp.LqRD-class.html#region" class="summary-name">region</a><br />
       Get the <code>RD</code> region as <a 
-      href="pygeodesy.namedTuples.RDregion4Tuple-class.html" 
-      class="link">RDregion4Tuple</a><code>(S, W, N, E)</code>, all 
-      <code>GRS80 (ETRS89) degrees</code>.
+      href="pygeodesy.namedTuples.Bounds4Tuple-class.html" 
+      class="link">Bounds4Tuple</a><code>(latS, lonW, latN, lonE)</code>, 
+      all <code>GRS80 (ETRS89) degrees</code>.
     </td>
   </tr>
 <tr>
@@ -263,7 +263,7 @@ GRS80', ellipsoid=Ellipsoids.GRS80, transform=Transforms.WGS84))">Amersfoort(lat
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ltp.LqRD-class.html#x0" class="summary-name">x0</a><br />
-      Get the <code>quasi-RD</code> false Easting (<code>Meter</code>).
+      Class <code>property</code> with a <code>.name</code> attribute.
     </td>
   </tr>
 <tr>
@@ -271,7 +271,7 @@ GRS80', ellipsoid=Ellipsoids.GRS80, transform=Transforms.WGS84))">Amersfoort(lat
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ltp.LqRD-class.html#y0" class="summary-name">y0</a><br />
-      Get the <code>quasi-RD</code> false Northing (<code>Meter</code>).
+      Class <code>property</code> with a <code>.name</code> attribute.
     </td>
   </tr>
   <tr>
@@ -335,7 +335,7 @@ GRS80', ellipsoid=Ellipsoids.GRS80, transform=Transforms.WGS84))">Amersfoort(lat
   
   <p>New ECEF-based <i>GRS80 (ETRS89)</i> <a 
   href="pygeodesy.ltp.LqRD-class.html" class="link">LqRD</a> converter, 
-  centered at <i>Amersfoort</i>.</p>
+  centered at <i>Amersfoort, NL</i>.</p>
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
@@ -353,8 +353,8 @@ GRS80', ellipsoid=Ellipsoids.GRS80, transform=Transforms.WGS84))">Amersfoort(lat
     </dt>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a href="pygeodesy.ltp.Ltp-class.html#__init__" 
-        class="link">Ltp.__init__</a> for more information.
+        Class <a href="pygeodesy.ltp.Ltp-class.html#__init__" 
+        class="link">Ltp</a> for more information.
       </p>
 </div></td></tr></table>
 </div>
@@ -392,7 +392,7 @@ GRS80', ellipsoid=Ellipsoids.GRS80, transform=Transforms.WGS84))">Amersfoort(lat
         <li><strong class="pname"><code>height</code></strong> - Optional height (<code>meter</code>, conventionally) 
           perpendicular to and above (or below) the ellipsoid's surface, 
           iff <b><code>latlonh</code></b> is <code>scalar</code>, ignored 
-          othewrise.</li>
+          otherwise.</li>
         <li><strong class="pname"><code>M</code></strong> - Optionally, return the <i>concatenated</i> rotation <a 
           href="pygeodesy.ecef.EcefMatrix-class.html" 
           class="link">EcefMatrix</a>, iff available (<code>bool</code>).</li>
@@ -401,17 +401,7 @@ GRS80', ellipsoid=Ellipsoids.GRS80, transform=Transforms.WGS84))">Amersfoort(lat
     <dt>Returns:</dt>
         <dd>A <a href="pygeodesy.ltpTuples.Local9Tuple-class.html" 
           class="link">Local9Tuple</a><code>(x, y, z, lat, lon, height, 
-          ltp, ecef, M)</code> with <i>local</i> <code>x</code>, 
-          <code>y</code>, <code>z</code>, <i>geodetic</i> 
-          <code>(lat</code>, <code>lon</code>, <code>height</code>, this 
-          <code>ltp</code>, <code>ecef</code> (<a 
-          href="pygeodesy.ecef.Ecef9Tuple-class.html" 
-          class="link">Ecef9Tuple</a>) with <i>geocentric</i> 
-          <code>x</code>, <code>y</code>, <code>z</code> (and 
-          <i>geodetic</i> <code>lat</code>, <code>lon</code>, 
-          <code>height</code>) and the <i>concatenated</i> rotation matrix 
-          <code>M</code> (<a href="pygeodesy.ecef.EcefMatrix-class.html" 
-          class="link">EcefMatrix</a>) if requested.</dd>
+          ltp, ecef, M)</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.ltp.LocalError-class.html">LocalError</a></strong></code> - If <b><code>latlonh</code></b> not <code>scalar</code>, 
@@ -428,8 +418,8 @@ GRS80', ellipsoid=Ellipsoids.GRS80, transform=Transforms.WGS84))">Amersfoort(lat
     </dt>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a href="pygeodesy.ltp.LocalCartesian-class.html#forward" 
-        class="link">Ltp.forward</a> for more information.
+        Method <a href="pygeodesy.ltp.LocalCartesian-class.html#forward" 
+        class="link">LocalCartesian.forward</a> for more information.
       </p>
 </div></td></tr></table>
 </div>
@@ -484,18 +474,9 @@ GRS80', ellipsoid=Ellipsoids.GRS80, transform=Transforms.WGS84))">Amersfoort(lat
           <code><b>y</b>=0</code> locations.</li>
     </ul></dd>
     <dt>Returns:</dt>
-        <dd>An <a href="pygeodesy.ltpTuples.Local9Tuple-class.html" 
+        <dd>A <a href="pygeodesy.ltpTuples.Local9Tuple-class.html" 
           class="link">Local9Tuple</a><code>(x, y, z, lat, lon, height, 
-          ltp, ecef, M)</code> with <i>local</i> <code>x</code>, 
-          <code>y</code>, <code>z</code>, <i>geodetic</i> <code>lat</code>,
-          <code>lon</code>, <code>height</code>, this <code>ltp</code>, an 
-          <code>ecef</code> (<a href="pygeodesy.ecef.Ecef9Tuple-class.html"
-          class="link">Ecef9Tuple</a>) with the <i>geocentric</i> 
-          <code>x</code>, <code>y</code>, <code>z</code> (and 
-          <i>geodetic</i> <code>lat</code>, <code>lon</code>, 
-          <code>height</code>) and the <i>concatenated</i> rotation matrix 
-          <code>M</code> (<a href="pygeodesy.ecef.EcefMatrix-class.html" 
-          class="link">EcefMatrix</a>) if requested.</dd>
+          ltp, ecef, M)</code>.</dd>
     <dt>Raises:</dt>
     <dd><ul class="nomargin-top">
         <li><code><strong class='fraise'><a href="pygeodesy.ltp.LocalError-class.html">LocalError</a></strong></code> - Invalid <b><code>xyz</code></b> or <code>scalar</code> 
@@ -508,8 +489,8 @@ GRS80', ellipsoid=Ellipsoids.GRS80, transform=Transforms.WGS84))">Amersfoort(lat
     </dt>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
-        <a href="pygeodesy.ltp.LocalCartesian-class.html#reverse" 
-        class="link">Ltp.reverse</a> for more information.
+        Method <a href="pygeodesy.ltp.LocalCartesian-class.html#reverse" 
+        class="link">LocalCartesian.reverse</a> for more information.
       </p>
 </div></td></tr></table>
 </div>
@@ -552,12 +533,12 @@ GRS80', ellipsoid=Ellipsoids.GRS80, transform=Transforms.WGS84))
     <span class="table-header">Property Details</span></td>
 </tr>
 </table>
-<a name="h0"></a>
+<a name="height0_ETRS"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
-  <h3 class="epydoc">h0</h3>
+  <h3 class="epydoc">height0_ETRS</h3>
   <p>Get <code>Amersfoort</code>'s <i>GRS80 (ETRS89) height</i> 
   (<code>Meter</code>).</p>
   <dl class="fields">
@@ -588,9 +569,9 @@ class="link">property_ROver</a>.
 <tr><td>
   <h3 class="epydoc">region</h3>
   <p>Get the <code>RD</code> region as <a 
-  href="pygeodesy.namedTuples.RDregion4Tuple-class.html" 
-  class="link">RDregion4Tuple</a><code>(S, W, N, E)</code>, all <code>GRS80
-  (ETRS89) degrees</code>.</p>
+  href="pygeodesy.namedTuples.Bounds4Tuple-class.html" 
+  class="link">Bounds4Tuple</a><code>(latS, lonW, latN, lonE)</code>, all 
+  <code>GRS80 (ETRS89) degrees</code>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
     <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
@@ -618,24 +599,14 @@ class="link">property_ROver</a>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">x0</h3>
-  <p>Get the <code>quasi-RD</code> false Easting (<code>Meter</code>).</p>
+  <p>Class <code>property</code> with a <code>.name</code> attribute.</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
-        - Get the <code>property</code> value <i>once</i> and overwrite 
-<code>self</code>, this <code>property</code> instance in the (super-)class
-of <code>self</code> where this property is define as a <a 
-href="pygeodesy.props.property_ROver-class.html" 
-class="link">property_ROver</a>.
+    <dd class="value"><span class="summary-sig">x0(<span class="summary-sig-arg">self</span>)</span>
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">*unused</span>)</span>
-        - Silently ignored, always.
+    <dd class="value"><span class="summary-sig">x0(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">meter</span>)</span>
     </dd>
   </dl>
 </td></tr></table>
@@ -646,24 +617,14 @@ class="link">property_ROver</a>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">y0</h3>
-  <p>Get the <code>quasi-RD</code> false Northing (<code>Meter</code>).</p>
+  <p>Class <code>property</code> with a <code>.name</code> attribute.</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
-        - Get the <code>property</code> value <i>once</i> and overwrite 
-<code>self</code>, this <code>property</code> instance in the (super-)class
-of <code>self</code> where this property is define as a <a 
-href="pygeodesy.props.property_ROver-class.html" 
-class="link">property_ROver</a>.
+    <dd class="value"><span class="summary-sig">y0(<span class="summary-sig-arg">self</span>)</span>
     </dd>
     <dt>Set method:</dt>
-    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
-        <span class="summary-sig-arg">val</span>)</span>
-        - Throws an <code>AttributeError</code>, always.
-    </dd>
-    <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">*unused</span>)</span>
-        - Silently ignored, always.
+    <dd class="value"><span class="summary-sig">y0(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">meter</span>)</span>
     </dd>
   </dl>
 </td></tr></table>
@@ -700,7 +661,7 @@ class="link">property_ROver</a>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat May 16 16:59:39 2026
+    Generated by Epydoc 3.0.1 on Mon May 25 12:48:34 2026
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

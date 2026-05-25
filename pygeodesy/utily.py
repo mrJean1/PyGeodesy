@@ -16,7 +16,7 @@ from pygeodesy.constants import EPS, EPS0, NAN, PI, PI2, PI_2, PI_4, PI_6, R_M, 
                                _M_KM, _M_NM, _M_SM, _SQRT2_2 as _COS_45, \
                                _SQRT3_2 as _COS_30, _0_0, _0_5, _1_0, _N_1_0, \
                                _10_0, _90_0, _180_0, _360_0, _copysign_0_0, \
-                               _copysignINF, _float, _isfinite, isnan, isnear0, \
+                               _copysignINF, _float, _isfinite, _isNAN, isnear0, \
                                _over_1, _umod_360, _umod_PI2, OVERFLOW
 from pygeodesy.errors import _ValueError, _xkwds, _xkwds_get
 from pygeodesy.internals import _Enum, _passargs, typename
@@ -29,7 +29,7 @@ from math import acos, asin, asinh, atan2 as _atan2, cos, degrees, fabs, \
                  radians, sin, sinh, tan as _tan  # pow
 
 __all__ = _ALL_LAZY.utily
-__version__ = '26.03.20'
+__version__ = '26.05.23'
 
 _SIN_30 = _0_5
 _SIN_45 = _COS_45
@@ -60,7 +60,7 @@ _M = _Enum(  # meter per ...
 def _abs1nan(x):
     '''(INTERNAL) Bracket C{-1 < x < 1 or isnan(x)}.
     '''
-    return _N_1_0 < x < _1_0 or isnan(x)
+    return _N_1_0 < x < _1_0 or _isNAN(x)
 
 
 def acos1(x):
@@ -1055,22 +1055,22 @@ def tand_(*degs, **raiser_clamp_kwds):
         yield _nonfinite(tand_, d, **raiser_clamp_kwds)
 
 
-def tanPI_2_2(rad):
-    '''Compute the tangent of half angle, 90 degrees rotated.
+def tanPI_2_2(rad):  # pyrdnap
+    '''Compute the tangent of half the angle PI/4 rotated.
 
        @arg rad: Angle (C{radians}).
 
        @return: M{tan((rad + PI/2) / 2)} (C{float}).
     '''
     return _tan((rad + PI_2) * _0_5) if _isfinite(rad) else (
-            NAN if isnan(rad) else _copysign(_90_0, rad))
+            NAN if _isNAN(rad) else _copysign(OVERFLOW, rad))
 
 
 def _tanu(s, c, clamp=OVERFLOW, **unused):
     '''(INTERNAL) Helper for functions C{_cotu}, C{sincostan3},
        C{sincostan3d}, C{tan}, C{tan_}, C{tand} and C{tand_}.
     '''
-    if s is NAN or isnan(s):
+    if _isNAN(s):
         t = NAN
     elif isnear0(c):
         raise ZeroDivisionError()

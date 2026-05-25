@@ -4,7 +4,7 @@
 # Test L{ltp} I{local tangent plane} classes.
 
 __all__ = ('Tests',)
-__version__ = '26.05.16'
+__version__ = '26.05.24'
 
 from bases import startswith, TestsBase
 
@@ -24,6 +24,139 @@ def _absdiff(a, *b):
 
 
 class Tests(TestsBase):
+
+    def testChLV(self, ChLV_):
+
+        def _trim(t, neg0=False):
+            t = str(t)
+            if neg0:
+                t = t.replace(' -0.0,', ' 0.0,')
+            i = t.find('EcefMatrix')
+            return t[:i] + '...'
+
+        self.test(ChLV_.__name__, '...', '...', nl=1)
+
+        c = ChLV_(name='Test')
+        self.test('name', c.name, 'Test')
+
+        t = c.forward(46.95108, 7.438637)
+        self.test('ChLV_', t.ltp.__class__.__name__, ChLV_.__name__)
+
+        self.test('forward1', _trim(t), '(-72.039994, -147.361444, -49.552111, 46.95108, 7.438637, 0.0, ' if t.isChLV
+                                   else '(0.329415, -0.292702, -49.554242, 46.95108, 7.438637, 0.0, ' if t.isChLVa
+                                   else '(-72.031251, -147.344948, -49.554242, 46.95108, 7.438637, 0.0, ', known=startswith, nl=1)
+        self.test('Y, X, h_', (t.Y, t.X, t.h_), (t.x, t.y, t.z))
+        self.test('EN2_LV95', t.EN2_LV95, '(2599927.960006, 1199852.638556)' if t.isChLV
+                                     else '(2600000.329415, 1199999.707298)' if t.isChLVa
+                                     else '(2599927.968749, 1199852.655052)')
+        self.test('yx2_LV03', t.yx2_LV03, '(599927.960006, 199852.638556)' if t.isChLV
+                                     else '(600000.329415, 199999.707298)' if t.isChLVa
+                                     else '(599927.968749, 199852.655052)')
+        r = c.reverse(t)  # .Y, t.X, t.h_)
+        self.test('reverse1', _trim(r), '(-72.039994, -147.361444, -49.552111, 46.95108, 7.438637, 0.0, ' if r.isChLV
+                                   else '(0.329415, -0.292702, -49.554242, 46.951078, 7.438642, -0.004239, ' if r.isChLVa
+                                   else '(-72.031251, -147.344948, -49.554242, 46.95108, 7.438637, 0.000002, ', known=startswith)
+
+        r = c.reverse(700000, 100000, 600) if ChLV_ is ChLVa else c.reverse(2700000, 1200000, 600)
+        self.test('reverse2', _trim(r), '(100000.0, 0.0, 600.0, 46.944873, 8.752874, 1431.948128, ' if r.isChLV
+                                   else '(100000.0, -100000.0, 600.0, 46.044127, 8.730499, 650.554, ' if r.isChLVa
+                                   else '(100000.0, 0.0, 600.0, 46.944869, 8.753274, 648.29, ', known=startswith, nl=1)
+        t = c.forward(r.lat, r.lon, r.height)
+        self.test('forward2', _trim(t, neg0=True), '(100000.0, 0.0, 600.0, 46.944873, 8.752874, 1431.948128, ' if t.isChLV
+                                              else '(99999.933937, -100000.44412, 600.003469, 46.044127, 8.730499, 650.554, ' if t.isChLVa
+                                              else '(100000.000001, 0.0, 600.012265, 46.944869, 8.753274, 648.29, ', known=startswith)
+        self.test('Y, X, h_', (t.Y, t.X, t.h_), (t.x, t.y, t.z))
+        self.test('EN2_LV95', t.EN2_LV95, '(2700000.0, 1200000.0)' if t.isChLV
+                                     else '(2699999.933937, 1099999.55588)' if t.isChLVa
+                                     else '(2700000.000001, 1200000.0)')
+        self.test('yx2_LV03', t.yx2_LV03, '(700000.0, 200000.0)' if t.isChLV
+                                     else '(699999.933937, 99999.55588)' if t.isChLVa
+                                     else '(700000.000001, 200000.0)')
+
+        t = c.forward('46 2 38.87', '8 43 49.79', 650.60)
+        self.test('forward3', _trim(t), '(99920.639806, -100148.24791, -967.661696, 46.044131, 8.730497, 650.6, ' if t.isChLV
+                                   else '(99999.763621, -100000.026905, 600.049476, 46.044131, 8.730497, 650.6, ' if t.isChLVa
+                                   else '(99914.740455, -100135.079382, 600.049476, 46.044131, 8.730497, 650.6, ', known=startswith, nl=1)
+        self.test('Y, X, h_', (t.Y, t.X, t.h_), (t.x, t.y, t.z))
+        self.test('EN2_LV95', t.EN2_LV95, '(2699920.639806, 1099851.75209)' if t.isChLV
+                                     else '(2699999.763621, 1099999.973095)' if t.isChLVa
+                                     else '(2699914.740455, 1099864.920618)')
+        self.test('yx2_LV03', t.yx2_LV03, '(699920.639806, 99851.75209)' if t.isChLV
+                                     else '(699999.763621, 99999.973095)' if t.isChLVa
+                                     else '(699914.740455, 99864.920618)')
+        r = c.reverse(t)  # .Y, t.X, t.h_)
+        self.test('reverse3', _trim(r), '(99920.639806, -100148.24791, -967.661696, 46.044131, 8.730497, 650.6, ' if r.isChLV
+                                   else '(99999.763621, -100000.026905, 600.049476, 46.044127, 8.730496, 650.603479, ' if r.isChLVa
+                                   else '(99914.740455, -100135.079382, 600.049476, 46.044131, 8.730497, 650.607608, ', known=startswith)
+
+        t = c.forward('''47° 03' 28.95659233"''', '''8° 29' 11.11127154"''')  # Rigi
+        self.test('forward4', _trim(t), '(79527.502386, 12274.804229, -556.312155, 47.058043, 8.48642, 0.0, ' if t.isChLV
+                                   else '(79602.736359, 12421.914221, -48.257243, 47.058043, 8.48642, 0.0, ' if t.isChLVa
+                                   else '(79520.050001, 12273.439993, -48.257243, 47.058043, 8.48642, 0.0, ', known=startswith, nl=1)
+        self.test('Y, X, h_', (t.Y, t.X, t.h_), (t.x, t.y, t.z))
+        self.test('EN2_LV95', t.EN2_LV95, '(2679527.502386, 1212274.804229)' if t.isChLV
+                                     else '(2679602.736359, 1212421.914221)' if t.isChLVa
+                                     else '(2679520.050001, 1212273.439993)')
+        self.test('yx2_LV03', t.yx2_LV03, '(679527.502386, 212274.804229)' if t.isChLV
+                                     else '(679602.736359, 212421.914221)' if t.isChLVa
+                                     else '(679520.050001, 212273.439993)')
+        r = c.reverse(t)  # .Y, t.X, t.h_)
+        self.test('reverse4', _trim(r), '(79527.502386, 12274.804229, -556.312155, 47.058043, 8.48642, ' if t.isChLV
+                                   else '(79602.736359, 12421.914221, -48.257243, 47.058038, 8.486421, 0.00853, ' if r.isChLVa
+                                   else '(79520.050001, 12273.439993, -48.257243, 47.058043, 8.48642, 0.012933, ', known=startswith, nt=1)
+
+        _ = '''swisstopo GeoSuite, 10/2/2022 6:56 PM, REFRAME
+        <https://www.SwissTopo.admin.ch/en/maps-data-online/calculation-services/reframe.html>
+        Change planimetry:      yes
+                Input:          Plane coordinates LV03 (CH1903)
+                                Format: Military (Berne=600/200 km)
+                Output:         Global coordinates ETRF93/CHTRF95 (ETRS89/CHTRS95/≈WGS84)
+                                Format: Geographic Lon/Lat/Alt in [°]  (LTOP ED)
+        Change altimetry:       yes
+                Input:          National leveling network LN02 (leveled heights)
+                Output:         Ellipsoidal heights (GRS80)
+        Parameters and datasets used:
+                1: Htrans       HTRANS (swisstopo 2005)
+                2: CHGeo        CHGeo2004 (swisstopo 2004)
+                3: Fineltra     CHENyx06 (swisstopo 03.2007)
+                4: GPSRef       CHTRF95/CH1903+ (swisstopo 1997)
+        '''
+        i = 1  # XXX (lon, lat) all wrong the ChLVe, but height is correct
+        for e, n, h_, t in ((690112.2987, 167571.01,   2316.17,  ( 8.61588452888461, 46.6532932166132, 2367.70367439557)),
+                            (811208.67,   184302.34,  1495.279,  (10.2046874099038,  46.7763864160066, 1546.62256775331)),
+                            (584293.29,   249277.33,   890.93,   ( 7.23058814336896, 47.3941353658685,  940.206020880491)),
+                            (783515.164,  187452.333, 1595.183,  ( 9.84351348200287, 46.8129146868336, 1645.59174753912)),
+                            (533184.98,   152611.74,   410.638,  ( 6.56789363190021, 46.5214647527993,  460.491580192)),
+                            (700000,      100000,      600,      ( 8.73049738375132, 46.0441209510033,  650.012275829911))):
+            r = c.reverse(e, n, h_, name='REFRAME' + str(i))  # LV03 falsed!
+            d = max(_absdiff(t, r.lon, r.lat))
+            self.test(r.name, (r.lon, r.lat, r.height), t, known=d < 0.005)  # 5 mm
+            d = ' %.3g m' % (d,)
+            self.test(r.name, d, d)
+            i += 1
+
+        # <https://eMuseum.GGGS.CH/literatur-lv/liste-Dateien/1967_Bolliger_a.pdf> p 151
+        if ChLV_ is ChLVe:
+            r, g = c.reverse(*ChLV.false2(130689.06, -83702.04, LV95=True), name='Bollinger', gamma=True)
+        else:
+            r, g = c.reverse(*ChLV.false2(130689.06, -83702.04, LV95=True), name='Bollinger'), None
+        self.test(r.name + '.lat', latDMS(r.lat, prec=5),  "46°11′12.03969″N", known=abs(r.lat - 46.18667769) < 0.007, nl=1)
+        self.test(r.name + '.lon', lonDMS(r.lon, prec=5), "009°07′57.29664″E", known=abs(r.lon -  9.13258239) < 0.007)
+        if g is not None:
+            self.test(r.name + '.gamma', g, g, nt=1)
+
+        # <https://www.SwissTopo.admin.ch/en/maps-data-online/calculation-services/navref.html>
+        for e, n, h_, t, m in ((623706.01,   96020.08,  1687.567, (46.015314107,  7.74720273,   1742.449),   'Zermatt'),
+                               (602030.68,  191775.03,   897.915, (46.878427446,  7.466218797,   953.0973),  'Zimmerwald'),
+                               (617306.3,   268507.30,   456.064, (47.568308647,  7.6695485844,  897.4060),  'Chrischona'),
+                               (776668.105, 265372.681, 1042.624, (47.5163201698, 9.7843787372, 3868.8599),  'Pfaender'),
+                               (497313.292, 145625.438, 1207.434, (46.4555740686, 6.1033162697, 2313.94497), 'La Givrine'),
+                               (722758.81,   87649.67,  1636.6,   (45.9311184445, 9.0216020471, 3855.4332),  'Monte Generoso')):
+            r = c.reverse(e, n, h_, name=m)
+            d = max(_absdiff(t, r.lat, r.lon))
+            self.test(r.name, (r.lat, r.lon, r.height), t, known=d < 0.005)  # 5 mm
+            d = ' %.3g m' % (d,)
+            self.test(r.name, d, d)
 
     def testLtp(self, Ltp, **kwds):
 
@@ -164,179 +297,47 @@ class Tests(TestsBase):
         self.test('toStr', t, c.classname, known=True)
 
         t = c.region
-        self.test('region', t.toRepr(), 'RD region (S=50.0, W=2.0, N=56.0, E=8.0)')
+        self.test('region', t.toRepr(), 'RD region (latS=50.0, lonW=2.0, latN=56.0, lonE=8.0)')
 
         self.testCopy(c)
         t = LqRD(c, name=c.name)  # like c.copy() or c.dup()
         self.test('New', t, c, nt=1)
 
-        t = c.forward(*c.Amersfoort[:2], height=c.h0)  # 52.15616056, 5.38763889
+        t = c.forward(c.lat0, c.lon0, height=c.height0_ETRS)  # 52.15616056, 5.38763889
         self.test('forward', t.xyz.toStr(prec=3), _x(t, '(155000.0, 463000.0, 43.0)'), known=True)
         t = c.reverse(*t.xyz)
         self.test('reverse', t.latlonheight.toStr(prec=6), '(52.156161, 5.387639, 43.0)')
 
-        t = c.forward(53, 6)  # center
+        r = c.region
+        t = c.forward(r.latC, r.lonC)
         self.test('forward', t.xyz.toStr(prec=6), _x(t, '(196139.431611, 557179.026084, -826.266581)'), known=True)  # -27.8, -107.9
         t = c.reverse(*t.xyz)
         self.test('reverse', t.latlonheight.toStr(prec=3), '(53.0, 6.0, 0.0)', known=fabs(t.height) < eps)
 
-        t = c.forward(50, 2)  # SW
-        self.test('forward', t.xyz.toStr(prec=2), _x(t, '(-87853.983835, 228817.835659, -8916.47)'), known=True)  # -116.1, 34.9
-        t = c.reverse(*t.xyz)
-        self.test('reverse', t.latlonheight.toStr(prec=6), '(50.0, 2.0, 0.0)', known=fabs(t.height) < eps)
-
-        t = c.forward(56, 2)  # NW
-        self.test('forward', t.xyz.toStr(prec=2), _x(t, '(-56496.660094, 896141.991394, -18180.08)'), known=True)  # -225, -686.3
-        t = c.reverse(*t.xyz)
-        self.test('reverse', t.latlonheight.toStr(prec=6), '(56.0, 2.0, 0.0)', known=fabs(t.height) < eps)
-
-        t = c.forward(56, 8)  # NE
+        t = c.forward(r.latN, r.lonE)
         self.test('forward', t.xyz.toStr(prec=6), _x(t, '(318159.695836, 894090.746829, -16626.936575)'), known=True)  # -223.7, -634.2
         t = c.reverse(*t.xyz)
         self.test('reverse', t.latlonheight.toStr(prec=6), '(56.0, 8.0, 0.0)', known=fabs(t.height) < eps)
 
-        t = c.forward(50, 8)  # SE
+        t = c.forward(r.latN, r.lonW)
+        self.test('forward', t.xyz.toStr(prec=2), _x(t, '(-56496.660094, 896141.991394, -18180.08)'), known=True)  # -225, -686.3
+        t = c.reverse(*t.xyz)
+        self.test('reverse', t.latlonheight.toStr(prec=6), '(56.0, 2.0, 0.0)', known=fabs(t.height) < eps)
+
+        t = c.forward(r.latS, r.lonE)
         self.test('forward', t.xyz.toStr(prec=6), _x(t, '(342349.924377, 226555.86418, -7131.753557)'), known=True)  # -119.6, -0.4
         t = c.reverse(*t.xyz)
         self.test('reverse', t.latlonheight.toStr(prec=6), '(50.0, 8.0, 0.0)', known=fabs(t.height) < eps)
+
+        t = c.forward(r.latS, r.lonW)
+        self.test('forward', t.xyz.toStr(prec=2), _x(t, '(-87853.983835, 228817.835659, -8916.47)'), known=True)  # -116.1, 34.9
+        t = c.reverse(*t.xyz)
+        self.test('reverse', t.latlonheight.toStr(prec=6), '(50.0, 2.0, 0.0)', known=fabs(t.height) < eps)
 
         t = c.forward(51.728601274, 4.712120126, 301.7981)
         self.test('forward', t.xyz.toStr(prec=2), _x(t, '(108360.88, 415757.28, 258.01)'), known=True)
         t = c.reverse(*t.xyz)
         self.test('reverse', t.latlonheight.toStr(prec=2), '(51.73, 4.71, 301.8)')
-
-    def testChLV(self, ChLV_):
-
-        def _trim(t, neg0=False):
-            t = str(t)
-            if neg0:
-                t = t.replace(' -0.0,', ' 0.0,')
-            i = t.find('EcefMatrix')
-            return t[:i] + '...'
-
-        self.test(ChLV_.__name__, '...', '...', nl=1)
-
-        c = ChLV_(name='Test')
-        self.test('name', c.name, 'Test')
-
-        t = c.forward(46.95108, 7.438637)
-        self.test('ChLV_', t.ltp.__class__.__name__, ChLV_.__name__)
-
-        self.test('forward1', _trim(t), '(-72.039994, -147.361444, -49.552111, 46.95108, 7.438637, 0.0, ' if t.isChLV
-                                   else '(0.329415, -0.292702, -49.554242, 46.95108, 7.438637, 0.0, ' if t.isChLVa
-                                   else '(-72.031251, -147.344948, -49.554242, 46.95108, 7.438637, 0.0, ', known=startswith, nl=1)
-        self.test('Y, X, h_', (t.Y, t.X, t.h_), (t.x, t.y, t.z))
-        self.test('EN2_LV95', t.EN2_LV95, '(2599927.960006, 1199852.638556)' if t.isChLV
-                                     else '(2600000.329415, 1199999.707298)' if t.isChLVa
-                                     else '(2599927.968749, 1199852.655052)')
-        self.test('yx2_LV03', t.yx2_LV03, '(599927.960006, 199852.638556)' if t.isChLV
-                                     else '(600000.329415, 199999.707298)' if t.isChLVa
-                                     else '(599927.968749, 199852.655052)')
-        r = c.reverse(t)  # .Y, t.X, t.h_)
-        self.test('reverse1', _trim(r), '(-72.039994, -147.361444, -49.552111, 46.95108, 7.438637, 0.0, ' if r.isChLV
-                                   else '(0.329415, -0.292702, -49.554242, 46.951078, 7.438642, -0.004239, ' if r.isChLVa
-                                   else '(-72.031251, -147.344948, -49.554242, 46.95108, 7.438637, 0.000002, ', known=startswith)
-
-        r = c.reverse(700000, 100000, 600) if ChLV_ is ChLVa else c.reverse(2700000, 1200000, 600)
-        self.test('reverse2', _trim(r), '(100000.0, 0.0, 600.0, 46.944873, 8.752874, 1431.948128, ' if r.isChLV
-                                   else '(100000.0, -100000.0, 600.0, 46.044127, 8.730499, 650.554, ' if r.isChLVa
-                                   else '(100000.0, 0.0, 600.0, 46.944869, 8.753274, 648.29, ', known=startswith, nl=1)
-        t = c.forward(r.lat, r.lon, r.height)
-        self.test('forward2', _trim(t, neg0=True), '(100000.0, 0.0, 600.0, 46.944873, 8.752874, 1431.948128, ' if t.isChLV
-                                              else '(99999.933937, -100000.44412, 600.003469, 46.044127, 8.730499, 650.554, ' if t.isChLVa
-                                              else '(100000.000001, 0.0, 600.012265, 46.944869, 8.753274, 648.29, ', known=startswith)
-        self.test('Y, X, h_', (t.Y, t.X, t.h_), (t.x, t.y, t.z))
-        self.test('EN2_LV95', t.EN2_LV95, '(2700000.0, 1200000.0)' if t.isChLV
-                                     else '(2699999.933937, 1099999.55588)' if t.isChLVa
-                                     else '(2700000.000001, 1200000.0)')
-        self.test('yx2_LV03', t.yx2_LV03, '(700000.0, 200000.0)' if t.isChLV
-                                     else '(699999.933937, 99999.55588)' if t.isChLVa
-                                     else '(700000.000001, 200000.0)')
-
-        t = c.forward('46 2 38.87', '8 43 49.79', 650.60)
-        self.test('forward3', _trim(t), '(99920.639806, -100148.24791, -967.661696, 46.044131, 8.730497, 650.6, ' if t.isChLV
-                                   else '(99999.763621, -100000.026905, 600.049476, 46.044131, 8.730497, 650.6, ' if t.isChLVa
-                                   else '(99914.740455, -100135.079382, 600.049476, 46.044131, 8.730497, 650.6, ', known=startswith, nl=1)
-        self.test('Y, X, h_', (t.Y, t.X, t.h_), (t.x, t.y, t.z))
-        self.test('EN2_LV95', t.EN2_LV95, '(2699920.639806, 1099851.75209)' if t.isChLV
-                                     else '(2699999.763621, 1099999.973095)' if t.isChLVa
-                                     else '(2699914.740455, 1099864.920618)')
-        self.test('yx2_LV03', t.yx2_LV03, '(699920.639806, 99851.75209)' if t.isChLV
-                                     else '(699999.763621, 99999.973095)' if t.isChLVa
-                                     else '(699914.740455, 99864.920618)')
-        r = c.reverse(t)  # .Y, t.X, t.h_)
-        self.test('reverse3', _trim(r), '(99920.639806, -100148.24791, -967.661696, 46.044131, 8.730497, 650.6, ' if r.isChLV
-                                   else '(99999.763621, -100000.026905, 600.049476, 46.044127, 8.730496, 650.603479, ' if r.isChLVa
-                                   else '(99914.740455, -100135.079382, 600.049476, 46.044131, 8.730497, 650.607608, ', known=startswith)
-
-        t = c.forward('''47° 03' 28.95659233"''', '''8° 29' 11.11127154"''')  # Rigi
-        self.test('forward4', _trim(t), '(79527.502386, 12274.804229, -556.312155, 47.058043, 8.48642, 0.0, ' if t.isChLV
-                                   else '(79602.736359, 12421.914221, -48.257243, 47.058043, 8.48642, 0.0, ' if t.isChLVa
-                                   else '(79520.050001, 12273.439993, -48.257243, 47.058043, 8.48642, 0.0, ', known=startswith, nl=1)
-        self.test('Y, X, h_', (t.Y, t.X, t.h_), (t.x, t.y, t.z))
-        self.test('EN2_LV95', t.EN2_LV95, '(2679527.502386, 1212274.804229)' if t.isChLV
-                                     else '(2679602.736359, 1212421.914221)' if t.isChLVa
-                                     else '(2679520.050001, 1212273.439993)')
-        self.test('yx2_LV03', t.yx2_LV03, '(679527.502386, 212274.804229)' if t.isChLV
-                                     else '(679602.736359, 212421.914221)' if t.isChLVa
-                                     else '(679520.050001, 212273.439993)')
-        r = c.reverse(t)  # .Y, t.X, t.h_)
-        self.test('reverse4', _trim(r), '(79527.502386, 12274.804229, -556.312155, 47.058043, 8.48642, ' if t.isChLV
-                                   else '(79602.736359, 12421.914221, -48.257243, 47.058038, 8.486421, 0.00853, ' if r.isChLVa
-                                   else '(79520.050001, 12273.439993, -48.257243, 47.058043, 8.48642, 0.012933, ', known=startswith, nt=1)
-
-        _ = '''swisstopo GeoSuite, 10/2/2022 6:56 PM, REFRAME
-        <https://www.SwissTopo.admin.ch/en/maps-data-online/calculation-services/reframe.html>
-        Change planimetry:      yes
-                Input:          Plane coordinates LV03 (CH1903)
-                                Format: Military (Berne=600/200 km)
-                Output:         Global coordinates ETRF93/CHTRF95 (ETRS89/CHTRS95/≈WGS84)
-                                Format: Geographic Lon/Lat/Alt in [°]  (LTOP ED)
-        Change altimetry:       yes
-                Input:          National leveling network LN02 (leveled heights)
-                Output:         Ellipsoidal heights (GRS80)
-        Parameters and datasets used:
-                1: Htrans       HTRANS (swisstopo 2005)
-                2: CHGeo        CHGeo2004 (swisstopo 2004)
-                3: Fineltra     CHENyx06 (swisstopo 03.2007)
-                4: GPSRef       CHTRF95/CH1903+ (swisstopo 1997)
-        '''
-        i = 1  # XXX (lon, lat) all wrong the ChLVe, but height is correct
-        for e, n, h_, t in ((690112.2987, 167571.01,   2316.17,  ( 8.61588452888461, 46.6532932166132, 2367.70367439557)),
-                            (811208.67,   184302.34,  1495.279,  (10.2046874099038,  46.7763864160066, 1546.62256775331)),
-                            (584293.29,   249277.33,   890.93,   ( 7.23058814336896, 47.3941353658685,  940.206020880491)),
-                            (783515.164,  187452.333, 1595.183,  ( 9.84351348200287, 46.8129146868336, 1645.59174753912)),
-                            (533184.98,   152611.74,   410.638,  ( 6.56789363190021, 46.5214647527993,  460.491580192)),
-                            (700000,      100000,      600,      ( 8.73049738375132, 46.0441209510033,  650.012275829911))):
-            r = c.reverse(e, n, h_, name='REFRAME' + str(i))  # LV03 falsed!
-            d = max(_absdiff(t, r.lon, r.lat))
-            self.test(r.name, (r.lon, r.lat, r.height), t, known=d < 0.005)  # 5 mm
-            d = ' %.3g m' % (d,)
-            self.test(r.name, d, d)
-            i += 1
-
-        # <https://eMuseum.GGGS.CH/literatur-lv/liste-Dateien/1967_Bolliger_a.pdf> p 151
-        if ChLV_ is ChLVe:
-            r, g = c.reverse(*ChLV.false2(130689.06, -83702.04, LV95=True), name='Bollinger', gamma=True)
-        else:
-            r, g = c.reverse(*ChLV.false2(130689.06, -83702.04, LV95=True), name='Bollinger'), None
-        self.test(r.name + '.lat', latDMS(r.lat, prec=5),  "46°11′12.03969″N", known=abs(r.lat - 46.18667769) < 0.007, nl=1)
-        self.test(r.name + '.lon', lonDMS(r.lon, prec=5), "009°07′57.29664″E", known=abs(r.lon -  9.13258239) < 0.007)
-        if g is not None:
-            self.test(r.name + '.gamma', g, g, nt=1)
-
-        # <https://www.SwissTopo.admin.ch/en/maps-data-online/calculation-services/navref.html>
-        for e, n, h_, t, m in ((623706.01,   96020.08,  1687.567, (46.015314107,  7.74720273,   1742.449),   'Zermatt'),
-                               (602030.68,  191775.03,   897.915, (46.878427446,  7.466218797,   953.0973),  'Zimmerwald'),
-                               (617306.3,   268507.30,   456.064, (47.568308647,  7.6695485844,  897.4060),  'Chrischona'),
-                               (776668.105, 265372.681, 1042.624, (47.5163201698, 9.7843787372, 3868.8599),  'Pfaender'),
-                               (497313.292, 145625.438, 1207.434, (46.4555740686, 6.1033162697, 2313.94497), 'La Givrine'),
-                               (722758.81,   87649.67,  1636.6,   (45.9311184445, 9.0216020471, 3855.4332),  'Monte Generoso')):
-            r = c.reverse(e, n, h_, name=m)
-            d = max(_absdiff(t, r.lat, r.lon))
-            self.test(r.name, (r.lat, r.lon, r.height), t, known=d < 0.005)  # 5 mm
-            d = ' %.3g m' % (d,)
-            self.test(r.name, d, d)
 
 
 if __name__ == '__main__':

@@ -10,18 +10,19 @@ of C{_NamedTuple} defined in C{pygeodesy.named}.
 
 from pygeodesy.basics import isinstanceof, issubclassof, map1, _xinstanceof
 # from pygeodesy.cartesianBase import CartesianBase  # _MODS
-from pygeodesy.constants import INT0,  fabs
+from pygeodesy.constants import INT0, _0_5,  fabs  # PYCHOK used! _0_5
 # from pygeodesy.dms import toDMS  # _MODS
 from pygeodesy.errors import _TypeError, _xattr, _xkwds, _xkwds_not, _xkwds_pop2
+# from pygeodesy.internals import typename  # from .named
 from pygeodesy.interns import NN, _1_, _2_, _a_, _A_, _area_, _angle_, _b_, _B_, \
                              _band_, _beta_, _c_, _C_, _D_, _datum_, _distance_, \
                              _E_, _easting_, _end_, _fi_, _gamma_, _h_, _height_, \
                              _hemipole_, _initial_, _j_, _lam_, _lat_, _lon_, \
-                             _N_, _n_, _northing_, _number_, _outside_, _phi_, \
-                             _point_, _precision_, _points_, _radius_, _S_, \
-                             _scale_, _start_, _W_, _x_, _y_, _z_, _zone_
+                             _n_, _northing_, _number_, _outside_, _phi_, _point_, \
+                             _precision_, _points_, _radius_, _scale_, _start_, \
+                             _x_, _y_, _z_, _zone_
 # from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS  # from .named
-from pygeodesy.named import _NamedTuple, _Pass,  _ALL_LAZY, _MODS
+from pygeodesy.named import _NamedTuple, _Pass,  _ALL_LAZY, _MODS, typename
 from pygeodesy.props import deprecated_property_RO, Property_RO, property_RO
 from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, FIx, \
                             Height, Int, Lam, Lat, Lon, Meter, Meter2, \
@@ -30,7 +31,7 @@ from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, FIx, \
 # from math import fabs  # from .constants
 
 __all__ = _ALL_LAZY.namedTuples
-__version__ = '26.05.15'
+__version__ = '26.05.23'
 
 # __DUNDER gets mangled in class
 _closest_     = 'closest'
@@ -76,9 +77,22 @@ class Bounds4Tuple(_NamedTuple):  # .geohash.py, .points.py
                     (is on the I{outside} of) the other, negative
                     if not or zero if abutting.
         '''
-        s, w, n, e = self
-        S, W, N, E = map1(float, S_other, *W_N_E) if W_N_E else S_other
-        return Bounds4Tuple(map1(float, S - s, W - w, n - N, e - E))  # *map1
+        s, w, n, e, \
+        S, W, N, E = self._plus_other8(S_other, W_N_E)
+        return Bounds4Tuple(map1(float, S - s, W - w, n - N, e - E),  # *map1
+                            name=typename(Bounds4Tuple.enclosures))
+
+    @Property_RO
+    def latC(self):
+        '''Get the center latitude (C{degrees}).
+        '''
+        return Lat(latC=(self.latS + self.latN) * _0_5)
+
+    @Property_RO
+    def lonC(self):
+        '''Get the center longitude (C{degrees}).
+        '''
+        return Lon(lonC=(self.lonW + self.lonE) * _0_5)
 
     def overlap(self, S_other, *W_N_E):
         '''Intersect this with an other L{Bounds4Tuple}.
@@ -91,10 +105,19 @@ class Bounds4Tuple(_NamedTuple):  # .geohash.py, .points.py
            @return: C{None} if the bounds do not overlap, otherwise
                     the intersection of both as a L{Bounds4Tuple}.
         '''
-        s, w, n, e = self
-        S, W, N, E = map1(float, S_other, *W_N_E) if W_N_E else S_other
+        s, w, n, e, \
+        S, W, N, E = self._plus_other8(S_other, W_N_E)
         return None if s > N or n < S or w > E or e < W else \
-               Bounds4Tuple(max(s, S), max(w, W), min(n, N), min(e, E))
+               Bounds4Tuple(max(s, S), max(w, W), min(n, N), min(e, E),
+                            name=typename(Bounds4Tuple.overlap))
+
+    def _plus_other8(self, S_other, W_N_E):
+        # return this (s, w, n, e) + other (S, W, N, E)
+        if W_N_E:
+            S_other = map1(float, S_other, *W_N_E)
+        else:
+            _xinstanceof(Bounds4Tuple, S_other=S_other)
+        return self + S_other
 
 
 class Circle4Tuple(_NamedTuple):
@@ -581,29 +604,6 @@ class Points2Tuple(_NamedTuple):  # .formy, .latlonBase
     '''
     _Names_ = (_number_, _points_)
     _Units_ = ( Number_, _Pass)
-
-
-class RDregion4Tuple(_NamedTuple):
-    '''4-Tuple C{(S, W, N, E)} with the Netherlands' C{RD} region in C{GRS80 (ETRS89) degrees}.
-    '''
-    _Names_ = (_S_, _W_, _N_, _E_)
-    _Units_ = ( Lat, Lon, Lat, Lon)
-
-    def __new__(cls, *swne, **iteration_name):  # PYCHOK signature
-        kwds = _xkwds(iteration_name, name='RD region ')
-        return _NamedTuple.__new__(cls, swne, **kwds)
-
-    @Property_RO
-    def SW(self):
-        '''Get the C{SW} corner as (L{LatLon2Tuple}C{(lat, lon)}).
-        '''
-        return LatLon2Tuple(self.S, self.W, name=self.name)
-
-    @Property_RO
-    def NE(self):
-        '''Get the C{NE} corner as (L{LatLon2Tuple}C{(lat, lon)}).
-        '''
-        return LatLon2Tuple(self.N, self.E, name=self.name)
 
 
 class Reverse4Tuple(_NamedTuple, _Convergence):
