@@ -310,7 +310,7 @@ def _fper(p, q, per=_100_0, prec=1):
     return '%.*f%%' % (prec, (float(p) * per / float(q)))
 
 
-_getenv = _MODS.os.getenv  # PYCHOK in .lazily, ...
+_getenv = _MODS.os.getenv  # PYCHOK in .lazily, ... , pyrdnap
 
 
 def _headof(name):
@@ -716,7 +716,7 @@ def _versions(sep=_SPACE_):  # in PyRDNAP
 
 
 __all__ = tuple(map(typename, (machine, print_, printf, typename)))
-__version__ = '26.04.23'
+__version__ = '26.06.09'
 
 if __name__ == _DMAIN_:
 

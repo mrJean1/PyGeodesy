@@ -4,7 +4,7 @@
 # Test L{ltp} I{local tangent plane} classes.
 
 __all__ = ('Tests',)
-__version__ = '26.05.24'
+__version__ = '26.06.12'
 
 from bases import startswith, TestsBase
 
@@ -296,8 +296,10 @@ class Tests(TestsBase):
         t = c.toRepr()
         self.test('toStr', t, c.classname, known=True)
 
-        t = c.region
+        t = c.region4()
         self.test('region', t.toRepr(), 'RD region (latS=50.0, lonW=2.0, latN=56.0, lonE=8.0)')
+        t = c.region4(False)
+        self.test('region', t.toRepr(), 'ETRS region (latS=49.999275, lonW=2.000033, latN=55.998561, lonE=7.999158)')
 
         self.testCopy(c)
         t = LqRD(c, name=c.name)  # like c.copy() or c.dup()
@@ -308,7 +310,7 @@ class Tests(TestsBase):
         t = c.reverse(*t.xyz)
         self.test('reverse', t.latlonheight.toStr(prec=6), '(52.156161, 5.387639, 43.0)')
 
-        r = c.region
+        r = c.region4()
         t = c.forward(r.latC, r.lonC)
         self.test('forward', t.xyz.toStr(prec=6), _x(t, '(196139.431611, 557179.026084, -826.266581)'), known=True)  # -27.8, -107.9
         t = c.reverse(*t.xyz)

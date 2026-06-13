@@ -88,7 +88,7 @@
   <p>The <a href="pygeodesy.ltp.LqRD-class.html#forward" 
   class="link">LqRD.forward</a> <code>x</code> and <code>y</code> results 
   differ 3 meter near the center up to 600 meter at the corners of the <a 
-  href="pygeodesy.ltp.LqRD-class.html#region" class="link">RD region</a> 
+  href="pygeodesy.ltp.LqRD-class.html#region4" class="link">RD region</a> 
   with <code>RDx</code> and <code>RDy</code> values from formal <code>RD 
   NAP 2018</code> implementations like <a 
   href="https://PyPI.org/project/pyrdnap" target="_top">pyrdnap</a>.</p>
@@ -141,6 +141,25 @@
         <span class="summary-sig-arg">**M_name</span>)</span><br />
       Convert <i>geodetic</i> <code>(lat, lon, height)</code> to 
       <i>local</i> <code>quasi-RD (x, y, z)</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.ltp.LqRD-class.html#region4" class="summary-sig-name">region4</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">asRD</span>=<span class="summary-sig-default">True</span>)</span><br />
+      Get the South, West, North and East bounds of the <code>RD</code> or 
+      <code>ETRS</code> region.</td>
           <td align="right" valign="top">
             
             
@@ -252,10 +271,9 @@ GRS80', ellipsoid=Ellipsoids.GRS80, transform=Transforms.WGS84))">Amersfoort(lat
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ltp.LqRD-class.html#region" class="summary-name">region</a><br />
-      Get the <code>RD</code> region as <a 
-      href="pygeodesy.namedTuples.Bounds4Tuple-class.html" 
-      class="link">Bounds4Tuple</a><code>(latS, lonW, latN, lonE)</code>, 
-      all <code>GRS80 (ETRS89) degrees</code>.
+      DEPRECATED on 2026.06.12, use method <a 
+      href="pygeodesy.ltp.LqRD-class.html#region4" 
+      class="link">pygeodesy.LqRD.region4()</a>.
     </td>
   </tr>
 <tr>
@@ -423,6 +441,38 @@ GRS80', ellipsoid=Ellipsoids.GRS80, transform=Transforms.WGS84))">Amersfoort(lat
       </p>
 </div></td></tr></table>
 </div>
+<a name="region4"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">region4</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">asRD</span>=<span class="sig-default">True</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get the South, West, North and East bounds of the <code>RD</code> or 
+  <code>ETRS</code> region.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>asRD</code></strong> - Use <code><b>asRD</b>=False</code> to get the <code>ETRS</code> 
+          (ETRS89) instead of the <code>RD</code> (RD-Bessel) region 
+          (<code>bool</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.namedTuples.Bounds4Tuple-class.html" 
+          class="link">Bounds4Tuple</a><code>(latS, lonW, latN, 
+          lonE)</code> with <code>RD-Bessel</code> (Bessel1841) or 
+          <code>ETRS</code> (ETRS89) geodetic lat- and longtudes.</dd>
+  </dl>
+</td></tr></table>
+</div>
 <a name="reverse"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -568,18 +618,15 @@ class="link">property_ROver</a>.
        cellspacing="0" width="100%" bgcolor="white">
 <tr><td>
   <h3 class="epydoc">region</h3>
-  <p>Get the <code>RD</code> region as <a 
-  href="pygeodesy.namedTuples.Bounds4Tuple-class.html" 
-  class="link">Bounds4Tuple</a><code>(latS, lonW, latN, lonE)</code>, all 
-  <code>GRS80 (ETRS89) degrees</code>.</p>
+  <p>DEPRECATED on 2026.06.12, use method <a 
+  href="pygeodesy.ltp.LqRD-class.html#region4" 
+  class="link">pygeodesy.LqRD.region4()</a>.</p>
   <dl class="fields">
     <dt>Get method:</dt>
-    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
-        - Get the <code>property</code> value <i>once</i> and overwrite 
-<code>self</code>, this <code>property</code> instance in the (super-)class
-of <code>self</code> where this property is define as a <a 
-href="pygeodesy.props.property_ROver-class.html" 
-class="link">property_ROver</a>.
+    <dd class="value"><span class="summary-sig">region(<span class="summary-sig-arg">self</span>)</span>
+        - DEPRECATED on 2026.06.12, use method <a 
+href="pygeodesy.ltp.LqRD-class.html#region4" 
+class="link">pygeodesy.LqRD.region4()</a>.
     </dd>
     <dt>Set method:</dt>
     <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
@@ -587,8 +634,8 @@ class="link">property_ROver</a>.
         - Throws an <code>AttributeError</code>, always.
     </dd>
     <dt>Delete Method:</dt>
-    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">*unused</span>)</span>
-        - Silently ignored, always.
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
     </dd>
   </dl>
 </td></tr></table>
@@ -661,7 +708,7 @@ class="link">property_ROver</a>.
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon May 25 12:48:34 2026
+    Generated by Epydoc 3.0.1 on Fri Jun 12 20:42:50 2026
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

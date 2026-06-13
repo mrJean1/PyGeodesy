@@ -4,7 +4,7 @@
 u'''I{Local Tangent Plane} (LTP) and I{local} cartesian coordinates.
 
 I{Local cartesian} and I{local tangent plane} classes L{LocalCartesian}, approximations L{ChLVa}
-and L{ChLVe} and L{Ltp}, L{ChLV}, L{LocalError}, L{Attitude} and L{Frustum}.
+and L{ChLVe} and L{Ltp}, L{LqRD}, L{ChLV}, L{LocalError}, L{Attitude} and L{Frustum}.
 
 @see: U{Local tangent plane coordinates<https://WikiPedia.org/wiki/Local_tangent_plane_coordinates>}
       and class L{LocalCartesian}, transcoded from I{Charles Karney}'s C++ classU{LocalCartesian
@@ -35,8 +35,8 @@ from pygeodesy.ltpTuples import Attitude4Tuple, ChLVEN2Tuple, ChLV9Tuple, \
 from pygeodesy.named import _name__, _name2__, _NamedBase, notOverloaded
 from pygeodesy.namedTuples import LatLon3Tuple, LatLon4Tuple, Vector3Tuple, \
                                   Bounds4Tuple  # PYCHOK used!
-from pygeodesy.props import Property, Property_RO, property_doc_, \
-                            property_ROver, _update_all
+from pygeodesy.props import deprecated_property_RO, Property, Property_RO, \
+                            property_doc_, property_ROver, _update_all
 from pygeodesy.streprs import Fmt, strs, unstr
 from pygeodesy.units import Bearing, Degrees, _isHeight, Meter,  parseDMS
 from pygeodesy.utily import cotd, _loneg, sincos2d, sincos2d_, tand, tand_, \
@@ -46,7 +46,7 @@ from pygeodesy.vector3d import _ALL_LAZY, Vector3d
 # from math import fabs, floor as _floor  # from .fmath, .fsums
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '26.05.24'
+__version__ = '26.06.12'
 
 _GRS80    =  Datums.GRS80
 _height0_ = _height_ + _0_
@@ -727,8 +727,8 @@ class LqRD(Ltp):
        (NAP)} quasi-geodetic-height.
 
        The L{LqRD.forward} C{x} and C{y} results differ 3 meter near the center up to 600 meter
-       at the corners of the L{RD region<LqRD.region>} with C{RDx} and C{RDy} values from formal
-       C{RD NAP 2018} implementations like U{pyrdnap<https://PyPI.org/project/pyrdnap>}.
+       at the corners of the L{RD region<LqRD.region4>} with C{RDx} and C{RDy} values from
+       formal C{RD NAP 2018} implementations like U{pyrdnap<https://PyPI.org/project/pyrdnap>}.
 
        The L{LqRD.forward} C{z} values represent perpendicular distances to this local tangent
        plane (LTP).  Other heights in L{LqRD} are I{GRS80 (ETRS89) heights} above (or below)
@@ -767,11 +767,30 @@ class LqRD(Ltp):
         '''
         return Meter(height0_ETRS=43.0)  # see pyrdnap h0_ETRS
 
-    @property_ROver
-    def region(self):
-        '''Get the C{RD} region as L{Bounds4Tuple}C{(latS, lonW, latN, lonE)}, all C{GRS80 (ETRS89) degrees}.
+    @deprecated_property_RO
+    def region(self):  # PYCHOK no cover
+        '''DEPRECATED on 2026.06.12, use method L{pygeodesy.LqRD.region4()}.'''
+        return self._region4RD
+
+    def region4(self, asRD=True):  # in pyrdnap.rd0._RD
+        '''Get the South, West, North and East bounds of the C{RD} or C{ETRS} region.
+
+           @kwarg asRD: Use C{B{asRD}=False} to get the C{ETRS} (ETRS89) instead of
+                        the C{RD} (RD-Bessel) region (C{bool}).
+
+           @return: A L{Bounds4Tuple}C{(latS, lonW, latN, lonE)} with C{RD-Bessel}
+                    (Bessel1841) or C{ETRS} (ETRS89) geodetic lat- and longtudes.
         '''
-        return Bounds4Tuple(50.0, _2_0, 56.0, _8_0).toUnits(name='RD region ')  # like pyrdnap
+        return self._region4RD if asRD else self._region4ETRS
+
+    @property_ROver
+    def _region4ETRS(self):  # as ETRS (ETRS89) L{Bounds4Tuple}
+        return Bounds4Tuple('49 59 57.39', '2 0 0.12',
+                            '55 59 54.82', '7 59 56.97').toUnits(name='ETRS region ')
+
+    @property_ROver
+    def _region4RD(self):  # as RD-Bessel L{Bounds4Tuple}
+        return Bounds4Tuple(50.0, _2_0, 56.0, _8_0).toUnits(name='RD region ')
 
     def reverse(self, x_xyz, y=None, z=None, **M_name):  # PYCHOK signature
         '''Convert I{local} C{quasi-RD (x, y, z)} to I{geodetic} C{(lat, lon, height)}.
