@@ -101,7 +101,7 @@ Tests
 =====
 
 The tests ran with Python 3.14.5 (with geographiclib_ 2.1), Python 3.13.13 (with geographiclib_ 2.1,
-numpy_ 2.3.3, scipy_ 1.16.2, GeoConvert_ 2.7, GeodSolve_ 2.7 and Geod3Solve_ 2.7), Python 3.12.10 (with
+numpy_ 2.5.0, scipy_ 1.18.0, GeoConvert_ 2.7, GeodSolve_ 2.7 and Geod3Solve_ 2.7), Python 3.12.10 (with
 geographiclib_ 2.0, numpy_ 2.1.0, scipy_ 1.14.1, GeodSolve_ 2.7, Geod3Solve_ 2.7, IntersectTool_ 2.7
 and RhumbSolve_ 2.7), Python 3.11.9 (with geographiclib_ 2.0, numpy_ 1.24.2 and scipy_ 1.10.1) and with
 Python 2.7.18 (with geographiclib_ 1.50, numpy_ 1.16.6, scipy_ 1.2.2, GeoConvert_ 2.7, GeodSolve_ 2.7,
@@ -144,7 +144,7 @@ PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 2.7.18, both in 64-bit on 
 
 For a summary of all *Karney*-based functionality in ``pygeodesy``, see module karney_.
 
-*Last updated: June 12, 2026.*
+*Last updated: June 23, 2026.*
 
 License
 =======

@@ -877,9 +877,9 @@ pygeodesy.basics._xzip	pygeodesy.basics-module.html#_xzip
 pygeodesy.basics._required_	pygeodesy.basics-module.html#_required_
 pygeodesy.basics.itemsorted	pygeodesy.basics-module.html#itemsorted
 pygeodesy.basics._splituple	pygeodesy.basics-module.html#_splituple
+pygeodesy.basics._1float0d	pygeodesy.basics-module.html#_1float0d
 pygeodesy.basics._xiterablen	pygeodesy.basics-module.html#_xiterablen
 pygeodesy.basics.__all__	pygeodesy.basics-module.html#__all__
-pygeodesy.basics.typename	pygeodesy.internals-module.html#typename
 pygeodesy.basics._max2min2	pygeodesy.basics-module.html#_max2min2
 pygeodesy.basics.neg	pygeodesy.basics-module.html#neg
 pygeodesy.basics._PYGEODESY_ENV	pygeodesy.internals-module.html#_PYGEODESY_ENV
@@ -914,10 +914,11 @@ pygeodesy.basics._xnumpy	pygeodesy.basics-module.html#_xnumpy
 pygeodesy.basics._list_tuple_types	pygeodesy.basics-module.html#_list_tuple_types
 pygeodesy.basics.islistuple	pygeodesy.basics-module.html#islistuple
 pygeodesy.basics.clips	pygeodesy.basics-module.html#clips
-pygeodesy.basics.max2	pygeodesy.basics-module.html#max2
+pygeodesy.basics.typename	pygeodesy.internals-module.html#typename
 pygeodesy.basics.str2ub	pygeodesy.basics-module.html#str2ub
 pygeodesy.basics.copysign0	pygeodesy.basics-module.html#copysign0
 pygeodesy.basics._xkwds_get1	pygeodesy.errors-module.html#_xkwds_get1
+pygeodesy.basics.halfs2	pygeodesy.basics-module.html#halfs2
 pygeodesy.basics.isiterablen	pygeodesy.basics-module.html#isiterablen
 pygeodesy.basics.isfloat	pygeodesy.basics-module.html#isfloat
 pygeodesy.basics.int1s	pygeodesy.basics-module.html#int1s
@@ -936,8 +937,8 @@ pygeodesy.basics.isint	pygeodesy.basics-module.html#isint
 pygeodesy.basics.isclass	pygeodesy.basics-module.html#isclass
 pygeodesy.basics.isiterable	pygeodesy.basics-module.html#isiterable
 pygeodesy.basics.min2	pygeodesy.basics-module.html#min2
+pygeodesy.basics.max2	pygeodesy.basics-module.html#max2
 pygeodesy.basics.copytype	pygeodesy.basics-module.html#copytype
-pygeodesy.basics.halfs2	pygeodesy.basics-module.html#halfs2
 pygeodesy.basics.map2	pygeodesy.basics-module.html#map2
 pygeodesy.basics._Bytes	pygeodesy.basics-module.html#_Bytes
 pygeodesy.basics.map1	pygeodesy.basics-module.html#map1
@@ -2835,6 +2836,7 @@ pygeodesy.geoids.frange	pygeodesy.fmath-module.html#frange
 pygeodesy.geoids._name__	pygeodesy.named-module.html#_name__
 pygeodesy.geoids._ellipsoidal_datum	pygeodesy.datums-module.html#_ellipsoidal_datum
 pygeodesy.geoids._format_	pygeodesy.geoids-module.html#_format_
+pygeodesy.geoids._1float0d	pygeodesy.basics-module.html#_1float0d
 pygeodesy.geoids._bHASH_	pygeodesy.geoids-module.html#_bHASH_
 pygeodesy.geoids.__all__	pygeodesy.geoids-module.html#__all__
 pygeodesy.geoids._supported_	pygeodesy.geoids-module.html#_supported_
@@ -5020,6 +5022,7 @@ pygeodesy.vector2d._tri3near2far	pygeodesy.vector2d-module.html#_tri3near2far
 pygeodesy.vector2d._rank_	pygeodesy.vector2d-module.html#_rank_
 pygeodesy.vector2d._cA_	pygeodesy.vector2d-module.html#_cA_
 pygeodesy.vector2d._and	pygeodesy.errors-module.html#_and
+pygeodesy.vector2d._1float0d	pygeodesy.basics-module.html#_1float0d
 pygeodesy.vector2d._nearestOn2	pygeodesy.vector3d-module.html#_nearestOn2
 pygeodesy.vector2d._nVc	pygeodesy.vector3d-module.html#_nVc
 pygeodesy.vector2d._trilaterate2d2	pygeodesy.vector2d-module.html#_trilaterate2d2

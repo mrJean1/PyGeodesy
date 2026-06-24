@@ -37,7 +37,7 @@ from math import copysign as _copysign
 # import inspect as _inspect  # _MODS
 
 __all__ = _ALL_LAZY.basics
-__version__ = '26.02.22'
+__version__ = '26.06.23'
 
 _below_           = 'below'
 _list_tuple_types = (list, tuple)
@@ -205,6 +205,18 @@ def _enumereverse(iterable):
     '''
     for j in _reverange(len(iterable)):
         yield j, iterable[j]
+
+
+def _1float0d(f):
+    # numpy 2.5.0 and/or scipy 1.18.0 return in some** functions
+    # a 1-list of a float instead of a float causing errors like
+    # "only 0-dimensional arrays can be converted to Python scalars"
+    # **) numpy.linalg.lstsq, numpy.pseudo_inverse.dot,
+    #     scipy.BivariateSpline.ev
+    try:
+        return float(f)
+    except TypeError:
+        return float(f[0])
 
 
 try:

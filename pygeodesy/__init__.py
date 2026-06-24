@@ -133,7 +133,7 @@ Tests
 
 The tests ran with Python 3.14.5 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.1),
 Python 3.13.13 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.1),
-U{numpy<https://PyPI.org/project/numpy>} 2.3.3, U{scipy<https://PyPI.org/project/scipy>} 1.16.2,
+U{numpy<https://PyPI.org/project/numpy>} 2.5.0, U{scipy<https://PyPI.org/project/scipy>} 1.18.0,
 U{GeoConvert<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.7 and
 U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.7),
 Python 3.12.10 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0,
@@ -627,7 +627,7 @@ else:
 
 from pygeodesy.internals import _version2,  _DOT_  # noqa: E402
 # from pygeodesy.interns import _DOT_  # from .internals
-__version__ = '26.06.12'
+__version__ = '26.06.23'
 # see setup.py for similar logic
 version     = _DOT_(*_version2(__version__, n=3))
 
