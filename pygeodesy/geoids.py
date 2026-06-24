@@ -89,7 +89,7 @@ courtesy of SBFRF.
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # noqa: E702 ;
 
-from pygeodesy.basics import _1float0d, _isin, len2, min2, isodd, _splituple
+from pygeodesy.basics import _float0d, _isin, len2, min2, isodd, _splituple
 from pygeodesy.constants import EPS, _float as _F, _1_0, _N_90_0, _180_0, \
                                      _N_180_0, _360_0
 from pygeodesy.datums import Datums, _ellipsoidal_datum, _WGS84
@@ -126,7 +126,7 @@ except ImportError:  # Python 3+
     from pygeodesy.basics import ub2str as _ub2str
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '26.06.23'
+__version__ = '26.06.24'
 
 _assert_    = 'assert'
 _bHASH_     = b'#'
@@ -461,7 +461,7 @@ class _GeoidBase(_HeightBase):
         if out:  # XXX avoid str(LatLon()) degree symbols
             t = fstr((lat, lon), strepr=repr)
             raise RangeError(lli=t, txt=_SPACE_(_outside_, _on_, out))
-        return _1float0d(self._ev(*self._ll2g2(lat, lon)))  # scipy 1.18.0
+        return _float0d(self._ev(*self._ll2g2(lat, lon)))  # scipy 1.18.0
 
     @Property_RO
     def _highest(self):

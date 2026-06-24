@@ -866,6 +866,7 @@ pygeodesy.basics._xpackages	pygeodesy.basics-module.html#_xpackages
 pygeodesy.basics._xscipy	pygeodesy.basics-module.html#_xscipy
 pygeodesy.basics._xsubclassof	pygeodesy.basics-module.html#_xsubclassof
 pygeodesy.basics._Strs	pygeodesy.basics-module.html#_Strs
+pygeodesy.basics._float0d	pygeodesy.basics-module.html#_float0d
 pygeodesy.basics._XPACKAGES	pygeodesy.basics-module.html#_XPACKAGES
 pygeodesy.basics._xiterable	pygeodesy.basics-module.html#_xiterable
 pygeodesy.basics.signOf	pygeodesy.basics-module.html#signOf
@@ -877,7 +878,6 @@ pygeodesy.basics._xzip	pygeodesy.basics-module.html#_xzip
 pygeodesy.basics._required_	pygeodesy.basics-module.html#_required_
 pygeodesy.basics.itemsorted	pygeodesy.basics-module.html#itemsorted
 pygeodesy.basics._splituple	pygeodesy.basics-module.html#_splituple
-pygeodesy.basics._1float0d	pygeodesy.basics-module.html#_1float0d
 pygeodesy.basics._xiterablen	pygeodesy.basics-module.html#_xiterablen
 pygeodesy.basics.__all__	pygeodesy.basics-module.html#__all__
 pygeodesy.basics._max2min2	pygeodesy.basics-module.html#_max2min2
@@ -2835,8 +2835,8 @@ pygeodesy.geoids.egmGeoidHeights	pygeodesy.geoids-module.html#egmGeoidHeights
 pygeodesy.geoids.frange	pygeodesy.fmath-module.html#frange
 pygeodesy.geoids._name__	pygeodesy.named-module.html#_name__
 pygeodesy.geoids._ellipsoidal_datum	pygeodesy.datums-module.html#_ellipsoidal_datum
+pygeodesy.geoids._float0d	pygeodesy.basics-module.html#_float0d
 pygeodesy.geoids._format_	pygeodesy.geoids-module.html#_format_
-pygeodesy.geoids._1float0d	pygeodesy.basics-module.html#_1float0d
 pygeodesy.geoids._bHASH_	pygeodesy.geoids-module.html#_bHASH_
 pygeodesy.geoids.__all__	pygeodesy.geoids-module.html#__all__
 pygeodesy.geoids._supported_	pygeodesy.geoids-module.html#_supported_
@@ -5019,10 +5019,10 @@ pygeodesy.vector2d._numpy	pygeodesy.vector2d-module.html#_numpy
 pygeodesy.vector2d.nearestOn	pygeodesy.vector2d-module.html#nearestOn
 pygeodesy.vector2d.fsumf_	pygeodesy.fsums-module.html#fsumf_
 pygeodesy.vector2d._tri3near2far	pygeodesy.vector2d-module.html#_tri3near2far
+pygeodesy.vector2d._float0d	pygeodesy.basics-module.html#_float0d
 pygeodesy.vector2d._rank_	pygeodesy.vector2d-module.html#_rank_
 pygeodesy.vector2d._cA_	pygeodesy.vector2d-module.html#_cA_
 pygeodesy.vector2d._and	pygeodesy.errors-module.html#_and
-pygeodesy.vector2d._1float0d	pygeodesy.basics-module.html#_1float0d
 pygeodesy.vector2d._nearestOn2	pygeodesy.vector3d-module.html#_nearestOn2
 pygeodesy.vector2d._nVc	pygeodesy.vector3d-module.html#_nVc
 pygeodesy.vector2d._trilaterate2d2	pygeodesy.vector2d-module.html#_trilaterate2d2

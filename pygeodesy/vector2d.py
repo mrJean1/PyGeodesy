@@ -10,7 +10,7 @@ L{trilaterate2d2}.
        version 1.10 or newer to be installed.
 '''
 
-from pygeodesy.basics import _1float0d, len2, map2, _xnumpy,  typename
+from pygeodesy.basics import _float0d, len2, map2, _xnumpy,  typename
 from pygeodesy.constants import EPS, EPS0, EPS02, EPS4, INF, INT0, \
                                _EPS4e8, isnear0, _0_0, _0_25, _0_5, _N_0_5, \
                                _1_0, _1_0_1T, _N_1_0, _2_0, _N_2_0, _4_0
@@ -36,7 +36,7 @@ from contextlib import contextmanager
 # from math import fabs, sqrt  # from .fmath
 
 __all__ = _ALL_LAZY.vector2d
-__version__ = '26.06.23'
+__version__ = '26.06.24'
 
 _cA_        = 'cA'
 _cB_        = 'cB'
@@ -429,8 +429,8 @@ class _numpy(object):  # see also .formy._idllmn6, .geodesicw._wargs, .latlonBas
         '''Linear least-squares function.
         '''
         C, R, rk, _ = self.np.linalg.lstsq(A, b, rcond=None)  # to silence warning
-        C = map2(_1float0d, C)
-        R = map2(_1float0d, R)  # empty if rk < 4 or n <= 4
+        C = map2(_float0d, C)
+        R = map2(_float0d, R)  # empty if rk < 4 or n <= 4
         return C, R, int(rk)
 
     @Property_RO
@@ -790,7 +790,7 @@ def _trilaterate3d2(c1, r1, c2, r2, c3, r3, eps=EPS4, coin=False,  # MCCABE 13
 
     def _F4d3(F):
         # map numpy 4-vector to floats and xyz3
-        T = map2(_1float0d, F)
+        T = map2(_float0d, F)
         t = T[1:]
         return T, t, Vector3d(*t)
 

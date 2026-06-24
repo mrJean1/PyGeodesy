@@ -627,7 +627,7 @@ else:
 
 from pygeodesy.internals import _version2,  _DOT_  # noqa: E402
 # from pygeodesy.interns import _DOT_  # from .internals
-__version__ = '26.06.23'
+__version__ = '26.06.24'
 # see setup.py for similar logic
 version     = _DOT_(*_version2(__version__, n=3))
 
