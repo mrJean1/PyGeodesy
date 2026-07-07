@@ -63,7 +63,8 @@ U{Vector-based geodesy<https://www.Movable-Type.co.UK/scripts/latlong-vectors.ht
 
 from pygeodesy.basics import copysign0, isLatLon, isodd, issequence, isstr, \
                              neg as _neg,  typename  # in .ups
-from pygeodesy.constants import _0_0, _0_5, _60_0, _360_0, _3600_0, _umod_360
+from pygeodesy.constants import _0_0, _0_5, _60_0, _360_0, _3600_0, \
+                                _isNAN, _umod_360
 from pygeodesy.errors import ParseError, RangeError, _TypeError, _ValueError, \
                             _parseX, rangerrors, _xError, _xkwds,  _envPYGEODESY
 # from pygeodesy.internals import _envPYGEODESY, typename  # from .errors
@@ -86,7 +87,7 @@ except ImportError:  # Python 3+
     from string import ascii_letters as _LETTERS
 
 __all__ = _ALL_LAZY.dms
-__version__ = '25.08.31'
+__version__ = '26.07.04'
 
 _beyond_      = 'beyond'
 _deg_min_     = 'deg+min'
@@ -290,7 +291,8 @@ def clipDegrees(deg, limit):
        @raise RangeError: If B{C{deg}} outside the valid C{-/+B{limit}} range
                           and L{rangerrors<pygeodesy.rangerrors>} is C{True}.
     '''
-    return _clip(deg, limit, _degrees_) if limit and limit > 0 else deg
+    return _clip(deg, limit, _degrees_) if limit and  limit > 0  and \
+                                                 not _isNAN(deg) else deg
 
 
 def clipRadians(rad, limit):
@@ -304,7 +306,8 @@ def clipRadians(rad, limit):
        @raise RangeError: If B{C{rad}} outside the valid C{-/+B{limit}} range
                           and L{rangerrors<pygeodesy.rangerrors>} is C{True}.
     '''
-    return _clip(rad, limit, _radians_) if limit and limit > 0 else rad
+    return _clip(rad, limit, _radians_) if limit and  limit > 0  and \
+                                                 not _isNAN(rad) else rad
 
 
 def compassDMS(bearing, form=F_D, prec=None, sep=S_SEP, **s_D_M_S):

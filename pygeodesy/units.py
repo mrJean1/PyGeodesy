@@ -8,16 +8,17 @@ L{Feet}, L{Meter}, L{Radians}, etc.
 
 # from pygeodesy.angles import isAng  # _MODS
 from pygeodesy.basics import isscalar, issubclassof, signOf,  typename
-from pygeodesy.constants import EPS, EPS1, PI, PI2, PI_2, _umod_360, _0_0, _0_001
+from pygeodesy.constants import EPS, EPS1, PI, PI2, PI_2, _0_0, _0_001, \
+                               _isNAN, _umod_360
 from pygeodesy.dms import F__F, F__F_, S_NUL, S_SEP, parseDMS, parseRad, _toDMS
 from pygeodesy.errors import _AssertionError, TRFError, UnitError, _xattr, _xcallable
 # from pygeodesy.internals import typename  # from .basics
 from pygeodesy.interns import NN, _azimuth_, _band_, _bearing_, _COMMASPACE_, \
                              _degrees_, _degrees2_, _distance_, _E_, _easting_, \
                              _epoch_, _EW_, _feet_, _height_, _lam_, _lat_, _lon_, \
-                             _meter_, _meter2_, _N_, _negative_, _northing_, _radians_, \
-                             _NS_, _NSEW_, _number_, _PERCENT_, _phi_, _precision_, \
-                             _radians2_, _radius_, _S_, _scalar_, \
+                             _meter_, _meter2_, _N_, _negative_, _northing_, _NS_, \
+                             _NSEW_, _number_, _PERCENT_, _phi_, _precision_, \
+                             _radians_, _radians2_, _radius_, _S_, _scalar_, \
                              _W_, _zone_,  _std_  # PYCHOK used!
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
 # from pygeodesy.named import _name__  # _MODS
@@ -25,10 +26,10 @@ from pygeodesy.props import Property_RO
 # from pygeodesy.streprs import Fmt, fstr  # from .unitsBase
 from pygeodesy.unitsBase import Float, Int, _NamedUnit, Radius, Str,  Fmt, fstr
 
-from math import degrees, isnan, radians
+from math import degrees, radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '26.03.12'
+__version__ = '26.07.04'
 
 
 class Float_(Float):
@@ -854,11 +855,11 @@ def _toUnit(Unit, arg, name=NN, **Error):
 def _xlimits(arg, low, high, g=False):
     '''(INTERNAL) Check C{low <= arg <= high}.
     '''
-    if (low is not None) and (arg < low or isnan(arg)):
+    if (low is not None) and (arg < low or _isNAN(arg)):
         if g:
             low = Fmt.g(low, prec=6, ints=isinstance(arg, Epoch))
         t = Fmt.limit(below=low)
-    elif (high is not None) and (arg > high or isnan(arg)):
+    elif (high is not None) and (arg > high or _isNAN(arg)):
         if g:
             high = Fmt.g(high, prec=6, ints=isinstance(arg, Epoch))
         t = Fmt.limit(above=high)

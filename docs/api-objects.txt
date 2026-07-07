@@ -1545,6 +1545,7 @@ pygeodesy.dms._S_norm	pygeodesy.dms-module.html#_S_norm
 pygeodesy.dms.compassDMS	pygeodesy.dms-module.html#compassDMS
 pygeodesy.dms._deg_min_	pygeodesy.dms-module.html#_deg_min_
 pygeodesy.dms._dms2deg	pygeodesy.dms-module.html#_dms2deg
+pygeodesy.dms._isNAN	pygeodesy.constants-module.html#_isNAN
 pygeodesy.dms.S_MIN	pygeodesy.dms-module.html#S_MIN
 pygeodesy.dms.parseDMS	pygeodesy.dms-module.html#parseDMS
 pygeodesy.dms.F_D60_	pygeodesy.dms-module.html#F_D60_
@@ -4669,6 +4670,7 @@ pygeodesy.units._Meters	pygeodesy.units-module.html#_Meters
 pygeodesy.units._toDMS	pygeodesy.dms-module.html#_toDMS
 pygeodesy.units.parseDMS	pygeodesy.dms-module.html#parseDMS
 pygeodesy.units._toUnit	pygeodesy.units-module.html#_toUnit
+pygeodesy.units._isNAN	pygeodesy.constants-module.html#_isNAN
 pygeodesy.units._xlimits	pygeodesy.units-module.html#_xlimits
 pygeodesy.units.__all__	pygeodesy.units-module.html#__all__
 pygeodesy.units._1um	pygeodesy.units-module.html#_1um
@@ -25888,7 +25890,6 @@ pygeodesy.ltp.LqRD._x0	pygeodesy.ltp.LqRD-class.html#_x0
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
 pygeodesy.ltp.LqRD.__init__	pygeodesy.ltp.LqRD-class.html#__init__
 pygeodesy.named._Named.classnaming	pygeodesy.named._Named-class.html#classnaming
-pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named._instr	pygeodesy.named._Named-class.html#_instr
 pygeodesy.ltp.LocalCartesian.ellipsoid	pygeodesy.ltp.LocalCartesian-class.html#ellipsoid
 pygeodesy.named._Named.renamed	pygeodesy.named._Named-class.html#renamed
@@ -25916,7 +25917,7 @@ pygeodesy.named._Named._xrenamed	pygeodesy.named._Named-class.html#_xrenamed
 pygeodesy.named._NamedBase.others	pygeodesy.named._NamedBase-class.html#others
 pygeodesy.named._Named.__rmatmul__	pygeodesy.named._Named-class.html#__rmatmul__
 pygeodesy.ltp.LqRD.x0	pygeodesy.ltp.LqRD-class.html#x0
-pygeodesy.ltp.LqRD._region4ETRS	pygeodesy.ltp.LqRD-class.html#_region4ETRS
+pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.ltp.LocalCartesian.__eq__	pygeodesy.ltp.LocalCartesian-class.html#__eq__
 pygeodesy.ltp.LqRD._y0	pygeodesy.ltp.LqRD-class.html#_y0
 pygeodesy.ltp.LocalCartesian.reset	pygeodesy.ltp.LocalCartesian-class.html#reset

@@ -4,7 +4,7 @@
 # Test L{ltp} I{local tangent plane} classes.
 
 __all__ = ('Tests',)
-__version__ = '26.06.12'
+__version__ = '26.07.06'
 
 from bases import startswith, TestsBase
 
@@ -298,8 +298,8 @@ class Tests(TestsBase):
 
         t = c.region4()
         self.test('region', t.toRepr(), 'RD region (latS=50.0, lonW=2.0, latN=56.0, lonE=8.0)')
-        t = c.region4(False)
-        self.test('region', t.toRepr(), 'ETRS region (latS=49.999275, lonW=2.000033, latN=55.998561, lonE=7.999158)')
+        t = c.region4(-4)
+        self.test('region4', t.toRepr(), 'RD region (latS=53.0, lonW=5.0, latN=53.0, lonE=5.0)')  # coverage
 
         self.testCopy(c)
         t = LqRD(c, name=c.name)  # like c.copy() or c.dup()

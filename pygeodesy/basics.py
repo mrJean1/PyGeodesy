@@ -37,7 +37,7 @@ from math import copysign as _copysign
 # import inspect as _inspect  # _MODS
 
 __all__ = _ALL_LAZY.basics
-__version__ = '26.06.24'
+__version__ = '26.06.25'
 
 _below_           = 'below'
 _list_tuple_types = (list, tuple)
@@ -215,7 +215,7 @@ def _float0d(f):
     try:
         return float(f)
     except TypeError:  # 0-d or 1-list
-        return f.item()  # or float(f[()])?
+        return f.item()  # returns float, Python type
 
 
 try:

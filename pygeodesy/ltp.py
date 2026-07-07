@@ -46,7 +46,7 @@ from pygeodesy.vector3d import _ALL_LAZY, Vector3d
 # from math import fabs, floor as _floor  # from .fmath, .fsums
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '26.06.12'
+__version__ = '26.07.06'
 
 _GRS80    =  Datums.GRS80
 _height0_ = _height_ + _0_
@@ -772,21 +772,34 @@ class LqRD(Ltp):
         '''DEPRECATED on 2026.06.12, use method L{pygeodesy.LqRD.region4()}.'''
         return self._region4RD
 
-    def region4(self, asRD=True):  # in pyrdnap.rd0._RD
-        '''Get the South, West, North and East bounds of the C{RD} or C{ETRS} region.
+    def region4(self, eps=0, **unused):  # in pyrdnap.rd0._RD, was **asRD
+        '''Get the South, West, North and East bounds of the C{RD} region.
 
-           @kwarg asRD: Use C{B{asRD}=False} to get the C{ETRS} (ETRS89) instead of
-                        the C{RD} (RD-Bessel) region (C{bool}).
+           @kwarg eps: Optional over-/undersize fo positive respectively
+                       negative C{B{eps}} (C{degrees}).
 
-           @return: A L{Bounds4Tuple}C{(latS, lonW, latN, lonE)} with C{RD-Bessel}
-                    (Bessel1841) or C{ETRS} (ETRS89) geodetic lat- and longtudes.
+           @return: A L{Bounds4Tuple}C{(latS, lonW, latN, lonE)} with
+                    geodetic lat- and longitudes.
         '''
-        return self._region4RD if asRD else self._region4ETRS
+        r = self._region4RD
+        if eps:
+            d = Degrees(eps=eps)
+            s, w, n, e = r
+            s -= d
+            w -= d
+            n += d
+            e += d
+            if s > n:
+                s = n = r.latC
+            if w > e:
+                w = e = r.lonC
+            r = r.classof(s, w, n, e, name=r.name)  # r.dup(latS=s, ...)
+        return r
 
-    @property_ROver
-    def _region4ETRS(self):  # as ETRS (ETRS89) L{Bounds4Tuple}
-        return Bounds4Tuple('49 59 57.39', '2 0 0.12',
-                            '55 59 54.82', '7 59 56.97').toUnits(name='ETRS region ')
+#   @property_ROver
+#   def _region4ETRS(self):  # as ETRS (ETRS89) L{Bounds4Tuple}
+#       return Bounds4Tuple('49 59 57.39', '2 0 0.12',
+#                           '55 59 54.82', '7 59 56.97').toUnits(name='ETRS region ')
 
     @property_ROver
     def _region4RD(self):  # as RD-Bessel L{Bounds4Tuple}
