@@ -31,7 +31,7 @@ from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, FIx, \
 # from math import fabs  # from .constants
 
 __all__ = _ALL_LAZY.namedTuples
-__version__ = '26.05.23'
+__version__ = '26.07.07'
 
 # __DUNDER gets mangled in class
 _closest_     = 'closest'
@@ -604,6 +604,15 @@ class Points2Tuple(_NamedTuple):  # .formy, .latlonBase
     '''
     _Names_ = (_number_, _points_)
     _Units_ = ( Number_, _Pass)
+
+
+class RD4Tuple(_NamedTuple):  # .ltp, pyrdnap
+    '''4-Tuple C{(minRDx, minRDy, maxRDx, maxRDy)} with the region bounds'
+       lower-left C{(minRDx, minRDy)} and upper-right C{(maxRDx, maxRDy)}
+       corner in C{meter}, conventionaly.
+    '''
+    _Names_ = ('minRDx', 'minRDy', 'maxRDx', 'maxRDy')
+    _Units_ = ( Meter,    Meter,    Meter,    Meter)
 
 
 class Reverse4Tuple(_NamedTuple, _Convergence):

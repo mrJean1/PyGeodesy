@@ -320,7 +320,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'LatLonPrec3Tuple', 'LatLonPrec5Tuple',
                                    'NearestOn2Tuple', 'NearestOn3Tuple', 'NearestOn6Tuple', 'NearestOn8Tuple',
                                    'PhiLam2Tuple', 'PhiLam3Tuple', 'PhiLam4Tuple', 'Point3Tuple', 'Points2Tuple',
-                                   'Reverse4Tuple', 'Triangle7Tuple', 'Triangle8Tuple', 'Trilaterate5Tuple',
+                                   'RD4Tuple', 'Reverse4Tuple', 'Triangle7Tuple', 'Triangle8Tuple', 'Trilaterate5Tuple',
                                    'UtmUps2Tuple', 'UtmUps5Tuple', 'UtmUps8Tuple', 'UtmUpsLatLon5Tuple',
                                    'Vector2Tuple', 'Vector3Tuple', 'Vector4Tuple'),
                     nvectorBase=_a('NorthPole', 'SouthPole', 'n_xyz2latlon', 'n_xyz2philam'),
@@ -902,7 +902,7 @@ def _lazy_module(name):  # overwritten by _lazy_import2
 
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '26.05.22'
+__version__ = '26.07.07'
 
 if __name__ == _DMAIN_:
 
