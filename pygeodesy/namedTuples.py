@@ -31,7 +31,7 @@ from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, FIx, \
 # from math import fabs  # from .constants
 
 __all__ = _ALL_LAZY.namedTuples
-__version__ = '26.07.07'
+__version__ = '26.07.09'
 
 # __DUNDER gets mangled in class
 _closest_     = 'closest'
@@ -79,8 +79,21 @@ class Bounds4Tuple(_NamedTuple):  # .geohash.py, .points.py
         '''
         s, w, n, e, \
         S, W, N, E = self._plus_other8(S_other, W_N_E)
-        return Bounds4Tuple(map1(float, S - s, W - w, n - N, e - E),  # *map1
+        return self.classof(map1(float, S - s, W - w, n - N, e - E),  # *map1
                             name=typename(Bounds4Tuple.enclosures))
+
+    def isinside(self, lat, lon, eps=0):
+        '''Are B{C{lat}} and B{C{lon}} both inside these bounds?
+
+           @arg lat: Latitude (C{degrees}, scalar or C{str}).
+           @arg lon: Longitude (C{degrees}, scalar or C{str}).
+           @kwarg eps: Over-/undersize the C{RD} bounds (C{degrees}).
+
+           @return: C{None} if B{C{lat}} or B{C{lon}} is NAN, C{False}
+                    if outside these bounds, C{True} otherwise.
+        '''
+        return _isinside(Lat(lat, clip=0), Lon(lon, clip=0),
+                         Degrees(eps=eps) if eps else 0, self)
 
     @Property_RO
     def latC(self):
@@ -89,10 +102,22 @@ class Bounds4Tuple(_NamedTuple):  # .geohash.py, .points.py
         return Lat(latC=(self.latS + self.latN) * _0_5)
 
     @Property_RO
+    def latZ(self):
+        '''Get the latitudinal size (C{degrees}).
+        '''
+        return Lat(latZ=self.latN - self.latS)
+
+    @Property_RO
     def lonC(self):
         '''Get the center longitude (C{degrees}).
         '''
         return Lon(lonC=(self.lonW + self.lonE) * _0_5)
+
+    @Property_RO
+    def lonZ(self):
+        '''Get the longitudinal size (C{degrees}).
+        '''
+        return Lon(lonZ=self.lonE - self.lonW)
 
     def overlap(self, S_other, *W_N_E):
         '''Intersect this with an other L{Bounds4Tuple}.
@@ -108,7 +133,7 @@ class Bounds4Tuple(_NamedTuple):  # .geohash.py, .points.py
         s, w, n, e, \
         S, W, N, E = self._plus_other8(S_other, W_N_E)
         return None if s > N or n < S or w > E or e < W else \
-               Bounds4Tuple(max(s, S), max(w, W), min(n, N), min(e, E),
+               self.classof(max(s, S), max(w, W), min(n, N), min(e, E),
                             name=typename(Bounds4Tuple.overlap))
 
     def _plus_other8(self, S_other, W_N_E):
@@ -118,6 +143,16 @@ class Bounds4Tuple(_NamedTuple):  # .geohash.py, .points.py
         else:
             _xinstanceof(Bounds4Tuple, S_other=S_other)
         return self + S_other
+
+    def resize(self, eps):
+        '''Get these bounds, over- or undersize by C{B{eps}}.
+
+           @arg eps: In- or decrease (C{degrees}).
+
+           @return: A L{Bounds4Tuple}C{(latS, lonW, latN, lonE)}
+                    with all 4 bounds resized.
+        '''
+        return _resize4(self, Degrees(eps=eps))
 
 
 class Circle4Tuple(_NamedTuple):
@@ -614,6 +649,29 @@ class RD4Tuple(_NamedTuple):  # .ltp, pyrdnap
     _Names_ = ('minRDx', 'minRDy', 'maxRDx', 'maxRDy')
     _Units_ = ( Meter,    Meter,    Meter,    Meter)
 
+    def isinside(self, RDx, RDy, eps=0):
+        '''Are B{C{RDx}} and B{C{RDy}} both inside these C{RD} bounds?
+
+           @arg RDx: X coordinate (C{meter}).
+           @arg RDy: Y coordinate (C{meter}).
+           @kwarg eps: Over-/undersize the C{RD} bounds (C{meter}).
+
+           @return: C{False} if B{C{RDx}} or B{C{RDy}} is outsize
+                    these C{RD} bounds or C{NAN}, C{True} otherwise.
+        '''
+        return _isinside(Meter(RDx=RDx), Meter(RDy=RDy),
+                         Meter(eps=eps) if eps else 0, self)
+
+    def resize(self, eps):
+        '''Get these bounds, over- or undersize by C{B{eps}}.
+
+           @arg eps: In- or decrease (C{degrees}).
+
+           @return: A L{RD4Tuple}C{(minRDx, minRDy, maxRDx, maxRDy)}
+                    with all 4 bounds resized.
+        '''
+        return _resize4(self, Meter(eps=eps))
+
 
 class Reverse4Tuple(_NamedTuple, _Convergence):
     '''4-Tuple C{(lat, lon, gamma, scale)} with C{lat}- and
@@ -855,6 +913,33 @@ class Vector4Tuple(_NamedTuple):  # .nvector.py
         '''Get X, Y and Z components as C{3-tuple}.
         '''
         return tuple(self[:3])
+
+
+def _isinside(x, y, eps, bounds4):
+    '''(INTERNAL) Is C{x} and C{y} inside a bounds 4-tuple?
+    '''
+    # _xinstanceof(Bounds4Tuple, RD4Tuple, bounds4=bound4)
+    L, B, R, T = bounds4
+    return ((L - x) <= eps and (x - R) <= eps and
+            (B - y) <= eps and (y - T) <= eps) if eps else \
+            (L <= x <= R   and B <= y <= T)
+
+
+def _resize4(bounds4, eps):
+    '''(INTERNAL) Resize a bounds 4-tuple.
+    '''
+    # _xinstanceof(Bounds4Tuple, RD4Tuple, bounds4=bounds4)
+    L, B, R, T = bounds4
+    if eps:
+        L -= eps
+        B -= eps
+        R += eps
+        T += eps
+        if L > R:
+            L = R = (L + R) * _0_5
+        if B > T:
+            B = T = (B + T) * _0_5
+    return bounds4.classof(L, B, R, T, name=typename(bounds4.resize))
 
 
 def _v2Cls(v, Cls, Cartesian_kwds):  # in .vector3d

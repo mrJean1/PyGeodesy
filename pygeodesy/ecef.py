@@ -1341,7 +1341,7 @@ def _xEcef(Ecef):  # PYCHOK .latlonBase
 
 
 # kwd lon00 unused but will throw a TypeError if misspelled, etc.
-def _xyzn4(xyz, y, z, Types, Error=EcefError, lon00=0,  # PYCHOK unused
+def _xyzn4(xyz, y, z, Types, Error=EcefError, lon00=0,  # PYCHOK unused, in pychlv
                      _xyz_y_z_names=_xyz_y_z, **name):  # in .ltp
     '''(INTERNAL) Get an C{(x, y, z, name)} 4-tuple.
     '''

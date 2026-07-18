@@ -5,8 +5,7 @@ u'''Named, I{Local Tangent Plane} (LTP) tuples.
 
 Local coordinate classes L{XyzLocal}, L{Enu}, L{Ned} and L{Aer} and
 local coordinate tuples L{Local9Tuple}, L{Xyz4Tuple}, L{Enu4Tuple},
-L{Ned4Tuple}, L{Aer4Tuple}, L{ChLV9Tuple}, L{ChLVEN2Tuple},
-L{ChLVYX2Tuple}, L{ChLVyx2Tuple} and L{Footprint5Tuple}.
+L{Ned4Tuple}, L{Aer4Tuple} and L{Footprint5Tuple}.
 
 @see: References in module L{ltp}.
 '''
@@ -20,10 +19,9 @@ from pygeodesy.fmath import fdot_, hypot, hypot_
 # rom pygeodesy.internals import typename  # from .basics
 from pygeodesy.interns import NN, _4_, _azimuth_, _center_, _COMMASPACE_, \
                              _ecef_, _elevation_, _height_, _lat_, _lon_, \
-                             _ltp_, _M_, _name_, _up_, _X_, _x_, _xyz_, \
-                             _Y_, _y_, _z_
+                             _ltp_, _M_, _name_, _up_, _x_, _xyz_, _y_, _z_
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS
-# from pygeodesy.ltp Attitude, ChLV, ChLVa, ChLVe _Xltp  # _MODS.into
+# from pygeodesy.ltp Attitude  # _MODS.into
 from pygeodesy.named import _name__, _name1__, _name2__, _NamedBase, \
                             _NamedTuple, _Pass, _xnamed
 from pygeodesy.namedTuples import LatLon2Tuple, PhiLam2Tuple, Vector3Tuple
@@ -38,14 +36,13 @@ from pygeodesy.vector3d import Vector3d
 # from math import cos, radians  # from .utily
 
 __all__ = _ALL_LAZY.ltpTuples
-__version__ = '25.05.01'
+__version__ = '26.07.17'
 
 _aer_        = 'aer'
 _alt_        = 'alt'
 _down_       = 'down'
 _east_       = 'east'
 _enu_        = 'enu'
-_h__         = 'h_'
 _ned_        = 'ned'
 _north_      = 'north'
 _local_      = 'local'
@@ -1357,150 +1354,6 @@ class Los(Aer):
         return Aer.toEnu(self, Enu=Enu, **name_Enu_kwds)
 
 
-class ChLV9Tuple(Local9Tuple):
-    '''9-Tuple C{(Y, X, h_, lat, lon, height, ltp, ecef, M)} with I{B{unfalsed} Swiss
-       (Y, X, h_)} coordinates and height, all in C{meter}, C{ltp} either a L{ChLV},
-       L{ChLVa} or L{ChLVe} instance and C{ecef} (L{EcefKarney} I{at Bern, Ch}),
-       otherwise like L{Local9Tuple}.
-    '''
-    _Names_ = (_Y_, _X_, _h__) + Local9Tuple._Names_[3:]
-
-    @Property_RO
-    def E_LV95(self):
-        '''Get the B{falsed} I{Swiss E_LV95} easting (C{meter}).
-        '''
-        return self.EN2_LV95.E_LV95
-
-    @Property_RO
-    def EN2_LV95(self):
-        '''Get the I{falsed Swiss (E_LV95, N_LV95)} easting and northing (L{ChLVEN2Tuple}).
-        '''
-        return ChLVEN2Tuple(*_ChLV_false2(*self.YX, LV95=True), name=self.name)
-
-    @Property_RO
-    def h_LV03(self):
-        '''Get the I{Swiss h_} height (C{meter}).
-        '''
-        return self.h_
-
-    @Property_RO
-    def h_LV95(self):
-        '''Get the I{Swiss h_} height (C{meter}).
-        '''
-        return self.h_
-
-    @property_RO
-    def isChLV(self):
-        '''Is this a L{ChLV}-generated L{ChLV9Tuple}?.
-        '''
-        return self.ltp.__class__ is _ltp.ChLV
-
-    @property_RO
-    def isChLVa(self):
-        '''Is this a L{ChLVa}-generated L{ChLV9Tuple}?.
-        '''
-        return self.ltp.__class__ is _ltp.ChLVa
-
-    @property_RO
-    def isChLVe(self):
-        '''Is this a L{ChLVe}-generated L{ChLV9Tuple}?.
-        '''
-        return self.ltp.__class__ is _ltp.ChLVe
-
-    @Property_RO
-    def N_LV95(self):
-        '''Get the B{falsed} I{Swiss N_LV95} northing (C{meter}).
-        '''
-        return self.EN2_LV95.N_LV95
-
-    @Property_RO
-    def x(self):
-        '''Get the I{local x, Swiss Y} easting (C{meter}).
-        '''
-        return self.Y
-
-    @Property_RO
-    def x_LV03(self):
-        '''Get the B{falsed} I{Swiss x_LV03} northing (C{meter}).
-        '''
-        return self.yx2_LV03.x_LV03
-
-    @Property_RO
-    def y(self):
-        '''Get the I{local y, Swiss X} northing (C{meter}).
-        '''
-        return self.X
-
-    @Property_RO
-    def y_LV03(self):
-        '''Get the B{falsed} I{Swisss y_LV03} easting (C{meter}).
-        '''
-        return self.yx2_LV03.y_LV03
-
-    @Property_RO
-    def YX(self):
-        '''Get the B{unfalsed} easting and northing (L{ChLVYX2Tuple}).
-        '''
-        return ChLVYX2Tuple(self.Y, self.X, name=self.name)
-
-    @Property_RO
-    def yx2_LV03(self):
-        '''Get the B{falsed} I{Swiss (y_LV03, x_LV03)} easting and northing (L{ChLVyx2Tuple}).
-        '''
-        return ChLVyx2Tuple(*_ChLV_false2(*self.YX, LV95=False), name=self.name)
-
-    @Property_RO
-    def z(self):
-        '''Get the I{local z, Swiss h_} height (C{meter}).
-        '''
-        return self.h_
-
-
-class ChLVYX2Tuple(_NamedTuple):
-    '''2-Tuple C{(Y, X)} with B{unfalsed} I{Swiss LV95} easting and norting
-       in C{meter}.
-    '''
-    _Names_ = (_Y_,   _X_)
-    _Units_ = ( Meter, Meter)
-
-    def false2(self, LV95=True):
-        '''Return the falsed C{Swiss LV95} or C{LV03} version of the projection.
-
-           @see: Function L{ChLV.false2} for more information.
-        '''
-        return _ChLV_false2(*self, LV95=LV95, name=self.name)
-
-
-class ChLVEN2Tuple(_NamedTuple):
-    '''2-Tuple C{(E_LV95, N_LV95)} with B{falsed} I{Swiss LV95} easting and
-       norting in C{meter (2_600_000, 1_200_000)} and origin at C{Bern, Ch}.
-    '''
-    _Names_ = ('E_LV95', 'N_LV95')
-    _Units_ = ChLVYX2Tuple._Units_
-
-    def unfalse2(self):
-        '''Return this projection as an B{unfalsed} L{ChLVYX2Tuple}.
-
-           @see: Function L{ChLV.unfalse2} for more information.
-        '''
-        return _ChLV_unfalse2(*self, LV95=True, name=self.name)
-
-
-class ChLVyx2Tuple(_NamedTuple):
-    '''2-Tuple C{(y_LV03, x_LV03)} with B{falsed} I{Swiss LV03} easting and
-       norting in C{meter (600_000, 200_000)} and origin at C{Bern, Ch}.
-    '''
-    _Names_ = ('y_LV03', 'x_LV03')
-    _Units_ = ChLVYX2Tuple._Units_
-
-    def unfalse2(self):
-        '''Return this projection as an B{unfalsed} L{ChLVYX2Tuple}.
-
-           @see: Function L{ChLV.unfalse2} for more information.
-        '''
-        return _ChLV_unfalse2(*self, LV95=False, name=self.name)
-
-
 class Footprint5Tuple(_NamedTuple):
     '''5-Tuple C{(center, upperleft, upperight, loweright, lowerleft)}
        with the C{center} and 4 corners of the I{local} projection of
@@ -1552,18 +1405,6 @@ class Footprint5Tuple(_NamedTuple):
             p = _ltp._xLtp(ltp)
             p =  tuple(Xyz4Tuple(t.x, t.y, t.z, p) for t in self)
         return Footprint5Tuple(t.xyzLocal for t in p)
-
-
-def _ChLV_false2(Y, X, **LV95_name):
-    '''(INTERNAL) Invoke static method C{ltp.ChLV.false2}.
-    '''
-    return _ltp.ChLV.false2(Y, X, **LV95_name)
-
-
-def _ChLV_unfalse2(e, n, **LV95_name):
-    '''(INTERNAL) Invoke static method C{ltp.ChLV.unfalse2}.
-    '''
-    return _ltp.ChLV.unfalse2(e, n, **LV95_name)
 
 
 def _er2gr(e, r):

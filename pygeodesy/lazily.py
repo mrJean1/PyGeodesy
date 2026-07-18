@@ -300,10 +300,9 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                      latlonBase=_a('latlon2n_xyz', 'philam2n_xyz'),
                          lazily=_a('LazyAttributeError', 'LazyImportError', 'isLazy'),
                             lcc=_a('Conic', 'Conics', 'Lcc', 'LCCError', 'toLcc'),
-                            ltp=_a('Attitude', 'AttitudeError', 'ChLV', 'ChLVa', 'ChLVe', 'Frustum',
+                            ltp=_a('Attitude', 'AttitudeError', 'Frustum',
                                    'LocalCartesian', 'LocalError', 'Ltp', 'LqRD', 'tyr3d'),
                       ltpTuples=_a('Aer', 'Aer4Tuple', 'Attitude4Tuple',
-                                   'ChLVEN2Tuple', 'ChLV9Tuple', 'ChLVYX2Tuple', 'ChLVyx2Tuple',
                                    'Enu', 'Enu4Tuple', 'Footprint5Tuple', 'Local9Tuple', 'Los',
                                    'Ned', 'Ned4Tuple', 'Uvw', 'Uvw3Tuple', 'XyzLocal', 'Xyz4Tuple'),
                            mgrs=_a('Mgrs', 'parseMGRS', 'toMgrs', 'Mgrs4Tuple', 'Mgrs6Tuple'),
@@ -401,7 +400,8 @@ _ALL_DEPRECATED = _NamedEnum_RO(_name='_ALL_DEPRECATED',
                            deprecated=_a('bases', 'datum', 'nvector',  # DEPRECATED modules and ...
                                          'rhumbaux', 'rhumbBase', 'rhumbsolve', 'rhumbx'),  # ... names
                      deprecated_bases=_a('LatLonHeightBase', 'points2'),
-                   deprecated_classes=_a('ClipCS3Tuple', 'EasNorExact4Tuple', 'EcefCartesian', 'Fn_rt',
+                   deprecated_classes=_a('ChLV', 'ChLVa', 'ChLVe', 'ChLVEN2Tuple', 'ChLV9Tuple', 'ChLVYX2Tuple', 'ChLVyx2Tuple',
+                                         'ClipCS3Tuple', 'EasNorExact4Tuple', 'EcefCartesian', 'Fn_rt',
                                          'FrechetCosineAndoyerLambert', 'FrechetCosineForsytheAndoyerLambert',
                                          'HausdorffCosineAndoyerLambert', 'HausdorffCosineForsytheAndoyerLambert',
                                          'HeightIDW', 'HeightIDW2', 'HeightIDW3', 'HeightIDWcosineAndoyerLambert',
@@ -902,7 +902,7 @@ def _lazy_module(name):  # overwritten by _lazy_import2
 
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '26.07.07'
+__version__ = '26.07.17'
 
 if __name__ == _DMAIN_:
 

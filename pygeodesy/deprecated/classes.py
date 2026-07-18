@@ -5,10 +5,11 @@ u'''DEPRECATED classes kept for backward compatibility.
 '''
 
 from pygeodesy.clipy import ClipCS4Tuple as _ClipCS4Tuple
-from pygeodesy.constants import NAN, _float
-from pygeodesy.interns import NN, _a12_, _area_, _band_, _convergence_, \
-                             _distance_, _gamma_, _i_, _lat_, _lon_, _ltp_
+from pygeodesy.constants import NAN, _float,  typename
 from pygeodesy.deprecated.consterns import _Deprecated_Str
+# from pygeodesy.internals import typename  # from .constants
+from pygeodesy.interns import NN, _a12_, _area_, _band_, _convergence_, _i_, \
+                             _distance_, _gamma_, _lat_, _lon_, _ltp_, _SPACE_
 from pygeodesy.karney import _GTuple, Rhumb8Tuple as _Rhumb8Tuple,  ADict
 from pygeodesy.lazily import _ALL_DEPRECATED, _ALL_DOCS, _ALL_MODS as _MODS
 from pygeodesy.ltpTuples import Ned4Tuple as _Ned4Tuple
@@ -23,7 +24,7 @@ from pygeodesy.trf import TRFXform7Tuple as _TRFXform7Tuple
 from pygeodesy.units import Bearing, Int, Lamd, Lat, Lon, Meter, Phid
 
 __all__ = _ALL_DEPRECATED.deprecated_classes
-__version__ = '25.11.11'
+__version__ = '26.07.17'
 
 
 class _Deprecated_NamedTuple(_NamedTuple):
@@ -38,6 +39,27 @@ def _reNames(names, old, *new):
     # replace item C{old} with C{new} name
     i = names.index(old)
     return names[:i] + new + names[i + 1:]
+
+
+try:  # if installed, use pychlv
+    from pychlv import ChLV, ChLVa, ChLVe, ChLV9Tuple, \
+                       ChLVEN2Tuple, ChLVYX2Tuple, ChLVyx2Tuple
+except ImportError:
+
+    class _ChLV(object):
+        '''DEPRECATED on 2026.07.17, install package U{pychlv<https://PyPI.org/project/pychlv>}.'''
+        def __init__(self, *args, **kwds):  # PYCHOK no cover
+            deprecated_class(self.__class__)
+            t = _SPACE_('class', typename(self), _ChLV.__doc__)
+            raise ImportError(t)
+
+    class ChLV( _ChLV): pass  # PYCHOK E710
+    class ChLVa(_ChLV): pass  # PYCHOK E710
+    class ChLVe(_ChLV): pass  # PYCHOK E710
+    class ChLV9Tuple(  _ChLV): pass  # PYCHOK E710
+    class ChLVEN2Tuple(_ChLV): pass  # PYCHOK E710
+    class ChLVYX2Tuple(_ChLV): pass  # PYCHOK E710
+    class ChLVyx2Tuple(_ChLV): pass  # PYCHOK E710
 
 
 class ClipCS3Tuple(_Deprecated_NamedTuple):  # PYCHOK no cover

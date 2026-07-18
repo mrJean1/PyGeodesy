@@ -3,8 +3,8 @@
 
 u'''I{Local Tangent Plane} (LTP) and I{local} cartesian coordinates.
 
-I{Local cartesian} and I{local tangent plane} classes L{LocalCartesian}, approximations L{ChLVa}
-and L{ChLVe} and L{Ltp}, L{LqRD}, L{ChLV}, L{LocalError}, L{Attitude} and L{Frustum}.
+I{Local cartesian} and I{local tangent plane} classes L{LocalCartesian}, L{Ltp}, L{LqRD},
+L{LocalError}, L{Attitude} and L{Frustum}.
 
 @see: U{Local tangent plane coordinates<https://WikiPedia.org/wiki/Local_tangent_plane_coordinates>}
       and class L{LocalCartesian}, transcoded from I{Charles Karney}'s C++ classU{LocalCartesian
@@ -13,31 +13,28 @@ and L{ChLVe} and L{Ltp}, L{LqRD}, L{ChLV}, L{LocalError}, L{Attitude} and L{Frus
 # make sure int/int division yields float quotient, see .basics
 from __future__ import division as _; del _  # noqa: E702 ;
 
-from pygeodesy.basics import _args_kwds_names, _isin, map1, map2, _xinstanceof, \
-                             _xsubclassof,  typename   # .datums
+from pygeodesy.basics import map1, map2, _xinstanceof, _xsubclassof
 from pygeodesy.constants import EPS, INT0, _umod_360, _0_0, _0_01, _0_5, _1_0, \
                                _2_0, _8_0, _60_0, _90_0, _100_0, _180_0, _3600_0, \
                                _N_1_0  # PYCHOK used!
 from pygeodesy.datums import Datums, _WGS84
 # from pygeodesy.dms import parseDMS  # from .units
 from pygeodesy.ecef import _EcefBase, EcefKarney, Ecef9Tuple, _llhn4, _xyzn4
-from pygeodesy.errors import _NotImplementedError, _ValueError, _xattr, \
-                             _xkwds, _xkwds_get, _xkwds_pop2
-from pygeodesy.fmath import fabs, fdot, Fdot_, fdot_, Fhorner
-from pygeodesy.fsums import _floor, fsumf_
+from pygeodesy.errors import _ValueError, _xattr, _xkwds, _xkwds_get, _xkwds_pop2
+from pygeodesy.fmath import fabs, fdot, fdot_
+from pygeodesy.fsums import fsumf_
 # from pygeodesy.internals import typename  # from .basics
-from pygeodesy.interns import _0_, _COMMASPACE_, _DOT_, _ecef_, _height_, \
-                              _invalid_, _lat0_, _lon0_, _M_, _name_, _too_
+from pygeodesy.interns import _0_, _COMMASPACE_, _ecef_, _height_, _invalid_, \
+                              _lat0_, _lon0_, _M_, _name_, _too_
 # from pygeodesy.lazily import _ALL_LAZY  # from vector3d
-from pygeodesy.ltpTuples import Attitude4Tuple, ChLVEN2Tuple, ChLV9Tuple, \
-                                ChLVYX2Tuple, Footprint5Tuple, Local9Tuple, \
-                                ChLVyx2Tuple, _XyzLocals4, _XyzLocals5, Xyz4Tuple
-from pygeodesy.named import _name__, _name2__, _NamedBase, notOverloaded
+from pygeodesy.ltpTuples import Attitude4Tuple, Footprint5Tuple, Local9Tuple, \
+                               _XyzLocals4, _XyzLocals5, Xyz4Tuple
+from pygeodesy.named import _name__, _name2__, _NamedBase
 from pygeodesy.namedTuples import LatLon3Tuple, LatLon4Tuple, Vector3Tuple, \
                                   Bounds4Tuple, RD4Tuple  # PYCHOK used!
 from pygeodesy.props import deprecated_property_RO, Property, Property_RO, \
                             property_doc_, property_ROver, _update_all
-from pygeodesy.streprs import Fmt, strs, unstr
+from pygeodesy.streprs import Fmt, strs
 from pygeodesy.units import Bearing, Degrees, _isHeight, Meter,  parseDMS
 from pygeodesy.utily import cotd, _loneg, sincos2d, sincos2d_, tand, tand_, \
                             wrap180, wrap360
@@ -46,7 +43,7 @@ from pygeodesy.vector3d import _ALL_LAZY, Vector3d
 # from math import fabs, floor as _floor  # from .fmath, .fsums
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '26.07.07'
+__version__ = '26.07.17'
 
 _GRS80    =  Datums.GRS80
 _height0_ = _height_ + _0_
@@ -787,7 +784,7 @@ class LqRD(Ltp):
             S, W, N, E = r
             b = self.forward(S, W)
             t = self.forward(N, E)
-            r = RD4Tuple(b.x, b.y, t.x, t.y, name=typename(self))
+            r = RD4Tuple(b.x, b.y, t.x, t.y, name=r.name)
         return r
 
 #   @property_ROver
@@ -825,364 +822,6 @@ class LqRD(Ltp):
     @y0.setter  # PYCHOK setter!
     def y0(self, meter):
         self._y0 = Meter(y0=meter)
-
-
-class _ChLV(object):
-    '''(INTERNAL) Base class for C{ChLV*} classes.
-    '''
-    _03_falsing = ChLVyx2Tuple(0.6e6, 0.2e6)
-#   _92_falsing = ChLVYX2Tuple(2.0e6, 1.0e6)  # _95_ - _03_
-    _95_falsing = ChLVEN2Tuple(2.6e6, 1.2e6)
-
-    def _ChLV9Tuple(self, fw, M, name, *Y_X_h_lat_lon_h):
-        '''(INTERNAL) Helper for C{ChLVa/e.forward} and C{.reverse}.
-        '''
-        if bool(M):  # PYCHOK no cover
-            m =  self.forward if fw else self.reverse  # PYCHOK attr
-            n = _DOT_(*map1(typename, type(self), m))
-            raise _NotImplementedError(unstr(n, M=M), txt=None)
-        t = Y_X_h_lat_lon_h + (self, self._9t0, None)  # PYCHOK _9t0
-        return ChLV9Tuple(t, name=name)
-
-    @property_ROver
-    def _enh_n_h(self):
-        '''(INTERNAL) Get C{ChLV*.reverse} args[1:4] names, I{once}.
-        '''
-        t = _args_kwds_names(_ChLV.reverse)[1:4]
-        # assert _args_kwds_names( ChLV.reverse)[1:4] == t
-        # assert _args_kwds_names(ChLVa.reverse)[1:4] == t
-        # assert _args_kwds_names(ChLVe.reverse)[1:4] == t
-        return t  # overwrite property_ROver
-
-    def forward(self, latlonh, lon=None, height=0, M=None, **name):  # PYCHOK no cover
-        '''Convert WGS84 geodetic to I{Swiss} projection coordinates.  I{Must be overloaded}.
-
-           @arg latlonh: Either a C{LatLon}, L{Ltp} or C{scalar} (geodetic) latitude (C{degrees}).
-           @kwarg lon: Optional, C{scalar} (geodetic) longitude (C{degrees}) iff B{C{latlonh}} is
-                       C{scalar}, ignored otherwise.
-           @kwarg height: Optional, height, vertically above (or below) the surface of the ellipsoid
-                          (C{meter}) iff B{C{latlonh}} and B{C{lon}} are C{scalar}, ignored otherwise.
-           @kwarg M: If C{True}, return the I{concatenated} rotation L{EcefMatrix} iff available
-                     and for C{ChLV} only, C{None} otherwise (C{bool}).
-           @kwarg name: Optional C{B{name}=NN} (C{str}).
-
-           @return: A L{ChLV9Tuple}C{(Y, X, h_, lat, lon, height, ltp, ecef, M)} with the unfalsed
-                    I{Swiss Y, X} coordinates, I{Swiss h_} height, the given I{geodetic} C{lat},
-                    C{lon} and C{height}, C{ecef} (L{Ecef9Tuple}) at I{Bern, Ch}, rotation matrix
-                    C{M} and C{ltp} this C{ChLV}, C{ChLVa} or C{ChLVe} instance.
-
-           @raise LocalError: Invalid or non-C{scalar} B{C{latlonh}}, B{C{lon}} or B{C{height}}.
-        '''
-        notOverloaded(self, latlonh, lon=lon, height=height, M=M, **name)
-
-    def reverse(self, enh_, n=None, h_=0, M=None, **name):  # PYCHOK no cover
-        '''Convert I{Swiss} projection to WGS84 geodetic coordinates.
-
-           @arg enh_: A Swiss projection (L{ChLV9Tuple}) or the C{scalar}, falsed I{Swiss E_LV95}
-                     or I{y_LV03} easting (C{meter}).
-           @kwarg n: Falsed I{Swiss N_LV85} or I{x_LV03} northing (C{meter}) iff B{C{enh_}} is
-                     C{scalar}, ignored otherwise.
-           @kwarg h_: I{Swiss h'} height (C{meter}) iff B{C{enh_}} and B{C{n}} are C{scalar},
-                      ignored otherwise.
-           @kwarg M: If C{True}, return the I{concatenated} rotation L{EcefMatrix} iff available
-                     and for C{ChLV} only, C{None} otherwise (C{bool}).
-           @kwarg name: Optional C{B{name}=NN} (C{str}).
-
-           @return: A L{ChLV9Tuple}C{(Y, X, h_, lat, lon, height, ltp, ecef, M)} with the unfalsed
-                    I{Swiss Y, X} coordinates, I{Swiss h_} height, the given I{geodetic} C{lat},
-                    C{lon} and C{height}, C{ecef} (L{Ecef9Tuple}) at I{Bern, Ch}, rotation matrix
-                    C{M} and C{ltp} this C{ChLV}, C{ChLVa} or C{ChLVe} instance.
-
-           @raise LocalError: Invalid or non-C{scalar} B{C{enh_}}, B{C{n}} or B{C{h_}}.
-        '''
-        notOverloaded(self, enh_, n=n, h_=h_, M=M, **name)
-
-    @staticmethod
-    def _falsing2(LV95):
-        '''(INTERNAL) Get the C{LV95} or C{LV03} falsing.
-        '''
-        return _ChLV._95_falsing if _isin(LV95, True, 95) else (
-               _ChLV._03_falsing if _isin(LV95, False, 3) else ChLVYX2Tuple(0, 0))
-
-    @staticmethod
-    def _llh2abh_3(lat, lon, h):
-        '''(INTERNAL) Helper for C{ChLVa/e.forward}.
-        '''
-        def _deg2ab(deg, sLL):
-            # convert degrees to arc-seconds
-            def _dms(ds, p, q, swap):
-                d = _floor(ds)
-                t = (ds - d) * p
-                m = _floor(t)
-                s = (t  - m) * p
-                if swap:
-                    d, s = s, d
-                return d + (m + s * q) * q
-
-            s = _dms(deg,  _60_0, _0_01, False)  # deg2sexag
-            s = _dms(  s, _100_0, _60_0, True)   # sexag2asec
-            return (s - sLL) / ChLV._s_ab
-
-        a  = _deg2ab(lat, ChLV._sLat)  # phi', lat_aux
-        b  = _deg2ab(lon, ChLV._sLon)  # lam', lng_aux
-        h_ =  fsumf_(h,  -ChLV.Bern.height, 2.73 * b, 6.94 * a)
-        return a, b, h_
-
-    @staticmethod
-    def _YXh_2abh3(Y, X, h_):
-        '''(INTERNAL) Helper for C{ChLVa/e.reverse}.
-        '''
-        def _YX2ab(YX):
-            return YX * ChLV._ab_m
-
-        a, b = map1(_YX2ab, Y, X)
-        h    = fsumf_(h_, ChLV.Bern.height, -12.6 * a, -22.64 * b)
-        return a, b, h
-
-    def _YXh_n4(self, enh_, n, h_, **name):
-        '''(INTERNAL) Helper for C{ChLV*.reverse}.
-        '''
-        Y, X, h_, name = _xyzn4(enh_, n, h_, (ChLV9Tuple,),
-                         _xyz_y_z_names=self._enh_n_h, **name)
-        if isinstance(enh_, ChLV9Tuple):
-            Y, X = enh_.Y, enh_.X
-        else:  # isscalar(enh_)
-            Y, X = ChLV.unfalse2(Y, X)  # PYCHOK ChLVYX2Tuple
-        return Y, X, h_, name
-
-
-class ChLV(_ChLV, Ltp):
-    '''Conversion between I{WGS84 geodetic} and I{Swiss} projection coordinates using
-       L{pygeodesy.EcefKarney}'s Earth-Centered, Earth-Fixed (ECEF) methods.
-
-       @see: U{Swiss projection formulas<https://www.SwissTopo.admin.CH/en/maps-data-online/
-             calculation-services.html>}, page 7ff, U{NAVREF<https://www.SwissTopo.admin.CH/en/
-             maps-data-online/calculation-services/navref.html>}, U{REFRAME<https://www.SwissTopo.admin.CH/
-             en/maps-data-online/calculation-services/reframe.html>} and U{SwissTopo Scripts GPS WGS84
-             <-> LV03<https://GitHub.com/ValentinMinder/Swisstopo-WGS84-LV03>}.
-    '''
-    _9Tuple = ChLV9Tuple
-
-    _ab_d =  0.36    # a, b units per degree, ...
-    _ab_m =  1.0e-6  # ... per meter and ...
-    _ab_M = _1_0     # ... per 1,000 Km or 1 Mm
-    _s_d  = _3600_0  # arc-seconds per degree ...
-    _s_ab = _s_d / _ab_d  # ... and per a, b unit
-    _sLat =  169028.66  # Bern, Ch in ...
-    _sLon =   26782.5   # ... arc-seconds ...
-    # lat, lon, height == 46°57'08.66", 7°26'22.50", 49.55m ("new" 46°57'07.89", 7°26'22.335")
-    Bern  = LatLon4Tuple(_sLat / _s_d, _sLon / _s_d, 49.55, _WGS84, name='Bern')
-
-    def __init__(self, latlonh0=Bern, **other_Ltp_kwds):
-        '''New ECEF-based I{WGS84-Swiss} L{ChLV} converter, centered at I{Bern, Ch}.
-
-           @kwarg latlonh0: The I{geodetic} origin and height, overriding C{Bern, Ch}.
-           @kwarg other_Ltp_kwds: Optional, other L{Ltp.__init__} keyword arguments.
-
-           @see: L{Ltp.__init__} for more information.
-        '''
-        Ltp.__init__(self, latlonh0, **_xkwds(other_Ltp_kwds, ecef=None, name=ChLV.Bern.name))
-
-    def forward(self, latlonh, lon=None, height=0, M=None, **name):  # PYCHOK unused M
-        # overloaded for the _ChLV.forward.__doc__
-        return Ltp.forward(self, latlonh, lon=lon, height=height, M=M, **name)
-
-    def reverse(self, enh_, n=None, h_=0, M=None, **name):  # PYCHOK signature
-        # overloaded for the _ChLV.reverse.__doc__
-        Y, X, h_, n = self._YXh_n4(enh_, n, h_, **name)
-        return Ltp.reverse(self, Y, X, h_, M=M, name=n)
-
-    @staticmethod
-    def false2(Y, X, LV95=True, **name):
-        '''Add the I{Swiss LV95} or I{LV03} falsing.
-
-           @arg Y: Unfalsed I{Swiss Y} easting (C{meter}).
-           @arg X: Unfalsed I{Swiss X} northing (C{meter}).
-           @kwarg LV95: If C{True}, add C{LV95} falsing, if C{False} add
-                        C{LV03} falsing, otherwise leave unfalsed.
-           @kwarg name: Optional C{B{name}=NN} (C{str}).
-
-           @return: A L{ChLVEN2Tuple}C{(E_LV95, N_LV95)} or a
-                    L{ChLVyx2Tuple}C{(y_LV03, x_LV03)} with falsed B{C{Y}}
-                    and B{C{X}}, otherwise a L{ChLVYX2Tuple}C{(Y, X)}
-                    with B{C{Y}} and B{C{X}} as-is.
-        '''
-        e, n = t = _ChLV._falsing2(LV95)
-        return t.classof(e + Y, n + X, **name)
-
-    @staticmethod
-    def isLV03(e, n):
-        '''Is C{(B{e}, B{n})} a valid I{Swiss LV03} projection?
-
-           @arg e: Falsed (or unfalsed) I{Swiss} easting (C{meter}).
-           @arg n: Falsed (or unfalsed) I{Swiss} northing (C{meter}).
-
-           @return: C{True} if C{(B{e}, B{n})} is a valid, falsed I{Swiss
-                    LV03}, projection C{False} otherwise.
-        '''
-        # @see: U{Map<https://www.SwissTopo.admin.CH/en/knowledge-facts/
-        #       surveying-geodesy/reference-frames/local/lv95.html>}
-        return 400.0e3 < e < 900.0e3 and 40.0e3 < n < 400.0e3
-
-    @staticmethod
-    def isLV95(e, n, raiser=True):
-        '''Is C{(B{e}, B{n})} a valid I{Swiss LV95} or I{LV03} projection?
-
-           @arg e: Falsed (or unfalsed) I{Swiss} easting (C{meter}).
-           @arg n: Falsed (or unfalsed) I{Swiss} northing (C{meter}).
-           @kwarg raiser: If C{True}, throw a L{LocalError} if B{C{e}} and
-                          B{C{n}} are invalid I{Swiss LV95} nor I{LV03}.
-
-           @return: C{True} or C{False} if C{(B{e}, B{n})} is a valid I{Swiss
-                    LV95} respectively I{LV03} projection, C{None} otherwise.
-        '''
-        if ChLV.isLV03(e, n):
-            return False
-        elif ChLV.isLV03(e - 2.0e6, n - 1.0e6):  # _92_falsing = _95_ - _03_
-            return True
-        elif raiser:  # PYCHOK no cover
-            raise LocalError(unstr(ChLV.isLV95, e=e, n=n))
-        return None
-
-    @staticmethod
-    def unfalse2(e, n, LV95=None, **name):
-        '''Remove the I{Swiss LV95} or I{LV03} falsing.
-
-           @arg e: Falsed I{Swiss E_LV95} or I{y_LV03} easting (C{meter}).
-           @arg n: Falsed I{Swiss N_LV95} or I{x_LV03} northing (C{meter}).
-           @kwarg LV95: If C{True}, remove I{LV95} falsing, if C{False} remove
-                        I{LV03} falsing, otherwise use method C{isLV95(B{e}, B{n})}.
-           @kwarg name: Optional C{B{name}=NN} (C{str}).
-
-           @return: A L{ChLVYX2Tuple}C{(Y, X)} with the unfalsed B{C{e}}
-                    respectively B{C{n}}.
-        '''
-        Y, X = _ChLV._falsing2(ChLV.isLV95(e, n) if LV95 is None else LV95)
-        return ChLVYX2Tuple(e - Y, n - X, **name)
-
-
-class ChLVa(_ChLV, LocalCartesian):
-    '''Conversion between I{WGS84 geodetic} and I{Swiss} projection coordinates
-       using the U{Approximate<https://www.SwissTopo.admin.CH/en/maps-data-online/
-       calculation-services.html>} formulas, page 13.
-
-       @see: Older U{references<https://GitHub.com/alphasldiallo/Swisstopo-WGS84-LV03>}.
-    '''
-    def __init__(self, name=ChLV.Bern.name):
-        '''New I{Approximate WGS84-Swiss} L{ChLVa} converter, centered at I{Bern, Ch}.
-
-           @kwarg name: Optional C{B{name}=Bern.name} (C{str}).
-        '''
-        LocalCartesian.__init__(self, latlonh0=ChLV.Bern, name=name)
-
-    def forward(self, latlonh, lon=None, height=0, M=None, **name):
-        # overloaded for the _ChLV.forward.__doc__
-        lat, lon, h, n = _llhn4(latlonh, lon, height, **name)
-        a,  b, h_      = _ChLV._llh2abh_3(lat, lon, h)
-        a2, b2         =  a**2, b**2
-
-        Y = fdot_(211455.93, b,
-                  -10938.51, b * a,
-                      -0.36, b * a2,
-                     -44.54, b * b2, start=72.37)  # + 600_000
-        X = fdot_(308807.95, a,
-                    3745.25, b2,
-                      76.63, a2,
-                    -194.56, b2 * a,
-                     119.79, a2 * a, start=147.07)  # + 200_000
-        return self._ChLV9Tuple(True, M, n, Y, X, h_, lat, lon, h)
-
-    def reverse(self, enh_, n=None, h_=0, M=None, **name):  # PYCHOK signature
-        # overloaded for the _ChLV.reverse.__doc__
-        Y, X, h_, n  =  self._YXh_n4(enh_, n, h_, **name)
-        a, b, h      = _ChLV._YXh_2abh3(Y, X, h_)
-        ab_d, a2, b2 =  ChLV._ab_d, a**2, b**2
-
-        lat = Fdot_(3.238272, b,
-                   -0.270978, a2,
-                   -0.002528, b2,
-                     -0.0447, a2 * b,
-                      -0.014, b2 * b, start=16.9023892).fover(ab_d)
-        lon = Fdot_(4.728982, a,
-                    0.791484, a * b,
-                      0.1306, a * b2,
-                     -0.0436, a * a2, start=2.6779094).fover(ab_d)
-        return self._ChLV9Tuple(False, M, n, Y, X, h_, lat, lon, h)
-
-
-class ChLVe(_ChLV, LocalCartesian):
-    '''Conversion between I{WGS84 geodetic} and I{Swiss} projection coordinates
-       using the U{Ellipsoidal approximate<https://www.SwissTopo.admin.CH/en/
-       maps-data-online/calculation-services.html>} formulas, pp 10-11 and U{Bolliger,
-       J.<https://eMuseum.GGGS.CH/literatur-lv/liste-Dateien/1967_Bolliger_a.pdf>}
-       pp 148-151 (also U{GGGS<https://eMuseum.GGGS.CH/literatur-lv/liste.htm>}).
-
-       @note: Methods L{ChLVe.forward} and L{ChLVe.reverse} have an additional keyword
-              argument C{B{gamma}=False} to approximate the I{meridian convergence}.
-              If C{B{gamma}=True} a 2-tuple C{(t, gamma)} is returned with C{t} the
-              usual result (C{ChLV9Tuple}) and C{gamma}, the I{meridian convergence}
-              (decimal C{degrees}).  To convert C{gamma} to C{grades} or C{gons}, use
-              function L{pygeodesy.degrees2grades}.
-
-       @see: Older U{references<https://GitHub.com/alphasldiallo/Swisstopo-WGS84-LV03>}.
-    '''
-    def __init__(self, name=ChLV.Bern.name):
-        '''New I{Approximate WGS84-Swiss} L{ChLVe} converter, centered at I{Bern, Ch}.
-
-           @kwarg name: Optional C{B{name}=Bern.name} (C{str}).
-        '''
-        LocalCartesian.__init__(self, latlonh0=ChLV.Bern, name=name)
-
-    def forward(self, latlonh, lon=None, height=0, M=None, gamma=False, **name):  # PYCHOK gamma
-        # overloaded for the _ChLV.forward.__doc__
-        lat, lon, h, n = _llhn4(latlonh, lon, height, **name)
-        a, b, h_       = _ChLV._llh2abh_3(lat, lon, h)
-        ab_M, z, _H    =  ChLV._ab_M, 0, Fhorner
-
-        B1 = _H(a, 211428.533991, -10939.608605, -2.658213, -8.539078, -0.00345, -0.007992)
-        B3 = _H(a,    -44.232717,      4.291740, -0.309883,  0.013924)
-        B5 = _H(a,      0.019784,     -0.004277)
-        Y  = _H(b, z, B1, z, B3, z, B5).fover(ab_M)  # 1,000 Km!
-
-        B0 = _H(a,    z,      308770.746371, 75.028131, 120.435227, 0.009488, 0.070332, -0.00001)
-        B2 = _H(a, 3745.408911, -193.792705,  4.340858,  -0.376174, 0.004053)
-        B4 = _H(a,   -0.734684,    0.144466, -0.011842)
-        X  = _H(b, B0, z, B2, z, B4, z, 0.000488).fover(ab_M)  # 1,000 Km!
-
-        t = self._ChLV9Tuple(True, M, n, Y, X, h_, lat, lon, h)
-        if gamma:
-            U1 = _H(a, 2255515.207166, 2642.456961,  1.284180, 2.577486, 0.001165)
-            U3 = _H(a,    -412.991934,   64.106344, -2.679566, 0.123833)
-            U5 = _H(a,       0.204129,   -0.037725)
-            g  = _H(b, z, U1, z, U3, z, U5).fover(ChLV._ab_m)  # * ChLV._ab_d degrees?
-            t  =  t, g
-        return t
-
-    def reverse(self, enh_, n=None, h_=0, M=None, gamma=False, **name):  # PYCHOK gamma
-        # overloaded for the _ChLV.reverse.__doc__
-        Y, X, h_, n =  self._YXh_n4(enh_, n, h_, **name)
-        a, b, h     = _ChLV._YXh_2abh3(Y, X, h_)
-        s_d, _H, z  =  ChLV._s_d, Fhorner, 0
-
-        A0  = _H(b,  ChLV._sLat, 32386.4877666, -25.486822, -132.457771, 0.48747, 0.81305, -0.0069)
-        A2  = _H(b, -2713.537919, -450.442705,  -75.53194,   -14.63049, -2.7604)
-        A4  = _H(b,    24.42786,    13.20703,     4.7476)
-        lat = _H(a, A0, z, A2, z, A4, z, -0.4249).fover(s_d)
-
-        A1  = _H(b, 47297.3056722, 7925.714783, 1328.129667, 255.02202, 48.17474, 9.0243)
-        A3  = _H(b,  -442.709889,  -255.02202,   -96.34947,  -30.0808)
-        A5  = _H(b,     9.63495,      9.0243)
-        lon = _H(a,  ChLV._sLon, A1, z, A3, z, A5).fover(s_d)
-        #  == (ChLV._sLon + a * (A1 + a**2 * (A3 + a**2 * A5))) / s_d
-
-        t = self._ChLV9Tuple(False, M, n, Y, X, h_, lat, lon, h)
-        if gamma:
-            U1 = _H(b, 106679.792202, 17876.57022, 4306.5241, 794.87772, 148.1545, 27.8725)
-            U3 = _H(b,  -1435.508,     -794.8777,  -296.309,  -92.908)
-            U5 = _H(b,     29.631,       27.873)
-            g  = _H(a, z, U1, z, U3, z, U5).fover(ChLV._s_ab)  # degrees
-            t  =  t, g
-        return t
 
 
 def _fov_2(**fov):
