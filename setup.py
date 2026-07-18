@@ -27,7 +27,7 @@ from os import getenv
 from setuptools import setup
 
 __all__ = ()
-__version__ = '26.05.16'
+__version__ = '26.07.17'
 
 _PACKAGE = 'pygeodesy'  # 'PyGeodesy'
 
@@ -82,8 +82,7 @@ _KeyWords = ('AER', 'AGM', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode
              'Karney', 'Krueger', 'Krüger', 'kurtosis',
              'Lambert', 'latitude', 'law-of-cosines', 'least-squares', 'Lesh',
              'L_Huilier', 'LHuilier', 'Liang', 'Liang-Barsky', 'Linderholm-Segal', 'linearize', 'Line-Of-Sight',
-             'LocalCartesian', 'local-tangent-plane', 'local-x-y-z', 'longitude', 'LOS', 'loxodrome',
-             'lstsq', 'LTP', 'lune', 'LV03', 'LV95',
+             'LocalCartesian', 'local-tangent-plane', 'local-x-y-z', 'longitude', 'LOS', 'loxodrome', 'lstsq', 'LTP', 'lune',
              'mean', 'memoize', 'memoized', 'Mercator', 'Meeus', 'MGRS',
              'nearest', 'NED', 'Niemeyer', 'non-finite', 'normalize',
              'Norrdine', 'north-east-down', 'numpy', 'n-vector', 'Nvector',
@@ -94,7 +93,7 @@ _KeyWords = ('AER', 'AGM', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode
              'precision-running-summation', 'precision-square-root', 'precision-summation',
              'prolate', 'Pseudo-Mercator', _PACKAGE, 'PyInstaller', 'PyPy', 'quartic',
              'radical', 'radii', 'radius', 'Ramanujan', 'Ramer', 'Ramer-Douglas-Peucker', 'Rectifying',
-             'Reduced', 'resect', 'resection', 'Rey-Jer', 'Reumann', 'Reumann-Witkam', 'RD', 'RijksDriehoeksmeting',
+             'Reduced', 'resect', 'resection', 'Rey-Jer', 'Reumann', 'Reumann-Witkam',
              'rho-theta-phi', 'rhumb', 'RhumbSolve', 'running-linear-regression', 'running-statistics', 'running-stats', 'running-summation',
              'scipy', 'secant', 'semi-latus-rectum', 'semi-perimeter', 'sexagecimal', 'similarity', 'simplify', 'skewness',
              'Snellius', 'Snellius-Pothenot', 'Snyder', 'Soddy', 'Soddy-circles', 'Soldner',
