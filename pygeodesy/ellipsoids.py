@@ -853,7 +853,7 @@ class Ellipsoid(_NamedEnumItem):
     def _elliptic_e22(self):  # aka ._elliptic_ep2
         '''(INTERNAL) Elliptic helper for C{auxRectifying}, C{L}, C{Llat}.
         '''
-        return _MODS.elliptic.Elliptic(-self.e22abs)  # complex
+        return _MODS.elliptic.Elliptic(-self.e22)  # signed, like ._elliptic_e12
 
     equatoradius = a  # Requatorial
 

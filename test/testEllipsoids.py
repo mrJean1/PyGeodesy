@@ -138,6 +138,33 @@ class Tests(TestsBase):
             t = '%s [%s]' % (p.name, p.units)
             self.test(t, p, e, fmt='%.3f', known=fabs(p - e) < _TOL)
 
+        # a prolate ellipsoid is WGS84 with the axes swapped, the same meridian
+        # ellipse, so its quarter meridian L equals WGS84's;  the values below
+        # match an independent arc-length oracle.  The unsigned -e22abs modulus
+        # (now -e22) made prolate L, Llat and auxRectifying up to 34% wrong.
+        self.subtitle(ellipsoids, 'Prolate meridian')
+        self.test('L', P.L, E.L, fmt='%.4f')  # same meridian ellipse as WGS84
+        P5 = Ellipsoid(E.a, E.a * 1.5)  # strongly prolate, f=-0.5
+        for Ep, L, plr, Ls, mus in (
+              (P,  '10001965.7293', '40007862.9173',
+                   ('3347892.9098', '5017021.3513', '6681852.3314', '8342976.1399'),
+                   ('30.125114', '60.124852')),
+              (P5, '12648993.4082', '50595973.6329',
+                   ('6525764.1906', '8659673.5804', '10242853.9250', '11514288.8422'),
+                   ('46.432057', '72.879859'))):
+            self.test('L',           Ep.L,           L,   fmt='%.4f')
+            self.test('polarimeter', Ep.polarimeter, plr, fmt='%.4f')
+            for d, s in zip((30, 45, 60, 75), Ls):
+                self.test('Llat(%d)' % d, Ep.Llat(d), s, fmt='%.4f')
+            self.test('Llat(-45)', Ep.Llat(-45), '-' + Ls[1], fmt='%.4f')  # signed
+            for d, s in zip((30, 60), mus):
+                self.test('auxRectifying(%d)' % d, Ep.auxRectifying(d), s, fmt='%.6f')
+                self.test('auxRectifying(%s) inverse' % s,
+                          Ep.auxRectifying(float(s), inverse=True), d, fmt='%.6f')
+        # oblate control, unchanged by the signed modulus
+        self.test('WGS84.Llat(45)',          E.Llat(45),          '4984944.3780', fmt='%.4f')
+        self.test('WGS84.auxRectifying(45)', E.auxRectifying(45), '44.855682',    fmt='%.6f')
+
         def _auX(aux, d, x, **kwds):
             a = aux(d, **kwds)
             t = fstr(a, prec=9)
