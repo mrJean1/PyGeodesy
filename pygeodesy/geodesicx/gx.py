@@ -579,6 +579,14 @@ class GeodesicExact(_GeodesicBase):
         p = _PDict(sbet1=sbet1, cbet1=cbet1, dn1=self._dn(sbet1, cbet1),
                    sbet2=sbet2, cbet2=cbet2, dn2=self._dn(sbet2, cbet2))
 
+        # C++ GeodesicExact::GenInverse uses a fresh, local EllipticFunction
+        # E(-ep2) per call; here _eF is a shared, cached instance attr, so
+        # restore it to that meridian default (alpha0 == 0 => k2 == ep2).  The
+        # meridian branch below and the prolate _InverseStart6 branch read _eF
+        # without resetting it (unlike the Newton and oblate paths), so without
+        # this a prior non-meridian Inverse leaks its k2 into these results.
+        self._eF.reset(k2=-self.ep2)
+
         _meridian = _b = True  # i.e. meridian = b = False
         if lat1 == -90 or slam12 == 0:
             # Endpoints are on a single full meridian,

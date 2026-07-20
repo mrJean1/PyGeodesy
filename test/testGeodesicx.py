@@ -188,6 +188,45 @@ class Tests(TestsBase):
         t = str(gX.Inverse1(40.6, -73.8, 51.6, -0.5))  # coverage
         self.test(gX.Inverse1.__name__, t, t)
 
+    def testInverseMeridian(self, geodesicx, E, debug=False):
+        self.subtitle(geodesicx, 'InverseX meridian state')
+        # A GeodesicExact reuses one Elliptic function _eF across Inverse
+        # calls.  A prior non-meridian Inverse must not leak its modulus into
+        # a later meridian (lon12 = 0) or anti-meridian (lon12 = 180) one:
+        # each must match a fresh instance (and geographiclib) exactly.
+        gX = E.geodesicx  # the shared, cached instance
+        gX.debug = debug
+        M  = gX.STANDARD | gX.REDUCEDLENGTH | gX.GEODESICSCALE
+        nl = 1
+        for lon2 in (0, 180):
+            for lat1, lat2 in ((0, 89), (-30, 60), (89, -89),
+                               (10, -80), (-89, 7), (45, -44)):
+                rf = gX.classof(E.a, E.f).Inverse(lat1, 0, lat2, lon2, outmask=M)
+                gX.Inverse(40.6, -73.8, 51.6, -0.5, outmask=M)  # poison _eF
+                rx = gX.Inverse(lat1, 0, lat2, lon2, outmask=M)
+                t = '(%s, %s, lon2=%s)' % (lat1, lat2, lon2)
+                self.test('s12 ' + t, rx.s12, rf.s12, fmt=_G, nl=nl)
+                self.test('m12 ' + t, rx.m12, rf.m12, fmt=_G)
+                self.test('M12 ' + t, rx.M12, rf.M12, fmt=_G)
+                self.test('M21 ' + t, rx.M21, rf.M21, fmt=_G)
+                nl = 0
+                if geographiclib and lat1 == 0 and lat2 == 89:  # oracle, to mm
+                    rP = E.geodesic.Inverse(lat1, 0, lat2, lon2, outmask=E.geodesic.ALL)
+                    self.test('s12 geographiclib ' + t, round(rx.s12, 3), round(rP.s12, 3))
+                    self.test('m12 geographiclib ' + t, round(rx.m12, 3), round(rP.m12, 3))
+
+        # the prolate (f < 0) _InverseStart6 astroid branch also reads _eF
+        # without resetting; a stale modulus there only degrades the Newton
+        # starting guess, so a reused instance must converge as a fresh one.
+        for lat1, lat2, lon2 in ((30, -29.5, 179.5), (10, -9.8, 179.6),
+                                 (45, -44.6, 179.3)):
+            rf = gX.classof(E.a, -E.f).Inverse(lat1, 0, lat2, lon2, outmask=M)
+            gp = gX.classof(E.a, -E.f)
+            gp.Inverse(35, 0, -33, 140, outmask=M)  # poison _eF
+            rx = gp.Inverse(lat1, 0, lat2, lon2, outmask=M)
+            self.test('prolate iteration (%s, %s)' % (lat1, lat2),
+                      rx.iteration, rf.iteration, nl=1 if lat1 == 30 else 0)
+
     def testPlumbTo(self, geodesicx, E, debug=False):
         self.subtitle(geodesicx, 'PlumbTo ...')
         gX = E.geodesicx  # == geodesicx.GeodesicExact(E)
@@ -272,6 +311,8 @@ if __name__ == '__main__':
     t.testDirect(geodesicx, E, debug=_debug)
 
     t.testInverse(geodesicx, E, debug=_debug)
+
+    t.testInverseMeridian(geodesicx, E, debug=_debug)
 
     t.testPolygon(geodesicx, E.geodesicx, nC4=24)
     t.testPolygon(geodesicx, E.geodesicx, nC4=27)
