@@ -4,7 +4,7 @@
 # Test L{ellipsoids} module.
 
 __all__ = ('Tests',)
-__version__ = '25.08.28'
+__version__ = '26.07.20'
 
 from bases import TestsBase
 
@@ -142,6 +142,7 @@ class Tests(TestsBase):
         # ellipse, so its quarter meridian L equals WGS84's;  the values below
         # match an independent arc-length oracle.  The unsigned -e22abs modulus
         # (now -e22) made prolate L, Llat and auxRectifying up to 34% wrong.
+        # courtesy gaoflow <https://GitHub.com/mrJean1/PyGeodesy/pull/86>
         self.subtitle(ellipsoids, 'Prolate meridian')
         self.test('L', P.L, E.L, fmt='%.4f')  # same meridian ellipse as WGS84
         P5 = Ellipsoid(E.a, E.a * 1.5)  # strongly prolate, f=-0.5

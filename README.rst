@@ -105,7 +105,7 @@ numpy_ 2.5.0, scipy_ 1.18.0, GeoConvert_ 2.7, GeodSolve_ 2.7 and Geod3Solve_ 2.7
 geographiclib_ 2.0, numpy_ 2.1.0, scipy_ 1.14.1, GeodSolve_ 2.7, Geod3Solve_ 2.7, IntersectTool_ 2.7
 and RhumbSolve_ 2.7), Python 3.11.9 (with geographiclib_ 2.0, numpy_ 1.24.2 and scipy_ 1.10.1) and with
 Python 2.7.18 (with geographiclib_ 1.50, numpy_ 1.16.6, scipy_ 1.2.2, GeoConvert_ 2.7, GeodSolve_ 2.7,
-Geod3Solve_ 2.7, IntersectTool_ 2.7 and RhumbSolve_ 2.7), all on macOS 26.5.1 Tahoe in 64-bit.
+Geod3Solve_ 2.7, IntersectTool_ 2.7 and RhumbSolve_ 2.7), all on macOS 26.5.2 Tahoe in 64-bit.
 
 All tests ran with and without ``lazy import`` for Python 3 and with command line option ``-W default``
 and env variable ``PYGEODESY_WARNINGS=on`` for all Python versions.  The results of those tests are
@@ -140,11 +140,11 @@ Notes
 =====
 
 All Python source code has been statically checked_ with Ruff_ using Python 3.13.13 and with PyChecker_, PyFlakes_,
-PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 2.7.18, both in 64-bit on macOS 26.5.1 Tahoe only.
+PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 2.7.18, both in 64-bit on macOS 26.5.2 Tahoe only.
 
 For a summary of all *Karney*-based functionality in ``pygeodesy``, see module karney_.
 
-*Last updated: July 17, 2026.*
+*Last updated: July 21, 2026.*
 
 License
 =======

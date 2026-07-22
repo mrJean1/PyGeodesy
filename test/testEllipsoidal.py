@@ -4,7 +4,7 @@
 # Test ellipsoidals earth model functions and methods.
 
 __all__ = ('Tests',)
-__version__ = '24.11.02'
+__version__ = '25.07.20'
 
 from bases import coverage, GeodSolve, geographiclib, isPython35, isPython39, RandomLatLon
 from testLatLon import Tests as _TestsLL
@@ -250,14 +250,14 @@ class Tests(_TestsLL, _TestsV):
 
         # <https://GeographicLib.SourceForge.io/scripts/geod-calc.html>
         LL = module.LatLon
-        p = LL(-63.1,  -58), LL(-72.9,  -74), LL(-71.9, -102), \
-            LL(-74.9, -102), LL(-74.3, -131), LL(-77.5, -163), \
-            LL(-77.4,  163), LL(-71.7,  172), LL(-65.9,  140), \
-            LL(-65.7,  113), LL(-66.6,   88), LL(-66.9,   59), \
-            LL(-69.8,   25), LL(-70.0,   -4), LL(-71.0,  -14), \
-            LL(-77.3,  -33), LL(-77.9,  -46), LL(-74.7,  -61)  # on/around south pole!
+        p = (LL(-63.1,  -58), LL(-72.9,  -74), LL(-71.9, -102),
+             LL(-74.9, -102), LL(-74.3, -131), LL(-77.5, -163),
+             LL(-77.4,  163), LL(-71.7,  172), LL(-65.9,  140),
+             LL(-65.7,  113), LL(-66.6,   88), LL(-66.9,   59),
+             LL(-69.8,   25), LL(-70.0,   -4), LL(-71.0,  -14),
+             LL(-77.3,  -33), LL(-77.9,  -46), LL(-74.7,  -61))  # on/around south pole!
         self.test('areaOf', module.areaOf(p), '1.366270368e+13', fmt='%.9e')  # 1.366270368002013e+13'
-        self.test('perimeterOf', module.perimeterOf(p, closed=True), '1.683089136e+07' if X else '1.683106789e+07', fmt='%.9e')  # 1.683106789279071e+07
+        self.test('perimeterOf', module.perimeterOf(p, closed=True), '1.683106789e+07', fmt='%.9e')  # 1.683106789279071e+07
         self.test('isclockwise', module.isclockwise(p), False)  # polar
         self.test('isclockwise', module.isclockwise(reversed(p)), True)  # polar
 
@@ -461,7 +461,7 @@ class Tests(_TestsLL, _TestsV):
         self.test('distanceTo2', m, '54902.390', fmt='%.3f')
         self.test('distanceTo2', bearingDMS(b, F_DMS), '307°04′38.41″')
 
-    def testKarneyVincentyError(self, module, LatLon, d, K=False, X=False, **unused):  # MCCABE 21, GS=False
+    def testKarneyVincentyError(self, module, LatLon, d, K=False, **unused):  # MCCABE 21, GS=False, X=False
 
         self.subtitle(module, 'KarneyVincentyError', datum=d.name)
 
@@ -513,7 +513,7 @@ class Tests(_TestsLL, _TestsV):
 
         q = LatLon(-90, 0, datum=d)
         m = p.distanceTo(q)
-        self.test(_i('distanceTo/meridional', p), m, '9999551.606' if X else '10001965.729', fmt='%.3f')
+        self.test(_i('distanceTo/meridional', p), m, '10001965.729', prec=3)
         b = p.initialBearingTo(q)
         self.test(_i('initialBearingTo/meridional', p), b, 180.0, fmt='%.1f')
 

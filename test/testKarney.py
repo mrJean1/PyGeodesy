@@ -4,7 +4,7 @@
 # Test L{karney} module and wrappers.
 
 __all__ = ('Tests',)
-__version__ = '25.12.20'
+__version__ = '26.07.20'
 
 from bases import endswith, GeodSolve, geographiclib, startswith, TestsBase
 
@@ -115,7 +115,7 @@ class Tests(TestsBase):
             self.testDelta('InverseLine[%s].lat' % (i,), s.lat2, a.lat2, e=0.8, prec=3)
             self.testDelta('InverseLine[%s].lon' % (i,), s.lon2, a.lon2, e=0.8, prec=3)
 
-    def testGeodCalc(self, module, X=False):
+    def testGeodCalc(self, module):
         self.subtitle(module, 'GeodCalc')
         # <https://GeographicLib.SourceForge.io/scripts/geod-calc.html#area>
         p = [LatLon_(*t) for t in ((-63.1,  -58),
@@ -137,8 +137,7 @@ class Tests(TestsBase):
                                    (-77.9,  -46),
                                    (-74.7,  -61))]
         self.test('area',      module.areaOf(p), 13662703680020.125, fmt='%.0f')
-        self.test('perimeter', module.perimeterOf(p, closed=True), 16830891.356049 if X else
-                                                                   16831067.89279071, fmt='%.6f')
+        self.test('perimeter', module.perimeterOf(p, closed=True), 16831067.892791, prec=6)
 
     def testMask(self, G, module):
         self.subtitle(module, 'Mask')
@@ -239,7 +238,7 @@ if __name__ == '__main__':
     t.testDirect(g, geodesicx)
     t.testInverse(g, geodesicx)
     t.testInverseLine(g, geodesicx)
-    t.testGeodCalc(ellipsoidalExact, X=True)
+    t.testGeodCalc(ellipsoidalExact)  # X=True
     t.testMask(geodesicx.GeodesicExact, geodesicx)
 
     if GeodSolve:

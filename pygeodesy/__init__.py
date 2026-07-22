@@ -151,7 +151,7 @@ U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.7,
 U{Geod3Solve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.7,
 U{IntersectTool<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.7 and
 U{RhumbSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.7), all in 64-bit on
-macOS 26.5.1 Tahoe.
+macOS 26.5.2 Tahoe.
 
 All tests ran with and without C{lazy import} for Python 3 and with command line option C{-W default} and
 env variable C{PYGEODESY_WARNINGS=on} for all Python versions.  The results of those tests are included in
@@ -196,7 +196,7 @@ All Python source code has been statically U{checked<https://GitHub.com/ActiveSt
 546532_PyChecker_postprocessor>} with U{Ruff<https://GitHub.com/astral-sh/ruff>} using Python 3.13.13 and with
 U{PyChecker<https://PyPI.org/project/pychecker>}, U{PyFlakes<https://PyPI.org/project/pyflakes>}, U{PyCodeStyle
 <https://PyPI.org/project/pycodestyle>} (formerly Pep8) and U{McCabe<https://PyPI.org/project/mccabe>} using Python
-2.7.18, both in 64-bit on macOS 26.5.1 Tahoe.
+2.7.18, both in 64-bit on macOS 26.5.2 Tahoe.
 
 For a summary of all I{Karney}-based functionality in C{pygeodesy}, see module U{karney
 <https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html>}.
@@ -627,7 +627,7 @@ else:
 
 from pygeodesy.internals import _version2,  _DOT_  # noqa: E402
 # from pygeodesy.interns import _DOT_  # from .internals
-__version__ = '26.07.17'
+__version__ = '26.07.21'
 # see setup.py for similar logic
 version     = _DOT_(*_version2(__version__, n=3))
 

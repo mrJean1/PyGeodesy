@@ -210,6 +210,7 @@ _E_                   = 'E'                  # PYCHOK OK
 _earth_               = 'earth'              # PYCHOK OK
 _easting_             = 'easting'            # PYCHOK OK
 _ecef_                = 'ecef'               # PYCHOK OK
+_ED50_                = 'ED50'               # PYCHOK Intl1924
 _edge_                = 'edge'               # PYCHOK OK
 _elevation_           = 'elevation'          # PYCHOK OK
 _ELLIPSIS_       = Str_('...')               # PYCHOK OK
@@ -445,7 +446,7 @@ _Txyzsxyz7 = 'tx', 'ty', 'tz', _s_, 'sx', 'sy', 'sz'  # PYCHOK in .datums, .trf
 
 __all__ = (_NN_,  # NOT MISSING!
             Str_.__name__)  # classes
-__version__ = '26.04.23'
+__version__ = '26.07.21'
 
 if __name__ == _DMAIN_:
 

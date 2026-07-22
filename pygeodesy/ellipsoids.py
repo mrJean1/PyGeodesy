@@ -853,6 +853,7 @@ class Ellipsoid(_NamedEnumItem):
     def _elliptic_e22(self):  # aka ._elliptic_ep2
         '''(INTERNAL) Elliptic helper for C{auxRectifying}, C{L}, C{Llat}.
         '''
+        # courtesy gaoflow <https://GitHub.com/mrJean1/PyGeodesy/pull/86>
         return _MODS.elliptic.Elliptic(-self.e22)  # signed, like ._elliptic_e12
 
     equatoradius = a  # Requatorial

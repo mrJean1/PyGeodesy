@@ -33,8 +33,8 @@ from pygeodesy.datums import Datums, _ellipsoidal_datum
 from pygeodesy.errors import _IsnotError, _ValueError
 from pygeodesy.fmath import hypot, _ALL_LAZY
 # from pygeodesy.internals import typename  # from .basics
-from pygeodesy.interns import NN, _COMMASPACE_, _DMAIN_, _ellipsoidal_, _GRS80_, \
-                             _k0_, _lat0_, _lon0_, _m_, _NAD83_, _NTF_, _SPACE_, \
+from pygeodesy.interns import NN, _COMMASPACE_, _DMAIN_, _ED50_, _ellipsoidal_, \
+                             _GRS80_, _k0_, _lat0_, _lon0_, _m_, _NTF_, _SPACE_, \
                              _WGS84_,  _C_  # PYCHOK used!
 # from pygeodesy.lazily import _ALL_LAZY  # from .fmath
 from pygeodesy.named import _lazyNamedEnumItem as _lazy, _name2__, _NamedBase, \
@@ -50,7 +50,7 @@ from pygeodesy.utily import atan1, degrees90, degrees180, sincos2, tanPI_2_2
 from math import atan, fabs, log, radians, sin, sqrt
 
 __all__ = _ALL_LAZY.lcc
-__version__ = '25.08.31'
+__version__ = '26.07.21'
 
 _E0_   = 'E0'
 _N0_   = 'N0'
@@ -151,6 +151,30 @@ class Conic(_NamedEnumItem):
         '''
         return self._E0
 
+    def forward(self, latlon, lon=None, **height_name):
+        '''Convert I{geodetic} C{(lat, lon, height)} to (conformal) conic
+           C{easting} and C{northing)}.
+
+           @arg latlonh: Either a C{LatLon}, L{Lcc} or C{scalar} (geodetic)
+                         latitude (C{degrees}).
+           @kwarg lon: The C{scalar} (geodetic) longitude (C{degrees}), required
+                       if B{C{latlonh}} is C{scalar}, ignored otherwise.
+           @kwarg height_name: Optionally, a C{B{height}=None} overriding the
+                         default height (C{meter}) and C{B{name}=NN} (C{str}).
+
+           @return: An L{Lcc}C{(easting, northing, ...)} with this C{conic},.
+
+           @raise LCCError: If B{C{latlonh}} not C{LatLon} L{Lcc}, C{scalar}
+                            or invalid or if B{C{lon}} not C{scalar} for
+                            C{scalar} B{C{latlonh}} or invalid or if B{C{height}}
+                            invalid.
+        '''
+        try:
+            ll = _LLEB(latlon.lat, latlon.lon, datum=latlon.datum)
+        except AttributeError:
+            ll = _LLEB(latlon, lon, datum=self.datum)
+        return toLcc(ll, conic=self, **height_name)
+
     @Property_RO
     def k0(self):
         '''Get scale factor (C{float}).
@@ -222,6 +246,29 @@ class Conic(_NamedEnumItem):
         '''Get the central origin (L{PhiLam2Tuple}C{(phi, lam)}).
         '''
         return PhiLam2Tuple(self.phi0, self.lam0, name=self.name)
+
+    def reverse(self, enh, n=None, **height_name):
+        '''Convert I{conic} C{(easting, northing, height)} to geodetic C{lat-}
+           and C{longitude}.
+
+           @arg enh: Either an L{Lcc}, L{EasNor3Tuple} or C{scalar} easting
+                     (C{meter}).
+           @kwarg n: The C{scalar} northing (C{meter}), required if B{C{enh}}
+                     is C{scalar}, ignored otherwise.
+           @kwarg height_name: Optionally, a C{B{height}=None} overriding the
+                         default height (C{meter}) and C{B{name}=NN} (C{str}).
+
+           @return: A L{LatLon4Tuple}C{(lat, lon, height, datum)} with this
+                    conic's C{datum}.
+
+           @raise LCCError: If B{C{enh}} not L{Lcc}, L{EasNor3Tuple}, C{scalar}
+                            or invalid or if B{C{n}} not C{scalar} for C{scalar}
+                            B{C{n}} or invalid or if B{C{height}} invalid.
+        '''
+        lcc = enh if isinstance(enh, Lcc) else (
+          Lcc(enh.easting, enh.northing, conic=self) if n is None else
+          Lcc(enh, n, conic=self))
+        return lcc.toLatLon(**height_name)
 
     @Property_RO
     def SP(self):
@@ -360,17 +407,18 @@ class Conics(_NamedEnum):
     def _Lazy(self, lat, lon, datum_name, *args, **kwds):
         '''(INTERNAL) Instantiate the L{Conic}.
         '''
-        return Conic(_LLEB(lat, lon, datum=Datums.get(datum_name)), *args, **kwds)
+        ll0 = _LLEB(lat, lon, datum=Datums.get(datum_name))
+        return Conic(ll0, *args, **kwds)
 
 Conics = Conics(Conic)  # PYCHOK singleton
 '''Some pre-defined L{Conic}s, all I{lazily} instantiated.'''
-Conics._assert(  # <https://SpatialReference.org/ref/sr-org/...>
+Conics._assert(  # <https://SpatialReference.org/ref/epsg/...>
 #   AsLb   = _lazy('AsLb',   _F(-14.2666667), _F(170), _NAD27_, _0_0, _0_0,
 #                             E0=_F(500000), N0=_0_0, auth='EPSG:2155'),  # American Samoa ... SP=1 !
-    Be08Lb = _lazy('Be08Lb', _F(50.7978150), _F(4.359215833), _GRS80_, _F(49.8333339), _F(51.1666672),
-                              E0=_F(649328.0), N0=_F(665262.0), auth='EPSG:9802'),  # Belgium
-    Be72Lb = _lazy('Be72Lb', _90_0, _F(4.3674867), _NAD83_, _F(49.8333339), _F(51.1666672),
-                              E0=_F(150000.013), N0=_F(5400088.438), auth='EPSG:31370'),  # Belgium
+    Be08Lb = _lazy('Be08Lb', _F(50.797815), _F(4.35921583333333), _GRS80_, _F(49.8333333333333), _F(51.1666666666667),
+                              E0=_F(649328.0), N0=_F(665262.0), auth='EPSG:3812'),  # ETRS89 / Belgian Lambert 2008
+    Be72Lb = _lazy('Be72Lb', _90_0, _F(4.36748666666667), _ED50_, _F(51.1666672333333), _F(49.8333339),
+                              E0=_F(150000.013), N0=_F(5400088.438), auth='EPSG:31370'),  # BD72 / Belgian Lambert 1972
     Fr93Lb = _lazy('Fr93Lb', _F(46.5), _F(3), _WGS84_, _F(49), _F(44),
                               E0=_F(700000), N0=_F(6600000), auth='EPSG:2154'),  # RFG93, France
     MaNLb  = _lazy('MaNLb',  _F(33.3), _F(-5.4), _NTF_, _F(31.73), _F(34.87),
@@ -401,7 +449,7 @@ class Lcc(_NamedBase):
     _northing = _0_0   # Northing (C{float})
 
     def __init__(self, e, n, h=0, conic=Conics.WRF_Lb, **name):
-        '''New L{Lcc} Lamber conformal conic position.
+        '''New L{Lcc} Lambert conformal conic position.
 
            @arg e: Easting (C{meter}).
            @arg n: Northing (C{meter}).

@@ -65,7 +65,7 @@ from pygeodesy.utily import atan2, atan2d as _atan2d_reverse, _unrollon, \
 from math import copysign, cos, degrees, fabs, radians, sqrt
 
 __all__ = ()
-__version__ = '25.09.16'
+__version__ = '26.07.20'
 
 _MAXIT1 = 20
 _MAXIT2 = 10 + _MAXIT1 + MANT_DIG  # MANT_DIG == C++ digits
@@ -567,7 +567,7 @@ class GeodesicExact(_GeodesicBase):
         # abs(sbet2) + sbet1 is a better measure.  This logic is used
         # in assigning calp2 in _Lambda6.  Sometimes these quantities
         # vanish and in that case we force bet2 = +/- bet1 exactly.  An
-        # example where is is necessary is the inverse problem
+        # example where this is necessary is the inverse problem
         # 48.522876735459 0 -48.52287673545898293 179.599720456223079643
         # which failed with Visual Studio 10 (Release and Debug)
         if cbet1 < -sbet1:
@@ -585,6 +585,7 @@ class GeodesicExact(_GeodesicBase):
         # meridian branch below and the prolate _InverseStart6 branch read _eF
         # without resetting it (unlike the Newton and oblate paths), so without
         # this a prior non-meridian Inverse leaks its k2 into these results.
+        # courtesy gaoflow <https://GitHub.com/mrJean1/PyGeodesy/pull/85>
         self._eF.reset(k2=-self.ep2)
 
         _meridian = _b = True  # i.e. meridian = b = False

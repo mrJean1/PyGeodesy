@@ -1279,7 +1279,6 @@ pygeodesy.datums.radians	pygeodesy.utily-module.html#radians
 pygeodesy.datums.neg	pygeodesy.basics-module.html#neg
 pygeodesy.datums._negastr	pygeodesy.datums-module.html#_negastr
 pygeodesy.datums._isin	pygeodesy.basics-module.html#_isin
-pygeodesy.datums._ED50_	pygeodesy.datums-module.html#_ED50_
 pygeodesy.datums._a_ellipsoid_	pygeodesy.datums-module.html#_a_ellipsoid_
 pygeodesy.datums._Identity_	pygeodesy.datums-module.html#_Identity_
 pygeodesy.datums._BD72_	pygeodesy.datums-module.html#_BD72_
@@ -3112,6 +3111,7 @@ pygeodesy.interns._odd_	pygeodesy.interns-module.html#_odd_
 pygeodesy.interns._m_	pygeodesy.interns-module.html#_m_
 pygeodesy.interns._NAD83_	pygeodesy.interns-module.html#_NAD83_
 pygeodesy.interns._start_	pygeodesy.interns-module.html#_start_
+pygeodesy.interns._ED50_	pygeodesy.interns-module.html#_ED50_
 pygeodesy.interns._Error_	pygeodesy.interns-module.html#_Error_
 pygeodesy.interns._low_	pygeodesy.interns-module.html#_low_
 pygeodesy.interns._lon_	pygeodesy.interns-module.html#_lon_
@@ -25397,6 +25397,7 @@ pygeodesy.named._NamedEnumItem._enum	pygeodesy.named._NamedEnumItem-class.html#_
 pygeodesy.named._Named.named3	pygeodesy.named._Named-class.html#named3
 pygeodesy.named._Named.named2	pygeodesy.named._Named-class.html#named2
 pygeodesy.lcc.Conic._opt3	pygeodesy.lcc.Conic-class.html#_opt3
+pygeodesy.lcc.Conic.reverse	pygeodesy.lcc.Conic-class.html#reverse
 pygeodesy.named._Named.named4	pygeodesy.named._Named-class.html#named4
 pygeodesy.lcc.Conic._name	pygeodesy.lcc.Conic-class.html#_name
 pygeodesy.named._NamedBase.__repr__	pygeodesy.named._NamedBase-class.html#__repr__
@@ -25409,10 +25410,10 @@ pygeodesy.named._Named.classof	pygeodesy.named._Named-class.html#classof
 pygeodesy.lcc.Conic.par2	pygeodesy.lcc.Conic-class.html#par2
 pygeodesy.lcc.Conic.par1	pygeodesy.lcc.Conic-class.html#par1
 pygeodesy.lcc.Conic._phi0	pygeodesy.lcc.Conic-class.html#_phi0
-pygeodesy.named._Named.dup	pygeodesy.named._Named-class.html#dup
+pygeodesy.lcc.Conic.forward	pygeodesy.lcc.Conic-class.html#forward
 pygeodesy.lcc.Conic.latlon0	pygeodesy.lcc.Conic-class.html#latlon0
 pygeodesy.named._Named._notImplemented	pygeodesy.named._Named-class.html#_notImplemented
-pygeodesy.named._NamedEnumItem._register	pygeodesy.named._NamedEnumItem-class.html#_register
+pygeodesy.named._Named.dup	pygeodesy.named._Named-class.html#dup
 pygeodesy.lcc.Conic.name2	pygeodesy.lcc.Conic-class.html#name2
 pygeodesy.lcc.Conic.N0	pygeodesy.lcc.Conic-class.html#N0
 pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
@@ -25436,6 +25437,7 @@ pygeodesy.lcc.Conic._auth	pygeodesy.lcc.Conic-class.html#_auth
 pygeodesy.lcc.Conic._dup2	pygeodesy.lcc.Conic-class.html#_dup2
 pygeodesy.named._Named.toStr2	pygeodesy.named._Named-class.html#toStr2
 pygeodesy.lcc.Conic.convertDatum	pygeodesy.lcc.Conic-class.html#convertDatum
+pygeodesy.named._NamedEnumItem._register	pygeodesy.named._NamedEnumItem-class.html#_register
 pygeodesy.lcc.Conic._aF	pygeodesy.lcc.Conic-class.html#_aF
 pygeodesy.lcc.Conic.lam0	pygeodesy.lcc.Conic-class.html#lam0
 pygeodesy.lcc.Conic._SP	pygeodesy.lcc.Conic-class.html#_SP

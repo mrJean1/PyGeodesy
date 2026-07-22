@@ -5,7 +5,7 @@
 # and Python C{geographiclib} tests.
 
 __all__ = ('Tests',)
-__version__ = '25.09.03'
+__version__ = '26.07.20'
 
 from bases import _fLate, GeodSolve, geographiclib, isPython2, TestsBase
 
@@ -189,6 +189,7 @@ class Tests(TestsBase):
         self.test(gX.Inverse1.__name__, t, t)
 
     def testInverseMeridian(self, geodesicx, E, debug=False):
+        # courtesy gaoflow <https://GitHub.com/mrJean1/PyGeodesy/pull/85>
         self.subtitle(geodesicx, 'InverseX meridian state')
         # A GeodesicExact reuses one Elliptic function _eF across Inverse
         # calls.  A prior non-meridian Inverse must not leak its modulus into

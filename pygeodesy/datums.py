@@ -81,7 +81,7 @@ from pygeodesy.fmath import _fdotf, fmean,  Fmt, _operator
 from pygeodesy.internals import _passarg, _under
 from pygeodesy.interns import NN, _a_, _Airy1830_, _AiryModified_, _BAR_, _Bessel1841_, \
                              _Clarke1866_, _Clarke1880IGN_, _COMMASPACE_, _DMAIN_,_DOT_, \
-                             _earth_, _ellipsoid_, _ellipsoidal_, _GRS80_, _Intl1924_, \
+                             _earth_, _ED50_, _ellipsoid_, _ellipsoidal_, _GRS80_, _Intl1924_, \
                              _Krassovski1940_, _Krassowsky1940_, _MINUS_, _NAD27_, _NAD83_, \
                              _PLUS_, _s_, _Sphere_, _spherical_, _transform_, _Txyzsxyz7, \
                              _UNDER_, _WGS72_, _WGS84_
@@ -98,14 +98,13 @@ from pygeodesy.units import _isRadius, Radius_,  radians
 # import operator as _operator  # from .fmath
 
 __all__ = _ALL_LAZY.datums
-__version__ = '26.05.04'
+__version__ = '26.07.21'
 
 _a_ellipsoid_ = _UNDER_(_a_, _ellipsoid_)
 _BD72_        = 'BD72'
 _DHDN_        = 'DHDN'
 _DHDNE_       = 'DHDNE'
 _DHDNW_       = 'DHDNW'
-_ED50_        = 'ED50'
 _GDA2020_     = 'GDA2020'  # in .trf
 _Identity_    = 'Identity'
 _Irl1965_     = 'Irl1965'

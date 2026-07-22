@@ -135,6 +135,48 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.lcc.Conic-class.html#forward" class="summary-sig-name">forward</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">latlon</span>,
+        <span class="summary-sig-arg">lon</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**height_name</span>)</span><br />
+      Convert <i>geodetic</i> <code>(lat, lon, height)</code> to 
+      (conformal) conic <code>easting</code> and <code>northing)</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.lcc.Conic-class.html#reverse" class="summary-sig-name">reverse</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">enh</span>,
+        <span class="summary-sig-arg">n</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">**height_name</span>)</span><br />
+      Convert <i>conic</i> <code>(easting, northing, height)</code> to 
+      geodetic <code>lat-</code> and <code>longitude</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.lcc.Conic-class.html#toDatum" class="summary-sig-name">toDatum</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">datum</span>)</span><br />
       Convert this conic to the given datum.</td>
@@ -455,6 +497,105 @@
     <dt>Decorators:</dt>
     <dd><ul class="nomargin-top">
         <li><code>@deprecated_method</code></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="forward"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">forward</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">latlon</span>,
+        <span class="sig-arg">lon</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**height_name</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert <i>geodetic</i> <code>(lat, lon, height)</code> to (conformal)
+  conic <code>easting</code> and <code>northing)</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>latlonh</code></strong> - Either a <code>LatLon</code>, <a 
+          href="pygeodesy.lcc.Lcc-class.html" class="link">Lcc</a> or 
+          <code>scalar</code> (geodetic) latitude (<code>degrees</code>).</li>
+        <li><strong class="pname"><code>lon</code></strong> - The <code>scalar</code> (geodetic) longitude 
+          (<code>degrees</code>), required if <b><code>latlonh</code></b> 
+          is <code>scalar</code>, ignored otherwise.</li>
+        <li><strong class="pname"><code>height_name</code></strong> - Optionally, a <code><b>height</b>=None</code> overriding the 
+          default height (<code>meter</code>) and 
+          <code><b>name</b>=NN</code> (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>An <a href="pygeodesy.lcc.Lcc-class.html" 
+          class="link">Lcc</a><code>(easting, northing, ...)</code> with 
+          this <code>conic</code>,.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.lcc.LCCError-class.html">LCCError</a></strong></code> - If <b><code>latlonh</code></b> not <code>LatLon</code> <a 
+        href="pygeodesy.lcc.Lcc-class.html" class="link">Lcc</a>, 
+        <code>scalar</code> or invalid or if <b><code>lon</code></b> not 
+        <code>scalar</code> for <code>scalar</code> 
+        <b><code>latlonh</code></b> or invalid or if 
+        <b><code>height</code></b> invalid.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="reverse"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">reverse</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">enh</span>,
+        <span class="sig-arg">n</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">**height_name</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Convert <i>conic</i> <code>(easting, northing, height)</code> to 
+  geodetic <code>lat-</code> and <code>longitude</code>.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>enh</code></strong> - Either an <a href="pygeodesy.lcc.Lcc-class.html" 
+          class="link">Lcc</a>, <a 
+          href="pygeodesy.namedTuples.EasNor3Tuple-class.html" 
+          class="link">EasNor3Tuple</a> or <code>scalar</code> easting 
+          (<code>meter</code>).</li>
+        <li><strong class="pname"><code>n</code></strong> - The <code>scalar</code> northing (<code>meter</code>), required 
+          if <b><code>enh</code></b> is <code>scalar</code>, ignored 
+          otherwise.</li>
+        <li><strong class="pname"><code>height_name</code></strong> - Optionally, a <code><b>height</b>=None</code> overriding the 
+          default height (<code>meter</code>) and 
+          <code><b>name</b>=NN</code> (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd>A <a href="pygeodesy.namedTuples.LatLon4Tuple-class.html" 
+          class="link">LatLon4Tuple</a><code>(lat, lon, height, 
+          datum)</code> with this conic's <code>datum</code>.</dd>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'><a href="pygeodesy.lcc.LCCError-class.html">LCCError</a></strong></code> - If <b><code>enh</code></b> not <a 
+        href="pygeodesy.lcc.Lcc-class.html" class="link">Lcc</a>, <a 
+        href="pygeodesy.namedTuples.EasNor3Tuple-class.html" 
+        class="link">EasNor3Tuple</a>, <code>scalar</code> or invalid or if
+        <b><code>n</code></b> not <code>scalar</code> for 
+        <code>scalar</code> <b><code>n</code></b> or invalid or if 
+        <b><code>height</code></b> invalid.</li>
     </ul></dd>
   </dl>
 </td></tr></table>
@@ -967,7 +1108,7 @@ class="link">PhiLam2Tuple</a><code>(phi, lam)</code>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Jul 18 13:43:18 2026
+    Generated by Epydoc 3.0.1 on Tue Jul 21 14:54:32 2026
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
