@@ -4,7 +4,7 @@
 # Test L{namedTuples} module.
 
 __all__ = ('Tests',)
-__version__ = '25.12.06'
+__version__ = '26.08.12'
 
 from bases import TestsBase
 from pygeodesy import FIx, issubclassof
@@ -14,7 +14,7 @@ from pygeodesy.fsums import DivMod2Tuple, _Float_Int
 from pygeodesy.hausdorff import Hausdorff6Tuple
 from pygeodesy.interns import _DOT_
 from pygeodesy.karney import _GTuple
-from pygeodesy.namedTuples import _NamedTupleTo
+from pygeodesy.namedTuples import _H_lat_lon_height4Tuple, _NamedTupleTo
 from pygeodesy.ltpTuples import _Abc4Tuple
 from pygeodesy.named import _NamedTuple, _Pass
 # from pygeodesy.rhumb.bases import _Lat as rLat, _Lon as rLon
@@ -28,6 +28,14 @@ _Xcepts = (Ang, Deg, FIx, _Float_Int, _HeightINT0, _Ks, _Pass)  # rLat, rLon
 
 
 class Tests(TestsBase):
+
+    def testAttrs(self, t):
+        T, a = type(t), repr(t)
+        self.test('namedTuple', a, a, nl=1)
+        for n, a in sorted(T.__dict__.items()):
+            if isinstance(a, property):  # Property_RO
+                a = repr(getattr(t, n))
+                self.test(n, a, a)
 
     def testNamedTuple(self, T, *args):
         m =  T.__module__
@@ -85,5 +93,6 @@ if __name__ == '__main__':
 
     t = Tests(__file__, __version__)
     t.testNamedTuples()
+    t.testAttrs(_H_lat_lon_height4Tuple(1, 2, 3, 5))
     t.results()
     t.exit()

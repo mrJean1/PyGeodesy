@@ -131,7 +131,7 @@ C{epydoc --html --no-private --no-source --name=pygeodesy --url=... -v pygeodesy
 Tests
 =====
 
-The tests ran with Python 3.14.6 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.1),
+The tests ran with Python 3.14.7 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.1),
 Python 3.13.13 (with U{geographiclib<https://PyPI.org/project/geographiclib>} 2.1),
 U{numpy<https://PyPI.org/project/numpy>} 2.5.0, U{scipy<https://PyPI.org/project/scipy>} 1.18.0,
 U{GeoConvert<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.7 and
@@ -158,10 +158,10 @@ env variable C{PYGEODESY_WARNINGS=on} for all Python versions.  The results of t
 the distribution file.
 
 Test coverage has been measured with U{coverage<https://PyPI.org/project/coverage>} 7.14.0 using Python
-3.14.6, 3.13.13 and 3.12.10.  The complete coverage report in HTML and a PDF summary are included in the
+3.14.7, 3.13.13 and 3.12.10.  The complete coverage report in HTML and a PDF summary are included in the
 distribution file.
 
-Python 3.14.6, 3.13.13, 3.12.10 and 3.11.9 run on Apple Si M4 (C{arm64}), I{natively}.  Python 2.7.18 runs
+Python 3.14.7, 3.13.13, 3.12.10 and 3.11.9 run on Apple Si M4 (C{arm64}), I{natively}.  Python 2.7.18 runs
 on Intel (C{x86_64}) or Intel I{emulation} ("C{arm64_x86_64}", see function L{machine<pygeodesy.machine>}).
 
 The tests also ran with Python 3.13.13 (and U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0)
@@ -172,22 +172,21 @@ on U{Windows 2019Server<https://CI.AppVeyor.com/project/mrJean1/pygeodesy>} in 6
 A single-File and single-Directory application with C{pygeodesy} has been bundled using U{PyInstaller
 <https://PyPI.org/project/pyinstaller>} 3.4 and 64-bit Python 3.7.3 on macOS 10.13.6 High Sierra.
 
-Previously, the tests were run with Python 3.13.0-9, 3.12.0-7, 3.11.2-5, 3.10.1-7, 3.9.6, 3.9.1, 3.8.7, 3.7.1, 2.7.15,
-U{PyPy<https://PyPy.org>} 7.3.12 (Python 3.10.12), 7.3.1 (Python 3.6.9) and U{PyPy<https://PyPy.org>} 7.1.1 (Python
-2.7.13) (and U{geographiclib <https://PyPI.org/project/geographiclib>} 1.52, U{numpy<https://PyPI.org/project/numpy>}
-1.16.3, 1.16.4, 1.16.6, 1.19.0, 1.19.4, 1.19.5 or 1.22.4 and U{scipy<https://PyPI.org/project/scipy>} 1.2.1, 1.4.1,
-1.5.2 or 1.8.1) on U{Ubuntu 16.04<https://Travis-CI.com/mrJean1/PyGeodesy>}, with Python 3.10.0-1, 3.9.0-5, 3.8.0-6,
-3.7.2-6, 3.7.0, 3.6.2-5, 3.5.3, 2.7.13-17, 2.7.10 and 2.6.9 (and U{numpy<https://PyPI.org/project/numpy>} 1.19.0,
-1.16.5, 1.16.2, 1.15.2, 1.14.0, 1.13.1, 1.8.0rc1 or 1.6.2 and U{scipy<https://PyPI.org/project/scipy>} 1.5.0), U{PyPy
-<https://PyPy.org>} 7.3.0 (Python 2.7.13 and 3.6.9), U{PyPy<https://PyPy.org>} 6.0.0 (Python 2.7.13 and 3.5.3)
-and U{Intel-Python<https://software.Intel.com/en-us/distribution-for-python>} 3.5.3 (and U{numpy
-<https://PyPI.org/project/numpy>} 1.11.3) on macOS 15.0-6 Sequoia, 14.0-6.1 Sonoma, 13.0-5.2 Ventura, 12.1-6 Monterey,
-11.0-5.2-6.1 Big Sur (aka 10.16), 10.15.3, 10.15.5-7 Catalina, 10.14 Mojave, 10.13.6 High Sierra and 10.12 Sierra,
-MacOS X 10.11 El Capitan and/or MacOS X 10.10 Yosemite, with U{Pythonista<https://OMZ-Software.com/pythonista>}3.2
-(with geographiclib 1.50 or 1.49 and numpy 1.8.0) on iOS 14.4.2, 11.4.1, 12.0-3 on iPad4, iPhone6, iPhone10 and/or
-iPhone12, with U{Pythonista<https://OMZ-Software.com/pythonista>} 3.1 on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3 on iPad4,
-all in 64-bit only and with 32-bit Python 2.7.14 on Windows Server 2012R2, Windows 10 Pro and with 32-bit Python 2.6.6
-on Windows XP SP3.
+Previously, the tests were run with Python 3.14.0-6, 3.13.0-9, 3.12.0-7, 3.11.2-5, 3.10.1-7, 3.9.6, 3.9.1, 3.8.7, 3.7.1,
+2.7.15, U{PyPy<https://PyPy.org>} 7.3.12 (Python 3.10.12), 7.3.1 (Python 3.6.9) and U{PyPy<https://PyPy.org>} 7.1.1
+(Python 2.7.13) (and U{geographiclib <https://PyPI.org/project/geographiclib>} 1.52, U{numpy<https://PyPI.org/project/numpy>}
+1.16.3, 1.16.4, 1.16.6, 1.19.0, 1.19.4, 1.19.5 or 1.22.4 and U{scipy<https://PyPI.org/project/scipy>} 1.2.1, 1.4.1, 1.5.2 or
+1.8.1) on U{Ubuntu 16.04<https://Travis-CI.com/mrJean1/PyGeodesy>}, with Python 3.10.0-1, 3.9.0-5, 3.8.0-6, 3.7.2-6,
+3.7.0, 3.6.2-5, 3.5.3, 2.7.13-17, 2.7.10 and 2.6.9 (and U{numpy<https://PyPI.org/project/numpy>} 1.19.0, 1.16.5, 1.16.2,
+1.15.2, 1.14.0, 1.13.1, 1.8.0rc1 or 1.6.2 and U{scipy<https://PyPI.org/project/scipy>} 1.5.0), U{PyPy<https://PyPy.org>}
+7.3.0 (Python 2.7.13 and 3.6.9), U{PyPy<https://PyPy.org>} 6.0.0 (Python 2.7.13 and 3.5.3) and
+U{Intel-Python<https://software.Intel.com/en-us/distribution-for-python>} 3.5.3 (and U{numpy<https://PyPI.org/project/numpy>}
+1.11.3) on macOS 15.0-6 Sequoia, 14.0-6.1 Sonoma, 13.0-5.2 Ventura, 12.1-6 Monterey, 11.0-5.2-6.1 Big Sur (aka 10.16),
+10.15.3, 10.15.5-7 Catalina, 10.14 Mojave, 10.13.6 High Sierra and 10.12 Sierra, MacOS X 10.11 El Capitan and/or MacOS X
+10.10 Yosemite, with U{Pythonista<https://OMZ-Software.com/pythonista>}3.2 (with geographiclib 1.50 or 1.49 and numpy
+1.8.0) on iOS 14.4.2, 11.4.1, 12.0-3 on iPad4, iPhone6, iPhone10 and/or iPhone12, with U{Pythonista<https://OMZ-Software.com/pythonista>}
+3.1 on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3 on iPad4, all in 64-bit only and with 32-bit Python 2.7.14 on Windows Server
+2012R2, Windows 10 Pro and with 32-bit Python 2.6.6 on Windows XP SP3.
 
 Notes
 =====
@@ -627,7 +626,7 @@ else:
 
 from pygeodesy.internals import _version2,  _DOT_  # noqa: E402
 # from pygeodesy.interns import _DOT_  # from .internals
-__version__ = '26.08.08'
+__version__ = '26.08.16'
 # see setup.py for similar logic
 version     = _DOT_(*_version2(__version__, n=3))
 

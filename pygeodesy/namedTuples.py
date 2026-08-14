@@ -10,13 +10,13 @@ of C{_NamedTuple} defined in C{pygeodesy.named}.
 
 from pygeodesy.basics import isinstanceof, issubclassof, map1, _xinstanceof
 # from pygeodesy.cartesianBase import CartesianBase  # _MODS
-from pygeodesy.constants import INT0, _0_5,  fabs  # PYCHOK used! _0_5
+from pygeodesy.constants import INT0, NAN, _0_5, _isNAN,  fabs  # PYCHOK used! _0_5
 # from pygeodesy.dms import toDMS  # _MODS
 from pygeodesy.errors import _TypeError, _xattr, _xkwds, _xkwds_not, _xkwds_pop2
 # from pygeodesy.internals import typename  # from .named
 from pygeodesy.interns import NN, _1_, _2_, _a_, _A_, _area_, _angle_, _b_, _B_, \
-                             _band_, _beta_, _c_, _C_, _D_, _datum_, _distance_, \
-                             _E_, _easting_, _end_, _fi_, _gamma_, _h_, _height_, \
+                             _band_, _beta_, _c_, _C_, _D_, _datum_, _distance_, _E_, \
+                             _easting_, _end_, _fi_, _gamma_, _H_, _h_, _height_, \
                              _hemipole_, _initial_, _j_, _lam_, _lat_, _lon_, _N_, \
                              _n_, _northing_, _number_, _outside_, _phi_, _point_, \
                              _precision_, _points_, _radius_, _scale_, _start_, \
@@ -25,13 +25,13 @@ from pygeodesy.interns import NN, _1_, _2_, _a_, _A_, _area_, _angle_, _b_, _B_,
 from pygeodesy.named import _NamedTuple, _Pass,  _ALL_LAZY, _MODS, typename
 from pygeodesy.props import deprecated_property_RO, Property_RO, property_RO
 from pygeodesy.units import Band, Bearing, Degrees, Degrees2, Easting, FIx, \
-                            Height, Int, Lam, Lat, Lon, Meter, Meter2, \
-                            Northing, Number_, Phi, Precision_, Radians, \
+                            Height, Int, Lam, Lamd, Lat, Lon, Meter, Meter2, \
+                            Northing, Number_, Phi, Phid, Precision_, Radians, \
                             Radius, Scalar, Str
 # from math import fabs  # from .constants
 
 __all__ = _ALL_LAZY.namedTuples
-__version__ = '26.08.06'
+__version__ = '26.08.14'
 
 # __DUNDER gets mangled in class
 _closest_     = 'closest'
@@ -383,8 +383,8 @@ class LatLon3Tuple(_NamedTuple):
     '''3-Tuple C{(lat, lon, height)} in C{degrees90}, C{degrees180}
        and C{meter}, conventionally.
     '''
-    _Names_ = (_lat_, _lon_, _height_)
-    _Units_ = ( Lat,   Lon,   Height)
+    _Names_ = LatLon2Tuple._Names_ + (_height_,)
+    _Units_ = LatLon2Tuple._Units_ + ( Height,)
 
     def to4Tuple(self, datum, **name):
         '''Extend this L{LatLon3Tuple} to a L{LatLon4Tuple}.
@@ -405,8 +405,8 @@ class LatLon4Tuple(LatLon3Tuple):  # .cartesianBase, .css, .ecef, .lcc
     '''4-Tuple C{(lat, lon, height, datum)} in C{degrees90},
        C{degrees180}, C{meter} and L{Datum}.
     '''
-    _Names_ = (_lat_, _lon_, _height_, _datum_)
-    _Units_ = ( Lat,   Lon,   Height,  _Pass)
+    _Names_ = LatLon3Tuple._Names_ + (_datum_,)
+    _Units_ = LatLon3Tuple._Units_ + (_Pass,)
 
 
 def _LL4Tuple(lat, lon, height, datum, LatLon, LatLon_kwds, inst=None,
@@ -433,8 +433,8 @@ class LatLonDatum3Tuple(_NamedTuple):  # .lcc.py, .osgr.py
     '''3-Tuple C{(lat, lon, datum)} in C{degrees90}, C{degrees180}
        and L{Datum}.
     '''
-    _Names_ = (_lat_, _lon_, _datum_)
-    _Units_ = ( Lat,   Lon,  _Pass)
+    _Names_ = LatLon2Tuple._Names_ + (_datum_,)
+    _Units_ = LatLon2Tuple._Units_ + (_Pass,)
 
 
 class LatLonDatum5Tuple(LatLonDatum3Tuple, _Convergence):  # .ups.py, .utm.py, .utmupsBase.py
@@ -445,11 +445,99 @@ class LatLonDatum5Tuple(LatLonDatum3Tuple, _Convergence):  # .ups.py, .utm.py, .
     _Units_ = LatLonDatum3Tuple._Units_ + ( Degrees, Scalar)
 
 
-class LatLonNheight3Tuple(_NamedTuple):  # pyxqg, pybelbg
+class LatLonHeight3Tuple(_NamedTuple):  # pyaxqg, pybelbg
+    '''3-Tuple C{(lat, lon, H)} with orthometric height C{H} in C{meter}, conventionally.
+    '''
+    _Names_ = LatLon2Tuple._Names_ + (_H_,)
+    _Units_ = LatLon3Tuple._Units_
+
+
+class LatLonNgeoid3Tuple(_NamedTuple):  # pyaxqg, pybelbg
     '''3-Tuple C{(lat, lon, N)} with geoid height C{N} in C{meter}, conventionally.
     '''
-    _Names_ = (_lat_, _lon_, _N_)
-    _Units_ = ( Lat,   Lon,   Height)
+    _Names_ = LatLon2Tuple._Names_ + (_N_,)
+    _Units_ = LatLon3Tuple._Units_
+
+
+class _H_lat_lon_height4Tuple(_NamedTuple):  # pyaxqg, pybelbg, pyrdnap
+    '''4-Tuple C{(H, lat, lon, height)} (INTERNAL) Base and "middle" tuple for
+       C{pyaxqg.AxQG8Tuple}, C{pybelbg.BeLBG7Tuple} and C{pyrdnap.RDNAP7Tuple}.
+    '''
+    _Names_ = (_H_,    _lat_, _lon_, _height_)  # middle names, extended
+    _Units_ = ( Height, Lat,   Lon,   Height)   # middle units, extended
+
+    @Property_RO
+    def h(self):
+        '''Get the ellipsoidal height C{h} (C{meter}, conventionally) or C{NAN}.
+        '''
+        return self.height  # PYCHOK height
+
+    @Property_RO
+    def lam(self):
+        '''Get the longitude (B{C{radians}}).
+        '''
+        return Lamd(self.lon)  # PYCHOK lon
+
+    @Property_RO
+    def latlon(self):
+        '''Get the lat-, longitude in C{degrees} (L{LatLon2Tuple}C{(lat, lon)}).
+        '''
+        return LatLon2Tuple(self.lat, self.lon, name=self.name)  # PYCHOK lat, lon, name
+
+    @Property_RO
+    def latlonheight(self):
+        '''Get the lat-, longitude in C{degrees} and ellipsoidal height (L{LatLon3Tuple}C{(lat, lon, height)}).
+        '''
+        return self.latlon.to3Tuple(self.height)  # PYCHOK height
+
+    @Property_RO
+    def latlonHeight(self):
+        '''Get the lat-, longitude in C{degrees} and orthometric height (L{LatLonHeight3Tuple}C{(lat, lon, H)}).
+        '''
+        return LatLonHeight3Tuple(self.lat, self.lon, self.H)  # PYCHOK lat, lon, H
+
+    @Property_RO
+    def latlonNgeoid(self):
+        '''Get the lat-, longitude in C{degrees} and geoid height (L{LatLonNgeoid3Tuple}C{(lat, lon, N)}).
+        '''
+        return LatLonNgeoid3Tuple(self.lat, self.lon, self.N, name=self.name)  # PYCHOK lat, lon, name
+
+    @Property_RO
+    def N(self):
+        '''Get the geoid height C{N} (C{meter}, conventionally) or C{NAN}.
+        '''
+        N = self.height - self.H  # PYCHOK height, H
+        return NAN if _isNAN(N) else Height(N=N)
+
+    @Property_RO
+    def phi(self):
+        '''Get the latitude (B{C{radians}}).
+        '''
+        return Phid(self.lat)  # PYCHOK lat
+
+    @Property_RO
+    def philam(self):
+        '''Get the lat- and longitude in C{radians} (L{PhiLam2Tuple}C{(phi, lam)}).
+        '''
+        return PhiLam2Tuple(self.phi, self.lam, name=self.name)  # PYCHOK lam, phi
+
+    @Property_RO
+    def philamheight(self):
+        '''Get the lat-, longitude in C{radians} and ellipsoidal height (L{PhiLam3Tuple}C{(phi, lam, height)}).
+        '''
+        return self.philam.to3Tuple(self.height)  # PYCHOK height
+
+    @Property_RO
+    def philamHeight(self):
+        '''Get the lat-, longitude in C{radians} and orthometric height (L{PhiLamHeight3Tuple}C{(phi, lam, H)}).
+        '''
+        return PhiLamHeight3Tuple(self.phi, self.lam, self.H)  # PYCHOK phi, lam, H
+
+    @Property_RO
+    def philamNgeoid(self):
+        '''Get the lat-, longitude in C{radians} and geoid height (L{PhiLamNgeoid3Tuple}C{(phi, lam, N)}).
+        '''
+        return PhiLamNgeoid3Tuple(self.phi, self.lam, self.N, name=self.name)  # PYCHOK phi, lam, name
 
 
 class LatLonPrec3Tuple(_NamedTuple):  # .gars.py, .wgrs.py
@@ -577,12 +665,8 @@ class NearestOn8Tuple(_NamedTuple):  # .ellipsoidalBaseDI
 
 
 class PhiLam2Tuple(_NamedTuple):  # .frechet, .hausdorff, .latlonBase, .points, .vector3d
-    '''2-Tuple C{(phi, lam)} with latitude C{phi} in C{radians[PI_2]}
-       and longitude C{lam} in C{radians[PI]}.
-
-       @note: Using C{phi/lambda} for lat-/longitude in C{radians}
-              follows Chris Veness' U{convention
-              <https://www.Movable-Type.co.UK/scripts/latlong.html>}.
+    '''2-Tuple C{(phi, lam)} with latitude C{phi} and
+       longitude C{lam}, both in C{radians}.
     '''
     _Names_ = (_phi_, _lam_)
     _Units_ = ( Phi,   Lam)
@@ -616,16 +700,11 @@ class PhiLam2Tuple(_NamedTuple):  # .frechet, .hausdorff, .latlonBase, .points, 
 
 
 class PhiLam3Tuple(_NamedTuple):  # .nvector.py, extends -2Tuple
-    '''3-Tuple C{(phi, lam, height)} with latitude C{phi} in
-       C{radians[PI_2]}, longitude C{lam} in C{radians[PI]} and
-       C{height} in C{meter}.
-
-       @note: Using C{phi/lambda} for lat-/longitude in C{radians}
-              follows Chris Veness' U{convention
-              <https://www.Movable-Type.co.UK/scripts/latlong.html>}.
+    '''3-Tuple C{(phi, lam, height)} with latitude C{phi} and
+       longitude C{lam}, both in C{radians} and C{height} in C{meter}.
     '''
-    _Names_ = (_phi_, _lam_, _height_)
-    _Units_ = ( Phi,   Lam,   Height)
+    _Names_ = PhiLam2Tuple._Names_ + (_height_,)
+    _Units_ = PhiLam2Tuple._Units_ + (Height,)
 
     def to4Tuple(self, datum, **name):
         '''Extend this L{PhiLam3Tuple} to a L{PhiLam4Tuple}.
@@ -643,16 +722,28 @@ class PhiLam3Tuple(_NamedTuple):  # .nvector.py, extends -2Tuple
 
 
 class PhiLam4Tuple(_NamedTuple):  # extends -3Tuple
-    '''4-Tuple C{(phi, lam, height, datum)} with latitude C{phi} in
-       C{radians[PI_2]}, longitude C{lam} in C{radians[PI]}, C{height}
-       in C{meter} and L{Datum}.
-
-       @note: Using C{phi/lambda} for lat-/longitude in C{radians}
-              follows Chris Veness' U{convention
-              <https://www.Movable-Type.co.UK/scripts/latlong.html>}.
+    '''4-Tuple C{(phi, lam, height, datum)} with latitude C{phi}
+       and longitude C{lam}, both in C{radians}, C{height} in
+       C{meter} and C{datum} (L{Datum}).
     '''
-    _Names_ = (_phi_, _lam_, _height_, _datum_)
-    _Units_ = ( Phi,   Lam,   Height,  _Pass)
+    _Names_ = PhiLam3Tuple._Names_ + (_datum_,)
+    _Units_ = PhiLam3Tuple._Units_ + (_Pass,)
+
+
+class PhiLamHeight3Tuple(_NamedTuple):  # like LatLonHeight3Tuple
+    '''3-Tuple C{(phi, lam, H)} with latitude C{phi} and longitude C{lam},
+       both in C{radians} and orthometric height C{H} in C{meter}.
+    '''
+    _Names_ = PhiLam2Tuple._Names_ + (_H_,)
+    _Units_ = PhiLam3Tuple._Units_
+
+
+class PhiLamNgeoid3Tuple(_NamedTuple):  # like LatLonNgeoid3Tuple
+    '''3-Tuple C{(phi, lam, N)} with latitude C{phi} and longitude
+       C{lam}, both in C{radians} and geoid height C{N} in C{meter}.
+    '''
+    _Names_ = PhiLam2Tuple._Names_ + (_N_,)
+    _Units_ = PhiLam3Tuple._Units_
 
 
 class Point3Tuple(_NamedTuple):
@@ -953,7 +1044,7 @@ class Vector4Tuple(_xyzh_Tuple):  # .nvector.py
     _Units_ = _xyzh_Tuple._Units_
 
 
-def _isinside(x, y, eps, bounds4):  # in pybelbg.__pygeodesy, pybelbg.belbgs
+def _isinside(x, y, eps, bounds4):  # in pyaxqg, pybelbg
     '''(INTERNAL) Is C{x} and C{y} inside a bounds 4-tuple?
 
        @return: C{False} if C{x} or C{y} is C{NAN} or outside, C{True} otherwise.
@@ -965,20 +1056,26 @@ def _isinside(x, y, eps, bounds4):  # in pybelbg.__pygeodesy, pybelbg.belbgs
             (L <= x <= R   and B <= y <= T)
 
 
-def _resize4(bounds4, eps):  # in pybelbg.__pygeodesy
-    '''(INTERNAL) Resize a bounds 4-tuple.
+def _resize2(lo, hi, eps):
+    '''(INTERNAL) Resize 2-tuple C{(lo, hi)} by C{eps}.
+    '''
+    # assert lo <= hi
+    if eps:
+        lo -= eps
+        hi += eps
+        if lo > hi:
+            lo = hi = (lo + hi) * _0_5
+    return lo, hi
+
+
+def _resize4(bounds4, eps):  # in pyaxqg, pybelbg
+    '''(INTERNAL) Resize a bounds 4-tuple by C{eps}.
     '''
     # _xinstanceof(Bounds4Tuple, LB4Tuple, RD4Tuple, bounds4=bounds4)
     L, B, R, T = bounds4
     if eps:
-        L -= eps
-        B -= eps
-        R += eps
-        T += eps
-        if L > R:
-            L = R = (L + R) * _0_5
-        if B > T:
-            B = T = (B + T) * _0_5
+        L, R = _resize2(L, R, eps)
+        B, T = _resize2(B, T, eps)
     return bounds4.classof(L, B, R, T, name=typename(bounds4.resize))
 
 
