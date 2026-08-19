@@ -29,7 +29,7 @@ and line number.
 
 from pygeodesy import internals as _internals, interns as _interns, \
                      _isfrozen  # DON'T _lazy_import2
-# from pygeodesy.errors import _error_init, _ImmutableError, _xkwds_item2  # _ALL_MODS
+# from pygeodesy.errors import _error_init, _ImmutableError, _xkwds_get, _xkwds_item2  # _ALL_MODS
 from pygeodesy.internals import _caller3, _envPYGEODESY, _headof, printf, _Property_RO, \
                                 _tailof, typename, _versions  # _getenv, _PYGEODESY_ENV, \
 #                               _MODS_Base, _MODS.sys_version_info2
@@ -543,6 +543,27 @@ def _ALL_OTHER(*objs):
     return tuple(map(_interned, objs))  # map2
 
 
+def _ALL_STAR(pack, *mods, **abspath):  # in pyaxqg, pybelbg, pyrdnap # PYCHOK no cover
+    '''(INTERNAL) Mimick "for m in mods: from m import *" inside pack.__init__
+       returning a tuple of __all__ names collected, sorted.
+    '''
+    d = {}
+    for m in mods:
+        for a in m.__all__:
+            x = getattr(m, a)
+            if d.get(a, x) is x:
+                d[a] = x
+            else:
+                t = '%r vs %r' % (d[a], x)
+                raise LazyAttributeError(duplicate=a, txt=t)
+    p = import_module(pack)  # sys.modules[pack]
+    p.__dict__.update(d)
+    t = tuple(sorted(d.keys()))
+    if _ALL_MODS.errors._xkwds_get(abspath, abspath=True):
+        t += _UNDER_(pack, 'abspath'),
+    return t
+
+
 if _FOR_DOCS:  # PYCHOK no cover
     _ALL_DOCS = _ALL_OTHER
     # (INTERNAL) Only export B{C{objs.__name__}} when making the
@@ -903,7 +924,7 @@ def _lazy_module(name):  # overwritten by _lazy_import2
 
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '26.08.06'
+__version__ = '26.08.18'
 
 if __name__ == _DMAIN_:
 

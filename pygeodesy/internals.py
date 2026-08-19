@@ -4,7 +4,8 @@
 u'''Mostly INTERNAL functions, except L{machine}, L{print_} and L{printf}.
 '''
 # from pygeodesy.basics import isiterablen, ubstr  # _MODS
-# from pygeodesy.errors import _AttributeError, _error_init, _ImmutableError, _UnexpectedError, _xError2  # _MODS
+# from pygeodesy.errors import _AttributeError, _error_init, _ImmutableError, _UnexpectedError, \
+#                                               _xError2, _xkwds_item2  # _MODS
 from pygeodesy.interns import _BAR_, _COLON_, _DASH_, _DMAIN_, _DOT_, _ELLIPSIS_, _NL_, NN, \
                               _NLATvar_, _pygeodesy_, _PyPy__, _python_, _QUOTE1_, _QUOTE2_, \
                               _s_, _sys, _SPACE_, _UNDER_
@@ -708,15 +709,19 @@ def _version_ints(vs):
     return tuple(_ints(vs))
 
 
-def _versions(sep=_SPACE_):  # in PyRDNAP
-    '''(INTERNAL) Get pygeodesy, PyPy and Python versions, bits, machine and OS as C{8- or 10-list} or C{str}.
+def _versions(sep=_SPACE_, **prefix_version):  # in pyaxqg, pybelbg, pyrdnap
+    '''(INTERNAL) Get pygeodesy, PyPy and Python versions, bits, machine and OS
+       as C{8- or 10-list} or C{str}, with optional prefix name and version.
     '''
     vl = [_pygeodesy_, _MODS.version] + _Pythonarchine() + _osversion2()
+    if prefix_version:
+        p, v = _MODS.errors._xkwds_item2(prefix_version)
+        vl   = [p, _DOT_(*_version2(v, n=3))] + vl
     return sep.join(vl) if sep else vl
 
 
 __all__ = tuple(map(typename, (machine, print_, printf, typename)))
-__version__ = '26.06.09'
+__version__ = '26.06.18'
 
 if __name__ == _DMAIN_:
 

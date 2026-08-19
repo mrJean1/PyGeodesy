@@ -4,7 +4,7 @@
 # Test L{geoids} interpolators.
 
 __all__ = ('Tests',)
-__version__ = '26.01.21'
+__version__ = '26.08.18'
 
 import warnings  # PYCHOK expected
 # RuntimeWarning: numpy.ufunc size changed, may indicate binary
@@ -366,7 +366,9 @@ if __name__ == '__main__':  # PYCHOK internal error?
         g = gs.pop(0)
         g_ = g.lower()
 
-        if '-crop'.startswith(g_) and len(g_) > 1:
+        if '-raiser'.startswith(g_) and len(g_) > 3:
+            t._raiser = True
+        elif '-crop'.startswith(g_) and len(g_) > 1:
             t._crop4 = _CONUS
         elif '-karney'.startswith(g_) and len(g_) > 2:
             _GeoidEGM = GeoidKarney

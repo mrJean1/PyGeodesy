@@ -78,7 +78,7 @@ All Python source code has been statically checked_ with Ruff_ using Python 3.13
 
 For a summary of all *Karney*-based functionality in ``pygeodesy``, see module karney_.
 
-*Last updated: Aug 16, 2026.*
+*Last updated: Aug 18, 2026.*
 
 License
 =======

@@ -3507,6 +3507,7 @@ pygeodesy.lazily._all_imports	pygeodesy.lazily-module.html#_all_imports
 pygeodesy.lazily._all_deprecates	pygeodesy.lazily-module.html#_all_deprecates
 pygeodesy.lazily._attribute_	pygeodesy.lazily-module.html#_attribute_
 pygeodesy.lazily._asSPACED_	pygeodesy.lazily-module.html#_asSPACED_
+pygeodesy.lazily._ALL_STAR	pygeodesy.lazily-module.html#_ALL_STAR
 pygeodesy.lazily._SUB_PACKAGES	pygeodesy.lazily-module.html#_SUB_PACKAGES
 pygeodesy.lazily._ALL_OTHER	pygeodesy.lazily-module.html#_ALL_OTHER
 pygeodesy.lazily._doesn_t_exist_	pygeodesy.lazily-module.html#_doesn_t_exist_

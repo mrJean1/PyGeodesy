@@ -997,10 +997,9 @@ class Vector3Tuple(_NamedTuple):
         return tuple(self)
 
 
-class _xyzh_Tuple(_NamedTuple):  # .nvector.py, pyaxqg
+class _xyzh_Tuple(_NamedTuple):  # .nvector.py
     '''(INTERNAL) Base 4/5-Tuple for C{Vector4Tuple},
-       C{triaxials.triaxials3.Cartesian5Tuple} and
-       C{pyaxqg.__pygeodesy.Hector4Tuple}.
+       and C{triaxials.triaxials3.Cartesian5Tuple}.
     '''
     _Names_ = (_x_,    _y_,    _z_,    _h_)
     _Units_ = ( Scalar, Scalar, Scalar, Height)
