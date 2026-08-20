@@ -543,25 +543,26 @@ def _ALL_OTHER(*objs):
     return tuple(map(_interned, objs))  # map2
 
 
-def _ALL_STAR(pack, *mods, **abspath):  # in pyaxqg, pybelbg, pyrdnap # PYCHOK no cover
+def _ALL_STAR(pack, *mods, **abspath):  # PYCHOK no cover
     '''(INTERNAL) Mimick "for m in mods: from m import *" inside pack.__init__
-       returning a tuple of __all__ names collected, sorted.
+       returning a tuple of __all__ names collected, sorted and extended with
+       "pack_abspath" for use in packs pyaxqg, pybelbg, pychlv and pyrdnap.
     '''
-    d = {}
-    for m in mods:
-        for a in m.__all__:
-            x = getattr(m, a)
-            if d.get(a, x) is x:
-                d[a] = x
-            else:
-                t = '%r vs %r' % (d[a], x)
-                raise LazyAttributeError(duplicate=a, txt=t)
     p = import_module(pack)  # sys.modules[pack]
-    p.__dict__.update(d)
-    t = tuple(sorted(d.keys()))
-    if _ALL_MODS.errors._xkwds_get(abspath, abspath=True):
-        t += _UNDER_(pack, 'abspath'),
-    return t
+    d = p.__dict__
+    t = []
+    for m in mods:
+        for n in m.__all__:
+            x = getattr(m, n)
+            if d.get(n, x) is x:
+                d[n] = x
+                t.append(n)
+            else:
+                t = '%r vs %r' % (d[n], x)
+                raise LazyAttributeError(duplicate=n, txt=t)
+    if abspath.get('abspath', True):
+        t.append(_UNDER_(pack, 'abspath'))
+    return tuple(sorted(t))
 
 
 if _FOR_DOCS:  # PYCHOK no cover
@@ -947,6 +948,15 @@ if __name__ == _DMAIN_:
         printf('%.6f import vs %.6f %s: %.2fX, %s', t1, t2, A, (t1 / t2), v)
 
     _main()
+
+# % python3.15 -W ignore -m pygeodesy.lazily
+# 0.078365 import vs 0.052132 _ALL_MODS: 1.50X, pygeodesy 26.8.18 Python 3.15.0rc1 64bit arm64 macOS 26.5.2
+
+# n% python3.14 -W ignore -m pygeodesy.lazily
+# 0.064455 import vs 0.046083 _ALL_MODS: 1.40X, pygeodesy 26.8.18 Python 3.14.7 64bit arm64 macOS 26.5.2
+
+# % python2 -W ignore -m pygeodesy.lazily
+# 0.685969 import vs 0.321554 _ALL_MODS: 2.13X, pygeodesy 26.8.18 Python 2.7.18 64bit arm64_x86_64 macOS 26.5.2
 
 # % python3.14 -W ignore -m pygeodesy.lazily
 # 0.061219 import vs 0.047896 _ALL_MODS: 1.28X, pygeodesy 25.12.6 Python 3.14.0 64bit arm64 macOS 26.1
