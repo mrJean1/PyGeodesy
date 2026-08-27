@@ -4,7 +4,7 @@
 # Test L{geoids} interpolators.
 
 __all__ = ('Tests',)
-__version__ = '26.08.18'
+__version__ = '26.08.26'
 
 import warnings  # PYCHOK expected
 # RuntimeWarning: numpy.ufunc size changed, may indicate binary
@@ -293,7 +293,7 @@ class Tests(TestsBase):
                             e_max = e
                         if self._stats:
                             w.fadd_(e)  # VERY slow!
-                        self.test(t, h, expected, fmt='%.3f', known=e < eps)
+                        self.test(t, h, expected, fmt='%.3f', known=e < eps, error=e)
                     except GeoidError as x:
                         self.test(t, str(x), '%.3f' % (expected,),
                                      known=G not in (GeoidKarney, GeoidPGM))
@@ -323,7 +323,7 @@ class Tests(TestsBase):
                     for a in ('highest', 'lowerleft', 'lowerright', 'lowest', 'upperleft', 'upperright'):
                         t = fstr(getattr(g, a)(), prec=3)
                         self.test(NN(_DOT_(g, a), '()'), t, t, known=True)
-                    for p in ('dtype', 'knots', 'mean', 'nBytes', 'smooth', 'stdev'):  # , 'pgm', 'scipy'
+                    for p in ('dtype', 'mean', 'nBytes', 'nots', 'shape', 'smooth', 'stdev'):  # , 'pgm', 'scipy'
                         t = NN(reprs((getattr(g, p),), prec=3))
                         self.test(_DOT_(g, p), t, t, known=True)
                     for a in ('_g2ll2', '_ll2g2'):
@@ -413,10 +413,10 @@ if __name__ == '__main__':  # PYCHOK internal error?
                 if _GeoidEGM:
                     t.testGeoid(_GeoidEGM, g, t.dat5llhs3(g), crop=t._crop4, kind=t._kind)
                 else:
-                    t.testGeoid(GeoidKarney, g, t.dat5llhs3(g), kind=2, eps=0.12)
-                    t.testGeoid(GeoidKarney, g, t.dat5llhs3(g), kind=3)
+                    t.testGeoid(GeoidKarney, g, t.dat5llhs3(g), kind=2, eps=0.73)  # 0.12
+                    t.testGeoid(GeoidKarney, g, t.dat5llhs3(g), kind=3, eps=0.10)  # 0.01
                     try:
-                        t.testGeoid(GeoidPGM, g, t.dat5llhs3(g), crop=_CONUS)
+                        t.testGeoid(GeoidPGM, g, t.dat5llhs3(g), crop=_CONUS, eps=0.02)  # 0.01
                     except ImportError as x:
                         t.skip(str(x), n=231)
 

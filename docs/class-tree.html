@@ -932,12 +932,11 @@
         href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
         class="link">LatLon</a> points.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Cartesian-class.html">pygeodesy.ellipsoidalNvector.Cartesian</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
       <em class="summary">Extended to convert geocentric, <a 
-        href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
-        class="link">Cartesian</a> points to <code>Nvector</code> and 
-        n-vector-based, geodetic <a 
-        href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
+        href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
+        class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
+        geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
         class="link">LatLon</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
@@ -947,11 +946,12 @@
         href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
         class="link">LatLon</a> points.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Cartesian-class.html">pygeodesy.ellipsoidalNvector.Cartesian</a></strong>:
       <em class="summary">Extended to convert geocentric, <a 
-        href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
-        class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
-        geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
+        href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
+        class="link">Cartesian</a> points to <code>Nvector</code> and 
+        n-vector-based, geodetic <a 
+        href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</em>
     </li>
     </ul>
@@ -1031,13 +1031,6 @@
         initial and final bearing (azimuths) between two given points or 
         the destination point given a start point and an (initial) bearing.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
-      <em class="summary">New point on an (oblate) ellipsoidal earth model, using the 
-        formulae devised by <a 
-        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
-        target="_top"><i>Thaddeus Vincenty</i></a> (1975) to compute 
-        geodesic distances, bearings (azimuths), etc.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.LatLon-class.html">pygeodesy.ellipsoidalKarney.LatLon</a></strong>:
       <em class="summary">An ellipsoidal <a 
         href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
@@ -1048,6 +1041,13 @@
         href="https://PyPI.org/project/geographiclib" 
         target="_top">geographiclib</a> to compute geodesic distances, 
         bearings (azimuths), etc.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
+      <em class="summary">New point on an (oblate) ellipsoidal earth model, using the 
+        formulae devised by <a 
+        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
+        target="_top"><i>Thaddeus Vincenty</i></a> (1975) to compute 
+        geodesic distances, bearings (azimuths), etc.</em>
     </li>
     </ul>
     </li>
@@ -1225,6 +1225,10 @@
         target="_top">bisplrep/-ev</a> or <a 
         href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
         target="_top">interp2d</a> interpolation.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.geoids.GeoidQuasi-class.html">pygeodesy.geoids.GeoidQuasi</a></strong>:
+      <em class="summary">Quasi-geoid height interpolator for <code>1-degree, whole Earth 
+        grids</code>, used in package <code>PyAxQG</code>, for example.</em>
     </li>
     </ul>
     </li>
@@ -1440,13 +1444,6 @@
         initial and final bearing (azimuths) between two given points or 
         the destination point given a start point and an (initial) bearing.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
-      <em class="summary">New point on an (oblate) ellipsoidal earth model, using the 
-        formulae devised by <a 
-        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
-        target="_top"><i>Thaddeus Vincenty</i></a> (1975) to compute 
-        geodesic distances, bearings (azimuths), etc.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.LatLon-class.html">pygeodesy.ellipsoidalKarney.LatLon</a></strong>:
       <em class="summary">An ellipsoidal <a 
         href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
@@ -1457,6 +1454,13 @@
         href="https://PyPI.org/project/geographiclib" 
         target="_top">geographiclib</a> to compute geodesic distances, 
         bearings (azimuths), etc.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
+      <em class="summary">New point on an (oblate) ellipsoidal earth model, using the 
+        formulae devised by <a 
+        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
+        target="_top"><i>Thaddeus Vincenty</i></a> (1975) to compute 
+        geodesic distances, bearings (azimuths), etc.</em>
     </li>
     </ul>
     </li>
@@ -1590,12 +1594,11 @@
         href="pygeodesy.ellipsoidalGeodSolve.LatLon-class.html" 
         class="link">LatLon</a> points.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Cartesian-class.html">pygeodesy.ellipsoidalNvector.Cartesian</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
       <em class="summary">Extended to convert geocentric, <a 
-        href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
-        class="link">Cartesian</a> points to <code>Nvector</code> and 
-        n-vector-based, geodetic <a 
-        href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
+        href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
+        class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
+        geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
         class="link">LatLon</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
@@ -1605,11 +1608,12 @@
         href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
         class="link">LatLon</a> points.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalNvector.Cartesian-class.html">pygeodesy.ellipsoidalNvector.Cartesian</a></strong>:
       <em class="summary">Extended to convert geocentric, <a 
-        href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
-        class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
-        geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
+        href="pygeodesy.ellipsoidalNvector.Cartesian-class.html" 
+        class="link">Cartesian</a> points to <code>Nvector</code> and 
+        n-vector-based, geodetic <a 
+        href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</em>
     </li>
     </ul>
@@ -4871,7 +4875,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Aug 20 10:47:14 2026
+    Generated by Epydoc 3.0.1 on Thu Aug 27 12:11:32 2026
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

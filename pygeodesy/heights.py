@@ -1,7 +1,7 @@
 
 # -*- coding: utf-8 -*-
 
-u'''Height interpolations at C{LatLon} points from known C{knots}.
+u'''Height interpolations from C{knots}, points with known height.
 
 Classes L{HeightCubic}, L{HeightIDWcosineLaw}, L{HeightIDWdistanceTo},
 L{HeightIDWequirectangular}, L{HeightIDWeuclidean}, L{HeightIDWflatLocal},
@@ -75,7 +75,8 @@ from pygeodesy.basics import isscalar, len2, map1, min2, _xnumpy, _xscipy
 from pygeodesy.constants import EPS, PI, PI_2, PI2, _0_0, _90_0, _180_0
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.errors import _AssertionError, LenError, PointsError, \
-                             _SciPyIssue, _xattr, _xkwds, _xkwds_get, _xkwds_item2
+                             _SciPyIssue, _xattr, _xkwds, _xkwds_get, \
+                             _xkwds_item2, _xkwds_pop2
 # from pygeodesy.fmath import fidw  # _MODS
 # from pygeodesy import formy as _formy  # _MODS.into
 # from pygeodesy.internals import _version2  # _MODS
@@ -92,7 +93,7 @@ from pygeodesy.units import _isDegrees, Float_, Int_
 # from math import radians  # from .points
 
 __all__ = _ALL_LAZY.heights
-__version__ = '26.02.02'
+__version__ = '26.08.26'
 
 _error_  = 'error'
 _formy   = _MODS.into(formy=__name__)
@@ -390,7 +391,7 @@ class _HeightBase(_HeightNamed):  # in .geoids
         xs, ys, hs = zip(*_xyhs(knots=knots, wrap=wrap))  # PYCHOK yield
         n = len(hs)
         if n < self.kmin:
-            raise _InsufficientError(self.kmin, knots=n)
+            raise _InsufficientError(self.kmin, nots=n)
         if name:
             self.name = name
         return map1(self.numpy.array, xs, ys, hs)
@@ -504,7 +505,7 @@ class HeightLSQBiSpline(_HeightBase):
         elif w is not None:
             m, w = len2(w)
             if m != n:
-                raise LenError(HeightLSQBiSpline, weight=m, knots=n)
+                raise LenError(HeightLSQBiSpline, weight=m, nots=n)
             m, i = min2(*map(float, w))
             if m <= 0:  # PYCHOK no cover
                 raise HeightError(Fmt.INDEX(weight=i), m)
@@ -533,11 +534,11 @@ class HeightSmoothBiSpline(_HeightBase):
     '''
     _kmin = 16  # k = 3, always
 
-    def __init__(self, knots, s=4, **name_wrap):
+    def __init__(self, knots, smooth=4, **name_wrap):
         '''New L{HeightSmoothBiSpline} interpolator.
 
            @arg knots: The points with known height (C{LatLon}s).
-           @kwarg s: The spline smoothing factor (C{scalar}), default C{4}.
+           @kwarg smooth: Spline smoothing factor (C{scalar}), default C{4}.
            @kwarg name_wrap: Optional C{B{name}=NN} for this height interpolator
                        (C{str}) and keyword argument C{b{wrap}=False} to wrap or
                        I{normalize} all B{C{knots}} and B{C{llis}} locations iff
@@ -555,7 +556,8 @@ class HeightSmoothBiSpline(_HeightBase):
         '''
         spi = self.scipy_interpolate
 
-        s = Float_(smoothing=s, Error=HeightError, low=4)
+        s, name_wrap = _xkwds_pop2(name_wrap, s=smooth)
+        s = Float_(smooth=s, Error=HeightError, low=0)
 
         xs, ys, hs = self._xyhs3(knots, **name_wrap)
         try:
@@ -606,7 +608,7 @@ class _HeightIDW(_HeightNamed):
 
         n, self._knots = len2(knots)
         if n < self.kmin:
-            raise _InsufficientError(self.kmin, knots=n)
+            raise _InsufficientError(self.kmin, nots=n)
         self.beta  = beta
         self._kwds = kwds or {}
 
@@ -749,6 +751,12 @@ class _HeightIDW(_HeightNamed):
         '''Get the C{limit} setting (C{degrees}) or C{None}.
         '''
         return _xkwds_get(self._kwds, limit=None)
+
+    @property_RO
+    def nots(self):
+        '''Get the number of B{C{knots}} (C{int}).
+        '''
+        return len(self.knots)
 
     @property_RO
     def radius(self):

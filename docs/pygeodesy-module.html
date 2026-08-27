@@ -331,7 +331,7 @@
     href="https://GeographicLib.SourceForge.io/C++/doc/utilities.html" 
     target="_top">IntersectTool</a> 2.7 and <a 
     href="https://GeographicLib.SourceForge.io/C++/doc/utilities.html" 
-    target="_top">RhumbSolve</a> 2.7), all in 64-bit on macOS 26.5.2 
+    target="_top">RhumbSolve</a> 2.7), all in 64-bit on macOS 26.6.2 
     Tahoe.</p>
     <p>All tests ran with and without <code>lazy import</code> for Python 3
     and with command line option <code>-W default</code> and env variable 
@@ -408,7 +408,7 @@
     href="https://PyPI.org/project/pycodestyle" 
     target="_top">PyCodeStyle</a> (formerly Pep8) and <a 
     href="https://PyPI.org/project/mccabe" target="_top">McCabe</a> using 
-    Python 2.7.18, both in 64-bit on macOS 26.5.2 Tahoe.</p>
+    Python 2.7.18, both in 64-bit on macOS 26.6.2 Tahoe.</p>
     <p>For a summary of all <i>Karney</i>-based functionality in 
     <code>pygeodesy</code>, see module <a 
     href="https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html"
@@ -608,7 +608,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        26.08.18
+        26.08.26
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -870,8 +870,8 @@
         target="_top">Geohash</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.geoids-module.html">pygeodesy.geoids</a></strong>: <em class="summary">Geoid models and geoid height interpolations.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.hausdorff-module.html">pygeodesy.hausdorff</a></strong>: <em class="summary">Hausdorff distances.</em>    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.heights-module.html">pygeodesy.heights</a></strong>: <em class="summary">Height interpolations at <code>LatLon</code> points from known 
-        <code>knots</code>.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.heights-module.html">pygeodesy.heights</a></strong>: <em class="summary">Height interpolations from <code>knots</code>, points with known 
+        height.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.internals-module.html">pygeodesy.internals</a></strong>: <em class="summary">Mostly INTERNAL functions, except <a 
         href="pygeodesy.internals-module.html#machine" 
         class="link">machine</a>, <a 
@@ -3120,6 +3120,15 @@
         target="_top">bisplrep/-ev</a> or <a 
         href="https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.interp2d.html"
         target="_top">interp2d</a> interpolation.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.geoids.GeoidQuasi-class.html" class="summary-name">GeoidQuasi</a><br />
+      Quasi-geoid height interpolator for <code>1-degree, whole Earth 
+        grids</code>, used in package <code>PyAxQG</code>, for example.
     </td>
   </tr>
 <tr>
@@ -9933,7 +9942,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fa38062d250&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7fcec0698dd0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -15230,7 +15239,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'26.8.18'">'26.8.18'</code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'26.8.26'">'26.8.26'</code><br />
       Normalized <code>pygeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -23767,7 +23776,7 @@ c=6356752, k2=0.996726547, kp2=0.003273453, volume=1083207266220584468\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fa38062d250&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7fcec0698dd0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -34633,7 +34642,7 @@ c=6356752, k2=0.996726547, kp2=0.003273453, volume=1083207266220584468<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Thu Aug 20 10:47:14 2026
+    Generated by Epydoc 3.0.1 on Thu Aug 27 12:11:33 2026
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

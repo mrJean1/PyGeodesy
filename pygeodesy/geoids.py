@@ -108,9 +108,10 @@ from pygeodesy.interns import NN, _COLONSPACE_, _COMMASPACE_, _DMAIN_, _E_, \
 from pygeodesy.lazily import _ALL_DOCS, _ALL_LAZY, _ALL_MODS as _MODS, _FOR_DOCS
 from pygeodesy.named import _name__, _Named, _NamedTuple
 # from pygeodesy.namedTuples import LatLon3Tuple  # _MODS
-from pygeodesy.props import Property_RO, property_RO, property_ROver
+from pygeodesy.props import deprecated_property_RO, Property_RO, property_RO, \
+                            property_ROver
 from pygeodesy.streprs import attrs, Fmt, fstr, pairs
-from pygeodesy.units import Height, Int_, Lat, Lon
+from pygeodesy.units import Float_, Height, Int_, Lat, Lon
 # from pygeodesy.utily import _Wrap  # from .heights
 
 from math import floor as _floor
@@ -126,7 +127,7 @@ except ImportError:  # Python 3+
     from pygeodesy.basics import ub2str as _ub2str
 
 __all__ = _ALL_LAZY.geoids
-__version__ = '26.06.24'
+__version__ = '26.08.26'
 
 _assert_    = 'assert'
 _bHASH_     = b'#'
@@ -196,13 +197,14 @@ class _GeoidBase(_HeightBase):
     _endian   = _tbd_
     _Error    =  GeoidError  # in ._HeightBase._as_lls, ...
     _geoid    = _n_a_
+    _fudge    =  0      # for _iscipy._lon_hi
     _hs_y_x   =  None   # numpy 2darray, row-major order
     _iscipy   =  True   # scipy or Karney's interpolation
     _kind     =  3      # order for interp2d, RectBivariateSpline
 #   _kmin     =  2      # min number of knots
-    _knots    =  0      # nlat * nlon
     _mean     =  None   # fixed in GeoidKarney
     _nBytes   =  0      # numpy size in bytes, float64
+    _nots     =  0      # nlat * nlon
     _pgm      =  None   # PGM attributes, C{_PGM} or C{None}
     _sizeB    =  0      # geoid file size in bytes
     _smooth   =  0      # used only for RectBivariateSpline
@@ -252,7 +254,8 @@ class _GeoidBase(_HeightBase):
                                                            s=self._smooth).ev
         self._hs_y_x = hs  # numpy 2darray, row-major
         self._nBytes = hs.nbytes  # numpy size in bytes
-        self._knots  = p.knots  # grid knots == len(hs)
+        self._nots   = p.nots  # grid nots len(hs)
+        self._fudge  = p.dlon  # see bb above
         self._lon_of =     float(p.flon)  # forward offset
         self._lon_og = g = float(p.glon)  # reverse offset
         # shrink the bounding box by 1 unit on every side:
@@ -328,8 +331,9 @@ class _GeoidBase(_HeightBase):
         except (GeoidError, RangeError) as x:
             # XXX avoid str(LatLon()) degree symbols
             n = _lli_ if _as is _ascalar else Fmt.INDEX(llis=i)
-            t = fstr((lli.lat, lli.lon), strepr=repr)
-            raise type(x)(n, t, wrap=wrap, H=H, cause=x)
+            t =  fstr((lli.lat, lli.lon), strepr=repr)
+            E =  type(x)
+            raise E(n, t, wrap=wrap, H=H, cause=x)
         except Exception as x:
             if self._iscipy and self.scipy:
                 raise _SciPyIssue(x, self._ev_name)
@@ -368,20 +372,20 @@ class _GeoidBase(_HeightBase):
         '''
         return self._egm is None
 
-    @Property_RO
+    @property_RO
     def cropped(self):
         '''Is geoid cropped (C{bool} or C{None} if crop not supported).
         '''
         return self._cropped
 
-    @Property_RO
+    @property_RO
     def dtype(self):
         '''Get the grid C{scipy} U{dtype<https://docs.SciPy.org/doc/numpy/
            reference/generated/numpy.ndarray.dtype.html>} (C{numpy.dtype}).
         '''
         return self._hs_y_x.dtype
 
-    @Property_RO
+    @property_RO
     def endian(self):
         '''Get the geoid endianess and U{dtype<https://docs.SciPy.org/
            doc/numpy/reference/generated/numpy.dtype.html>} (C{str}).
@@ -449,14 +453,14 @@ class _GeoidBase(_HeightBase):
 
            @return: A tuple of geoid heights (each C{float}).
         '''
-        lls = tuple(self._as_lls(latlons[0::2], *latlons[1::2]))
+        lls = tuple(self._as_lls(latlons[0::2], latlons[1::2]))
         return self._called(lls, **wrap)
 
     @property_ROver
     def _heightOrthometric(self):
         return _MODS.formy.heightOrthometric  # overwrite property_ROver
 
-    def _hGeoid(self, lat, lon):
+    def _hGeoid(self, lat, lon):  # like GeoidQuasi._Nterpolate
         out = self.outside(lat, lon)
         if out:  # XXX avoid str(LatLon()) degree symbols
             t = fstr((lat, lon), strepr=repr)
@@ -481,23 +485,37 @@ class _GeoidBase(_HeightBase):
         '''
         return self._llh3LL(self._highest, LatLon)
 
-    @Property_RO
+    @property_RO
     def hits(self):
         '''Get the number of cache hits (C{int} or C{None}).
         '''
         return self._yx_hits
 
-    @Property_RO
+    @property_RO
     def kind(self):
         '''Get the interpolator kind and order (C{int}).
         '''
         return self._kind
 
-    @Property_RO
+    def _kind_smooth(self, kind, smooth, name):  # **name
+        # set C{kind}, C{smooth} and C{name}
+        if kind != 3:
+            self._kind = Int_(kind=kind, Error=GeoidError, low=-5, high=5)
+        if smooth:
+            self._smooth = Float_(smooth=smooth, Error=GeoidError, low=0)
+        if name:
+            _HeightBase.name.fset(self, _name__(**name))  # rename
+
+    @deprecated_property_RO
     def knots(self):
+        '''DEPRECATED on 2026.08.26, use property C{nots}.'''
+        return self.nots
+
+    @property_RO
+    def nots(self):
         '''Get the number of grid knots (C{int}).
         '''
-        return self._knots
+        return self._nots
 
     def _ll2g2(self, lat, lon):  # PYCHOK no cover
         '''(INTERNAL) I{Must be overloaded}.'''
@@ -550,7 +568,7 @@ class _GeoidBase(_HeightBase):
     def _loweright(self):
         '''(INTERNAL) Cache for C{.loweright}.
         '''
-        return self._llh3(self._lat_lo, self._lon_hi)
+        return self._llh3(self._lat_lo, self._lon_hi - self._fudge)
 
     def loweright(self, LatLon=None):
         '''Return the lower-right location and height of this geoid.
@@ -598,29 +616,23 @@ class _GeoidBase(_HeightBase):
         '''
         return _HeightBase.name.fget(self) or self._geoid  # recursion
 
-    @Property_RO
+    @property_RO
     def nBytes(self):
         '''Get the grid in-memory size in bytes (C{int}).
         '''
         return self._nBytes
 
-    def _open(self, geoid, datum, kind, name, smooth):
+    def _open(self, geoid, datum, kind, smooth, name):
         # open the geoid file
+        if not _isin(datum, None, self._datum):
+            self._datum = _ellipsoidal_datum(datum, **name)
+        self._kind_smooth(kind, smooth, name)
         try:
             self._geoid = _os.path.basename(geoid)
             self._sizeB = _os.path.getsize(geoid)
             g = open(geoid, _rb_)
         except (IOError, OSError) as x:
             raise GeoidError(geoid=geoid, cause=x)
-
-        if not _isin(datum, None, self._datum):
-            self._datum = _ellipsoidal_datum(datum, name=name)
-        self._kind = int(kind)
-        if name:
-            _HeightBase.name.fset(self, name)  # rename
-        if smooth:
-            self._smooth = Int_(smooth=smooth, Error=GeoidError, low=0)
-
         return g
 
     def outside(self, lat, lon):
@@ -636,21 +648,28 @@ class _GeoidBase(_HeightBase):
         lon = _W_ if lon < self._lon_lo else (_E_ if lon > self._lon_hi else NN)
         return NN(lat, lon) if lat and lon else (lat or lon)
 
-    @Property_RO
+    @property_RO
     def pgm(self):
         '''Get the PGM attributes (C{_PGM} or C{None} if not available/applicable).
         '''
         return self._pgm
 
-    @Property_RO
+    @property_RO
+    def shape(self):
+        '''Get the grid C{scipy} U{shape<https://docs.SciPy.org/doc/numpy/
+           reference/generated/numpy.ndarray.shape.html>} (C{tuple}).
+        '''
+        return tuple(self._hs_y_x.shape)
+
+    @property_RO
     def sizeB(self):
         '''Get the geoid grid file size in bytes (C{int}).
         '''
         return self._sizeB
 
-    @Property_RO
+    @property_RO
     def smooth(self):
-        '''Get the C{RectBivariateSpline} smoothing (C{int}).
+        '''Get the C{RectBivariateSpline} smoothing (C{float}).
         '''
         return self._smooth
 
@@ -689,23 +708,27 @@ class _GeoidBase(_HeightBase):
                         default).  Trailing zero decimals are stripped
                         for B{C{prec}} values of 1 and above, but kept
                         for negative B{C{prec}} values.
-           @kwarg sep: Separator to join (C{str}).
+           @kwarg sep: Separator to join the attributes (C{str}).
 
            @return: Geoid name and attributes (C{str}).
         '''
-        s =  1 if self.kind < 0 else 2
-        t = _MODS.internals.typename
-        t =  tuple(Fmt.PAREN(t(m), fstr(m(), prec=prec)) for m in
-                                  (self.lowerleft, self.upperright,
-                                   self.center,
-                                   self.highest, self.lowest)) + \
-             attrs( _mean_, _stdev_,           prec=prec, Nones=False) + \
-             attrs((_kind_, 'smooth')[:s],     prec=prec, Nones=False) + \
-             attrs( 'cropped', 'dtype', _endian_, 'hits', 'knots', 'nBytes',
-                    'sizeB', _scipy_, _numpy_, prec=prec, Nones=False)
+        t  = attrs(self, _kind_, Nones=False) if self.kind < 0 else \
+             attrs(self, _kind_, 'smooth', Nones=False)
+        t += attrs(self, 'cropped', 'dtype', _endian_, 'hits', _mean_, 'nBytes', 'nots',
+                         'shape', 'sizeB', _stdev_, prec=prec, Nones=False)
+        if self._iscipy:  # all except GeoidKarney
+            for _n in (_numpy_, _scipy_):
+                try:
+                    t += Fmt.EQUAL(_n, getattr(self, _n).version.version),
+                except ImportError:
+                    pass
+        _n = _MODS.internals.typename
+        t +=  tuple(Fmt.EQUAL(_n(m), m().toStr(prec=prec)) for m in (self.center,
+                                     self.highest,    self.lowest,    self.lowerleft,
+                                     self.lowerright, self.upperleft, self.upperright))
         return _COLONSPACE_(self, sep.join(t))
 
-    @Property_RO
+    @property_RO
     def u2B(self):
         '''Get the PGM itemsize in bytes (C{int}).
         '''
@@ -733,7 +756,7 @@ class _GeoidBase(_HeightBase):
     def _upperright(self):
         '''(INTERNAL) Cache for C{.upperright}.
         '''
-        return self._llh3(self._lat_hi, self._lon_hi)
+        return self._llh3(self._lat_hi, self._lon_hi - self._fudge)
 
     def upperright(self, LatLon=None):
         '''Return the upper-right location and height of this geoid.
@@ -771,7 +794,7 @@ class GeoidEGM96(_GeoidBase):
                         or U{interp2d<https://docs.SciPy.org/doc/scipy/reference/generated/scipy.
                         interpolate.interp2d.html>} C{linear}, C{cubic} respectively C{quintic},
                         see note for more details.
-           @kwarg smooth: Smoothing factor for C{B{kind}=1..5} only (C{int}).
+           @kwarg smooth: Spline smoothing factor for C{B{kind}=1..5} only (C{float}).
            @kwarg name_crop: Optional geoid C{B{name}=NN} (C{str}) and UNSUPPORTED keyword argument
                        C{B{crop}=None}.
 
@@ -795,7 +818,7 @@ class GeoidEGM96(_GeoidBase):
         if crop is not None:
             raise GeoidError(crop=crop, txt_not_=_supported_)
 
-        g = self._open(EGM96_grd, datum, kind, _name__(**name), smooth)
+        g = self._open(EGM96_grd, datum, kind, smooth, name)
         _ = self.numpy  # import numpy for .fromfile, .reshape
 
         try:
@@ -803,7 +826,7 @@ class GeoidEGM96(_GeoidBase):
             p.slat, n, p.wlon, e, p.dlat, p.dlon = hs[:6]  # n-s, 0-E
             p.nlat  =  int((n - p.slat) / p.dlat) + 1  # include S
             p.nlon  =  int((e - p.wlon) / p.dlon) + 1  # include W
-            p.knots =  p.nlat * p.nlon  # inverted lats N downto S
+            p.nots  =  p.nlat * p.nlon  # inverted lats N downto S
             p.glon  = _180_0  # Eastern lons 0-360
             hs = hs[6:].reshape(p.nlat, p.nlon)
             _GeoidBase.__init__(self, hs, p)
@@ -824,6 +847,7 @@ class GeoidEGM96(_GeoidBase):
     if _FOR_DOCS:
         __call__ = _GeoidBase.__call__
         height   = _GeoidBase.height
+        height_  = _GeoidBase.height_
 
 
 class GeoidG2012B(_GeoidBase):
@@ -858,7 +882,7 @@ class GeoidG2012B(_GeoidBase):
                         or U{interp2d<https://docs.SciPy.org/doc/scipy/reference/generated/scipy.
                         interpolate.interp2d.html>} C{linear}, C{cubic} respectively C{quintic},
                         see note for more details.
-           @kwarg smooth: Smoothing factor for C{B{kind}=1..5} only (C{int}).
+           @kwarg smooth: Spline smoothing factor for C{B{kind}=1..5} only (C{float}).
            @kwarg name_crop: Optional geoid C{B{name}=NN} (C{str}) and UNSUPPORTED keyword argument
                        C{B{crop}=None}.
 
@@ -885,7 +909,7 @@ class GeoidG2012B(_GeoidBase):
         if crop is not None:
             raise GeoidError(crop=crop, txt_not_=_supported_)
 
-        g = self._open(g2012b_bin, datum, kind, _name__(**name), smooth)
+        g = self._open(g2012b_bin, datum, kind, smooth, name)
         _ = self.numpy  # import numpy for ._load and
 
         try:
@@ -897,9 +921,9 @@ class GeoidG2012B(_GeoidBase):
                 # skip 4xf8, get 3xi4
                 p.nlat, p.nlon, ien = map(int, self._load(g, en_+'i4', 3, 32))
                 if ien == 1:  # correct endian
-                    p.knots = p.nlat * p.nlon
-                    if p.knots == n and 1 < p.nlat < n \
-                                    and 1 < p.nlon < n:
+                    p.nots = p.nlat * p.nlon
+                    if p.nots == n and 1 < p.nlat < n \
+                                   and 1 < p.nlon < n:
                         self._endian = en_+'f4'
                         break
             else:  # couldn't validate endian
@@ -928,9 +952,10 @@ class GeoidG2012B(_GeoidBase):
     if _FOR_DOCS:
         __call__ = _GeoidBase.__call__
         height   = _GeoidBase.height
+        height_  = _GeoidBase.height_
 
 
-class GeoidHeight5Tuple(_NamedTuple):  # .geoids.py
+class GeoidHeight5Tuple(_NamedTuple):
     '''5-Tuple C{(lat, lon, egm84, egm96, egm2008)} for U{GeoidHeights.dat
        <https://SourceForge.net/projects/geographiclib/files/testdata/>}
        tests with the heights for 3 different EGM grids at C{degrees90}
@@ -1081,19 +1106,19 @@ class GeoidKarney(_GeoidBase):
         elif not _isin(kind, 3):
             raise GeoidError(kind=kind)
 
-        self._egm = g =  self._open(egm_pgm, datum, kind, _name__(**name), None)
+        self._egm = g =  self._open(egm_pgm, datum, kind, None, name)
         self._pgm = p = _PGM(g, pgm=egm_pgm, itemsize=self.u2B, sizeB=self.sizeB)
 
         self._Rendian =  self._4endian.replace(_4_, str(p.nlon))
         self._Ru2B    = _calcsize(self._Rendian)
 
-        self._knots  = p.knots  # grid knots
         self._lon_of = float(p.flon)  # forward offset
         self._lon_og = float(p.glon)  # reverse offset
         # set earth (lat, lon) limits (s, w, n, e)
         self._lat_lo, self._lon_lo, \
         self._lat_hi, self._lon_hi = self._swne(crop if crop else p.crop4)
         self._cropped = bool(crop)
+        self._nots    = p.nots  # number of grid knots
 
     def _c0c3v(self, y, x):
         # get the common denominator, the 10x12 cubic matrix and
@@ -1125,7 +1150,7 @@ class GeoidKarney(_GeoidBase):
 
         return GeoidKarney._C0[j], GeoidKarney._C3[j], v
 
-    @Property_RO
+    @property_RO
     def dtype(self):
         '''Get the geoid's grid data type (C{str}).
         '''
@@ -1315,6 +1340,13 @@ class GeoidKarney(_GeoidBase):
             return b  # position
         raise GeoidError('closed file', txt=repr(p.egm))  # IOError
 
+    @property_RO
+    def shape(self):
+        '''Get the geoid shape (C{tuple}).
+        '''
+        p = self._pgm
+        return p.nlat, p.nlon
+
 
 class GeoidPGM(_GeoidBase):
     '''Geoid height interpolator for I{Karney}'s U{GeographicLib Earth
@@ -1355,7 +1387,7 @@ class GeoidPGM(_GeoidBase):
                         or U{interp2d<https://docs.SciPy.org/doc/scipy/reference/generated/scipy.
                         interpolate.interp2d.html>} C{linear}, C{cubic} respectively C{quintic},
                         see note for more details.
-           @kwarg smooth: Smoothing factor for C{B{kind}=1..5} only (C{int}).
+           @kwarg smooth: Spline smoothing factor for C{B{kind}=1..5} only (C{float}).
            @kwarg name: Optional geoid C{B{name}=NN} (C{str}).
 
            @raise GeoidError: EGM dataset B{C{egm_pgm}} issue or invalid B{C{crop}}, B{C{kind}}
@@ -1371,15 +1403,15 @@ class GeoidPGM(_GeoidBase):
 
            @raise TypeError: Invalid B{C{datum}} or unexpected argument.
 
-           @note: Specify C{B{kind}=-1, -3 or -5} to use C{scipy.interpolate.interp2d}
-                  before or C{scipy.interpolate.bisplrep/-ev} since C{Scipy} version 1.14.
+           @note: Specify C{B{kind}=-1, -3 or -5} to use C{scipy.interpolate.interp2d} before
+                  or C{scipy.interpolate.bisplrep/-ev} since C{Scipy} version 1.14.
 
            @note: The U{GeographicLib egm*.pgm<https://GeographicLib.SourceForge.io/C++/doc/
                   geoid.html#geoidinst>} file sizes are based on a 2-byte C{int} height
                   converted to 8-byte C{dtype float64} for C{scipy} interpolators.  Therefore,
                   internal memory usage is 4 times the C{egm*.pgm} file size and may exceed
                   the available memory, especially with 32-bit Python.  To reduce memory
-                  usage, set keyword argument B{C{crop}} to the region of interest.  For
+                  usage, use keyword argument B{C{crop}} to the region of interest.  For
                   example C{B{crop}=(20, -125, 50, -65)} covers the U{conterminous US
                   <https://Geodesy.NOAA.gov/GEOID/GEOID12B/maps/GEOID12B_CONUS_grids.png>}
                   (CONUS), less than 3% of the entire C{egm2008-1.pgm} dataset.
@@ -1389,7 +1421,7 @@ class GeoidPGM(_GeoidBase):
         np = self.numpy
         self._u2B = np.dtype(self.endian).itemsize
 
-        g = self._open(egm_pgm, datum, kind, _name__(**name), smooth)
+        g = self._open(egm_pgm, datum, kind, smooth, name)
         self._pgm = p = _PGM(g, pgm=egm_pgm, itemsize=self.u2B, sizeB=self.sizeB)
         if crop:
             g = p._cropped(g, abs(kind) + 1, *self._swne(crop))
@@ -1400,7 +1432,7 @@ class GeoidPGM(_GeoidBase):
             # U{numpy dtype formats are different from Python struct formats
             # <https://docs.SciPy.org/doc/numpy-1.15.0/reference/arrays.dtypes.html>}
             # read all heights, skipping the PGM header lines, converted to float
-            hs = self._load(g, self.endian, p.knots, p.skip).reshape(p.nlat, p.nlon) * p.Scale
+            hs = self._load(g, self.endian, p.nots, p.skip).reshape(p.nlat, p.nlon) * p.Scale
             if p.Offset:  # offset
                 hs = p.Offset + hs
             if p.dlat < 0:  # flip the rows
@@ -1430,6 +1462,74 @@ class GeoidPGM(_GeoidBase):
     if _FOR_DOCS:
         __call__ = _GeoidBase.__call__
         height   = _GeoidBase.height
+        height_  = _GeoidBase.height_
+
+
+class GeoidQuasi(_GeoidBase):  # PYCHOK no cover
+    '''Quasi-geoid height interpolator for C{1-degree, whole Earth grids}, used in package
+       C{PyAxQG}, for example.
+    '''
+
+    def __init__(self, knots, dtype=float, kind=3, smooth=0, name=NN, **pars):
+        '''New L{GeoidQuasi} interpolator.
+
+           @arg knots: Geoid heights in row-major order (C{iterator} over C{nlat} * C{nlon}
+                       scalars from C{slat} north and C{wlon} east).
+           @kwarg dtype: NumPy C{dtype} to use for the B{C{knots}} (C{str} or C{numpy.dtype}).
+           @kwarg kind: C{scipy.interpolate} order (C{int}), use 1..5 for U{RectBivariateSpline
+                        <https://docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.
+                        RectBivariateSpline.html>} or -1, -3 or -5 for U{bisplrep/-ev<https://
+                        docs.SciPy.org/doc/scipy/reference/generated/scipy.interpolate.bisplrep.html>}
+                        or U{interp2d<https://docs.SciPy.org/doc/scipy/reference/generated/scipy.
+                        interpolate.interp2d.html>} C{linear}, C{cubic} respectively C{quintic},
+                        see note for more details.
+           @kwarg smooth: Spline smoothing factor for C{B{kind}=1..5} only (C{float}).
+           @kwarg name: Optional geoid C{B{name}=NN} (C{str}).
+           @kwarg pars: Optional geoid parameters, overriding the defaults (C{slat=-90.0,
+                        wlon=-180.0, dlat=1.0, dlon=1.0, nlat=181 and nlon=361}).
+
+           @raise ImportError: Package C{numpy} or C{scipy} not found or not installed.
+
+           @raise SciPyError: A C{scipy} issue.
+
+           @raise SciPyWarning: A C{scipy} warning as exception.
+
+           @note: Specify C{B{kind}=-1, -3 or -5} to use C{scipy.interpolate.interp2d} before or
+                  C{scipy.interpolate.bisplrep/-ev} since C{Scipy} version 1.14.
+        '''
+        self._kind_smooth(kind, smooth, name)
+        _ =  self.scipy
+        p = _Gpars(slat=-90, wlon=-180,
+                   dlat=1,   dlon=1, dtype=dtype,
+                   nlat=181, nlon=361).update(**pars)
+
+        np = self.numpy
+        ks = np.fromiter(knots, p.dtype)  # len(knots) == p.nots
+        ks = ks.reshape(p.nlat, p.nlon)
+        _GeoidBase.__init__(self, ks, p)
+
+    def _g2ll2(self, lat, lon):
+        # convert grid (lat, lon) to earth (lat, lon)
+        return lat, lon
+
+    def _Nterpolate(self, lat, lon):  # like ._hGeoid
+        # return geoid height for safe C{lat} and C{lon} from pyaxqg
+        try:
+            return _float0d(self._ev(lat, lon))  # scipy 1.18.0
+        except Exception as x:
+            if self._iscipy and self.scipy:  # True
+                raise _SciPyIssue(x, self._ev_name)
+            else:
+                raise GeoidError((lat, lon), cause=x)
+
+    def _ll2g2(self, lat, lon):
+        # convert earth (lat, lon) to grid (lat, lon)
+        return lat, lon
+
+    if _FOR_DOCS:
+        __call__ = _GeoidBase.__call__
+        height   = _GeoidBase.height
+        height_  = _GeoidBase.height_
 
 
 class _Gpars(_Named):
@@ -1440,6 +1540,7 @@ class _Gpars(_Named):
     dlon = 0  # longitude resolution in C{degrees}
     nlat = 1  # number of latitude knots (C{int})
     nlon = 0  # number of longitude knots (C{int})
+    nots = 0  # number of knots, nlat * nlon (C{int})
     rlat = 0  # +/- latitude resolution in C{float}, 1 / .dlat
     rlon = 0  # longitude resolution in C{float}, 1 / .dlon
     slat = 0  # nothern- or southern most latitude (C{degrees90})
@@ -1448,8 +1549,12 @@ class _Gpars(_Named):
     flon = 0  # forward, earth to grid longitude offset
     glon = 0  # reverse, grid to earth longitude offset
 
-    knots = 0  # number of knots, nlat * nlon (C{int})
+    dtype = float  # numpy.dtype, 'f4', 'f8' == float
     skip  = 0  # header bytes to skip (C{int})
+
+    def __init__(self, **pars):
+        if pars:
+            self.update(**pars)
 
     def __repr__(self):
         t = _COMMASPACE_.join(pairs((a, getattr(self, a)) for
@@ -1459,6 +1564,12 @@ class _Gpars(_Named):
 
     def __str__(self):
         return Fmt.PAREN(self.classname, repr(self.name))
+
+    def update(self, **pars):
+        if pars:
+            self.__dict__.update(pars)
+        self.nots = self.nlat * self.nlon
+        return self
 
 
 class _PGM(_Gpars):
@@ -1567,7 +1678,7 @@ class _PGM(_Gpars):
             raise self._Errorf(_format_, 'Scale', self.Scale)
 
         self.skip = g.tell()
-        self.knots = nlat * nlon
+        self.nots = nlat * nlon
 
         self.nlat, self.nlon = nlat, nlon
         self.slat, self.wlon = self.Origin
@@ -1584,7 +1695,7 @@ class _PGM(_Gpars):
         self.crop4 = s, w, n, e
 
         n = self.sizeB - self.skip
-        if n > 0 and n != (self.knots * self.u2B):
+        if n > 0 and n != (self.nots * self.u2B):
             raise self._Errorf('%s(%s x %s != %s)', _assert_, nlat, nlon, n)
 
     def _cropped(self, g, k1, south, west, north, east):  # MCCABE 15
@@ -1650,7 +1761,7 @@ class _PGM(_Gpars):
 
         s -= n  # nlat
         e -= w  # nlon
-        k = s * e  # knots
+        k = s * e  # nots
         z = k * self.u2B
         if t != z:
             raise self._Errorf('%s(%s != %s) %s', _assert_, t, z, self)
@@ -1664,7 +1775,7 @@ class _PGM(_Gpars):
         self.flon = self.glon = f
 
         self.crop4 = south, west, north, east
-        self.knots = k
+        self.nots  = k
         self.skip  = 0  # no header lines in c
 
         c.seek(0, _os.SEEK_SET)
@@ -1846,63 +1957,31 @@ del _intCs, _T, _T0s12  # trash ints cache and map
 # _upperright = 90, 180, 13.0980  # egm84-15.pgm
 
 
-# % python3.12 -m pygeodesy.geoids -egm96 ../testGeoids/WW15MGH.GRD
+# % python3.13 -m pygeodesy.geoids -egm96 ../testGeoids/WW15MGH.GRD
 #
-# GeoidEGM96('WW15MGH.GRD'): lowerleft(-90.0, -180.0, -29.534), upperright(90.0, 180.25, 13.606), center(0.0, 0.125, 17.125), highest(-8.25, -32.75, 85.391), lowest(4.75, -101.25, -106.991): 1.267 ms (pygeodesy 24.12.24 Python 3.12.7 64bit arm64 macOS 14.6.1)
-#
-# Timbuktu GeoidEGM96('WW15MGH.GRD').height(16.775833, -3.009444): 28.7073 vs 28.7880
-# Timbuktu GeoidEGM96('WW15MGH.GRD').height(16.776, -3.009): 28.7072 vs 28.7880
-
-
-# % python3.12 -m pygeodesy.geoids -Karney ../testGeoids/egm*.pgm
-#
-# GeoidKarney('egm2008-1.pgm'): lowerleft(-90.0, -180.0, -30.15), upperright(90.0, 180.0, 14.898), center(0.0, 0.0, 17.226), highest(-8.4, 147.367, 85.839), lowest(4.7, 78.767, -106.911): 204.334 ms (pygeodesy 24.8.24 Python 3.12.5 64bit arm64 macOS 14.6.1)
-#
-# _PGM('../testGeoids/egm2008-1.pgm'): AREA_OR_POINT='Point', DateTime='2009-08-31 06:54:00', Description='WGS84 EGM2008, 1-minute grid', Geoid='file in PGM format for the GeographicLib::Geoid class', MaxBilinearError=0.025, MaxCubicError=0.003, Offset=-108.0, Origin=LatLon2Tuple(lat=90.0, lon=0.0), Pixel=65535, RMSBilinearError=0.001, RMSCubicError=0.001, Scale=0.003, URL='http://earth-info.nga.mil/GandG/wgs84/gravitymod/egm2008', Vertical_Datum='WGS84'
-#
-# Timbuktu GeoidKarney('egm2008-1.pgm').height(16.775833, -3.009444): 28.7881 vs 28.7880
-# Timbuktu GeoidKarney('egm2008-1.pgm').height(16.776, -3.009): 28.7880 vs 28.7880
-#
-# GeoidKarney('egm84-15.pgm'): lowerleft(-90.0, -180.0, -29.712), upperright(90.0, 180.0, 13.098), center(0.0, 0.0, 18.33), highest(-4.5, 148.75, 81.33), lowest(4.75, 79.25, -107.34): 1.007 ms (pygeodesy 24.8.24 Python 3.12.5 64bit arm64 macOS 14.6.1)
-#
-# _PGM('../testGeoids/egm84-15.pgm'): AREA_OR_POINT='Point', DateTime='2009-08-29 18:45:02', Description='WGS84 EGM84, 15-minute grid', Geoid='file in PGM format for the GeographicLib::Geoid class', MaxBilinearError=0.413, MaxCubicError=0.02, Offset=-108.0, Origin=LatLon2Tuple(lat=90.0, lon=0.0), Pixel=65535, RMSBilinearError=0.018, RMSCubicError=0.001, Scale=0.003, URL='http://earth-info.nga.mil/GandG/wgs84/gravitymod/wgs84_180/wgs84_180.html', Vertical_Datum='WGS84'
-#
-# Timbuktu GeoidKarney('egm84-15.pgm').height(16.775833, -3.009444): 31.2983 vs 31.2979
-# Timbuktu GeoidKarney('egm84-15.pgm').height(16.776, -3.009): 31.2979 vs 31.2979
-#
-# GeoidKarney('egm96-5.pgm'): lowerleft(-90.0, -180.0, -29.535), upperright(90.0, 180.0, 13.605), center(0.0, 0.0, 17.163), highest(-8.167, 147.25, 85.422), lowest(4.667, 78.833, -107.043): 8.509 ms (pygeodesy 24.8.24 Python 3.12.5 64bit arm64 macOS 14.6.1)
-#
-# _PGM('../testGeoids/egm96-5.pgm'): AREA_OR_POINT='Point', DateTime='2009-08-29 18:45:03', Description='WGS84 EGM96, 5-minute grid', Geoid='file in PGM format for the GeographicLib::Geoid class', MaxBilinearError=0.14, MaxCubicError=0.003, Offset=-108.0, Origin=LatLon2Tuple(lat=90.0, lon=0.0), Pixel=65535, RMSBilinearError=0.005, RMSCubicError=0.001, Scale=0.003, URL='http://earth-info.nga.mil/GandG/wgs84/gravitymod/egm96/egm96.html', Vertical_Datum='WGS84'
-#
-# Timbuktu GeoidKarney('egm96-5.pgm').height(16.775833, -3.009444): 28.7068 vs 28.7067
-# Timbuktu GeoidKarney('egm96-5.pgm').height(16.776, -3.009): 28.7067 vs 28.7067
-
-
-# % python3.8 -m pygeodesy.geoids -egm96 ../testGeoids/WW15MGH.GRD
-#
-# GeoidEGM96('WW15MGH.GRD'): lowerleft(-90.0, -180.0, -29.534), upperright(90.0, 180.25, 13.606), center(0.0, 0.125, 17.125), highest(-8.25, -32.75, 85.391), lowest(4.75, -101.25, -106.991): 1.267 ms (pygeodesy 24.12.24 Python 3.8.10 64bit arm64_x86_64 macOS 10.16)
+# GeoidEGM96('WW15MGH.GRD'): kind=3, smooth=0, dtype=dtype('float64'), endian='tbd', mean=-1.426, nBytes=8311688, nots=1038961, shape=(721, 1441), sizeB=8153505, stdev=29.223, numpy=2.5.0, scipy=1.18.0, center=(0.0, 0.125, 17.125), highest=(-8.25, -32.75, 85.391), lowest=(4.75, -101.25, -106.991), lowerleft=(-90.0, -180.0, -29.534), loweright=(-90.0, 180.0, -29.534), upperleft=(90.0, -180.0, 13.606), upperright=(90.0, 180.0, 13.606): 598.907 us (pygeodesy 26.8.26 Python 3.13.13 64bit arm64 macOS 26.6.2)
 #
 # Timbuktu GeoidEGM96('WW15MGH.GRD').height(16.775833, -3.009444): 28.7073 vs 28.7880
 # Timbuktu GeoidEGM96('WW15MGH.GRD').height(16.776, -3.009): 28.7072 vs 28.7880
 
 
-# % python3.8 -m pygeodesy.geoids -Karney ../testGeoids/egm*.pgm
+# % python3.13 -m pygeodesy.geoids -Karney ../testGeoids/egm*.pgm
 #
-# GeoidKarney('egm2008-1.pgm'): lowerleft(-90.0, -180.0, -30.15), upperright(90.0, 180.0, 14.898), center(0.0, 0.0, 17.226), highest(-8.4, 147.367, 85.839), lowest(4.7, 78.767, -106.911): 353.050 ms (pygeodesy 24.8.24 Python 3.8.10 64bit arm64_x86_64 macOS 10.16)
+# GeoidKarney('egm2008-1.pgm'): kind=3, cropped=False, dtype='ushort', endian='>H', hits=0, mean=-1.317, nots=233301600, shape=(10801, 21600), sizeB=466603604, stdev=29.244, center=(0.0, 0.0, 17.226), highest=(-8.4, 147.367, 85.839), lowest=(4.7, 78.767, -106.911), lowerleft=(-90.0, -180.0, -30.15), loweright=(-90.0, 180.0, -30.15), upperleft=(90.0, -180.0, 14.898), upperright=(90.0, 180.0, 14.898): 112.521 ms (pygeodesy 26.8.26 Python 3.13.13 64bit arm64 macOS 26.6.2)
 #
 # _PGM('../testGeoids/egm2008-1.pgm'): AREA_OR_POINT='Point', DateTime='2009-08-31 06:54:00', Description='WGS84 EGM2008, 1-minute grid', Geoid='file in PGM format for the GeographicLib::Geoid class', MaxBilinearError=0.025, MaxCubicError=0.003, Offset=-108.0, Origin=LatLon2Tuple(lat=90.0, lon=0.0), Pixel=65535, RMSBilinearError=0.001, RMSCubicError=0.001, Scale=0.003, URL='http://earth-info.nga.mil/GandG/wgs84/gravitymod/egm2008', Vertical_Datum='WGS84'
 #
 # Timbuktu GeoidKarney('egm2008-1.pgm').height(16.775833, -3.009444): 28.7881 vs 28.7880
 # Timbuktu GeoidKarney('egm2008-1.pgm').height(16.776, -3.009): 28.7880 vs 28.7880
 #
-# GeoidKarney('egm84-15.pgm'): lowerleft(-90.0, -180.0, -29.712), upperright(90.0, 180.0, 13.098), center(0.0, 0.0, 18.33), highest(-4.5, 148.75, 81.33), lowest(4.75, 79.25, -107.34): 1.727 ms (pygeodesy 24.8.24 Python 3.8.10 64bit arm64_x86_64 macOS 10.16)
+# GeoidKarney('egm84-30.pgm'): kind=3, cropped=False, dtype='ushort', endian='>H', hits=0, mean=-1.317, nots=259920, shape=(361, 720), sizeB=520256, stdev=29.244, center=(0.0, 0.0, 18.327), highest=(-4.5, 149.0, 81.33), lowest=(5.0, 79.0, -107.232), lowerleft=(-90.0, -180.0, -29.711), loweright=(-90.0, 180.0, -29.711), upperleft=(90.0, -180.0, 13.098), upperright=(90.0, 180.0, 13.098): 179.052 us (pygeodesy 26.8.26 Python 3.13.13 64bit arm64 macOS 26.6.2)
 #
-# _PGM('../testGeoids/egm84-15.pgm'): AREA_OR_POINT='Point', DateTime='2009-08-29 18:45:02', Description='WGS84 EGM84, 15-minute grid', Geoid='file in PGM format for the GeographicLib::Geoid class', MaxBilinearError=0.413, MaxCubicError=0.02, Offset=-108.0, Origin=LatLon2Tuple(lat=90.0, lon=0.0), Pixel=65535, RMSBilinearError=0.018, RMSCubicError=0.001, Scale=0.003, URL='http://earth-info.nga.mil/GandG/wgs84/gravitymod/wgs84_180/wgs84_180.html', Vertical_Datum='WGS84'
+# _PGM('../testGeoids/egm84-30.pgm'): AREA_OR_POINT='Point', DateTime='2009-08-29 18:45:02', Description='WGS84 EGM84, 30-minute grid', Geoid='file in PGM format for the GeographicLib::Geoid class', MaxBilinearError=1.546, MaxCubicError=0.274, Offset=-108.0, Origin=LatLon2Tuple(lat=90.0, lon=0.0), Pixel=65535, RMSBilinearError=0.07, RMSCubicError=0.014, Scale=0.003, URL='http://earth-info.nga.mil/GandG/wgs84/gravitymod/wgs84_180/wgs84_180.html', Vertical_Datum='WGS84'
 #
-# Timbuktu GeoidKarney('egm84-15.pgm').height(16.775833, -3.009444): 31.2983 vs 31.2979
-# Timbuktu GeoidKarney('egm84-15.pgm').height(16.776, -3.009): 31.2979 vs 31.2979
+# Timbuktu GeoidKarney('egm84-30.pgm').height(16.775833, -3.009444): 31.3031 vs 28.7880
+# Timbuktu GeoidKarney('egm84-30.pgm').height(16.776, -3.009): 31.3027 vs 28.7880
 #
-# GeoidKarney('egm96-5.pgm'): lowerleft(-90.0, -180.0, -29.535), upperright(90.0, 180.0, 13.605), center(0.0, 0.0, 17.163), highest(-8.167, 147.25, 85.422), lowest(4.667, 78.833, -107.043): 14.807 ms (pygeodesy 24.8.24 Python 3.8.10 64bit arm64_x86_64 macOS 10.16)
+# GeoidKarney('egm96-5.pgm'): kind=3, cropped=False, dtype='ushort', endian='>H', hits=0, mean=-1.317, nots=9335520, shape=(2161, 4320), sizeB=18671448, stdev=29.244, center=(0.0, 0.0, 17.163), highest=(-8.167, 147.25, 85.422), lowest=(4.667, 78.833, -107.043), lowerleft=(-90.0, -180.0, -29.535), loweright=(-90.0, 180.0, -29.535), upperleft=(90.0, -180.0, 13.605), upperright=(90.0, 180.0, 13.605): 4.645 ms (pygeodesy 26.8.26 Python 3.13.13 64bit arm64 macOS 26.6.2)
 #
 # _PGM('../testGeoids/egm96-5.pgm'): AREA_OR_POINT='Point', DateTime='2009-08-29 18:45:03', Description='WGS84 EGM96, 5-minute grid', Geoid='file in PGM format for the GeographicLib::Geoid class', MaxBilinearError=0.14, MaxCubicError=0.003, Offset=-108.0, Origin=LatLon2Tuple(lat=90.0, lon=0.0), Pixel=65535, RMSBilinearError=0.005, RMSCubicError=0.001, Scale=0.003, URL='http://earth-info.nga.mil/GandG/wgs84/gravitymod/egm96/egm96.html', Vertical_Datum='WGS84'
 #
@@ -1910,52 +1989,53 @@ del _intCs, _T, _T0s12  # trash ints cache and map
 # Timbuktu GeoidKarney('egm96-5.pgm').height(16.776, -3.009): 28.7067 vs 28.7067
 
 
-# % python2 -m pygeodesy.geoids -Karney ../testGeoids/egm*.pgm
+# % python3.13 -m pygeodesy.geoids -PGM ../testGeoids/egm*.pgm
 #
-# GeoidKarney('egm2008-1.pgm'): lowerleft(-90.0, -180.0, -30.15), upperright(90.0, 180.0, 14.898), center(0.0, 0.0, 17.226), highest(-8.4, 147.367, 85.839), lowest(4.7, 78.767, -106.911): 283.362 ms (pygeodesy 24.8.24 Python 2.7.18 64bit arm64_x86_64 macOS 10.16)
-#
-# _PGM('../testGeoids/egm2008-1.pgm'): AREA_OR_POINT='Point', DateTime='2009-08-31 06:54:00', Description='WGS84 EGM2008, 1-minute grid', Geoid='file in PGM format for the GeographicLib::Geoid class', MaxBilinearError=0.025, MaxCubicError=0.003, Offset=-108.0, Origin=LatLon2Tuple(lat=90.0, lon=0.0), Pixel=65535, RMSBilinearError=0.001, RMSCubicError=0.001, Scale=0.003, URL='http://earth-info.nga.mil/GandG/wgs84/gravitymod/egm2008', Vertical_Datum='WGS84'
-#
-# Timbuktu GeoidKarney('egm2008-1.pgm').height(16.775833, -3.009444): 28.7881 vs 28.7880
-# Timbuktu GeoidKarney('egm2008-1.pgm').height(16.776, -3.009): 28.7880 vs 28.7880
-#
-# GeoidKarney('egm84-15.pgm'): lowerleft(-90.0, -180.0, -29.712), upperright(90.0, 180.0, 13.098), center(0.0, 0.0, 18.33), highest(-4.5, 148.75, 81.33), lowest(4.75, 79.25, -107.34): 1.378 ms (pygeodesy 24.8.24 Python 2.7.18 64bit arm64_x86_64 macOS 10.16)
-#
-# _PGM('../testGeoids/egm84-15.pgm'): AREA_OR_POINT='Point', DateTime='2009-08-29 18:45:02', Description='WGS84 EGM84, 15-minute grid', Geoid='file in PGM format for the GeographicLib::Geoid class', MaxBilinearError=0.413, MaxCubicError=0.02, Offset=-108.0, Origin=LatLon2Tuple(lat=90.0, lon=0.0), Pixel=65535, RMSBilinearError=0.018, RMSCubicError=0.001, Scale=0.003, URL='http://earth-info.nga.mil/GandG/wgs84/gravitymod/wgs84_180/wgs84_180.html', Vertical_Datum='WGS84'
-#
-# Timbuktu GeoidKarney('egm84-15.pgm').height(16.775833, -3.009444): 31.2983 vs 31.2979
-# Timbuktu GeoidKarney('egm84-15.pgm').height(16.776, -3.009): 31.2979 vs 31.2979
-#
-# GeoidKarney('egm96-5.pgm'): lowerleft(-90.0, -180.0, -29.535), upperright(90.0, 180.0, 13.605), center(0.0, 0.0, 17.163), highest(-8.167, 147.25, 85.422), lowest(4.667, 78.833, -107.043): 11.612 ms (pygeodesy 24.8.24 Python 2.7.18 64bit arm64_x86_64 macOS 10.16)
-#
-# _PGM('../testGeoids/egm96-5.pgm'): AREA_OR_POINT='Point', DateTime='2009-08-29 18:45:03', Description='WGS84 EGM96, 5-minute grid', Geoid='file in PGM format for the GeographicLib::Geoid class', MaxBilinearError=0.14, MaxCubicError=0.003, Offset=-108.0, Origin=LatLon2Tuple(lat=90.0, lon=0.0), Pixel=65535, RMSBilinearError=0.005, RMSCubicError=0.001, Scale=0.003, URL='http://earth-info.nga.mil/GandG/wgs84/gravitymod/egm96/egm96.html', Vertical_Datum='WGS84'
-#
-# Timbuktu GeoidKarney('egm96-5.pgm').height(16.775833, -3.009444): 28.7068 vs 28.7067
-# Timbuktu GeoidKarney('egm96-5.pgm').height(16.776, -3.009): 28.7067 vs 28.7067
-
-
-# % python3.12 -m pygeodesy.geoids -PGM ../testGeoids/egm*.pgm
-#
-# GeoidPGM('egm2008-1.pgm'): lowerleft(-90.0, -180.0, -30.15), upperright(90.0, 180.0, 14.898), center(0.0, 0.0, 17.226), highest(-8.4, -32.633, 85.839), lowest(4.683, -101.25, -106.911): 543.148 ms (pygeodesy 24.8.24 Python 3.12.5 64bit arm64 macOS 14.6.1)
+# GeoidPGM('egm2008-1.pgm'): kind=3, smooth=0, cropped=False, dtype=dtype('float64'), endian='>u2', mean=-1.317, nBytes=1866412800, nots=233301600, shape=(10801, 21600), sizeB=466603604, stdev=29.244, numpy=2.5.0, scipy=1.18.0, center=(0.0, 0.0, 17.226), highest=(-8.4, -32.633, 85.839), lowest=(4.683, -101.25, -106.911), lowerleft=(-90.0, -180.0, -30.15), loweright=(-90.0, 179.983, -30.15), upperleft=(90.0, -180.0, 14.898), upperright=(90.0, 179.983, 14.898): 574.773 ms (pygeodesy 26.8.26 Python 3.13.13 64bit arm64 macOS 26.6.2)
 #
 # _PGM('../testGeoids/egm2008-1.pgm'): AREA_OR_POINT='Point', DateTime='2009-08-31 06:54:00', Description='WGS84 EGM2008, 1-minute grid', Geoid='file in PGM format for the GeographicLib::Geoid class', MaxBilinearError=0.025, MaxCubicError=0.003, Offset=-108.0, Origin=LatLon2Tuple(lat=90.0, lon=0.0), Pixel=65535, RMSBilinearError=0.001, RMSCubicError=0.001, Scale=0.003, URL='http://earth-info.nga.mil/GandG/wgs84/gravitymod/egm2008', Vertical_Datum='WGS84'
 #
 # Timbuktu GeoidPGM('egm2008-1.pgm').height(16.775833, -3.009444): 28.7881 vs 28.7880
 # Timbuktu GeoidPGM('egm2008-1.pgm').height(16.776, -3.009): 28.7880 vs 28.7880
 #
-# GeoidPGM('egm84-15.pgm'): lowerleft(-90.0, -180.0, -29.712), upperright(90.0, 180.0, 13.098), center(0.0, 0.0, 18.33), highest(-4.5, -31.25, 81.33), lowest(4.75, -100.75, -107.34): 1.762 ms (pygeodesy 24.8.24 Python 3.12.5 64bit arm64 macOS 14.6.1)
+# GeoidPGM('egm84-30.pgm'): kind=3, smooth=0, cropped=False, dtype=dtype('float64'), endian='>u2', mean=-0.865, nBytes=2079360, nots=259920, shape=(361, 720), sizeB=520256, stdev=29.175, numpy=2.5.0, scipy=1.18.0, center=(0.0, 0.0, 18.33), highest=(-4.5, -31.0, 81.33), lowest=(5.0, -101.0, -107.232), lowerleft=(-90.0, -180.0, -29.712), loweright=(-90.0, 179.5, -29.712), upperleft=(90.0, -180.0, 13.098), upperright=(90.0, 179.5, 13.098): 248.909 us (pygeodesy 26.8.26 Python 3.13.13 64bit arm64 macOS 26.6.2)
 #
-# _PGM('../testGeoids/egm84-15.pgm'): AREA_OR_POINT='Point', DateTime='2009-08-29 18:45:02', Description='WGS84 EGM84, 15-minute grid', Geoid='file in PGM format for the GeographicLib::Geoid class', MaxBilinearError=0.413, MaxCubicError=0.02, Offset=-108.0, Origin=LatLon2Tuple(lat=90.0, lon=0.0), Pixel=65535, RMSBilinearError=0.018, RMSCubicError=0.001, Scale=0.003, URL='http://earth-info.nga.mil/GandG/wgs84/gravitymod/wgs84_180/wgs84_180.html', Vertical_Datum='WGS84'
+# _PGM('../testGeoids/egm84-30.pgm'): AREA_OR_POINT='Point', DateTime='2009-08-29 18:45:02', Description='WGS84 EGM84, 30-minute grid', Geoid='file in PGM format for the GeographicLib::Geoid class', MaxBilinearError=1.546, MaxCubicError=0.274, Offset=-108.0, Origin=LatLon2Tuple(lat=90.0, lon=0.0), Pixel=65535, RMSBilinearError=0.07, RMSCubicError=0.014, Scale=0.003, URL='http://earth-info.nga.mil/GandG/wgs84/gravitymod/wgs84_180/wgs84_180.html', Vertical_Datum='WGS84'
 #
-# Timbuktu GeoidPGM('egm84-15.pgm').height(16.775833, -3.009444): 31.2979 vs 31.2979
-# Timbuktu GeoidPGM('egm84-15.pgm').height(16.776, -3.009): 31.2975 vs 31.2979
+# Timbuktu GeoidPGM('egm84-30.pgm').height(16.775833, -3.009444): 31.3010 vs 28.7880
+# Timbuktu GeoidPGM('egm84-30.pgm').height(16.776, -3.009): 31.3006 vs 28.7880
 #
-# GeoidPGM('egm96-5.pgm'): lowerleft(-90.0, -180.0, -29.535), upperright(90.0, 180.0, 13.605), center(0.0, -0.0, 17.179), highest(-8.167, -32.75, 85.422), lowest(4.667, -101.167, -107.043): 12.594 ms (pygeodesy 24.8.24 Python 3.12.5 64bit arm64 macOS 14.6.1)
+# GeoidPGM('egm96-5.pgm'): kind=3, smooth=0, cropped=False, dtype=dtype('float64'), endian='>u2', mean=-1.438, nBytes=74684160, nots=9335520, shape=(2161, 4320), sizeB=18671448, stdev=29.227, numpy=2.5.0, scipy=1.18.0, center=(0.0, -0.0, 17.179), highest=(-8.167, -32.75, 85.422), lowest=(4.667, -101.167, -107.043), lowerleft=(-90.0, -180.0, -29.535), loweright=(-90.0, 179.917, -29.535), upperleft=(90.0, -180.0, 13.605), upperright=(90.0, 179.917, 13.605): 7.860 ms (pygeodesy 26.8.26 Python 3.13.13 64bit arm64 macOS 26.6.2)
 #
 # _PGM('../testGeoids/egm96-5.pgm'): AREA_OR_POINT='Point', DateTime='2009-08-29 18:45:03', Description='WGS84 EGM96, 5-minute grid', Geoid='file in PGM format for the GeographicLib::Geoid class', MaxBilinearError=0.14, MaxCubicError=0.003, Offset=-108.0, Origin=LatLon2Tuple(lat=90.0, lon=0.0), Pixel=65535, RMSBilinearError=0.005, RMSCubicError=0.001, Scale=0.003, URL='http://earth-info.nga.mil/GandG/wgs84/gravitymod/egm96/egm96.html', Vertical_Datum='WGS84'
 #
 # Timbuktu GeoidPGM('egm96-5.pgm').height(16.775833, -3.009444): 28.7065 vs 28.7067
 # Timbuktu GeoidPGM('egm96-5.pgm').height(16.776, -3.009): 28.7064 vs 28.7067
+
+
+# % python2 -m pygeodesy.geoids -Karney ../testGeoids/egm*.pgm
+#
+# GeoidKarney('egm2008-1.pgm'): kind=3, cropped=False, dtype='ushort', endian='>H', hits=0, mean=-1.317, nots=233301600, shape=(10801, 21600), sizeB=466603604, stdev=29.244, center=(0.0, 0.0, 17.226), highest=(-8.4, 147.367, 85.839), lowest=(4.7, 78.767, -106.911), lowerleft=(-90.0, -180.0, -30.15), loweright=(-90.0, 180.0, -30.15), upperleft=(90.0, -180.0, 14.898), upperright=(90.0, 180.0, 14.898): 167.144 ms (pygeodesy 26.8.26 Python 2.7.18 64bit arm64_x86_64 macOS 26.6.2)
+#
+# _PGM('../testGeoids/egm2008-1.pgm'): AREA_OR_POINT='Point', DateTime='2009-08-31 06:54:00', Description='WGS84 EGM2008, 1-minute grid', Geoid='file in PGM format for the GeographicLib::Geoid class', MaxBilinearError=0.025, MaxCubicError=0.003, Offset=-108.0, Origin=LatLon2Tuple(lat=90.0, lon=0.0), Pixel=65535, RMSBilinearError=0.001, RMSCubicError=0.001, Scale=0.003, URL='http://earth-info.nga.mil/GandG/wgs84/gravitymod/egm2008', Vertical_Datum='WGS84'
+#
+# Timbuktu GeoidKarney('egm2008-1.pgm').height(16.775833, -3.009444): 28.7881 vs 28.7880
+# Timbuktu GeoidKarney('egm2008-1.pgm').height(16.776, -3.009): 28.7880 vs 28.7880
+#
+# GeoidKarney('egm84-30.pgm'): kind=3, cropped=False, dtype='ushort', endian='>H', hits=0, mean=-1.317, nots=259920, shape=(361, 720), sizeB=520256, stdev=29.244, center=(0.0, 0.0, 18.327), highest=(-4.5, 149.0, 81.33), lowest=(5.0, 79.0, -107.232), lowerleft=(-90.0, -180.0, -29.711), loweright=(-90.0, 180.0, -29.711), upperleft=(90.0, -180.0, 13.098), upperright=(90.0, 180.0, 13.098): 227.928 us (pygeodesy 26.8.26 Python 2.7.18 64bit arm64_x86_64 macOS 26.6.2)
+#
+# _PGM('../testGeoids/egm84-30.pgm'): AREA_OR_POINT='Point', DateTime='2009-08-29 18:45:02', Description='WGS84 EGM84, 30-minute grid', Geoid='file in PGM format for the GeographicLib::Geoid class', MaxBilinearError=1.546, MaxCubicError=0.274, Offset=-108.0, Origin=LatLon2Tuple(lat=90.0, lon=0.0), Pixel=65535, RMSBilinearError=0.07, RMSCubicError=0.014, Scale=0.003, URL='http://earth-info.nga.mil/GandG/wgs84/gravitymod/wgs84_180/wgs84_180.html', Vertical_Datum='WGS84'
+#
+# Timbuktu GeoidKarney('egm84-30.pgm').height(16.775833, -3.009444): 31.3031 vs 28.7880
+# Timbuktu GeoidKarney('egm84-30.pgm').height(16.776, -3.009): 31.3027 vs 28.7880
+#
+# GeoidKarney('egm96-5.pgm'): kind=3, cropped=False, dtype='ushort', endian='>H', hits=0, mean=-1.317, nots=9335520, shape=(2161, 4320), sizeB=18671448, stdev=29.244, center=(0.0, 0.0, 17.163), highest=(-8.167, 147.25, 85.422), lowest=(4.667, 78.833, -107.043), lowerleft=(-90.0, -180.0, -29.535), loweright=(-90.0, 180.0, -29.535), upperleft=(90.0, -180.0, 13.605), upperright=(90.0, 180.0, 13.605): 6.938 ms (pygeodesy 26.8.26 Python 2.7.18 64bit arm64_x86_64 macOS 26.6.2)
+#
+# _PGM('../testGeoids/egm96-5.pgm'): AREA_OR_POINT='Point', DateTime='2009-08-29 18:45:03', Description='WGS84 EGM96, 5-minute grid', Geoid='file in PGM format for the GeographicLib::Geoid class', MaxBilinearError=0.14, MaxCubicError=0.003, Offset=-108.0, Origin=LatLon2Tuple(lat=90.0, lon=0.0), Pixel=65535, RMSBilinearError=0.005, RMSCubicError=0.001, Scale=0.003, URL='http://earth-info.nga.mil/GandG/wgs84/gravitymod/egm96/egm96.html', Vertical_Datum='WGS84'
+#
+# Timbuktu GeoidKarney('egm96-5.pgm').height(16.775833, -3.009444): 28.7068 vs 28.7067
+# Timbuktu GeoidKarney('egm96-5.pgm').height(16.776, -3.009): 28.7067 vs 28.7067
+
 
 # **) MIT License
 #

@@ -280,8 +280,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                       geodsolve=_a('GeodesicSolve', 'GeodesicLineSolve', 'GeodSolve12Tuple'),
                      geod3solve=_a('Geodesic3Solve', 'GeodesicLine3Solve', 'Geod3Solve8Tuple', 'Geodesic3Error'),
                         geohash=_a('Geohash', 'Geohashed', 'GeohashError', 'Neighbors8Dict', 'Resolutions2Tuple', 'Sizes3Tuple'),
-                         geoids=_a('GeoidError', 'GeoidEGM96', 'GeoidG2012B', 'GeoidKarney', 'GeoidPGM', 'egmGeoidHeights',
-                                   'PGMError', 'GeoidHeight5Tuple'),
+                         geoids=_a('GeoidEGM96', 'GeoidG2012B', 'GeoidKarney', 'GeoidPGM', 'GeoidQuasi',
+                                   'GeoidError', 'GeoidHeight5Tuple', 'PGMError', 'egmGeoidHeights'),
                       hausdorff=_a('Hausdorff', 'HausdorffDegrees', 'HausdorffError', 'HausdorffRadians', 'HausdorffCosineLaw',
                                    'HausdorffDistanceTo', 'HausdorffEquirectangular', 'HausdorffEuclidean', 'HausdorffExact',
                                    'HausdorffFlatLocal', 'HausdorffFlatPolar', 'HausdorffHaversine', 'HausdorffHubeny',
@@ -925,7 +925,7 @@ def _lazy_module(name):  # overwritten by _lazy_import2
 
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '26.08.18'
+__version__ = '26.08.24'
 
 if __name__ == _DMAIN_:
 
