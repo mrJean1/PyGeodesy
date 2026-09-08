@@ -97,7 +97,7 @@ from pygeodesy.utily import atan1, atan1d, atan2b, degrees90, m2radians, radians
 from math import asinh, atan, atanh, cos, degrees, exp, fabs, radians, sin, sinh, sqrt, tan  # as _tan
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '26.03.25'
+__version__ = '26.09.03'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -1206,8 +1206,8 @@ class Ellipsoid(_NamedEnumItem):
         return (p * ca + fabs(z * sa) - self.a * self.e2s(sa)) if sa else (p - self.a)
 
     @Property_RO
-    def _heightMax(self):
-        '''(INTERNAL) Get the height limit (C{meter}, conventionally).
+    def heightMax(self):
+        '''Get the height limit (C{meter}, conventionally).
         '''
         return self.a / EPS_2  # self.a * _2_EPS, about 12M lightyears
 

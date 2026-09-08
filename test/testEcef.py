@@ -4,11 +4,11 @@
 # Test L{ecef} module.
 
 __all__ = ('Tests',)
-__version__ = '25.08.24'
+__version__ = '26.09.03'
 
 from bases import bits_mach2, GeodSolve, TestsBase, startswith
 
-from pygeodesy import Datums, EcefError, EcefFarrell21, EcefFarrell22, EcefKarney, \
+from pygeodesy import Datums, EcefError, EcefFarrell21, EcefFarrell22, EcefFukushima, EcefKarney, \
                       EcefMatrix, EcefSudano, EcefUPC, EcefVeness, EcefYou, Ellipsoids, \
                       fstr, latDMS, lonDMS, parse3llh, sphericalNvector  # deprecated.nvector
 
@@ -79,13 +79,13 @@ class Tests(TestsBase):
         # <https://GeographicLib.SourceForge.io/C++/doc/CartConvert.1.html>
         t = g.reverse(30000, 30000, 0)
         self.test('reverse', fstr(t[0:3], prec=1), '30000.0, 30000.0, 0.0')
-        self.test('reverse', fstr(t[3:6], prec=3), '6.483, 45.0, -6335709.726', known=not Karney)
+        self.test('reverse', fstr(t[3:6], prec=3), '6.483, 45.0, -6335709.726')  # known=not Karney)
         self.test('case', t.C, 3)
         self.test('iteration', t.iteration, t.iteration)
 
         t = g.forward(6.483, 45.0, -6335709.726)
         self.test('forward', fstr(t[3:6], prec=3), '6.483, 45.0, -6335709.726')
-        self.test('forward', fstr(t[0:3], prec=1), '30000.0, 30000.0, -0.0', known=True)
+        self.test('forward', fstr(t[0:3], prec=1), '30000.0, 30000.0, -0.0', known=t.z == 0)
 
         # <https://Search.ProQuest.com/docview/847292978> pp 113-114
         t = g.reverse(-2578.0e3, -504.9e3, 5792.9e3)
@@ -263,6 +263,7 @@ if __name__ == '__main__':
     t.testEcef(EcefKarney)
     t.testEcef(EcefFarrell21)
     t.testEcef(EcefFarrell22)
+    t.testEcef(EcefFukushima)
     t.testEcef(EcefVeness)
     t.testEcef(EcefSudano)
     t.testEcef(EcefUPC)

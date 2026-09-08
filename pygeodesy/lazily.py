@@ -216,7 +216,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'bearingDMS', 'clipDegrees', 'clipRadians', 'compassDMS', 'compassPoint',
                                    'degDMS', 'latDMS', 'latlonDMS', 'latlonDMS_', 'lonDMS', 'normDMS',
                                    'parseDDDMMSS', 'parseDMS', 'parseDMS2', 'parse3llh', 'parseRad', 'precision', 'toDMS'),
-                           ecef=_a('EcefFarrell21', 'EcefFarrell22', 'EcefKarney', 'EcefSudano', 'EcefUPC', 'EcefVeness', 'EcefYou',
+                           ecef=_a('EcefFarrell21', 'EcefFarrell22', 'EcefFukushima', 'EcefKarney', 'EcefSudano', 'EcefUPC', 'EcefVeness', 'EcefYou',
                                    'EcefError', 'EcefMatrix', 'Ecef9Tuple'),
                      ecefLocals=_a(),  # module only
                      elevations=_a('Elevation2Tuple', 'GeoidHeight2Tuple',
@@ -925,7 +925,7 @@ def _lazy_module(name):  # overwritten by _lazy_import2
 
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '26.08.24'
+__version__ = '26.09.02'
 
 if __name__ == _DMAIN_:
 
