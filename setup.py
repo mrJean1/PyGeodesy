@@ -27,7 +27,7 @@ from os import getenv
 from setuptools import setup
 
 __all__ = ()
-__version__ = '26.07.17'
+__version__ = '26.09.09'
 
 _PACKAGE = 'pygeodesy'  # 'PyGeodesy'
 
@@ -69,7 +69,7 @@ _KeyWords = ('AER', 'AGM', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode
              'Euclidean', 'even-odd-rule', 'ExactTM', 'excess', 'Farrell', 'Farrell-Barth',
              'Ferrari-solution', 'Field-Of-View', 'flattening', 'fma', 'fmath',
              'footpoint', 'footprint', 'Forster', 'Forster-Hormann-Popa', 'Forsythe', 'FOV',
-             'fractional', 'Frechet', 'Fréchet', 'frustum', 'Fsum', 'fused-multiply-add',
+             'fractional', 'Frechet', 'Fréchet', 'frustum', 'Fsum', 'Fukushima', 'fused-multiply-add',
              'GARS', 'Gauss-Kummer', 'geocentric', 'GeoConvert', 'GeodesicExact', 'geodesy', 'geodetic',
              'GeodSolve', 'Geod3Solve', 'GeodTest', 'geographiclib', 'Geohash', 'geoid', 'geoidHeight', 'GeoidHeights',
              'georef', 'Girard', 'gnomonic', 'gons', 'grades', 'gradians', 'Greiner', 'Greiner-Hormann',
