@@ -57,7 +57,7 @@ from pygeodesy.vector3d import sumOf, Vector3d
 from math import asin, cos, degrees, fabs, radians, sin
 
 __all__ = _ALL_LAZY.sphericalTrigonometry
-__version__ = '25.08.31'
+__version__ = '26.10.02'
 
 _PI_EPS4 = PI - EPS4
 if _PI_EPS4 >= PI:
@@ -96,7 +96,7 @@ class LatLon(LatLonSphericalBase):
         a1, b1 = self.philam
         a2, b2 = self.others(other, up=2).philam
         if wrap:
-            a2, b2 = _Wrap.philam(a2, b2)
+            a2, b2 = _Wrap.philam(a2, b2)  # PYLINT E1120
             db, b2 =  unrollPI(b1, b2, wrap=wrap)
         else:  # unrollPI shortcut
             db = b2 - b1
@@ -167,7 +167,7 @@ class LatLon(LatLonSphericalBase):
            @return: 2-Tuple C{(lon1, lon2)}, both in C{degrees180} or
                     C{None} if the great circle doesn't reach B{C{lat}}.
         '''
-        a1, b1, a2, b2, db = self._ab1_ab2_db5(other, wrap)
+        a1, b1, a2, _, db  = self._ab1_ab2_db5(other, wrap)
         sa,  ca,  sa1, ca1, \
         sa2, ca2, sdb, cdb = sincos2_(radians(lat), a1, a2, db)
         sa1 *= ca2 * ca
@@ -275,7 +275,7 @@ class LatLon(LatLonSphericalBase):
         sa, ca, sb, cb, st, ct = sincos2_(a, b, Bearing_(bearing))
 
         sa *= st
-        return Vector(fdot_(sb, ct, -cb, sa),
+        return Vector(fdot_(sb, ct, -cb, sa),  # PYLINT E1130
                      -fdot_(cb, ct,  sb, sa),
                       ca * st, **Vector_kwds)  # XXX .unit()?
 
@@ -330,7 +330,7 @@ class LatLon(LatLonSphericalBase):
         if not isnear0(f):
             p = p.others(other)
             if wrap:
-                p = _Wrap.point(p)
+                p = _Wrap.point(p)  # PYLINT E1120
             if not isnear1(f):  # and not near0
                 a1, b1 = self.philam
                 a2, b2 = p.philam
@@ -861,7 +861,7 @@ def _int3d2(s, end, wrap, _i_, Vector, hs):
         hs.append(end.height)
         a2, b2 = end.philam
         if wrap:
-            a2, b2 = _Wrap.philam(a2, b2)
+            a2, b2 = _Wrap.philam(a2, b2)  # PYLINT E1120
 
     db, b2 = unrollPI(b1, b2, wrap=wrap)
     if max(fabs(db), fabs(a2 - a1)) < EPS:
@@ -871,7 +871,7 @@ def _int3d2(s, end, wrap, _i_, Vector, hs):
                                     -(b1 + b2) * _0_5)
     cb21 *= sin(a1 - a2)  # sa21
     sb21 *= sin(a1 + a2)  # sa12
-    x = Vector(fdot_(sb12, cb21, -cb12, sb21),
+    x = Vector(fdot_(sb12, cb21, -cb12, sb21),  # PYLINT E1130
                fdot_(cb12, cb21,  sb12, sb21),
                cos(a1) * cos(a2) * sin(db))  # ll=start
     return x.unit(), (db, (a2 - a1))  # negated d
@@ -925,7 +925,7 @@ def _intersect(start1, end1, start2, end2, height=None, wrap=False,  # in.ellips
 
     s1, s2 = start1, start2
     if wrap:
-        s2 = _Wrap.point(s2)
+        s2 = _Wrap.point(s2)  # PYLINT E1120
     hs = [s1.height, s2.height]
 
     a1, b1 = s1.philam
@@ -1093,7 +1093,7 @@ def _intersects2(c1, rad1, c2, rad2, radius=R_M, eps=_0_0,  # in .ellipsoidalBas
     a1, b1 = c1.philam
     a2, b2 = c2.philam
     if wrap:
-        a2, b2 = _Wrap.philam(a2, b2)
+        a2, b2 = _Wrap.philam(a2, b2)  # PYLINT E1120
 
     r1, r2, f = _rads3(rad1, rad2, radius)
     if f:  # swapped radii, swap centers

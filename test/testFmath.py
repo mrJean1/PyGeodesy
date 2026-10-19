@@ -58,7 +58,7 @@ class Tests(TestsBase):
             r = abs(Ah - A) / (A or 1)
             return r < 3e-16
 
-        for _, E in Ellipsoids.items(all=True, asorted=True):
+        for _, E in Ellipsoids.items(all=True, asorted=True):  # PYLINT E1120
             a_n = E.a / (1 + E.n)
             n2  = E.n**2
             Ah = a_n * fhorner(n2, 1, 1./4, 1./64, 1./256, 25./16384)

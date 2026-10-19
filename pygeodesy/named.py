@@ -166,7 +166,7 @@ class _Named(object):
     def __repr__(self):
         '''Default C{repr(self)}.
         '''
-        return Fmt.repr_at(self)
+        return Fmt.repr_at(self)  # PYLINT E1120
 
     def __rmatmul__(self, other):  # PYCHOK no cover
         '''Not implemented.'''
@@ -260,7 +260,7 @@ class _Named(object):
         n = self.name
         m, items = _xkwds_pop2(items, name=n)
         d = _xdup(self, deep=deep, **items)
-        if m != n:
+        if m != n:  # PYLINT W0143
             d.rename(m)  # zap _Named_Property_ROs
 #       if items:
 #           _update_all(d)
@@ -339,7 +339,7 @@ class _Named(object):
     def _name1__(self, kwds):
         '''(INTERNAL) Resolve and set the C{B{name}=NN}.
         '''
-        return _name1__(kwds, _or_nameof=self.name) if self.name else kwds
+        return _name1__(kwds, _or_nameof=self.name) if self.name else kwds  # PYLINT W0125
 
     @Property_RO
     def named(self):
@@ -474,7 +474,7 @@ class _NamedBase(_Named):
         '''
         return self.toRepr()
 
-    def __str__(self):
+    def __str__(self):  # PYLINT E0307
         '''Default C{str(self)}.
         '''
         return self.toStr()
@@ -565,7 +565,7 @@ class _NamedDict(ADict, _Named):
             kwds = _xkwds(dict(args[0]), **kwds)  # args[0] overrides kwds
         n, kwds = _name2__(**kwds)
         if n:
-            _Named.name.fset(self, n)  # see _Named.name
+            _Named.name.fset(self, n)  # PYLINT E1101 see _Named.name
         ADict.__init__(self, kwds)
 
     def __delattr__(self, name):
@@ -586,7 +586,7 @@ class _NamedDict(ADict, _Named):
             return self[name]
         except KeyError:
             if name == _name_:
-                return _Named.name.fget(self)
+                return _Named.name.fget(self)  # PYLINT E1101
         raise ADict._AttributeError(self, self._DOT_(name))
 
     def __getitem__(self, key):
@@ -627,7 +627,7 @@ class _NamedEnum(_NamedDict):
     '''
     _item_Classes = ()
 
-    def __init__(self, Class, *Classes, **name):
+    def __init__(self, Class, *Classes, **name):  # PYLINT W0231
         '''New C{_NamedEnum}.
 
            @arg Class: Initial class or type acceptable as items
@@ -637,7 +637,7 @@ class _NamedEnum(_NamedDict):
         self._item_Classes = (Class,) + Classes
         n = _name__(**name) or NN(typename(Class), _s_)
         if n and _xvalid(n, underOK=True):
-            _Named.name.fset(self, n)  # see _Named.name
+            _Named.name.fset(self, n)  # PYLINT E1101 see _Named.name
 
     def __getattr__(self, name):
         '''Get the value of an attribute or item by B{C{name}}.
@@ -676,7 +676,7 @@ class _NamedEnum(_NamedDict):
             if isinstance(p, _LazyNamedEnumItem):
                 yield n, p
 
-    def find(self, item, dflt=None, all=False):
+    def find(self, item, dflt=None, all=False):  # PYLINT W0622
         '''Find a registered item.
 
            @arg item: The item to look for (any C{type}).
@@ -704,7 +704,7 @@ class _NamedEnum(_NamedDict):
         # getattr needed to instantiate L{_LazyNamedEnumItem}
         return getattr(self, name, dflt)
 
-    def items(self, all=False, asorted=False):
+    def items(self, all=False, asorted=False):  # PYLINT W0622
         '''Yield all or only the I{registered} items.
 
            @kwarg all: Use C{True} to yield I{all} items or C{False} for
@@ -824,7 +824,7 @@ class _NamedEnum(_NamedDict):
 class _LazyNamedEnumItem(property_RO):  # XXX or descriptor?
     '''(INTERNAL) Lazily instantiated L{_NamedEnumItem}.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 def _lazyNamedEnumItem(name, *args, **kwds):
@@ -879,7 +879,7 @@ class _NamedEnumItem(_NamedBase):
         return self._name
 
     @name.setter  # PYCHOK setter!
-    def name(self, name):
+    def name(self, name):  # PYLINT W0236
         '''Set the name, unless already registered (C{str}).
         '''
         name = _name__(name) or _NN_
@@ -1033,7 +1033,7 @@ class _NamedTuple(tuple, _Named):
         '''
         return _DOT_(self.classname, *names)
 
-    def dup(self, name=NN, **items):
+    def dup(self, name=NN, **items):  # PYLINT W0237
         '''Duplicate this tuple replacing one or more items.
 
            @kwarg name: Optional new name (C{str}).
@@ -1054,7 +1054,7 @@ class _NamedTuple(tuple, _Named):
                     t[i] = _2U(U[i], v, name=n)
             except ValueError:  # bad item name
                 raise _NameError(self._DOT_(n), v, this=self)
-        return self.classof(*t).reUnit(*U, name=name)
+        return self.classof(*t).reUnit(*U, name=name)  # PYLINT E1101
 
     def items(self):
         '''Yield the items, each as a C{(name, value)} pair (C{2-tuple}).
@@ -1126,7 +1126,7 @@ class _NamedTuple(tuple, _Named):
            @raise Error: Invalid C{Named-Tuple} item or L{units} class.
         '''
         t = tuple(v for _, v in self.units(Error=Error))
-        return self.classof(*t).reUnit(*self._Units_, **name)
+        return self.classof(*t).reUnit(*self._Units_, **name)  # PYLINT E1101
 
     def units(self, **Error):
         '''Yield the items, each as a C{2-tuple (name, value}) with the
@@ -1343,6 +1343,12 @@ def nameof(inst):
         except AttributeError:
             n = NN
     return n
+
+
+def _namethod(method, name=NN):
+    '''(INTERNAL) Get C{name} or C{method.__name__}.
+    '''
+    return name or typename(method)
 
 
 def _notDecap(where):

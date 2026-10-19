@@ -122,7 +122,7 @@ class LLK(object):
         llk = self.get(name, None)
         if llk is None:
             t = _MODS.internals.typename(self)
-            t = _MODS.streprs.Fmt.SQUARE(t, name)
+            t = _MODS.streprs.Fmt.SQUARE(t, name)  # PYLINT E1101
             raise _ValueError(t, name)
         return llk
 
@@ -165,7 +165,7 @@ def _HeightINT0(h, name=_h_, **kwds):  # Error=...
 class TriaxialError(_ValueError):
     '''Raised for any C{triaxial} issue.
     '''
-    pass  # ...
+    pass  # PYLINT W0107 ...
 
 
 class _UnOrderedTriaxialBase(_NamedEnumItem):
@@ -531,7 +531,7 @@ class _UnOrderedTriaxialBase(_NamedEnumItem):
                 raise TriaxialError(x=x_xyz, y=y, z=z, txt=_null_)
             if normal:
                 n  = self.normal3d(v, length=h)
-                h  = n.length
+                h  = n.length  # PYLINT E1101
                 n += v
             else:
                 h = h / v.length  # /= chokes PyChecker
@@ -967,7 +967,7 @@ class _Triaxial3Base(_OrderedTriaxialBase):
     @Lon0.setter  # PYCHOK setter!
     def Lon0(self, lon0):
         A = _MODS.angles.Ang
-        n = _Triaxial3Base.Lon0.name
+        n = _Triaxial3Base.Lon0.name  # PYLINT E1101
         self._Lon0 = A(lon0, unit=Degrees, name=n)
 
     @Property_RO
@@ -1005,7 +1005,7 @@ class _TriaxialsBase(_NamedEnum):
     def _Lazy(self, *abc, **name):
         '''(INTERNAL) Instantiate the C{self._Triaxial}.
         '''
-        return self._Triaxial(*abc, **name)
+        return self._Triaxial(*abc, **name)  # PYLINT E1102
 
     def _assert(self):  # PYCHOK signature
         kwds = _TriaxialsBase._assert_kwds

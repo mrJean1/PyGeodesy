@@ -601,7 +601,7 @@ class _SHlli(LatLon_):
     # the comments at the class .points.LatLon_
     # __slots__ = _lat_, _lon_, 'classof', 'edge', _name_
 
-    def __init__(self, lat, lon, classof, edge):
+    def __init__(self, lat, lon, classof, edge):  # PYLINT W0231
         self.lat     = lat
         self.lon     = lon
         self.classof = classof

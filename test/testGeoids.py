@@ -406,7 +406,7 @@ if __name__ == '__main__':  # PYCHOK internal error?
     if gs:  # test one or more geoids/grids
         for g in gs:
             g_ = g.lower()
-            G  = None
+            G  = eps = None
 
             if g_.endswith('.pgm',):
                 # Karney or PGM geoids .../egm*.pgm
@@ -421,10 +421,11 @@ if __name__ == '__main__':  # PYCHOK internal error?
                         t.skip(str(x), n=231)
 
             elif g_.endswith('g2012bu0.bin'):  # .../G2012B/CONUS/g2012bu0.bin
-                G, eps = GeoidG2012B, None
+                G = GeoidG2012B
 
             elif g.endswith('.GRD'):
-                G, eps = GeoidEGM96, 1.5
+                G   = GeoidEGM96
+                eps = 1.5
 
             elif g:
                 t.test('geoid', repr(g), "'.GRD', '.pgm' or '.bin'")

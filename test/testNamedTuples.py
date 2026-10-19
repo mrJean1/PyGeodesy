@@ -7,6 +7,7 @@ __all__ = ('Tests',)
 __version__ = '26.08.12'
 
 from bases import TestsBase
+
 from pygeodesy import FIx, issubclassof
 from pygeodesy.albers import _Ks
 from pygeodesy.frechet import Frechet6Tuple

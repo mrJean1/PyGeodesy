@@ -77,7 +77,7 @@ def _update_glXs(gX):  # see GeodesicExact.C4order and -._ef_reset_k2
 def _xGeodesicExact(**gX):
     '''(INTERNAL) Check a L{GeodesicExact} instance.
     '''
-    _MODS.basics._xinstanceof(_MODS.geodesicx.GeodesicExact, **gX)
+    _MODS.basics._xinstanceof(_MODS.geodesicx.GeodesicExact, **gX)  # PYLINT E1101
 
 
 class _GeodesicLineExact(_GeodesicBase):

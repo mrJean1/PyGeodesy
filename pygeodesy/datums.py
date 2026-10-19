@@ -756,7 +756,7 @@ class Datums(_NamedEnum):
     def _Lazy(self, ellipsoid_name, transform_name, **name):
         '''(INTERNAL) Instantiate the L{Datum}.
         '''
-        return Datum(Ellipsoids.get(ellipsoid_name),
+        return Datum(Ellipsoids.get(ellipsoid_name),  # PYLINT E1120
                      Transforms.get(transform_name), **name)
 
 Datums = Datums(Datum)  # PYCHOK singleton

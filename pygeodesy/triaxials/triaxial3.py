@@ -754,13 +754,13 @@ class Triaxial3(_Triaxial3Base):
                 if u and _isfinite(u):
                     break
             else:
-                raise TriaxialError(Fmt.no_convergence(u))
-            v = v.dividedBy(u).times_(*self._abc3)
+                raise TriaxialError(Fmt.no_convergence(u))  # PYLINT E1120
+            v = v.dividedBy(u).times_(*self._abc3)  # PYLINT E1101
             q = v.dividedBy_(*self._a2b2c23).length * self.c
             if 0 < q <= _1_0:  # _uni(q) < q:
                 break
         else:
-            raise TriaxialError(Fmt.no_convergence(q))
+            raise TriaxialError(Fmt.no_convergence(q))  # PYLINT E1120
         ct = Cartesian5Tuple(v.x, v.y, v.z, INT0, llk, name__=self.random2)
         v  = None
         if both:
@@ -776,7 +776,7 @@ class Triaxial3(_Triaxial3Base):
                         v = v.dividedBy(u)
                         break
             else:
-                raise TriaxialError(Fmt.no_convergence(u))
+                raise TriaxialError(Fmt.no_convergence(u))  # PYLINT E1120
             v.name = ct.name
         return ct, v
 
@@ -843,8 +843,8 @@ class Triaxial3(_Triaxial3Base):
             l0, l1, _ = ls = T._lcc23
             r =  Vector3d(*T._ztol(v))
             s =  r.times_(*T._abc3)
-            p =  max(fabs(s.z), hypot(s.x, s.y) - l1, s.length - l0)
-            h = _solve(_Fp2(s.xyz3, ls, n=2), p, T.b2)
+            p =  max(fabs(s.z), hypot(s.x, s.y) - l1, s.length - l0)  # PYLINT E1101
+            h = _solve(_Fp2(s.xyz3, ls, n=2), p, T.b2)  # PYLINT E1101
             v =  r.times_(*(_over(n, h + l_) for n, l_ in zip(T._a2b2c23, ls)))
             if not h:  # handle h == 0, v.y indeterminate
                 x = v.x if l0 else r.x  # sphere
@@ -871,7 +871,7 @@ class Triaxial3B(Triaxial3):
 
        @see: L{Triaxial3} for more information.
     '''
-    def __init__(self, b, e2=_0_0, k2=_1_0, kp2=_0_0, **name):
+    def __init__(self, b, e2=_0_0, k2=_1_0, kp2=_0_0, **name):  # PYLINT W0231
         '''New, L{Triaxial3B} instance.
 
            @see: L{Triaxial<triaxials.triaxial5.Triaxial>} for details.

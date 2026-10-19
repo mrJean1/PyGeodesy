@@ -161,7 +161,7 @@ class Rhumb(RhumbBase):
             if a:
                 a *=  self._DIsometric2Rectifyingd(psi2, psi1)
                 s  =  self._mpd * a  # == E._Lpd
-                a  = _MODS.basics.copysign0(a, s)
+                a  = _MODS.basics.copysign0(a, s)  # PYLINT E1101
             r.set_(a12=a, s12=s)
 
         if ((outmask | self._debug) & Cs._DEBUG_INVERSE):  # PYCHOK no cover
@@ -232,7 +232,7 @@ class Rhumb(RhumbBase):
 
 #   _RhumbLine = RhumbLine  # see further below
 
-    def _S12d(self, psi1, psi2, lon12):  # degrees
+    def _S12d(self, psi1, psi2, lon12):  # PYLINT W0237 degrees
         '''(INTERNAL) Compute the area C{S12}.
         '''
         S = (self.ellipsoid.areax if self.exact else
@@ -285,12 +285,12 @@ class RhumbLine(RhumbLineBase):
         '''
         return self.ellipsoid.auxRectifying(self.lat1)
 
-    def _mu2lat(self, mu):
+    def _mu2lat(self, mu):  # PYLINT W0237
         '''(INTERNAL) Get the inverse I{rectifying auxiliary} latitude (C{degrees}).
         '''
         return self.ellipsoid.auxRectifying(mu, inverse=True)
 
-    def _Position4(self, unused, mu2, s12, mu12):
+    def _Position4(self, unused, mu2, s12, mu12):  # PYLINT W0237
         '''(INTERNAL) See method C{RhumbLineBase._Position}.
         '''
         psi1 = psi2 = self._psi1
@@ -465,7 +465,7 @@ def _sincosSeries(sinp, x, y, C, n):
     #   SC = sinp ? sin : cos
     #   CS = sinp ? cos : sin
     # ...
-    d, _neg = (x - y), _MODS.basics.neg
+    d, _neg = (x - y), _MODS.basics.neg  # PYLINT E1101
     sp, cp, sd, cd = sincos2_(x + y, d)
     sd = (sd / d) if d else _1_0
     s  = _neg(sp * sd)  # negative

@@ -50,7 +50,7 @@ from math import asin, cos, degrees, fabs, radians
 __all__ = _ALL_LAZY.latlonBase
 __version__ = '26.03.28'
 
-_formy = _MODS.into(formy=__name__)
+_formy = _MODS.into(formy=__name__)  # PYLINT E1120
 
 
 class LatLonBase(_NamedBase, _EcefLocal):
@@ -93,7 +93,7 @@ class LatLonBase(_NamedBase, _EcefLocal):
         if lon is None:
             lat, lon, height = _latlonheight3(lat_llh, height, w)
         elif w:
-            lat, lon = _Wrap.latlonDMS2(lat_llh, lon)
+            lat, lon = _Wrap.latlonDMS2(lat_llh, lon)  # PYLINT E1120
         else:
             lat = lat_llh
 
@@ -185,7 +185,7 @@ class LatLonBase(_NamedBase, _EcefLocal):
 
         p = self.others(other)
         if wrap:
-            p = _Wrap.point(p)
+            p = _Wrap.point(p)  # PYLINT E1120
         return _v3d(self).minus(_v3d(p)).length
 
     def circin6(self, point2, point3, eps=EPS4, **wrap_name):
@@ -426,7 +426,7 @@ class LatLonBase(_NamedBase, _EcefLocal):
         '''
         p = self.others(other, up=2)
         D = self.datum or _spherical_datum(radius or R_M, func_)
-        lam21, phi2, _ = _Wrap.philam3(self.lam, p.phi, p.lam, wrap)
+        lam21, phi2, _ = _Wrap.philam3(self.lam, p.phi, p.lam, wrap)  # PYLINT E1120
         r = func_(phi2, self.phi, lam21, datum=D, **kwds)
         return r * (radius or D.ellipsoid.a)
 
@@ -681,7 +681,7 @@ class LatLonBase(_NamedBase, _EcefLocal):
 
            @see: Function L{pygeodesy.hstr}.
         '''
-        return _MODS.streprs.hstr(self.height, prec=prec, m=m)
+        return _MODS.streprs.hstr(self.height, prec=prec, m=m)  # PYLINT E1101
 
     def intersecant2(self, *args, **kwds):  # PYCHOK no cover
         '''B{Not implemented}, throws a C{NotImplementedError} always.'''
@@ -1553,7 +1553,7 @@ def _latlonheight3(latlonh, height, wrap):  # in .points.LatLon_.__init__
     except AttributeError:
         raise _IsnotError(_LatLon_, latlonh=latlonh)
     if wrap:
-        lat, lon = _Wrap.latlon(lat, lon)
+        lat, lon = _Wrap.latlon(lat, lon)  # PYLINT E1120
     return lat, lon, height
 
 

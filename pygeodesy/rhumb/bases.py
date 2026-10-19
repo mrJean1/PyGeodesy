@@ -242,14 +242,14 @@ class RhumbBase(_CapsBase):
            @note: Updates to this rhumb are reflected in the returned
                   rhumb line, unless C{B{caps} |= Caps.LINE_OFF}.
         '''
-        return self._RhumbLine(self, lat1, lon1, azi12, **caps_name)
+        return self._RhumbLine(self, lat1, lon1, azi12, **caps_name)  # PYLINT E1102
 
     Line = DirectLine  # synonyms
 
     def _DirectRhumb(self, lat1, lon1, azi12, a12, s12, outmask):
         '''(INTERNAL) See methods C{.ArcDirect} and C{.Direct}.
         '''
-        rl = self._RhumbLine(self, lat1, lon1, azi12, caps=Caps.LINE_OFF,
+        rl = self._RhumbLine(self, lat1, lon1, azi12, caps=Caps.LINE_OFF,  # PYLINT E1102
                                                       name=self.name)
         return rl._Position(a12, s12, outmask | self._debug)  # lat2, lon2, S12
 
@@ -327,7 +327,7 @@ class RhumbBase(_CapsBase):
         '''(INTERNAL) Short-cut version, see .latlonBase.rhumb....
         '''
         if wrap:
-            ll2 = _unrollon(ll1, _Wrap.point(ll2))
+            ll2 = _unrollon(ll1, _Wrap.point(ll2))  # PYLINT E1120
         return self.Inverse(ll1.lat, ll1.lon, ll2.lat, ll2.lon, **outmask)
 
     def Inverse(self, lat1, lon1, lat2, lon2, outmask=Caps.AZIMUTH_DISTANCE):
@@ -364,18 +364,18 @@ class RhumbBase(_CapsBase):
         Cs = Caps
         if (outmask & Cs.AZIMUTH_DISTANCE_AREA):
             lon12, _ = _diff182(lon1, lon2, K_2_0=True)
-            y, x, s1, s2 = self._Inverse4(lon12, r, outmask)
+            y, x, s1, s2 = self._Inverse4(lon12, r, outmask)  # PYLINT E1111
             if (outmask & Cs.AZIMUTH):
                 z = _atan2d(y, x)
                 r.set_(azi12=z, azi21=_azireversed(z))
             if (outmask & Cs.AREA):
-                S12 = self._S12d(s1, s2, lon12)
+                S12 = self._S12d(s1, s2, lon12)  # PYLINT E1111
                 r.set_(S12=unsigned0(S12))  # like .gx
         return r
 
     def _Inverse4(self, lon12, r, outmask):  # PYCHOK no cover
         '''(INTERNAL) I{Must be overloaded}.'''
-        self._notOverloaded(lon12, r, Caps.toStr(outmask))  # underOK=True
+        self._notOverloaded(lon12, r, Caps.toStr(outmask))  # PYLINT E1120 underOK=True
 
     def Inverse8(self, lat1, lon1, azi12, s12, outmask=Caps.AZIMUTH_DISTANCE_AREA):
         '''Like method L{Rhumb.Inverse} but returning a L{Rhumb8Tuple} with area C{S12}.
@@ -386,7 +386,7 @@ class RhumbBase(_CapsBase):
         '''(INTERNAL) Short-cut version, see .latlonBase.
         '''
         if wrap:
-            ll2 = _unrollon(ll1, _Wrap.point(ll2))
+            ll2 = _unrollon(ll1, _Wrap.point(ll2))  # PYLINT E1120
         return self.InverseLine(ll1.lat, ll1.lon, ll2.lat, ll2.lon, **caps_name)
 
     def InverseLine(self, lat1, lon1, lat2, lon2, **caps_name):
@@ -410,7 +410,7 @@ class RhumbBase(_CapsBase):
                   rhumb line, unless C{B{caps} |= Caps.LINE_OFF}.
         '''
         r = self.Inverse(lat1, lon1, lat2, lon2, outmask=Caps.AZIMUTH)
-        return self._RhumbLine(self, lat1, lon1, r.azi12, **caps_name)
+        return self._RhumbLine(self, lat1, lon1, r.azi12, **caps_name)  # PYLINT E1102
 
     @Property_RO
     def _mpd(self):  # PYCHOK no cover
@@ -565,7 +565,7 @@ class RhumbLineBase(_CapsBase):
     def azi12_sincos2(self):  # PYCHOK no cover
         '''Get the sine and cosine of this rhumb line's I{azimuth} (2-tuple C{(sin, cos)}).
         '''
-        return self._scalp, self._calp
+        return self._scalp, self._calp  # PYLINT E1101
 
     @property_RO
     def datum(self):
@@ -751,7 +751,7 @@ class RhumbLineBase(_CapsBase):
                     both in compass C{degrees} between C{-180} and C{+180}.
         '''
         if wrap:
-            _, lat2, lon2 = _Wrap.latlon3(self.lon1, _fix90(lat2), lon2, wrap)
+            _, lat2, lon2 = _Wrap.latlon3(self.lon1, _fix90(lat2), lon2, wrap)  # PYLINT E1120
         r = self.rhumb.Inverse(self.lat1, self.lon1,        lat2,  lon2, **outmask)
         return r
 
@@ -946,10 +946,10 @@ class RhumbLineBase(_CapsBase):
                     mu2 = _norm180(mu2)  # reduce to [-180, 180)
                     if fabs(mu2) > 90:  # point on anti-meridian
                         mu2 = _norm180(_loneg(mu2))
-                    lat2 = self._mu2lat(mu2)
+                    lat2 = self._mu2lat(mu2)  # PYLINT E1111
                     lon2 = S12 = NAN
                 else:
-                    lat2, lon2, S1, S2 = self._Position4(a12, mu2, s12, mu12)
+                    lat2, lon2, S1, S2 = self._Position4(a12, mu2, s12, mu12)  # PYLINT E1111
                     if (outmask & Cs.AREA):
                         S12 = self.rhumb._S12d(S1, S2, lon2)
                         S12 = unsigned0(S12)  # like .gx

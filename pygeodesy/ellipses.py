@@ -252,7 +252,7 @@ class Ellipse(_NamedBase):
             try:
                 los = V3d(los.x, los.y, 0)
             except (AttributeError, TypeError):
-                if _MODS.basics.islistuple(los, minum=2):
+                if _MODS.basics.islistuple(los, minum=2):  # PYLINT E1101
                     los = V3d(*map(float, los[:2]))
         return self._triaxialX(self.hartzell4, V3d(x, y, 0), los=los)
 
@@ -824,7 +824,7 @@ class Ellipse(_NamedBase):
 class EllipseError(_ValueError):
     '''Raised for any L{Ellipse} or C{ellipses} issue.
     '''
-    pass  # ...
+    pass  # PYLINT W0107
 
 
 def _arc(_e, k, r):

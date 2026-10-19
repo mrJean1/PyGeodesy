@@ -110,7 +110,7 @@ class UtmUpsBase(_NamedBase):
     def __repr__(self):
         return self.toRepr(B=True)
 
-    def __str__(self):
+    def __str__(self):  # PYLINT E0307
         return self.toStr()
 
     def _band1(self, band):
@@ -122,7 +122,7 @@ class UtmUpsBase(_NamedBase):
 #               self._notOverloaded(callername=_under('Bands'))
             if band not in self._Bands:
                 t = _or(*sorted(set(map(repr, self._Bands))))
-                raise self._Error(band=band, txt_not_=t)
+                raise self._Error(band=band, txt_not_=t)  # PYLINT E1102
             self._band = band
         elif self._band:  # reset
             self._band = NN
@@ -357,7 +357,7 @@ class UtmUpsBase(_NamedBase):
     def scale0(self):
         '''Get the central scale factor (C{float}).
         '''
-        return self._scale0
+        return self._scale0  # PYLINT E1101
 
     @deprecated_method
     def to2en(self, falsed=True):  # PYCHOK no cover
@@ -401,7 +401,7 @@ class UtmUpsBase(_NamedBase):
     def _toRepr(self, fmt, B, cs, prec, sep):  # PYCHOK expected
         '''(INTERNAL) Return a representation for this ETM/UTM/UPS coordinate.
         '''
-        t =  self.toStr(prec=prec, sep=None, B=B, cs=cs)  # hemipole
+        t =  self.toStr(prec=prec, sep=None, B=B, cs=cs)  # PYLINT E1111 hemipole
         T = 'ZHENCS'[:len(t)]
         return _xzipairs(T, t, sep=sep, fmt=fmt)
 
@@ -508,11 +508,11 @@ def _to4lldn(latlon, lon, datum, name, wrap=False):
         lat, lon = float(latlon.lat), float(latlon.lon)
         _xinstanceof(_LLEB, LatLonDatum5Tuple, latlon=latlon)
         if wrap:
-            _Wrap.latlon(lat, lon)
+            _Wrap.latlon(lat, lon)  # PYLINT E1120
         d = datum or latlon.datum
     except AttributeError:  # TypeError
-        lat, lon = _Wrap.latlonDMS2(latlon, lon) if wrap else \
-                          parseDMS2(latlon, lon)  # clipped
+        lat, lon = (_Wrap.latlonDMS2(latlon, lon) if wrap else  # PYLINT E1120
+                           parseDMS2(latlon, lon))  # clipped
         d = datum or _WGS84
     return lat, lon, d, _name__(name, _or_nameof=latlon)
 

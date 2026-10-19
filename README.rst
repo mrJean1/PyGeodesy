@@ -20,13 +20,13 @@ For further details see the documentation_, the descriptions of `Latitude/Longit
 Installation
 ============
 
-To install ``pygeodesy``, type ``python[3] -m pip install pygeodesy`` or ``python[3] -m easy_install pygeodesy`` in a terminal or command window.
+To install ``pygeodesy``, type ``python[3] -m pip install pygeodesy`` in a terminal or command window.
 
 If the wheel ``pygeodesy-yy.m.d-py2.py3-none-any.whl`` is missing in `PyPI Download files`_, download the file from `GitHub/dist`_.  Install that with ``python[3] -m pip install <path-to-downloaded-wheel>`` and verify with ``python[3] -m pygeodesy``.
 
 Alternatively, download ``pygeodesy-yy.m.d.tar.gz`` from PyPI_ or GitHub_, ``unzip`` the downloaded file, ``cd`` to directory ``pygeodesy-yy.m.d`` and type ``python[3] setup.py install``.
 
-To run all ``pygeodesy`` tests, type ``python[3] test/run.py`` or type ``python[3] test/unitTestSuite.py`` before or after installation.
+To run all ``pygeodesy`` tests, type ``python[3] -m test.run`` or type ``python[3] -m test.unitTestSuite`` before or after installation.
 
 Dependencies
 ============
@@ -56,7 +56,7 @@ In addition to the ``pygeodesy`` package, the pygeodesy_ `distribution file`_ co
 Tests
 =====
 
-The tests ran with Python 3.14.7 (with geographiclib_ 2.1), Python 3.13.13 (with geographiclib_ 2.1, numpy_ 2.5.0, scipy_ 1.18.0, GeoConvert_ 2.7, GeodSolve_ 2.7 and Geod3Solve_ 2.7), Python 3.12.10 (with geographiclib_ 2.0, numpy_ 2.1.0, scipy_ 1.14.1, GeodSolve_ 2.7, Geod3Solve_ 2.7, IntersectTool_ 2.7 and RhumbSolve_ 2.7), Python 3.11.9 (with geographiclib_ 2.0, numpy_ 1.24.2 and scipy_ 1.10.1) and with Python 2.7.18 (with geographiclib_ 1.50, numpy_ 1.16.6, scipy_ 1.2.2, GeoConvert_ 2.7, GeodSolve_ 2.7, Geod3Solve_ 2.7, IntersectTool_ 2.7 and RhumbSolve_ 2.7), all on macOS 26.6.2 Tahoe in 64-bit.
+The tests ran with Python 3.14.7 (with geographiclib_ 2.1), Python 3.13.13 (with geographiclib_ 2.1, numpy_ 2.5.0, scipy_ 1.18.0, GeoConvert_ 2.7, GeodSolve_ 2.7 and Geod3Solve_ 2.7), Python 3.12.10 (with geographiclib_ 2.0, numpy_ 2.1.0, scipy_ 1.14.1, GeodSolve_ 2.7, Geod3Solve_ 2.7, IntersectTool_ 2.7 and RhumbSolve_ 2.7), Python 3.11.9 (with geographiclib_ 2.0, numpy_ 1.24.2 and scipy_ 1.10.1) and with Python 2.7.18 (with geographiclib_ 1.50, numpy_ 1.16.6, scipy_ 1.2.2, GeoConvert_ 2.7, GeodSolve_ 2.7, Geod3Solve_ 2.7, IntersectTool_ 2.7 and RhumbSolve_ 2.7), all on macOS 27.0.1 Golden Gate in 64-bit.
 
 All tests ran with and without ``lazy import`` for Python 3 and with command line option ``-W default`` and env variable ``PYGEODESY_WARNINGS=on`` for all Python versions.  The results of those tests are included in the distribution file.
 
@@ -69,16 +69,16 @@ and with Python 2.7.18 (and with geographiclib_ 1.52) on `Windows 10`_ in 64- an
 
 A single-File and single-Directory application with ``pygeodesy`` has been bundled using PyInstaller_ 3.4 and 64-bit Python 3.7.4 and 3.7.3 on macOS 10.13.6 High Sierra.
 
-Previously, the tests were run with Python 3.14.0-6, 3.13.0-9, 3.12.0-7, 3.11.2-5, 3.10.1-7, 3.9.1, 3.8.7, 3.7.1, 2.7.15, PyPy_ 7.3.12 (Python 3.10.12), 7.3.1 (Python 3.6.9) and PyPy_ 7.1.1 (Python 2.7.13) (and geographiclib_ 1.52, numpy_ 1.16.3, 1.16.4, 1.16.6, 1.19.0, 1.19.4, 1.19.5 or 1.22.4 and scipy_ 1.2.1, 1.4.1, 1.5.2 or 1.8.1) on Ubuntu 16.04, with Python 3.10.0-1, 3.9.0-5, 3.8.0-6, 3.7.2-6, 3.7.0, 3.6.2-5, 3.5.3, 2.7.13-17, 2.7.10 and 2.6.9 (and numpy_ 1.19.0, 1.16.5, 1.16.2, 1.15.2, 1.14.0, 1.13.1, 1.8.0rc1 or 1.6.2 and scipy_ 1.5.0), PyPy_ 7.3.0 (Python 2.7.13 and 3.6.9), PyPy_ 6.0.0 (Python 2.7.13 and 3.5.3) and `Intel-Python`_ 3.5.3 (and numpy_ 1.11.3) on macOS 15.0-6 Sequoia, 14.0-6.1 Sonoma, 13.0-5.2 Ventura, 12.1-6 Monterey, 11.0-5.2-6.1 Big Sur (aka 10.16), 10.15.3, 10.15.5-7 Catalina, 10.14 Mojave, 10.13.6 High Sierra and 10.12 Sierra, MacOS X 10.11 El Capitan and/or MacOS X 10.10 Yosemite, with Pythonista_ 3.2 (with geographiclib 1.50 or 1.49 and numpy 1.8.0) on iOS 14.4.2, 11.4.1, 12.0-3 on iPad4, iPhone6, iPhone10 and/or iPhone12, with Pythonista_ 3.1 on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3 on iPad4, all in 64-bit only and with 32-bit Python 2.7.14 on Windows Server 2012R2, Windows 10 Pro and 32-bit Python 2.6.6 on Windows XP SP3.
+Previously, the tests were run with Python 3.14.0-6, 3.13.0-9, 3.12.0-7, 3.11.2-5, 3.10.1-7, 3.9.1, 3.8.7, 3.7.1, 2.7.15, PyPy_ 7.3.12 (Python 3.10.12), 7.3.1 (Python 3.6.9) and PyPy_ 7.1.1 (Python 2.7.13) (and geographiclib_ 1.52, numpy_ 1.16.3, 1.16.4, 1.16.6, 1.19.0, 1.19.4, 1.19.5 or 1.22.4 and scipy_ 1.2.1, 1.4.1, 1.5.2 or 1.8.1) on Ubuntu 16.04, with Python 3.10.0-1, 3.9.0-5, 3.8.0-6, 3.7.2-6, 3.7.0, 3.6.2-5, 3.5.3, 2.7.13-17, 2.7.10 and 2.6.9 (and numpy_ 1.19.0, 1.16.5, 1.16.2, 1.15.2, 1.14.0, 1.13.1, 1.8.0rc1 or 1.6.2 and scipy_ 1.5.0), PyPy_ 7.3.0 (Python 2.7.13 and 3.6.9), PyPy_ 6.0.0 (Python 2.7.13 and 3.5.3) and `Intel-Python`_ 3.5.3 (and numpy_ 1.11.3) on macOS 26.6.0-2 Tahoe, 15.0-6 Sequoia, 14.0-6.1 Sonoma, 13.0-5.2 Ventura, 12.1-6 Monterey, 11.0-5.2-6.1 Big Sur (aka 10.16), 10.15.3, 10.15.5-7 Catalina, 10.14 Mojave, 10.13.6 High Sierra and 10.12 Sierra, MacOS X 10.11 El Capitan and/or MacOS X 10.10 Yosemite, with Pythonista_ 3.2 (with geographiclib 1.50 or 1.49 and numpy 1.8.0) on iOS 14.4.2, 11.4.1, 12.0-3 on iPad4, iPhone6, iPhone10 and/or iPhone12, with Pythonista_ 3.1 on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3 on iPad4, all in 64-bit only and with 32-bit Python 2.7.14 on Windows Server 2012R2, Windows 10 Pro and 32-bit Python 2.6.6 on Windows XP SP3.
 
 Notes
 =====
 
-All Python source code has been statically checked_ with Ruff_ using Python 3.13.13 and with PyChecker_, PyFlakes_, PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 2.7.18, both in 64-bit on macOS 26.6.2 Tahoe only.
+All Python source code has been statically checked_ with Ruff_, PyLint_, PyFlakes_, PyCodeStyle_ (formerly Pep8) and McCabe_ using Python 3.13.13 on macOS 27.0.1 Golden Gate only.
 
 For a summary of all *Karney*-based functionality in ``pygeodesy``, see module karney_.
 
-*Last updated: Sep 09, 2026.*
+*Last updated: Oct 20, 2026.*
 
 License
 =======
@@ -161,6 +161,7 @@ THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMP
 .. _pygeodesy: https://PyPI.org/project/pygeodesy
 .. _pygeodesy.machine: https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.internals-module.html#machine
 .. _PyInstaller: https://PyPI.org/project/pyinstaller
+.. _PyLint: https://PyPI.org/project/pylint
 .. _PyPI: https://PyPI.org/project/pygeodesy
 .. _PyPI Download files: https://PyPI.org/project/pygeodesy/#files
 .. _PyPy: https://formulae.brew.sh/formula/pypy3.10

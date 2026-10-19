@@ -55,7 +55,7 @@ class Tests(TestsBase):
 
         try:
             raise LenError(LenError, a=1, b=2, c=3, d=4)
-            self.test(LenError.__name__, None, LenError.__name__)
+#           self.test(LenError.__name__, None, LenError.__name__)
         except ValueError as x:
             self.test(LenError.__name__, str(x), 'LenError(a, b, c, d) len 1 vs 2 vs 3 vs 4: invalid')
 

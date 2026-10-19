@@ -173,8 +173,7 @@
   target="_top">GeographicLib</a>.</p>
   <h1 class="heading">Installation</h1>
     <p>To install <code>pygeodesy</code>, type <code>python[3] -m pip 
-    install pygeodesy</code> or <code>python[3] -m easy_install 
-    pygeodesy</code> in a terminal or command window.</p>
+    install pygeodesy</code> in a terminal or command window.</p>
     <p>If the wheel <code>pygeodesy-yy.m.d-py2.py3-none-any.whl</code> is 
     missing in <a href="https://PyPI.org/project/pygeodesy/#files" 
     target="_top">PyPI Download files</a>, download the file from <a 
@@ -188,8 +187,8 @@
     <code>unzip</code> the downloaded file, <code>cd</code> to directory 
     <code>pygeodesy-yy.m.d</code> and type <code>python[3] setup.py 
     install</code>.</p>
-    <p>To run all <code>pygeodesy</code> tests, type <code>python[3] 
-    test/run.py</code> or type <code>python[3] test/unitTestSuite.py</code>
+    <p>To run all <code>pygeodesy</code> tests, type <code>python[3] -m 
+    test.run</code> or type <code>python[3] -m test.unitTestSuite</code> 
     before or after installation.</p>
   <h1 class="heading">Dependencies</h1>
     <p>Installation of <i>Karney</i>'s Python package <a 
@@ -331,8 +330,8 @@
     href="https://GeographicLib.SourceForge.io/C++/doc/utilities.html" 
     target="_top">IntersectTool</a> 2.7 and <a 
     href="https://GeographicLib.SourceForge.io/C++/doc/utilities.html" 
-    target="_top">RhumbSolve</a> 2.7), all in 64-bit on macOS 26.6.2 
-    Tahoe.</p>
+    target="_top">RhumbSolve</a> 2.7), all in 64-bit on macOS 27.0.1 Golden
+    Gate.</p>
     <p>All tests ran with and without <code>lazy import</code> for Python 3
     and with command line option <code>-W default</code> and env variable 
     <code>PYGEODESY_WARNINGS=on</code> for all Python versions.  The 
@@ -385,10 +384,10 @@
     href="https://software.Intel.com/en-us/distribution-for-python" 
     target="_top">Intel-Python</a> 3.5.3 (and <a 
     href="https://PyPI.org/project/numpy" target="_top">numpy</a> 1.11.3) 
-    on macOS 15.0-6 Sequoia, 14.0-6.1 Sonoma, 13.0-5.2 Ventura, 12.1-6 
-    Monterey, 11.0-5.2-6.1 Big Sur (aka 10.16), 10.15.3, 10.15.5-7 
-    Catalina, 10.14 Mojave, 10.13.6 High Sierra and 10.12 Sierra, MacOS X 
-    10.11 El Capitan and/or MacOS X 10.10 Yosemite, with <a 
+    on macOS 26.6.0-2 Tahoe, 15.0-6 Sequoia, 14.0-6.1 Sonoma, 13.0-5.2 
+    Ventura, 12.1-6 Monterey, 11.0-5.2-6.1 Big Sur (aka 10.16), 10.15.3, 
+    10.15.5-7 Catalina, 10.14 Mojave, 10.13.6 High Sierra and 10.12 Sierra,
+    MacOS X 10.11 El Capitan and/or MacOS X 10.10 Yosemite, with <a 
     href="https://OMZ-Software.com/pythonista" 
     target="_top">Pythonista</a>3.2 (with geographiclib 1.50 or 1.49 and 
     numpy 1.8.0) on iOS 14.4.2, 11.4.1, 12.0-3 on iPad4, iPhone6, iPhone10 
@@ -401,14 +400,13 @@
     <p>All Python source code has been statically <a 
     href="https://GitHub.com/ActiveState/code/tree/master/recipes/Python/546532_PyChecker_postprocessor"
     target="_top">checked</a> with <a 
-    href="https://GitHub.com/astral-sh/ruff" target="_top">Ruff</a> using 
-    Python 3.13.13 and with <a href="https://PyPI.org/project/pychecker" 
-    target="_top">PyChecker</a>, <a 
+    href="https://GitHub.com/astral-sh/ruff" target="_top">Ruff</a>, <a 
+    href="https://PyPI.org/project/pylint" target="_top">PyLint</a>, <a 
     href="https://PyPI.org/project/pyflakes" target="_top">PyFlakes</a>, <a
     href="https://PyPI.org/project/pycodestyle" 
     target="_top">PyCodeStyle</a> (formerly Pep8) and <a 
     href="https://PyPI.org/project/mccabe" target="_top">McCabe</a> using 
-    Python 2.7.18, both in 64-bit on macOS 26.6.2 Tahoe.</p>
+    Python 3.13.13 on macOS 27.0.1 Golden Gate.</p>
     <p>For a summary of all <i>Karney</i>-based functionality in 
     <code>pygeodesy</code>, see module <a 
     href="https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html"
@@ -608,7 +606,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        26.09.09
+        26.10.20
       </p>
 </div><!-- ==================== SUBMODULES ==================== -->
 <a name="section-Submodules"></a>
@@ -872,6 +870,16 @@
     <li> <strong class="uidlink"><a href="pygeodesy.hausdorff-module.html">pygeodesy.hausdorff</a></strong>: <em class="summary">Hausdorff distances.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.heights-module.html">pygeodesy.heights</a></strong>: <em class="summary">Height interpolations from <code>knots</code>, points with known 
         height.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.hom-module.html">pygeodesy.hom</a></strong>: <em class="summary">A pure Python implementation of 2 ellipsoidal and 3 spherical 
+        variants of <i>Hotine</i>'s <a 
+        href="https://WikiPedia.org/wiki/Oblique_Mercator_projection" 
+        target="_top">Oblique Mercator</a> projection from <a 
+        href="https://SnyderChapter9&lt;&gt;https://pubs.USGS.gov/pp/1395/report.pdf&gt;"
+        target="_top">Snyder Chapter 
+        9&lt;&gt;https://pubs.USGS.gov/pp/1395/report.pdf&gt;</a> page 66ff
+        and <a 
+        href="https://www.IOGP.org/wp-content/uploads/2019/09/373-07-02.pdf"
+        target="_top">IOGP section 3.2.4</a> page 59ff.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.internals-module.html">pygeodesy.internals</a></strong>: <em class="summary">Mostly INTERNAL functions, except <a 
         href="pygeodesy.internals-module.html#machine" 
         class="link">machine</a>, <a 
@@ -901,8 +909,15 @@
         target="_top">lazy_import</a> from <i>Brett Cannon</i>'s <a 
         href="https://PyPI.org/project/modutil" target="_top">modutil</a>.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.lcc-module.html">pygeodesy.lcc</a></strong>: <em class="summary">Lambert Conformal Conic (LCC) projection.</em>    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.lom-module.html">pygeodesy.lom</a></strong>: <em class="summary">A pure Python implementation of <i>Laborde</i>'s <a 
+        href="https://WikiPedia.org/wiki/Oblique_Mercator_projection" 
+        target="_top">Oblique Mercator</a> projection <a 
+        href="https://www.IOGP.org/wp-content/uploads/2019/09/373-07-02.pdf"
+        target="_top">IOGP section 3.2.4.2</a> page 64ff.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ltp-module.html">pygeodesy.ltp</a></strong>: <em class="summary"><i>Local Tangent Plane</i> (LTP) and <i>local</i> cartesian 
-        coordinates.</em>    </li>
+        coordinates aka <a 
+        href="https://ssd.JPL.NASA.gov/glossary/topocentric.html" 
+        target="_top">topocentric</a> coordinates.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples-module.html">pygeodesy.ltpTuples</a></strong>: <em class="summary">Named, <i>Local Tangent Plane</i> (LTP) tuples.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.mgrs-module.html">pygeodesy.mgrs</a></strong>: <em class="summary">Military Grid Reference System (MGRS/NATO) references.</em>    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.named-module.html">pygeodesy.named</a></strong>: <em class="summary">(INTERNAL) Nameable class instances.</em>    </li>
@@ -2136,7 +2151,8 @@
       Conversion between geodetic and geocentric, <i>Earth-Centered, 
         Earth-Fixed</i> (ECEF) coordinates based on <i>Jay A. Farrell</i>'s
         <a href="https://Books.Google.com/books?id=fW4foWASY6wC" 
-        target="_top">Table 2.2</a>, page 30.
+        target="_top">Table 2.2</a>, page 30, aka <i>B.R. Bowring's 
+        closed-form</i>.
     </td>
   </tr>
 <tr>
@@ -2169,6 +2185,30 @@
     </td><td class="summary">
         <a href="pygeodesy.ecef.EcefMatrix-class.html" class="summary-name">EcefMatrix</a><br />
       A rotation matrix known as <i>East-North-Up (ENU) to ECEF</i>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.EcefOlson-class.html" class="summary-name">EcefOlson</a><br />
+      Conversion between geodetic and geocentric, <i>Earth-Centered, 
+        Earth-Fixed</i> (ECEF) coordinates based on <i>D.K. Olson</i>'s <a 
+        href="https://IEEEXplore.IEEE.org/document/481290" 
+        target="_top">method</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.ecef.EcefOsen-class.html" class="summary-name">EcefOsen</a><br />
+      Conversion between geodetic and geocentric, <i>Earth-Centered, 
+        Earth-Fixed</i> (ECEF) coordinates based on <i>Karl Osen</i>'s <a 
+        href="https://HAL.Science/hal-01704943v2" target="_top">boost</a> 
+        of <i>Jijie Zhu</i>'s <a 
+        href="https://IEEEXplore.IEEE.org/document/303772" 
+        target="_top">algorithm</a>.
     </td>
   </tr>
 <tr>
@@ -3634,6 +3674,88 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
+        <a href="pygeodesy.hom.Hotine8Tuple-class.html" class="summary-name">Hotine8Tuple</a><br />
+      8-Tuple <code>(x, y, u, v, lat, lon, scale, hom)</code> with 
+        (falsed) east- and northing <code>x</code> and <code>y</code> and 
+        &quot;unrectified&quot; <code>u</code> and <code>v</code> in 
+        <code>meter</code>, geodetic <code>lat</code>- and 
+        <code>lon</code>gitude in degrees, <code>scale</code> factor (aka 
+        <code>k</code>) and <code>HotineOblique*</code> Mercator instance 
+        <code>hom</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.hom.HotineAB14Tuple-class.html" class="summary-name">HotineAB14Tuple</a><br />
+      14-Tuple <code>(A, B, D, D2, E, G, uC, zC, a0, b0, g0, t0, x0, 
+        y0)</code> of ellipsoidal map parameters <i>only</i> for variants 
+        <a href="pygeodesy.hom.HotineObliqueA-class.html" 
+        class="link">HotineObliqueA</a> and <a 
+        href="pygeodesy.hom.HotineObliqueB-class.html" 
+        class="link">HotineObliqueB</a> with angles <code>zC</code>, 
+        <code>a0</code>, <code>b0</code> and <code>g0</code> in 
+        <code>radians</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.hom.HotineError-class.html" class="summary-name">HotineError</a><br />
+      Error raised for <code>HotineOblique*</code> issues.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.hom.HotineOblique1-class.html" class="summary-name">HotineOblique1</a><br />
+      Spherical variant 1: Hotine Oblique Mercator projection given 
+        <code>two points</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.hom.HotineOblique2-class.html" class="summary-name">HotineOblique2</a><br />
+      Spherical variant 2: Hotine Oblique Mercator projection given the 
+        <code>central point</code> and <code>azimuth</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.hom.HotineOblique3-class.html" class="summary-name">HotineOblique3</a><br />
+      Spherical variant 3: Hotine Oblique Mercator projection given the 
+        <code>main pole</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.hom.HotineObliqueA-class.html" class="summary-name">HotineObliqueA</a><br />
+      Ellipsoidal variant A: Hotine Oblique Mercator projection given 
+        <code>two points</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.hom.HotineObliqueB-class.html" class="summary-name">HotineObliqueB</a><br />
+      Ellipsoidal variant B: Hotine Oblique Mercator projection given the
+        <code>central point</code> and <code>azimuth</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
         <a href="pygeodesy.unitsBase.Int-class.html" class="summary-name">Int</a><br />
       Named <code>int</code>.
     </td>
@@ -3827,6 +3949,37 @@
       Enum-like <code>Lat-/Longitude Kinds (LLK)</code>, see <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Triaxial_1_1Cartesian3.html"
         target="_top">coord</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.lom.Laborde8Tuple-class.html" class="summary-name">Laborde8Tuple</a><br />
+      8-Tuple <code>(x, y, lat, lon, phi, lam, scale, lom)</code> with 
+        (falsed) east- and northing <code>x</code> and <code>y</code> in 
+        <code>meter</code>, geodetic <code>lat</code>- and 
+        <code>lon</code>gitude in degrees, <code>phi</code> and 
+        <code>lam</code>da in <code>radians</code>, <code>scale</code> 
+        factor (aka <code>k</code>) and <code>LabordeOblique*</code> 
+        Mercator instance <code>lom</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.lom.LabordeError-class.html" class="summary-name">LabordeError</a><br />
+      Error raised for <code>LabordeOblique*</code> issues.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.lom.LabordeOblique-class.html" class="summary-name">LabordeOblique</a><br />
+      Ellipsoidal Laborde Oblique Mercator projection given the 
+        <code>central point</code> and <code>azimuth</code>.
     </td>
   </tr>
 <tr>
@@ -4205,8 +4358,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ltpTuples.Los-class.html" class="summary-name">Los</a><br />
-      A Line-Of-Sight (LOS) from a <code>LatLon</code> or 
-        <code>Cartesian</code> location.
+      A Line-Of-Sight (LOS) a given azimuth and elevation from a 
+        <code>LatLon</code> or <code>Cartesian</code> location.
     </td>
   </tr>
 <tr>
@@ -5455,7 +5608,7 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ltpTuples.Uvw-class.html" class="summary-name">Uvw</a><br />
-      3-D <code>u-v-w</code> (UVW) components.
+      3-D <code>u-v-w</code> (UVW) <i>target</i> components.
     </td>
   </tr>
 <tr>
@@ -5463,7 +5616,8 @@
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
         <a href="pygeodesy.ltpTuples.Uvw3Tuple-class.html" class="summary-name">Uvw3Tuple</a><br />
-      3-Tuple <code>(u, v, w)</code>, in <code>meter</code>.
+      3-Tuple <code>(u, v, w)</code> of (UVW) <i>target</i> components, 
+        all in <code>meter</code>.
     </td>
   </tr>
 <tr>
@@ -8300,7 +8454,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#euclid" class="summary-sig-name">euclid</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">y</span>,
-        <span class="summary-sig-arg">*xy0</span>)</span><br />
+        <span class="summary-sig-arg">*x0_y0</span>,
+        <span class="summary-sig-arg">**half</span>)</span><br />
       <i>Appoximate</i> the norm <i class="math">hypot(<b>x</b>, 
       <b>y</b>)</i> by <i class="math">max(abs(<b>x</b>), abs(<b>y</b>)) + 
       min(abs(<b>x</b>), abs(<b>y</b>)) * 0.4142...</i>.</td>
@@ -8319,7 +8474,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy-module.html#euclid_" class="summary-sig-name">euclid_</a>(<span class="summary-sig-arg">*xs</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy-module.html#euclid_" class="summary-sig-name">euclid_</a>(<span class="summary-sig-arg">*xs</span>,
+        <span class="summary-sig-arg">**half</span>)</span><br />
       <i>Appoximate</i> the norm <i class="math">sqrt(sum(x**2 for x in 
       xs))</i> by cascaded <a href="pygeodesy.fmath-module.html#euclid" 
       class="link">euclid</a>.</td>
@@ -9958,7 +10114,7 @@
         <span class="summary-sig-arg">seed</span>=<span class="summary-sig-default">None</span>,
         <span class="summary-sig-arg">units</span>=<span class="summary-sig-default">''</span>,
         <span class="summary-sig-arg">distance</span>=<span class="summary-sig-default">None</span>,
-        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f8a101df350&gt;</span>)</span><br />
+        <span class="summary-sig-arg">point</span>=<span class="summary-sig-default">&lt;function _point at 0x7f7f502765d0&gt;</span>)</span><br />
       Compute the <code>directed</code> or <code>symmetric</code> <a 
       href="https://WikiPedia.org/wiki/Hausdorff_distance" 
       target="_top">Hausdorff</a> distance between 2 sets of points with or
@@ -10238,7 +10394,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#hypot2" class="summary-sig-name">hypot2</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">y</span>,
-        <span class="summary-sig-arg">*xy0</span>)</span><br />
+        <span class="summary-sig-arg">*x0_y0</span>)</span><br />
       Compute the <i>squared</i> norm <i class="math">x**2 + y**2</i>.</td>
           <td align="right" valign="top">
             
@@ -12332,7 +12488,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#norm2" class="summary-sig-name">norm2</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">y</span>,
-        <span class="summary-sig-arg">*xy0</span>)</span><br />
+        <span class="summary-sig-arg">*x0_y0</span>)</span><br />
       Normalize a 2-dimensional vector.</td>
           <td align="right" valign="top">
             
@@ -12973,7 +13129,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#polar2" class="summary-sig-name">polar2</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">y</span>,
-        <span class="summary-sig-arg">*xy0</span>)</span><br />
+        <span class="summary-sig-arg">*x0_y0</span>)</span><br />
       Return 2-tuple <code>(length, angle)</code> with <code>angle</code> 
       in radians <i class="math">[0..+PI2)</i>.</td>
           <td align="right" valign="top">
@@ -12993,7 +13149,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy-module.html#polar2d" class="summary-sig-name">polar2d</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">y</span>,
-        <span class="summary-sig-arg">*xy0</span>)</span><br />
+        <span class="summary-sig-arg">*x0_y0</span>)</span><br />
       Return 2-tuple <code>(length, angle)</code> with <code>angle</code> 
       in degrees <i class="math">[0..+360)</i>.</td>
           <td align="right" valign="top">
@@ -15255,7 +15411,7 @@
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a name="version"></a><span class="summary-name">version</span> = <code title="'26.9.9'">'26.9.9'</code><br />
+        <a name="version"></a><span class="summary-name">version</span> = <code title="'26.10.20'">'26.10.20'</code><br />
       Normalized <code>pygeodesy</code> version (<code>str</code>).
     </td>
   </tr>
@@ -15378,14 +15534,14 @@ m=Transforms.WGS84),
     <td width="15%" align="right" valign="top" class="summary">
       <span class="summary-type">&nbsp;</span>
     </td><td class="summary">
-        <a href="pygeodesy-module.html#Ellipsoids" class="summary-name">Ellipsoids</a> = <code title="Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, f=0, f_=\
-0, b=6371008.771415),
-Ellipsoids.GRS80: Ellipsoid(name='GRS80', a=6378137, f=0.00335281, f_=\
-298.2572221, b=6356752.31414035),
-Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, f=0.00335281, f_=\
-298.25722356, b=6356752.31424518),
+        <a href="pygeodesy-module.html#Ellipsoids" class="summary-name">Ellipsoids</a> = <code title="Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, f=0, e=0\
+, b=6371008.771415, f_=0),
+Ellipsoids.GRS80: Ellipsoid(name='GRS80', a=6378137, f=0.00335281, e=0\
+.08181919, b=6356752.31414035, f_=298.2572221),
+Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, f=0.00335281, e=0\
+.08181919, b=6356752.31424518, f_=298.25722356),
 Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, f=0.003\
-34085, f_=299.3249646, b=6356256.90923729)">Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=637<code class="variable-ellipsis">...</code></code><br />
+34085, e=0.08167337, b=6356256.90923729, f_=299.3249646)">Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=637<code class="variable-ellipsis">...</code></code><br />
       Registered, predefined <a 
       href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
       class="link">ellipsoids</a> (<code>enum-like</code>).
@@ -20446,7 +20602,8 @@ c=6356752, k2=0.996726547, kp2=0.003273453, volume=1083207266220584468\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">euclid</span>&nbsp;(<span class="sig-arg">x</span>,
         <span class="sig-arg">y</span>,
-        <span class="sig-arg">*xy0</span>)</span>
+        <span class="sig-arg">*x0_y0</span>,
+        <span class="sig-arg">**half</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -20467,11 +20624,13 @@ c=6356752, k2=0.996726547, kp2=0.003273453, volume=1083207266220584468\
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a>).</li>
-        <li><strong class="pname"><code>xy0</code></strong> - Optional reference <code>(x0, y0)</code> (each 
+        <li><strong class="pname"><code>x0_y0</code></strong> - Optional reference <code>(x0, y0)</code> (each 
           <code>scalar</code>, an <a href="pygeodesy.fsums.Fsum-class.html"
           class="link">Fsum</a> or <a 
           href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a>).</li>
+        <li><strong class="pname"><code>half</code></strong> - Use <code><b>half</b>=True</code> to apply <code>0.5</code> 
+          instead of <code>sqrt(2) - 1</code> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Appoximate norm (<code>float</code> or <a 
@@ -20486,7 +20645,8 @@ c=6356752, k2=0.996726547, kp2=0.003273453, volume=1083207266220584468\
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">euclid_</span>&nbsp;(<span class="sig-arg">*xs</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">euclid_</span>&nbsp;(<span class="sig-arg">*xs</span>,
+        <span class="sig-arg">**half</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -20503,6 +20663,8 @@ c=6356752, k2=0.996726547, kp2=0.003273453, volume=1083207266220584468\
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a>), all positional.</li>
+        <li><strong class="pname"><code>half</code></strong> - Use <code><b>half</b>=True</code> to apply <code>0.5</code> 
+          instead of <code>sqrt(2) - 1</code> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Appoximate norm (<code>float</code> or <a 
@@ -23792,7 +23954,7 @@ c=6356752, k2=0.996726547, kp2=0.003273453, volume=1083207266220584468\
         <span class="sig-arg">seed</span>=<span class="sig-default">None</span>,
         <span class="sig-arg">units</span>=<span class="sig-default">''</span>,
         <span class="sig-arg">distance</span>=<span class="sig-default">None</span>,
-        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f8a101df350&gt;</span>)</span>
+        <span class="sig-arg">point</span>=<span class="sig-default">&lt;function _point at 0x7f7f502765d0&gt;</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -24457,7 +24619,7 @@ c=6356752, k2=0.996726547, kp2=0.003273453, volume=1083207266220584468\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">hypot2</span>&nbsp;(<span class="sig-arg">x</span>,
         <span class="sig-arg">y</span>,
-        <span class="sig-arg">*xy0</span>)</span>
+        <span class="sig-arg">*x0_y0</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -24476,7 +24638,7 @@ c=6356752, k2=0.996726547, kp2=0.003273453, volume=1083207266220584468\
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a>).</li>
-        <li><strong class="pname"><code>xy0</code></strong> - Optional reference <code>(x0, y0)</code> (each 
+        <li><strong class="pname"><code>x0_y0</code></strong> - Optional reference <code>(x0, y0)</code> (each 
           <code>scalar</code>, an <a href="pygeodesy.fsums.Fsum-class.html"
           class="link">Fsum</a> or <a 
           href="pygeodesy.fsums.Fsum2Tuple-class.html" 
@@ -28117,7 +28279,7 @@ c=6356752, k2=0.996726547, kp2=0.003273453, volume=1083207266220584468\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">norm2</span>&nbsp;(<span class="sig-arg">x</span>,
         <span class="sig-arg">y</span>,
-        <span class="sig-arg">*xy0</span>)</span>
+        <span class="sig-arg">*x0_y0</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -28136,7 +28298,7 @@ c=6356752, k2=0.996726547, kp2=0.003273453, volume=1083207266220584468\
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a>).</li>
-        <li><strong class="pname"><code>xy0</code></strong> - Optional reference <code>(x0, y0)</code> (each 
+        <li><strong class="pname"><code>x0_y0</code></strong> - Optional reference <code>(x0, y0)</code> (each 
           <code>scalar</code>, an <a href="pygeodesy.fsums.Fsum-class.html"
           class="link">Fsum</a> or <a 
           href="pygeodesy.fsums.Fsum2Tuple-class.html" 
@@ -29643,7 +29805,7 @@ c=6356752, k2=0.996726547, kp2=0.003273453, volume=1083207266220584468\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">polar2</span>&nbsp;(<span class="sig-arg">x</span>,
         <span class="sig-arg">y</span>,
-        <span class="sig-arg">*xy0</span>)</span>
+        <span class="sig-arg">*x0_y0</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -29663,7 +29825,7 @@ c=6356752, k2=0.996726547, kp2=0.003273453, volume=1083207266220584468\
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a>).</li>
-        <li><strong class="pname"><code>xy0</code></strong> - Optional reference <code>(x0, y0)</code> (each 
+        <li><strong class="pname"><code>x0_y0</code></strong> - Optional reference <code>(x0, y0)</code> (each 
           <code>scalar</code>, an <a href="pygeodesy.fsums.Fsum-class.html"
           class="link">Fsum</a> or <a 
           href="pygeodesy.fsums.Fsum2Tuple-class.html" 
@@ -29685,7 +29847,7 @@ c=6356752, k2=0.996726547, kp2=0.003273453, volume=1083207266220584468\
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">polar2d</span>&nbsp;(<span class="sig-arg">x</span>,
         <span class="sig-arg">y</span>,
-        <span class="sig-arg">*xy0</span>)</span>
+        <span class="sig-arg">*x0_y0</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -29705,7 +29867,7 @@ c=6356752, k2=0.996726547, kp2=0.003273453, volume=1083207266220584468\
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a>).</li>
-        <li><strong class="pname"><code>xy0</code></strong> - Optional reference <code>(x0, y0)</code> (each 
+        <li><strong class="pname"><code>x0_y0</code></strong> - Optional reference <code>(x0, y0)</code> (each 
           <code>scalar</code>, an <a href="pygeodesy.fsums.Fsum-class.html"
           class="link">Fsum</a> or <a 
           href="pygeodesy.fsums.Fsum2Tuple-class.html" 
@@ -29922,7 +30084,7 @@ c=6356752, k2=0.996726547, kp2=0.003273453, volume=1083207266220584468\
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Return a tuple of 4 or 5 <a href=pygeodesy-LatLon-attributes-table.html><b><code>LatLon</code></b></a> instances 
-          outlining the quadrilateral.</dd>
+          outlining the quadrilateral, clockwise.</dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.points-module.html#boundsOf" 
@@ -30299,17 +30461,18 @@ c=6356752, k2=0.996726547, kp2=0.003273453, volume=1083207266220584468\
   <dl class="fields">
     <dt>Arguments:</dt>
     <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>theta</code></strong> - Inclination <b><code>theta</code></b> (<code>degrees</code> with 
-          respect to the positive z-axis), required if 
-          <code><b>r_rtp</b></code> is <code>scalar</code>, ignored 
-          otherwise.</li>
-        <li><strong class="pname"><code>phi</code></strong> - Azimuthal angle <b><code>phi</code></b> (<code>degrees</code>), 
-          like <b><code>theta</code></b>.</li>
+        <li><strong class="pname"><code>theta</code></strong> - Inclination <b><code>theta</code></b> 
+          (<b><code>degrees</code></b> with respect to the positive 
+          z-axis), required if <code><b>r_rtp</b></code> is 
+          <code>scalar</code>, ignored otherwise.</li>
+        <li><strong class="pname"><code>phi</code></strong> - Azimuthal angle <b><code>phi</code></b> 
+          (<b><code>degrees</code></b>), like <b><code>theta</code></b>.</li>
     </ul></dd>
   </dl>
 <div class="fields">      <p><strong>See Also:</strong>
         Function <a href="pygeodesy.cartesianBase-module.html#rtp2xyz_" 
-        class="link">rtp2xyz_</a> for further details.
+        class="link">rtp2xyz_</a> for <b><code>r_rtp</code></b>, 
+        <b><code>name_Cartesian_and_kwds</code></b> and other details.
       </p>
 </div></td></tr></table>
 </div>
@@ -30339,12 +30502,12 @@ c=6356752, k2=0.996726547, kp2=0.003273453, volume=1083207266220584468\
           <code>meter</code>) or a previous <a 
           href="pygeodesy.cartesianBase.RadiusThetaPhi3Tuple-class.html" 
           class="link">RadiusThetaPhi3Tuple</a> instance.</li>
-        <li><strong class="pname"><code>theta</code></strong> - Inclination <b><code>theta</code></b> (<code>radians</code> with 
-          respect to the positive z-axis), required if 
-          <code><b>r_rtp</b></code> is <code>scalar</code>, ignored 
-          otherwise.</li>
-        <li><strong class="pname"><code>phi</code></strong> - Azimuthal angle <b><code>phi</code></b> (<code>radians</code>), 
-          like <b><code>theta</code></b>.</li>
+        <li><strong class="pname"><code>theta</code></strong> - Inclination <b><code>theta</code></b> 
+          (<b><code>radians</code></b> with respect to the positive 
+          z-axis), required if <code><b>r_rtp</b></code> is 
+          <code>scalar</code>, ignored otherwise.</li>
+        <li><strong class="pname"><code>phi</code></strong> - Azimuthal angle <b><code>phi</code></b> 
+          (<b><code>radians</code></b>), like <b><code>theta</code></b>.</li>
         <li><strong class="pname"><code>name_Cartesian_and_kwds</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>), 
           <code><b>Cartesian</b>=None</code> class to return the 
           coordinates and optionally, additional 
@@ -34537,14 +34700,14 @@ m=Transforms.WGS84),
   <dl class="fields">
     <dt>Value:</dt>
       <dd><table><tr><td><pre class="variable">
-Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, f=0, f_=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-0, b=6371008.771415),
-Ellipsoids.GRS80: Ellipsoid(name='GRS80', a=6378137, f=0.00335281, f_=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-298.2572221, b=6356752.31414035),
-Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, f=0.00335281, f_=<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-298.25722356, b=6356752.31424518),
+Ellipsoids.Sphere: Ellipsoid(name='Sphere', a=6371008.771415, f=0, e=0<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+, b=6371008.771415, f_=0),
+Ellipsoids.GRS80: Ellipsoid(name='GRS80', a=6378137, f=0.00335281, e=0<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+.08181919, b=6356752.31414035, f_=298.2572221),
+Ellipsoids.WGS84: Ellipsoid(name='WGS84', a=6378137, f=0.00335281, e=0<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
+.08181919, b=6356752.31424518, f_=298.25722356),
 Ellipsoids.Airy1830: Ellipsoid(name='Airy1830', a=6377563.396, f=0.003<span class="variable-linewrap"><img src="crarr.png" alt="\" /></span>
-34085, f_=299.3249646, b=6356256.90923729)
+34085, e=0.08167337, b=6356256.90923729, f_=299.3249646)
 </pre></td></tr></table>
 </dd>
   </dl>
@@ -34658,7 +34821,7 @@ c=6356752, k2=0.996726547, kp2=0.003273453, volume=1083207266220584468<span clas
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Sep  8 13:02:07 2026
+    Generated by Epydoc 3.0.1 on Mon Oct 19 12:32:37 2026
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

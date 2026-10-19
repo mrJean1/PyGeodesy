@@ -33,7 +33,7 @@ def _r(s):
 class Tests(TestsBase):
 
     def testAreas(self):
-        for t in Triaxials.values(all=True, asorted=True):
+        for t in Triaxials.values(all=True, asorted=True):  # PYLINT E1120
             s = str(t)
             self.test(t.name, s, s, nl=1)
             n = t.name + '.'
@@ -358,7 +358,7 @@ class Tests(TestsBase):
         v = Vector3d(q.xyz3)
         p = T.forwardBetaOmega(radians(30), radians(40))
         self.test(n, p, "(4233813.533025, 3550620.827453, 3175409.655093, 0, 'ELLIPSOIDAL')")  # C++
-        d = v.minus_(*p[:3]).length
+        d = v.minus_(*p[:3]).length  # PYLINT E1101
         self.test('length', d, '1196.973671', known=abs(d - 1200) < 5, prec=6)
         n = T.reverseBetaOmega.__name__
         t = T.reverseBetaOmega(4234607.381429, 3551286.590486, 3176009.080037)
@@ -376,7 +376,7 @@ class Tests(TestsBase):
         t = T.reverseCartesian(t, height=t.h)  # normal=True
         self.test(n, t, "(4234607.381429, 3551286.590486, 3176009.080037, ", known=startswith, nl=1)  # == q above
         f = T.reverseCartesian(f, height=f.h, normal=False)  # off by 0.27%
-        d = v.minus_(f[:3]).length * 100 / v.length
+        d = v.minus_(f[:3]).length * 100 / v.length  # PYLINT E1101
         self.test(n, f, q, known=abs(d) < 0.5)
 
         n = T.forwardBetaOmega_.__name__
@@ -446,7 +446,7 @@ class Tests(TestsBase):
         r = T.reverseLatLon(f, llk=LLK.ELLIPSOIDAL)
         self.test(n, r.toDegrees(0), "(Degrees(1.35513418), Degrees(118.9196884), ", known=startswith)  # 1.35513411 118.91968840
 
-        for n, llk in sorted(LLK.items()):
+        for n, llk in sorted(LLK.items()):  # PYLINT E1120
             if llk is not LLK.CONFORMAL:
                 ct, d3 = T.random2(llk, True)
                 self.test(n, ct, ct, nl=1)
@@ -514,7 +514,7 @@ class Tests(TestsBase):
         t = T.reverseCartesian(*t)  # normal=True
         self.test(n, t, q, nl=1)  # q above
         f = T.reverseCartesian(*f, normal=False)  # off by 0.27%
-        d = v.minus_(f[:3]).length * 100 / v.length
+        d = v.minus_(f[:3]).length * 100 / v.length  # PYLINT E1101
         self.test(n, f, q, known=abs(d) < 0.5)
 
         n = T.forwardBetaOmega_.__name__
@@ -644,8 +644,8 @@ class Tests(TestsBase):
         t = str(e)
         self.test(n, t, t)
 
-        self.test('Triaxials', len(Triaxials.items(all=True)), 14, nl=1)
-        for t in Triaxials.values(all=True, asorted=True):
+        self.test('Triaxials', len(Triaxials.items(all=True)), 14, nl=1)  # PYLINT E1120
+        for t in Triaxials.values(all=True, asorted=True):  # PYLINT E1120
             self.test(t.name, t, getattr(Triaxials, t.name))
 
     def testTriaxum5(self):

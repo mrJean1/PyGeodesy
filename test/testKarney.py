@@ -4,12 +4,12 @@
 # Test L{karney} module and wrappers.
 
 __all__ = ('Tests',)
-__version__ = '26.07.20'
+__version__ = '26.10.04'
 
 from bases import endswith, GeodSolve, geographiclib, startswith, TestsBase
 
 from pygeodesy import fsum_, karney, LatLon_, sincos2d, unroll180, wrap180
-from pygeodesy.constants import _0_0, _100_0, _360_0
+from pygeodesy.constants import _0_0, _100_0, _360_0,  fabs
 
 # some tests from <https://PyPI.org/project/geographiclib>
 _testCases = ((35.60777, -139.44815, 111.098748429560326,
@@ -47,7 +47,7 @@ class Tests(TestsBase):
 
     def testDelta(self, n, x, v, e=1e-10, prec=12):
         w = _360_0 if _signOf(v) != _signOf(x) else _0_0  # wrap
-        w =  abs((v - x + w) * _100_0 / x) if x else _0_0
+        w =  fabs((v - x + w) * _100_0 / x) if x else _0_0
         self.test(n, v, x, prec=prec, error=w, known=w < e)
 
     def testDirect(self, g, module):
@@ -152,7 +152,7 @@ class Tests(TestsBase):
                                                   g.DISTANCE | g.STANDARD | g.DISTANCE_IN |
                                                   g.REDUCEDLENGTH | g.GEODESICSCALE | g.AREA))
         Cs = karney.Caps
-        n, m = Cs.__class__.__name__, Cs.toStr(g.ALL)
+        n, m = Cs.__class__.__name__, Cs.toStr(g.ALL)  # PYLINT E1120
         self.test(n, m, 'ALL|AREA|AZIMUTH|', known=startswith)
         self.test(n, m, '|LONGITUDE|REDUCEDLENGTH|STANDARD|STANDARD_LINE', known=endswith)
 
@@ -161,11 +161,11 @@ class Tests(TestsBase):
 
         if geographiclib and karney._wrapped.Math:
             _sincosd = karney._wrapped.Math.sincosd
-            for d in range(-360, 391, 15):
+            for d in range(-360, 391, 5):
                 s, c = sincos2d(d)
                 S, C = _sincosd(d)
-                self.test('sin(%s)' % (d,), s, S, known=abs(s - S) < 8e-16)
-                self.test('cos(%s)' % (d,), c, c)
+                self.test('sin(%s)' % (d,), s, S, known=fabs(s - S) < 8e-16)
+                self.test('cos(%s)' % (d,), c, C, known=fabs(c - C) < 8e-16)
 
         # compare geomath.Math.AngDiff with mimicked _diff182
         _diff = karney._diff182

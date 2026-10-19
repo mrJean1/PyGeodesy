@@ -4,12 +4,11 @@
 # Test L{hausdorff} distances.  Very slow with coverage!
 
 __all__ = ('Tests',)
-__version__ = '24.12.31'
+__version__ = '26.10.04'
 
-from bases import GeodSolve, geographiclib, isPython3, isWindows, \
-                  TestsBase
+from bases import GeodSolve, geographiclib, isPython3, isWindows, TestsBase
 
-from pygeodesy import Datums, fstr, hausdorff_, HausdorffCosineLaw, \
+from pygeodesy import Datums, euclid, fstr, hausdorff_, HausdorffCosineLaw, \
                       HausdorffDegrees, HausdorffDistanceTo, \
                       HausdorffEquirectangular, HausdorffEuclidean, \
                       HausdorffExact, HausdorffFlatLocal, HausdorffFlatPolar, \
@@ -20,20 +19,14 @@ from pygeodesy import Datums, fstr, hausdorff_, HausdorffCosineLaw, \
 
 class HausdorffDegrees_(HausdorffDegrees):
     '''Custom Hausdorff.'''
-    def distance(self, p1, p2):
-        dy, dx = abs(p1.lat - p2.lat), abs(p1.lon - p2.lon)
-        if dx < dy:
-            dx, dy = dy, dx
-        return dx + dy * 0.5
+    def distance(self, p1, p2):  # PYLINT W0237
+        return euclid(p1.lat, p1.lon, p2.lat, p2.lon, half=True)
 
 
 class HausdorffRadians_(HausdorffRadians):
     '''Custom Hausdorff.'''
-    def distance(self, p1, p2):
-        dy, dx = abs(p1.phi - p2.phi), abs(p1.lam - p2.lam)
-        if dx < dy:
-            dx, dy = dy, dx
-        return dx + dy * 0.5
+    def distance(self, p1, p2):  # PYLINT W0237
+        return euclid(p1.phi, p1.lam, p2.phi, p2.lam, half=True)
 
 
 def _tstr(t):

@@ -182,7 +182,7 @@ def elevation2(lat, lon, timeout=2.0):
                 pass
         else:  # PYCHOK no cover
             e = _no_(_XML_, Fmt.QUOTE2(clips(x, limit=128, white=_SPACE_)))
-    except Exception as x:  # (HTTPError, IOError, TypeError, ValueError)
+    except Exception as x:  # PYLINT W0718 (HTTPError, IOError, TypeError, ValueError)
         e = repr(x)
     e = _error(elevation2, lat, lon, e)
     return Elevation2Tuple(None, e)
@@ -238,7 +238,7 @@ def geoidHeight2(lat, lon, model=0, timeout=2.0):
         else:
             e = _JSON_
         e = _no_(e, Fmt.QUOTE2(clips(j, limit=256, white=_SPACE_)))
-    except Exception as x:  # (HTTPError, IOError, ParseError, TypeError, ValueError)
+    except Exception as x:  # PYLINT W0718 (HTTPError, IOError, ParseError, TypeError, ValueError)
         e = repr(x)
     e = _error(geoidHeight2, lat, lon, e)
     return GeoidHeight2Tuple(None, e)

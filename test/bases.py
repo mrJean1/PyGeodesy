@@ -45,7 +45,7 @@ __all__ = ('bits_mach2', 'coverage', 'GeodSolve', 'Geod3Solve', 'geographiclib',
            'property_RO', 'PyGeodesy_dir', 'PythonX', 'scipy', 'test_dir',
            'RandomLatLon', 'TestsBase',  # classes
            'clips', 'secs2str', 'tilde', 'type2str', 'versions')  # functions
-__version__ = '26.05.01'
+__version__ = '26.10.15'
 
 try:
     _Ints = int, long
@@ -303,7 +303,7 @@ class TestsBase(object):
         if not isinstance(expect, _Strs):
             expect = fmt % (expect,)  # expect as str
 
-        f, r, v = NN, False, fmt % (value,)  # value as str
+        f, r, v = NN, False, (fmt % (value,))  # value as str
         if v != expect and v != normDMS(expect) and not (
            callable(known) and known(v, expect)):
             self.failed += 1  # failures
@@ -320,7 +320,7 @@ class TestsBase(object):
         if f or self._verbose:
             self.printf('test %d %s: %s%s', self.total, name, v, f, **kwds)
         if r and self._raiser:
-            raise TestError('test %d %s', self.total, name)
+            raise TestError('test %d %s', self.total, name)  # PYLINT W0715
 
         if self._time:  # undo _prefix change
             self.__dict__.pop('_prefix')  # _xkwds_pop(self.__dict__, _prefix=None)
@@ -507,7 +507,7 @@ def versions():
 
         for t in (GeoConvert, GeodSolve, Geod3Solve, IntersectTool, RhumbSolve):
             if t:
-                vs += karney._Xables.name_version(t),
+                vs += karney._Xables.name_version(t),  # PYLINT E1120
 
         t, r = internals._osversion2()
         if r:
@@ -558,11 +558,11 @@ if __name__ == interns._DMAIN_:
         pass
     print(versions())
 
-# % python3.14 -m test.bases
-# pygeodesy 25.10.10 Python 3.14.0rc3 64bit arm64 macOS 15.6.1 isLazy 1
+# % python3.14 -W ignore -m test.bases
+# pygeodesy 26.10.10 Python 3.14.7 64bit arm64 coverage 7.14.0 geographiclib 2.1 Math 2 macOS 27.0.1 isLazy 1 -W ignore
 
-# % python3.13 -m test.bases
-# pygeodesy 25.1.5 Python 3.13.1 64bit arm64 coverage 7.6.1 geographiclib 2.0 Math 2 macOS 14.6.1 isLazy 1
+# % python3.13 -W ignore -m test.bases
+# pygeodesy 26.10.10 Python 3.13.13 64bit arm64 coverage 7.14.0 geographiclib 2.1 numpy 2.5.0 scipy 1.18.0 Math 2 macOS 27.0.1 isLazy 1 -W ignore
 
 # % python3.12 -m test.bases
 # PyGeodesy 24.10.24 Python 3.12.7 64bit arm64 coverage 7.6.1 geographiclib 2.0 numpy 2.1.0 scipy 1.14.1 Math 2 macOS 14.6.1 isLazy 1

@@ -56,7 +56,7 @@ class Tests(TestsBase):
             self.test(n, elliperim(0, 0), '0.0')
 
             self.test(_a('apses2'), E.apses2, E.apses2, nl=1)
-            m =  Ellipse(b, a).arc
+            m =  Ellipse(b, a).arc  # PYLINT W1114
             n = _a('arc')
             x =  E.arc(45)
             self.test(n, x, x, prec=6)
@@ -129,7 +129,7 @@ class Tests(TestsBase):
         self.test(_a('isOblate'),   E.isOblate, E.isOblate)
         self.test(_a('isProlate'),  E.isProlate, E.isProlate, nt=1)
 
-        for n, W in Ellipsoids.items(all=True, asorted=True):
+        for n, W in Ellipsoids.items(all=True, asorted=True):  # PYLINT E1120
             self.test(n + '.polarimeter/2k', W.polarimeter, W.toEllipse().perimeter2k, prec=6)
 
 

@@ -313,7 +313,7 @@ class AzimuthalError(_ValueError):
        L{LambertEqualArea}, L{Orthographic}, L{Stereographic} or
        L{Azimuthal7Tuple} issue.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 class Azimuthal7Tuple(_NamedTuple):
@@ -1088,7 +1088,7 @@ class Stereographic(_AzimuthalBase):
     def k0(self, factor):
         '''Set the central scale factor (C{scalar}).
         '''
-        n = typename(Stereographic.k0.fget)  # 'k0', name__=Stereographic.k0.fget
+        n = typename(Stereographic.k0.fget)  # 'k0', name__=Stereographic.k0.fget  # PYLINT E1101
         self._k0  = Scalar_(factor, name=n, low=EPS, high=2)  # XXX high=1, 2, other?
         self._k02 = self._k0 * _2_0
 

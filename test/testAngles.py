@@ -187,7 +187,7 @@ class Tests(TestsBase):
         self.test('R< T', p <  t, False)
         self.test('R!=T', p != t, True)
 
-        if True:  # coverage:
+        if True:  # PYLINT W0125 coverage:
             D = Deg(61)
             t = D.base(D)
             self.test('base', t, t, nl=1)

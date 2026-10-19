@@ -11,6 +11,7 @@ from bases import TestsBase
 from pygeodesy import Datum, Datums, Ellipsoid, Ellipsoids, map2, \
                       R_M, Similarity, Transform, Transforms
 from pygeodesy.datums import _spherical_datum
+
 from math import degrees
 
 
@@ -30,11 +31,11 @@ class Tests(TestsBase):
         self.test('datum', D is Datums.TestDatum, True)
 #       print(Datum())
 
-        e = Ellipsoids.unregister('TestEllipsiod')
+        e = Ellipsoids.unregister('TestEllipsiod')  # PYLINT E1120
         self.test(e.name, e, E)
-        t = Transforms.unregister('TestTransform')
+        t = Transforms.unregister('TestTransform')  # PYLINT E1120
         self.test(t.name, t, T)
-        d = Datums.unregister('TestDatum')
+        d = Datums.unregister('TestDatum')  # PYLINT E1120
         self.test(d.name, d, D)
 
         T = Transforms.ED50
@@ -45,9 +46,9 @@ class Tests(TestsBase):
         self.test(S.name, _spherical_datum(R_M) is S, True)
 
     def testDatums(self):
-        self.test(all.__name__, Datums.register(all), all.__name__, nl=1)
+        self.test(all.__name__, Datums.register(all), all.__name__, nl=1)  # PYLINT E1120
         n = 0
-        for _, d in Datums.items(asorted=True):
+        for _, d in Datums.items(asorted=True):  # PYLINT E1120
             self.test(d.name, d, d, nl=1)
             e = d.ellipsoid
             self.test(e.name, e, e)

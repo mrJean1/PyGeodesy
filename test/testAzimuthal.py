@@ -113,7 +113,7 @@ class Tests(TestsBase):
                     except (IntersectionError, TypeError, ValueError) as x:
                         self.test(n, str(x), a, known=True)
                 if len(t) == 2:
-                    i1, i2 = t
+                    i1, i2 = t  # PYLINT W0632
                     i = LL(i1.lat - i2.lat, i1.lon - i2.lon)
                     s = _max(i, r)
                     self.test(n, s, s)

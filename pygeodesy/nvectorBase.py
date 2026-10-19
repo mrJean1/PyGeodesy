@@ -243,7 +243,7 @@ class NvectorBase(Vector3d):  # XXX kept private
             h = Height(h=h, Error=VectorError)
         _, r, v = self._toEcefDrv3(Cartesian, None, datum, h, **name_Cartesian_kwds)
         if r is None:
-            r = v.toCartesian(Cartesian, **self._name1__(name_Cartesian_kwds))  # h=0
+            r = v.toCartesian(Cartesian, **self._name1__(name_Cartesian_kwds))  # PYLINT E1101 h=0
         return r
 
     def _toEcefDrv3(self, CC, LL, datum, h, name=NN, **unused):
@@ -255,7 +255,7 @@ class NvectorBase(Vector3d):  # XXX kept private
             v = Vector3d(self, name=name or self.name)  # .toVector3d(norm=False)
             E = D.ellipsoid
             r = E.a_b  # Kenneth Gade eqn 22
-            n = v.times_(r, r, _1_0).length
+            n = v.times_(r, r, _1_0).length  # PYLINT E1101
             n = (E.b / n) if n > EPS0 else _0_0
             r = E.a2_b2 * n + h  # fma
             v = v.times_(r, r, n + h)
@@ -358,7 +358,7 @@ class NvectorBase(Vector3d):  # XXX kept private
 class _N_Vector(NvectorBase):
     '''(INTERNAL) Minimal, low-overhead C{n-vector}.
     '''
-    def __init__(self, x, y, z, h=0, **name):
+    def __init__(self, x, y, z, h=0, **name):  # PYLINT W0231
         self._x, self._y, self._z = x, y, z
         if h:
             self._h = h
@@ -385,7 +385,7 @@ class LatLonNvectorBase(LatLonBase):
             if _Nv is not None:
                 if _Nv._fromll is not None:
                     _Nv._fromll = None
-                self._Nv = None
+                self._Nv = None  # PYLINT W0201
             LatLonBase._update(self, updated, *attrs, **setters)
 
 #   def distanceTo(self, other, **kwds):  # PYCHOK no cover
@@ -604,7 +604,7 @@ def _triangulate(point1, bearing1, point2, bearing2, height=None,
 
     def _gc(p, b, _i_):
         n  = p.toNvector()
-        de = NorthPole.cross(n, raiser=_pole_).unit()  # east vector @ n
+        de = NorthPole.cross(n, raiser=_pole_).unit()  # PYLINT E1101 east vector @ n
         dn = n.cross(de)  # north vector @ n
         s, c = sincos2d(Bearing(b, name=_bearing_ + _i_))
         dest = de.times(s)

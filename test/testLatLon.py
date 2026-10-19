@@ -4,10 +4,9 @@
 # Test C{LatLon}.
 
 __all__ = ('Tests',)
-__version__ = '25.05.09'
+__version__ = '26.10.04'
 
-from bases import GeodSolve, geographiclib, isPyPy, isPython2, \
-                  startswith, TestsBase
+from bases import GeodSolve, geographiclib, isPyPy, isPython2, startswith, TestsBase
 
 from pygeodesy import Aer, Enu, F_D, F_DM, F_DMS, F_RAD, R_M, R_NM, \
                       degrees, fstr, isclockwise, isconvex, isenclosedBy, \
@@ -323,7 +322,7 @@ class Tests(TestsBase):
             gc = p.greatCircleTo(q)
             self.test('greatCircleTo', gc, '(-0.79408, 0.12859, 0.59406)')
 
-        if isclockwise:
+        if callable(isclockwise):
             f = LatLon(45,1), LatLon(45,2), LatLon(46,2), LatLon(46,1)
             for _ in self.testiter():
                 self.test('isclockwise', isclockwise(f), False)
@@ -343,7 +342,7 @@ class Tests(TestsBase):
                 except ValueError as x:
                     self.test('isclockwise', str(x), 'zero or polar area', known=True)
 
-        if isconvex:
+        if callable(isconvex):
             f = LatLon(45,1), LatLon(46,2), LatLon(45,2), LatLon(46,1)
             for _ in self.testiter():
                 self.test('isconvex', isconvex(f), False)
@@ -356,7 +355,7 @@ class Tests(TestsBase):
                 except ValueError as x:
                     self.test('isconvex', str(x), 'points (2): too few', known=True)
 
-        if isenclosedBy:
+        if callable(isenclosedBy):
             b = LatLon(45, 1), LatLon(45, 2), LatLon(46, 2), LatLon(46, 1)
             for _ in self.testiter():
                 self.test('isenclosedBy1', isenclosedBy(LatLon(45.5, 1.5), b), True)

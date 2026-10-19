@@ -99,7 +99,7 @@ def _2Precision(precision):
 class WGRSError(_ValueError):
     '''World Geographic Reference System (WGRS) encode, decode or other L{Georef} issue.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 class Georef(Str):
@@ -185,7 +185,7 @@ class Georef(Str):
     def latlon(self):
         '''Get this georef's (center) lat- and longitude (L{LatLon2Tuple}).
         '''
-        lat, lon = self._latlon or self._decoded5[:2]
+        lat, lon = self._latlon or self._decoded5[:2]  # PYLINT E1101
         return LatLon2Tuple(lat, lon, name=self.name)
 
     @Property_RO
@@ -199,7 +199,7 @@ class Georef(Str):
     def precision(self):
         '''Get this georef's precision (C{int}).
         '''
-        p = self._precision
+        p = self._precision  # PYLINT E1101
         return self._decoded5.precision if p is None else p
 
     @Property_RO

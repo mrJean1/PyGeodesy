@@ -160,7 +160,7 @@ class LatLonSphericalBase(LatLonBase):
         return _MODS.namedTuples.Bearing2Tuple(i, f, name=self.name)
 
     @property_doc_(''' this point's datum (L{Datum}).''')
-    def datum(self):
+    def datum(self):  # PYLINT W0236
         '''Get this point's datum (L{Datum}).
         '''
         return self._datum
@@ -347,7 +347,7 @@ class LatLonSphericalBase(LatLonBase):
             da = hypot(da, q * db)  # angular distance radians
         return da, db, dp
 
-    def rhumbAzimuthTo(self, other, radius=R_M, exact=False, wrap=False, b360=False):
+    def rhumbAzimuthTo(self, other, radius=R_M, exact=False, wrap=False, b360=False):  # PYLINT W0237
         '''Return the azimuth (bearing) of a rhumb line (loxodrome) between
            this and an other (spherical) point.
 
@@ -428,7 +428,7 @@ class LatLonSphericalBase(LatLonBase):
             r = self.classof(degrees90(a2), degrees180(b2), datum=d, height=h, **name)
         return r
 
-    def rhumbDistanceTo(self, other, radius=R_M, exact=False, wrap=False):
+    def rhumbDistanceTo(self, other, radius=R_M, exact=False, wrap=False):  # PYLINT W0237
         '''Return the distance from this to an other point along
            a rhumb line (loxodrome).
 
@@ -497,7 +497,7 @@ class LatLonSphericalBase(LatLonBase):
         return m(self, circle, point, other, radius=radius, exact=exact,
                                              height=height, wrap=wrap)
 
-    def rhumbMidpointTo(self, other, height=None, radius=R_M, exact=False,
+    def rhumbMidpointTo(self, other, height=None, radius=R_M, exact=False,  # PYLINT W0237
                                                 fraction=_0_5, **wrap_name):
         '''Return the (loxodromic) midpoint on the rhumb line between this
            and an other point.

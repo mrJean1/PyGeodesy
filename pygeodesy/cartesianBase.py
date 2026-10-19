@@ -43,10 +43,10 @@ from pygeodesy.vector3d import Vector3d, _xyzhdlln4
 # from math import degrees, fabs, radians, sqrt  # from .fmath, .utily
 
 __all__ = _ALL_LAZY.cartesianBase
-__version__ = '26.01.06'
+__version__ = '26.10.08'
 
 _r_         = 'r'
-_resections = _MODS.into(resections=__name__)
+_resections = _MODS.into(resections=__name__)  # PYLINT E1120
 _theta_     = 'theta'
 
 
@@ -876,18 +876,18 @@ class RadiusThetaPhi3Tuple(_NamedTupleTo):
         t, p, s = _X3(self, t, p)
         if s is None or name:
             n = self._name__(name)
-            s = self.classof(r, t, p, name=n)._toU(U)
+            s = self.classof(r, t, p, name=n)._toU(U)  # PYLINT E1101
         return s
 
 
 def rtp2xyz(r_rtp, theta=0, phi=0, **name_Cartesian_and_kwds):
     '''Convert I{spherical, polar} C{(r, theta, phi)} to cartesian C{(x, y, z)} coordinates.
 
-       @arg theta: Inclination B{C{theta}} (C{degrees} with respect to the positive z-axis),
+       @arg theta: Inclination B{C{theta}} (B{C{degrees}} with respect to the positive z-axis),
                    required if C{B{r_rtp}} is C{scalar}, ignored otherwise.
-       @arg phi: Azimuthal angle B{C{phi}} (C{degrees}), like B{C{theta}}.
+       @arg phi: Azimuthal angle B{C{phi}} (B{C{degrees}}), like B{C{theta}}.
 
-       @see: Function L{rtp2xyz_} for further details.
+       @see: Function L{rtp2xyz_} for B{C{r_rtp}}, B{C{name_Cartesian_and_kwds}} and other details.
     '''
     if isinstance(r_rtp, RadiusThetaPhi3Tuple):
         c = r_rtp.toCartesian(**name_Cartesian_and_kwds)
@@ -901,9 +901,9 @@ def rtp2xyz_(r_rtp, theta=0, phi=0, **name_Cartesian_and_kwds):
 
        @arg r_rtp: Radial distance (C{scalar}, conventially C{meter}) or a previous
                    L{RadiusThetaPhi3Tuple} instance.
-       @arg theta: Inclination B{C{theta}} (C{radians} with respect to the positive z-axis),
+       @arg theta: Inclination B{C{theta}} (B{C{radians}} with respect to the positive z-axis),
                    required if C{B{r_rtp}} is C{scalar}, ignored otherwise.
-       @arg phi: Azimuthal angle B{C{phi}} (C{radians}), like B{C{theta}}.
+       @arg phi: Azimuthal angle B{C{phi}} (B{C{radians}}), like B{C{theta}}.
        @kwarg name_Cartesian_and_kwds: Optional C{B{name}=NN} (C{str}), C{B{Cartesian}=None}
                    class to return the coordinates and optionally, additional C{B{Cartesian}}
                    keyword arguments.

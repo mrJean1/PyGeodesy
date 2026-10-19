@@ -26,7 +26,7 @@ except ImportError:  # Python 2-
     _inf, _nan = float(_INF_), float(_NAN_)
 
 __all__ = _ALL_LAZY.constants
-__version__ = '26.05.23'
+__version__ = '26.10.12'
 
 
 def _copysign_0_0(y):
@@ -128,7 +128,7 @@ def floats_(*xs, **sets):  # sets=False
             yield _f(f, f) if f else \
                   (_N_0_0 if signBit(f) else _0_0)  # preserve NEG0
     except Exception as X:
-        xs_i = Fmt.SQUARE(xs=i)
+        xs_i = Fmt.SQUARE(xs=i)  # PYLINT E0601
         raise _ValueError(xs_i, x, cause=X)
 
 
@@ -401,7 +401,7 @@ def isfinite(obj):
     try:
         return (obj not in _INF_NAN_NINF) and _isfinite(obj)
     except Exception as x:
-        if iscomplex(obj):  # _isfinite(complex) thows TypeError
+        if iscomplex(obj):  # _isfinite(complex) throws TypeError
             return _iscfinite(obj)
         if _MODS.fsums._isFsum_2Tuple(obj):  # OverflowError
             return obj.is_finite()
@@ -529,7 +529,7 @@ def _off90(lat):
 
 
 try:
-    from math import remainder
+    from math import remainder  # PYLINT W0611
 except ImportError:  # Python 3.6-
     from math import fmod as _fmod
 
@@ -549,16 +549,22 @@ except ImportError:  # Python 3.6-
         return x  # keep signed 0.0
 
 
-def _umod_360(deg):
+def _umod_360(deg, _180=False):
     '''(INTERNAL) Non-negative C{deg} modulo 360, basic C{.utily.wrap360}.
     '''
-    return (deg % _360_0) or _0_0
+    d = (deg % _360_0) or _0_0
+    if _180 and d > _180_0:
+        d -= _360_0
+    return d
 
 
-def _umod_PI2(rad):
+def _umod_PI2(rad, _PI=False):
     '''(INTERNAL) Non-negative C{rad} modulo PI2, basic C{.utily.wrapPI2}.
     '''
-    return (rad % PI2) or _0_0
+    r = (rad % PI2) or _0_0
+    if _PI and r > PI:
+        r -= PI2
+    return r
 
 
 if __name__ == _DMAIN_:

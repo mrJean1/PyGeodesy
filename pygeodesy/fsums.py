@@ -429,9 +429,9 @@ def _stresidual(prefix, residual, R=0, **mod_ratio):
     '''(INTERNAL) Residual error txt C{str}.
     '''
     p = typename(_stresidual)[3:]
-    t = Fmt.PARENSPACED(p, Fmt(residual))
+    t = Fmt.PARENSPACED(p, Fmt(residual))  # PYLINT E1121
     for n, v in itemsorted(mod_ratio):
-        p =  Fmt.PARENSPACED(n, Fmt(v))
+        p =  Fmt.PARENSPACED(n, Fmt(v))  # PYLINT E1121
         t = _COMMASPACE_(t, p)
     return _SPACE_(prefix, t, Fmt.exceeds_R(R), _threshold_)
 
@@ -566,7 +566,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
     def __bool__(self):  # PYCHOK Python 3+
         '''Return C{bool(B{self})}, C{True} iff C{residual} is zero.
         '''
-        s, r = self._nfprs2
+        s, r = self._nfprs2  # PYLINT E0633
         return bool(s or r) and s != -r  # == self != 0
 
     def __call__(self, other, **up):  # in .fmath
@@ -1062,7 +1062,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
         '''Get this instance I{as-is} (L{Fsum} with C{non-zero residual},
            C{scalar} or I{non-finite}).
         '''
-        s, r = self._nfprs2
+        s, r = self._nfprs2  # PYLINT E0633
         return self if r else s
 
     @property_RO
@@ -1403,7 +1403,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
     def _fint2(self):  # see ._fset
         '''(INTERNAL) Get 2-tuple (C{int}, I{integer} residual).
         '''
-        s, r = self._nfprs2
+        s, r = self._nfprs2  # PYLINT E0633
         if _isfinite(s):
             i =  int(s)
             r = (self._ps_1sum(i) if len(self._ps) > 1 else
@@ -1725,9 +1725,9 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
             self._ps[:] = other._ps
             self._n     = n or other._n
             if up:  # use or zap the C{Property_RO} values
-                Fsum._fint2._update_from(self, other)
-                Fsum._fprs ._update_from(self, other)
-                Fsum._fprs2._update_from(self, other)
+                Fsum._fint2._update_from(self, other)  # PYLINT E1101
+                Fsum._fprs ._update_from(self, other)  # PYLINT E1101
+                Fsum._fprs2._update_from(self, other)  # PYLINT E1101
         elif isscalar(other):
             s = float(self._finite(other, **op)) if op else other
             self._ps[:] = s,
@@ -1854,7 +1854,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
            @see: Methods L{Fsum.fint2}, L{Fsum.fsum} and L{Fsum.fsum2_}
         '''
         t = self._facc(xs)._fprs2
-        return t.dup(name=name) if name else t
+        return t.dup(name=name) if name else t  # PYLINT E1101
 
     def fsum2_(self, *xs):
         '''Add any positional items, summate and return the current
@@ -2416,7 +2416,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
 
            @see: Methods L{Fsum.fsum}, L{Fsum.fsum2} and L{Fsum.is_exact}.
         '''
-        return self._fprs2.residual
+        return self._fprs2.residual  # PYLINT E1101
 
     def RESIDUAL(self, *threshold):
         '''Get and set this instance' I{ratio} for raising L{ResidualError}s,
@@ -2492,7 +2492,7 @@ class Fsum(_Named):  # sync __methods__ with .vector3dBase.Vector3dBase, .fstats
 
            @return: The sign (C{int}, -1, 0 or +1).
         '''
-        s, r = self._nfprs2
+        s, r = self._nfprs2  # PYLINT E0633
         r = (-r) if res else 0
         return _signOf(s, r)
 
@@ -2575,7 +2575,7 @@ class Fsum2Tuple(_NamedTuple):  # in .fstats
        @note: If the C{residual is INT0}, the C{fsum} is considered
               to be I{exact}, see method L{Fsum2Tuple.is_exact}.
     '''
-    _Names_ = ( typename(Fsum.fsum), Fsum.residual.name)
+    _Names_ = ( typename(Fsum.fsum), Fsum.residual.name)  # PYLINT E1101
     _Units_ = (_Float_Int,          _Float_Int)
 
     def __abs__(self):  # in .fmath
@@ -2700,7 +2700,7 @@ class _Ksum(Fsum):
     '''
     _isfine = _nonfinites_isfine_kwds[True]
 
-    def __init__(self, s, t, *xs):
+    def __init__(self, s, t, *xs):  # PYLINT W0231
         ps = [t, s] if t else [s]
         self._ps = self._ps_acc(ps, xs, up=False)
 
@@ -2717,7 +2717,7 @@ class ResidualError(_ValueError):
 
        @see: Module L{pygeodesy.fsums} and method L{Fsum.RESIDUAL}.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 try:
@@ -2736,7 +2736,7 @@ except ImportError:
     def _fsum(xs):  # in .elliptic, .fmath, .geoids
         '''(INTERNAL) Precision summation, Python 2.5-.
         '''
-        F = Fsum(name=_fsum.name, f2product=False, nonfinites=True)
+        F = Fsum(name=_fsum.name, f2product=False, nonfinites=True)  # PYLINT E1101
         return float(F._facc(xs, up=False))
 
 

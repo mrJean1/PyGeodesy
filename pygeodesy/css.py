@@ -52,7 +52,7 @@ def _CS0(cs0):
 class CSSError(_ValueError):
     '''Cassini-Soldner (CSS) conversion or other L{Css} issue.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 class CassiniSoldner(_NamedBase):
@@ -639,8 +639,8 @@ def toCss(latlon, cs0=None, height=None, Css=Css, **name):
         r = EasNor3Tuple(c.easting, c.northing, h, name=n)
     else:
         r = Css(c.easting, c.northing, h=h, cs0=cs, name=n)
-        r._latlon = LatLon2Tuple(latlon.lat, latlon.lon, name=n)
-        r._azi, r._rk = c.azimuth, c.reciprocal
+        r._latlon = LatLon2Tuple(latlon.lat, latlon.lon, name=n)  # PYLINT W0201
+        r._azi, r._rk = c.azimuth, c.reciprocal  # PYLINT W0201
     return r
 
 # **) MIT License

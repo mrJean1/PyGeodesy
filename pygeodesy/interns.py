@@ -26,7 +26,7 @@ class _Dash(str):
 class _Int(int):
     '''(INTERNAL) Unique C{int}.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 class Str_(str):

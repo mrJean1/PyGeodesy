@@ -1,10 +1,11 @@
 
 # -*- coding: utf-8 -*-
 
-u'''I{Local Tangent Plane} (LTP) and I{local} cartesian coordinates.
+u'''I{Local Tangent Plane} (LTP) and I{local} cartesian coordinates aka U{topocentric
+<https://ssd.JPL.NASA.gov/glossary/topocentric.html>} coordinates.
 
-I{Local cartesian} and I{local tangent plane} classes L{LocalCartesian}, L{Ltp}, L{LqRD},
-L{LocalError}, L{Attitude} and L{Frustum}.
+I{Local cartesian} class L{LocalCartesian}, I{local tangent plane} classes L{Ltp} and
+L{LqRD} and classes L{Attitude}, L{Frustum} and L{LocalError}.
 
 @see: U{Local tangent plane coordinates<https://WikiPedia.org/wiki/Local_tangent_plane_coordinates>}
       and class L{LocalCartesian}, transcoded from I{Charles Karney}'s C++ classU{LocalCartesian
@@ -43,7 +44,7 @@ from pygeodesy.vector3d import _ALL_LAZY, Vector3d
 # from math import fabs, floor as _floor  # from .fmath, .fsums
 
 __all__ = _ALL_LAZY.ltp
-__version__ = '26.07.24'
+__version__ = '26.10.08'
 
 _GRS80    =  Datums.GRS80
 _height0_ = _height_ + _0_
@@ -126,10 +127,10 @@ class Attitude(_NamedBase):
         # to follow the definitions of rotation angles alpha, beta and gamma:
         # negate yaw since yaw is counter-clockwise around the z-axis, swap
         # tilt and roll since tilt is around the x- and roll around the y-axis
-        sa, ca, sb, cb, sg, cg = sincos2d_(-self.yaw, self.roll, self.tilt)
-        return ((ca * cb, fdot_(ca, sb * sg, -sa, cg), fdot_(ca, sb * cg,  sa, sg)),
-                (sa * cb, fdot_(sa, sb * sg,  ca, cg), fdot_(sa, sb * cg, -ca, sg)),
-                (    -sb,           cb * sg,                     cb * cg))
+        sa, ca, sb, cb, sg, cg = sincos2d_(-self.yaw, self.roll, self.tilt)  # PYLINT E1130
+        return ((ca * cb, fdot_(ca, sb * sg, -sa, cg), fdot_(ca, sb * cg,  sa, sg)),  # PYLINT E1130
+                (sa * cb, fdot_(sa, sb * sg,  ca, cg), fdot_(sa, sb * cg, -ca, sg)),  # PYLINT E1130
+                (    -sb,           cb * sg,                     cb * cg))  # PYLINT E1130
 
     @property_doc_(' roll/bank in C{degrees180}, positive to the right and down.')
     def roll(self):
@@ -234,7 +235,7 @@ class Attitude(_NamedBase):
 class AttitudeError(_ValueError):
     '''An L{Attitude} or L{Attitude4Tuple} issue.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 class Frustum(_NamedBase):
@@ -396,7 +397,7 @@ class Frustum(_NamedBase):
 class LocalError(_ValueError):
     '''A L{LocalCartesian} or L{Ltp} related issue.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 class LocalCartesian(_NamedBase):
@@ -681,7 +682,7 @@ class Ltp(LocalCartesian):
     '''
     _Ecef = _EcefBase
 
-    def __init__(self, latlonh0=INT0, lon0=INT0, height0=INT0, ecef=None, **lon00_name):
+    def __init__(self, latlonh0=INT0, lon0=INT0, height0=INT0, ecef=None, **lon00_name):  # PYLINT W0231
         '''New C{Ltp}, see L{LocalCartesian.__init__} for more details.
 
            @kwarg ecef: Optional ECEF converter (L{EcefKarney}, L{EcefFarrell21},

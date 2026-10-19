@@ -24,7 +24,7 @@ _WGS84 = _UTM = object()
 @deprecated_function
 def anStr(name, OKd='._-', sub=_UNDER_):  # PYCHOK no cover
     '''DEPRECATED, use function L{pygeodesy.anstr}.'''
-    return _MODS.streprs.anstr(name, OKd=OKd, sub=sub)
+    return _MODS.streprs.anstr(name, OKd=OKd, sub=sub)  # PYLINT E1101
 
 
 @deprecated_function
@@ -70,7 +70,7 @@ def clipDMS(deg, limit):  # PYCHOK no cover
 @deprecated_function
 def clipStr(bstr, limit=50, white=NN):  # PYCHOK no cover
     '''DEPRECATED, use function L{pygeodesy.clips}.'''
-    return _MODS.basics.clips(bstr, limit=limit, white=white)
+    return _MODS.basics.clips(bstr, limit=limit, white=white)  # PYLINT E1101
 
 
 @deprecated_function
@@ -83,7 +83,7 @@ def collins(pointA, pointB, pointC, alpha, beta, **useZ_Clas_and_kwds):
 @deprecated_function
 def copysign(x, y):  # PYCHOK no cover
     '''DEPRECATED, use function L{pygeodesy.copysign0}.'''
-    return _MODS.basics.copysign0(x, y)
+    return _MODS.basics.copysign0(x, y)  # PYLINT E1101
 
 
 @deprecated_function
@@ -145,7 +145,7 @@ def encodeEPSG(zone, hemipole=NN, band=NN):  # PYCHOK no cover
 @deprecated_function
 def enStr2(easting, northing, prec, *extras):  # PYCHOK no cover
     '''DEPRECATED, use function L{pygeodesy.enstr2}.'''
-    return _MODS.streprs.enstr2(easting, northing, (int(prec) // 2 - 5), *extras)
+    return _MODS.streprs.enstr2(easting, northing, (int(prec) // 2 - 5), *extras)  # PYLINT E1101
 
 
 @deprecated_function
@@ -212,7 +212,7 @@ def falsed2f(falsed=True, Error=ValueError, **name_value):  # PYCHOK no cover
             t = _COMMASPACE_('falsed', _negative_)
         except (TypeError, ValueError) as x:
             t = str(x)
-    raise _MODS.errors._InvalidError(Error=Error, txt=t, **name_value)
+    raise _MODS.errors._InvalidError(Error=Error, txt=t, **name_value)  # PYLINT E1101
 
 
 @deprecated_function
@@ -224,13 +224,13 @@ def float0(*xs):  # PYCHOK no cover
 @deprecated_function
 def fStr(floats, prec=6, fmt=_MODS.streprs.Fmt.f, ints=False, sep=_COMMASPACE_):  # PYCHOK no cover
     '''DEPRECATED, use function L{fstr}.'''
-    return _MODS.streprs.fstr(floats, prec=prec, fmt=fmt, ints=ints, sep=sep)
+    return _MODS.streprs.fstr(floats, prec=prec, fmt=fmt, ints=ints, sep=sep)  # PYLINT E1101
 
 
 @deprecated_function
 def fStrzs(floatstr):  # PYCHOK no cover
     '''DEPRECATED, use function L{pygeodesy.fstrzs}.'''
-    return _MODS.streprs.fstrzs(floatstr)
+    return _MODS.streprs.fstrzs(floatstr)  # PYLINT E1101
 
 
 @deprecated_function
@@ -250,7 +250,7 @@ def hypot3(x, y, z):  # PYCHOK no cover
 @deprecated_function
 def inStr(inst, *args, **kwds):  # PYCHOK no cover
     '''DEPRECATED, use function L{pygeodesy.instr}.'''
-    return _MODS.streprs.instr(inst, *args, **kwds)
+    return _MODS.streprs.instr(inst, *args, **kwds)  # PYLINT E1101
 
 
 @deprecated_function
@@ -262,7 +262,7 @@ def isenclosedby(point, points, wrap=False):  # PYCHOK no cover
 @deprecated_function
 def istuplist(obj, minum=0):  # PYCHOK no cover
     '''DEPRECATED on 2023.03.31, use function L{pygeodesy.islistuple}.'''
-    return _MODS.basics.islistuple(obj, minum=minum)
+    return _MODS.basics.islistuple(obj, minum=minum)  # PYLINT E1101
 
 
 @deprecated_function
@@ -330,7 +330,7 @@ def scalar(value, low=EPS, high=1.0, name=_scalar_, Error=ValueError):  # PYCHOK
 
        @raise Error: Invalid B{C{value}}.
     '''
-    C_ = Number_ if _MODS.basics.isint(low) else Scalar_
+    C_ = Number_ if _MODS.basics.isint(low) else Scalar_  # PYLINT E1101
     return C_(value, name=name, Error=Error, low=low, high=high)
 
 
@@ -396,13 +396,13 @@ def triAngle4(a, b, c):
 @deprecated_function
 def unsign0(x):  # PYCHOK no cover
     '''DEPRECATED, use function L{pygeodesy.unsigned0}.'''
-    return _MODS.basics.unsigned0(x)
+    return _MODS.basics.unsigned0(x)  # PYLINT E1101
 
 
 @deprecated_function
 def unStr(name, *args, **kwds):  # PYCHOK no cover
     '''DEPRECATED, use function L{pygeodesy.unstr}.'''
-    return _MODS.streprs.unstr(name, *args, **kwds)
+    return _MODS.streprs.unstr(name, *args, **kwds)  # PYLINT E1101
 
 
 @deprecated_function

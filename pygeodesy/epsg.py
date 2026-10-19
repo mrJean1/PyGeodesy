@@ -49,7 +49,7 @@ class Epsg(Int):
     _utmups     =  None
     _zone       = _UTMUPS_ZONE_INVALID
 
-    def __new__(cls, eisu, **name):
+    def __new__(cls, eisu, **name):  # PYLINT W0222
         '''New L{Epsg} (I{European Petroleum Survey Group}) code from a
            UTM/USP coordinate or other EPSG code.
 
@@ -136,7 +136,7 @@ class Epsg(Int):
 class EPSGError(_ValueError):
     '''EPSG encode, decode or other L{Epsg} issue.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 def decode2(epsg):

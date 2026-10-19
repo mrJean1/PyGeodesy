@@ -75,8 +75,8 @@
 </pre>
 
 <hr />
-<p>A Line-Of-Sight (LOS) from a <code>LatLon</code> or 
-  <code>Cartesian</code> location.</p>
+<p>A Line-Of-Sight (LOS) a given azimuth and elevation from a 
+  <code>LatLon</code> or <code>Cartesian</code> location.</p>
 
 <!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
@@ -113,11 +113,10 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.ltpTuples.Los-class.html#toUvw" class="summary-sig-name">toUvw</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">location</span>,
-        <span class="summary-sig-arg">Uvw</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.ltpTuples.Uvw'&gt;</span>,
-        <span class="summary-sig-arg">**name_Uvw_kwds</span>)</span><br />
-      Get this LOS' <i>target</i> (UVW) components from a location.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.ltpTuples.Los-class.html#toEnu" class="summary-sig-name">toEnu</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">Enu</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.ltpTuples.Enu'&gt;</span>,
+        <span class="summary-sig-arg">**name_Enu_kwds</span>)</span><br />
+      Get this LOS as <i>East, North, Up</i> (ENU) components.</td>
           <td align="right" valign="top">
             
             
@@ -133,10 +132,12 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.ltpTuples.Los-class.html#toEnu" class="summary-sig-name">toEnu</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">Enu</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.ltpTuples.Enu'&gt;</span>,
-        <span class="summary-sig-arg">**name_Enu_kwds</span>)</span><br />
-      Get this LOS as <i>East, North, Up</i> (ENU) components.</td>
+          <td><span class="summary-sig"><a href="pygeodesy.ltpTuples.Los-class.html#toUvw" class="summary-sig-name">toUvw</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">location</span>,
+        <span class="summary-sig-arg">Uvw</span>=<span class="summary-sig-default">&lt;class 'pygeodesy.ltpTuples.Uvw'&gt;</span>,
+        <span class="summary-sig-arg">**name_Uvw_kwds</span>)</span><br />
+      Get the (UVW) <i>target</i> components casting this LOS from a 
+      location.</td>
           <td align="right" valign="top">
             
             
@@ -298,39 +299,6 @@
   </dl>
 </td></tr></table>
 </div>
-<a name="toUvw"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">toUvw</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">location</span>,
-        <span class="sig-arg">Uvw</span>=<span class="sig-default">&lt;class 'pygeodesy.ltpTuples.Uvw'&gt;</span>,
-        <span class="sig-arg">**name_Uvw_kwds</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Get this LOS' <i>target</i> (UVW) components from a location.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>location</code></strong> - The geodetic (<code>LatLon</code>) or geocentric 
-          (<code>Cartesian</code>, <a 
-          href="pygeodesy.vector3d.Vector3d-class.html" 
-          class="link">Vector3d</a>) location from where to cast this LOS.</li>
-    </ul></dd>
-  </dl>
-<div class="fields">      <p><strong>See Also:</strong>
-        Method <a href="pygeodesy.ltpTuples.Enu-class.html#toUvw" 
-        class="link">Enu.toUvw</a> for further details.
-      </p>
-</div></td></tr></table>
-</div>
 <a name="toEnu"></a>
 <div>
 <table class="details" border="1" cellpadding="3"
@@ -379,6 +347,40 @@
       </p>
 </div></td></tr></table>
 </div>
+<a name="toUvw"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toUvw</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">location</span>,
+        <span class="sig-arg">Uvw</span>=<span class="sig-default">&lt;class 'pygeodesy.ltpTuples.Uvw'&gt;</span>,
+        <span class="sig-arg">**name_Uvw_kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get the (UVW) <i>target</i> components casting this LOS from a 
+  location.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>location</code></strong> - The geodetic (<code>LatLon</code>) or geocentric 
+          (<code>Cartesian</code>, <a 
+          href="pygeodesy.vector3d.Vector3d-class.html" 
+          class="link">Vector3d</a>) location from where to cast this LOS.</li>
+    </ul></dd>
+  </dl>
+<div class="fields">      <p><strong>See Also:</strong>
+        Method <a href="pygeodesy.ltpTuples.Enu-class.html#toUvw" 
+        class="link">Enu.toUvw</a> for further details.
+      </p>
+</div></td></tr></table>
+</div>
 <br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
@@ -411,7 +413,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Sep  8 13:02:09 2026
+    Generated by Epydoc 3.0.1 on Mon Oct 19 12:32:39 2026
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

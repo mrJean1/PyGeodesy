@@ -22,7 +22,7 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS
 from math import fabs, log10 as _log10
 
 __all__ = _ALL_LAZY.streprs
-__version__ = '25.11.24'
+__version__ = '26.10.12'
 
 _at_        = 'at'         # PYCHOK used!
 _EN_PREC    =  6           # max MGRS/OSGR precision, 1 micrometer
@@ -412,7 +412,7 @@ def instr(inst, *args, **kwds):
     return unstr(_MODS.named.classname(inst), *args, **kwds)
 
 
-def lrstrip(txt, lrpairs=_LR_PAIRS):
+def lrstrip(txt, lrpairs=_LR_PAIRS):  # PYLINT W0102
     '''Left- I{and} right-strip parentheses, brackets, etc. from a string.
 
        @arg txt: String to be stripped (C{str}).
@@ -562,22 +562,25 @@ def unstr(where, *args, **kwds_):
     else:
         t  =  reprs(args, **fmt_prec) if args else ()
     if kwds:
-        t += pairs(itemsorted(kwds), **fmt_prec)
-    n = where if isstr(where) else typename(where)  # _NN_
-    if C and hasattr(C, n):
-        try:  # bound method of class C?
-            where = where.__func__
-        except AttributeError:
-            pass  # method of C?
-        if getattr(C, n, None) is where:
-            n = _DOT_(typename(C), n)
-    return Fmt.PAREN(n, _COMMASPACE_.join(t))
+        t +=  pairs(itemsorted(kwds), **fmt_prec)
+    t = _COMMASPACE_.join(t)
+    if where:
+        n = where if isstr(where) else typename(where)  # _NN_
+        if C and hasattr(C, n):
+            try:  # bound method of class C?
+                where = where.__func__
+            except AttributeError:
+                pass  # method of C?
+            if getattr(C, n, None) is where:
+                n = _DOT_(typename(C), n)
+        t = Fmt.PAREN(n, t)
+    return t
 
 
 def _0wd(*w_i):  # in .osgr, .wgrs
     '''(INTERNAL) Int formatter'.
     '''
-    return '%0*d' % w_i
+    return '%0*d' % w_i  # PYLINT E1306
 
 
 def _0wdot(w, f, dot=0):
@@ -592,7 +595,7 @@ def _0wdot(w, f, dot=0):
 def _0wpF(*w_p_f):  # in .dms, .osgr
     '''(INTERNAL) Float deg, min, sec formatter'.
     '''
-    return '%0*.*f' % w_p_f  # XXX was F
+    return '%0*.*f' % w_p_f  # PYLINT E1306 XXX was F
 
 
 def _xzipairs(names, values, sep=_COMMASPACE_, fmt=NN, pair_fmt=Fmt.COLON):

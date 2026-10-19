@@ -29,7 +29,7 @@ from pygeodesy.utily import atan1
 from math import asinh, copysign
 
 __all__ = ()
-__version__ = '25.08.31'
+__version__ = '26.10.02'
 
 
 class Aux(object):
@@ -45,7 +45,7 @@ class Aux(object):
     N  = 6
     N2 = 36
 
-    def __index__(self, aux):
+    def __getitem__(self, aux):
         # throws KeyError, not IndexError
         return _Aux2Greek[aux]
 

@@ -26,10 +26,11 @@ from math import fabs, sqrt  # pow
 import operator as _operator  # in .datums, .elliptic, .trf, .utm
 
 __all__ = _ALL_LAZY.fmath
-__version__ = '26.03.31'
+__version__ = '26.10.04'
 
-# sqrt(2) - 1 <https://WikiPedia.org/wiki/Square_root_of_2>
-_0_4142  =  0.41421356237309504880  # ~ 3_730_904_090_310_553 / 9_007_199_254_740_992
+# 1.4142135623730950_48801688724209 <https://WikiPedia.org/wiki/Square_root_of_2>
+# math.sqrt(2) - 1 == 0.4142135623730950_3 == 3730904090310553 / 9007199254740992
+_0_4142  =  0.4142135623730950488
 _1_6th   =  1 / 6
 _h_lt_b_ = 'abs(h) < abs(b)'
 
@@ -300,41 +301,47 @@ def cbrt2(x):  # PYCHOK attr
     return abs(x).fpow(_2_3rd) if _isFsum_2Tuple(x) else _cbrt(x**2)
 
 
-def euclid(x, y, *xy0):
+def euclid(x, y, *x0_y0, **half):
     '''I{Appoximate} the norm M{hypot(B{x}, B{y})} by M{max(abs(B{x}),
        abs(B{y})) + min(abs(B{x}), abs(B{y})) * 0.4142...}.
 
        @arg x: X component (C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
        @arg y: Y component (C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
-       @arg xy0: Optional reference C{(x0, y0)} (each C{scalar}, an
-                 L{Fsum} or L{Fsum2Tuple}).
+       @arg x0_y0: Optional reference C{(x0, y0)} (each C{scalar}, an
+                   L{Fsum} or L{Fsum2Tuple}).
+       @kwarg half: Use C{B{half}=True} to apply C{0.5} instead of
+                    C{sqrt(2) - 1} (C{bool}).
 
        @return: Appoximate norm (C{float} or L{Fsum}).
     '''
-    x, y = _map0(abs, x, y, *xy0)  # NOT fabs!
+    x, y = _map0(abs, x, y, *x0_y0)   # NOT fabs!
     if x < y:
         x, y = y, x
-    return x + y * _0_4142  # _0_5 before 20.10.02
+    y *= _half(**half) if half else _0_4142  # _0_5 before 20.10.02
+    return x + y
 
 
-def euclid_(*xs):
+def euclid_(*xs, **half):
     '''I{Appoximate} the norm M{sqrt(sum(x**2 for x in xs))} by cascaded
        L{euclid}.
 
        @arg xs: X values (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}),
                 all positional.
+       @kwarg half: Use C{B{half}=True} to apply C{0.5} instead of
+                    C{sqrt(2) - 1} (C{bool}).
 
        @return: Appoximate norm (C{float} or L{Fsum}).
 
        @see: Function L{euclid}.
     '''
     e = _0_0
+    f = _half(**half)
     for x in sorted(map(abs, xs)):  # NOT fabs, reverse=True!
         # e = euclid(x, e)
         if x:
             if e < x:
                 e, x = x, e
-            x *= _0_4142
+            x *= f
 #           s  = e + x
 #           if e < x:  # like .fsums._2sum
 #               x -= s  # e = (x - s) + e
@@ -574,8 +581,8 @@ def fidw(xs, ds, beta=2):
                 i += 1  # len(xs) < i < len(ds)
             except Exception as X:
                 _I = Fmt.INDEX
-                raise _xError(X, _I(xs=i), x,
-                                 _I(ds=i), d)
+                raise _xError(X, _I(xs=i), x,  # PYLINT E1120
+                                 _I(ds=i), d)  # PYLINT E1120
         else:  # b == 0
             x = fsum(xs) / n  # fmean(xs)
             i = n
@@ -722,7 +729,7 @@ def fpowers(x, n, alts=0):
 
 
 try:
-    from math import prod as fprod  # Python 3.8
+    from math import prod as fprod  # PYLINT W0611 Python 3.8
 except ImportError:
 
     def fprod(xs, start=1):
@@ -858,6 +865,10 @@ def fremainder(x, y):
     return r
 
 
+def _half(half=False):
+    return _0_5 if half else _0_4142
+
+
 if _MODS.sys_version_info2 < (3, 8):  # PYCHOK no cover
     from math import hypot  # OK in Python 3.7-
 
@@ -930,17 +941,17 @@ def hypot1(x):
     return h
 
 
-def hypot2(x, y, *xy0):
+def hypot2(x, y, *x0_y0):
     '''Compute the I{squared} norm M{x**2 + y**2}.
 
        @arg x: X (C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
        @arg y: Y (C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
-       @arg xy0: Optional reference C{(x0, y0)} (each C{scalar},
-                 an L{Fsum} or L{Fsum2Tuple}).
+       @arg x0_y0: Optional reference C{(x0, y0)} (each C{scalar},
+                   an L{Fsum} or L{Fsum2Tuple}).
 
        @return: C{B{x}**2 + B{y}**2} (C{float}).
     '''
-    x, y = _map0(abs, x, y, *xy0)  # NOT fabs!
+    x, y = _map0(abs, x, y, *x0_y0)  # NOT fabs!
     if x < y:
         x, y = y, x
     h2 = x**2
@@ -968,17 +979,17 @@ def hypot2_(*xs):
     return h2
 
 
-def _map0(_f, x, y, x0=_0_0, y0=_0_0, *unused):
+def _map0(_f, x, y, x0=_0_0, y0=_0_0, *unused):  # PYLINT W1113
     return _f(x - x0), _f(y - y0)
 
 
-def norm2(x, y, *xy0):
+def norm2(x, y, *x0_y0):
     '''Normalize a 2-dimensional vector.
 
        @arg x: X component (C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
        @arg y: Y component (C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
-       @arg xy0: Optional reference C{(x0, y0)} (each C{scalar}, an
-                 L{Fsum} or L{Fsum2Tuple}).
+       @arg x0_y0: Optional reference C{(x0, y0)} (each C{scalar},
+                   an L{Fsum} or L{Fsum2Tuple}).
 
        @return: 2-Tuple C{(x, y)}, normalized.
 
@@ -986,7 +997,7 @@ def norm2(x, y, *xy0):
     '''
     try:
         h    =  None
-        x, y = _map0(float, x, y, *xy0)
+        x, y = _map0(float, x, y, *x0_y0)
         h    =  hypot(x, y)
         if h:
             t = (x / h), (y / h)
@@ -1017,32 +1028,32 @@ def norm_(*xs):
         for i, x in enumerate(xs):
             yield x * _h
     except Exception as X:
-        raise _xsError(X, xs, i, x, h=h)
+        raise _xsError(X, xs, i, x, h=h)  # PYLINT E0601
 
 
-def polar2(x, y, *xy0):
+def polar2(x, y, *x0_y0):
     '''Return 2-tuple C{(length, angle)} with C{angle} in radians M{[0..+PI2)}.
 
        @arg x: X (C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
        @arg y: Y (C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
-       @arg xy0: Optional reference C{(x0, y0)} (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
+       @arg x0_y0: Optional reference C{(x0, y0)} (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
 
        @note: Use C{polar(B{y}, B{x}, *B{yx0})} to get the angle as C{bearing} from North.
     '''
-    x, y = _map0(float, x, y, *xy0)
+    x, y = _map0(float, x, y, *x0_y0)
     return hypot(x, y), _MODS.utily.atan2p(y, x)
 
 
-def polar2d(x, y, *xy0):
+def polar2d(x, y, *x0_y0):
     '''Return 2-tuple C{(length, angle)} with C{angle} in degrees M{[0..+360)}.
 
        @arg x: X (C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
        @arg y: Y (C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
-       @arg xy0: Optional reference C{(x0, y0)} (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
+       @arg x0_y0: Optional reference C{(x0, y0)} (each C{scalar}, an L{Fsum} or L{Fsum2Tuple}).
 
        @note: Use C{polar2d(B{y}, B{x}, *B{yx0})} to get the angle as C{bearing} from North.
     '''
-    x, y = _map0(float, x, y, *xy0)
+    x, y = _map0(float, x, y, *x0_y0)
     return hypot(x, y), _MODS.utily.atan2b(y, x)
 
 

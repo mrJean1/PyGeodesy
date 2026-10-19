@@ -44,7 +44,7 @@ def _main(**C4order):  # PYCHOK no cover
 
 
 from sys import argv  # .internals._isPyChOK
-_main(C4order=int(argv[1])) if len(argv) == 2 and argv[1].isdigit() else _main()
+_ = _main(C4order=int(argv[1])) if len(argv) == 2 and argv[1].isdigit() else _main()
 
 
 # % python3.13 -m pygeodesy.geodesicx

@@ -34,7 +34,7 @@ _Triaxial3_WGS84 = Triaxial3s.WGS84_3r  # a=6378172, b=6378102, c=6356752
 class Geodesic3Error(GeodesicError):
     '''Error raised for issues in L{geod3solve<pygeodesy.geod3solve>}.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 class Geod3Solve8Tuple(_GTuple):
@@ -70,7 +70,7 @@ class _Geodesic3SolveBase(_Solve3Base):
     _Names_Inverse =  Geod3Solve8Tuple._Names_[:_a12x]  # 7 only, always
     _triaxial3     = _Triaxial3_WGS84
     _Xable_name    = _Xables.Geod3Solve.__name__  # typename
-    _Xable_path    = _Xables.Geod3Solve()
+    _Xable_path    = _Xables.Geod3Solve()  # PYLINT E1120
 #   assert _a12x  ==  len(Geod3Solve8Tuple._Names_) - 1
     del _a12x
 
@@ -415,7 +415,7 @@ if __name__ == _DMAIN_:
         gS = Geodesic3Solve(name='Test')
         gS.verbose = v = '--verbose' in argv  # or '-v' in argv
 
-        if not _Xables.X_OK(gS.Geod3Solve):  # not set
+        if not _Xables.X_OK(gS.Geod3Solve):  # PYLINT E1120 not set
             gS.Geod3Solve = _Xables.Geod3Solve(_Xables.bin_)
         printf('version: %s', gS.version, nt=v)
 

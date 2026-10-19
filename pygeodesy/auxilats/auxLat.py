@@ -70,7 +70,7 @@ class AuxLat(AuxAngle):
 #   _Lmax =  0       # overwritten below
     _mAL  =  6       # 4, 6 or 8 aka Lmax
 
-    def __init__(self, a_earth=_EWGS84, f=None, b=None, **ALorder_name):
+    def __init__(self, a_earth=_EWGS84, f=None, b=None, **ALorder_name):  # PYLINT W0231
         '''New L{AuxLat} instance on an ellipsoid or datum.
 
            @arg a_earth: Equatorial radius, semi-axis (C{meter}) or an ellipsoid or
@@ -217,7 +217,7 @@ class AuxLat(AuxAngle):
         if auxout == auxin:
             return _0_0s(aL)  # uncached
 
-        k = Aux._1d(auxout, auxin)
+        k = Aux._1d(auxout, auxin)  # PYLINT E1120
         try:  # cached
             return AuxLat._csc[aL][k]
         except KeyError:
@@ -229,7 +229,7 @@ class AuxLat(AuxAngle):
             raise AuxError(auxout=auxout, auxin=auxin, cause=x)
 
         d = x = n = self._n
-        if Aux.use_n2(auxin) and Aux.use_n2(auxout):
+        if Aux.use_n2(auxin) and Aux.use_n2(auxout):  # PYLINT E1120
             x = self._n2
 
             def _m(aL):
@@ -349,7 +349,7 @@ class AuxLat(AuxAngle):
             elif not (isfinite(Z.tan) and Z.tan):  # XXX
                 Z = A(*Z._yx, aux=auxout, name=Z.name)
             elif exact:
-                p = Aux.power(auxout, auxin)
+                p = Aux.power(auxout, auxin)  # PYLINT E1120
                 if p is None:
                     P = self._fromAux(Z)  # Phi
                     Z = self._toAux(auxout, P)
@@ -373,7 +373,7 @@ class AuxLat(AuxAngle):
             Z  = AuxPhi.fromDegrees(d)
             d  = round((d - Z.toDegrees) / _360_0) * _360_0
             d += self.convert(auxout, Z, exact).toDegrees
-            return Degrees(d, name=Aux.Greek(auxout))
+            return Degrees(d, name=Aux.Greek(auxout))  # PYLINT E1120
 
         raise AuxError(auxout=auxout, Zeta_d=Zeta_d, exact=exact)
 
@@ -381,7 +381,7 @@ class AuxLat(AuxAngle):
     def _CXcoeffs(self):  # in .auxilats.__main__, .testAuxilats
         '''(INTERNAL) Get the C{CX_4}, C{_6} or C{_8} coefficients.
         '''
-        return Aux._CXcoeffs(self.ALorder)
+        return Aux._CXcoeffs(self.ALorder)  # PYLINT E1120
 
     def _Dq(self, tphi):
         # I{Divided Difference} of (q(1) - q(sphi)) / (1 - sphi).

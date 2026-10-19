@@ -106,7 +106,7 @@ class ETMError(UTMError):
     '''Exact Transverse Mercator (ETM) parse, projection or other
        L{Etm} issue or L{ExactTransverseMercator} conversion failure.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 class Etm(Utm):
@@ -152,7 +152,7 @@ class Etm(Utm):
         self._exactTM = exactTM
         self._scale0  = exactTM.k0
 
-    def parse(self, strETM, **name):
+    def parse(self, strETM, **name):  # PYLINT W0237
         '''Parse a string to a similar L{Etm} instance.
 
            @arg strETM: The ETM coordinate (C{str}), see function L{parseETM5}.

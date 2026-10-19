@@ -70,7 +70,7 @@ class UTMUPSError(_ValueError):  # XXX (UTMError, UPSError)
     '''Universal Transverse Mercator/Universal Polar Stereographic
        (UTM/UPS) parse, validate or other issue.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 def parseUTMUPS5(strUTMUPS, datum=_WGS84, Utm=Utm, Ups=Ups, **name):

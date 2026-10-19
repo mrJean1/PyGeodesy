@@ -36,7 +36,7 @@ from pygeodesy.vector3d import Vector3d
 # from math import cos, radians  # from .utily
 
 __all__ = _ALL_LAZY.ltpTuples
-__version__ = '26.07.17'
+__version__ = '26.10.08'
 
 _aer_        = 'aer'
 _alt_        = 'alt'
@@ -46,7 +46,7 @@ _enu_        = 'enu'
 _ned_        = 'ned'
 _north_      = 'north'
 _local_      = 'local'
-_ltp         = _MODS.into(ltp=__name__)
+_ltp         = _MODS.into(ltp=__name__)  # PYLINT E1120
 _roll_       = 'roll'
 _slantrange_ = 'slantrange'
 _tilt_       = 'tilt'
@@ -130,7 +130,7 @@ class _AbcBase(_NamedBase):
     def xyz(self):
         '''Get the I{local} C{(X, Y, Z)} coordinates (L{Vector3Tuple}C{(x, y, z)}).
         '''
-        return Vector3Tuple(self.x, self.y, self.z, name=self.name)  # like Ecef9Tuple.xyz, Local6tuple.xyz
+        return Vector3Tuple(self.x, self.y, self.z, name=self.name)  # PYLINT E1101 like Ecef9Tuple.xyz, Local6tuple.xyz
 
     @property_RO
     def xyz3(self):
@@ -622,7 +622,7 @@ class XyzLocal(_Vector3d):
     '''
     _ltp = None  # local tangent plane (C{Ltp}), origin
 
-    def __init__(self, x_xyz, y=0, z=0, ltp=None, **name):
+    def __init__(self, x_xyz, y=0, z=0, ltp=None, **name):  # PYLINT W0231
         '''New L{XyzLocal}.
 
            @arg x_xyz: Scalar X component (C{meter}), C{positive east} or a
@@ -980,10 +980,10 @@ class Enu(XyzLocal):
         XyzLocal.__init__(self, east_enu, north, up, ltp=ltp, **name)
 
     def toUvw(self, location, Uvw=None, **name_Uvw_kwds):
-        '''Get the I{u, v, w} (UVW) components at a location.
+        '''Get the I{u, v, w} (UVW) I{target} components at a location.
 
            @arg location: The geodetic (C{LatLon}) or geocentric (C{Cartesian},
-                          L{Vector3d}) location, like a Point-Of-View.
+                          L{Vector3d}) reference location, like a Point-Of-View.
            @kwarg Uvw: Class to return UWV (L{Uvw}) or C{None}.
            @kwarg name_Uvw_kwds: Optional C{B{name}=NN} (C{str}) and optionally,
                        additional B{L{Uvw}} keyword arguments, ignored if C{B{Uvw}
@@ -1002,8 +1002,8 @@ class Enu(XyzLocal):
             raise _TypeError(location=location, cause=x)
         e, n, u, _ = self.enu4
 
-        t = fdot_(ca, u, -sa, n)
-        U = fdot_(cb, t, -sb, e)
+        t = fdot_(ca, u, -sa, n)  # PYLINT E1130
+        U = fdot_(cb, t, -sb, e)  # PYLINT E1130
         V = fdot_(cb, e,  sb, t)
         W = fdot_(ca, n,  sa, u)
 
@@ -1242,11 +1242,13 @@ _XyzLocals5 = _XyzLocals4 + (Local9Tuple,)  # PYCHOK in .ltp
 
 
 class Uvw(_Vector3d):
-    '''3-D C{u-v-w} (UVW) components.
+    '''3-D C{u-v-w} (UVW) I{target} components.
+
+       @note: These UVW are I{target}, B{not} I{local} UVW components.
     '''
     _toStr = _uvw_
 
-    def __init__(self, u_uvw, v=0, w=0, **name):
+    def __init__(self, u_uvw, v=0, w=0, **name):  # PYLINT W0231
         '''New L{Uvw}.
 
            @arg u_uvw: Scalar U component (C{meter}) or a previous instance (L{Uvw},
@@ -1257,17 +1259,17 @@ class Uvw(_Vector3d):
                      otherwise.
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
-           @raise TypeError: Invalid B{C{east_enu}}.
+           @raise TypeError: Invalid B{C{u_uvw}}.
 
-           @raise UnitError: Invalid B{C{east_enu}}, B{C{v}} or B{C{w}}.
+           @raise UnitError: Invalid B{C{u_uvw}}, B{C{v}} or B{C{w}}.
         '''
-        Vector3d.__init__(self, u_uvw, v, w, **name)
+        Vector3d.__init__(self, u_uvw, v, w, **name)  # PYLINT W0233
 
     def toEnu(self, location, Enu=Enu, **name_Enu_kwds):
         '''Get the I{East, North, Up} (ENU) components at a location.
 
            @arg location: The geodetic (C{LatLon}) or geocentric (C{Cartesian},
-                          L{Vector3d}) location from where to cast the L{Los}.
+                          L{Vector3d}) reference location, like a Point-Of-View.
            @kwarg Enu: Class to return ENU (L{Enu}) or C{None}.
            @kwarg name_Enu_kwds: Optional C{B{name}=NN} (C{str}) and optionally,
                        additional B{L{Enu}} keyword arguments, ignored if C{B{Enu}
@@ -1287,8 +1289,8 @@ class Uvw(_Vector3d):
         u, v, w = self.uvw
 
         t = fdot_(cb, u,  sb, v)
-        E = fdot_(cb, v, -sb, u)
-        N = fdot_(ca, w, -sa, t)
+        E = fdot_(cb, v, -sb, u)  # PYLINT E1130
+        N = fdot_(ca, w, -sa, t)  # PYLINT E1130
         U = fdot_(ca, t,  sa, w)
 
         n, kwds = _name2__(name_Enu_kwds, _or_nameof=self)
@@ -1308,14 +1310,15 @@ class Uvw(_Vector3d):
 
 
 class Uvw3Tuple(_NamedTuple):
-    '''3-Tuple C{(u, v, w)}, in C{meter}.
+    '''3-Tuple C{(u, v, w)} of (UVW) I{target} components, all in C{meter}.
     '''
     _Names_ = ('u',   'v',   'w')
     _Units_ = ( Meter, Meter, Meter)
 
 
 class Los(Aer):
-    '''A Line-Of-Sight (LOS) from a C{LatLon} or C{Cartesian} location.
+    '''A Line-Of-Sight (LOS) a given azimuth and elevation from a C{LatLon} or
+       C{Cartesian} location.
     '''
 
     def __init__(self, azimuth_aer, elevation=0, **name):
@@ -1336,8 +1339,15 @@ class Los(Aer):
         t = Aer(azimuth_aer, elevation)
         Aer.__init__(self, t.azimuth, t.elevation, slantrange=_1_0, **name)
 
+    def toEnu(self, Enu=Enu, **name_Enu_kwds):
+        '''Get this LOS as I{East, North, Up} (ENU) components.
+
+           @see: Method L{Aer.toEnu} for further details.
+        '''
+        return Aer.toEnu(self, Enu=Enu, **name_Enu_kwds)
+
     def toUvw(self, location, Uvw=Uvw, **name_Uvw_kwds):
-        '''Get this LOS' I{target} (UVW) components from a location.
+        '''Get the (UVW) I{target} components casting this LOS from a location.
 
            @arg location: The geodetic (C{LatLon}) or geocentric (C{Cartesian},
                           L{Vector3d}) location from where to cast this LOS.
@@ -1346,18 +1356,11 @@ class Los(Aer):
         '''
         return self.toEnu().toUvw(location, Uvw=Uvw, **name_Uvw_kwds)
 
-    def toEnu(self, Enu=Enu, **name_Enu_kwds):
-        '''Get this LOS as I{East, North, Up} (ENU) components.
-
-           @see: Method L{Aer.toEnu} for further details.
-        '''
-        return Aer.toEnu(self, Enu=Enu, **name_Enu_kwds)
-
 
 class Footprint5Tuple(_NamedTuple):
-    '''5-Tuple C{(center, upperleft, upperight, loweright, lowerleft)}
-       with the C{center} and 4 corners of the I{local} projection of
-       a C{Frustum}, each an L{Xyz4Tuple}, L{XyzLocal}, C{LatLon}, etc.
+    '''5-Tuple C{(center, upperleft, upperight, loweright, lowerleft)} with
+       the C{center} and 4 corners of the I{local} projection of a C{Frustum},
+       each an L{Xyz4Tuple}, L{XyzLocal}, C{LatLon}, etc.
 
        @note: Misspelling of C{upperight} and C{loweright} is I{intentional}.
     '''
@@ -1445,7 +1448,7 @@ def _xyz2aer4(inst):
     '''(INTERNAL) Convert C{(x, y, z}) to C{(A, E, R)}.
     '''
     x, y, z, _ = inst.xyz4
-    A = Azimuth(atan2b(x, y))
+    A = Azimuth(atan2b(x, y))  # PYLINT W1114
     E = Degrees(elevation=atan2d(z, hypot(x, y)))
     R = Meter(slantrange=hypot_(x, y, z))
     return Aer4Tuple(A, E, R, inst.ltp, name=inst.name)

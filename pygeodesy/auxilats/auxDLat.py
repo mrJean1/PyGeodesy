@@ -101,7 +101,7 @@ class AuxDLat(AuxLat):
         # See DLMF: Eqs (19.11.2) and (19.11.4) letting
         Dt = _Dsin(x, y) * (sx + sy)
         if Dt:
-            t   = _sxk2y(sx, sy, k2) + _sxk2y(sy, sx, k2)
+            t   = _sxk2y(sx, sy, k2) + _sxk2y(sy, sx, k2)  # PYLINT W1114
             Dt  = _over(Dt, t * (cx + cy))
             t   =  d * Dt
             t2  = _1_0 + t**2

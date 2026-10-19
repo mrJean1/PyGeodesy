@@ -205,7 +205,7 @@ class _GTuple(_NamedTuple):  # in .testNamedTuples
             r.update(updates)
         return self._dup_iteration(r)
 
-    def _toTuple(self, nTuple, dflt, updates={}):
+    def _toTuple(self, nTuple, dflt, updates={}):  # PYLINT W0102
         '''(INTERNAL) Convert this C{_GTuple} to an B{C{nTuple}}.
         '''
         _g = self.toGDict(**updates).get
@@ -343,7 +343,7 @@ class Caps(object):
     def toStr(self, Cask, sep=_BAR_):
         '''Return C{Caps} or an C{outmask} as C{str} or tuple of C{str}s.
         '''
-        s = (n for n, C in sorted(Caps.items())
+        s = (n for n, C in sorted(Caps.items())  # PYLINT E1120
                         if C and (Cask & C) == C)  # and int1s(C) <= 3
         return sep.join(s) if sep else tuple(s)
 
@@ -420,7 +420,7 @@ class _CapsBase(_NamedBase):  # in .auxilats, .geodesicx.gxbases
         '''
         self._debug = Caps._DEBUG_ALL if debug else 0
 
-    def _iter2tion(self, r, iter=None, **unused):
+    def _iter2tion(self, r, iter=None, **unused):  # PYLINT W0622
         '''(INTERNAL) Copy C{C{s}.iter} into C{B{r}._iteration}.
         '''
         if iter is not None:
@@ -705,10 +705,10 @@ class _Xables(object):
             try:
                 r, s = _popen2((path, '--version'))
                 if base:
-                    path = _MODS.os.path.basename(path)
+                    path = _MODS.os.path.basename(path)  # PYLINT E1101
                     r    = _SPACE_(path, r.split()[-1])
                 else:
-                    r    = _MODS.streprs.Fmt.PARENSPACED(r, s)
+                    r    = _MODS.streprs.Fmt.PARENSPACED(r, s)  # PYLINT E1101
                 return r
             except (IndexError, IOError, OSError):
                 pass
@@ -724,7 +724,7 @@ class _Xables(object):
 
     def X_OK(self, path):  # is C{path} an executable?
         os = _MODS.os  # import os
-        return os.access(path, os.X_OK) if path else False
+        return os.access(path, os.X_OK) if path else False  # PYLINT E1101
 
 _Xables = _Xables()  # PYCHOK singleton
 
@@ -969,7 +969,7 @@ if _K_2_0:
     def _sincos2(rad):
         return _sin(rad), _cos(rad)
 
-    _signBit = _MODS.basics.signBit
+    _signBit = _MODS.basics.signBit  # PYLINT E1101
 else:
     _sincos2 = _MODS.utily.sincos2  # PYCHOK shared
 
@@ -1061,7 +1061,7 @@ def _unroll2(lon1, lon2, wrap=False):  # see .ellipsoidalBaseDI._intersects2
     '''
     if wrap:
         d, t = _diff182(lon1, lon2)
-        lon2, t, _ = _sum3(d, t, lon1)  # (lon1 + d) + t
+        lon2, t, _ = _sum3(d, t, lon1)  # PYLINT E0633 (lon1 + d) + t
         lon2 += t
     else:
         lon2 = _norm180(lon2)

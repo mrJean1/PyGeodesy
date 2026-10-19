@@ -21,7 +21,7 @@ if __name__ == '__main__':
                           EcefVeness, Ned, Ned4Tuple
 
     class Examples(TestsBase):  # overload test()
-        def test(self, ex, name, *args, **kwds):
+        def test(self, ex, name, *args, **kwds):  # PYLINT W0221
             name = 'Example %s %s' % (ex, name)
             TestsBase.test(self, name, *args, **kwds)
 

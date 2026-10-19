@@ -8,6 +8,7 @@ __all__ = ('Tests',)
 __version__ = '25.05.09'
 
 from bases import TestsBase
+from testRoutes import RdpFFI
 
 from pygeodesy import R_MA, deprecated, isDEPRECATED, map2, unstr, \
                       HeightIDWequirectangular, HeightIDWeuclidean, HeightIDWhaversine
@@ -16,7 +17,6 @@ try:
     __star__(__name__)
 except ImportError:
     from pygeodesy.deprecated import *  # PYCHOK expected
-from testRoutes import RdpFFI
 
 from math import sqrt
 
@@ -101,7 +101,7 @@ class Tests(TestsBase):
         for m, t in _ALL_DEPRECATED.items():
             if _headof(m) == 'deprecated':
                 self.test(m, len(t), len(t), nl=1)
-                m = _MODS.getmodule(m.replace(_UNDER_, _DOT_))
+                m = _MODS.getmodule(m.replace(_UNDER_, _DOT_))  # PYLINT E1120
                 for a in t:
                     a = _getattras(a)  # a_ or a
                     n =  unstr(isDEPRECATED, a)

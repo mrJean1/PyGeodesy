@@ -27,7 +27,7 @@ from os import getenv
 from setuptools import setup
 
 __all__ = ()
-__version__ = '26.09.09'
+__version__ = '26.10.18'
 
 _PACKAGE = 'pygeodesy'  # 'PyGeodesy'
 
@@ -74,19 +74,20 @@ _KeyWords = ('AER', 'AGM', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode
              'GeodSolve', 'Geod3Solve', 'GeodTest', 'geographiclib', 'Geohash', 'geoid', 'geoidHeight', 'GeoidHeights',
              'georef', 'Girard', 'gnomonic', 'gons', 'grades', 'gradians', 'Greiner', 'Greiner-Hormann',
              'Hartzell', 'Hausdorff', 'Haversine', 'heading', 'hectare', 'height', 'Heikkinen', 'Heron',
-             'Hodgman', 'horizon', 'Hormann', 'Hubeny',
+             'Hodgman', 'horizon', 'Hormann', 'Hotine', 'Hubeny',
              'IDW', 'incenter', 'incirle', 'infix_@_operator', 'inradius', 'intermediate', 'interpolate',
              'intersect', 'intersection', 'intersection3d', 'intersections', 'IntersectTool',
              'Inverse-Distance-Weighting', 'Isometric', 'ITRF',
              'Jacobi', 'Jacobi-Conformal', 'Jarque-Bera', 'Jekel',
              'Karney', 'Krueger', 'Krüger', 'kurtosis',
-             'Lambert', 'latitude', 'law-of-cosines', 'least-squares', 'Lesh',
+             'Laborde', 'Lambert', 'latitude', 'law-of-cosines', 'least-squares', 'Lesh',
              'L_Huilier', 'LHuilier', 'Liang', 'Liang-Barsky', 'Linderholm-Segal', 'linearize', 'Line-Of-Sight',
              'LocalCartesian', 'local-tangent-plane', 'local-x-y-z', 'longitude', 'LOS', 'loxodrome', 'lstsq', 'LTP', 'lune',
              'mean', 'memoize', 'memoized', 'Mercator', 'Meeus', 'MGRS',
              'nearest', 'NED', 'Niemeyer', 'non-finite', 'normalize',
              'Norrdine', 'north-east-down', 'numpy', 'n-vector', 'Nvector',
-             'oblate', 'omega', 'orthographic', 'orthometric-height', 'OSGB', 'OSGR', 'overlap',
+             'oblate', 'oblique', 'Oblique-Mercator', 'Olson', 'omega', 'orthographic', 'orthometric-height',
+             'Osen', 'OSGB', 'OSGR', 'overlap',
              'parallel', 'parallel-of-latitude', 'Parametric', 'path-intersection', 'periapsis',
              'perimeter', 'Peucker', 'Pierlot', 'pitch', 'plumb', 'Point-Of-View', 'polar', 'Popa', 'POV',
              'precision-cubic-root', 'precision-hypotenuse', 'precision-powers',
@@ -100,14 +101,14 @@ _KeyWords = ('AER', 'AGM', 'Albers', 'altitude', 'Andoyer', 'annulus', 'antipode
              'sphere', 'sphere-intersections', 'spherical-deficit', 'spherical-excess', 'spherical-polar', 'spherical-triangle',
              'squared-quartic', 'standard-deviation', 'stereographic', 'Sudano', 'surface-area', 'Sutherland',
              'Sutherland-Hodgman', 'tangent-circles', 'Terrestrial-Reference-Frame', 'Thomas', 'Tienstra',
-             'tilt', 'TMcoords', 'TMExact', 'toise', 'transverse', 'TransverseMercatorExact', 'TRF',
+             'tilt', 'TMcoords', 'TMExact', 'toise', 'topocentric', 'transverse', 'TransverseMercatorExact', 'TRF',
              'triangle', 'triangulate', 'triaxial', 'triaxial-ellipsoid',
              'trigonometry', 'trilaterate', 'trilaterate-2d', 'trilaterate-3d', 'TwoProduct', 'TwoSum',
              'umbilic-point', 'unit', 'unroll', 'UPS', 'UTM', 'UTM/UPS',
              'variance', 'velocities', 'Veness', 'Vermeille', 'viewing-frustum', 'Vincenty',
              'Visvalingam', 'Visvalingam-Whyatt', 'volume', ' volumetric',
              'Web-Mercator', 'Welford', 'WGRS', 'WGS', 'Whyatt', 'Wildberger', 'Witkam', 'winding-number',
-             'XYZ', 'yaw', 'You', 'zenzi-cubic', 'zenzi-quartic')
+             'XYZ', 'yaw', 'You', 'zenzi-cubic', 'zenzi-quartic', 'Zhu')
 
 setup(name=_PACKAGE,
       packages=['pygeodesy', 'pygeodesy.auxilats', 'pygeodesy.deprecated', 'pygeodesy.geodesicx', 'pygeodesy.rhumb', 'pygeodesy.triaxials'],
@@ -146,7 +147,7 @@ setup(name=_PACKAGE,
 #                  _c('Programming Language', 'Python', '3.8'),
 #                  _c('Programming Language', 'Python', '3.9'),
 #                  _c('Programming Language', 'Python', '3.10'),
-                   _c('Programming Language', 'Python', '3.11'),
+#                  _c('Programming Language', 'Python', '3.11'),
                    _c('Programming Language', 'Python', '3.12'),
                    _c('Programming Language', 'Python', '3.13'),
                    _c('Programming Language', 'Python', '3.14'),

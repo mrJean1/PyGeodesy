@@ -4,7 +4,7 @@
 # Test L{ellipsoids} module.
 
 __all__ = ('Tests',)
-__version__ = '26.07.20'
+__version__ = '26.10.18'
 
 from bases import TestsBase
 
@@ -23,7 +23,7 @@ class Tests(TestsBase):
         self.test('ellipsoid', E is Ellipsoids.TestEllipsoid, True)
 #       print(Ellipsoid())
 
-        e = Ellipsoids.unregister('TestEllipsoid')
+        e = Ellipsoids.unregister('TestEllipsoid')  # PYLINT E1120
         self.test(e.name, e, E)
 
         # WGS84 and GRS80/NAD83 are identical up to 3 decimals
@@ -86,7 +86,7 @@ class Tests(TestsBase):
         self.subtitle(ellipsoids, E.name)
         self.test('WGS84.copy', E is not Ellipsoids.WGS84, True)
         self.test('WGS84.copy', E == Ellipsoids.WGS84, True)
-        self.test('WGS84.find', Ellipsoids.find(E), None)
+        self.test('WGS84.find', Ellipsoids.find(E), None)  # PYLINT E1120
 
         self.test('WGS84.a2_b', E.a2_b, E.a2 / E.b,      prec=6)
         self.test('WGS84.b2_a', E.b2_a, E.b2 / E.a,      prec=6)
@@ -104,7 +104,7 @@ class Tests(TestsBase):
         self.test('WGS84.ecef', E.ecef().name, E.name)
 
         t = E.toStr(prec=10, terse=0)
-        self.test('WGS84', t, "name='WGS84', a=6378137, f=0.0033528107, f_=298.257223563, b=6356752.3142451793, f2=0.0033640898, n=0.0016792204, e=0.0818191908, e2=0.00669438, e21=0.99330562, e22=0.0067394967, e32=0.0033584313, A=6367449.1458234144, L=10001965.7293127235, R1=6371008.7714150595, R2=6371007.1809184738, R3=6371000.7900091587, Rbiaxial=6367453.6345163295, Rtriaxial=6372797.5559594007",
+        self.test('WGS84', t, "name='WGS84', a=6378137, f=0.0033528107, e=0.0818191908, b=6356752.3142451793, f_=298.257223563, e2=0.00669438, e21=0.99330562, e22=0.0067394967, e32=0.0033584313, n=0.0016792204, A=6367449.1458234144, L=10001965.7293127235, R1=6371008.7714150595, R2=6371007.1809184738, R3=6371000.7900091587, Rbiaxial=6367453.6345163295, Rtriaxial=6372797.5559594007",
                                                                                                                                                                                                                                                   known=' L=10001965.7293127216, ' in t       or      ' R2=6371007.1809184728, ' in t)  # on Intel macOS
         e = (E.a - E.b) / (E.a + E.b) - E.n
         t = 'A=%.10f, e=%.10f, f_=%.10f, n=%.10f (%.10e)' % (E.A, E.e, E.f_, E.n, e)
@@ -191,9 +191,9 @@ class Tests(TestsBase):
 
         self.subtitle(ellipsoids, 'Flattenings')
 
-        self.test(all.__name__, Ellipsoids.register(all), all.__name__)
+        self.test(all.__name__, Ellipsoids.register(all), all.__name__)  # PYLINT E1120
         self.test('_TOL', _TOL, _TOL)
-        for n, E in Ellipsoids.items(asorted=True):  # includes f_None, b_None, Prolate
+        for n, E in Ellipsoids.items(asorted=True):  # PYLINT E1120 includes f_None, b_None, Prolate
             if E.f and E.f_:
                 e = E.f_ - 1 / E.f
                 self.test(n + '.f_ - 1 / .f', e, e if fabs(e) < _TOL else _TOL, nl=1)
@@ -201,13 +201,13 @@ class Tests(TestsBase):
                 self.test(n + '.f - 1 / .f_', e, e if fabs(e) < _TOL else _TOL)  # PYCHOK attr
 
         self.subtitle(ellipsoids, Ellipsoid2.__name__)
-        for n, E in Ellipsoids.items(all=True, asorted=True):  # includes f_None, b_None, Prolate
+        for n, E in Ellipsoids.items(all=True, asorted=True):  # PYLINT E1120 includes f_None, b_None, Prolate
             n  = '_2_' + n
             E2 = Ellipsoid2(E.a, E.f, name=n)
             self.test(n, E2.toStr(name=None, prec=7), E.toStr(name=None, prec=7))
 
         self.subtitle(ellipsoids, a_f2Tuple.__name__)
-        for n, E in Ellipsoids.items(all=True, asorted=True):  # includes f_None, b_None, Prolate
+        for n, E in Ellipsoids.items(all=True, asorted=True):  # PYLINT E1120 includes f_None, b_None, Prolate
             n = 'a_b_' + n
             a_f = a_f2Tuple(E.a, E.f, name=n)
             E2 = Ellipsoid(a_f.a, a_f.b)  # PYCHOK a
@@ -222,7 +222,7 @@ class Tests(TestsBase):
 
         self.subtitle(ellipsoids, 'Functions')
         t = 0
-        for _, E in Ellipsoids.items(all=True, asorted=True):  # includes f_None, b_None, Prolate
+        for _, E in Ellipsoids.items(all=True, asorted=True):  # PYLINT E1120 includes f_None, b_None, Prolate
             f_ = a_b2f_(E.a, E.b)
             self.test('%s(%s)' % (a_b2f_.__name__, E.name), f_, E.f_, fmt='%.8f', known=fabs(f_ - E.f_) < _TOL, nl=1)
             f2 = a_b2f2(E.a, E.b)
@@ -242,7 +242,7 @@ class Tests(TestsBase):
             f = n2f(E.n)
             self.test('%s(%s)' % (n2f.__name__, E.name), f, E.f, fmt='%.8f', known=fabs(f - E.f) < _TOL)
             t += 1
-        self.test('total', t, 50, nl=1)
+        self.test('total', t, 51, nl=1)
 
         t = P.roc1_.__name__ + ' '
         for E, x in ((Ellipsoids.WGS84, 1.863e-9), (P, 1.863e-9),

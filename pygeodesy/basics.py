@@ -56,7 +56,7 @@ try:
     try:  # use C{from collections.abc import ...} in Python 3.9+
         from collections.abc import Sequence as _Sequence  # in .points
     except ImportError:  # no .abc in Python 3.8- and 2.7-
-        from collections import Sequence as _Sequence  # in .points
+        from collections import Sequence as _Sequence  # in .points  # PYLINT W4904
     if isinstance([], _Sequence) and isinstance((), _Sequence):
         #                        and isinstance(range(1), _Sequence):
         _Seqs = _Sequence
@@ -150,7 +150,7 @@ def _args_kwds_names(func, splast=False):
     try:
         args_kwds = i.signature(func).parameters.keys()
     except AttributeError:  # Python 2-
-        args_kwds = i.getargspec(func).args
+        args_kwds = i.getargspec(func).args  # PYLINT E1101
     if splast and args_kwds:  # PYCHOK no cover
         args_kwds = list(args_kwds)
         t = args_kwds[-1:]
@@ -176,7 +176,7 @@ def clips(sb, limit=50, white=NN, length=False):
         h  = limit // 2
         sb = T(_ELLIPSIS4_).join((sb[:h], sb[-h:]))
         if length:
-            n  = _MODS.streprs.Fmt.SQUARE(n)
+            n  = _MODS.streprs.Fmt.SQUARE(n)  # PYLINT E1101
             sb =  T(NN).join((sb, n))
     if white:  # replace whitespace
         sb = T(white).join(sb.split())
@@ -305,7 +305,7 @@ def isCartesian(obj, ellipsoidal=None):
 def isclass(obj):  # XXX avoid epydoc Python 2.7 error
     '''Is B{C{obj}}ect a C{Class} or C{type}?
     '''
-    return _MODS.inspect.isclass(obj)
+    return _MODS.inspect.isclass(obj)  # PYLINT E1101
 
 
 def iscomplex(obj, both=False):
@@ -456,7 +456,7 @@ def isiterabletype(obj, method='__iter__'):
 
 
 try:
-    from keyword import iskeyword  # 2.7+
+    from keyword import iskeyword  # PYLINT W0611 2.7+
 except ImportError:
 
     def iskeyword(unused):
@@ -594,7 +594,7 @@ def itemsorted(adict, *items_args, **asorted_reverse):
                       sorting in C{descending} order.
     '''
     def _ins(item):  # functools.cmp_to_key
-        k, v = item
+        k, _ = item
         return k.lower()
 
     def _reverse_key(asorted=True, reverse=False):
@@ -1026,7 +1026,7 @@ def _xzip(*args, **strict):  # PYCHOK no cover
     s = _xkwds_get1(strict, strict=True)
     if s:
         if _zip is zip:  # < (3, 10)
-            t = _MODS.streprs.unstr(_xzip, *args, strict=s)
+            t = _MODS.streprs.unstr(_xzip, *args, strict=s)  # PYLINT E1101
             raise _NotImplementedError(t, txt=None)
         return _zip(*args)
     return zip(*args)

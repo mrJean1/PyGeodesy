@@ -91,7 +91,7 @@ from math import ceil as _ceil, fabs
 # import operator as _operator  # from .datums
 
 __all__ = _ALL_LAZY.trf
-__version__ = '26.04.23'
+__version__ = '26.10.02'
 
 _EP0CH    =  Epoch(0, low=0)
 _Es       = {_EP0CH: _EP0CH}  # L{Epoch}s, deleted below
@@ -1129,20 +1129,20 @@ def _toTransforms(n1, e1, n2, e2, indirect=True, inverse=True, exhaust=False):  
     for T in _Ts((_direct(n1, n2),), inverse=False):
         yield T
     if inverse:
-        for T in _Ts((_direct(n2, n1),), inverse=True):
+        for T in _Ts((_direct(n2, n1),), inverse=True):  # PYLINT W1114
             yield T
 
     if indirect:
         for T in _Ts(sorted(_indirects(n1, n2), key=_k), inverse=False):
             yield T
         if inverse:
-            for T in _Ts(sorted(_indirects(n2, n1), key=_k), inverse=True):
+            for T in _Ts(sorted(_indirects(n2, n1), key=_k), inverse=True):  # PYLINT W1114
                 yield T
 
     if exhaust:
         for T in _Ts(_eXhaustives(n1, n2), inverse=False):
             yield T
-        for T in _Ts(_eXhaustives(n2, n1), inverse=True):
+        for T in _Ts(_eXhaustives(n2, n1), inverse=True):  # PYLINT W1114
             yield T
 
 
@@ -1736,7 +1736,7 @@ if __name__ == _DMAIN_:
 
     def _main():
         from pygeodesy.basics import _args_kwds_names
-        from pygeodesy.interns import _COLONSPACE_,_COMMA_, _NL_, _NLATvar_, _vs_
+        from pygeodesy.interns import _COLONSPACE_,_COMMA_, _NL_, _NLATvar_
         from pygeodesy import printf
         from time import localtime
 

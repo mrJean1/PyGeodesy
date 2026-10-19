@@ -76,7 +76,7 @@ _SvalbardXzone = {32: 9, 34: 21, 36: 33}  # [zone] longitude
 class UTMError(_ValueError):
     '''Universal Transverse Mercator (UTM parse or other L{Utm} issue.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 class _Kseries(object):
@@ -203,8 +203,8 @@ class Utm(UtmUpsBase):
                                       and other.hemisphere == self.hemisphere \
                                       and other.easting    == self.easting \
                                       and other.northing   == self.northing \
-                                      and other.band       == self.band \
-                                      and other.datum      == self.datum
+                                      and other.datum      == self.datum \
+                                      and other.band       == self.band  # PYLINT W0143
 
     def __repr__(self):
         return self.toRepr(B=True)

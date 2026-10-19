@@ -102,7 +102,7 @@ class Tests(TestsBase):
         self.test('toLcc2', lb.toRepr(), '[E:1894411, N:1564649]')
         self.test('toLcc2', lb.conic.name2, 'Snyder.NAD27', nt=1)
 
-        for n, c in Conics.items(all=True, asorted=True):
+        for n, c in Conics.items(all=True, asorted=True):  # PYLINT E1120
             d = abs(c.par1 - c.par2)
             if d > 0:  # test corners of the conic
                 for ll in (LatLon(c.par1, c.lon0 - d, datum=c.datum),
@@ -136,7 +136,7 @@ if __name__ == '__main__':
     t.testConic(ellipsoidalVincenty, 'V')
 
     for n in ('', 'N', 'V'):
-        Conics.unregister('Snyder' + n)
+        Conics.unregister('Snyder' + n)  # PYLINT E1120
 
     t.testBeLb()
 

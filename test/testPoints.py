@@ -6,8 +6,7 @@
 __all__ = ('Tests',)
 __version__ = '23.12.03'
 
-from bases import GeodSolve, geographiclib, isPython37, numpy, \
-                  startswith, TestsBase
+from bases import GeodSolve, geographiclib, isPython37, numpy, startswith, TestsBase
 
 from pygeodesy import EPS, NN, R_M, R_MA, LatLon_, LatLon2psxy, \
                       Numpy2LatLon, Tuple2LatLon, areaOf, boundsOf, \
@@ -18,7 +17,7 @@ try:
     if isPython37:
         from collections.abc import Sequence
     else:
-        from collections import Sequence
+        from collections import Sequence  # PYLINT W4904
 except ImportError:
     Sequence = None
 
@@ -230,7 +229,7 @@ class Tests(TestsBase):
         self.subtitle(module, 'Area')
         q = module.areaOf(luneOf(-45, 45))  # datum=WGS84
         a = area / 4
-        t.test('luneOf', q, a, fmt='%.14e', known=abs(q - a) < 0.1)  # 0.1 m^2 == 10 cm^2
+        t.test('luneOf', q, a, fmt='%.14e', known=abs(q - a) < 0.1)  # PYLINT E0606
 
 
 if __name__ == '__main__':  # PYCHOK internal error?

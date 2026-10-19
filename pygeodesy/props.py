@@ -47,7 +47,6 @@ def _allPropertiesOf(Clas_or_inst, *Bases, **excls):
         try:
             S = type(Clas_or_inst).__mro__[:-1]  # not object
         except AttributeError:
-            raise
             S = ()  # not an inst
     B =  Bases or _PropertyBase
     P = _property_RO___
@@ -281,7 +280,7 @@ class Property(Property_RO):
               like an I{immutable}, I{caching}, I{memoizing} L{Property_RO}.
     '''
 
-    def setter(self, method):
+    def setter(self, method):  # PYLINT W0237
         '''Make this C{Property} I{mutable}.
 
            @arg method: The callable being decorated as this C{Property}'s C{setter}.
@@ -372,12 +371,12 @@ class _property_RO___(_PropertyBase):
     def _fdel(self, *unused):  # PYCHOK no cover
         '''Silently ignored, always.
         '''
-        pass
+        pass  # PYLINT W0107
 
     def _update(self, *unused):  # PYCHOK signature
         '''(INTERNAL) No-op, ignore updates.
         '''
-        pass
+        pass  # PYLINT W0107
 
 
 class property_ROnce(_property_RO___):
@@ -389,7 +388,7 @@ class property_ROnce(_property_RO___):
         try:
             v = self._val
         except AttributeError:
-            v = self._val = self.method(inst)
+            v = self._val = self.method(inst)  # PYLINT W0201
         return v
 
 
@@ -470,7 +469,7 @@ def _deprecated(call, kind, qual_d):
             q = _qualified(args[0], typename(call))
         else:  # PYCHOK no cover
             q =  typename(call)
-        _throwarning(kind, q, doc)
+        _throwarning(kind, q, doc)  # PYLINT E0606
         return call(*args, **kwds)
 
     return _deprecated_call
@@ -546,7 +545,7 @@ if _WARNINGS_X_DEV:
 
             _PropertyBase.__init__(self, method, _fget, None, doc=doc)
 
-        def setter(self, method):
+        def setter(self, method):  # PYLINT W0237
             '''Decorator for a DEPRECATED C{property} or C{Property} setter.
 
                @arg method: The callable being decorated as this C{Property}'s C{setter}.
@@ -577,7 +576,7 @@ else:  # PYCHOK no cover
     class deprecated_property(property):  # PYCHOK expected
         '''Decorator for a DEPRECATED C{property} or C{Property}.
         '''
-        pass
+        pass  # PYLINT W0107
 
 deprecated_Property = deprecated_property
 
@@ -656,7 +655,7 @@ class DeprecationWarnings(object):
     def _Fmt(self):
         '''Get C{streprs.Fmt}, I{once}.
         '''
-        return _MODS.streprs.Fmt
+        return _MODS.streprs.Fmt  # PYLINT E1101
 
     @property_ROver
     def _stacklevel3(self):

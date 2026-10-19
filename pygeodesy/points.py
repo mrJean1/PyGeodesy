@@ -62,7 +62,7 @@ from pygeodesy.utily import atan2b, degrees90, degrees180, degrees2m, \
 from math import cos, fabs, fmod as _fmod, radians, sin
 
 __all__ = _ALL_LAZY.points
-__version__ = '25.05.12'
+__version__ = '26.10.05'
 
 _ilat_  = 'ilat'
 _ilon_  = 'ilon'
@@ -92,7 +92,7 @@ class LatLon_(LatLonBase):  # XXX in heights._HeightBase.height
     # python3 -m timeit -s "from pygeodesy... import LatLonBase as LL" "LL(0, 0)" 2.14 usec
     # python3 -m timeit -s "from pygeodesy import LatLon_" "LatLon_(0, 0)" 216 nsec
 
-    def __init__(self, latlonh, lon=None, height=0, wrap=False, datum=None, **name):
+    def __init__(self, latlonh, lon=None, height=0, wrap=False, datum=None, **name):  # PYLINT W0231
         '''New L{LatLon_}.
 
            @note: The lat- and longitude values are taken I{as-given,
@@ -106,7 +106,7 @@ class LatLon_(LatLonBase):  # XXX in heights._HeightBase.height
         if lon is None:  # PYCHOK no cover
             lat, lon, height = _latlonheight3(latlonh, height, wrap)
         elif wrap:  # PYCHOK no cover
-            lat, lon = _Wrap.latlonDMS2(latlonh, lon)
+            lat, lon = _Wrap.latlonDMS2(latlonh, lon)  # PYLINT E1120
         else:  # must be latNS, lonEW
             try:
                 lat, lon = float(latlonh), float(lon)
@@ -157,7 +157,7 @@ class LatLon_(LatLonBase):  # XXX in heights._HeightBase.height
         else:
             r = self.others(other)
             if wrap or not isnear1(f):
-                _, lat, lon = _Wrap.latlon3(self.lon, r.lat, r.lon, wrap)
+                _, lat, lon = _Wrap.latlon3(self.lon, r.lat, r.lon, wrap)  # PYLINT E1120
                 lat = favg(self.lat, lat, f=f)
                 lon = favg(self.lon, lon, f=f)
                 h = height if height is not None else \
@@ -227,7 +227,7 @@ class _Basequence(_Sequence):  # immutable, on purpose
     def _count(self, point):
         '''(INTERNAL) Count the number of matching points.
         '''
-        return sum(1 for _ in self._findall(point, ()))  # NOT len()!
+        return sum(1 for _ in self._findall(point, ()))  # PYLINT E1133 NOT len()!
 
     def dup(self, **items):  # PYCHOK no cover
         '''Duplicate this instance, I{without replacing items}.
@@ -260,7 +260,7 @@ class _Basequence(_Sequence):  # immutable, on purpose
     def _find(self, point, start_end):
         '''(INTERNAL) Find the first matching point index.
         '''
-        for i in self._findall(point, start_end):
+        for i in self._findall(point, start_end):  # PYLINT E1133
             return i
         return -1
 
@@ -281,7 +281,7 @@ class _Basequence(_Sequence):  # immutable, on purpose
     def _index(self, point, start_end):
         '''(INTERNAL) Find the first matching point index.
         '''
-        for i in self._findall(point, start_end):
+        for i in self._findall(point, start_end):  # PYLINT E1133
             return i
         raise _IndexError(self._itemname, point, txt_not_='found')
 
@@ -353,7 +353,7 @@ class _Basequence(_Sequence):  # immutable, on purpose
         def _r3(start=None, end=None, step=-1):
             return (start, end, step)  # PYCHOK returns
 
-        for i in self._findall(point, _r3(*start_end)):
+        for i in self._findall(point, _r3(*start_end)):  # PYLINT E1133
             return i
         return -1
 
@@ -463,7 +463,7 @@ class _Array2LatLon(_Basequence):  # immutable, on purpose
         '''
         return self._find(latlon, start_end)
 
-    def _findall(self, latlon, start_end):
+    def _findall(self, latlon, start_end):  # PYLINT W0237
         '''(INTERNAL) Yield indices of all matching rows.
         '''
         try:
@@ -696,7 +696,7 @@ class LatLon2psxy(_Basequence):
         '''
         return self._find(xy, start_end)
 
-    def _findall(self, xy, start_end):
+    def _findall(self, xy, start_end):  # PYLINT W0237
         '''(INTERNAL) Yield indices of all matching points.
         '''
         try:
@@ -762,7 +762,7 @@ class LatLon2psxy(_Basequence):
         '''
         x, y = ll.lon, ll.lat  # note, x, y = lon, lat
         if self._wrap:
-            y, x = _Wrap.latlon(y, x)
+            y, x = _Wrap.latlon(y, x)  # PYLINT E1120
         d = self._deg2m
         if d:  # convert degrees to meter (or radians)
             x *= d
@@ -1347,7 +1347,7 @@ def isenclosedBy(point, points, wrap=False):  # MCCABE 15
             raise _ValueError(point=point, cause=x)
 
     if wrap:
-        y0, x0 = _Wrap.latlon(y0, x0)
+        y0, x0 = _Wrap.latlon(y0, x0)  # PYLINT E1120
 
         def _dxy3(x, x2, y2, Ps):
             dx, x2 = unroll180(x, x2, wrap=not Ps.looped)
@@ -1374,7 +1374,7 @@ def isenclosedBy(point, points, wrap=False):  # MCCABE 15
     e  = m = False
     S  = Fsum()
 
-    _, x1, y1 = _dxy3(x0, p.x, p.y, False)
+    _, x1, y1 = _dxy3(x0, p.x, p.y, False)  # PYLINT E1101
     for p in Ps.iterate(closed=True):
         dx, x2, y2 = _dxy3(x1, p.x, p.y, Ps)
         # ignore duplicate and near-duplicate pts
@@ -1619,7 +1619,7 @@ def perimeterOf(points, closed=False, adjust=True, radius=R_M, wrap=True):
             if w and c:
                 w = not Ps.looped
             # apply previous x2's unroll/wrap'd to new x1
-            _, dy, dx, u = equirectangular4(p1.y, p1.x + u,
+            _, dy, dx, u = equirectangular4(p1.y, p1.x + u,  # PYLINT E1101
                                             p2.y, p2.x,
                                             adjust=a, limit=None,
                                             wrap=w)  # PYCHOK non-seq
@@ -1649,7 +1649,7 @@ def quadOf(latS, lonW, latN, lonE, closed=False, LatLon=LatLon_, **LatLon_kwds):
                            keyword arguments.
 
        @return: Return a tuple of 4 or 5 B{C{LatLon}} instances
-                outlining the quadrilateral.
+                outlining the quadrilateral, clockwise.
 
        @see: Function L{boundsOf}.
     '''

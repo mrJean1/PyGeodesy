@@ -195,6 +195,9 @@
         href="pygeodesy.geohash.Geohash-class.html" 
         class="link">Geohash</a> issue.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.hom.HotineError-class.html">pygeodesy.hom.HotineError</a></strong>:
+      <em class="summary">Error raised for <code>HotineOblique*</code> issues.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.errors.IntersectionError-class.html">pygeodesy.errors.IntersectionError</a></strong>:
       <em class="summary">Error raised for line or circle intersection issues.</em>
     </li>
@@ -208,6 +211,9 @@
     <li> <strong class="uidlink"><a href="pygeodesy.lcc.LCCError-class.html">pygeodesy.lcc.LCCError</a></strong>:
       <em class="summary">Lambert Conformal Conic <code>LCC</code> or other <a 
         href="pygeodesy.lcc.Lcc-class.html" class="link">Lcc</a> issue.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.lom.LabordeError-class.html">pygeodesy.lom.LabordeError</a></strong>:
+      <em class="summary">Error raised for <code>LabordeOblique*</code> issues.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.errors.LenError-class.html">pygeodesy.errors.LenError</a></strong>:
       <em class="summary">Error raised for mis-matching <code>len</code> values.</em>
@@ -940,19 +946,19 @@
         href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
-      <em class="summary">Extended to convert <code>Karney</code>-based <a 
-        href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
-        class="link">Cartesian</a> to <code>Karney</code>-based <a 
-        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
-        class="link">LatLon</a> points.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
       <em class="summary">Extended to convert geocentric, <a 
         href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
         class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
         geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
         class="link">LatLon</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
+      <em class="summary">Extended to convert <code>Karney</code>-based <a 
+        href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
+        class="link">Cartesian</a> to <code>Karney</code>-based <a 
+        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
+        class="link">LatLon</a> points.</em>
     </li>
     </ul>
     </li>
@@ -1032,6 +1038,13 @@
         initial and final bearing (azimuths) between two given points or 
         the destination point given a start point and an (initial) bearing.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
+      <em class="summary">New point on an (oblate) ellipsoidal earth model, using the 
+        formulae devised by <a 
+        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
+        target="_top"><i>Thaddeus Vincenty</i></a> (1975) to compute 
+        geodesic distances, bearings (azimuths), etc.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.LatLon-class.html">pygeodesy.ellipsoidalKarney.LatLon</a></strong>:
       <em class="summary">An ellipsoidal <a 
         href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
@@ -1042,13 +1055,6 @@
         href="https://PyPI.org/project/geographiclib" 
         target="_top">geographiclib</a> to compute geodesic distances, 
         bearings (azimuths), etc.</em>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
-      <em class="summary">New point on an (oblate) ellipsoidal earth model, using the 
-        formulae devised by <a 
-        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
-        target="_top"><i>Thaddeus Vincenty</i></a> (1975) to compute 
-        geodesic distances, bearings (azimuths), etc.</em>
     </li>
     </ul>
     </li>
@@ -1404,6 +1410,10 @@
         target="_top">TransverseMercator</a> transcoded to pure Python, 
         following is a partial copy of <i>Karney</i>'s documentation.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.lom.LabordeOblique-class.html">pygeodesy.lom.LabordeOblique</a></strong>:
+      <em class="summary">Ellipsoidal Laborde Oblique Mercator projection given the 
+        <code>central point</code> and <code>azimuth</code>.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.latlonBase.LatLonBase-class.html">pygeodesy.latlonBase.LatLonBase</a></strong>:
       <em class="summary">(INTERNAL) Base class for ellipsoidal and spherical 
         <code>satLon</code>s.</em>
@@ -1445,6 +1455,13 @@
         initial and final bearing (azimuths) between two given points or 
         the destination point given a start point and an (initial) bearing.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
+      <em class="summary">New point on an (oblate) ellipsoidal earth model, using the 
+        formulae devised by <a 
+        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
+        target="_top"><i>Thaddeus Vincenty</i></a> (1975) to compute 
+        geodesic distances, bearings (azimuths), etc.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.LatLon-class.html">pygeodesy.ellipsoidalKarney.LatLon</a></strong>:
       <em class="summary">An ellipsoidal <a 
         href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
@@ -1455,13 +1472,6 @@
         href="https://PyPI.org/project/geographiclib" 
         target="_top">geographiclib</a> to compute geodesic distances, 
         bearings (azimuths), etc.</em>
-    </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html">pygeodesy.ellipsoidalVincenty.LatLon</a></strong>:
-      <em class="summary">New point on an (oblate) ellipsoidal earth model, using the 
-        formulae devised by <a 
-        href="https://WikiPedia.org/wiki/Vincenty's_formulae" 
-        target="_top"><i>Thaddeus Vincenty</i></a> (1975) to compute 
-        geodesic distances, bearings (azimuths), etc.</em>
     </li>
     </ul>
     </li>
@@ -1603,19 +1613,19 @@
         href="pygeodesy.ellipsoidalNvector.LatLon-class.html" 
         class="link">LatLon</a>.</em>
     </li>
-    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
-      <em class="summary">Extended to convert <code>Karney</code>-based <a 
-        href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
-        class="link">Cartesian</a> to <code>Karney</code>-based <a 
-        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
-        class="link">LatLon</a> points.</em>
-    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html">pygeodesy.ellipsoidalVincenty.Cartesian</a></strong>:
       <em class="summary">Extended to convert geocentric, <a 
         href="pygeodesy.ellipsoidalVincenty.Cartesian-class.html" 
         class="link">Cartesian</a> points to Vincenty-based, ellipsoidal, 
         geodetic <a href="pygeodesy.ellipsoidalVincenty.LatLon-class.html" 
         class="link">LatLon</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ellipsoidalKarney.Cartesian-class.html">pygeodesy.ellipsoidalKarney.Cartesian</a></strong>:
+      <em class="summary">Extended to convert <code>Karney</code>-based <a 
+        href="pygeodesy.ellipsoidalKarney.Cartesian-class.html" 
+        class="link">Cartesian</a> to <code>Karney</code>-based <a 
+        href="pygeodesy.ellipsoidalKarney.LatLon-class.html" 
+        class="link">LatLon</a> points.</em>
     </li>
     </ul>
     </li>
@@ -1663,7 +1673,7 @@
     <li> <strong class="uidlink">pygeodesy.ltpTuples._Vector3d</strong>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Uvw-class.html">pygeodesy.ltpTuples.Uvw</a></strong>:
-      <em class="summary">3-D <code>u-v-w</code> (UVW) components.</em>
+      <em class="summary">3-D <code>u-v-w</code> (UVW) <i>target</i> components.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.XyzLocal-class.html">pygeodesy.ltpTuples.XyzLocal</a></strong>:
       <em class="summary">Local <code>(x, y, z)</code> in a <i>local tangent plane</i> (LTP),
@@ -1694,8 +1704,8 @@
         tangent plane</i>.</em>
     <ul>
     <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Los-class.html">pygeodesy.ltpTuples.Los</a></strong>:
-      <em class="summary">A Line-Of-Sight (LOS) from a <code>LatLon</code> or 
-        <code>Cartesian</code> location.</em>
+      <em class="summary">A Line-Of-Sight (LOS) a given azimuth and elevation from a 
+        <code>LatLon</code> or <code>Cartesian</code> location.</em>
     </li>
     </ul>
     </li>
@@ -2121,7 +2131,8 @@
       <em class="summary">Conversion between geodetic and geocentric, <i>Earth-Centered, 
         Earth-Fixed</i> (ECEF) coordinates based on <i>Jay A. Farrell</i>'s
         <a href="https://Books.Google.com/books?id=fW4foWASY6wC" 
-        target="_top">Table 2.2</a>, page 30.</em>
+        target="_top">Table 2.2</a>, page 30, aka <i>B.R. Bowring's 
+        closed-form</i>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ecef.EcefFukushima-class.html">pygeodesy.ecef.EcefFukushima</a></strong>:
       <em class="summary">Conversion between geodetic and geocentric, <i>Earth-Centered, 
@@ -2136,6 +2147,20 @@
         C++ <a 
         href="https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Geocentric.html"
         target="_top">Geocentric</a> methods.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ecef.EcefOlson-class.html">pygeodesy.ecef.EcefOlson</a></strong>:
+      <em class="summary">Conversion between geodetic and geocentric, <i>Earth-Centered, 
+        Earth-Fixed</i> (ECEF) coordinates based on <i>D.K. Olson</i>'s <a 
+        href="https://IEEEXplore.IEEE.org/document/481290" 
+        target="_top">method</a>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.ecef.EcefOsen-class.html">pygeodesy.ecef.EcefOsen</a></strong>:
+      <em class="summary">Conversion between geodetic and geocentric, <i>Earth-Centered, 
+        Earth-Fixed</i> (ECEF) coordinates based on <i>Karl Osen</i>'s <a 
+        href="https://HAL.Science/hal-01704943v2" target="_top">boost</a> 
+        of <i>Jijie Zhu</i>'s <a 
+        href="https://IEEEXplore.IEEE.org/document/303772" 
+        target="_top">algorithm</a>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ecef.EcefSudano-class.html">pygeodesy.ecef.EcefSudano</a></strong>:
       <em class="summary">Conversion between geodetic and geocentric, <i>Earth-Centered, 
@@ -2161,6 +2186,43 @@
         Earth-Fixed</i> (ECEF) coordinates using <i>Rey-Jer You</i>'s <a 
         href="https://www.ResearchGate.net/publication/240359424" 
         target="_top">transformation</a> for <i>non-prolate</i> ellipsoids.</em>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink">pygeodesy.hom._HotineObliqueBase</strong>:
+      <em class="summary">(INTERNAL) Base class for all <code>HotineOblique*</code> variants.</em>
+    <ul>
+    <li> <strong class="uidlink">pygeodesy.hom._HotineOblique123</strong>:
+      <em class="summary">(INTERNAL) Spherical <code>HotineOblique1</code>, <code>-2</code> 
+        and <code>-3</code> base class.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.hom.HotineOblique1-class.html">pygeodesy.hom.HotineOblique1</a></strong>:
+      <em class="summary">Spherical variant 1: Hotine Oblique Mercator projection given 
+        <code>two points</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.hom.HotineOblique2-class.html">pygeodesy.hom.HotineOblique2</a></strong>:
+      <em class="summary">Spherical variant 2: Hotine Oblique Mercator projection given the 
+        <code>central point</code> and <code>azimuth</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.hom.HotineOblique3-class.html">pygeodesy.hom.HotineOblique3</a></strong>:
+      <em class="summary">Spherical variant 3: Hotine Oblique Mercator projection given the 
+        <code>main pole</code>.</em>
+    </li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink">pygeodesy.hom._HotineObliqueAB</strong>:
+      <em class="summary">(INTERNAL) Ellipsoidal <code>HotineObliqueA</code> and 
+        <code>-B</code> base class.</em>
+    <ul>
+    <li> <strong class="uidlink"><a href="pygeodesy.hom.HotineObliqueA-class.html">pygeodesy.hom.HotineObliqueA</a></strong>:
+      <em class="summary">Ellipsoidal variant A: Hotine Oblique Mercator projection given 
+        <code>two points</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.hom.HotineObliqueB-class.html">pygeodesy.hom.HotineObliqueB</a></strong>:
+      <em class="summary">Ellipsoidal variant B: Hotine Oblique Mercator projection given the
+        <code>central point</code> and <code>azimuth</code>.</em>
+    </li>
+    </ul>
     </li>
     </ul>
     </li>
@@ -2614,6 +2676,25 @@
         the <code><i>mean</i> Hausdorff</code> distance <code>md</code> and
         the class or name of both distance <code>units</code>.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.hom.Hotine8Tuple-class.html">pygeodesy.hom.Hotine8Tuple</a></strong>:
+      <em class="summary">8-Tuple <code>(x, y, u, v, lat, lon, scale, hom)</code> with 
+        (falsed) east- and northing <code>x</code> and <code>y</code> and 
+        &quot;unrectified&quot; <code>u</code> and <code>v</code> in 
+        <code>meter</code>, geodetic <code>lat</code>- and 
+        <code>lon</code>gitude in degrees, <code>scale</code> factor (aka 
+        <code>k</code>) and <code>HotineOblique*</code> Mercator instance 
+        <code>hom</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.hom.HotineAB14Tuple-class.html">pygeodesy.hom.HotineAB14Tuple</a></strong>:
+      <em class="summary">14-Tuple <code>(A, B, D, D2, E, G, uC, zC, a0, b0, g0, t0, x0, 
+        y0)</code> of ellipsoidal map parameters <i>only</i> for variants 
+        <a href="pygeodesy.hom.HotineObliqueA-class.html" 
+        class="link">HotineObliqueA</a> and <a 
+        href="pygeodesy.hom.HotineObliqueB-class.html" 
+        class="link">HotineObliqueB</a> with angles <code>zC</code>, 
+        <code>a0</code>, <code>b0</code> and <code>g0</code> in 
+        <code>radians</code>.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.geodesici.Intersect7Tuple-class.html">pygeodesy.geodesici.Intersect7Tuple</a></strong>:
       <em class="summary">7-Tuple <code>(A, B, sAB, aAB, c, kA, kB)</code> with 
         <code>A</code> and <code>B</code> each a <code>LatLon</code> or <a 
@@ -2665,6 +2746,15 @@
         indicator <code>c</code> (<code>int</code>).</em>
     </li>
     </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.lom.Laborde8Tuple-class.html">pygeodesy.lom.Laborde8Tuple</a></strong>:
+      <em class="summary">8-Tuple <code>(x, y, lat, lon, phi, lam, scale, lom)</code> with 
+        (falsed) east- and northing <code>x</code> and <code>y</code> in 
+        <code>meter</code>, geodetic <code>lat</code>- and 
+        <code>lon</code>gitude in degrees, <code>phi</code> and 
+        <code>lam</code>da in <code>radians</code>, <code>scale</code> 
+        factor (aka <code>k</code>) and <code>LabordeOblique*</code> 
+        Mercator instance <code>lom</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.LatLon2Tuple-class.html">pygeodesy.namedTuples.LatLon2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(lat, lon)</code> in <code>degrees90</code> and 
@@ -2991,7 +3081,8 @@
         the UPS pole.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Uvw3Tuple-class.html">pygeodesy.ltpTuples.Uvw3Tuple</a></strong>:
-      <em class="summary">3-Tuple <code>(u, v, w)</code>, in <code>meter</code>.</em>
+      <em class="summary">3-Tuple <code>(u, v, w)</code> of (UVW) <i>target</i> components, 
+        all in <code>meter</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.Vector2Tuple-class.html">pygeodesy.namedTuples.Vector2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(x, y)</code> of (geocentric) components, each in 
@@ -4187,6 +4278,25 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         the <code><i>mean</i> Hausdorff</code> distance <code>md</code> and
         the class or name of both distance <code>units</code>.</em>
     </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.hom.Hotine8Tuple-class.html">pygeodesy.hom.Hotine8Tuple</a></strong>:
+      <em class="summary">8-Tuple <code>(x, y, u, v, lat, lon, scale, hom)</code> with 
+        (falsed) east- and northing <code>x</code> and <code>y</code> and 
+        &quot;unrectified&quot; <code>u</code> and <code>v</code> in 
+        <code>meter</code>, geodetic <code>lat</code>- and 
+        <code>lon</code>gitude in degrees, <code>scale</code> factor (aka 
+        <code>k</code>) and <code>HotineOblique*</code> Mercator instance 
+        <code>hom</code>.</em>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.hom.HotineAB14Tuple-class.html">pygeodesy.hom.HotineAB14Tuple</a></strong>:
+      <em class="summary">14-Tuple <code>(A, B, D, D2, E, G, uC, zC, a0, b0, g0, t0, x0, 
+        y0)</code> of ellipsoidal map parameters <i>only</i> for variants 
+        <a href="pygeodesy.hom.HotineObliqueA-class.html" 
+        class="link">HotineObliqueA</a> and <a 
+        href="pygeodesy.hom.HotineObliqueB-class.html" 
+        class="link">HotineObliqueB</a> with angles <code>zC</code>, 
+        <code>a0</code>, <code>b0</code> and <code>g0</code> in 
+        <code>radians</code>.</em>
+    </li>
     <li> <strong class="uidlink"><a href="pygeodesy.geodesici.Intersect7Tuple-class.html">pygeodesy.geodesici.Intersect7Tuple</a></strong>:
       <em class="summary">7-Tuple <code>(A, B, sAB, aAB, c, kA, kB)</code> with 
         <code>A</code> and <code>B</code> each a <code>LatLon</code> or <a 
@@ -4238,6 +4348,15 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         indicator <code>c</code> (<code>int</code>).</em>
     </li>
     </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="pygeodesy.lom.Laborde8Tuple-class.html">pygeodesy.lom.Laborde8Tuple</a></strong>:
+      <em class="summary">8-Tuple <code>(x, y, lat, lon, phi, lam, scale, lom)</code> with 
+        (falsed) east- and northing <code>x</code> and <code>y</code> in 
+        <code>meter</code>, geodetic <code>lat</code>- and 
+        <code>lon</code>gitude in degrees, <code>phi</code> and 
+        <code>lam</code>da in <code>radians</code>, <code>scale</code> 
+        factor (aka <code>k</code>) and <code>LabordeOblique*</code> 
+        Mercator instance <code>lom</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.LatLon2Tuple-class.html">pygeodesy.namedTuples.LatLon2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(lat, lon)</code> in <code>degrees90</code> and 
@@ -4564,7 +4683,8 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
         the UPS pole.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.ltpTuples.Uvw3Tuple-class.html">pygeodesy.ltpTuples.Uvw3Tuple</a></strong>:
-      <em class="summary">3-Tuple <code>(u, v, w)</code>, in <code>meter</code>.</em>
+      <em class="summary">3-Tuple <code>(u, v, w)</code> of (UVW) <i>target</i> components, 
+        all in <code>meter</code>.</em>
     </li>
     <li> <strong class="uidlink"><a href="pygeodesy.namedTuples.Vector2Tuple-class.html">pygeodesy.namedTuples.Vector2Tuple</a></strong>:
       <em class="summary">2-Tuple <code>(x, y)</code> of (geocentric) components, each in 
@@ -4888,7 +5008,7 @@ dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Sep  8 13:02:06 2026
+    Generated by Epydoc 3.0.1 on Mon Oct 19 12:32:36 2026
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

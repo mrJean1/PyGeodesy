@@ -500,9 +500,9 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
            @raise TypeError: If B{C{other}} or B{C{vSign}} not a L{Vector3d}.
         '''
         x = self.cross(other)
-        s = x.length
+        s = x.length  # PYLINT E1101
         # use vSign as reference to set sign of s
-        if s and vSign and x.dot(vSign) < 0:
+        if s and vSign and x.dot(vSign) < 0:  # PYLINT E1101
             s = -s
 
         a = atan2(s, self.dot(other))
@@ -659,7 +659,7 @@ class Vector3dBase(_NamedBase):  # sync __methods__ with .fsums.Fsum
            @see: Property C{length2}.
         '''
         d = self.minus(other)
-        return Float(equirectangular=hypot2_(*d.xyz3))
+        return Float(equirectangular=hypot2_(*d.xyz3))  # PYLINT E1101
 
     def fabs(self):
         '''Return the vector with C{fabs} components.

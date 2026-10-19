@@ -368,7 +368,7 @@ class Conformal3B(Conformal3):
 
        @see: L{Conformal3} for details and more information.
     '''
-    def __init__(self, b, e2=_0_0, k2=_1_0, kp2=_0_0, **name):
+    def __init__(self, b, e2=_0_0, k2=_1_0, kp2=_0_0, **name):  # PYLINT W0231
         '''New L{Conformal3B} triaxial.
 
           @note: Use C{B{b}=radius} and C{B{e2}=0} for a conformal
@@ -384,7 +384,7 @@ class Conformal3Sphere(Triaxial3B):  # note C{Triaxial3}!
 
        @see: Method L{equiv3Sphere<triaxials.conformal3.Conformal3.equi3Sphere>}.
     '''
-    def __init__(self, radius, k2=_1_0, kp2=_0_0, **name):
+    def __init__(self, radius, k2=_1_0, kp2=_0_0, **name):  # PYLINT W0231
         '''New, L{Conformal3Sphere} instance.
 
            @see: L{Triaxial3<triaxials.triaxial3.Triaxial3>} for more information.

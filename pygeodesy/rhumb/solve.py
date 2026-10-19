@@ -33,7 +33,7 @@ class _RhumbSolveBase(_SolveGDictBase):
     _Names_Distance = _lat2_, _lon2_, _S12_
     _Names_Inverse  = _azi12_, _s12_, _S12_
     _Xable_name     = _Xables.RhumbSolve.__name__  # typename
-    _Xable_path     = _Xables.RhumbSolve()
+    _Xable_path     = _Xables.RhumbSolve()  # PYLINT E1120
 
     @Property_RO
     def _cmdBasic(self):
@@ -174,7 +174,7 @@ class RhumbSolve(_RhumbSolveBase):
         '''(INTERNAL) Short-cut version, see .latlonBase.
         '''
         if wrap:  # PYCHOK no cover
-            ll2 = _unrollon(ll1, _Wrap.point(ll2))
+            ll2 = _unrollon(ll1, _Wrap.point(ll2))  # PYLINT E1120
         return self._GDictInverse(ll1.lat, ll1.lon, ll2.lat, ll2.lon)
 
     def Inverse3(self, lat1, lon1, lat2, lon2):  # PYCHOK outmask
@@ -192,7 +192,7 @@ class RhumbSolve(_RhumbSolveBase):
         '''(INTERNAL) Short-cut version, see .latlonBase.
         '''
         if wrap:  # PYCHOK no cover
-            ll2 = _unrollon(ll1, _Wrap.point(ll2))
+            ll2 = _unrollon(ll1, _Wrap.point(ll2))  # PYLINT E1120
         return self.InverseLine(ll1.lat, ll1.lon, ll2.lat, ll2.lon, **name_caps)
 
     def InverseLine(self, lat1, lon1, lat2, lon2, caps=Caps.STANDARD, **name):
@@ -238,7 +238,7 @@ class RhumbLineSolve(_RhumbSolveBase, _SolveGDictLineBase):
        @note: This C{rhumb line} is intended I{for testing purposes only}, it invokes the C{RhumbSolve}
               executable for I{every} method call.
     '''
-    def __init__(self, rhumb, lat1, lon1, azi12, caps=Caps.STANDARD, **name):
+    def __init__(self, rhumb, lat1, lon1, azi12, caps=Caps.STANDARD, **name):  # PYLINT W0231
         '''New L{RhumbLineSolve} instance, allowing points to be found along
            a rhumb starting at C{(B{lat1}, B{lon1})} with azimuth B{C{azi12}}.
 
@@ -380,7 +380,7 @@ if __name__ == _DMAIN_:
     rS = RhumbSolve(name='Test')
     rS.verbose = v = '--verbose' in argv  # or '-v' in argv
 
-    if not _Xables.X_OK(rS.RhumbSolve):  # not set
+    if not _Xables.X_OK(rS.RhumbSolve):  # PYLINT E1120 not set
         rS.RhumbSolve = _Xables.RhumbSolve(_Xables.bin_)
     printf('version: %s', rS.version)
 

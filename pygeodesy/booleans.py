@@ -45,7 +45,7 @@ from pygeodesy.utily import fabs, _unrollon, _Wrap
 # from math import fabs  # from .utily
 
 __all__ = _ALL_LAZY.booleans
-__version__ = '25.10.30'
+__version__ = '26.10.02'
 
 _0EPS  =  EPS  # near-zero, positive
 _EPS0  = -EPS  # near-zero, negative
@@ -147,7 +147,7 @@ class _LatLonBool(_Named):
             c = _xattr(lat_ll, clipid=clipid)
         else:
             y, x, c = lat_ll, lon, clipid
-        self.y, self.x = _Wrap.latlon(y, x) if wrap else (y, x)
+        self.y, self.x = _Wrap.latlon(y, x) if wrap else (y, x)  # PYLINT E1120
         # don't duplicate defaults
         if self._height != h:
             self._height = h
@@ -233,6 +233,10 @@ class _LatLonBool(_Named):
         h = self._height
         return HeightX(h) if self.isintersection else (
                Height(h)  if h else _LatLonBool._height)
+
+    def isenclosedBy(self, *composites_points, **wrap):
+        '''I{Must be overloaded}.'''
+        self._notOverloaded(*composites_points, **wrap)
 
     def isequalTo(self, other, eps=None):
         '''Is this point equal to an B{C{other}} within a given,
@@ -1577,13 +1581,13 @@ class _EdgeFHP(object):
 
                 if T:
                     if T is _E.X_INTERSECT:
-                        v = p1 + a * self._dp
-                        yield T, (v, p1, p2, a), (v, q1, q2, b)
+                        v = p1 + a * self._dp  # PYLINT E0606
+                        yield T, (v, p1, p2, a), (v, q1, q2, b)  # PYLINT E0606
                     elif T in _E.Vs:
                         yield T, (p1,), (q1,)
                     else:
                         if T in _E.Qs:
-                            yield T, (p1,), (p1, q1, q2, b)
+                            yield T, (p1,), (p1, q1, q2, b)  # PYLINT E0606
                         if T in _E.Ps:
                             yield T, (q1, p1, p2, a), (q1,)
 
@@ -1700,6 +1704,8 @@ class _EdgeGH(object):
 class _BooleanBase(object):
     # Shared C{Boolean[FHP|GH]} methods.
 
+    _clips = ()  # PYLINT W0201
+
     def __add__(self, other):
         '''Sum: C{this + other} clips.
         '''
@@ -1815,7 +1821,7 @@ class BooleanFHP(_CompositeFHP, _BooleanBase):
     def _boolean(self, other, Union, unused, op):
         # One C{BooleanFHP} operation.
         p, q, C, kwds = self._boolean4(other, op)
-        r = p._clip(q, Union=Union, **kwds)
+        r = p._clip(q, Union=Union, **kwds)  # PYLINT E1101
         return C(r, **kwds)
 
 
@@ -1865,7 +1871,7 @@ class BooleanGH(_CompositeGH, _BooleanBase):
     def _boolean(self, other, s_entry, c_entry, op):
         # One C{BooleanGH} operation.
         s, c, C, kwds = self._boolean4(other, op)
-        r = s._clip(c, s_entry, c_entry, **kwds)
+        r = s._clip(c, s_entry, c_entry, **kwds)  # PYLINT E1101
         return C(r, **kwds)
 
     def __isub__(self, other):

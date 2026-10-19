@@ -7,13 +7,13 @@ L{Feet}, L{Meter}, L{Radians}, etc.
 '''
 
 # from pygeodesy.angles import isAng  # _MODS
-from pygeodesy.basics import isscalar, issubclassof, signOf,  typename
+from pygeodesy.basics import isscalar, isstr, issubclassof, signOf,  typename
 from pygeodesy.constants import EPS, EPS1, PI, PI2, PI_2, _0_0, _0_001, \
                                _isNAN, _umod_360
 from pygeodesy.dms import F__F, F__F_, S_NUL, S_SEP, parseDMS, parseRad, _toDMS
 from pygeodesy.errors import _AssertionError, TRFError, UnitError, _xattr, _xcallable
 # from pygeodesy.internals import typename  # from .basics
-from pygeodesy.interns import NN, _azimuth_, _band_, _bearing_, _COMMASPACE_, \
+from pygeodesy.interns import NN, _azimuth_, _band_, _bearing_, _COMMA_, _COMMASPACE_, \
                              _degrees_, _degrees2_, _distance_, _E_, _easting_, \
                              _epoch_, _EW_, _feet_, _height_, _lam_, _lat_, _lon_, \
                              _meter_, _meter2_, _N_, _negative_, _northing_, _NS_, \
@@ -29,7 +29,7 @@ from pygeodesy.unitsBase import Float, Int, _NamedUnit, Radius, Str,  Fmt, fstr
 from math import degrees, radians
 
 __all__ = _ALL_LAZY.units
-__version__ = '26.07.04'
+__version__ = '26.10.18'
 
 
 class Float_(Float):
@@ -219,7 +219,7 @@ class Degrees(Float):
 class Degrees_(Degrees):
     '''Named C{Degrees} representing a coordinate in C{degrees} with optional limits C{low} and C{high}.
     '''
-    def __new__(cls, arg=None, name=_degrees_, low=None, high=None, **suffix_Error_name_arg):
+    def __new__(cls, arg=None, name=_degrees_, low=None, high=None, **suffix_Error_name_arg):  # PYLINT W0222
         '''New, named C{Degrees_}, see  L{Degrees} and L{Float}.
 
            @arg cls: This class (C{Degrees_} or sub-class).
@@ -311,7 +311,7 @@ class Radians(Float):
 class Radians_(Radians):
     '''Named C{float} representing a coordinate in C{radians} with optional limits C{low} and C{high}.
     '''
-    def __new__(cls, arg=None, name=_radians_, low=_0_0, high=PI2, **suffix_Error_name_arg):
+    def __new__(cls, arg=None, name=_radians_, low=_0_0, high=PI2, **suffix_Error_name_arg):  # PYLINT W0222
         '''New, named C{Radians_}, see L{Radians}.
 
            @arg cls: This class (C{Radians_} or sub-class).
@@ -335,15 +335,15 @@ class Radians_(Radians):
 class Radians2(Float_):
     '''Named C{float} representing a distance in C{radians squared}.
     '''
-    def __new__(cls, arg=None, name=_radians2_, **Error_name_arg):
+    def __new__(cls, arg=None, name=_radians2_, **Error_name_arg):  # PYLINT W0222
         '''New, named L{Radians2}, see L{Float_}.
         '''
         return Float_.__new__(cls, arg=arg, name=name, low=_0_0, **Error_name_arg)
 
 
-def _Degrees_new(cls, **arg_name_suffix_clip_Error_name_arg):
+def _Degrees_new(cls, _180=False, **arg_name_suffix_clip_Error_name_arg):
     d =  Degrees.__new__(cls, **arg_name_suffix_clip_Error_name_arg)
-    b = _umod_360(d)  # 0 <= b < 360
+    b = _umod_360(d, _180)
     return d if b == d else Degrees.__new__(cls, arg=b, name=d.name)
 
 
@@ -353,11 +353,11 @@ class Azimuth(Degrees):
     _ddd_ =  1
     _suf_ = _W_, S_NUL, _E_  # no zero suffix
 
-    def __new__(cls, arg=None, name=_azimuth_, **clip_Error_name_arg):
+    def __new__(cls, arg=None, name=_azimuth_, **clip_Error_name_arg_180):  # PYLINT W0222
         '''New, named L{Azimuth} with optional suffix 'E' for clockwise or 'W' for
            anti-clockwise, see L{Degrees}.
         '''
-        return _Degrees_new(cls, arg=arg, name=name, suffix=_EW_, **clip_Error_name_arg)
+        return _Degrees_new(cls, arg=arg, name=name, suffix=_EW_, **clip_Error_name_arg_180)
 
 
 class Bearing(Degrees):
@@ -366,16 +366,16 @@ class Bearing(Degrees):
     _ddd_ =  1
     _suf_ = _N_ * 3  # always suffix N
 
-    def __new__(cls, arg=None, name=_bearing_, **clip_Error_name_arg):
+    def __new__(cls, arg=None, name=_bearing_, **clip_Error_name_arg_180):  # PYLINT W0222
         '''New, named L{Bearing}, see L{Degrees}.
         '''
-        return _Degrees_new(cls, arg=arg, name=name, suffix=_N_, **clip_Error_name_arg)
+        return _Degrees_new(cls, arg=arg, name=name, suffix=_N_, **clip_Error_name_arg_180)
 
 
 class Bearing_(Radians):
     '''Named C{float} representing a bearing in C{radians} from compass C{degrees} from (true) North.
     '''
-    def __new__(cls, arg=None, **name_clip_Error_name_arg):
+    def __new__(cls, arg=None, **name_clip_Error_name_arg):  # PYLINT W0222
         '''New, named L{Bearing_}, see L{Bearing} and L{Radians}.
         '''
         d = Bearing.__new__(cls, arg=arg, **name_clip_Error_name_arg)
@@ -394,7 +394,7 @@ class Distance(Float):
 class Distance_(Float_):
     '''Named C{float} with optional C{low} and C{high} limits representing a distance, conventionally in C{meter}.
     '''
-    def __new__(cls, arg=None, name=_distance_, **low_high_Error_name_arg):
+    def __new__(cls, arg=None, name=_distance_, **low_high_Error_name_arg):  # PYLINT W0222
         '''New L{Distance_} instance, see L{Float}.
         '''
         return Float_.__new__(cls, arg=arg, name=name, **low_high_Error_name_arg)
@@ -403,7 +403,7 @@ class Distance_(Float_):
 class _EasNorBase(Float):
     '''(INTERNAL) L{Easting} and L{Northing} base class.
     '''
-    def __new__(cls, arg, name, falsed, high, **Error_name_arg):
+    def __new__(cls, arg, name, falsed, high, **Error_name_arg):  # PYLINT W0222
         self = Float.__new__(cls, arg=arg, name=name, **Error_name_arg)
         low  = self < 0
         if (high is not None) and (low or self > high):  # like Veness
@@ -485,7 +485,7 @@ class FIx(Float_):
     '''
     _fin = 0
 
-    def __new__(cls, fi, fin=None, Error=UnitError, **name):
+    def __new__(cls, fi, fin=None, Error=UnitError, **name):  # PYLINT W0222
         '''New, named I{Fractional Index} in a C{list} or C{tuple} of points.
 
            @arg fi: The fractional index (C{float} or C{int}).
@@ -566,7 +566,7 @@ class Height(Float):  # here to avoid circular import
 class Height_(Float_):  # here to avoid circular import
     '''Named C{float} with optional C{low} and C{high} limits representing a height, conventionally in C{meter}.
     '''
-    def __new__(cls, arg=None, name=_height_, **low_high_Error_name_arg):
+    def __new__(cls, arg=None, name=_height_, **low_high_Error_name_arg):  # PYLINT W0222
         '''New, named L{Height}, see L{Float}.
         '''
         return Float_.__new__(cls, arg=arg, name=name, **low_high_Error_name_arg)
@@ -576,7 +576,7 @@ class HeightX(Height):
     '''Like L{Height}, used to distinguish the interpolated height
        from an original L{Height} at a clip intersection.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 def _heigHt(inst, height):
@@ -588,7 +588,7 @@ def _heigHt(inst, height):
 class Lam(Radians):
     '''Named C{float} representing a longitude in C{radians}.
     '''
-    def __new__(cls, arg=None, name=_lam_, clip=PI, **Error_name_arg):
+    def __new__(cls, arg=None, name=_lam_, clip=PI, **Error_name_arg):  # PYLINT W0222
         '''New, named L{Lam}, see L{Radians}.
         '''
         return Radians.__new__(cls, arg=arg, name=name, suffix=_EW_, clip=clip, **Error_name_arg)
@@ -610,7 +610,7 @@ class Lat(Degrees):
     _ddd_ =  2
     _suf_ = _S_, S_NUL, _N_  # no zero suffix
 
-    def __new__(cls, arg=None, name=_lat_, clip=90, **Error_name_arg):
+    def __new__(cls, arg=None, name=_lat_, clip=90, **Error_name_arg):  # PYLINT W0222
         '''New, named L{Lat}, see L{Degrees}.
         '''
         return Degrees.__new__(cls, arg=arg, name=name, suffix=_NS_, clip=clip, **Error_name_arg)
@@ -634,13 +634,32 @@ def _Lat0(lat):  # in .ellipsods and .triaxials.bases
     return Lat(lat.degrees0 if _MODS.angles.isAng(lat) else lat)
 
 
+def _LatLon2(latlon, lon=None, Error=UnitError):  # in .hom, .lom
+    '''(INTERNAL) Get a C{(Lat, Lon)} pair.
+    '''
+    if lon is None:
+        try:
+            if isstr(latlon):
+                lat, lon = latlon.split(_COMMA_, 1)
+            else:
+                try:
+                    lat, lon = latlon.lat, latlon.lon
+                except AttributeError:
+                    lat, lon = latlon[:2]
+        except (AttributeError, TypeError, ValueError) as x:
+            raise Error(latlon=latlon, cause=x)
+    else:
+        lat = latlon
+    return Lat(lat), Lon(lon)
+
+
 class Lon(Degrees):
     '''Named C{float} representing a longitude in C{degrees}.
     '''
     _ddd_ =  3
     _suf_ = _W_, S_NUL, _E_  # no zero suffix
 
-    def __new__(cls, arg=None, name=_lon_, clip=180, **Error_name_arg):
+    def __new__(cls, arg=None, name=_lon_, clip=180, **Error_name_arg):  # PYLINT W0222
         '''New, named L{Lon}, see L{Degrees}.
         '''
         return Degrees.__new__(cls, arg=arg, name=name, suffix=_EW_, clip=clip, **Error_name_arg)
@@ -689,7 +708,7 @@ _2000km = Meter(_2000km= 2.e+6)  # PYCHOK 2,000 kilometer in .mgrs
 class Meter_(Float_):
     '''Named C{float} representing a distance or length in C{meter}.
     '''
-    def __new__(cls, arg=None, name=_meter_, low=_0_0, **high_Error_name_arg):
+    def __new__(cls, arg=None, name=_meter_, low=_0_0, **high_Error_name_arg):  # PYLINT W0222
         '''New, named L{Meter_}, see L{Meter} and L{Float_}.
         '''
         return Float_.__new__(cls, arg=arg, name=name, low=low, **high_Error_name_arg)
@@ -698,7 +717,7 @@ class Meter_(Float_):
 class Meter2(Float_):
     '''Named C{float} representing an area in C{meter squared}.
     '''
-    def __new__(cls, arg=None, name=_meter2_, **Error_name_arg):
+    def __new__(cls, arg=None, name=_meter2_, **Error_name_arg):  # PYLINT W0222
         '''New, named L{Meter2}, see L{Float_}.
         '''
         return Float_.__new__(cls, arg=arg, name=name, low=_0_0, **Error_name_arg)
@@ -707,7 +726,7 @@ class Meter2(Float_):
 class Meter3(Float_):
     '''Named C{float} representing a volume in C{meter cubed}.
     '''
-    def __new__(cls, arg=None, name='meter3', **Error_name_arg):
+    def __new__(cls, arg=None, name='meter3', **Error_name_arg):  # PYLINT W0222
         '''New, named L{Meter3}, see L{Float_}.
         '''
         return Float_.__new__(cls, arg=arg, name=name, low=_0_0, **Error_name_arg)
@@ -735,7 +754,7 @@ class Northing(_EasNorBase):
 class Number_(Int_):
     '''Named C{int} representing a non-negative number.
     '''
-    def __new__(cls, arg=None, name=_number_, **low_high_Error_name_arg):
+    def __new__(cls, arg=None, name=_number_, **low_high_Error_name_arg):  # PYLINT W0222
         '''New, named L{Number_}, see L{Int_}.
         '''
         return Int_.__new__(cls, arg=arg, name=name, **low_high_Error_name_arg)
@@ -744,7 +763,7 @@ class Number_(Int_):
 class Phi(Radians):
     '''Named C{float} representing a latitude in C{radians}.
     '''
-    def __new__(cls, arg=None, name=_phi_, clip=PI_2, **Error_name_arg):
+    def __new__(cls, arg=None, name=_phi_, clip=PI_2, **Error_name_arg):  # PYLINT W0222
         '''New, named L{Phi}, see L{Radians}.
         '''
         return Radians.__new__(cls, arg=arg, name=name, suffix=_NS_, clip=clip, **Error_name_arg)
@@ -763,7 +782,7 @@ class Phid(Phi):
 class Precision_(Int_):
     '''Named C{int} with optional C{low} and C{high} limits representing a precision.
     '''
-    def __new__(cls, arg=None, name=_precision_, **low_high_Error_name_arg):
+    def __new__(cls, arg=None, name=_precision_, **low_high_Error_name_arg):  # PYLINT W0222
         '''New, named L{Precision_}, see L{Int_}.
         '''
         return Int_.__new__(cls, arg=arg, name=name, **low_high_Error_name_arg)
@@ -772,7 +791,7 @@ class Precision_(Int_):
 class Radius_(Float_):
     '''Named C{float} with optional C{low} and C{high} limits representing a radius, conventionally in C{meter}.
     '''
-    def __new__(cls, arg=None, name=_radius_, **low_high_Error_name_arg):
+    def __new__(cls, arg=None, name=_radius_, **low_high_Error_name_arg):  # PYLINT W0222
         '''New, named L{Radius_}, see L{Radius} and L{Float}.
         '''
         return Float_.__new__(cls, arg=arg, name=name, **low_high_Error_name_arg)
@@ -790,7 +809,7 @@ class Scalar(Float):
 class Scalar_(Float_):
     '''Named C{float} with optional C{low} and C{high} limits representing a factor, fraction, scale, etc.
     '''
-    def __new__(cls, arg=None, name=_scalar_, low=_0_0, **high_Error_name_arg):
+    def __new__(cls, arg=None, name=_scalar_, low=_0_0, **high_Error_name_arg):  # PYLINT W0222
         '''New, named L{Scalar_}, see L{Scalar} and L{Float_}.
         '''
         return Float_.__new__(cls, arg=arg, name=name, low=low, **high_Error_name_arg)

@@ -59,7 +59,7 @@ _K1_UPS  =  Float(_K1_UPS=_1_0)    # rescale point scale factor
 class UPSError(_ValueError):
     '''Universal Polar Stereographic (UPS) parse or other L{Ups} issue.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 class Ups(UtmUpsBase):
@@ -120,8 +120,8 @@ class Ups(UtmUpsBase):
                                       and other.pole     == self.pole \
                                       and other.easting  == self.easting \
                                       and other.northing == self.northing \
-                                      and other.band     == self.band \
-                                      and other.datum    == self.datum
+                                      and other.datum    == self.datum \
+                                      and other.band     == self.band  # PYLINT W0143
 
     @property_doc_(''' the I{polar} band.''')
     def band(self):

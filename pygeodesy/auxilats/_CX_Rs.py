@@ -107,11 +107,11 @@ class _Rdict(dict):  # in ._CX_#, .auxLat, .rhumb.aux_
 
     def _floats(self, rs):
         # yield floats from a string of comma-separated rationals
-        def _p_q(p=NN, q=1, *x):
+        def _p_q(p=NN, q=1, *x):  # PYLINT W1113
             return (NN if x else p), q
 
         _get = _constants_floats.get
-        for r in _MODS.basics._splituple(rs):
+        for r in _MODS.basics._splituple(rs):  # PYLINT E1101
             p, q = _p_q(*r.split(_SLASH_))
             if p:
                 f = int(p) / int(q)  # fractions.Fraction?
@@ -208,7 +208,7 @@ class _Rtuple(list):  # MUST be list, NOT tuple!
         except Exception as x:
             if len(rs) > 1 and _QUOTE3_ in str(x):
                 rs = rs[0], _ELLIPSIS4_
-            raise _RsError(k=k, n=n, rs=rs, cause=x)
+            raise _RsError(k=k, n=n, rs=rs, cause=x)  # PYLINT E0601
         del self.Rdict, self.k_n_rs  # trash refs
         return t
 

@@ -662,19 +662,19 @@ if __name__ == _DMAIN_:
 
         # <https://GeographicLib.SourceForge.io/C++/doc/GeoConvert.1.html>
         G = _Xables.GeoConvert(_Xables.bin_)
-        if _Xables.X_OK(G):
+        if _Xables.X_OK(G):  # PYLINT E1120
             from pygeodesy.internals import _popen2
-            printf(' using: %s', _Xables.name_version(G, base=False))
+            printf(' using: %s', _Xables.name_version(G, base=False))  # PYLINT E1120
             cmd = G, '-m'  # -m converts latlon to MGRS
         else:
-            printf(' sorry: %s', _Xables.X_not(G))
+            printf(' sorry: %s', _Xables.X_not(G))  # PYLINT E1120
             cmd = _popen2 = None
 
         e = n = 0
         try:
             for lat in range(-90, 91, 1):
                 printf('%6s: lat %s ...', n, lat, end=NN, flush=True)
-                nl = _MODS.os.linesep
+                nl = _MODS.os.linesep  # PYLINT E1101
                 for lon in range(-180, 181, 1):
                     m = LatLon(lat, lon).toMgrs()
                     if _popen2:  # and cmd

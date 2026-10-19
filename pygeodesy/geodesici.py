@@ -118,7 +118,7 @@ class XDict(ADict):
             a = other.sA
             b = other.sB
             if other.c:
-                self.c = other.c
+                self.c = other.c  # PYLINT W0201
         self.sA += a  # PYCHOK sA
         self.sB += b  # PYCHOK sB
         return self
@@ -321,7 +321,7 @@ class _IntersectBase(_NamedBase):
 #                   setattr(il, n, v)
         return G
 
-    def intersect7(self, start1, end1, start2, end2, X0=_X000, aMaX0=0, sMaX0=_cWGS84,
+    def intersect7(self, start1, end1, start2, end2, X0=_X000, aMaX0=0, sMaX0=_cWGS84,  # PYLINT W0102
                                                                **LatLon_and_kwds):
         '''Yield the intersections of two geodesic lines, each defined by a start
            and end point or by a start point and an azimuth (bearing from North).
@@ -360,8 +360,8 @@ class _IntersectBase(_NamedBase):
             return (s.lat, s.lon) + t
 
         try:
-            glA = self.Line(*_args(start1, end1))
-            glB = self.Line(*_args(start2, end2))
+            glA = self.Line(*_args(start1, end1))  # PYLINT E1111
+            glB = self.Line(*_args(start2, end2))  # PYLINT E1111
         except Exception as x:
             raise GeodesicError(start1=start1, end1=end1, start2=start2, end2=end2, cause=x)
 
@@ -472,7 +472,7 @@ class Intersectool(_IntersectBase, _SolveCapsBase):
     _Names_XDict = 'sA', 'sB', _c_  # plus 'k' from -i or 'sX0' from -R
     _o_alt       = _o__,  # Offset latA lonA aziA  latB lonB aziB  x0 y0
     _Xable_name  = _Xables.IntersectTool.__name__  # typename
-    _Xable_path  = _Xables.IntersectTool()
+    _Xable_path  = _Xables.IntersectTool()  # PYLINT E1120
 
     def __init__(self, a_geodesic=None, f=None, **name):
         '''New L{IntersectTool}.
@@ -519,7 +519,7 @@ class Intersectool(_IntersectBase, _SolveCapsBase):
                 except (AttributeError, KeyError):
                     return self._i_alt, (gl.lat2, gl.lon2)
             except Exception as x:
-                raise GeodesicError(n, gl, cause=x)
+                raise GeodesicError(n, gl, cause=x)  # PYLINT E0601
 
         _t, a = _xz2(glA=glA)
         _x, b = _xz2(glB=glB)
@@ -549,7 +549,7 @@ class Intersectool(_IntersectBase, _SolveCapsBase):
                 T = None
             yield X.set_(c=int(X.c)), T
 
-    def All5(self, glA, glB, X0=_X000, **aMaX0_sMaX0):
+    def All5(self, glA, glB, X0=_X000, **aMaX0_sMaX0):  # PYLINT W0102
         '''Yield all intersections of two geodesic lines up to a limit.
 
            @return: An L{Intersectool5Tuple} for each intersection.
@@ -565,7 +565,7 @@ class Intersectool(_IntersectBase, _SolveCapsBase):
                                         self._E_option +
                                         self._p_option)
 
-    def Closest(self, glA, glB, X0=_X000, _C=False):
+    def Closest(self, glA, glB, X0=_X000, _C=False):  # PYLINT W0102
         '''Find the closest intersection of two geodesic lines.
 
            @kwarg _C: Use C{B{_C}=True} to include the C{"-C"} results (C{bool}).
@@ -658,7 +658,7 @@ class Intersectool(_IntersectBase, _SolveCapsBase):
                 n, gl = gl.popitem()
                 il = self._g.InverseLine(gl.lat1, gl.lon1, gl.lat2, gl.lon2)
             except Exception as x:
-                raise GeodesicError(n, gl, cause=x)
+                raise GeodesicError(n, gl, cause=x)  # PYLINT E0601
             s = il.s13
             m = s * _0_5
             return s, m, il, (il.Position(m, outmask=Caps.STANDARD_LINE) if _C else None)
@@ -898,7 +898,7 @@ class Intersector(_IntersectBase):
 
         return X_.sorter(sMaX0, self._C, glA, glB, _C=_C)  # generator
 
-    def All5(self, glA, glB, X0=_X000, **aMaX0_sMaX0_C):
+    def All5(self, glA, glB, X0=_X000, **aMaX0_sMaX0_C):  # PYLINT W0102
         '''Yield all intersection of two geodesic lines up to a limit.
 
            @return: Yield an L{Intersector5Tuple}C{(A, B, sAB, aAB, c)}
@@ -936,7 +936,7 @@ class Intersector(_IntersectBase):
                 X.set_(sAB=s, aAB=a)
         return X
 
-    def Closest(self, glA, glB, X0=_X000, **_C):
+    def Closest(self, glA, glB, X0=_X000, **_C):  # PYLINT W0102
         '''Find the closest intersection of two geodesic lines.
 
            @arg glA: A geodesic line (L{Line<Intersector.Line>}).
@@ -969,7 +969,7 @@ class Intersector(_IntersectBase):
 
         return None if Q is X0 else self._C(Q, glA, glB, **_C).set_(sX0=d, iteration=q)
 
-    def Closest5(self, glA, glB, X0=_X000):
+    def Closest5(self, glA, glB, X0=_X000):  # PYLINT W0102
         '''Find the closest intersection of two geodesic lines.
 
            @return: An L{Intersector5Tuple}C{(A, B, sAB, aAB, c)}
@@ -1021,7 +1021,7 @@ class Intersector(_IntersectBase):
         # _XLines(gl, gl)
         self._gl3 = gl
 
-    def _conjDist3Tt_(self, c, X0=_X000):
+    def _conjDist3Tt_(self, c, X0=_X000):  # PYLINT W0102
         for s in self._conjDist3s:
             T = XDict_(s, s * c, c)
             yield self._Delto(T), T.L1(X0)
@@ -1196,7 +1196,7 @@ class Intersector(_IntersectBase):
                     T  = X + (s, s * c)  # NOT +=
                 T._skip(S_, self._T2D2Delta)
 
-        return None if Q is _XINF else self._C(Q, glA, glB, **_C).set_(sX0=d, iteration=q)
+        return None if Q is _XINF else self._C(Q, glA, glB, **_C).set_(sX0=d, iteration=q)  # PYLINT E0606
 
     def Next5(self, glA, glB, **eps1):  # PYCHOK no cover
         '''Yield the next intersection of two I{intersecting} geodesic lines.
@@ -1534,7 +1534,7 @@ if __name__ == _DMAIN_:  # MCCABE 36
                                       _i_, _m_, _n_, _version_, _X_
         import re
 
-        class XY0(Float):
+        class XY0(Float):  # PYLINT W0612
             pass
 
         def _opts(_h):  # for _usage()
@@ -1582,16 +1582,16 @@ if __name__ == _DMAIN_:  # MCCABE 36
             elif _starts('--Tool', arg):
                 I = Intersectool()  # noqa: E741 I is eye
                 if _V:
-                    I.verbose = True
-                if not _Xables.X_OK(I.IntersectTool):
-                    I.IntersectTool = _Xables.IntersectTool(_Xables.bin_)
+                    I.verbose = True  # PYLINT W0201
+                if not _Xables.X_OK(I.IntersectTool):  # PYLINT E1120
+                    I.IntersectTool = _Xables.IntersectTool(_Xables.bin_)  # PYLINT W0201
                 elif _V:
                     _ = I.version
                 M, _T = None, True
             elif _starts('--Verbose', arg):
                 _V = True
                 if _T:
-                    I.verbose = True
+                    I.verbose = True  # PYLINT W0201
             elif _starts('--version', arg):
                 printf(_COLONSPACE_(*((_version_, I.version) if _T else
                                       (__version__, repr(I)))))
@@ -1608,10 +1608,10 @@ if __name__ == _DMAIN_:  # MCCABE 36
             args[:] = args[:m]
 
             kwds = dict(_C=True) if _C else {}
-            if M == I.Next:  # -n
+            if M == I.Next:  # PYLINT W0143 -n
                 # get latA lonA aziA latA lonA aziB
                 args[3:] = args[:2] + args[3:4]
-            elif M == I.Closest and m > 6:  # -o
+            elif M == I.Closest and m > 6:  # PYLINT W0143 -o
                 y0 = Meter(y0=args.pop())
                 x0 = Meter(x0=args.pop())
                 kwds.update(X0=XDict_(x0, y0))
@@ -1675,10 +1675,10 @@ if __name__ == _DMAIN_:  # MCCABE 36
         else:
             _main(argv[1:])
 
-    except Exception as x:
+    except Exception as x:  # PYLINT W0718
         x = _SPACE_(x, NN, _HASH_, *argv)
         printf(x, file=stderr, nl=1)
-        if '-V' in x or _MODS.errors.exception_chaining():
+        if '-V' in x or _MODS.errors.exception_chaining():  # PYLINT E1101
             raise
         exit(1)
 

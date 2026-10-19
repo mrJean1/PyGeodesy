@@ -4,12 +4,11 @@
 # Test L{frechet} distances.  Very slow with coverage!
 
 __all__ = ('Tests',)
-__version__ = '25.04.21'
+__version__ = '26.10.04'
 
-from bases import GeodSolve, geographiclib, \
-                  isPython3, isWindows, TestsBase
+from bases import GeodSolve, geographiclib, isPython3, isWindows, TestsBase
 
-from pygeodesy import FrechetError, fstr, LatLon_, randomrangenerator
+from pygeodesy import euclid, FrechetError, fstr, LatLon_, randomrangenerator
 
 _rr = randomrangenerator('R')
 _ms = [LatLon_(*_ll) for _ll in zip(_rr( -90,  90, 2),  # 90
@@ -45,9 +44,9 @@ class Tests(TestsBase):
             t = _tstr(f.discrete(_ps, fraction=0.5))
             n = '%s (%s)' % (f.named, f.units)
             self.test(n, t, y, known=k)  # + (t.units,)
-        except FrechetError as e:
+        except FrechetError:  # PYLINT W0706 as e
             raise
-            self.test(n, str(e), y, known=k)  # + (t.units,)
+#           self.test(n, str(e), y, known=k)  # + (t.units,)
 
         self.testCopy(f)
 
@@ -62,28 +61,26 @@ if __name__ == '__main__':  # MCCABE 25
                           FrechetKarney, FrechetHaversine, FrechetHubeny, FrechetRadians, \
                           FrechetThomas, FrechetVincentys
 
-    def _distance(p1, p2):
-        dy, dx = abs(p1.lat - p2.lat), abs(p1.lon - p2.lon)
-        return (dx + dy * 0.5) if dx > dy else (dy + dx * 0.5)
+    def _distance(point1, point2):
+        return euclid(point1.lat, point1.lon, point2.lat, point2.lon, half=True)
 
     class FrechetDegrees_(FrechetDegrees):
         '''Custom Frechet.'''
-        def distance(self, p1, p2):
-            return _distance(p1, p2)
+        def distance(self, point1, point2):  # PYLINT W0221
+            return _distance(point1, point2)
 
     class FrechetRadians_(FrechetRadians):
         '''Custom Frechet.'''
-        def distance(self, p1, p2):
-            dy, dx = abs(p1.phi - p2.phi), abs(p1.lam - p2.lam)
-            return (dx + dy * 0.5) if dx > dy else (dy + dx * 0.5)
+        def distance(self, point1, point2):  # PYLINT W0221
+            return euclid(point1.phi, point1.lam, point2.phi, point2.lam, half=True)
 
     t = Tests(__file__, __version__)
 
     if isPython3:  # XXX different Random?
-        t.test2(FrechetDegrees_, (178.5, 74, 56,    0,  5400),
+        t.test2(FrechetDegrees_, (178.5, 74, 56, 0, 5400,),
                                  (175.5, 74, 52.5, 29, 10710))
 
-        t.test2(FrechetRadians_, (3.11541, 74, 56,    0,  5400),
+        t.test2(FrechetRadians_, (3.11541, 74, 56, 0, 5400),
                                  (3.06305, 74, 52.5, 29, 10710))
 
         t.test2(FrechetCosineLaw, (2.63867, 0, 13,   0,  5400),
@@ -241,7 +238,7 @@ if __name__ == '__main__':  # MCCABE 25
             t.test2(FrechetDistanceTo, (16810959.0015, 0, 13,  0,  5400),
                                        (16810959.0015, 0, 0, 208, 10710), prec=4, known=True)
 
-    if True:  # for test coverage
+    if True:  # PYLINT W0125 for test coverage
         f = frechet_(_ms, _ps, distance=_distance, units='recursive', recursive=True)
         t.test('frechet_', f, "(178.5, 74, 56, 19, 5400, 'recursive')" if isPython3 else
                               "(288.0, 1, 1, 147, 5400, 'recursive')", known=True, nl=1)

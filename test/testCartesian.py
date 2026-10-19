@@ -47,13 +47,13 @@ class Tests(TestsBase):
             if isPython35:
                 # using eval avoids SyntaxError with Python 3.4-,
                 # but t = eval("d @= ...") throws a SyntaxError
-                t = eval('datum2 @ c')
+                t = eval('datum2 @ c')  # PYLINT W0123
                 self.test('__matmul__', t, d)
-                t = eval('Transforms.Identity @ d')
+                t = eval('Transforms.Identity @ d')  # PYLINT W0123
                 self.test('__matmul__', t, d)
                 if c.isEllipsoidal:
                     t = c.dup(reframe=RefFrames.ITRF2000)
-                    t = eval('RefFrames.ITRF2014 @ t')
+                    t = eval('RefFrames.ITRF2014 @ t')  # PYLINT W0123
                     self.test('__matmul__', t, t)
 
         self.test('height',  c.height, '-5918.380258' if Sph else '0.242887', prec=6)

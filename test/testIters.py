@@ -15,7 +15,7 @@ class Tests(TestsBase):
 
     def testIters(self):
 
-        Ps = PointsIter(range(8))
+        Ps, i = PointsIter(range(8)), None
         for i, p in Ps.enumerate():
             pass
         self.test('i ', i, 7)

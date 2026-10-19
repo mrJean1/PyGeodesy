@@ -42,7 +42,7 @@ def _Xs(**name_xs):
         for i, x in enumerate(xs):  # don't unravel Fsums
             yield x._Fsum if _isFsum_2Tuple(x) else x
     except Exception as X:
-        raise _xsError(X, xs, i, x, name)
+        raise _xsError(X, xs, i, x, name)  # PYLINT E0601
 
 
 class _FstatsNamed(_Named):
@@ -81,7 +81,7 @@ class _FstatsNamed(_Named):
 
     def __str__(self):
         n =  self.name
-        n = _SPACE_(self.classname, n) if n else self.classname
+        n = _SPACE_(self.classname, n) if n else self.classname  # PYLINT W0125
         return Fmt.SQUARE(n, len(self))
 
     def copy(self, deep=False, **name):
@@ -223,7 +223,7 @@ class _FstatsBase(_FstatsNamed):
     def _Variance(self, xs=None, **sample):
         '''(INTERNAL) Return the current (sample) variance as L{Fsum}.
         '''
-        n = self.fadd(xs, **sample)
+        n = self.fadd(xs, **sample)  # PYLINT E1111
         return (self._M2 / n) if n > 0 else _0_0
 
 

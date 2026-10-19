@@ -104,7 +104,7 @@ def _2Precision(precision):
 class GARSError(_ValueError):
     '''Global Area Reference System (GARS) encode, decode or other L{Garef} issue.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 class Garef(Str):
@@ -171,14 +171,14 @@ class Garef(Str):
     def latlon(self):
         '''Get this garef's (center) lat- and longitude (L{LatLon2Tuple}).
         '''
-        lat, lon = self._latlon or self._decoded3[:2]
+        lat, lon = self._latlon or self._decoded3[:2]  # PYLINT E1101
         return LatLon2Tuple(lat, lon, name=self.name)
 
     @Property_RO
     def precision(self):
         '''Get this garef's precision (C{int}).
         '''
-        p = self._precision
+        p = self._precision  # PYLINT E1101
         return self._decoded3.precision if p is None else p
 
     def toLatLon(self, LatLon=None, **LatLon_kwds):

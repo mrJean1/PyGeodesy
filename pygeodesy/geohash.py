@@ -39,7 +39,7 @@ from math import fabs, ldexp, log10, radians
 __all__ = _ALL_LAZY.geohash
 __version__ = '25.09.16'
 
-_formy   = _MODS.into(formy=__name__)
+_formy   = _MODS.into(formy=__name__)  # PYLINT E1120
 _MASK5   =  16, 8, 4, 2, 1  # PYCHOK used!
 _MaxPrec =  12
 
@@ -233,7 +233,7 @@ class _GH(object):
         if not (0 < nc <= _MaxPrec):  # or geohash.startswith(_INV_)
             raise GeohashError(geohash=geohash, len=nc)
         s, w, n, e = self.SWNE4
-        d, _mid = True, _2mid
+        d, _mid, j = True, _2mid, None
         try:
             for j, c in enumerate(geohash.lower()):
                 i = self.DecodeB32[c]
@@ -252,7 +252,7 @@ class _GH(object):
                             n = a
                     d = not d
         except KeyError:
-            c = _MODS.streprs.Fmt.INDEX(repr(c), j)
+            c = _MODS.streprs.Fmt.INDEX(repr(c), j)  # PYLINT E1101
             raise GeohashError(geohash=geohash, len=nc, txt=c)
         return s, w, n, e
 
@@ -481,7 +481,7 @@ class Geohash(Str):
         '''Get the lat- and longitude of (the approximate center of)
            this geohash as a L{LatLon2Tuple}C{(lat, lon)} in C{degrees}.
         '''
-        lat, lon = self._latlon or _2center(self.bounds())
+        lat, lon = self._latlon or _2center(self.bounds())  # PYLINT E1101
         return LatLon2Tuple(lat, lon, name=self.name)
 
     @Property_RO
@@ -643,7 +643,7 @@ class Geohashed(object):
             n += len(e - d)
         return n
 
-    def _ab2(self, *ll):  # overwritten
+    def _ab2(self, *ll):  # PYLINT E0202 overwritten
         '''(INTERNAL) Make encoded keys C{a, b}.
         '''
         return ll
@@ -724,7 +724,7 @@ class Geohashed(object):
 class GeohashError(_ValueError):
     '''Geohash encode, decode or other L{Geohash} issue.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 class Neighbors8Dict(_NamedDict):
@@ -808,7 +808,7 @@ def decode(geohash):
     # round to near centre without excessive precision to
     # ⌊2-log10(Δ°)⌋ decimal places, strip trailing zeros
     swne = _GH.swne4(geohash)
-    return _2latlon(*swne, fstr=_MODS.streprs.fstr)
+    return _2latlon(*swne, fstr=_MODS.streprs.fstr)  # PYLINT E1101
 
 
 def decode2(geohash, LatLon=None, **LatLon_kwds):

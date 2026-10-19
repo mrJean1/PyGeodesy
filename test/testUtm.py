@@ -4,11 +4,11 @@
 # Test L{utm} module.
 
 __all__ = ('Tests',)
-__version__ = '25.04.25'
+__version__ = '26.10.04'
 
 from bases import TestsBase
 
-from pygeodesy import Ellipsoids, EPS, F_DEG, F_DMS, fstr, parseUTM5, toUtm8, Utm
+from pygeodesy import Ellipsoids, EPS, F_DEG, F_DMS, fstr, parseUTM5, toUtm8, Utm, utm
 
 
 class Tests(TestsBase):
@@ -184,7 +184,7 @@ class Tests(TestsBase):
 
 if __name__ == '__main__':
 
-    from pygeodesy import ellipsoidalVincenty, utm
+    from pygeodesy import ellipsoidalVincenty
 
     t = Tests(__file__, __version__, utm)
     t.testUtm(ellipsoidalVincenty.LatLon)

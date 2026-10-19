@@ -4,9 +4,10 @@
 # Test L{named} module.
 
 __all__ = ('Tests',)
-__version__ = '26.06.26'
+__version__ = '26.10.18'
 
 from bases import endswith, TestsBase
+
 from pygeodesy import angles, geohash, Datum, Datums, ltpTuples, \
                       named, namedTuples, nameof, NN, ub2str
 
@@ -143,7 +144,7 @@ class Tests(TestsBase):
             while True:
                 i = py.find(_N_C_, j)
                 if i > j:
-                    t.testNamed_Link(_N, i, m, py, _Ndict, b)
+                    self.testNamed_Link(_N, i, m, py, _Ndict, b)
                     j = i + len(_N_C_)
                 else:
                     break
@@ -198,7 +199,7 @@ class Tests(TestsBase):
         from pygeodesy import Conics, Ellipsoid, Ellipsoids, RefFrames, Transforms
 
         self.test('Conics', len(Conics), 1, known=True)
-        t = tuple(Conics.items(all=True, asorted=True))
+        t = tuple(Conics.items(all=True, asorted=True))  # PYLINT E1120
         self.test('Conics', len(Conics), 12)
         for n, c in t:
             c.unregister()  # coverage _NamedEnum.unregister
@@ -206,15 +207,15 @@ class Tests(TestsBase):
         self.test('Conics', len(Conics), 0)
 
         self.test('Datums', len(Datums), 6, known=True, nl=1)
-        t = tuple(Datums.items(all=True, asorted=True))
+        t = tuple(Datums.items(all=True, asorted=True))  # PYLINT E1120
         self.test('Datums', len(Datums), 19)
         for n, d in t:
-            Datums.unregister(d)  # coverage _NamedEnum.unregister
+            Datums.unregister(d)  # PYLINT E1120 coverage _NamedEnum.unregister
             self.test('Datums.unregister(%s)' % (n,), getattr(Datums, n, None), None)
         self.test('Datums', len(Datums), 0)
 
         self.test('RefFrames', len(RefFrames), 0, known=True, nl=1)
-        t = tuple(RefFrames.items(all=True, asorted=True))
+        t = tuple(RefFrames.items(all=True, asorted=True))  # PYLINT E1120
         self.test('RefFrames', len(RefFrames), 36)
         for n, r in t:
             r.unregister()  # coverage _NamedEnum.unregister
@@ -222,15 +223,15 @@ class Tests(TestsBase):
         self.test('RefFrames', len(RefFrames), 0)
 
         self.test('Ellipsoids', len(Ellipsoids), 12, known=True, nl=1)
-        t = tuple(Ellipsoids.items(all=True, asorted=True))
-        self.test('Ellipsoids', len(Ellipsoids), 49)
+        t = tuple(Ellipsoids.items(all=True, asorted=True))  # PYLINT E1120
+        self.test('Ellipsoids', len(Ellipsoids), 50)
         for n, e in t:
             e.unregister()  # coverage _NamedEnum.unregister
             self.test('Ellipsoids.' + n + '.unregister', getattr(Ellipsoids, n, None), None)
         self.test('Ellipsoids', len(Ellipsoids), 0)
 
         self.test('Transforms', len(Transforms), 16, known=True, nl=1)
-        t = tuple(Transforms.items(all=True, asorted=True))
+        t = tuple(Transforms.items(all=True, asorted=True))  # PYLINT E1120
         self.test('Transforms', len(Transforms), 20)
         for n, x in t:
             x.unregister()  # coverage _NamedEnumItem.unregister

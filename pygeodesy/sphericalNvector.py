@@ -211,7 +211,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         sa, ca, sb, cb = sincos2_(a, b)
 
         n = self.toNvector()
-        e = NorthPole.cross(n, raiser=_pole_).unit()  # east vector at n
+        e = NorthPole.cross(n, raiser=_pole_).unit()  # PYLINT E1101 east vector at n
         x = n.cross(e)  # north vector at n
         d = x.times(cb).plus(e.times(sb))  # direction vector @ n
         n = n.times(ca).plus(d.times(sa))
@@ -505,7 +505,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         p1 = self.others(point1=point1)
         p2 = self.others(point2=point2)
         if wrap:
-            p1 = _Wrap.point(p1)
+            p1 = _Wrap.point(p1)  # PYLINT E1120
             p2 = _unrollon(p1, p2, wrap=wrap)
         n, n1, n2 = (_.toNvector() for _ in (self, p1, p2))
 
@@ -581,7 +581,7 @@ class LatLon(LatLonNvectorBase, LatLonSphericalBase):
         p1 = self.others(point1=point1)
         p2 = self.others(point2=point2)
         if wrap:
-            p1 = _Wrap.point(p1)
+            p1 = _Wrap.point(p1)  # PYLINT E1120
             p2 = _unrollon(p1, p2, wrap=wrap)
         p0 = self
 
@@ -774,8 +774,8 @@ class Nvector(NvectorBase):
         e = NorthPole.cross(self, raiser=_pole_)  # easting
         n = self.cross(e, raiser=_point_)  # northing
 
-        e = e.times(c / e.length)
-        n = n.times(s / n.length)
+        e = e.times(c / e.length)  # PYLINT E1101
+        n = n.times(s / n.length)  # PYLINT E1101
         return n.minus(e)
 
 

@@ -149,7 +149,7 @@ def bearing_(phi1, lam1, phi2, lam2, final=False, wrap=False):
              U{Bearing Between Two Points<https://web.Archive.org/web/20020630205931/
              https://MathForum.org/library/drmath/view/55417.html>}.
     '''
-    db, phi2, lam2 = _Wrap.philam3(lam1, phi2, lam2, wrap)
+    db, phi2, lam2 = _Wrap.philam3(lam1, phi2, lam2, wrap)  # PYLINT E1120
     if final:  # swap plus PI
         phi1, lam1, phi2, lam2, db = phi2, lam2, phi1, lam1, -db
         r = PI3
@@ -224,7 +224,7 @@ def compassAngle(lat1, lon1, lat2, lon2, adjust=True, wrap=False):
        @see: U{Local, flat earth approximation
              <https://www.EdWilliams.org/avform.htm#flat>}.
     '''
-    d_lon, lat2, lon2 = _Wrap.latlon3(lon1, lat2, lon2, wrap)
+    d_lon, lat2, lon2 = _Wrap.latlon3(lon1, lat2, lon2, wrap)  # PYLINT E1120
     if adjust:  # scale delta lon
         d_lon *= _scale_deg(lat1, lat2)
     return atan2b(d_lon, lat2 - lat1)
@@ -340,7 +340,7 @@ def _d3(wrap, lat1, lon1, lat2, lon2):
     '''(INTERNAL) Helper for _dE, _dS, ....
     '''
     if wrap:
-        d_lon, lat2, _ = _Wrap.latlon3(lon1, lat2, lon2, wrap)
+        d_lon, lat2, _ = _Wrap.latlon3(lon1, lat2, lon2, wrap)  # PYLINT E1120
         return radians(lat2), Phid(lat1=lat1), radians(d_lon)
     else:  # for backward compaibility
         return Phid(lat2=lat2), Phid(lat1=lat1), radians(lon2 - lon1)
@@ -442,7 +442,7 @@ def equirectangular4(lat1, lon1, lat2, lon2, adjust=True, limit=45, wrap=False):
              L{Ellipsoid.distance2}, C{LatLon.distanceTo*} and C{LatLon.equirectangularTo}.
     '''
     if wrap:
-        d_lon, lat2, ulon2 = _Wrap.latlon3(lon1, lat2, lon2, wrap)
+        d_lon, lat2, ulon2 = _Wrap.latlon3(lon1, lat2, lon2, wrap)  # PYLINT E1120
     else:
         d_lon,       ulon2 = (lon2 - lon1), lon2
     d_lat = lat2 - lat1
@@ -506,7 +506,7 @@ def euclidean_(phi2, phi1, lam21, adjust=True):
              L{hubeny_}, L{flatPolar_}, L{haversine_}, L{thomas_} and L{vincentys_}.
     '''
     if adjust:
-        lam21 *= _scale_rad(phi2, phi1)
+        lam21 *= _scale_rad(phi2, phi1)  # PYLINT W1114
     return euclid(phi2 - phi1, lam21)
 
 
@@ -928,7 +928,7 @@ def hartzell(pov, los=False, earth=_WGS84, **name_LatLon_and_kwds):
     try:
         D = _spherical_datum(earth, name__=hartzell)
         m = _MODS._triaxials_triaxial5
-        r, h, i = m._hartzell3(pov, los, D.ellipsoid._triaxial)
+        r, h, i = m._hartzell3(pov, los, D.ellipsoid._triaxial)  # PYLINT E1101
 
         C = _MODS.cartesianBase.CartesianBase
         if kwds:
@@ -1076,7 +1076,7 @@ class _idllmn6(object):  # see also .geodesicw._wargs, .latlonBase._toCartesian3
     def __call__(self, datum, lat1, lon1, lat2, lon2, small, wrap, s, **kwds):
         try:
             if wrap:
-                _, lat2, lon2 = _Wrap.latlon3(lon1, lat2, lon2, wrap)
+                _, lat2, lon2 = _Wrap.latlon3(lon1, lat2, lon2, wrap)  # PYLINT E1120
                 kwds = _xkwds(kwds, wrap=wrap)  # for _xError
             m = small if small is _100km else Meter_(small=small)
             n = typename(intersections2 if s else intersection2)
@@ -1491,7 +1491,7 @@ def _radistance(inst):
     func_ = inst._func_
     try:  # calling lower-overhead C{func_}
         func_(0, _0_25, _0_5, **kwds_)
-        wrap_ = _Wrap._philamop(wrap_)
+        wrap_ = _Wrap._philamop(wrap_)  # PYLINT E1120
     except TypeError:
         return inst.distance
 

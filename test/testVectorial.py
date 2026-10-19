@@ -44,8 +44,8 @@ class Tests(TestsBase):
         r, m = 50, 0.0
         for d in range(0, 361, 3):
             v  = V3d(*sincos2d(d)).times(r)
-            b1 = v.minus(s1).bearing(useZ=False)
-            b2 = v.minus(s2).bearing(useZ=False)
+            b1 = v.minus(s1).bearing(useZ=False)  # PYLINT E1101
+            b2 = v.minus(s2).bearing(useZ=False)  # PYLINT E1101
             p  = intersection3d3(s1, b1, s2, b2).point
             e  = p.minus(v).length / r
             m  = max(e, m)

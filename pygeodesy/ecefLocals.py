@@ -18,8 +18,8 @@ from pygeodesy.props import Property_RO, property_RO, property_ROver
 __all__ = _ALL_LAZY.ecefLocals
 __version__ = '25.04.28'
 
-_ltp       = _MODS.into(ltp=__name__)
-_ltpTuples = _MODS.into(ltpTuples=__name__)
+_ltp       = _MODS.into(ltp=__name__)  # PYLINT E1120
+_ltpTuples = _MODS.into(ltpTuples=__name__)  # PYLINT E1120
 
 
 class _EcefLocal(_Named):

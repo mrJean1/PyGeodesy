@@ -7,6 +7,7 @@ __all__ = ('Tests',)
 __version__ = '25.12.06'  # '23.11.30'
 
 from bases import TestsBase, _env_c2, isPython37, type2str
+
 import pygeodesy
 
 
@@ -46,7 +47,7 @@ class Tests(TestsBase):
 
         M = lazily._ALL_MODS
         self.test('items', M.name, M.name, nl=1)
-        for n, m in sorted(M.items()):  # coverage
+        for n, m in sorted(M.items()):  # PYLINT E1120 coverage
             self.test(n, m, m)
 
 #       p = pygeodesy.printf

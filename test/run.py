@@ -4,17 +4,19 @@
 
 # Script to run some or all PyGeodesy tests with Python 2 or 3.
 
-from bases import clips, coverage, _DOT_, isiOS, NN, prefix2, printf, \
-                  PyGeodesy_dir, PythonX, secs2str, _skipped_, test_dir, \
-                  tilde, _TILDE_, versions, _W_opts  # PYCHOK expected
+from bases import clips, coverage, _DOT_, isAppleSi, isiOS, isPython37, NN, \
+                  prefix2, printf, PyGeodesy_dir, PythonX, secs2str, _skipped_, \
+                  test_dir, tilde, _TILDE_, versions, _W_opts  # PYCHOK expected
 from pygeodesy.basics import str2ub, ub2str
 
-from os import access, environ, F_OK, linesep as LS, pathsep as PS
-import sys
+from os import access, environ, F_OK, linesep as LS, path as os_path, pathsep as PS
+from time import sleep, time
 from traceback import format_exception
+import sys
+
 
 __all__ = ('run2',)
-__version__ = '25.10.06'
+__version__ = '26.10.05'
 
 NL = '\n'  # pygeodesy.interns._NL_
 P  = None  # process
@@ -25,7 +27,6 @@ if isiOS:  # MCCABE 14
         from StringIO import StringIO
     except ImportError:  # Python 3+
         from io import StringIO
-    from os.path import basename
     from runpy import run_path
 
     def run2(test, *unused):
@@ -67,11 +68,10 @@ if isiOS:  # MCCABE 14
             x = r.count('FAILED, expected')
         return x, r
 
-    PythonX_ = basename(PythonX)
+    PythonX_ = os_path.basename(PythonX)
     _threads = False
 
 else:  # non-iOS
-    from bases import isAppleSi, isPython37
     from subprocess import PIPE, Popen, STDOUT
 
     Popen_kwds = dict(creationflags=0, executable=sys.executable,
@@ -96,7 +96,7 @@ else:  # non-iOS
         '''Invoke one test module and return the
            exit status and stdout/-err output.
         '''
-        global P
+        global P  # PYLINT W0603
         c = pythonC_ + (test,) + opts
         P = Popen(c, **Popen_kwds)
         r = ub2str(P.communicate()[0])  # no .strip()
@@ -149,10 +149,10 @@ class ThreadPool(object):
                 sleep(1)
             with self.lock:
                 self.work += 1
-            t = Thread(target=call, args=args)
+            t = Thread(target=call, args=args)  # PYLINT E0606
             t.start()
         else:
-            global P
+            global P  # PYLINT W0603
             t = call(*args)
             P = None
         return t
@@ -179,7 +179,7 @@ _Total = 0  # total tests
 _FailX = 0  # failed tests
 
 
-def _exit(last, text, exit):
+def _exit(last, text, exit):  # PYLINT W0622
     '''(INTERNAL) Close and exit.
     '''
     printf(last)
@@ -194,13 +194,13 @@ def _exit(last, text, exit):
 def _prefix2(prev):
     '''(INTERNAL) get the prefix and current time.
     '''
-    return prefix2(prev) if _prefix else (NN, time())
+    return prefix2(prev) if _prefix else (NN, time())  # PYLINT E0606
 
 
 def _run(prefix, test, *opts):  # MCCABE 13
     '''(INTERNAL) Run a test script and parse the result.
     '''
-    global _FailX, _Total  # _Tpool
+    global _FailX, _Total  # PYLINT W0603 _Tpool
 
     t = PythonX_
     if _Tpool.size > 0:
@@ -264,8 +264,6 @@ def _write(text):
 if __name__ == '__main__':  # MCCABE 19
 
     from glob import glob
-    from os.path import join
-    from time import sleep, time
 
     argv0, args = tilde(sys.argv[0]), sys.argv[1:]
 
@@ -298,7 +296,7 @@ if __name__ == '__main__':  # MCCABE 19
 
     if not args:  # no tests specified, get all test*.py
         # scripts in the same directory as this one
-        args = sorted(glob(join(test_dir, 'test[A-Z]*.py')))
+        args = sorted(glob(os_path.join(test_dir, 'test[A-Z]*.py')))
 
     # PyGeodesy and Python versions, size, OS name and release
     v = versions()
@@ -306,7 +304,7 @@ if __name__ == '__main__':  # MCCABE 19
     if _results:  # save all test results
         t = '-'.join(['testresults'] + v.split()) + '.txt'
         t = clips(t, 180)  # isWindows MAX?
-        t = join(PyGeodesy_dir, 'testresults', t)
+        t = os_path.join(PyGeodesy_dir, 'testresults', t)
         _results = open(t, 'wb')  # note, 'b' not 't'!
         _write('%s typical test results (%s)%s' % (argv0, v, NL))
 

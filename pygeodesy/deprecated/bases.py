@@ -14,7 +14,7 @@ __version__ = '25.05.12'
 
 class LatLonHeightBase(_LatLonBase):  # PYCHOK no cover
     '''DEPRECATED on 2021.02.10, use (INTERNAL) class L{pygeodesy.latlonBase.LatLonBase}.'''
-    pass
+    pass  # PYLINT W0107
 
 
 # **) MIT License

@@ -300,7 +300,7 @@ class LatLonEllipsoidalBase(LatLonBase):
         return self.toRefFrame(reframe2)
 
     @property_doc_(''' this points's datum (L{Datum}).''')
-    def datum(self):
+    def datum(self):  # PYLINT W0236
         '''Get this point's datum (L{Datum}).
         '''
         return self._datum
@@ -342,7 +342,7 @@ class LatLonEllipsoidalBase(LatLonBase):
         '''
         p = self.others(other)
         if wrap:  # PYCHOK no cover
-            p = _Wrap.point(p)
+            p = _Wrap.point(p)  # PYLINT E1120
         E = self.ellipsoids(other)
         return E.distance2(*(self.latlon + p.latlon))
 

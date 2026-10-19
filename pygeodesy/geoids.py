@@ -167,14 +167,14 @@ else:  # -OO ... runs GeoidKarney 8+X faster (w/o Fwelford)
         '''Fast precision dot product M{sum(a[i] * b[i] for i=0..len(a))}
            but for C{float} C{a} and C{b} only.
         '''
-        def __init__(self, a, *b):
+        def __init__(self, a, *b):  # PYLINT W0231
             self._ps = self._ps_acc([], map(_mul, a, b), up=False)
 
     class _Hornerf(_GKsum):  # PYCHOK redef
         '''Fast polynomial evaluation M{sum(cs[i] * x**i for i=0..len(cs))}
            but for C{float} C{x} and C{cs} and C{incx=True} only.
         '''
-        def __init__(self, x, *cs):  # incx=True
+        def __init__(self, x, *cs):  # PYLINT W0231 incx=True
             self._ps = []
             for c in reversed(cs):  # multiply-accumulate
                 self *= x  # ps[:] = (x * p for p in ps)
@@ -184,7 +184,7 @@ else:  # -OO ... runs GeoidKarney 8+X faster (w/o Fwelford)
 class GeoidError(HeightError):
     '''Geoid interpolator C{Geoid...} or interpolation issue.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 class _GeoidBase(_HeightBase):
@@ -320,8 +320,8 @@ class _GeoidBase(_HeightBase):
         # handle __call__
         _H = self._heightOrthometric if H else None
         _as, llis = _as_llis2(llis, Error=GeoidError)
-        _w, hs    = _Wrap._latlonop(wrap), []
-        _h, _a    =  self._hGeoid, hs.append
+        _w, hs    = _Wrap._latlonop(wrap), []  # PYLINT E1120
+        _h, _a, i =  self._hGeoid, hs.append, None
         try:
             for i, lli in enumerate(llis):
                 N = _h(*_w(lli.lat, lli.lon))
@@ -330,11 +330,11 @@ class _GeoidBase(_HeightBase):
             return _as(hs)
         except (GeoidError, RangeError) as x:
             # XXX avoid str(LatLon()) degree symbols
-            n = _lli_ if _as is _ascalar else Fmt.INDEX(llis=i)
+            n = _lli_ if _as is _ascalar else Fmt.INDEX(llis=i)  # PYLINT E1120
             t =  fstr((lli.lat, lli.lon), strepr=repr)
             E =  type(x)
             raise E(n, t, wrap=wrap, H=H, cause=x)
-        except Exception as x:
+        except Exception as x:  # PYLINT W0718
             if self._iscipy and self.scipy:
                 raise _SciPyIssue(x, self._ev_name)
             else:
@@ -504,7 +504,7 @@ class _GeoidBase(_HeightBase):
         if smooth:
             self._smooth = Float_(smooth=smooth, Error=GeoidError, low=0)
         if name:
-            _HeightBase.name.fset(self, _name__(**name))  # rename
+            _HeightBase.name.fset(self, _name__(**name))  # PYLINT E1101 rename
 
     @deprecated_property_RO
     def knots(self):
@@ -543,7 +543,7 @@ class _GeoidBase(_HeightBase):
 
     def _load(self, g, dtype=float, n=-1, offset=0, **sep):  # sep=NN
         # numpy.fromfile, like .frombuffer
-        g.seek(offset, _os.SEEK_SET)
+        g.seek(offset, _os.SEEK_SET)  # PYLINT E1101
         return self.numpy.fromfile(g, dtype, count=n, **sep)
 
     @Property_RO
@@ -611,10 +611,10 @@ class _GeoidBase(_HeightBase):
         return self._mean
 
     @property_RO
-    def name(self):
+    def name(self):  # PYLINT W0236
         '''Get the name of this geoid (C{str}).
         '''
-        return _HeightBase.name.fget(self) or self._geoid  # recursion
+        return _HeightBase.name.fget(self) or self._geoid  # PYLINT E1101 recursion
 
     @property_RO
     def nBytes(self):
@@ -628,8 +628,8 @@ class _GeoidBase(_HeightBase):
             self._datum = _ellipsoidal_datum(datum, **name)
         self._kind_smooth(kind, smooth, name)
         try:
-            self._geoid = _os.path.basename(geoid)
-            self._sizeB = _os.path.getsize(geoid)
+            self._geoid = _os.path.basename(geoid)  # PYLINT E1101
+            self._sizeB = _os.path.getsize(geoid)  # PYLINT E1101
             g = open(geoid, _rb_)
         except (IOError, OSError) as x:
             raise GeoidError(geoid=geoid, cause=x)
@@ -719,7 +719,7 @@ class _GeoidBase(_HeightBase):
         if self._iscipy:  # all except GeoidKarney
             for _n in (_numpy_, _scipy_):
                 try:
-                    t += Fmt.EQUAL(_n, getattr(self, _n).version.version),
+                    t += Fmt.EQUAL(_n, getattr(self, _n).version.version),  # PYLINT E1101
                 except ImportError:
                     pass
         _n = _MODS.internals.typename
@@ -1071,7 +1071,7 @@ class GeoidKarney(_GeoidBase):
     _yx_i    = ()  # cached (y, x) indices
     _yx_t    = ()  # cached 4- or 10-tuple for _ev2k resp. _ev3k
 
-    def __init__(self, egm_pgm, crop=None, datum=_WGS84, kind=3, **name_smooth):
+    def __init__(self, egm_pgm, crop=None, datum=_WGS84, kind=3, **name_smooth):  # PYLINT W0231
         '''New L{GeoidKarney} interpolator.
 
            @arg egm_pgm: An U{EGM geoid dataset<https://GeographicLib.SourceForge.io/
@@ -1126,7 +1126,7 @@ class GeoidKarney(_GeoidBase):
         p = self._pgm
         if 0 < x < (p.nlon - 2) and 0 < y < (p.nlat - 2):
             # read 4x4 ushorts, drop the 4 corners
-            S = _os.SEEK_SET
+            S = _os.SEEK_SET  # PYLINT E1101
             e =  self._4endian
             g =  self._egm
             n =  self._4u2B
@@ -1336,7 +1336,7 @@ class GeoidKarney(_GeoidBase):
         p, g = self._pgm, self._egm
         if g:
             b = p.skip + (y * p.nlon + x) * self._u2B
-            g.seek(b, _os.SEEK_SET)
+            g.seek(b, _os.SEEK_SET)  # PYLINT E1101
             return b  # position
         raise GeoidError('closed file', txt=repr(p.egm))  # IOError
 
@@ -1432,8 +1432,9 @@ class GeoidPGM(_GeoidBase):
             # U{numpy dtype formats are different from Python struct formats
             # <https://docs.SciPy.org/doc/numpy-1.15.0/reference/arrays.dtypes.html>}
             # read all heights, skipping the PGM header lines, converted to float
-            hs = self._load(g, self.endian, p.nots, p.skip).reshape(p.nlat, p.nlon) * p.Scale
-            if p.Offset:  # offset
+            hs = self._load(g, self.endian, p.nots, p.skip)
+            hs = hs.reshape(p.nlat, p.nlon) * p.Scale
+            if p.Offset:  # PYLINT W0125 offset
                 hs = p.Offset + hs
             if p.dlat < 0:  # flip the rows
                 hs = np.flipud(hs)
@@ -1516,7 +1517,7 @@ class GeoidQuasi(_GeoidBase):  # PYCHOK no cover
         # return geoid height for safe C{lat} and C{lon} from pyaxqg
         try:
             return _float0d(self._ev(lat, lon))  # scipy 1.18.0
-        except Exception as x:
+        except Exception as x:  # PYLINT W0718
             if self._iscipy and self.scipy:  # True
                 raise _SciPyIssue(x, self._ev_name)
             else:
@@ -1681,7 +1682,7 @@ class _PGM(_Gpars):
         self.nots = nlat * nlon
 
         self.nlat, self.nlon = nlat, nlon
-        self.slat, self.wlon = self.Origin
+        self.slat, self.wlon = self.Origin  # PYLINT E0633
         # note, negative .dlat and .rlat since rows
         # are from .slat 90N down in decreasing lat
         self.dlat, self.dlon = (_180_0 / (1 - nlat)), (_360_0 / nlon)
@@ -1696,7 +1697,7 @@ class _PGM(_Gpars):
 
         n = self.sizeB - self.skip
         if n > 0 and n != (self.nots * self.u2B):
-            raise self._Errorf('%s(%s x %s != %s)', _assert_, nlat, nlon, n)
+            raise self._Errorf('%s(%s x %s != %s)', _assert_, nlat, nlon, n)  # PYLINT W0715
 
     def _cropped(self, g, k1, south, west, north, east):  # MCCABE 15
         '''Crop the geoid to (south, west, north, east) box.
@@ -1728,7 +1729,7 @@ class _PGM(_Gpars):
         elif e > w:
             r, p = (e - w), 0
         else:
-            raise self._Errorf('%s(%s < %s)', _assert_, w, e)
+            raise self._Errorf('%s(%s < %s)', _assert_, w, e)  # PYLINT W0715
 
         # convert to bytes
         r *= self.u2B
@@ -1747,11 +1748,11 @@ class _PGM(_Gpars):
         t, c = 0, self._tmpfile()
         # reading (s - n) rows, forward
         for y in range(n, s):  # PYCHOK y unused
-            g.seek(z, _os.SEEK_SET)
+            g.seek(z, _os.SEEK_SET)  # PYLINT E1101
             # Python 2 tmpfile.write returns None
             t += c.write(g.read(r)) or r
             if p:  # wrap around to start of row
-                g.seek(-q, _os.SEEK_CUR)
+                g.seek(-q, _os.SEEK_CUR)  # PYLINT E1101
                 # assert(g.tell() == (z - w * self.u2B))
                 # Python 2 tmpfile.write returns None
                 t += c.write(g.read(p)) or p
@@ -1764,7 +1765,7 @@ class _PGM(_Gpars):
         k = s * e  # nots
         z = k * self.u2B
         if t != z:
-            raise self._Errorf('%s(%s != %s) %s', _assert_, t, z, self)
+            raise self._Errorf('%s(%s != %s) %s', _assert_, t, z, self)  # PYLINT W0715
 
         # update the _Gpars accordingly, note attributes
         # .dlat, .dlon, .rlat and .rlon remain unchanged
@@ -1778,7 +1779,7 @@ class _PGM(_Gpars):
         self.nots  = k
         self.skip  = 0  # no header lines in c
 
-        c.seek(0, _os.SEEK_SET)
+        c.seek(0, _os.SEEK_SET)  # PYLINT E1101
         # c = open(c.name, _rb_)  # reopen for numpy 1.8.0-
         return c
 
@@ -1803,10 +1804,10 @@ class _PGM(_Gpars):
             from tempfile import NamedTemporaryFile as tmpfile
         except ImportError:  # Python 2.7.16-
             from _os import tmpfile  # PYCHOK from
-        t = _os.path.basename(self.pgm)
-        t = _os.path.splitext(t)[0]
+        t = _os.path.basename(self.pgm)  # PYLINT E1101
+        t = _os.path.splitext(t)[0]  # PYLINT E1101
         f =  tmpfile(mode='w+b', prefix=t or 'egm')
-        f.seek(0, _os.SEEK_SET)  # force overwrite
+        f.seek(0, _os.SEEK_SET)  # PYLINT E1101 force overwrite
         return f
 
     @Property_RO
@@ -1819,7 +1820,7 @@ class _PGM(_Gpars):
 class PGMError(GeoidError):
     '''An issue while parsing or cropping an C{egm*.pgm} geoid dataset.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 def egmGeoidHeights(GeoidHeights_dat):

@@ -56,7 +56,7 @@ class Tests(TestsBase):
         d = haversine(*(G.latlon0 + r))
         self.test('hypot', h, d, fmt='%.3f', known=abs(d - h) < 1500)
 
-        C = toCss(LL(50.9, 1.8, height=1), cs0=P, name='Calais')
+        C = toCss(LL(50.9, 1.8, height=1), cs0=P, name='Calais')  # PYLINT W0631
         self.test('toCss', C, '-37518.854545 230003.561828 +1.00m')
         self.test('toCss', C.toRepr(C=True), "[E:-37518.854545, N:230003.561828, H:+1.00m, name:'Calais', C:CassiniSoldner(48.833333, 2.333333, name='Paris')]")
         for a, f, x in (('easting',  '%.6f', '-37518.854545'),
@@ -69,7 +69,7 @@ class Tests(TestsBase):
                         ('cs0',      '%s',   '48.833333 2.333333')):
             v = getattr(C, a)
             self.test('Css.'+a, v, x, fmt=f)
-        r = C.toLatLon(LatLon=LL)
+        r = C.toLatLon(LatLon=LL)  # PYLINT W0631
         self.test('Css.'+'toLatLon', repr(r), 'LatLon(50°54′00.0″N, 001°48′00.0″E, +1.00m)')
         self.test('Css.'+'toLatLon.height', r.height, '1.0')  # Height
         self.test('Css.'+'toLatLon.name', r.name, 'Calais')
@@ -97,17 +97,17 @@ class Tests(TestsBase):
             v = getattr(c, a)
             self.test('classof.'+a, v, x, fmt=f)
 
-        ll0 = c.cs0.latlon0
+        ll0 = c.cs0.latlon0  # PYLINT E1101
         self.test('cs0.latlon0', ll0, '(48.833333, 2.333333)')
-        c.cs0.latlon0 = ll0
-        self.test('cs0.latlon0', c.cs0.latlon0, ll0)
+        c.cs0.latlon0 = ll0  # PYLINT E1101
+        self.test('cs0.latlon0', c.cs0.latlon0, ll0)  # PYLINT E1101
         try:
-            c.cs0.latlon0 = None
-            self.test('cs0.latlon0', c.cs0.latlon0, CSSError.__name__)
+            c.cs0.latlon0 = None  # PYLINT E1101
+            self.test('cs0.latlon0', c.cs0.latlon0, CSSError.__name__)  # PYLINT E1101
         except CSSError as x:
             self.test('cs0.latlon0', str(x), str(x))
-        c.cs0.latlon0 = 48, 2
-        self.test('cs0.latlon0', c.cs0.latlon0, '(48.0, 2.0)')
+        c.cs0.latlon0 = 48, 2  # PYLINT E1101
+        self.test('cs0.latlon0', c.cs0.latlon0, '(48.0, 2.0)')  # PYLINT E1101
 
         C = CassiniSoldner(50.9, 1.8, datum=Ellipsoids.Plessis1817, name='Calais')  # coverage
         d = C.datum

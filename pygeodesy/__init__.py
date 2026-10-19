@@ -66,8 +66,7 @@ and I{Karney}'s Python U{geographiclib<https://PyPI.org/project/geographiclib>} 
 Installation
 ============
 
-To install C{pygeodesy}, type C{python[3] -m pip install pygeodesy} or C{python[3] -m easy_install
-pygeodesy} in a terminal or command window.
+To install C{pygeodesy}, type C{python[3] -m pip install pygeodesy} in a terminal or command window.
 
 If the wheel C{pygeodesy-yy.m.d-py2.py3-none-any.whl} is missing in U{PyPI Download files<https://
 PyPI.org/project/pygeodesy/#files>}, download the file from U{GitHub/dist<https://GitHub.com/mrJean1/
@@ -78,7 +77,7 @@ Alternatively, download C{pygeodesy-yy.m.d.tar.gz} from U{PyPI<https://PyPI.org/
 or U{GitHub<https://GitHub.com/mrJean1/PyGeodesy>}, C{unzip} the downloaded file, C{cd} to
 directory C{pygeodesy-yy.m.d} and type C{python[3] setup.py install}.
 
-To run all C{pygeodesy} tests, type C{python[3] test/run.py} or type C{python[3] test/unitTestSuite.py}
+To run all C{pygeodesy} tests, type C{python[3] -m test.run} or type C{python[3] -m test.unitTestSuite}
 before or after installation.
 
 Dependencies
@@ -151,7 +150,7 @@ U{GeodSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.7,
 U{Geod3Solve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.7,
 U{IntersectTool<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.7 and
 U{RhumbSolve<https://GeographicLib.SourceForge.io/C++/doc/utilities.html>} 2.7), all in 64-bit on
-macOS 26.6.2 Tahoe.
+macOS 27.0.1 Golden Gate.
 
 All tests ran with and without C{lazy import} for Python 3 and with command line option C{-W default} and
 env variable C{PYGEODESY_WARNINGS=on} for all Python versions.  The results of those tests are included in
@@ -181,21 +180,20 @@ Previously, the tests were run with Python 3.14.0-6, 3.13.0-9, 3.12.0-7, 3.11.2-
 1.15.2, 1.14.0, 1.13.1, 1.8.0rc1 or 1.6.2 and U{scipy<https://PyPI.org/project/scipy>} 1.5.0), U{PyPy<https://PyPy.org>}
 7.3.0 (Python 2.7.13 and 3.6.9), U{PyPy<https://PyPy.org>} 6.0.0 (Python 2.7.13 and 3.5.3) and
 U{Intel-Python<https://software.Intel.com/en-us/distribution-for-python>} 3.5.3 (and U{numpy<https://PyPI.org/project/numpy>}
-1.11.3) on macOS 15.0-6 Sequoia, 14.0-6.1 Sonoma, 13.0-5.2 Ventura, 12.1-6 Monterey, 11.0-5.2-6.1 Big Sur (aka 10.16),
-10.15.3, 10.15.5-7 Catalina, 10.14 Mojave, 10.13.6 High Sierra and 10.12 Sierra, MacOS X 10.11 El Capitan and/or MacOS X
-10.10 Yosemite, with U{Pythonista<https://OMZ-Software.com/pythonista>}3.2 (with geographiclib 1.50 or 1.49 and numpy
-1.8.0) on iOS 14.4.2, 11.4.1, 12.0-3 on iPad4, iPhone6, iPhone10 and/or iPhone12, with U{Pythonista<https://OMZ-Software.com/pythonista>}
-3.1 on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3 on iPad4, all in 64-bit only and with 32-bit Python 2.7.14 on Windows Server
-2012R2, Windows 10 Pro and with 32-bit Python 2.6.6 on Windows XP SP3.
+1.11.3) on macOS 26.6.0-2 Tahoe, 15.0-6 Sequoia, 14.0-6.1 Sonoma, 13.0-5.2 Ventura, 12.1-6 Monterey, 11.0-5.2-6.1 Big Sur
+(aka 10.16), 10.15.3, 10.15.5-7 Catalina, 10.14 Mojave, 10.13.6 High Sierra and 10.12 Sierra, MacOS X 10.11 El Capitan
+and/or MacOS X 10.10 Yosemite, with U{Pythonista<https://OMZ-Software.com/pythonista>}3.2 (with geographiclib 1.50 or
+1.49 and numpy 1.8.0) on iOS 14.4.2, 11.4.1, 12.0-3 on iPad4, iPhone6, iPhone10 and/or iPhone12, with U{Pythonista
+<https://OMZ-Software.com/pythonista>} 3.1 on iOS 10.3.3, 11.0.3, 11.1.2 and 11.3 on iPad4, all in 64-bit only and with
+32-bit Python 2.7.14 on Windows Server 2012R2, Windows 10 Pro and with 32-bit Python 2.6.6 on Windows XP SP3.
 
 Notes
 =====
 
 All Python source code has been statically U{checked<https://GitHub.com/ActiveState/code/tree/master/recipes/Python/
-546532_PyChecker_postprocessor>} with U{Ruff<https://GitHub.com/astral-sh/ruff>} using Python 3.13.13 and with
-U{PyChecker<https://PyPI.org/project/pychecker>}, U{PyFlakes<https://PyPI.org/project/pyflakes>}, U{PyCodeStyle
-<https://PyPI.org/project/pycodestyle>} (formerly Pep8) and U{McCabe<https://PyPI.org/project/mccabe>} using Python
-2.7.18, both in 64-bit on macOS 26.6.2 Tahoe.
+546532_PyChecker_postprocessor>} with U{Ruff<https://GitHub.com/astral-sh/ruff>}, U{PyLint<https://PyPI.org/project/pylint>},
+U{PyFlakes<https://PyPI.org/project/pyflakes>}, U{PyCodeStyle<https://PyPI.org/project/pycodestyle>} (formerly Pep8) and
+U{McCabe<https://PyPI.org/project/mccabe>} using Python 3.13.13 on macOS 27.0.1 Golden Gate.
 
 For a summary of all I{Karney}-based functionality in C{pygeodesy}, see module U{karney
 <https://mrJean1.GitHub.io/PyGeodesy/docs/pygeodesy.karney-module.html>}.
@@ -448,6 +446,7 @@ if _init__all__ and not _lazy_import2:  # import and set __all__
     import pygeodesy.geoids                as geoids                 # noqa: F401
     import pygeodesy.hausdorff             as hausdorff              # noqa: F401
     import pygeodesy.heights               as heights                # noqa: F401
+    import pygeodesy.hom                   as hom                    # noqa: F401
     import pygeodesy.internals             as internals              # noqa: F401
     import pygeodesy.interns               as interns                # noqa: F401
     import pygeodesy.iters                 as iters                  # noqa: F401
@@ -456,6 +455,7 @@ if _init__all__ and not _lazy_import2:  # import and set __all__
     import pygeodesy.latlonBase            as latlonBase             # noqa: F401 INTERNAL
     import pygeodesy.lazily                as lazily                 # noqa: F401
     import pygeodesy.lcc                   as lcc                    # noqa: F401
+    import pygeodesy.lom                   as lom                    # noqa: F401
     import pygeodesy.ltp                   as ltp                    # noqa: F401
     import pygeodesy.ltpTuples             as ltpTuples              # noqa: F401
     import pygeodesy.mgrs                  as mgrs                   # noqa: F401
@@ -537,6 +537,7 @@ if _init__all__ and not _lazy_import2:  # import and set __all__
     from pygeodesy.geoids                import *  # noqa: F403
     from pygeodesy.hausdorff             import *  # noqa: F403
     from pygeodesy.heights               import *  # noqa: F403
+    from pygeodesy.hom                   import *  # noqa: F403
     from pygeodesy.internals             import *  # noqa: F403
     from pygeodesy.interns               import *  # noqa: F403
     from pygeodesy.iters                 import *  # noqa: F403
@@ -545,6 +546,7 @@ if _init__all__ and not _lazy_import2:  # import and set __all__
     from pygeodesy.latlonBase            import *  # noqa: F403 INTERNAL
     from pygeodesy.lazily                import *  # noqa: F403
     from pygeodesy.lcc                   import *  # noqa: F403
+    from pygeodesy.lom                   import *  # noqa: F403
     from pygeodesy.ltp                   import *  # noqa: F403
     from pygeodesy.ltpTuples             import *  # noqa: F403
     from pygeodesy.mgrs                  import *  # noqa: F403
@@ -626,7 +628,7 @@ else:
 
 from pygeodesy.internals import _version2,  _DOT_  # noqa: E402
 # from pygeodesy.interns import _DOT_  # from .internals
-__version__ = '26.09.09'
+__version__ = '26.10.20'
 # see setup.py for similar logic
 version     = _DOT_(*_version2(__version__, n=3))
 

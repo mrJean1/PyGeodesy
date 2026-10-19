@@ -4,13 +4,13 @@
 # Test L{ecef} module.
 
 __all__ = ('Tests',)
-__version__ = '26.09.03'
+__version__ = '26.09.14'
 
 from bases import bits_mach2, GeodSolve, TestsBase, startswith
 
 from pygeodesy import Datums, EcefError, EcefFarrell21, EcefFarrell22, EcefFukushima, EcefKarney, \
-                      EcefMatrix, EcefSudano, EcefUPC, EcefVeness, EcefYou, Ellipsoids, \
-                      fstr, latDMS, lonDMS, parse3llh, sphericalNvector  # deprecated.nvector
+                      EcefMatrix, EcefOlson, EcefOsen, EcefSudano, EcefUPC, EcefVeness, EcefYou, \
+                      Ellipsoids, fstr, latDMS, lonDMS, parse3llh, sphericalNvector  # deprecated.nvector
 
 from math import radians
 
@@ -265,6 +265,8 @@ if __name__ == '__main__':
     t.testEcef(EcefFarrell22)
     t.testEcef(EcefFukushima)
     t.testEcef(EcefVeness)
+    t.testEcef(EcefOlson)
+    t.testEcef(EcefOsen)
     t.testEcef(EcefSudano)
     t.testEcef(EcefUPC)
     t.testEcef(EcefYou)

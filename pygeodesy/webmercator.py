@@ -55,7 +55,7 @@ class EasNorRadius3Tuple(_NamedTuple):
 class WebMercatorError(_ValueError):
     '''Web Mercator (WM) parser or L{Wm} issue.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 class Wm(_NamedBase):

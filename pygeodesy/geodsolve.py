@@ -52,7 +52,7 @@ class _GeodesicSolveBase(_SolveGDictBase):
     _Names_Direct  = _Names_Distance = \
     _Names_Inverse =  GeodSolve12Tuple._Names_
     _Xable_name    = _Xables.GeodSolve.__name__  # typename
-    _Xable_path    = _Xables.GeodSolve()
+    _Xable_path    = _Xables.GeodSolve()  # PYLINT E1120
 
     @Property_RO
     def _b_option(self):
@@ -165,7 +165,7 @@ class GeodesicSolve(_GeodesicSolveBase):
         '''(INTERNAL) Short-cut version, see .ellipsoidalBaseDI.intersecant2.
         '''
         if wrap:
-            ll2 = _unrollon(ll1, _Wrap.point(ll2))
+            ll2 = _unrollon(ll1, _Wrap.point(ll2))  # PYLINT E1120
         return self.Inverse(ll1.lat, ll1.lon, ll2.lat, ll2.lon, **outmask)
 
     def Inverse3(self, lat1, lon1, lat2, lon2):  # PYCHOK outmask
@@ -182,7 +182,7 @@ class GeodesicSolve(_GeodesicSolveBase):
         '''(INTERNAL) Short-cut version.
         '''
         if wrap:
-            ll2 = _unrollon(ll1, _Wrap.point(ll2))
+            ll2 = _unrollon(ll1, _Wrap.point(ll2))  # PYLINT E1120
         return self.InverseLine(ll1.lat, ll1.lon, ll2.lat, ll2.lon, **caps_name)
 
     def InverseLine(self, lat1, lon1, lat2, lon2, caps=Caps.ALL, **name):  # PYCHOK no cover
@@ -234,7 +234,7 @@ class GeodesicLineSolve(_GeodesicSolveBase, _SolveGDictLineBase):
     _a13 = \
     _s13 = NAN  # see GeodesicSolve._InverseLine
 
-    def __init__(self, geodesic, lat1, lon1, azi1, caps=Caps.ALL, **name):
+    def __init__(self, geodesic, lat1, lon1, azi1, caps=Caps.ALL, **name):  # PYLINT W0231
         '''New L{GeodesicLineSolve} instance, allowing points to be found along
            a geodesic starting at C{(B{lat1}, B{lon1})} with azimuth B{C{azi1}}.
 
@@ -398,7 +398,7 @@ if __name__ == _DMAIN_:
         gS = GeodesicSolve(name='Test')
         gS.verbose = v = '--verbose' in argv  # or '-v' in argv
 
-        if not _Xables.X_OK(gS.GeodSolve):  # not set
+        if not _Xables.X_OK(gS.GeodSolve):  # PYLINT E1120 not set
             gS.GeodSolve = _Xables.GeodSolve(_Xables.bin_)
         printf('version: %s', gS.version, nt=v)
 

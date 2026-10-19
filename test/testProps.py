@@ -65,7 +65,7 @@ class Tests(TestsBase):
         self.test('P3', t.P, 4)
         self.test('p3', t.p, 5)
 
-        T.q._update(t)
+        T.q._update(t)  # PYLINT E1101
         self.test('q4', 'q' in t.__dict__, False)
         self.test('q5', t.q, 2)
 

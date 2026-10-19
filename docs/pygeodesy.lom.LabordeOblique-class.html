@@ -1,0 +1,851 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pygeodesy.lom.LabordeOblique</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">pygeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="pygeodesy-module.html">Package&nbsp;pygeodesy</a> ::
+        <a href="pygeodesy.lom-module.html">Module&nbsp;lom</a> ::
+        Class&nbsp;LabordeOblique
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pygeodesy.lom.LabordeOblique-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class LabordeOblique</h1><p class="nomargin-top"></p>
+<pre class="base-tree">
+  object --+        
+           |        
+<a href="pygeodesy.named._Named-class.html">named._Named</a> --+    
+               |    
+<a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a> --+
+                   |
+                  <strong class="uidshort">LabordeOblique</strong>
+</pre>
+
+<hr />
+<p>Ellipsoidal Laborde Oblique Mercator projection given the 
+  <code>central point</code> and <code>azimuth</code>.</p>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Instance Methods</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.lom.LabordeOblique-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">lat_latlon</span>,
+        <span class="summary-sig-arg">lon</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">azimuth</span>=<span class="summary-sig-default">0.0</span>,
+        <span class="summary-sig-arg">earth</span>=<span class="summary-sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="summary-sig-arg">kC</span>=<span class="summary-sig-default">1.0</span>,
+        <span class="summary-sig-arg">x0</span>=<span class="summary-sig-default">0.0</span>,
+        <span class="summary-sig-arg">y0</span>=<span class="summary-sig-default">0.0</span>,
+        <span class="summary-sig-arg">**name</span>)</span><br />
+      New ellipsoidal <a href="pygeodesy.lom.LabordeOblique-class.html" 
+      class="link">LabordeOblique</a> Mercator.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.lom.LabordeOblique-class.html#forward" class="summary-sig-name">forward</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">lat_latlon</span>,
+        <span class="summary-sig-arg">lon</span>,
+        <span class="summary-sig-arg">**name</span>)</span><br />
+      Project a geodetic lat- and longitude to Laborde east- and northing.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.lom.LabordeOblique-class.html#forward_" class="summary-sig-name">forward_</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">phi</span>,
+        <span class="summary-sig-arg">lam</span>,
+        <span class="summary-sig-arg">**name</span>)</span><br />
+      Project a geodetic lat- and longitude to Laborde east- and northing.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.lom.LabordeOblique-class.html#reverse" class="summary-sig-name">reverse</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">x</span>,
+        <span class="summary-sig-arg">y</span>,
+        <span class="summary-sig-arg">**name</span>)</span><br />
+      Project an Laborde east- and northing to geodetic lat- and longitude.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pygeodesy.lom.LabordeOblique-class.html#toStr" class="summary-sig-name">toStr</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">**kwds</span>)</span><br />
+      Get this <code>HotineOblique*</code> instance as <code>str</code>.</td>
+          <td align="right" valign="top">
+            
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._NamedBase-class.html">named._NamedBase</a></code></b>:
+      <code><a href="pygeodesy.named._NamedBase-class.html#__repr__">__repr__</a></code>,
+      <code><a href="pygeodesy.named._NamedBase-class.html#__str__">__str__</a></code>,
+      <code><a href="pygeodesy.named._NamedBase-class.html#others">others</a></code>,
+      <code><a href="pygeodesy.named._NamedBase-class.html#toRepr">toRepr</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#__format__">__format__</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#__imatmul__">__imatmul__</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#__matmul__">__matmul__</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#__rmatmul__">__rmatmul__</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#attrs">attrs</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#classof">classof</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#copy">copy</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#dup">dup</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#methodname">methodname</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#rename">rename</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#renamed">renamed</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#toStr2">toStr2</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__delattr__</code>,
+      <code>__getattribute__</code>,
+      <code>__hash__</code>,
+      <code>__new__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__setattr__</code>,
+      <code>__sizeof__</code>,
+      <code>__subclasshook__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Properties</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.lom.LabordeOblique-class.html#azimuthC" class="summary-name">azimuthC</a><br />
+      Get the center line azimuth (<code>degrees180</code>) or 
+      <code>NAN</code>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.lom.LabordeOblique-class.html#earth" class="summary-name">earth</a><br />
+      Get the earth model (<a href="pygeodesy.datums.Datum-class.html" 
+      class="link">Datum</a>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.lom.LabordeOblique-class.html#ellipsoid" class="summary-name">ellipsoid</a><br />
+      Get the earth' ellipsoid (<a 
+      href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+      class="link">Ellipsoid</a>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.lom.LabordeOblique-class.html#kC" class="summary-name">kC</a><br />
+      Get the scale factor at center (<code>scalar</code>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.lom.LabordeOblique-class.html#latlonC" class="summary-name">latlonC</a><br />
+      Get the center point (<a 
+      href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
+      class="link">LatLon2Tuple</a>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.lom.LabordeOblique-class.html#latlonParis" class="summary-name">latlonParis</a><br />
+      Get Paris Observatory lat- and Paris Meridian longitude (<a 
+      href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
+      class="link">LatLon2Tuple</a>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.lom.LabordeOblique-class.html#philamC" class="summary-name">philamC</a><br />
+      Get the center point (<a 
+      href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" 
+      class="link">PhiLam2Tuple</a>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.lom.LabordeOblique-class.html#philamParis" class="summary-name">philamParis</a><br />
+      Get Paris Observatory lat- and Paris Meridian longitude (<a 
+      href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" 
+      class="link">PhiLam2Tuple</a>).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pygeodesy.lom.LabordeOblique-class.html#xy0" class="summary-name">xy0</a><br />
+      Get the false east- and northing (<a 
+      href="pygeodesy.namedTuples.Vector2Tuple-class.html" 
+      class="link">Vector2Tuple</a>, <code>meter</code>).
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="summary">
+    <p class="indent-wrapped-lines"><b>Inherited from <code><a href="pygeodesy.named._Named-class.html">named._Named</a></code></b>:
+      <code><a href="pygeodesy.named._Named-class.html#classname">classname</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#classnaming">classnaming</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#iteration">iteration</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#name">name</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named">named</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named2">named2</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named3">named3</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#named4">named4</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#sizeof">sizeof</a></code>,
+      <code><a href="pygeodesy.named._Named-class.html#typename">typename</a></code>
+      </p>
+    <p class="indent-wrapped-lines"><b>Inherited from <code>object</code></b>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Method Details</span></td>
+</tr>
+</table>
+<a name="__init__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">lat_latlon</span>,
+        <span class="sig-arg">lon</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">azimuth</span>=<span class="sig-default">0.0</span>,
+        <span class="sig-arg">earth</span>=<span class="sig-default">Datum(name='WGS84', ellipsoid=Ellipsoids.WGS84, transform=Tran<code class="variable-ellipsis">...</code></span>,
+        <span class="sig-arg">kC</span>=<span class="sig-default">1.0</span>,
+        <span class="sig-arg">x0</span>=<span class="sig-default">0.0</span>,
+        <span class="sig-arg">y0</span>=<span class="sig-default">0.0</span>,
+        <span class="sig-arg">**name</span>)</span>
+    <br /><em class="fname">(Constructor)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>New ellipsoidal <a href="pygeodesy.lom.LabordeOblique-class.html" 
+  class="link">LabordeOblique</a> Mercator.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat_latlon</code></strong> - Center latitude (scalar <code>degrees90</code> or 
+          <code>LatLon</code>, 2-tuple <code>(lat, lon)</code> or 
+          comma-separated <i>&quot;latDMS, lonDMS&quot;</i> 
+          <code>str</code>).</li>
+        <li><strong class="pname"><code>lon</code></strong> - Center longitude (<code>degrees180</code>), required if 
+          <b><code>lat_latlon</code></b> is scalar, ignored otherwise.</li>
+        <li><strong class="pname"><code>azimuth</code></strong> - Azimuth of the center line (<code>degrees360</code> from North).</li>
+        <li><strong class="pname"><code>earth</code></strong> - Earth model (<a href="pygeodesy.datums.Datum-class.html" 
+          class="link">Datum</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+          class="link">Ellipsoid</a>, <a 
+          href="pygeodesy.ellipsoids.Ellipsoid2-class.html" 
+          class="link">Ellipsoid2</a> or <a 
+          href="pygeodesy.ellipsoids.a_f2Tuple-class.html" 
+          class="link">a_f2Tuple</a>).</li>
+        <li><strong class="pname"><code>kC</code></strong> - Central scale factor (<code>scalar</code>).</li>
+        <li><strong class="pname"><code>x0</code></strong> - False easting (<code>meter</code>).</li>
+        <li><strong class="pname"><code>y0</code></strong> - False northing (<code>meter</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Overrides:
+        object.__init__
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<a name="forward"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">forward</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">lat_latlon</span>,
+        <span class="sig-arg">lon</span>,
+        <span class="sig-arg">**name</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Project a geodetic lat- and longitude to Laborde east- and 
+  northing.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>lat_latlon</code></strong> - Latitude of the point (scalar <code>degrees90</code> or 
+          <code>LatLon</code>, 2-tuple <code>(lat, lon)</code> or 
+          comma-separated <i>&quot;latDMS, lonDMS&quot;</i> 
+          <code>str</code>).</li>
+        <li><strong class="pname"><code>lon</code></strong> - Longitude of the point (<code>degrees180</code>), required if 
+          <b><code>lat_latlon</code></b> is scalar, ignored otherwise.</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><a href="pygeodesy.lom.Laborde8Tuple-class.html" 
+          class="link">Laborde8Tuple</a><code>(x, y, lat, lon, phi, lam, 
+          scale, lom)</code> with falsed east- and northing <code>x</code> 
+          and <code>y</code>in <code>meter</code>, geodetic 
+          <code>lat</code>- and <code>lon</code>gitude in degrees, 
+          <code>phi</code> and <code>lam</code>da in <code>radians</code>, 
+          <code>scale</code> factor (aka <code>k</code>) and this 
+          <code>LabordeOblique*</code> Mercator instance <code>lom</code>.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="forward_"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">forward_</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">phi</span>,
+        <span class="sig-arg">lam</span>,
+        <span class="sig-arg">**name</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Project a geodetic lat- and longitude to Laborde east- and 
+  northing.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>phi</code></strong> - Latitude of the point (<code>radians</code>).</li>
+        <li><strong class="pname"><code>lam</code></strong> - Longitude of the point (<code>radians</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><a href="pygeodesy.lom.Laborde8Tuple-class.html" 
+          class="link">Laborde8Tuple</a><code>(x, y, lat, lon, phi, lam, 
+          scale, lom)</code> with falsed east- and northing <code>x</code> 
+          and <code>y</code>in <code>meter</code>, geodetic 
+          <code>lat</code>- and <code>lon</code>gitude in degrees, 
+          <code>phi</code> and <code>lam</code>da in <code>radians</code>, 
+          <code>scale</code> factor (aka <code>k</code>) and this 
+          <code>LabordeOblique*</code> Mercator instance <code>lom</code>.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="reverse"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">reverse</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">x</span>,
+        <span class="sig-arg">y</span>,
+        <span class="sig-arg">**name</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Project an Laborde east- and northing to geodetic lat- and 
+  longitude.</p>
+  <dl class="fields">
+    <dt>Arguments:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>x</code></strong> - Easting of the point (<code>meter</code>).</li>
+        <li><strong class="pname"><code>y</code></strong> - Northing of the point (<code>meter</code>).</li>
+        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
+    </ul></dd>
+    <dt>Returns:</dt>
+        <dd><a href="pygeodesy.lom.Laborde8Tuple-class.html" 
+          class="link">Laborde8Tuple</a><code>(x, y, lat, lon, phi, lam, 
+          scale, lom)</code> with geodetic <code>lat</code>- and 
+          <code>lon</code>gitude in degrees, <code>phi</code> and 
+          <code>lam</code>da in <code>radians</code>, <code>scale</code> 
+          factor (aka <code>k</code>), falsed east- and northing 
+          <code>x</code> and <code>y</code> and this 
+          <code>LabordeOblique*</code> Mercator instance <code>lom</code>.</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="toStr"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">toStr</span>&nbsp;(<span class="sig-arg">self</span>,
+        <span class="sig-arg">**kwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    >&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Get this <code>HotineOblique*</code> instance as <code>str</code>.</p>
+  <dl class="fields">
+    <dt>Overrides:
+        <a href="pygeodesy.named._Named-class.html#toStr">named._Named.toStr</a>
+    </dt>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== PROPERTY DETAILS ==================== -->
+<a name="section-PropertyDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Property Details</span></td>
+</tr>
+</table>
+<a name="azimuthC"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">azimuthC</h3>
+  <p>Get the center line azimuth (<code>degrees180</code>) or 
+  <code>NAN</code>.</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">azimuthC(<span class="summary-sig-arg">self</span>)</span>
+        - Get the center line azimuth (<code>degrees180</code>) or <code>NAN</code>.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="earth"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">earth</h3>
+  <p>Get the earth model (<a href="pygeodesy.datums.Datum-class.html" 
+  class="link">Datum</a>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">earth(<span class="summary-sig-arg">self</span>)</span>
+        - Get the earth model (<a href="pygeodesy.datums.Datum-class.html" 
+class="link">Datum</a>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="ellipsoid"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">ellipsoid</h3>
+  <p>Get the earth' ellipsoid (<a 
+  href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+  class="link">Ellipsoid</a>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">ellipsoid(<span class="summary-sig-arg">self</span>)</span>
+        - Get the earth' ellipsoid (<a 
+href="pygeodesy.ellipsoids.Ellipsoid-class.html" 
+class="link">Ellipsoid</a>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="kC"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">kC</h3>
+  <p>Get the scale factor at center (<code>scalar</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">kC(<span class="summary-sig-arg">self</span>)</span>
+        - Get the scale factor at center (<code>scalar</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="latlonC"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">latlonC</h3>
+  <p>Get the center point (<a 
+  href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
+  class="link">LatLon2Tuple</a>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">latlonC(<span class="summary-sig-arg">self</span>)</span>
+        - Get the center point (<a 
+href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
+class="link">LatLon2Tuple</a>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="latlonParis"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">latlonParis</h3>
+  <p>Get Paris Observatory lat- and Paris Meridian longitude (<a 
+  href="pygeodesy.namedTuples.LatLon2Tuple-class.html" 
+  class="link">LatLon2Tuple</a>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get the <code>property</code> value <i>once</i> and overwrite 
+<code>self</code>, this <code>property</code> instance in the (super-)class
+of <code>self</code> where this property is define as a <a 
+href="pygeodesy.props.property_ROver-class.html" 
+class="link">property_ROver</a>.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">*unused</span>)</span>
+        - Silently ignored, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="philamC"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">philamC</h3>
+  <p>Get the center point (<a 
+  href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" 
+  class="link">PhiLam2Tuple</a>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">philamC(<span class="summary-sig-arg">self</span>)</span>
+        - Get the center point (<a 
+href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" 
+class="link">PhiLam2Tuple</a>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="philamParis"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">philamParis</h3>
+  <p>Get Paris Observatory lat- and Paris Meridian longitude (<a 
+  href="pygeodesy.namedTuples.PhiLam2Tuple-class.html" 
+  class="link">PhiLam2Tuple</a>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">_fget(<span class="summary-sig-arg">inst</span>)</span>
+        - Get the <code>property</code> value <i>once</i> and overwrite 
+<code>self</code>, this <code>property</code> instance in the (super-)class
+of <code>self</code> where this property is define as a <a 
+href="pygeodesy.props.property_ROver-class.html" 
+class="link">property_ROver</a>.
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">*unused</span>)</span>
+        - Silently ignored, always.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="xy0"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">xy0</h3>
+  <p>Get the false east- and northing (<a 
+  href="pygeodesy.namedTuples.Vector2Tuple-class.html" 
+  class="link">Vector2Tuple</a>, <code>meter</code>).</p>
+  <dl class="fields">
+    <dt>Get method:</dt>
+    <dd class="value"><span class="summary-sig">xy0(<span class="summary-sig-arg">self</span>)</span>
+        - Get the false east- and northing (<a 
+href="pygeodesy.namedTuples.Vector2Tuple-class.html" 
+class="link">Vector2Tuple</a>, <code>meter</code>).
+    </dd>
+    <dt>Set method:</dt>
+    <dd class="value"><span class="summary-sig">_fset_error(<span class="summary-sig-arg">inst</span>,
+        <span class="summary-sig-arg">val</span>)</span>
+        - Throws an <code>AttributeError</code>, always.
+    </dd>
+    <dt>Delete Method:</dt>
+    <dd class="value"><span class="summary-sig">_fdel(<span class="summary-sig-arg">inst</span>)</span>
+        - Zap the <i>cached/memoized</i> <code>property</code> value.
+    </dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="pygeodesy-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://GitHub.com/mrJean1/PyGeodesy">pygeodesy</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Mon Oct 19 12:32:39 2026
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

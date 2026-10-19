@@ -673,13 +673,13 @@ class GeodesicExact(_GeodesicBase):
 
         if (outmask & Cs.GEODESICSCALE):
             if swap_:
-                M12, M21 = M21, M12
+                M12, M21 = M21, M12  # PYLINT E0601
             r.set_(M12=unsigned0(M12),
                    M21=unsigned0(M21))
 
         if (outmask & Cs.AREA):
             S12 = self._InverseArea(_meridian, salp1, calp1,
-                                               salp2, calp2,
+                                               salp2, calp2,  # PYLINT E0606
                                                somg12, comg12, p)
             if _xor(swap_, lat_, lon_):
                 S12 = -S12
@@ -703,7 +703,7 @@ class GeodesicExact(_GeodesicBase):
 
         if (outmask & Cs._DEBUG_INVERSE):  # PYCHOK no cover
             E, eF = self.ellipsoid, self._eF
-            p.set_(C=C, a=self.a, f=self.f, f1=self.f1,
+            p.set_(C=C, a=self.a, f=self.f, f1=self.f1,  # PYLINT E0606
                         e=E.e, e2=self.e2, ep2=self.ep2,
                         c2=E.c2, c2x=self.c2x,
                         eFcD=eF.cD, eFcE=eF.cE, eFcH=eF.cH,
@@ -735,7 +735,7 @@ class GeodesicExact(_GeodesicBase):
         '''(INTERNAL) Short-cut version, see .base.ellipsoidalDI.intersecant2.
         '''
         if wrap:
-            ll2 = _unrollon(ll1, _Wrap.point(ll2))
+            ll2 = _unrollon(ll1, _Wrap.point(ll2))  # PYLINT E1120
         return self.Inverse(ll1.lat, ll1.lon, ll2.lat, ll2.lon, **outmask)
 
     def Inverse(self, lat1, lon1, lat2, lon2, outmask=Caps.STANDARD):
@@ -772,7 +772,7 @@ class GeodesicExact(_GeodesicBase):
         # see .FrechetKarney.distance, .HausdorffKarney._distance
         # and .HeightIDWkarney._distances
         if wrap:
-            _, lat2, lon2 = _Wrap.latlon3(lat1, lat2, lon2, True)  # _Geodesic.LONG_UNROLL
+            _, lat2, lon2 = _Wrap.latlon3(lat1, lat2, lon2, True)  # PYLINT E1120 _Geodesic.LONG_UNROLL
         r = self._GDictInverse(lat1, lon1, lat2, lon2, outmask=Caps.EMPTY)
         return fabs(r.a12)  # a12 always
 
@@ -790,7 +790,7 @@ class GeodesicExact(_GeodesicBase):
         '''(INTERNAL) Short-cut version.
         '''
         if wrap:
-            ll2 = _unrollon(ll1, _Wrap.point(ll2))
+            ll2 = _unrollon(ll1, _Wrap.point(ll2))  # PYLINT E1120
         return self.InverseLine(ll1.lat, ll1.lon, ll2.lat, ll2.lon, **caps_name)
 
     def InverseLine(self, lat1, lon1, lat2, lon2, caps=Caps.STANDARD, **name):

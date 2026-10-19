@@ -55,8 +55,9 @@ class _NamedUnit(_Named):
         return name, arg
 
     @staticmethod  # PYCHOK unused suffix
-    def _Error(cls, arg, name, Error=UnitError, suffix=NN,  # unused
-                                txt=_invalid_, cause=None, **name_arg):
+    def _Error(cls, arg, name, Error=UnitError,  # PYLINT W0211 unused
+                               suffix=NN,  # PYLINT W0613
+                               txt=_invalid_, cause=None, **name_arg):
         '''(INTERNAL) Return a C{_NamedUnit} error with explanation.
 
            @returns: An B{C{Error}} instance.
@@ -71,7 +72,7 @@ class _NamedUnit(_Named):
         if name_arg:
             try:
                 name, arg = _NamedUnit._arg_name_arg2(arg, name, **name_arg)
-            except Exception:  # ignore, same error?
+            except Exception:  # PYLINT W0718 ignore, same error?
                 kwds.update(name_arg)
         n = name if name else modulename(cls).lstrip(_UNDER_)
         return _XError(Error, n, arg, txt=txt, **kwds)
@@ -91,8 +92,8 @@ class _NamedUnit(_Named):
     def _toRepr(self, value):
         '''(INTERNAL) Representation "<name> (<value>)" or "<classname>(<value>)".
         '''
-        return Fmt.PARENSPACED(self.name, value) if self.name else \
-               Fmt.PAREN( self.classname, value)
+        return (Fmt.PARENSPACED(self.name, value) if self.name else  # PYLINT W0125
+                Fmt.PAREN( self.classname, value))
 
     @property_doc_(' units name.')
     def units(self):

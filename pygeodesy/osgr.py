@@ -180,7 +180,7 @@ _NG = _NG()  # PYCHOK singleton
 class OSGRError(_ValueError):
     '''Error raised for a L{parseOSGR}, L{Osgr} or other OSGR issue.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 class Osgr(_NamedBase):
@@ -255,7 +255,7 @@ class Osgr(_NamedBase):
     def latlon0(self):
         '''Get the C{OS National Grid} origin (L{LatLon2Tuple}).
         '''
-        return LatLon2Tuple(_NG.lat, _NG.lon0, name=_OSGR_)
+        return LatLon2Tuple(_NG.lat, _NG.lon0, name=_OSGR_)  # PYLINT E1101
 
     @Property_RO
     def northing(self):
@@ -339,7 +339,7 @@ class Osgr(_NamedBase):
                 t =  Fmt.PAREN(self.classname, repr(t))
                 t = _DOT_(t, typename(self.toLatLon))
                 t =  unstr(t, eps=eps, kTM=kTM)
-                raise OSGRError(Fmt.no_convergence(m), txt=t)
+                raise OSGRError(Fmt.no_convergence(m), txt=t)  # PYLINT E1120
 
             sa, ca, ta = sincostan3(a)
             v, v_r, n2 = NG.nu_rho_eta3(sa)

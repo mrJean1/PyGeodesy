@@ -122,7 +122,7 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
         n =  self.name
         d = _xkwds_not(None, datum=self.datum, height=h, name=n,
                              epoch=self.epoch, reframe=self.reframe)
-        d = LL(*_Wrap.latlon(r.lat, r.lon), **d)
+        d = LL(*_Wrap.latlon(r.lat, r.lon), **d)  # PYLINT E1120
         return Destination2Tuple(d, wrap360(r.final), name=n)
 
     def distanceTo(self, other, wrap=False, **unused):  # radius=R_M
@@ -361,8 +361,8 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
             c3 = _d3(c, wrap=wrap)  # XXX wrap=False?
 
         except (TypeError, ValueError) as x:
-            raise _xError(x, Fmt.INDEX(points=0), p1, this=self, tol=tol,
-                             closed=closed, height=height, wrap=wrap)
+            raise _xError(x, Fmt.INDEX(points=0), p1, this=self,  # PYLINT E1120
+                             tol=tol, closed=closed, height=height, wrap=wrap)
 
         # get the azimuthal equidistant projection, once
         A = _Equidistant00(equidistant, c)
@@ -387,9 +387,9 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
                 p1, i = p2, j
 
         except (TypeError, ValueError) as x:
-            raise _xError(x, Fmt.INDEX(points=i), p1,
-                             Fmt.INDEX(points=j), p2, this=self, tol=tol,
-                             closed=closed, height=height, wrap=wrap)
+            raise _xError(x, Fmt.INDEX(points=i), p1,  # PYLINT E1120
+                             Fmt.INDEX(points=j), p2, this=self,  # PYLINT E1120
+                             tol=tol, closed=closed, height=height, wrap=wrap)
 
         f, j = _fi_j2(f, len(Ps))  # like .vector3d.nearestOn6
 
@@ -425,7 +425,7 @@ class LatLonEllipsoidalBaseDI(LatLonEllipsoidalBase):
            @raise UnitError: Invalid B{C{end}}, B{C{exact}} or B{C{height}}.
         '''
         try:
-            g, gl, p = self._g_gl_p3(start, end, exact, wrap)
+            _, gl, p = self._g_gl_p3(start, end, exact, wrap)
 
             P = _MODS.geodesicw._PlumbTo(gl, self.lat, self.lon, tol=tol)
             h =  self._havg(p, h=height)
@@ -541,7 +541,7 @@ class _Tol(object):
         t = _SPACE_(Fmt.tolerance(self.meter), _too_(_low_))
         if m2km(m) > self.meter:
             t = _or(t, _antipodal_, _near_(_polar__))
-        return Error(Fmt.no_convergence(m), txt=t)
+        return Error(Fmt.no_convergence(m), txt=t)  # PYLINT E1120
 
     @property_RO
     def meter(self):
@@ -692,8 +692,8 @@ def _intersect3(s1, end1, s2, end2, height=None, wrap=False,  # MCCABE 16  was=T
 
     r = _LL4Tuple(t.lat, t.lon, h, t.datum, LatLon, LatLon_kwds, inst=s1,
                                             iteration=i, name=n)
-    return Intersection3Tuple(r, (o1 if ll1 else _o(o1, b1, 1, s1, t, e)),
-                                 (o2 if ll2 else _o(o2, b2, 2, s2, t, e)))
+    return Intersection3Tuple(r, (o1 if ll1 else _o(o1, b1, 1, s1, t, e)),  # PYLINT E0606
+                                 (o2 if ll2 else _o(o2, b2, 2, s2, t, e)))  # PYLINT E0606
 
 
 def _intersection3(start1, end1, start2, end2, height=None, wrap=False,  # was=True

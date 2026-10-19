@@ -34,7 +34,7 @@ from pygeodesy.vector3dBase import Vector3dBase
 __all__ = _ALL_LAZY.vector3d
 __version__ = '25.05.07'
 
-_vector2d = _MODS.into(vector2d=__name__)
+_vector2d = _MODS.into(vector2d=__name__)  # PYLINT E1120
 
 
 class Vector3d(Vector3dBase):
@@ -59,7 +59,7 @@ class Vector3d(Vector3dBase):
         x, y = self.x, self.y
         if useZ:
             x, y = hypot(x, y), self.z
-        return atan2b(x, y)
+        return atan2b(x, y)  # PYLINT W1114
 
     def circin6(self, point2, point3, eps=EPS4):
         '''Return the radius and center of the I{inscribed} aka I{In- circle}

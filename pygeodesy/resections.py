@@ -59,7 +59,7 @@ class Collins5Tuple(_NamedTuple):
 class ResectionError(_ValueError):
     '''Error raised for issues in L{pygeodesy.resections}.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 class Survey3Tuple(_NamedTuple):
@@ -372,7 +372,7 @@ def _pierlot3(B1, B2, B3, a12, a23, useZ, _cot):
     #       = (s12 * s23 - c12 * c23) / (c12 * s23 + s12 * c23)
     #       =  c31 / s31
     cot31 = _cot(fsum1f_(c12 * s23,  s12 * c23),  # s31
-                 fsum1f_(s12 * s23, -c12 * c23))  # c31
+                 fsum1f_(s12 * s23, -c12 * c23))  # PYLINT E1130 c31
 
     K = _Fsumf_(x3_ * x1_,  cot31 * (y3_ * x1_),
                 y3_ * y1_, -cot31 * (x3_ * y1_))
@@ -636,7 +636,7 @@ def tienstra7(pointA, pointB, pointC, alpha, beta=None, gamma=None,
         #   = 1 / (cos(r) * sin(s) - cos(s) * sin(r)) / (sin(r) * sin(s))
         #   = sin(r) * sin(s) / (cos(r) * sin(s) - cos(s) * sin(r))
         sr, cr, ss, cs = sincos2_(r, s)
-        c = fsum1f_(cr * ss, -cs * sr)
+        c = fsum1f_(cr * ss, -cs * sr)  # PYLINT E1130
         if isnear0(c):
             raise ValueError(Fmt.PARENSPACED(cotan=N))
         ks.append(sr * ss / c)
@@ -664,8 +664,8 @@ def tienstra7(pointA, pointB, pointC, alpha, beta=None, gamma=None,
         c = A.minus(B).length
 
         ks = []  # 3 Ks and triangle angles
-        dA = _deg_ks(_triAngle(b, c, a), sa, ks, _A_)
-        dB = _deg_ks(_triAngle(a, c, b), sb, ks, _B_)
+        dA = _deg_ks(_triAngle(b, c, a), sa, ks, _A_)  # PYLINT W1114
+        dB = _deg_ks(_triAngle(a, c, b), sb, ks, _B_)  # PYLINT W1114
         dC = _deg_ks(_triAngle(a, b, c), sc, ks, _C_)
 
         k = fsum1(ks)
@@ -1021,7 +1021,7 @@ def _zidw(x, y, useZ, *ABC):
     if useZ:  # interpolate z or coplanar with A, B and C?
         t = tuple(_.z for _ in ABC)
         v = Vector3d(x, y, fmean(t))
-        z = fidw(t, (v.minus(T).length for T in ABC))
+        z = fidw(t, (v.minus(T).length for T in ABC))  # PYLINT E1101
     else:
         z = INT0
     return z

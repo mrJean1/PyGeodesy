@@ -189,7 +189,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
 
         p = self.others(other)
         if wrap:
-            p = _Wrap.point(p)
+            p = _Wrap.point(p)  # PYLINT E1120
         # get delta in cartesian frame
         dc = p.toCartesian().minus(self.toCartesian())
         # rotate dc to get delta in n-vector reference
@@ -274,7 +274,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         '''
         p = self.others(other)
         if wrap:
-            p = _Wrap.point(p)
+            p = _Wrap.point(p)  # PYLINT E1120
         a = self._N_vector.angleTo(p._N_vector, wrap=wrap)
         E = self.datum.ellipsoid if radius is None else _earth_ellipsoid(radius)
         return fabs(a) * E.R1  # see .utily.radians2m
@@ -369,7 +369,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         '''
         p = self.others(other)
         if wrap:
-            p = _Wrap.point(p)
+            p = _Wrap.point(p)  # PYLINT E1120
         f = Scalar(fraction=fraction)
         h = self._havg(other, f=f, h=height)
         i = self.toNvector().intermediateTo(p.toNvector(), f)
@@ -382,7 +382,7 @@ class LatLon(LatLonNvectorBase, LatLonEllipsoidalBase):
         nv = self.toNvector()  # local (n-vector) coordinate frame
 
         dv = nv.negate()  # down, opposite to n-vector
-        ev = NorthPole.cross(nv, raiser=_pole_).unit()  # east, pointing perpendicular to the plane
+        ev = NorthPole.cross(nv, raiser=_pole_).unit()  # PYLINT E1101 east, perpendicular to the plane
         nv = ev.cross(dv)  # north, by right hand rule
         return nv, ev, dv  # matrix rows
 
@@ -639,7 +639,7 @@ def toNed(distance, bearing, elevation, Ned=Ned, **name):
        @raise ValueError: Invalid B{C{distance}}, B{C{bearing}}
                           or B{C{elevation}}.
     '''
-    if True:  # use new Aer class
+    if True:  # PYLINT W0125 use new Aer class
         n, e, d, _ = _Aer(bearing, elevation, distance).xyz4
     else:  # DEPRECATED
         d = Distance(distance)

@@ -41,7 +41,7 @@ class _GeodesicBase(_CapsBase):  # in .geodsolve
 #          @return: C{GeodesicExact*} (C{str}).
 #       '''
 #       return Fmt.PAREN(self.named, self.toStr(prec=prec, sep=sep))
-    pass
+    pass  # PYLINT W0107
 
 
 class _Gfloats(dict):
@@ -56,7 +56,7 @@ class _Gfloats(dict):
     def __call__(self, fs):
         '''Return a C{numpy.array} or C{tuple} of C{float}s.
         '''
-        np = _MODS.imported(_MODS.interns._numpy_)
+        np = _MODS.imported(_MODS.interns._numpy_)  # PYLINT E1120
         if np:  # use numpy, already imported
             cs = np.array(fs, dtype=float)
         else:
@@ -79,10 +79,10 @@ def _cosSeries(c4s, sx, cx):  # PYCHOK shared .geodesicx.gx and -.gxline
     while c4:
         # y1 = ar * y0 - y1 + c4.pop()
         # y0 = ar * y1 - y0 + c4.pop()
-        y1, t1, _ = _sum3(-y1, -t1, ar * y0, ar * t0, _c4())
-        y0, t0, _ = _sum3(-y0, -t0, ar * y1, ar * t1, _c4())
+        y1, t1, _ = _sum3(-y1, -t1, ar * y0, ar * t0, _c4())  # PYLINT E0633
+        y0, t0, _ = _sum3(-y0, -t0, ar * y1, ar * t1, _c4())  # PYLINT E0633
     # s  = (y0 - y1) * cx
-    s, t, _ = _sum3(cx * y0, _0_0, cx * t0, -cx * y1, -cx * t1)
+    s, t, _ = _sum3(cx * y0, _0_0, cx * t0, -cx * y1, -cx * t1)  # PYLINT E0633
     return s + t
 
 #   Y0, Y1 = Fsum(), Fsum()

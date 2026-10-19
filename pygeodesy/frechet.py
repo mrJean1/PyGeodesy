@@ -103,7 +103,7 @@ from collections import defaultdict as _defaultdict
 __all__ = _ALL_LAZY.frechet
 __version__ = '25.05.26'
 
-_formy = _MODS.into(formy=__name__)
+_formy = _MODS.into(formy=__name__)  # PYLINT E1120
 
 
 def _fraction(fraction, n):
@@ -121,7 +121,7 @@ def _fraction(fraction, n):
 class FrechetError(PointsError):
     '''Fréchet issue.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 class Frechet(_Named):
@@ -241,7 +241,7 @@ class Frechet(_Named):
            subject to the supplied optional keyword arguments, see
            property C{kwds}.
         '''
-        return self._func(point1.lat, point1.lon,
+        return self._func(point1.lat, point1.lon,  # PYLINT E1102
                           point2.lat, point2.lon, **self._kwds)
 
     @property_doc_(''' the index fraction (C{float}).''')
@@ -410,7 +410,7 @@ class FrechetCosineLaw(_FrechetMeterRadians):
 
        @note: See note at function L{pygeodesy.vincentys_}.
     '''
-    def __init__(self, point1s, **fraction_name__corr_earth_wrap):
+    def __init__(self, point1s, **fraction_name__corr_earth_wrap):  # PYLINT W0231
         '''New L{FrechetCosineLaw} calculator/interpolator.
 
            @kwarg fraction_name__corr_earth_wrap: Optional
@@ -420,7 +420,7 @@ class FrechetCosineLaw(_FrechetMeterRadians):
            @see: L{Frechet.__init__} for details about B{C{point1s}},
                  B{C{fraction}}, B{C{name}} and other exceptions.
         '''
-        Frechet.__init__(self, point1s, **fraction_name__corr_earth_wrap)
+        Frechet.__init__(self, point1s, **fraction_name__corr_earth_wrap)  # PYLINT W0233
         self._func  = _formy.cosineLaw
         self._func_ = _formy.cosineLaw_
 
@@ -451,7 +451,7 @@ class FrechetDistanceTo(Frechet):  # FrechetMeter
     if _FOR_DOCS:
         discrete = Frechet.discrete
 
-    def distance(self, p1, p2):
+    def distance(self, p1, p2):  # PYLINT W0237
         '''Return the distance in C{meter}.
         '''
         return p1.distanceTo(p2, **self._kwds)
@@ -490,7 +490,7 @@ class FrechetEquirectangular(Frechet):
 class FrechetEuclidean(_FrechetMeterRadians):
     '''Compute the C{Frechet} distance with function L{pygeodesy.euclidean}.
     '''
-    def __init__(self, point1s, **fraction_name__adjust_radius_wrap):  # was=True
+    def __init__(self, point1s, **fraction_name__adjust_radius_wrap):  # PYLINT W0231 was=True
         '''New L{FrechetEuclidean} calculator/interpolator.
 
            @kwarg fraction_name__adjust_radius_wrap: Optional C{B{fraction}=None}
@@ -500,7 +500,7 @@ class FrechetEuclidean(_FrechetMeterRadians):
            @see: L{Frechet.__init__} for details about B{C{point1s}}, B{C{fraction}},
                  B{C{name}} and other exceptions.
         '''
-        Frechet.__init__(self, point1s, **fraction_name__adjust_radius_wrap)
+        Frechet.__init__(self, point1s, **fraction_name__adjust_radius_wrap)  # PYLINT W0233
         self._func  = _formy.euclidean
         self._func_ = _formy.euclidean_
 
@@ -541,7 +541,7 @@ class FrechetFlatLocal(_FrechetMeterRadians):
     '''
     _units_ = _unitsBase._Str_radians2  # see L{flatLocal_}
 
-    def __init__(self, point1s, **fraction_name__datum_scaled_wrap):
+    def __init__(self, point1s, **fraction_name__datum_scaled_wrap):  # PYLINT W0231
         '''New L{FrechetFlatLocal}/L{FrechetHubeny} calculator/interpolator.
 
            @kwarg fraction_name__datum_scaled_wrap: Optional C{B{fraction}=None}
@@ -553,7 +553,7 @@ class FrechetFlatLocal(_FrechetMeterRadians):
 
            @note: The distance C{units} are C{radians squared}, not C{radians}.
         '''
-        Frechet.__init__(self, point1s, **fraction_name__datum_scaled_wrap)
+        Frechet.__init__(self, point1s, **fraction_name__datum_scaled_wrap)  # PYLINT W0233
         self._func  = _formy.flatLocal
         self._func_ =  self.datum.ellipsoid._hubeny_2
 
@@ -564,7 +564,7 @@ class FrechetFlatLocal(_FrechetMeterRadians):
 class FrechetFlatPolar(_FrechetMeterRadians):
     '''Compute the C{Frechet} distance with function L{flatPolar_}.
     '''
-    def __init__(self, point1s, **fraction_name__radius_wrap):
+    def __init__(self, point1s, **fraction_name__radius_wrap):  # PYLINT W0231
         '''New L{FrechetFlatPolar} calculator/interpolator.
 
            @kwarg fraction_name__radius_wrap: Optional C{B{fraction}=None}
@@ -574,7 +574,7 @@ class FrechetFlatPolar(_FrechetMeterRadians):
            @see: L{Frechet.__init__} for details about B{C{point1s}},
                  B{C{fraction}}, B{C{name}} and other exceptions.
        '''
-        Frechet.__init__(self, point1s, **fraction_name__radius_wrap)
+        Frechet.__init__(self, point1s, **fraction_name__radius_wrap)  # PYLINT W0233
         self._func  = _formy.flatPolar
         self._func_ = _formy.flatPolar_
 
@@ -587,7 +587,7 @@ class FrechetHaversine(_FrechetMeterRadians):
 
        @note: See note at function L{pygeodesy.vincentys_}.
     '''
-    def __init__(self, point1s, **fraction_name__radius_wrap):
+    def __init__(self, point1s, **fraction_name__radius_wrap):  # PYLINT W0231
         '''New L{FrechetHaversine} calculator/interpolator.
 
            @kwarg fraction_name__radius_wrap: Optional C{B{fraction}=None}
@@ -597,7 +597,7 @@ class FrechetHaversine(_FrechetMeterRadians):
            @see: L{Frechet.__init__} for details about B{C{point1s}},
                  B{C{fraction}}, B{C{name}} and other exceptions.
         '''
-        Frechet.__init__(self, point1s, **fraction_name__radius_wrap)
+        Frechet.__init__(self, point1s, **fraction_name__radius_wrap)  # PYLINT W0233
         self._func  = _formy.haversine
         self._func_ = _formy.haversine_
 
@@ -650,7 +650,7 @@ class FrechetKarney(Frechet):
 class FrechetThomas(_FrechetMeterRadians):
     '''Compute the C{Frechet} distance with function L{pygeodesy.thomas_}.
     '''
-    def __init__(self, point1s, **fraction_name__datum_wrap):
+    def __init__(self, point1s, **fraction_name__datum_wrap):  # PYLINT W0231
         '''New L{FrechetThomas} calculator/interpolator.
 
            @kwarg fraction_name__datum_wrap: Optional C{B{fraction}=None}
@@ -660,7 +660,7 @@ class FrechetThomas(_FrechetMeterRadians):
            @see: L{Frechet.__init__} for details about B{C{point1s}},
                  B{C{fraction}}, B{C{name}} and other exceptions.
         '''
-        Frechet.__init__(self, point1s, **fraction_name__datum_wrap)
+        Frechet.__init__(self, point1s, **fraction_name__datum_wrap)  # PYLINT W0233
         self._func  = _formy.thomas
         self._func_ = _formy.thomas_
 
@@ -711,7 +711,7 @@ class FrechetVincentys(_FrechetMeterRadians):
 
        @note: See note at function L{pygeodesy.vincentys_}.
     '''
-    def __init__(self, point1s, **fraction_name__radius_wrap):
+    def __init__(self, point1s, **fraction_name__radius_wrap):  # PYLINT W0231
         '''New L{FrechetVincentys} calculator/interpolator.
 
            @kwarg fraction_name__radius_wrap: Optional C{B{fraction}=None}
@@ -721,7 +721,7 @@ class FrechetVincentys(_FrechetMeterRadians):
            @see: L{Frechet.__init__} for details about B{C{point1s}},
                  B{C{fraction}}, B{C{name}} and other exceptions.
         '''
-        Frechet.__init__(self, point1s, **fraction_name__radius_wrap)
+        Frechet.__init__(self, point1s, **fraction_name__radius_wrap)  # PYLINT W0233
         self._func  = _formy.vincentys
         self._func_ = _formy.vincentys_
 

@@ -64,7 +64,7 @@
 
 <hr />
 <div class="fields">      <p><strong>Version:</strong>
-        26.03.31
+        26.10.04
       </p>
 </div><!-- ==================== CLASSES ==================== -->
 <a name="section-Classes"></a>
@@ -218,7 +218,8 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#euclid" class="summary-sig-name">euclid</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">y</span>,
-        <span class="summary-sig-arg">*xy0</span>)</span><br />
+        <span class="summary-sig-arg">*x0_y0</span>,
+        <span class="summary-sig-arg">**half</span>)</span><br />
       <i>Appoximate</i> the norm <i class="math">hypot(<b>x</b>, 
       <b>y</b>)</i> by <i class="math">max(abs(<b>x</b>), abs(<b>y</b>)) + 
       min(abs(<b>x</b>), abs(<b>y</b>)) * 0.4142...</i>.</td>
@@ -237,7 +238,8 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#euclid_" class="summary-sig-name">euclid_</a>(<span class="summary-sig-arg">*xs</span>)</span><br />
+          <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#euclid_" class="summary-sig-name">euclid_</a>(<span class="summary-sig-arg">*xs</span>,
+        <span class="summary-sig-arg">**half</span>)</span><br />
       <i>Appoximate</i> the norm <i class="math">sqrt(sum(x**2 for x in 
       xs))</i> by cascaded <a href="pygeodesy.fmath-module.html#euclid" 
       class="link">euclid</a>.</td>
@@ -733,7 +735,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#hypot2" class="summary-sig-name">hypot2</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">y</span>,
-        <span class="summary-sig-arg">*xy0</span>)</span><br />
+        <span class="summary-sig-arg">*x0_y0</span>)</span><br />
       Compute the <i>squared</i> norm <i class="math">x**2 + y**2</i>.</td>
           <td align="right" valign="top">
             
@@ -770,7 +772,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#norm2" class="summary-sig-name">norm2</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">y</span>,
-        <span class="summary-sig-arg">*xy0</span>)</span><br />
+        <span class="summary-sig-arg">*x0_y0</span>)</span><br />
       Normalize a 2-dimensional vector.</td>
           <td align="right" valign="top">
             
@@ -806,7 +808,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#polar2" class="summary-sig-name">polar2</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">y</span>,
-        <span class="summary-sig-arg">*xy0</span>)</span><br />
+        <span class="summary-sig-arg">*x0_y0</span>)</span><br />
       Return 2-tuple <code>(length, angle)</code> with <code>angle</code> 
       in radians <i class="math">[0..+PI2)</i>.</td>
           <td align="right" valign="top">
@@ -826,7 +828,7 @@
         <tr>
           <td><span class="summary-sig"><a href="pygeodesy.fmath-module.html#polar2d" class="summary-sig-name">polar2d</a>(<span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">y</span>,
-        <span class="summary-sig-arg">*xy0</span>)</span><br />
+        <span class="summary-sig-arg">*x0_y0</span>)</span><br />
       Return 2-tuple <code>(length, angle)</code> with <code>angle</code> 
       in degrees <i class="math">[0..+360)</i>.</td>
           <td align="right" valign="top">
@@ -1077,7 +1079,8 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">euclid</span>&nbsp;(<span class="sig-arg">x</span>,
         <span class="sig-arg">y</span>,
-        <span class="sig-arg">*xy0</span>)</span>
+        <span class="sig-arg">*x0_y0</span>,
+        <span class="sig-arg">**half</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1098,11 +1101,13 @@
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a>).</li>
-        <li><strong class="pname"><code>xy0</code></strong> - Optional reference <code>(x0, y0)</code> (each 
+        <li><strong class="pname"><code>x0_y0</code></strong> - Optional reference <code>(x0, y0)</code> (each 
           <code>scalar</code>, an <a href="pygeodesy.fsums.Fsum-class.html"
           class="link">Fsum</a> or <a 
           href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a>).</li>
+        <li><strong class="pname"><code>half</code></strong> - Use <code><b>half</b>=True</code> to apply <code>0.5</code> 
+          instead of <code>sqrt(2) - 1</code> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Appoximate norm (<code>float</code> or <a 
@@ -1117,7 +1122,8 @@
 <tr><td>
   <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">euclid_</span>&nbsp;(<span class="sig-arg">*xs</span>)</span>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">euclid_</span>&nbsp;(<span class="sig-arg">*xs</span>,
+        <span class="sig-arg">**half</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -1134,6 +1140,8 @@
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a>), all positional.</li>
+        <li><strong class="pname"><code>half</code></strong> - Use <code><b>half</b>=True</code> to apply <code>0.5</code> 
+          instead of <code>sqrt(2) - 1</code> (<code>bool</code>).</li>
     </ul></dd>
     <dt>Returns:</dt>
         <dd>Appoximate norm (<code>float</code> or <a 
@@ -1983,7 +1991,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">hypot2</span>&nbsp;(<span class="sig-arg">x</span>,
         <span class="sig-arg">y</span>,
-        <span class="sig-arg">*xy0</span>)</span>
+        <span class="sig-arg">*x0_y0</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2002,7 +2010,7 @@
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a>).</li>
-        <li><strong class="pname"><code>xy0</code></strong> - Optional reference <code>(x0, y0)</code> (each 
+        <li><strong class="pname"><code>x0_y0</code></strong> - Optional reference <code>(x0, y0)</code> (each 
           <code>scalar</code>, an <a href="pygeodesy.fsums.Fsum-class.html"
           class="link">Fsum</a> or <a 
           href="pygeodesy.fsums.Fsum2Tuple-class.html" 
@@ -2055,7 +2063,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">norm2</span>&nbsp;(<span class="sig-arg">x</span>,
         <span class="sig-arg">y</span>,
-        <span class="sig-arg">*xy0</span>)</span>
+        <span class="sig-arg">*x0_y0</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2074,7 +2082,7 @@
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a>).</li>
-        <li><strong class="pname"><code>xy0</code></strong> - Optional reference <code>(x0, y0)</code> (each 
+        <li><strong class="pname"><code>x0_y0</code></strong> - Optional reference <code>(x0, y0)</code> (each 
           <code>scalar</code>, an <a href="pygeodesy.fsums.Fsum-class.html"
           class="link">Fsum</a> or <a 
           href="pygeodesy.fsums.Fsum2Tuple-class.html" 
@@ -2130,7 +2138,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">polar2</span>&nbsp;(<span class="sig-arg">x</span>,
         <span class="sig-arg">y</span>,
-        <span class="sig-arg">*xy0</span>)</span>
+        <span class="sig-arg">*x0_y0</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2150,7 +2158,7 @@
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a>).</li>
-        <li><strong class="pname"><code>xy0</code></strong> - Optional reference <code>(x0, y0)</code> (each 
+        <li><strong class="pname"><code>x0_y0</code></strong> - Optional reference <code>(x0, y0)</code> (each 
           <code>scalar</code>, an <a href="pygeodesy.fsums.Fsum-class.html"
           class="link">Fsum</a> or <a 
           href="pygeodesy.fsums.Fsum2Tuple-class.html" 
@@ -2172,7 +2180,7 @@
   <tr valign="top"><td>
   <h3 class="epydoc"><span class="sig"><span class="sig-name">polar2d</span>&nbsp;(<span class="sig-arg">x</span>,
         <span class="sig-arg">y</span>,
-        <span class="sig-arg">*xy0</span>)</span>
+        <span class="sig-arg">*x0_y0</span>)</span>
   </h3>
   </td><td align="right" valign="top"
     >&nbsp;
@@ -2192,7 +2200,7 @@
           href="pygeodesy.fsums.Fsum-class.html" class="link">Fsum</a> or 
           <a href="pygeodesy.fsums.Fsum2Tuple-class.html" 
           class="link">Fsum2Tuple</a>).</li>
-        <li><strong class="pname"><code>xy0</code></strong> - Optional reference <code>(x0, y0)</code> (each 
+        <li><strong class="pname"><code>x0_y0</code></strong> - Optional reference <code>(x0, y0)</code> (each 
           <code>scalar</code>, an <a href="pygeodesy.fsums.Fsum-class.html"
           class="link">Fsum</a> or <a 
           href="pygeodesy.fsums.Fsum2Tuple-class.html" 
@@ -2441,7 +2449,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Tue Sep  8 13:02:07 2026
+    Generated by Epydoc 3.0.1 on Mon Oct 19 12:32:37 2026
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

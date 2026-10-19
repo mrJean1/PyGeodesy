@@ -176,8 +176,8 @@ class Tests(TestsBase):
             sd, cd = sincos2d(a)
             d = max(d, fabs(sr - sd), fabs(cr - cd))
             if Math:  # compare with geographiclib
-                t = max(t, fabs(atan2d(sr, cr) - Matan2d(sr, cr)))
-                s, c = Msincosd(a)
+                t = max(t, fabs(atan2d(sr, cr) - Matan2d(sr, cr)))  # PYLINT E0606
+                s, c = Msincosd(a)  # PYLINT E0606
                 g = max(g, fabs(sr - s), fabs(cr - c))
                 f = max(f, fabs(sd - s), fabs(cd - c))
 

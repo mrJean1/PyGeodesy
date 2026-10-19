@@ -50,8 +50,8 @@ class _gWrapped(_kWrapped):
         <https://PyPI.org/project/geographiclib>} classes.
     '''
 
-    @property_ROver  # MCCABE 24
-    def Geodesic(self):
+    @property_ROver
+    def Geodesic(self):  # MCCABE 33
         '''Get the I{wrapped} C{geodesic.Geodesic} class from I{Karney}'s Python
            U{geographiclib<https://GitHub.com/geographiclib/geographiclib-python>},
            provided the latter is installed.
@@ -92,7 +92,7 @@ class _gWrapped(_kWrapped):
                 _earth_datum(self, a_ellipsoid, f=f, **name)  # raiser=NN
                 E = self.ellipsoid
                 with _wargs(self, *E.a_f, **name) as args:
-                    _Geodesic.__init__(self, *args)
+                    _Geodesic.__init__(self, *args)  # PYLINT E1120
                 if name:
                     self._name, _ = _name2__(name, _or_nameof=E)
 
@@ -115,14 +115,14 @@ class _gWrapped(_kWrapped):
                         return n, p, a
 
                 A = _PolygonArea(self, polyline)
-                A.name = _name2__(name, _or_nameof=self)
+                A.name = _name2__(name, _or_nameof=self)  # PYLINT W0201
                 return A
 
             def ArcDirect(self, lat1, lon1, azi1, a12, outmask=Caps.STANDARD):  # PYCHOK no cover
                 '''Return the C{_Geodesic.ArcDirect} result as L{GDict}.
                 '''
                 with _wargs(self, lat1, lon1, azi1, a12, outmask) as args:
-                    d = _Geodesic.ArcDirect(self, *args)
+                    d = _Geodesic.ArcDirect(self, *args)  # PYLINT E1120
                 return GDict(d)
 
             def ArcDirectLine(self, lat1, lon1, azi1, a12, caps=Caps.STANDARD_LINE, **name):  # PYCHOK no cover
@@ -153,7 +153,7 @@ class _gWrapped(_kWrapped):
                 '''Return the C{_Geodesic.Direct} result as L{GDict}.
                 '''
                 with _wargs(self, lat1, lon1, azi1, s12, outmask) as args:
-                    d = _Geodesic.Direct(self, *args)
+                    d = _Geodesic.Direct(self, *args)  # PYLINT E1120
                 return GDict(d)
 
             def Direct3(self, lat1, lon1, azi1, s12):  # PYCHOK outmask
@@ -189,14 +189,14 @@ class _gWrapped(_kWrapped):
                 '''(INTERNAL) Get C{_Geodesic._GenDirect} result as C{GDict}.
                 '''
                 with _wargs(self, lat, lon, azi, arcmode, s12_a12, outmask) as args:
-                    t = _Geodesic._GenDirect(self, *args)
+                    t = _Geodesic._GenDirect(self, *args)  # PYLINT E1120
                 return Direct9Tuple(t).toGDict()  # *t
 
             def _GDictInverse(self, lat1, lon1, lat2, lon2, outmask=Caps.STANDARD):
                 '''(INTERNAL) Get C{_Geodesic._GenInverse} result as L{Inverse10Tuple}.
                 '''
                 with _wargs(self, lat1, lon1, lat2, lon2, outmask) as args:
-                    t = _Geodesic._GenInverse(self, *args)
+                    t = _Geodesic._GenInverse(self, *args)  # PYLINT E1120
                 return Inverse10Tuple(t).toGDict(lon1=lon1, lon2=lon2)  # *t
 
             def _GenDirectLine(self, lat1, lon1, azi1, arcmode, s12_a12, *caps, **name):
@@ -204,21 +204,21 @@ class _gWrapped(_kWrapped):
                    returning the result as a I{wrapped} C{GeodesicLine}.
                 '''
                 with _wargs(self, lat1, lon1, azi1, arcmode, s12_a12, *caps, **name) as args:
-                    t = _Geodesic._GenDirectLine(self, *args)
+                    t = _Geodesic._GenDirectLine(self, *args)  # PYLINT E1120
                 return self._Line13(t, **name)
 
             def _Inverse(self, ll1, ll2, wrap, **outmask):
                 '''(INTERNAL) Short-cut version, see .ellipsoidalBaseDI.intersecant2.
                 '''
                 if wrap:
-                    ll2 = _unrollon(ll1, _Wrap.point(ll2))
+                    ll2 = _unrollon(ll1, _Wrap.point(ll2))  # PYLINT E1120
                 return self.Inverse(ll1.lat, ll1.lon, ll2.lat, ll2.lon, **outmask)
 
             def Inverse(self, lat1, lon1, lat2, lon2, outmask=Caps.STANDARD):
                 '''Return the C{_Geodesic.Inverse} result as L{GDict}.
                 '''
                 with _wargs(self, lat1, lon1, lat2, lon2, outmask) as args:
-                    d = _Geodesic.Inverse(self, *args)
+                    d = _Geodesic.Inverse(self, *args)  # PYLINT E1120
                 return GDict(d)
 
             def Inverse1(self, lat1, lon1, lat2, lon2, wrap=False):
@@ -230,7 +230,7 @@ class _gWrapped(_kWrapped):
                 # see .FrechetKarney.distance, .HausdorffKarney._distance
                 # and .HeightIDWkarney._distances
                 if wrap:
-                    _, lat2, lon2 = _Wrap.latlon3(lat1, lat2, lon2, True)  # _Geodesic.LONG_UNROLL
+                    _, lat2, lon2 = _Wrap.latlon3(lat1, lat2, lon2, True)  # PYLINT E1120 _Geodesic.LONG_UNROLL
                 r = self.Inverse(lat1, lon1, lat2, lon2)
                 # XXX _Geodesic.DISTANCE needed for 'a12'?
                 return fabs(r.a12)
@@ -246,14 +246,14 @@ class _gWrapped(_kWrapped):
                 '''(INTERNAL) Short-cut version.
                 '''
                 if wrap:
-                    ll2 = _unrollon(ll1, _Wrap.point(ll2))
+                    ll2 = _unrollon(ll1, _Wrap.point(ll2))  # PYLINT E1120
                 return self.InverseLine(ll1.lat, ll1.lon, ll2.lat, ll2.lon, **caps_name)
 
             def InverseLine(self, lat1, lon1, lat2, lon2, caps=Caps.STANDARD_LINE, **name):
                 '''Return the C{_Geodesic.InverseLine} as I{wrapped} C{GeodesicLine}.
                 '''
                 with _wargs(self, lat1, lon1, lat2, lon2, caps, **name) as args:
-                    t = _Geodesic.InverseLine(self, *args)
+                    t = _Geodesic.InverseLine(self, *args)  # PYLINT E1120
                 return self._Line13(t, **name)
 
             def Line(self, lat1, lon1, azi1, caps=Caps.STANDARD_LINE, **name):
@@ -287,8 +287,8 @@ class _gWrapped(_kWrapped):
         # Geodesic.Line.__doc__        = _Geodesic.Line.__doc__
         return Geodesic  # overwrite property_ROver
 
-    @property_ROver  # MCCABE 16
-    def GeodesicLine(self):
+    @property_ROver
+    def GeodesicLine(self):  # MCCABE 16
         '''Get the I{wrapped} C{geodesicline.GeodesicLine} class from I{Karney}'s
            Python U{geographiclib<https://GitHub.com/geographiclib/geographiclib-python>},
            provided the latter is installed.
@@ -352,7 +352,7 @@ class _gWrapped(_kWrapped):
                    @see: Method L{Position} for further details.
                 '''
                 with _wargs(self, a12, outmask) as args:
-                    d = _GeodesicLine.ArcPosition(self, *args)
+                    d = _GeodesicLine.ArcPosition(self, *args)  # PYLINT E1120
                 return GDict(d)
 
             @Property_RO
@@ -446,7 +446,7 @@ class _gWrapped(_kWrapped):
                             except when C{a12=NAN}.
                 '''
                 with _wargs(self, s12, outmask) as args:
-                    d = _GeodesicLine.Position(self, *args)
+                    d = _GeodesicLine.Position(self, *args)  # PYLINT E1120
                 return GDict(d)
 
         # GeodesicLine.ArcPosition.__doc__ = _GeodesicLine.ArcPosition.__doc__

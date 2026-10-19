@@ -411,7 +411,7 @@ class Conics(_NamedEnum):
     def _Lazy(self, lat, lon, datum_name, *args, **kwds):
         '''(INTERNAL) Instantiate the L{Conic}.
         '''
-        ll0 = _LLEB(lat, lon, datum=Datums.get(datum_name))
+        ll0 = _LLEB(lat, lon, datum=Datums.get(datum_name))  # PYLINT E1120
         return Conic(ll0, *args, **kwds)
 
 Conics = Conics(Conic)  # PYCHOK singleton
@@ -449,7 +449,7 @@ Conics._assert(  # <https://SpatialReference.org/ref/epsg/...>
 class LCCError(_ValueError):
     '''Lambert Conformal Conic C{LCC} or other L{Lcc} issue.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 class Lcc(_NamedBase):

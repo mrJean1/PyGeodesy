@@ -28,10 +28,10 @@ from pygeodesy.lazily import _ALL_LAZY, _ALL_MODS as _MODS, _PYTHON_X_DEV
 from copy import copy as _copy
 
 __all__ = _ALL_LAZY.errors  # _ALL_DOCS('_InvalidError', '_IsnotError')  _under
-__version__ = '26.02.12'
+__version__ = '26.10.02'
 
 _argument_   = 'argument'
-_basics      = _MODS.into(basics=__name__)
+_basics      = _MODS.into(basics=__name__)  # PYLINT E1120
 _box_        = 'box'
 _del_        = 'del'
 _expected_   = 'expected'
@@ -39,7 +39,7 @@ _limiterrors =  True  # in .formy
 _name_value_ =  repr('name=value')
 _rangerrors  =  True  # in .dms
 _region_     = 'region'
-_streprs     = _MODS.into(streprs=__name__)
+_streprs     = _MODS.into(streprs=__name__)  # PYLINT E1120
 _vs__        = _SPACE_(NN, _vs_, NN)
 
 try:
@@ -190,7 +190,7 @@ class _ZeroDivisionError(ZeroDivisionError):
 class AuxError(_ValueError):
     '''Error raised for a L{rhumb.aux_}, C{Aux}, C{AuxDLat} or C{AuxLat} issue.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 class ClipError(_ValueError):
@@ -217,7 +217,7 @@ class CrossError(_ValueError):
     '''Error raised for zero or near-zero vectorial cross products,
        occurring for coincident or colinear points, lines or bearings.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 class GeodesicError(_ValueError):
@@ -225,7 +225,7 @@ class GeodesicError(_ValueError):
        L{geodesicw<pygeodesy.geodesicw>}, L{geodsolve<pygeodesy.geodsolve>} or
        L{karney<pygeodesy.karney>}.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 class IntersectionError(_ValueError):  # in .ellipsoidalBaseDI, .formy, ...
@@ -272,31 +272,31 @@ class LimitError(_ValueError):
 
        @see: Subclass L{UnitError}.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 class MGRSError(_ValueError):
     '''Military Grid Reference System (MGRS) parse or other L{Mgrs} issue.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 class NumPyError(_ValueError):
     '''Error raised for C{NumPy} issues.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 class ParseError(_ValueError):  # in .dms, .elevations, .utmupsBase
     '''Error parsing degrees, radians or several other formats.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 class PointsError(_ValueError):  # in .clipy, .frechet, ...
     '''Error for an insufficient number of points.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 class RangeError(_ValueError):
@@ -307,26 +307,26 @@ class RangeError(_ValueError):
 
        @see: Function L{rangerrors<pygeodesy.errors.rangerrors>}.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 class RhumbError(_ValueError):
     '''Error raised for a rhumb L{aux_<pygeodesy.rhumb.aux_>}, L{ekx<pygeodesy.rhumb.ekx>} or
        L{solve<pygeodesy.rhumb.solve>} issue.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 class TriangleError(_ValueError):  # in .resections, .vector2d
     '''Error raised for triangle, intersection or resection issues.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 class SciPyError(PointsError):
     '''Error raised for C{SciPy} issues.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 class SciPyWarning(PointsError):
@@ -340,27 +340,27 @@ class SciPyWarning(PointsError):
        OR by invoking C{python} with command line option U{-W<https://docs.
        Python.org/3/using/cmdline.html#cmdoption-w>} set to C{-W error}.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
-class TRFError(_ValueError):  # in .ellipsoidalBase, .trf, .units
+class TRFError(_ValueError):  # in .deprecated.classes, .ellipsoidalBase, .trf, .units
     '''Terrestrial Reference Frame (TRF), L{Epoch}, L{RefFrame} or L{RefFrame}
        conversion issue.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 class UnitError(LimitError):  # in .named, .units
     '''Default exception for L{units} issues for a value exceeding the C{low}
        or C{high} limit.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 class VectorError(_ValueError):  # in .nvectorBase, .vector3d, .vector3dBase
     '''L{Vector3d}, C{Cartesian*} or C{*Nvector} issues.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 def _an(noun):
@@ -564,7 +564,7 @@ def limiterrors(raiser=None):
 
        @return: Previous setting (C{bool}).
     '''
-    global _limiterrors
+    global _limiterrors  # PYLINT W0603
     t = _limiterrors
     if raiser is not None:
         _limiterrors = bool(raiser)
@@ -606,7 +606,7 @@ def rangerrors(raiser=None):
 
        @return: Previous setting (C{bool}).
     '''
-    global _rangerrors
+    global _rangerrors  # PYLINT W0603
     t = _rangerrors
     if raiser is not None:
         _rangerrors = bool(raiser)

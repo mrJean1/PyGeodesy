@@ -486,7 +486,7 @@ class Ang(_Named):
             n    = round((deg - d) / _360_0)
         else:
             _raiseError(Ang.fromDegrees, deg, **unit_name)
-        a = Ang(s, c, n, **_xkwds(unit_name, unit=Degrees))
+        a = Ang(s, c, n, **_xkwds(unit_name, unit=Degrees))  # PYLINT E0606
         a.__dict__.update(degrees0=d)  # Property_RO
         return a
 
@@ -510,7 +510,7 @@ class Ang(_Named):
             n    = round((rad - r) / PI2)
         else:
             _raiseError(Ang.fromRadians, rad, **unit_name)
-        a = Ang(s, c, n, **_xkwds(unit_name, unit=Radians))
+        a = Ang(s, c, n, **_xkwds(unit_name, unit=Radians))  # PYLINT E0606
         a.__dict__.update(radians0=r)  # Property_RO
         return a
 
@@ -530,7 +530,7 @@ class Ang(_Named):
                 r = Ang.fromRadians(ang, **unit_name)
             else:
                 _raiseError(Ang.fromScalar, ang, **unit_name)
-        return r
+        return r  # PYLINT E0606
 
     def is_integer(self, *n):
         '''Is this C{Ang}'s degrees C{integer}? (C{bool}).

@@ -81,7 +81,7 @@ class AlbersError(_ValueError):
        L{AlbersEqualAreaCylindrical}, L{AlbersEqualAreaNorth},
        L{AlbersEqualAreaSouth} or L{Albers7Tuple} issue.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 class _AlbersBase(_NamedBase):

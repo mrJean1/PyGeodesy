@@ -8,7 +8,7 @@ __version__ = '23.08.30'
 
 from bases import TestsBase
 
-from pygeodesy import etm, ExactTransverseMercator
+from pygeodesy import ellipsoidalVincenty, etm, ExactTransverseMercator
 from pygeodesy.karney import _K_2_4
 
 
@@ -112,7 +112,7 @@ class Tests(TestsBase):
 
 if __name__ == '__main__':
 
-    from pygeodesy import ellipsoidalNvector, ellipsoidalVincenty
+    from pygeodesy import ellipsoidalNvector
 
     t = Tests(__file__, __version__, etm)
     t.testExactTM(True)

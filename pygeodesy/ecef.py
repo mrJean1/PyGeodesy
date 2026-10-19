@@ -4,13 +4,15 @@
 u'''I{Geocentric} Earth-Centered, Earth-Fixed (ECEF) coordinates.
 
 Geocentric conversions transcoded from I{Charles Karney}'s C++ class U{Geocentric
-<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Geocentric.html>}
-into pure Python class L{EcefKarney}, class L{EcefFukushima} from I{Toshio Fukushima}'s U{Fortran
-<https://www.ResearchGate.net/publication/277721539>} version, class L{EcefSudano} based on
-I{John Sudano}'s U{paper<https://www.ResearchGate.net/publication/3709199>}, class L{EcefUPC}
-using the I{Universitat Politècnica de Catalunya}'s U{method, page 186
-<https://GSSC.ESA.int/navipedia/GNSS_Book/ESA_GNSS-Book_TM-23_Vol_I.pdf>}, class L{EcefVeness}
-transcoded from I{Chris Veness}' JavaScript classes U{LatLonEllipsoidal, Cartesian
+<https://GeographicLib.SourceForge.io/C++/doc/classGeographicLib_1_1Geocentric.html>} into pure
+Python class L{EcefKarney}, class L{EcefFukushima} from I{Toshio Fukushima}'s U{Fortran
+<https://www.ResearchGate.net/publication/277721539>} version, class L{EcefOlson} from I{D.K. Olson}'s
+U{paper<https://IEEEXplore.IEEE.org/document/481290>}, class L{EcefOsen} with I{Karl Osen}'s U{improvements
+<https://HAL.Science/hal-01704943v2>} of I{Jijie Zhu}'s U{algorithm <https://IEEEXplore.IEEE.org/document/303772>},
+class L{EcefSudano} based on I{John Sudano}'s U{paper<https://www.ResearchGate.net/publication/3709199>},
+class L{EcefUPC} using the I{Universitat Politècnica de Catalunya}'s U{method, page 186
+<https://GSSC.ESA.int/navipedia/GNSS_Book/ESA_GNSS-Book_TM-23_Vol_I.pdf>}, class L{EcefVeness} transcoded
+from I{Chris Veness}' JavaScript classes U{LatLonEllipsoidal, Cartesian
 <https://www.Movable-Type.co.UK/scripts/geodesy/docs/latlon-ellipsoidal.js.html>}, class L{EcefYou}
 implementing I{Rey-Jer You}'s U{transformations<https://www.ResearchGate.net/publication/240359424>}
 and classes L{EcefFarrell22} and L{EcefFarrell22} from I{Jay A. Farrell}'s U{Table 2.1 and 2.2
@@ -61,14 +63,14 @@ plane} as opposed to I{geocentric} (ECEF) ones.
 
 from pygeodesy.basics import copysign0, _isin, isscalar, issubclassof, neg, map1, \
                             _xinstanceof, _xsubclassof,  typename  # _args_kwds_names
-from pygeodesy.constants import EPS, EPS0, EPS02, EPS1, INT0, PI, PI_2, _0_0, _0_5, \
-                               _1_0, _1_0_1T, _1_5, _2_0, _3_0, _4_0, _6_0, _90_0, \
-                               _copysign_1_0, _isNAN, _isNAN0, _over,  isnon0  # PYCHOK used!
+from pygeodesy.constants import EPS, EPS0, EPS02, EPS1, INT0, PI, PI_2, _0_0, _0_25, \
+                               _0_5, _1_0, _1_0_1T, _1_5, _2_0, _3_0, _4_0, _6_0, \
+                               _copysign_1_0, _isNAN0, _over,  isnon0  # PYCHOK used!
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84,  a_f2Tuple, _EWGS84
 from pygeodesy.ecefLocals import _EcefLocal
 # from pygeodesy.ellipsoids import a_f2Tuple, _EWGS84  # from .datums
 from pygeodesy.errors import _IndexError, LenError, _ValueError, _TypesError, \
-                             _xattr, _xdatum, _xkwds, _xkwds_get
+                             _xattr, _xdatum, _xkwds
 from pygeodesy.fmath import cbrt, _fdotf, hypot, hypot1, hypot2_
 from pygeodesy.fsums import Fsum, fsumf_,  Fmt, unstr
 # from pygeodesy.internals import typename  # from .basics
@@ -82,16 +84,16 @@ from pygeodesy.namedTuples import LatLon2Tuple, LatLon3Tuple, \
 from pygeodesy.props import deprecated_method, deprecated_property, Property_RO, \
                             property_RO, property_ROver
 # from pygeodesy.streprs import Fmt, unstr  # from .fsums
-from pygeodesy.units import _isRadius, Degrees, Degrees_, Height, Int, Lam, Lat, \
-                             Lon, Meter, Phi, Scalar, Scalar_
+from pygeodesy.units import _isRadius, Degrees_, Height, Int, Lam, Lat, Lon, \
+                             Meter, Phi, Scalar, Scalar_
 from pygeodesy.utily import atan1, atan1d, atan2, atan2d, degrees90, degrees180, \
                             sincos2, sincos2_, sincos2d_
 # from pygeodesy.vector3d import Vector3d  # _MODS
 
-from math import cos, degrees, fabs, radians, sqrt
+from math import acos, asin, cos, degrees, fabs, radians, sqrt
 
 __all__ = _ALL_LAZY.ecef
-__version__ = '26.09.06'
+__version__ = '26.09.28'
 
 _Ecef_    = 'Ecef'
 _prolate_ = 'prolate'
@@ -108,9 +110,8 @@ class _EcefBase(_NamedBase):
     '''(INTERNAL) Base class for C{Ecef*} convertor classes.
     '''
     _datum = _WGS84
-    _e_e2  =  None
     _E     = _EWGS84
-    _isYou =  False
+    _e_e2  =  False  # or True or 2-tuple for EcefYou only
     _lon00 =  INT0  # arbitrary, "polar" lon for LocalCartesian, Ltp
 
     def __init__(self, a_ellipsoid=_EWGS84, f=None, lon00=INT0, **name):
@@ -146,11 +147,11 @@ class _EcefBase(_NamedBase):
                 self._datum = d
                 self._E     = E
 
-            if self._isYou:
+            if self._e_e2:  # EcefYou
                 E  = self.ellipsoid
                 e2 = E.a2 - E.b2
                 if e2 < 0 or E.f < 0:
-                    raise EcefError(ellipsoid=E, txt=_prolate_)
+                    raise ValueError(_prolate_)
                 self._e_e2 = sqrt(e2), e2
 
         except (TypeError, ValueError) as x:
@@ -219,7 +220,7 @@ class _EcefBase(_NamedBase):
             sa, ca, sb, cb = sincos2d_(lat, lon)
 
         E =  self.ellipsoid
-        n =  E.roc1_(sa, ca) if self._isYou else E.roc1_(sa)
+        n =  E.roc1_(sa, ca) if self._e_e2 else E.roc1_(sa)
         H = _isNAN0(h)
         c = (H + n) * ca
         x = cb * c
@@ -298,17 +299,17 @@ class _EcefBase(_NamedBase):
     def lon00(self, lon00):
         '''Set the I{"polar"} longitude (C{degrees}), see method C{reverse}.
         '''
-        self._lon00 = Degrees(lon00=lon00)
+        self._lon00 = _Lon00(lon00)
 
     def _Matrix(self, *sa_ca_sb_cb):
         '''(INTERNAL) Create a rotation L{EcefMatrix}.
         '''
         return self._xnamed(EcefMatrix(*sa_ca_sb_cb))
 
-    def _polon(self, y, x, p, **lon00_name):
+    def _polon(self, y, x, p, lon00=None, name=NN):  # PYCHOK name unused
         '''(INTERNAL) Handle I{"polar"} longitude.
         '''
-        return atan2d(y, x) if p else _xkwds_get(lon00_name, lon00=self.lon00)
+        return atan2d(y, x) if p else (self.lon00 if lon00 is None else _Lon00(lon00))
 
     def reverse(self, xyz, y=None, z=None, M=False, **lon00_name):
         '''Convert from geocentric C{(x, y, z)} to geodetic C{(lat, lon, height)}.
@@ -324,7 +325,7 @@ class _EcefBase(_NamedBase):
 
            @return: An L{Ecef9Tuple}C{(x, y, z, lat, lon, height, C, M, datum)} with
                     geodetic coordinates C{(lat, lon, height)} for the given geocentric
-                    ones C{(x, y, z)}, case indicator C{C} (C{int} 1..5), rotation matrix
+                    ones C{(x, y, z)}, case indicator C{C} (C{int} 1..6), rotation matrix
                     C{M} (L{EcefMatrix} or C{None}) and C{datum}.
 
            @raise EcefError: Invalid B{C{xyz}} or C{scalar} C{x} or B{C{y}} and/or B{C{z}}
@@ -351,7 +352,7 @@ class _EcefBase(_NamedBase):
             r = fsumf_(s, t, -E.e4)
             if t or r > 0:
                 try:
-                    sa, ca, h, i, C = self._reverse5(1, h, p, z, y, x, r, s, t)
+                    sa, ca, h, i, C = self._reverse5(1, h, p, z, y, x, r, s, t)  # PYLINT E1111
                 except (TypeError, ValueError) as X:
                     t = unstr(self.reverse, x=x, y=y, z=z)
                     raise EcefError(t, cause=X)
@@ -363,8 +364,7 @@ class _EcefBase(_NamedBase):
                 # by 0 in formula for h.  Handle this case by taking the limits:
                 #   f > 0: z -> 0, k        ->  E.e2 * sqrt(q) / sqrt(E.e4 - s)
                 #   f < 0: r -> 0, k + E.e2 -> -E.e2 * sqrt(q) / sqrt(E.e4 - s)
-                sa, ca, h = _equatorial3(E, s, z)
-                C = 3  # equatorial
+                sa, ca, h, C = _equatorial4(E, s, z)
 
         else:  # E.isSpherical: E.e4 == 0
             # Dealing with underflow in the general case with E.e2 = 0 is
@@ -397,7 +397,7 @@ class _EcefBase(_NamedBase):
 class EcefError(_ValueError):
     '''An ECEF or C{Ecef*} related issue.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 class EcefFarrell21(_EcefBase):
@@ -431,7 +431,7 @@ class EcefFarrell21(_EcefBase):
         Q  = sqrt(_2_0 * e4 * P + _1_0)
         Q1 = Q +  _1_0
         s  = fsumf_(a2 * (Q1 / Q) * _0_5,
-                    -P * ez / (Q * Q1),
+                    -P * ez / (Q1 * Q),
                     -P * p2 * _0_5)
         r = p * P * e2 / Q1 - sqrt(s)
         r = p + r * e2
@@ -446,28 +446,27 @@ class EcefFarrell21(_EcefBase):
 class EcefFarrell22(_EcefBase):
     '''Conversion between geodetic and geocentric, I{Earth-Centered, Earth-Fixed} (ECEF)
        coordinates based on I{Jay A. Farrell}'s U{Table 2.2<https://Books.Google.com/
-       books?id=fW4foWASY6wC>}, page 30.
+       books?id=fW4foWASY6wC>}, page 30, aka I{B.R. Bowring's closed-form}.
 
        @see: Classes L{EcefFarrell21} and L{EcefVeness}.
     '''
     def _reverse5(self, C, h, p, z, *unused):  # PYCHOK signature
         E = self.ellipsoid
-        a, b    =  E.a, E.b
-        s, c, _ = _norm3(z * a, p * b)  # Bowring
-        s, c, _ = _norm3(z + s**3 * b * E.e22,
-                         p - c**3 * a * E.e2)
-        if c:
-            h = p / fabs(c)
-            if s:
-                h -= E.roc1_(s)
+        a,  b    =  E.a, E.b
+        s,  c, _ = _norm3(z * a, p * b)   # Bowring theta
+        sa, ca   = _latB2(E, s, c, z, p)  # Bowring lat
+        if ca:
+            h = p / fabs(ca)
+            if sa:
+                h -= E.roc1_(sa)
             else:
                 h -= a
 #               C  = 3  # XXX 1?
         else:
             h = fabs(z) - b
             C = 2
-        # lat = atan1d(s, c)
-        return s, c, h, None, C
+        # lat = atan1d(sa, ca)
+        return sa, ca, h, None, C
         # note, phi and lam are swapped on page 30
 
 
@@ -496,14 +495,14 @@ class EcefFukushima(_EcefBase):
         # Newton Correction Factors
         c0 = pn * ec
         c2 = c0**2
-        c3 = c2 * c0
+#       c3 = c2 * c0
         s2 = s0**2
-        s3 = s2 * s0
+#       s3 = s2 * s0
 #       a2 = s2 + c2
         a0 = hypot(s0, c0)  # sqrt(a2)
         a3 = a0**3  # a0 * a2
-        d0 = a3 * zc + e2 * s3
-        f0 = a3 * pn - e2 * c3
+        d0 = a3 * zc + e2 * s2 * s0  # s3
+        f0 = a3 * pn - e2 * c2 * c0  # c3
         # Halley Correction Factor
         b0 = e4 * s2 * c2 * pn * (a0 - ec)
         sa = d0 * f0 - b0 * s0
@@ -575,6 +574,128 @@ class EcefKarney(_EcefBase):
         return sa, ca, h, None, C
 
 
+class EcefOlson(_EcefBase):
+    '''Conversion between geodetic and geocentric, I{Earth-Centered, Earth-Fixed} (ECEF) coordinates
+       based on I{D.K. Olson}'s U{method<https://IEEEXplore.IEEE.org/document/481290>}.
+
+       @see: U{Possibly wrong<https://PossiblyWrong.Wordpress.com/2014/02/14/>} and U{geodesic-fortran
+             <https://JacobWilliams.GitHub.io/geodesic-fortran/proc/olson.html>}.
+    '''
+    @Property_RO
+    def _E_a1_a4(self):
+        E  = self.ellipsoid
+        a1 = E.a * E.e2
+        a2 = a1**2
+        a3 = a1 * E.e2 * _0_5
+        a4 = a2 * 2.5
+        return E, a1, a2, a3, a4
+
+    def _reverse5(self, C, r, p, z, *unused):  # PYCHOK signature
+        E, a1, a2, a3, a4 = self._E_a1_a4
+        _1_r = _1_0 / r
+
+        u  = a2 * _1_r
+        v  = a3 - a4 * _1_r
+        za = fabs(z)
+        try:
+            s = za * _1_r
+            c = p  * _1_r
+            if c > 0.5477225575:  # == sqrt(0.3)
+                c *= (a1 + u + s**2 * v) * c * _1_r
+                s *= _1_0 + c
+                ra =  asin(s)
+                s2 =  s**2
+                c  =  sqrt(_1_0 - s2)
+            else:
+                u -=  a3
+                s *= (a1 - u - c**2 * v) * s * _1_r
+                c *= _1_0 - s
+                ra =  acos(c)
+                s2 = _1_0 - c**2
+                s  =  sqrt(s2)
+            g   = _1_0 - E.e2 * s2
+            rg  =  E.a / sqrt(g)
+            rf  =  rg * E.e21
+            u   =  p  - rg * c
+            v   =  za - rf * s
+
+            h   =  c * u + s * v
+            m   =  c * v - s * u
+            r   =  m * g / (h * g + rf)
+            h  +=  m * r * _0_5
+            ra +=  r
+            if z < 0:
+                ra = -ra
+            sa, ca = sincos2(ra)
+
+        except (TypeError, ValueError):  # domain error
+            sa, ca, h, C = _subterrestrial4(E, z, p)
+        return sa, ca, h, None, C
+
+
+class EcefOsen(_EcefBase):
+    '''Conversion between geodetic and geocentric, I{Earth-Centered, Earth-Fixed} (ECEF) coordinates
+       based on I{Karl Osen}'s U{boost<https://HAL.Science/hal-01704943v2>} of I{Jijie Zhu}'s U{algorithm
+       <https://IEEEXplore.IEEE.org/document/303772>}.
+    '''
+    @Property_RO
+    def _E_Hmin_L_L2_E21a2(self):
+        E     = self.ellipsoid
+        Hmin  = pow(E.e, 12) / _6_0  # Hmin 64-bit
+        L     = E.e2 * _0_5
+        L2    = E.e4 * _0_25  # L**2
+        E21a2 = E.e21 / E.a2
+        return E, Hmin, L, L2, E21a2
+
+    def _reverse5(self, C, _, w, z, *unused):  # PYCHOK signature
+        E, Hmin, L, L2, E21a2 = self._E_Hmin_L_L2_E21a2
+        w2 =  w**2
+        m  =  w2 / E.a2  # invaa
+        n  =  z**2 * E21a2  # p1meedaa
+        mn =  m + n  # mpn
+        P  = (mn - E.e4) / _6_0  # L2 * _4_0
+        G  =  m * n * L2
+        H  =  P**3 * _2_0 + G
+        if H < Hmin:  # below 43 Km from center
+            sa, ca, h, C = _subterrestrial4(E, z, w)
+        else:
+            i = -(mn * _0_5 + L2)
+            B = cbrt((H + G) * _0_5 + sqrt(H * G))  # pow(H + G + 2 * sqrt(H * G), inv3) * invcbrt2
+            B = i / _3_0 - B - P**2 / B
+            k = (L2 - mn) * L2
+
+            # compute left part of t
+            t2 = sqrt(B**2 - k)  # t1
+            t3 = t2 - (B + i) * _0_5
+            # compute right part of t
+            t5 = (B - i) * _0_5
+            # t5 may accidentally drop just below zero due to
+            # numeric turbulence at lats near +/- 45.3 degrees
+            t6 = sqrt(fabs(t5))
+            # add left and right parts
+            t  = sqrt(t3) + (t6 if m < n else -t6)
+
+            # Newton-Raphson to compute t correction
+            g  = (m - n) * E.e2  # L * 2
+            F  = ((t**2 + i * _2_0) * t + g) * t + k
+            D  =  (t**3 + i * t) * _4_0 + g  # dFdt
+            dt = -F / D
+
+            # compute latitude (range -PI/2..PI/2)
+            t += dt
+            u  = t + L
+            v  = t - L
+            sa = z * u  # zu
+            ca = w * v  # wv
+
+            uv = u * v  # invuv
+            h  = hypot(w - ca / uv,
+                       z - sa / uv * E.e21)  # p1mee
+            if u < 1:
+                h = -h
+        return sa, ca, h, None, C
+
+
 class EcefSudano(_EcefBase):
     '''Conversion between geodetic and geocentric, I{Earth-Centered, Earth-Fixed} (ECEF) coordinates
        based on I{John J. Sudano}'s U{paper<https://www.ResearchGate.net/publication/3709199>}.
@@ -632,7 +753,7 @@ class EcefSudano(_EcefBase):
         # lat = atan1d(sa, ca)
         # h = (fabs(z) + p - E.a * cos(a + E.e21) * sa / ca) / (ca + sa)
         # Sudano's Eq (7) doesn't produce the correct height, ...
-        h = E._heightB(sa, ca, z, p)  # ... use Veness' (Bowring eqn 7)
+        h = _heightB(E, sa, ca, z, p)  # ... use Veness' (Bowring eqn 7)
         return sa, ca, h, i, C
 
     @deprecated_property
@@ -714,17 +835,14 @@ class EcefVeness(_EcefBase):
     def _reverse5(self, C, h, p, z, *unused):  # PYCHOK signature
         # assert h >= p > 0  # h = hypot(z, p)
         E =  self.ellipsoid
-        a =  E.a
         B =  E.b * E.e22
-        # parametric latitude (Bowring eqn 17, replaced)
-        t = (E.b * z) / (a * p) * (B / h + _1_0)  # theta
-        c = _1_0 / hypot1(t)  # t == atan2(z * a, p * E.b)
+        # parametric latitude, Bowring eqn 17, replaced
+        t = (E.b * z) / (E.a * p) * (B / h + _1_0)  # theta
+        c = _1_0 / hypot1(t)  # t == atan2(z * E.a, p * E.b)
         s =  c * t  # s, c == sincos2(t)
-        # geodetic latitude (Bowring eqn 18)
-        sa, ca, _ = _norm3(z + s**3 * B,
-                           p - c**3 * a * E.e2)
-        h = E._heightB(sa, ca, z, p)  # height (Bowring eqn 7)
+        sa, ca = _latB2(E, s, c, z, p)  # lat, Bowring eqn 18
         # lat = atan1d(sa, ca)
+        h = _heightB(E, sa, ca, z, p)  # height, Bowring eqn 7
         return sa, ca, h, None, C
 
 
@@ -738,7 +856,7 @@ class EcefYou(_EcefBase):
              115114_9021_geod2ellip_final.pdf>} Studia Geophysica et Geodaetica, 2008, 52, pages 1-18
              and U{PyMap3D<https://PyPI.org/project/pymap3d>}.
     '''
-    _isYou = True
+    _e_e2 = True  # or 2-tuple C{(e, e2)}
 
     def _reverse5(self, C, h, p, z, y, x, *unused):  # PYCHOK signature
         E = self.ellipsoid
@@ -940,8 +1058,9 @@ class Ecef9Tuple(_NamedTuple, _EcefLocal):
        with C{lat} and C{lon} in C{degrees} and C{x}, C{y}, C{z} and C{height} in
        C{meter}, conventionally.  Case C{C=0} means C{x, y,z} from foward, C{C=1}
        C{lat, lon, height} from reverse, C{C=2} near-polar C{lat, lon}, C{C=3}
-       near-equatorial C{lat, lon}, C{C=4} spherical C{lat, lon} and C{C=5} means
-       the C{height} exceeds C{datum}'s C{ellipsoid.heightMax}.
+       near-equatorial C{lat, lon}, C{C=4} spherical C{lat, lon}, C{C=5} if the
+       C{height} exceeds C{datum}'s C{ellipsoid.heightMax} and C{C=6} for points
+       too subterrestrial.
     '''
     _Names_ = (_x_,   _y_,   _z_,   _lat_, _lon_, _height_, _C_,  _M_,   _datum_)
     _Units_ = ( Meter, Meter, Meter, Lat,   Lon,   Height,   Int, _Pass, _Pass)
@@ -1016,7 +1135,8 @@ class Ecef9Tuple(_NamedTuple, _EcefLocal):
 
            @see: Property C{lonVermeille}.
         '''
-        return LatLon2Tuple(self.lat, self.lonVermeille, name=self.name)
+        v = self.lonVermeille
+        return LatLon2Tuple(self.lat, v, name=self.name + v.name)
 
     @Property_RO
     def lonVermeille(self):
@@ -1064,7 +1184,8 @@ class Ecef9Tuple(_NamedTuple, _EcefLocal):
 
            @see: Property C{lamVermeille}.
         '''
-        return PhiLam2Tuple(radians(self.lat), self.lamVermeille, name=self.name)
+        v = self.lamVermeille
+        return PhiLam2Tuple(radians(self.lat), v, name=self.name + v.name)
 
     phiVermeille = phi
 
@@ -1194,12 +1315,12 @@ def _equatorial2(E, p, z):
     # switching the arguments to phi = atan2(...) at the end
     # of method C{EcefKarney._reverse5}
     p = (p / E.a)**2
-    q = (z / E.a)**2 * E.e21
-    return (q, p) if E.f < 0 else (p, q)
+    z = (z / E.a)**2 * E.e21
+    return (z, p) if E.f < 0 else (p, z)
 
 
-def _equatorial3(E, s, z):
-    '''(INTERNAL) Equatorial plane from C{EcefKarney}.
+def _equatorial4(E, s, z):
+    '''(INTERNAL) C{C=3}, near equatorial plane from C{EcefKarney}.
     '''
     t = E.e4 - s
     if E.f < 0:
@@ -1211,7 +1332,26 @@ def _equatorial3(E, s, z):
     if z < 0:  # for tiny negative z, not for prolate
         sa = neg(sa)
     h *= neg(e / E.e2abs)
-    return sa, ca, h
+    return sa, ca, h, 3  # equatorial
+
+
+def _heightB(E, sa, ca, z, p):  # in ecef.EcefSudano, ecec.EcefVeness
+    '''(INTERNAL) Height above ellipsoid (Bowring eqn 7) at C{lat}.
+    '''
+    # sa, ca = sincos2d(lat)
+    # p = hypot(x, y)  # distance to polar axis
+
+    # r = a / E.e2s(sa)  # length of normal terminated by polar axis
+    # h = p * ca + z * sa - (a * a / r)
+    return (p * ca + fabs(z * sa) - E.a * E.e2s(sa)) if sa else (p - E.a)
+
+
+def _latB2(E, s, c, z, p):
+    '''(INTERNAL) Geodetic latitude, Bowring eqn 18.
+    '''
+    sa, ca, _ = _norm3(z + s**3 * E.b * E.e22,
+                       p - c**3 * E.a * E.e2)
+    return sa, ca
 
 
 def _llhn4(latlonh, lon, height, suffix=NN, Error=EcefError, **name):  # in .ltp
@@ -1233,6 +1373,12 @@ def _llhn4(latlonh, lon, height, suffix=NN, Error=EcefError, **name):  # in .ltp
         raise Error(cause=x, **d)
 
 
+def _Lon00(lon00):
+    '''(INTERNAL) Return C{lon00}.
+    '''
+    return Lon(lon00=lon00, clip=0)
+
+
 def _norm3(y, x, eps=0):
     '''(INTERNAL) Return C{y, x, h} normalized.
     '''
@@ -1250,13 +1396,21 @@ def _norm7(y, x, z=0, E=_EWGS84):
         # as a point and h above as an acceptable approximation to the
         # height.  This avoids overflow, e.g., in the computation of d
         # below.  It's possible that h has overflowed to INF, that's OK.
-        # Treat finite x, y, but R overflows to +INF by scaling by 2.
+        # Treat finite x, y, but p overflows to +INF by scaling by 2.
         sb, cb, p = _norm3(y * _0_5, x * _0_5)
         sa, ca, _ = _norm3(z * _0_5, p)
-        C = 5
+        C = 5  # near polar
     else:
-        C = 0
+        C = None  # tbd
     return sa, ca, sb, cb, h, p, C
+
+
+def _subterrestrial4(E, z, p):
+    '''(INTERNAL) Case C{C=6}, too subterrestrial.
+    '''
+    sa, ca, h = _norm3(z, p)  # like _norm7
+    h        -=  E.b if fabs(z) > p else E.a
+    return sa, ca, h, 6  # near center
 
 
 def _xEcef(Ecef):  # PYCHOK .latlonBase
@@ -1268,8 +1422,8 @@ def _xEcef(Ecef):  # PYCHOK .latlonBase
 
 
 # kwd lon00 unused but will throw a TypeError if misspelled, etc.
-def _xyzn4(xyz, y, z, Types, Error=EcefError, lon00=0,  # PYCHOK unused, in pychlv
-                     _xyz_y_z_names=_xyz_y_z, **name):  # in .ltp
+def _xyzn4(xyz, y, z, Types, Error=EcefError, lon00=0,  # PYCHOK unused
+                     _xyz_y_z_names=_xyz_y_z, **name):  # in .ltp, .pychlv
     '''(INTERNAL) Get an C{(x, y, z, name)} 4-tuple.
     '''
     try:

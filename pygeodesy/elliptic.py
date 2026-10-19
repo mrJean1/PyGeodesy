@@ -103,7 +103,7 @@ _MAXIT  =  32  # ._B4 max depth, 6..18 sufficient
 class _Cs(_Enum):
     '''(INTERAL) Complete Integrals cache.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 class Elliptic(_Named):
@@ -201,7 +201,7 @@ class Elliptic(_Named):
         '''Get Jahnke's complete integral C{D(k)} (C{float}),
            U{defined<https://DLMF.NIST.gov/19.2.E6>}.
         '''
-        return self._cDEKEeps.cD
+        return self._cDEKEeps.cD  # PYLINT E1101
 
     @Property_RO
     def _cDEKEeps(self):
@@ -244,7 +244,7 @@ class Elliptic(_Named):
         '''Get the complete integral of the second kind C{E(k)}
            (C{float}), U{defined<https://DLMF.NIST.gov/19.2.E5>}.
         '''
-        return self._cDEKEeps.cE
+        return self._cDEKEeps.cE  # PYLINT E1101
 
     def _cE(self, kp2):  # compl integr 2nd kind
         return _rG2(kp2, _1_0, self, PI_=PI_2)
@@ -254,7 +254,7 @@ class Elliptic(_Named):
         '''Get Legendre's complete geodesic longitude integral
            C{G(α^2, k)} (C{float}).
         '''
-        return self._cGHPi.cG
+        return self._cGHPi.cG  # PYLINT E1101
 
     @Property_RO
     def _cGHPi(self):
@@ -302,14 +302,14 @@ class Elliptic(_Named):
         '''Get Cayley's complete geodesic longitude difference integral
            C{H(α^2, k)} (C{float}).
         '''
-        return self._cGHPi.cH
+        return self._cGHPi.cH  # PYLINT E1101
 
     @Property_RO
     def cK(self):
         '''Get the complete integral of the first kind C{K(k)}
            (C{float}), U{defined<https://DLMF.NIST.gov/19.2.E4>}.
         '''
-        return self._cDEKEeps.cK
+        return self._cDEKEeps.cK  # PYLINT E1101
 
     def _cK(self, kp2):  # compl integr 1st kind
         return _rF2(kp2, _1_0, self)
@@ -319,14 +319,14 @@ class Elliptic(_Named):
         '''Get the difference between the complete integrals of the
            first and second kinds, C{K(k) − E(k)} (C{float}).
         '''
-        return self._cDEKEeps.cKE
+        return self._cDEKEeps.cKE  # PYLINT E1101
 
     @Property_RO
     def cPi(self):
         '''Get the complete integral of the third kind C{Pi(α^2, k)}
            (C{float}), U{defined<https://DLMF.NIST.gov/19.2.E7>}.
         '''
-        return self._cGHPi.cPi
+        return self._cGHPi.cPi  # PYLINT E1101
 
     def deltaD(self, sn, cn, dn):
         '''Jahnke's periodic incomplete elliptic integral.
@@ -460,7 +460,7 @@ class Elliptic(_Named):
     def eps(self):
         '''Get epsilon (C{float}).
         '''
-        return self._cDEKEeps.eps
+        return self._cDEKEeps.eps  # PYLINT E1101
 
     def fD(self, phi_or_sn, cn=None, dn=None):
         '''Jahnke's incomplete elliptic integral in terms of
@@ -951,7 +951,7 @@ class _Ek(Elliptic):
 #   cK         = _0_0  # ditto
     _iteration =  0
 
-    def __init__(self, k2):
+    def __init__(self, k2):  # PYLINT W0231
         # assert 0 < k2 < 1
         self._k2  = k2
         self._kp2 = kp2 = _1_0 - k2
@@ -962,7 +962,7 @@ class _Ek(Elliptic):
 class EllipticError(_ValueError):
     '''Elliptic function, integral, convergence or other L{Elliptic} issue.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 class Elliptic3Tuple(_NamedTuple):
@@ -1181,7 +1181,7 @@ def _rC(x, y):
     else:  # PYCHOK no cover
         d = 0  # y == 0
     if d > 0 and x >= 0:
-        return r / sqrt(d)  # float
+        return r / sqrt(d)  # PYLINT E0606 float
     raise _ellipticError(Elliptic.fRC, x, y)
 
 
@@ -1194,12 +1194,12 @@ def _RD(x, y, z, over=_0_0, inst=None):
         if s:
             S += _over(_3_0, (r + z) * s[2] * m)
             z  =  L[2]  # s[2] = sqrt(z)
-    m *= a
+    m *= a  # PYLINT W0631
     x, y = L.rescale(-m, x, y)
     xy =  x * y
     z  = (x + y) / _3_0
     z2 =  z**2
-    return _Hsum(S, sqrt(a) * m,
+    return _Hsum(S, sqrt(a) * m,  # PYLINT W0631
                 (xy        - z2 * _6_0),
                 (xy * _3_0 - z2 * _8_0) * z,
                 (xy -  z2) * z2 * _3_0,
@@ -1221,7 +1221,7 @@ def _rF2(x, y, inst=None):  # 2-arg version, z=0
     '''
     for a, b, m in _abm3(x, y, inst):  # PYCHOK yield
         pass
-    return _over(PI, a + b)  # float
+    return _over(PI, a + b)  # PYLINT W0631 float
 
 
 def _RF3(x, y, z, inst=None):  # 3-arg version
@@ -1230,7 +1230,7 @@ def _RF3(x, y, z, inst=None):  # 3-arg version
     L = _List(x, y, z)
     for a, m, _, _ in L.amrs4(False, _TolRF, inst):
         pass
-    x, y = L.rescale(a * m, x, y)
+    x, y = L.rescale(a * m, x, y)  # PYLINT W0631
     z  = neg(x + y)
     xy = x  * y
     e2 = xy - z**2
@@ -1245,7 +1245,7 @@ def _RF3(x, y, z, inst=None):  # 3-arg version
     S  = _Hdot(e3, h, e4, 15015, e3, 6930, e2, -16380, _1,  17160)
     S += _Hdot(e2, h, e4, -5775,           e2,  10010, _1, -24024)
     S += _1
-    return S.fdiv(sqrt(a))  # Fsum
+    return S.fdiv(sqrt(a))  # PYLINT W0631 Fsum
 
 
 def _rG2(x, y, inst=None, PI_=PI_4):  # 2-args
@@ -1255,7 +1255,7 @@ def _rG2(x, y, inst=None, PI_=PI_4):  # 2-args
     _r = rs.append
     for a, b, m in _abm3(x, y, inst):  # PYCHOK yield
         _r((a - b)**2 * m)
-    return _over(_fsum(rs) * PI_, a + b)  # nonfinites=True, float
+    return _over(_fsum(rs) * PI_, a + b)  # PYLINT W0631 nonfinites=True, float
 
 
 def _rG3(x, y, z):  # 3-arg version  # in .triaxials.bases
@@ -1290,7 +1290,7 @@ def _RJ(x, y, z, P, over=_0_0, inst=None):
                 S += r / (d * m)
             else:  # PYCHOK no cover
                 return NAN
-    m  *= a
+    m  *= a  # PYLINT W0631
     x, y, z = L.rescale(m, x, y, z)
     P   =  neg(Fsum(x, y, z).fover(_2_0))
     p2  =  P**2
@@ -1298,7 +1298,7 @@ def _RJ(x, y, z, P, over=_0_0, inst=None):
     E2  = _Rdot(x, y, z, -p2)
     E2p =  E2 * P
     xyz =  x * y * z
-    return _Hsum(S.fmul(_6_0), sqrt(a) * m, E2,
+    return _Hsum(S.fmul(_6_0), sqrt(a) * m, E2,  # PYLINT W0631
                  Fsum(p3 * _4_0, xyz, E2p, E2p),
                  Fsum(p3 * _3_0, E2p, xyz, xyz).fmul(P),
                  p2 * xyz, over)  # Fsum

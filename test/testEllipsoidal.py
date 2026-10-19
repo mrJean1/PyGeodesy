@@ -43,10 +43,10 @@ class Tests(_TestsLL, _TestsV):
         if isPython35:
             # using eval avoids SyntaxError with Python 3.4-,
             # but t = eval("d @= ...") throws a SyntaxError
-            t = eval('Datums.OSGB36 @ p')
+            t = eval('Datums.OSGB36 @ p')  # PYLINT W0123
             self.test('__matmul__', t, d)
             t = d.dup(reframe=RefFrames.ITRF2000)
-            t = eval('RefFrames.ITRF2014 @ t')
+            t = eval('RefFrames.ITRF2014 @ t')  # PYLINT W0123
             self.test('__matmul__', t, t)
 
         if coverage:  # coverage

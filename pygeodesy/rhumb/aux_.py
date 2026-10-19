@@ -179,7 +179,7 @@ class RhumbAux(RhumbBase):
 
     _mpr = _rrm  # meter per radian, see _mpd
 
-    def _S12d(self, Chix, Chiy, lon12):  # degrees
+    def _S12d(self, Chix, Chiy, lon12):  # PYLINT W0237 degrees
         '''(INTERNAL) Compute the area C{S12} from C{._meanSinXi(Chix, Chiy) * .c2 * lon12}.
         '''
         pP, xD = self._RA, self._auxD
@@ -234,7 +234,7 @@ class RhumbLineAux(RhumbLineBase):
         '''
         return self._Phi1.toMu(self.rhumb).toDegrees
 
-    def _mu2lat(self, mu):
+    def _mu2lat(self, mu):  # PYLINT W0237
         '''(INTERNAL) Get the inverse I{rectifying auxiliary} latitude (C{degrees}).
         '''
         lat, _ = self.rhumb._latPhi2(mu)

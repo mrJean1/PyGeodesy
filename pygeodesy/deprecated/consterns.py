@@ -16,17 +16,17 @@ __version__ = '26.02.12'
 
 class _Deprecated_Float(Float):
     '''DEPRECATED on 2023.09.12, I{don't use}.'''
-    pass
+    pass  # PYLINT W0107
 
 
 class _Deprecated_Int(Int):
     '''DEPRECATED on 2023.09.12, I{don't use}.'''
-    pass
+    pass  # PYLINT W0107
 
 
 class _Deprecated_Str(Str):
     '''DEPRECATED on 2023.09.12, I{don't use}.'''
-    pass
+    pass  # PYLINT W0107
 
 
 class Elliperim(object):

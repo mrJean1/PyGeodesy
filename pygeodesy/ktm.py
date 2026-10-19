@@ -72,7 +72,7 @@ __version__ = '25.08.31'
 class KTMError(_ValueError):
     '''Error raised for L{KTransverseMercator} and L{KTransverseMercator.forward} issues.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 class KTransverseMercator(_NamedBase):

@@ -90,7 +90,7 @@ def acre2m2(acres):
 
        @raise ValueError: Invalid B{C{acres}}.
     '''
-    return Meter2(Float(acres=acres) * _M.ACRE)
+    return Meter2(Float(acres=acres) * _M.ACRE)  # PYLINT E1101
 
 
 def agdf(phi):
@@ -190,7 +190,7 @@ def chain2m(chains):
 
        @raise ValueError: Invalid B{C{chains}}.
     '''
-    return Meter(Float(chains=chains) * _M.CHAIN)
+    return Meter(Float(chains=chains) * _M.CHAIN)  # PYLINT E1101
 
 
 def circle4(earth, lat):
@@ -331,7 +331,7 @@ def degrees2grades(deg):
 
        @return: Angle (C{grades}).
     '''
-    return Float(grades=Degrees(deg) * _G.DEG)
+    return Float(grades=Degrees(deg) * _G.DEG)  # PYLINT E1101
 
 
 def degrees2m(deg, earth=R_M, lat=0, **radius):
@@ -371,7 +371,7 @@ def fathom2m(fathoms):
        @see: Function L{toise2m}, U{Fathom<https://WikiPedia.org/wiki/Fathom>}
              and U{Klafter<https://WikiPedia.org/wiki/Klafter>}.
     '''
-    return Meter(Float(fathoms=fathoms) * _M.FATHOM)
+    return Meter(Float(fathoms=fathoms) * _M.FATHOM)  # PYLINT E1101
 
 
 def ft2m(feet, usurvey=False, pied=False, india=False, fuss=False):
@@ -389,10 +389,10 @@ def ft2m(feet, usurvey=False, pied=False, india=False, fuss=False):
 
        @raise ValueError: Invalid B{C{feet}}.
     '''
-    return Meter(Feet(feet) * (_M.FOOT_US if usurvey else
-                              (_M.FOOT_FR if pied    else
-                              (_M.FOOT_IN if india   else
-                              (_M.FOOT_GE if fuss    else _M.FOOT)))))
+    return Meter(Feet(feet) * (_M.FOOT_US if usurvey else  # PYLINT E1101
+                              (_M.FOOT_FR if pied    else  # PYLINT E1101
+                              (_M.FOOT_IN if india   else  # PYLINT E1101
+                              (_M.FOOT_GE if fuss    else _M.FOOT)))))  # PYLINT E1101
 
 
 def furlong2m(furlongs):
@@ -404,7 +404,7 @@ def furlong2m(furlongs):
 
        @raise ValueError: Invalid B{C{furlongs}}.
     '''
-    return Meter(Float(furlongs=furlongs) * _M.FURLONG)
+    return Meter(Float(furlongs=furlongs) * _M.FURLONG)  # PYLINT E1101
 
 
 def gdf(psi):
@@ -427,7 +427,7 @@ def grades(rad):
 
        @return: Angle (C{grades}).
     '''
-    return Float(grades=Radians(rad) * _G.RAD)
+    return Float(grades=Radians(rad) * _G.RAD)  # PYLINT E1101
 
 
 def grades400(rad):
@@ -437,7 +437,7 @@ def grades400(rad):
 
        @return: Angle, wrapped (C{grades}).
     '''
-    return Float(grades400=wrapPI2(rad) * _G.RAD)
+    return Float(grades400=wrapPI2(rad) * _G.RAD)  # PYLINT E1101
 
 
 def grades2degrees(gon):
@@ -447,7 +447,7 @@ def grades2degrees(gon):
 
        @return: Angle (C{degrees}).
     '''
-    return Degrees(Float(gon=gon) / _G.DEG)
+    return Degrees(Float(gon=gon) / _G.DEG)  # PYLINT E1101
 
 
 def grades2radians(gon):
@@ -457,7 +457,7 @@ def grades2radians(gon):
 
        @return: Angle (C{radians}).
     '''
-    return Radians(Float(gon=gon) / _G.RAD)
+    return Radians(Float(gon=gon) / _G.RAD)  # PYLINT E1101
 
 
 def ha2acre(ha):
@@ -481,7 +481,7 @@ def ha2m2(ha):
 
        @raise ValueError: Invalid B{C{ha}}.
     '''
-    return Meter2(Float(ha=ha) * _M.HA)
+    return Meter2(Float(ha=ha) * _M.HA)  # PYLINT E1101
 
 
 def hav(rad):
@@ -503,7 +503,7 @@ def km2m(km):
 
        @raise ValueError: Invalid B{C{km}}.
     '''
-    return Meter(Float(km=km) * _M.KM)
+    return Meter(Float(km=km) * _M.KM)  # PYLINT E1101
 
 
 def _loneg(lon):
@@ -521,7 +521,7 @@ def m2acre(meter2):
 
        @raise ValueError: Invalid B{C{meter2}}.
     '''
-    return Float(acre=Meter2(meter2) / _M.ACRE)
+    return Float(acre=Meter2(meter2) / _M.ACRE)  # PYLINT E1101
 
 
 def m2chain(meter):
@@ -533,7 +533,7 @@ def m2chain(meter):
 
        @raise ValueError: Invalid B{C{meter}}.
     '''
-    return Float(chain=Meter(meter) / _M.CHAIN)  # * 0.049_709_695_378_986_715
+    return Float(chain=Meter(meter) / _M.CHAIN)  # PYLINT E1101 * 0.049_709_695_378_986_715
 
 
 def m2degrees(distance, earth=R_M, lat=0, **radius):
@@ -572,7 +572,7 @@ def m2fathom(meter):
        @see: Function L{m2toise}, U{Fathom<https://WikiPedia.org/wiki/Fathom>}
              and U{Klafter<https://WikiPedia.org/wiki/Klafter>}.
     '''
-    return Float(fathom=Meter(meter) / _M.FATHOM)  # * 0.546_806_649
+    return Float(fathom=Meter(meter) / _M.FATHOM)  # PYLINT E1101 * 0.546_806_649
 
 
 def m2ft(meter, usurvey=False, pied=False, india=False, fuss=False):
@@ -592,10 +592,10 @@ def m2ft(meter, usurvey=False, pied=False, india=False, fuss=False):
     '''
     # * 3.280_833_333_333_3333, US Survey 3_937 / 1_200
     # * 3.280_839_895_013_1235, Int'l 10_000 / (254 * 12)
-    return Float(feet=Meter(meter) / (_M.FOOT_US if usurvey else
-                                     (_M.FOOT_FR if pied    else
-                                     (_M.FOOT_IN if india   else
-                                     (_M.FOOT_GE if fuss    else _M.FOOT)))))
+    return Float(feet=Meter(meter) / (_M.FOOT_US if usurvey else  # PYLINT E1101
+                                     (_M.FOOT_FR if pied    else  # PYLINT E1101
+                                     (_M.FOOT_IN if india   else  # PYLINT E1101
+                                     (_M.FOOT_GE if fuss    else _M.FOOT)))))  # PYLINT E1101
 
 
 def m2furlong(meter):
@@ -607,7 +607,7 @@ def m2furlong(meter):
 
        @raise ValueError: Invalid B{C{meter}}.
     '''
-    return Float(furlong=Meter(meter) / _M.FURLONG)  # * 0.004_970_969_54
+    return Float(furlong=Meter(meter) / _M.FURLONG)  # PYLINT E1101 * 0.004_970_969_54
 
 
 def m2ha(meter2):
@@ -619,7 +619,7 @@ def m2ha(meter2):
 
        @raise ValueError: Invalid B{C{meter2}}.
     '''
-    return Float(ha=Meter2(meter2) / _M.HA)
+    return Float(ha=Meter2(meter2) / _M.HA)  # PYLINT E1101
 
 
 def m2km(meter):
@@ -631,7 +631,7 @@ def m2km(meter):
 
        @raise ValueError: Invalid B{C{meter}}.
     '''
-    return Float(km=Meter(meter) / _M.KM)
+    return Float(km=Meter(meter) / _M.KM)  # PYLINT E1101
 
 
 def m2NM(meter):
@@ -643,7 +643,7 @@ def m2NM(meter):
 
        @raise ValueError: Invalid B{C{meter}}.
     '''
-    return Float(NM=Meter(meter) / _M.NM)  # * 5.399_568_04e-4
+    return Float(NM=Meter(meter) / _M.NM)  # PYLINT E1101 * 5.399_568_04e-4
 
 
 def _m2rad(distance, earth, lat, **radius):
@@ -687,7 +687,7 @@ def m2SM(meter):
 
        @raise ValueError: Invalid B{C{meter}}.
     '''
-    return Float(SM=Meter(meter) / _M.SM)  # * 6.213_699_49e-4 == 1 / 1_609.344
+    return Float(SM=Meter(meter) / _M.SM)  # PYLINT E1101 * 6.213_699_49e-4 == 1 / 1_609.344
 
 
 def m2toise(meter):
@@ -702,7 +702,7 @@ def m2toise(meter):
 
        @see: Function L{m2fathom}.
     '''
-    return Float(toise=Meter(meter) / _M.TOISE)  # * 0.513_083_632_632_119
+    return Float(toise=Meter(meter) / _M.TOISE)  # PYLINT E1101# * 0.513_083_632_632_119
 
 
 def m2yard(meter, imperial=False):
@@ -716,8 +716,8 @@ def m2yard(meter, imperial=False):
 
        @raise ValueError: Invalid B{C{meter}}.
     '''
-    return Float(yard=Meter(meter) / (_M.YARD_UK if imperial else
-                                      _M.YARD))  # * 1.093_613_298_337_707_8
+    return Float(yard=Meter(meter) / (_M.YARD_UK if imperial else  # PYLINT E1101
+                                      _M.YARD))  # PYLINT E1101 * 1.093_613_298_337_707_8
 
 
 def NM2m(nm):
@@ -729,7 +729,7 @@ def NM2m(nm):
 
        @raise ValueError: Invalid B{C{nm}}.
     '''
-    return Meter(Float(nm=nm) * _M.NM)
+    return Meter(Float(nm=nm) * _M.NM)  # PYLINT E1101
 
 
 def _nonfinite(where, x, raiser=True, **kwds):  # PYCHOK no cover
@@ -737,7 +737,7 @@ def _nonfinite(where, x, raiser=True, **kwds):  # PYCHOK no cover
     '''
     if raiser:
         t =  typename(where)
-        t = _MODS.streprs.Fmt.PAREN(t, x)
+        t = _MODS.streprs.Fmt.PAREN(t, x)  # PYLINT E1101
         raise _ValueError(t, **kwds)
     return _copysignINF(x)
 
@@ -960,7 +960,7 @@ def SM2m(sm):
 
        @raise ValueError: Invalid B{C{sm}}.
     '''
-    return Meter(Float(sm=sm) * _M.SM)
+    return Meter(Float(sm=sm) * _M.SM)  # PYLINT E1101
 
 
 def tan_2(rad, **semi):  # edge=1
@@ -979,8 +979,8 @@ def tan_2(rad, **semi):  # edge=1
     if semi and isnear0(fabs(rad) - PI):
         for n, v in semi.items():
             break
-        n = _SPACE_(n, _radians_) if not isint(v) else \
-            _SPACE_(_MODS.streprs.Fmt.SQUARE(**semi), _edge_)
+        n = _SPACE_(n, _radians_) if not isint(v) else (  # PYLINT W0631
+            _SPACE_(_MODS.streprs.Fmt.SQUARE(**semi), _edge_))  # PYLINT E1101
         raise _ValueError(n, rad, txt=_semi_circular_)
 
     return _tan(rad * _0_5) if _isfinite(rad) else NAN
@@ -1093,7 +1093,7 @@ def toise2m(toises):
 
        @see: Function L{fathom2m}.
     '''
-    return Meter(Float(toises=toises) * _M.TOISE)
+    return Meter(Float(toises=toises) * _M.TOISE)  # PYLINT E1101
 
 
 def truncate(x, ndigits=None):
@@ -1409,7 +1409,7 @@ def yard2m(yards, imperial=False):
 
        @raise ValueError: Invalid B{C{yards}}.
     '''
-    return Meter(Float(yards=yards) * (_M.YARD_UK if imperial else _M.YARD))
+    return Meter(Float(yards=yards) * (_M.YARD_UK if imperial else _M.YARD))  # PYLINT E1101
 
 # **) MIT License
 #

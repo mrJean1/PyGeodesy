@@ -200,7 +200,7 @@ class _SolveCapsBase(_CapsBase):
         r =  self._invoke(c, stdin=i)
         s =  self.status
         if s:
-            raise self._Error(cmd=_cmd_stdin_(c, i), status=s,
+            raise self._Error(cmd=_cmd_stdin_(c, i), status=s,  # PYLINT E1102
                               txt_not_=_0_)
         if self.verbose:  # PYCHOK no cover
             self._print(r)
@@ -220,7 +220,7 @@ class _SolveCapsBase(_CapsBase):
             if len(r) < 6 or _isin(r[:5], _Error_, _ERROR_):
                 raise ValueError(r)
         except (IOError, OSError, TypeError, ValueError) as x:
-            raise self._Error(cmd=t or _cmd_stdin_(cmd, stdin), cause=x)
+            raise self._Error(cmd=t or _cmd_stdin_(cmd, stdin), cause=x)  # PYLINT E1102
         self._status = s
         if self.verbose:  # and _R is None:  # PYCHOK no cover
             self._print(repr(r), 'stdout/-err')
@@ -290,7 +290,7 @@ class _SolveCapsBase(_CapsBase):
             _ = self.version  # test path and ...
             if self.status:  # ... return code
                 S_p = Xable_path or {self._Xable_name: _enquote(path)}
-                raise self._Error(status=self.status, txt_not_=_0_, **S_p)
+                raise self._Error(status=self.status, txt_not_=_0_, **S_p)  # PYLINT E1102
             hold = path
         finally:  # restore in case of error
             if self._Xable_path != hold:
@@ -399,7 +399,7 @@ class _Solve3Base(_SolveBase):
         '''(INTERNAL) Get C{_GenDirect}-like result as C{GDict}.
         '''
         if arcmode:
-            raise self._Error(arcmode=arcmode, txt=str(NotImplemented))
+            raise self._Error(arcmode=arcmode, txt=str(NotImplemented))  # PYLINT E1102
         return self._GDictInvoke(self._cmdDirect, self._Names_Direct,
                                                   lat, lon, azi, s12_a12, **floats)
 
@@ -485,7 +485,7 @@ class _SolveGDictLineBase(_SolveGDictBase):
 #   _lla1  = {}
     _solve =  None  # L{GeodesicSolve} or L{RhumbSolve} instance
 
-    def __init__(self, solve, lat1, lon1, caps, **azi_name):
+    def __init__(self, solve, lat1, lon1, caps, **azi_name):  # PYLINT W0231
         name, azi = _name2__(azi_name, _or_nameof=solve)
         if name:
             self.name = name

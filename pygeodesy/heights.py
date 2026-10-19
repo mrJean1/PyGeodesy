@@ -96,7 +96,7 @@ __all__ = _ALL_LAZY.heights
 __version__ = '26.08.26'
 
 _error_  = 'error'
-_formy   = _MODS.into(formy=__name__)
+_formy   = _MODS.into(formy=__name__)  # PYLINT E1120
 _linear_ = 'linear'
 _llis_   = 'llis'
 
@@ -104,7 +104,7 @@ _llis_   = 'llis'
 class HeightError(PointsError):
     '''Height interpolator C{Height...} or interpolation issue.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 def _alist(ais):
@@ -165,7 +165,7 @@ def _xyhs(wrap=False, _lat=_90_0, _lon=_180_0, height=True, **name_lls):
     # map (lat, lon, h) to (x, y, h) in radians, offset
     # x as 0 <= lon <= PI2 and y as 0 <= lat <= PI
     name, lls = _xkwds_item2(name_lls)
-    _w,  _r   = _Wrap._latlonop(wrap), radians
+    _w,  _r   = _Wrap._latlonop(wrap), radians  # PYLINT E1120
     try:
         for i, ll in enumerate(lls):
             y, x = _w(ll.lat, ll.lon)
@@ -173,7 +173,7 @@ def _xyhs(wrap=False, _lat=_90_0, _lon=_180_0, height=True, **name_lls):
             yield (max(_0_0, _r(x + _lon)),
                    max(_0_0, _r(y + _lat)), h)
     except Exception as x:
-        i = Fmt.INDEX(name, i)
+        i = Fmt.INDEX(name, i)  # PYLINT E0601
         raise HeightError(i, ll, cause=x)
 
 
@@ -508,7 +508,7 @@ class HeightLSQBiSpline(_HeightBase):
                 raise LenError(HeightLSQBiSpline, weight=m, nots=n)
             m, i = min2(*map(float, w))
             if m <= 0:  # PYCHOK no cover
-                raise HeightError(Fmt.INDEX(weight=i), m)
+                raise HeightError(Fmt.INDEX(weight=i), m)  # PYLINT E1120
         try:
             if not EPS < low < (PI_2 - EPS):  # 1e-4 like SciPy example
                 raise HeightError(low=low)
@@ -627,12 +627,12 @@ class _HeightIDW(_HeightNamed):
                                issue.
         '''
         def _xy2(wrap=False):
-            _w = _Wrap._latlonop(wrap)
+            _w, i = _Wrap._latlonop(wrap), None  # PYLINT E1120
             try:  # like _xyhs above, but degrees
                 for i, ll in enumerate(llis):
                     yield _w(ll.lon, ll.lat)
             except Exception as x:
-                i = Fmt.INDEX(llis=i)
+                i = Fmt.INDEX(llis=i)  # PYLINT E1120
                 raise HeightError(i, ll, cause=x)
 
         _as, llis = _as_llis2(llis)
@@ -674,24 +674,25 @@ class _HeightIDW(_HeightNamed):
     def _distances(self, x, y):
         '''(INTERNAL) Yield distances to C{(x, y)}.
         '''
-        _f, kwds = self._func, self._kwds
+        _f, kwds, i = self._func, self._kwds, None
         if not callable(_f):  # PYCHOK no cover
             self._notOverloaded(distance_function=_f)
         try:
             for i, k in enumerate(self._knots):
-                yield _f(y, x, k.lat, k.lon, **kwds)
-        except Exception as x:
-            i = Fmt.INDEX(knots=i)
+                yield _f(y, x, k.lat, k.lon, **kwds)  # PYLINT E1102
+        except Exception as x:  # PYLINT W0613
+            i = Fmt.INDEX(knots=i)  # PYLINT E1120
             raise HeightError(i, k, cause=x)
 
     def _distancesTo(self, _To):
         '''(INTERNAL) Yield distances C{_To}.
         '''
+        i = None
         try:
             for i, k in enumerate(self._knots):
                 yield _To(k)
         except Exception as x:
-            i = Fmt.INDEX(knots=i)
+            i = Fmt.INDEX(knots=i)  # PYLINT E1120
             raise HeightError(i, k, cause=x)
 
     def height(self, lats, lons, **wrap):

@@ -207,6 +207,7 @@ class Tests(TestsBase):
 
     def test_sincosd(self):
         """Test special cases for sincosd"""
+        n = None  # PYLINT W0631
         for n, (d, x, y) in self._T2(self.test_sincosd,
                (-810.0, -1.0, +0.0),
                (-720.0, -0.0, +1.0),

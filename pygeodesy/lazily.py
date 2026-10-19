@@ -81,7 +81,7 @@ class _Dict(dict):
         try:
             return self[attr]
         except KeyError:
-            return dict.__getattr__(self, attr)
+            return dict.__getattr__(self, attr)  # PYLINT E1101
 
 #   def __setattr__(self, attr, value):
 #       if attr in self:
@@ -216,8 +216,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'bearingDMS', 'clipDegrees', 'clipRadians', 'compassDMS', 'compassPoint',
                                    'degDMS', 'latDMS', 'latlonDMS', 'latlonDMS_', 'lonDMS', 'normDMS',
                                    'parseDDDMMSS', 'parseDMS', 'parseDMS2', 'parse3llh', 'parseRad', 'precision', 'toDMS'),
-                           ecef=_a('EcefFarrell21', 'EcefFarrell22', 'EcefFukushima', 'EcefKarney', 'EcefSudano', 'EcefUPC', 'EcefVeness', 'EcefYou',
-                                   'EcefError', 'EcefMatrix', 'Ecef9Tuple'),
+                           ecef=_a('EcefFarrell21', 'EcefFarrell22', 'EcefFukushima', 'EcefKarney', 'EcefOlson', 'EcefOsen',
+                                   'EcefSudano', 'EcefUPC', 'EcefVeness', 'EcefYou', 'EcefError', 'EcefMatrix', 'Ecef9Tuple'),
                      ecefLocals=_a(),  # module only
                      elevations=_a('Elevation2Tuple', 'GeoidHeight2Tuple',
                                    'elevation2', 'geoidHeight2'),
@@ -291,6 +291,8 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                                    'HeightIDWequirectangular', 'HeightIDWeuclidean', 'HeightIDWexact', 'HeightIDWflatLocal',
                                    'HeightIDWflatPolar', 'HeightIDWhaversine', 'HeightIDWhubeny', 'HeightIDWkarney', 'HeightIDWthomas',
                                    'HeightIDWvincentys', 'HeightLinear', 'HeightLSQBiSpline', 'HeightSmoothBiSpline'),
+                            hom=_a('HotineError', 'HotineOblique1', 'HotineOblique2', 'HotineOblique3',
+                                   'HotineObliqueA', 'HotineObliqueB', 'Hotine8Tuple', 'HotineAB14Tuple'),
                       internals=_internals.__all__,
                         interns=_interns.__all__,
                           iters=_a('LatLon2PsxyIter', 'PointsIter', 'points2',
@@ -300,6 +302,7 @@ _ALL_LAZY = _NamedEnum_RO(_name='_ALL_LAZY',
                      latlonBase=_a('latlon2n_xyz', 'philam2n_xyz'),
                          lazily=_a('LazyAttributeError', 'LazyImportError', 'isLazy'),
                             lcc=_a('Conic', 'Conics', 'Lcc', 'LCCError', 'toLcc'),
+                            lom=_a('LabordeError', 'LabordeOblique', 'Laborde8Tuple'),
                             ltp=_a('Attitude', 'AttitudeError', 'Frustum',
                                    'LocalCartesian', 'LocalError', 'Ltp', 'LqRD', 'tyr3d'),
                       ltpTuples=_a('Aer', 'Aer4Tuple', 'Attitude4Tuple',
@@ -504,7 +507,7 @@ class _ALL_MODS(_internals._MODS_Base):
 
         class _Into(object):
 
-            def __getattr__(unused, name):
+            def __getattr__(unused, name):  # PYLINT E0213
                 m = _getmodinto(mod_DNAME, _Into)
                 return getattr(m, name)
 
@@ -778,7 +781,7 @@ def _lazy_import2(pack):  # MCCABE 14
 
         return v  # __getattr__
 
-    global _lazy_dict, _lazy_module
+    global _lazy_dict, _lazy_module  # PYLINT W0603
     _lazy_dict   = package.__dict__
     _lazy_module = __getattr__
 
@@ -860,7 +863,7 @@ def _lazy_init2(pack):
 
        @note: Global C{isLazy} is set accordingly.
     '''
-    global isLazy, _unLazy0
+    global isLazy, _unLazy0  # PYLINT W0603
 
     E = _internals._PYGEODESY_ENV('LAZY_IMPORT')
     z = _internals._getenv(E, _interns._1_)  # 1 default on 3.7+
@@ -925,7 +928,7 @@ def _lazy_module(name):  # overwritten by _lazy_import2
 
 
 __all__ = _ALL_LAZY.lazily
-__version__ = '26.09.02'
+__version__ = '26.10.18'
 
 if __name__ == _DMAIN_:
 

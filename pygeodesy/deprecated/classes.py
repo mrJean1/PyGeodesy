@@ -42,8 +42,8 @@ def _reNames(names, old, *new):
 
 
 try:  # if installed, use pychlv
-    from pychlv import ChLV, ChLVa, ChLVe, ChLV9Tuple, \
-                       ChLVEN2Tuple, ChLVYX2Tuple, ChLVyx2Tuple
+    from pychlv import (ChLV, ChLVa, ChLVe, ChLV9Tuple,  # PYLINT W0611
+                        ChLVEN2Tuple, ChLVYX2Tuple, ChLVyx2Tuple)
 except ImportError:
 
     class _ChLV(object):
@@ -322,7 +322,7 @@ class Ned3Tuple(_Deprecated_NamedTuple):  # was in .ellipsoidalNvector
 
 def RefFrameError(*args, **kwds):  # PYCHOK no cover
     '''DEPRECATED, use class L{TRFError}.'''
-    TRFError = _MODS.errors.TRFError
+    TRFError = _MODS.errors.TRFError  # PYLINT E1101
 
     class RefFrameError(TRFError):
         '''DEPRECATED, use class L{TRFError}.

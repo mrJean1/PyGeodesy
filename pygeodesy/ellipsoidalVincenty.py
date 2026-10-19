@@ -85,7 +85,7 @@ class VincentyError(_ValueError):
     '''Error raised by I{Vincenty}'s C{Direct} and C{Inverse} methods
        for coincident points or lack of convergence.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 class Cartesian(CartesianEllipsoidalBase):
@@ -196,7 +196,7 @@ class LatLon(LatLonEllipsoidalBaseDI):
                                                 datum=self.datum)
         return LatLonEllipsoidalBaseDI.toCartesian(self, **kwds)
 
-    def _Direct(self, distance, bearing, llr, height):
+    def _Direct(self, distance, bearing, llr, height):  # PYLINT W0237
         '''(INTERNAL) Direct Vincenty method.
 
            @raise TypeError: The B{C{other}} point is not L{LatLon}.
@@ -223,7 +223,7 @@ class LatLon(LatLonEllipsoidalBaseDI):
             c2sm, e = cos(s12 + s), s
             s = _Ds(B, cs, ss, c2sm, d)
             e =  fabs(s - e)
-            if e < eps:
+            if e < eps:  # PYLINT W0143
                 self._iteration = i
                 break
         else:
@@ -291,7 +291,7 @@ class LatLon(LatLonEllipsoidalBaseDI):
             else:  # equatorial line
                 ll   =  dl + f * sa * s
             e = fabs(ll - e)
-            if e < eps:
+            if e < eps:  # PYLINT W0143
                 self._iteration = i
                 break
 #           elif abs(ll) > PI and self.isantipodeTo(other, eps=eps):
@@ -330,9 +330,9 @@ class LatLon(LatLonEllipsoidalBaseDI):
     def _no_convergence(self, e):
         '''(INTERNAL) Return I{'no convergence (..): ...'} text (C{str}).
         '''
-        t = (Fmt.PARENSPACED(*t) for t in ((LatLon.epsilon.name,    self.epsilon),
-                                           (LatLon.iterations.name, self.iterations)))
-        return _COLONSPACE_(Fmt.no_convergence(e), _and(*t))
+        t = (Fmt.PARENSPACED(*t) for t in ((LatLon.epsilon.name,    self.epsilon),  # PYLINT E1101
+                                           (LatLon.iterations.name, self.iterations)))  # PYLINT E1101
+        return _COLONSPACE_(Fmt.no_convergence(e), _and(*t))  # PYLINT E1120
 
 
 def _AB2(u2):  # WGS84 e22 = 0.00673949674227643

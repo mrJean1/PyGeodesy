@@ -302,7 +302,7 @@ class PointsIter(_BaseIter):
         for p in _BaseIter.iterate(self, closed=closed, copies=copies, dedup=closed):
             if _oth:
                 _oth(p, name=_fmt(_0_, str(self._indx)), up=2)
-            yield _p(p)
+            yield _p(p)  # PYLINT E1120
             n += 1
         if n < (4 if closed else 2):
             raise self._Error(self.name, n, txt=_too_(_few_))
@@ -467,7 +467,7 @@ def iterNumpy2over(n=None):
 
        @raise ValueError: Invalid B{C{n}}.
     '''
-    global _iterNumpy2len
+    global _iterNumpy2len  # PYLINT W0603
     p = _iterNumpy2len
     if n is not None:
         try:

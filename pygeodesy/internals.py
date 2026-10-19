@@ -182,7 +182,7 @@ class _MODS_Base(object):
         '''Get module C{os}, I{once}.
         '''
         import os as o
-        import os.path
+        import os.path  # PYLINT W0611
         return o
 
     @_Property_RO
@@ -219,7 +219,7 @@ class _MODS_Base(object):
         import subprocess as s
         kwds = dict(creationflags=0,  # executable=sys.executable, shell=True,
                     stdin=s.PIPE, stdout=s.PIPE, stderr=s.STDOUT)
-        if _MODS.sys_version_info2 > (3, 6):
+        if _MODS.sys_version_info2 > (3, 6):  # PYLINT W0143
             kwds.update(text=True)
         return s.Popen, kwds
 
@@ -358,12 +358,25 @@ def _isNix():  # in test/bases
     return _MODS.nix2[0]
 
 
-def _isPyChOK():  # PYCHOK no cover
+def _isPyChecker():  # PYCHOK no cover
     '''(INTERNAL) Is C{PyChecker} running? (C{bool})
     '''
     # .../pychecker/checker.py --limit 0 --stdlib pygeodesy/<mod>/<name>.py
     return _sys.argv[0].endswith('/pychecker/checker.py') or \
-            bool(_envPYGEODESY('PYCHOK'))
+            bool(_envPYGEODESY('PYCHECKER'))
+
+
+def _isPyChOK():  # PYCHOK no cover
+    '''(INTERNAL) Is C{PyChOK} running? (C{bool})
+    '''
+    return bool(_envPYGEODESY('PYCHOK'))
+
+
+def _isPyLint():  # PYCHOK no cover
+    '''(INTERNAL) Is C{PyLint} running? (C{bool})
+    '''
+    # pylint doesn't parse and/or run python code?
+    return bool(_envPYGEODESY('PYLINT'))
 
 
 def _isPyPy():  # in test/bases
@@ -640,7 +653,7 @@ def _usage(file_py, *args, **opts_help):  # in .etm, .geodesici  # PYCHOK no cov
     '''
     if opts_help:
 
-        def _help(alts=(), help=NN, **unused):
+        def _help(alts=(), help=NN, **unused):  # PYLINT W0622
             if alts and help:
                 h = NN(help, _SPACE_).lstrip(_DASH_)
                 for a in alts:
@@ -721,7 +734,7 @@ def _versions(sep=_SPACE_, **prefix_version):  # in pyaxqg, pybelbg, pyrdnap
 
 
 __all__ = tuple(map(typename, (machine, print_, printf, typename)))
-__version__ = '26.06.18'
+__version__ = '26.10.03'
 
 if __name__ == _DMAIN_:
 

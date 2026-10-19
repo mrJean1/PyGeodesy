@@ -36,7 +36,7 @@ def _main(**ALorder):  # PYCHOK no cover
 
 
 from sys import argv  # .internals._isPyChOK
-_main(ALorder=int(argv[1])) if len(argv) == 2 and argv[1].isdigit() else _main()
+_ = _main(ALorder=int(argv[1])) if len(argv) == 2 and argv[1].isdigit() else _main()
 
 # % python3.13 -m pygeodesy.auxilats
 # pygeodesy.auxilats 25.04.14: ALorder=6, CXb=11099, CXb_z=64.1%, CXn=522, CXu=448, CXu_n=85.8%, geographiclib 2.0 (pygeodesy 25.4.24 Python 3.13.3 64bit arm64 macOS 15.4)

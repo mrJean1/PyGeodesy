@@ -87,7 +87,7 @@ class _NamedTupleToX(_NamedTupleTo):  # in .testNamedTuples
         a, b, s = _X3(self, a, b, **kwds)
         if s is None or name:
             n = self._name__(name)
-            s = self.classof(a, b, *c, name=n).reUnit(U, U).toUnits()
+            s = self.classof(a, b, *c, name=n).reUnit(U, U).toUnits()  # PYLINT E1101
         return s
 
 
@@ -462,7 +462,7 @@ class TriaxialB(_Triaxial3Base):
 
        @see: L{Triaxial} for details and more information.
     '''
-    def __init__(self, b, e2=_0_0, k2=_1_0, kp2=_0_0, **name):
+    def __init__(self, b, e2=_0_0, k2=_1_0, kp2=_0_0, **name):  # PYLINT W0231
         '''New L{TriaxialB} triaxial.
 
            @arg b: Middle semi-axis (C{meter}, conventionally).
@@ -678,7 +678,7 @@ class ConformalSphere(Conformal):
     '''
     _ab = _bc = 0
 
-    def __init__(self, radius_conformal, ab=0, bc=0, **name):
+    def __init__(self, radius_conformal, ab=0, bc=0, **name):  # PYLINT W0231
         '''New L{ConformalSphere}.
 
            @arg radius_conformal: Radius (C{scalar}, conventionally in C{meter})
@@ -960,7 +960,7 @@ def _plumbTo4(x, y, a, b, eps=EPS):
              <https://www.GeometricTools.com/Documentation/DistancePointEllipseEllipsoid.pdf>}.
     '''
     if b > a:
-        b, a, d, i = _plumbTo4(y, x, b, a, eps=eps)
+        b, a, d, i = _plumbTo4(y, x, b, a, eps=eps)  # PYLINT W1114
         return a, b, d, i
 
     if not (b > 0 and _isfinite(a)):
@@ -1136,8 +1136,8 @@ def _validate(a, b, c, d, T, x, y, z, val):
                           sideOf=e, eps=val)
     if d:  # angle of delta and normal vector
         m = Vector3d(x, y, z).minus_(a, b, c)
-        if m.euclid > val:
-            m = m.unit()
+        if m.euclid > val:  # PYLINT E1101
+            m = m.unit()  # PYLINT E1101
             n = T.normal3d(a, b, c)
             e = n.dot(m)  # n.negate().dot(m)
             if not isnear1(fabs(e), eps1=val):

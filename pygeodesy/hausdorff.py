@@ -87,13 +87,13 @@ from random import Random
 __all__ = _ALL_LAZY.hausdorff
 __version__ = '25.05.26'
 
-_formy = _MODS.into(formy=__name__)
+_formy = _MODS.into(formy=__name__)  # PYLINT E1120
 
 
 class HausdorffError(PointsError):
     '''Hausdorff issue.
     '''
-    pass
+    pass  # PYLINT W0107
 
 
 class Hausdorff(_Named):
@@ -177,7 +177,7 @@ class Hausdorff(_Named):
            subject to the supplied optional keyword arguments, see
            property C{kwds}.
         '''
-        return self._func(point1.lat, point1.lon,
+        return self._func(point1.lat, point1.lon,  # PYLINT E1102
                           point2.lat, point2.lon, **self._kwds)
 
     @Property
@@ -357,7 +357,7 @@ class HausdorffCosineLaw(_HausdorffMeterRadians):
 
        @note: See note at function L{pygeodesy.vincentys_}.
     '''
-    def __init__(self, point1s, **seed_name__corr_earth_wrap):
+    def __init__(self, point1s, **seed_name__corr_earth_wrap):  # PYLINT W0231
         '''New L{HausdorffCosineLaw} calculator.
 
            @kwarg seed_name__corr_earth_wrap: Optional C{B{seed}=None} and
@@ -367,7 +367,7 @@ class HausdorffCosineLaw(_HausdorffMeterRadians):
            @see: L{Hausdorff.__init__} for details about B{C{point1s}},
                  B{C{seed}}, B{C{name}} and other exceptions.
         '''
-        Hausdorff.__init__(self, point1s, **seed_name__corr_earth_wrap)
+        Hausdorff.__init__(self, point1s, **seed_name__corr_earth_wrap)  # PYLINT W0233
         self._func  = _formy.cosineLaw
         self._func_ = _formy.cosineLaw_
 
@@ -401,7 +401,7 @@ class HausdorffDistanceTo(Hausdorff):
         directed  = Hausdorff.directed
         symmetric = Hausdorff.symmetric
 
-    def distance(self, p1, p2):
+    def distance(self, p1, p2):  # PYLINT W0237
         '''Return the distance in C{meter}.
         '''
         return p1.distanceTo(p2, **self._kwds)
@@ -441,7 +441,7 @@ class HausdorffEquirectangular(Hausdorff):
 class HausdorffEuclidean(_HausdorffMeterRadians):
     '''Compute the C{Hausdorff} distance with function L{pygeodesy.euclidean_}.
     '''
-    def __init__(self, point1s, **seed_name__adjust_radius_wrap):
+    def __init__(self, point1s, **seed_name__adjust_radius_wrap):  # PYLINT W0231
         '''New L{HausdorffEuclidean} calculator.
 
            @kwarg seed_name__adjust_radius_wrap: Optional C{B{seed}=None}
@@ -451,7 +451,7 @@ class HausdorffEuclidean(_HausdorffMeterRadians):
            @see: L{Hausdorff.__init__} for details about B{C{point1s}},
                  B{C{seed}}, B{C{name}} and other exceptions.
         '''
-        Hausdorff.__init__(self, point1s, **seed_name__adjust_radius_wrap)
+        Hausdorff.__init__(self, point1s, **seed_name__adjust_radius_wrap)  # PYLINT W0233
         self._func  = _formy.euclidean
         self._func_ = _formy.euclidean_
 
@@ -494,7 +494,7 @@ class HausdorffFlatLocal(_HausdorffMeterRadians):
     '''
     _units = _unitsBase._Str_radians2
 
-    def __init__(self, point1s, **seed_name__datum_scaled_wrap):
+    def __init__(self, point1s, **seed_name__datum_scaled_wrap):  # PYLINT W0231
         '''New L{HausdorffFlatLocal}/L{HausdorffHubeny} calculator.
 
            @kwarg seed_name__datum_scaled_wrap: Optional C{B{seed}=None} and
@@ -506,7 +506,7 @@ class HausdorffFlatLocal(_HausdorffMeterRadians):
 
            @note: The distance C{units} are C{radians squared}, not C{radians}.
         '''
-        Hausdorff.__init__(self, point1s, **seed_name__datum_scaled_wrap)
+        Hausdorff.__init__(self, point1s, **seed_name__datum_scaled_wrap)  # PYLINT W0233
         self._func  = _formy.flatLocal
         self._func_ =  self.datum.ellipsoid._hubeny_2
 
@@ -520,7 +520,7 @@ class HausdorffFlatPolar(_HausdorffMeterRadians):
     '''
     _wrap = False
 
-    def __init__(self, points, **seed_name__radius_wrap):
+    def __init__(self, points, **seed_name__radius_wrap):  # PYLINT W0231
         '''New L{HausdorffFlatPolar} calculator.
 
            @kwarg seed_name__radius_wrap: Optional C{B{seed}=None}
@@ -530,7 +530,7 @@ class HausdorffFlatPolar(_HausdorffMeterRadians):
            @see: L{Hausdorff.__init__} for details about B{C{point1s}},
                  B{C{seed}}, B{C{name}} and other exceptions.
         '''
-        Hausdorff.__init__(self, points, **seed_name__radius_wrap)
+        Hausdorff.__init__(self, points, **seed_name__radius_wrap)  # PYLINT W0233
         self._func  = _formy.flatPolar
         self._func_ = _formy.flatPolar_
 
@@ -546,7 +546,7 @@ class HausdorffHaversine(_HausdorffMeterRadians):
     '''
     _wrap = False
 
-    def __init__(self, points, **seed_name__radius_wrap):
+    def __init__(self, points, **seed_name__radius_wrap):  # PYLINT W0231
         '''New L{HausdorffHaversine} calculator.
 
            @kwarg seed_name__radius_wrap: Optional C{B{seed}=None}
@@ -556,7 +556,7 @@ class HausdorffHaversine(_HausdorffMeterRadians):
            @see: L{Hausdorff.__init__} for details about B{C{point1s}},
                  B{C{seed}}, B{C{name}} and other exceptions.
        '''
-        Hausdorff.__init__(self, points, **seed_name__radius_wrap)
+        Hausdorff.__init__(self, points, **seed_name__radius_wrap)  # PYLINT W0233
         self._func  = _formy.haversine
         self._func_ = _formy.haversine_
 
@@ -608,7 +608,7 @@ class HausdorffKarney(Hausdorff):
 class HausdorffThomas(_HausdorffMeterRadians):
     '''Compute the C{Hausdorff} distance with function L{pygeodesy.thomas_}.
     '''
-    def __init__(self, point1s, **seed_name__datum_wrap):
+    def __init__(self, point1s, **seed_name__datum_wrap):  # PYLINT W0231
         '''New L{HausdorffThomas} calculator.
 
            @kwarg seed_name__datum_wrap: Optional C{B{seed}=None}
@@ -618,7 +618,7 @@ class HausdorffThomas(_HausdorffMeterRadians):
            @see: L{Hausdorff.__init__} for details about B{C{point1s}},
                  B{C{seed}}, B{C{name}} and other exceptions.
         '''
-        Hausdorff.__init__(self, point1s, **seed_name__datum_wrap)
+        Hausdorff.__init__(self, point1s, **seed_name__datum_wrap)  # PYLINT W0233
         self._func  = _formy.thomas
         self._func_ = _formy.thomas_
 
@@ -634,7 +634,7 @@ class HausdorffVincentys(_HausdorffMeterRadians):
     '''
     _wrap = False
 
-    def __init__(self, point1s, **seed_name__radius_wrap):
+    def __init__(self, point1s, **seed_name__radius_wrap):  # PYLINT W0231
         '''New L{HausdorffVincentys} calculator.
 
            @kwarg seed_name__radius_wrap: Optional C{B{seed}=None}
@@ -644,7 +644,7 @@ class HausdorffVincentys(_HausdorffMeterRadians):
            @see: L{Hausdorff.__init__} for details about B{C{point1s}},
                  B{C{seed}}, B{C{name}} and other exceptions.
         '''
-        Hausdorff.__init__(self, point1s, **seed_name__radius_wrap)
+        Hausdorff.__init__(self, point1s, **seed_name__radius_wrap)  # PYLINT W0233
         self._func  = _formy.vincentys
         self._func_ = _formy.vincentys_
 
