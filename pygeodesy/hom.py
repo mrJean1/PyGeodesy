@@ -32,7 +32,7 @@ from math import cos, cosh, degrees, e as _base_e, fabs, log, radians, \
                  sin, sinh, sqrt, tan, tanh
 
 __all__ = _ALL_LAZY.hom
-__version__ = '26.10.19'
+__version__ = '26.10.20'
 
 
 class _HotineObliqueBase(_NamedBase):
@@ -711,7 +711,7 @@ class Hotine8Tuple(_NamedTuple):
        and C{y} and "unrectified" C{u} and C{v} in C{meter}, geodetic C{lat}- and C{lon}gitude
        in degrees, C{scale} factor (aka C{k}) and C{HotineOblique*} Mercator instance C{hom}.
 
-       @note: Except C{hom}, any attibute may be C{NAN}, C{INF} or C{NINF} for singulaties.
+       @note: Except C{hom}, any attibute may be C{NAN} or non-finite for singulaties.
     '''
     _Names_ = (_x_,   _y_,   'u',   'v',   _lat_, _lon_, _scale_, 'hom')
     _Units_ = ( Meter, Meter, Meter, Meter, Lat,   Lon,  _Pass,   _Pass)

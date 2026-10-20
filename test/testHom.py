@@ -4,13 +4,20 @@
 # Some L{hom} C{HotineOblique} Mercator tests.
 
 __all__ = ('Tests',)
-__version__ = '26.10.18'
+__version__ = '26.10.20'
 
 from bases import isPython3, TestsBase, startswith
 
 from pygeodesy import Ellipsoids as Es, fstr, hom, grades2degrees, \
                       HotineOblique1, HotineOblique2, HotineOblique3, \
                       HotineObliqueA, HotineObliqueB, latDMS, lonDMS
+
+
+from math import fabs
+
+
+def _err(f, x, y):
+    return max(fabs(f.x - x), fabs(f.y - y))
 
 
 def _str(t):
@@ -137,13 +144,13 @@ class Tests(TestsBase):
             self.test('BreverseL', (latDMS(r.lat), lonDMS(r.lon)), "('16°11′23.28″S', '044°27′27.26″E')")
 
         f = h.forward('18 54S', '47 30E')  # IOGP page 66, Comparing the Hotine Oblique Mercator (variant B) ...
-        self.test('BforwardL', _str(f), '(511921.054, 799665.520, ...', known=True, nl=1)  # IOGP N/X? 799665.520, E/Y? 511921.054, ... XXX
+        self.test('BforwardL', _str(f), '(511921.054, 799665.520, ...', error=_err(f, 511921.054, 799665.520), known=True, nl=1)  # IOGP N/X? 799665.520, E/Y? 511921.054, ... XXX
         f = h.forward('16 12S', '44 24E')
-        self.test('BforwardL', _str(f), '(182184.985, 1097651.426, ...', known=True)  # IOGP N/X? 1097651.426, E/Y? 182184.985, ... XXX
+        self.test('BforwardL', _str(f), '(182184.985, 1097651.426, ...', error=_err(f, 182184.985, 1097651.426), known=True)  # IOGP N/X? 1097651.426, E/Y? 182184.985, ... XXX
         f = h.forward('25 40S', '45 18E')
-        self.test('BforwardL', _str(f), '(285294.788, 50636.850, ...', known=True)  # IOGP N/X? 50636.850, E/Y? 285294.788, ... XXX
+        self.test('BforwardL', _str(f), '(285294.788, 50636.850, ...', error=_err(f, 285294.788, 50636.850), known=True)  # IOGP N/X? 50636.850, E/Y? 285294.788, ... XXX
         f = h.forward('12 00S', '49 12E')
-        self.test('BforwardL', _str(f), '(701352.935, 1561109.350, ...', known=True)  # IOGP N/X? 1561109.350, E/Y? 701352.935, ... XXX
+        self.test('BforwardL', _str(f), '(701352.935, 1561109.350, ...', error=_err(f, 701352.935, 1561109.350), known=True)  # IOGP N/X? 1561109.350, E/Y? 701352.935, ... XXX
 
 
 if __name__ == '__main__':

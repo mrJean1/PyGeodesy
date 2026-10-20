@@ -1,5 +1,5 @@
 
-# 25.12.31
+# 26.10.20
 # <http://Tomassetti.me/continous-integration-on-linux-and-windows-travis-and-appveyor/>
 # <http://GitHub.com/pypa/setuptools/blob/master/appveyor.yml>
 # <http://www.AppVeyor.com/docs/windows-images-software/#python>
@@ -26,10 +26,6 @@ environment:
     - PYTHON: "C:\\Python27-x64"
       PYTHON_ARCH: "64"
       APPVEYOR_JOB_NAME: "Python27-64bit"
-
-    - PYTHON: "C:\\Python27"
-      PYTHON_ARCH: "32"
-      APPVEYOR_JOB_NAME: "Python27-32bit"
 
     - PYTHON: "C:\\Python312-x64"
       PYTHON_ARCH: "64"

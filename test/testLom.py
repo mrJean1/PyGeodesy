@@ -4,12 +4,18 @@
 # Some L{lom} C{LabordeOblique} Mercator tests.
 
 __all__ = ('Tests',)
-__version__ = '26.10.19'
+__version__ = '26.10.20'
 
 from bases import TestsBase, startswith
 
 from pygeodesy import Ellipsoids as Es, grades2degrees, \
                       lom, LabordeOblique
+
+from math import fabs
+
+
+def _err(f, x, y):
+    return max(fabs(f.x - x), fabs(f.y - y))
 
 
 def _str(t):
@@ -33,25 +39,21 @@ class Tests(TestsBase):
         self.test('xy0', p.xy0, '(400000.0, 800000.0)')
 
         f = p.forward('16 11 23.280S', '44 27 27.260E')
-        x = '(188367.887184, 1098721.824251, -16.1898, 44.457572, -0.282565, 0.775931, 0.9995, ...'
-        self.test('forward', _str(f), x, known=startswith, nl=1)
+        self.test('forward', _str(f), '(188367.887184, 1098721.824251, 0.998343, -0.046949, -16.1898, 44.457572, 0.9995, ...', known=startswith, nl=1)
         r = p.reverse(f.x, f.y)
-        self.test('reverse', _str(r), x, known=startswith)
+        self.test('reverse', _str(r), '(188367.887184, 1098721.824251, 0.959983, -0.033272, -16.1898, 44.457572, 0.9995, ...', known=startswith)
 
         r = p.reverse(188333.848, 1098841.091)
-        x = '(188333.848, 1098841.091, -16.188719, 44.457265, -0.282546, 0.775926, 0.9995, ...'
-        self.test('reverse', _str(r), x, known=startswith, nl=1)
-        f = p.forward_(r.phi, r.lam)
-        self.test('forward_', _str(f), x, known=startswith)
+        self.test('reverse', _str(r), '(188333.848, 1098841.091, 0.959988, -0.033277, -16.188719, 44.457265, 0.9995, ...', known=startswith, nl=1)
 
         f = p.forward('18 54S', '47 30E')  # IOGP page 66, Comparing the Hotine Oblique Mercator (variant B) ...
-        self.test('forward', _str(f), '(511921.054, 799665.521, ...', known=True, nl=1)  # IOGP N/X? 799665.521, E/Y? 511921.054, ... XXX
+        self.test('forward', _str(f), '(511921.054, 799665.521, ...', error=_err(f, 511921.054, 799665.521), known=True, nl=1)  # IOGP N/X? 799665.521, E/Y? 511921.054, ... XXX
         f = p.forward('16 12S', '44 24E')
-        self.test('forward', _str(f), '(182184.982, 1097651.4447, ...', known=True)  # IOGP N/X? 1097651.447, E/Y? 182184.982, ... XXX
+        self.test('forward', _str(f), '(182184.982, 1097651.4447, ...', error=_err(f, 182184.982, 1097651.4447), known=True)  # IOGP N/X? 1097651.447, E/Y? 182184.982, ... XXX
         f = p.forward('25 40S', '45 18E')
-        self.test('forward', _str(f), '(285294.334, 50636.222, ...', known=True)  # IOGP N/X? 50636.222, E/Y? 285294.334, ... XXX
-        f = p.forward('12 00S', '49 12E')
-        self.test('forward', _str(f), '(701354.05, 1561109.146, ...', known=True)  # IOGP N/X? 1561109.146, E/Y? 701354.056, ... XXX
+        self.test('forward', _str(f), '(285294.334, 50636.222, ...', error=_err(f, 285294.334, 50636.222), known=True)  # IOGP N/X? 50636.222, E/Y? 285294.334, ... XXX
+        f = p.forward('12 0S', '49 12E')
+        self.test('forward', _str(f), '(701354.05, 1561109.146, ...', error=_err(f, 701354.05, 1561109.146), known=True)  # IOGP N/X? 1561109.146, E/Y? 701354.056, ... XXX
 
 
 if __name__ == '__main__':

@@ -135,27 +135,6 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="pygeodesy.lom.LabordeOblique-class.html#forward_" class="summary-sig-name">forward_</a>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">phi</span>,
-        <span class="summary-sig-arg">lam</span>,
-        <span class="summary-sig-arg">**name</span>)</span><br />
-      Project a geodetic lat- and longitude in <code>radians</code> to 
-      Laborde east- and northing.</td>
-          <td align="right" valign="top">
-            
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
           <td><span class="summary-sig"><a href="pygeodesy.lom.LabordeOblique-class.html#reverse" class="summary-sig-name">reverse</a>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">x</span>,
         <span class="summary-sig-arg">y</span>,
@@ -433,51 +412,13 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.lom.Laborde8Tuple-class.html" 
-          class="link">Laborde8Tuple</a><code>(x, y, lat, lon, phi, lam, 
-          scale, lom)</code> with falsed east- and northing <code>x</code> 
-          and <code>y</code> in <code>meter</code>, geodetic 
-          <code>lat</code>- and <code>lon</code>gitude in degrees, 
-          <code>phi</code> and <code>lam</code>da in radians, 
-          <code>scale</code> factor (aka <code>k</code>) and this 
-          <code>LabordeOblique*</code> Mercator instance <code>lom</code>.</dd>
-  </dl>
-</td></tr></table>
-</div>
-<a name="forward_"></a>
-<div>
-<table class="details" border="1" cellpadding="3"
-       cellspacing="0" width="100%" bgcolor="white">
-<tr><td>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tr valign="top"><td>
-  <h3 class="epydoc"><span class="sig"><span class="sig-name">forward_</span>&nbsp;(<span class="sig-arg">self</span>,
-        <span class="sig-arg">phi</span>,
-        <span class="sig-arg">lam</span>,
-        <span class="sig-arg">**name</span>)</span>
-  </h3>
-  </td><td align="right" valign="top"
-    >&nbsp;
-    </td>
-  </tr></table>
-  
-  <p>Project a geodetic lat- and longitude in <code>radians</code> to 
-  Laborde east- and northing.</p>
-  <dl class="fields">
-    <dt>Arguments:</dt>
-    <dd><ul class="nomargin-top">
-        <li><strong class="pname"><code>phi</code></strong> - Latitude of the point (<code>radians</code>).</li>
-        <li><strong class="pname"><code>lam</code></strong> - Longitude of the point (<code>radians</code>).</li>
-        <li><strong class="pname"><code>name</code></strong> - Optional <code><b>name</b>=NN</code> (<code>str</code>).</li>
-    </ul></dd>
-    <dt>Returns:</dt>
-        <dd><a href="pygeodesy.lom.Laborde8Tuple-class.html" 
-          class="link">Laborde8Tuple</a><code>(x, y, lat, lon, phi, lam, 
-          scale, lom)</code> with falsed east- and northing <code>x</code> 
-          and <code>y</code> in <code>meter</code>, geodetic 
-          <code>lat</code>- and <code>lon</code>gitude in degrees, 
-          <code>phi</code> and <code>lam</code>da in radians, 
-          <code>scale</code> factor (aka <code>k</code>) and this 
-          <code>LabordeOblique*</code> Mercator instance <code>lom</code>.</dd>
+          class="link">Laborde8Tuple</a><code>(x, y, U, V, lat, lon, scale,
+          lom)</code> with falsed east- and northing <code>x</code> and 
+          <code>y</code> in <code>meter</code>, &quot;unrectified&quot; 
+          <code>U</code> and <code>V</code>, geodetic <code>lat</code>- and
+          <code>lon</code>gitude in degrees, <code>scale</code> factor (aka
+          <code>k</code>) and this <code>LabordeOblique*</code> Mercator 
+          instance <code>lom</code>.</dd>
   </dl>
 </td></tr></table>
 </div>
@@ -509,10 +450,10 @@
     </ul></dd>
     <dt>Returns:</dt>
         <dd><a href="pygeodesy.lom.Laborde8Tuple-class.html" 
-          class="link">Laborde8Tuple</a><code>(x, y, lat, lon, phi, lam, 
-          scale, lom)</code> with geodetic <code>lat</code>- and 
-          <code>lon</code>gitude in degrees, <code>phi</code> and 
-          <code>lam</code>da in radians, <code>scale</code> factor (aka 
+          class="link">Laborde8Tuple</a><code>(x, y, U, V, lat, lon, scale,
+          lom)</code> with geodetic <code>lat</code>- and 
+          <code>lon</code>gitude in degrees, &quot;unrectified&quot; 
+          <code>U</code> and <code>V</code>, <code>scale</code> factor (aka
           <code>k</code>), falsed east- and northing <code>x</code> and 
           <code>y</code> and this <code>LabordeOblique*</code> Mercator 
           instance <code>lom</code>.</dd>
@@ -831,7 +772,7 @@ class="link">Vector2Tuple</a>, <code>meter</code>).
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Mon Oct 19 17:01:48 2026
+    Generated by Epydoc 3.0.1 on Tue Oct 20 11:21:39 2026
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

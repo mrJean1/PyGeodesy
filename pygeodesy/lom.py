@@ -15,22 +15,22 @@ from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.errors import _ValueError
 from pygeodesy.fmath import fdot_, hypot
 # from pygeodesy.internals import typename  # from .basics
-from pygeodesy.interns import _C_, _COMMASPACE_, _lam_, _lat_, _lon_, _phi_, \
-                              _scale_, _x_, _y_, _0_
+from pygeodesy.interns import _C_, _COMMASPACE_, _lat_, _lon_, _scale_, \
+                              _V_, _x_, _y_, _0_
 # from pygeodesy.lazily import _ALL_LAZY  # from .basics
 from pygeodesy.named import _NamedBase, _NamedTuple, _namethod, _Pass
 from pygeodesy.namedTuples import LatLon2Tuple, PhiLam2Tuple, Vector2Tuple
 from pygeodesy.props import Property_RO, property_RO, property_ROver
 from pygeodesy.streprs import Fmt, pairs, unstr
-from pygeodesy.units import Azimuth, Meter, Lam, Lamd, Lat, _LatLon2, Lon, \
-                            Phi, Phid, Scalar
+from pygeodesy.units import Azimuth, Meter, Lamd, Lat, _LatLon2, Lon, \
+                            Phid, Scalar
 from pygeodesy.utily import asin1, atan1, sincos2, sincos2_, wrapPI as _PI
 
 from math import atan, degrees, e as _base_e, fabs, log, radians, \
                  sin, sqrt, tan
 
 __all__ = _ALL_LAZY.lom
-__version__ = '26.10.18'
+__version__ = '26.10.20'
 
 _TRIPS = 17  # per iteration loop
 
@@ -136,23 +136,6 @@ class LabordeOblique(_NamedBase):
         '''
         return self.earth.ellipsoid
 
-    def _forward(self, lat, lon, phi, lam, where, **name):
-        '''(INTERNAL) Geodetic to Laborde east- and northing.
-        '''
-        B, C, G, R = self._BCGR
-        e = self.ellipsoid.e
-
-        L = (lam - self._bC) * B
-        q = _log_2(phi, e) * B + C
-        _, P = _phiq2(q)
-        L, P = _LP2(L, P, True, *self._scaS)
-        H  = complex(-L, P)
-        H += pow(H, 3) * G
-        x  = H.imag * R + self._x0
-        y  = H.real * R + self._y0
-        return Laborde8Tuple(x, y, lat, lon, phi, lam, self.kC, self,
-                             name=_namethod(where, **name))
-
     def forward(self, lat_latlon, lon, **name):
         '''Project a geodetic lat- and longitude in C{degrees} to Laborde east- and northing.
 
@@ -162,28 +145,28 @@ class LabordeOblique(_NamedBase):
                      is scalar, ignored otherwise.
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
-           @return: L{Laborde8Tuple}C{(x, y, lat, lon, phi, lam, scale, lom)} with falsed
-                    east- and northing C{x} and C{y} in C{meter}, geodetic C{lat}- and
-                    C{lon}gitude in degrees, C{phi} and C{lam}da in radians, C{scale}
-                    factor (aka C{k}) and this C{LabordeOblique*} Mercator instance C{lom}.
+           @return: L{Laborde8Tuple}C{(x, y, U, V, lat, lon, scale, lom)} with falsed
+                    east- and northing C{x} and C{y} in C{meter}, "unrectified" C{U} and
+                    C{V}, geodetic C{lat}- and C{lon}gitude in degrees, C{scale} factor
+                    (aka C{k}) and this C{LabordeOblique*} Mercator instance C{lom}.
         '''
         lat, lon = _LatLon2(lat_latlon, lon, LabordeError)
-        return self._forward(lat, lon, Phid(lat), Lamd(lon), self.forward, **name)
+        a,   b   =  Phid(lat), Lamd(lon)
 
-    def forward_(self, phi, lam, **name):
-        '''Project a geodetic lat- and longitude in C{radians} to Laborde east- and northing.
+        B, C, G, R = self._BCGR
+        e = self.ellipsoid.e
 
-           @arg phi: Latitude of the point (C{radians}).
-           @arg lam: Longitude of the point (C{radians}).
-           @kwarg name: Optional C{B{name}=NN} (C{str}).
+        L = (b - self._bC) * B
+        q = _log_2(a, e) * B + C
+        _, P = _phiq2(q)
+        L, P, U, V = _LPUV4(L, P, True, *self._scaS)
 
-           @return: L{Laborde8Tuple}C{(x, y, lat, lon, phi, lam, scale, lom)} with falsed
-                    east- and northing C{x} and C{y} in C{meter}, geodetic C{lat}- and
-                    C{lon}gitude in degrees, C{phi} and C{lam}da in radians, C{scale}
-                    factor (aka C{k}) and this C{LabordeOblique*} Mercator instance C{lom}.
-        '''
-        phi, lam = Phi(phi), Lam(lam)
-        return self._forward(degrees(phi), degrees(lam), phi, lam, self.forward_, **name)
+        H  = complex(-L, P)
+        H += pow(H, 3) * G
+        x  = H.imag * R + self._x0
+        y  = H.real * R + self._y0
+        return Laborde8Tuple(x, y, U, V, lat, lon, self.kC, self,
+                             name=_namethod(self.forward, **name))
 
     @property_RO
     def kC(self):
@@ -223,10 +206,10 @@ class LabordeOblique(_NamedBase):
            @arg y: Northing of the point (C{meter}).
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
-           @return: L{Laborde8Tuple}C{(x, y, lat, lon, phi, lam, scale, lom)} with geodetic
-                    C{lat}- and C{lon}gitude in degrees, C{phi} and C{lam}da in radians,
-                    C{scale} factor (aka C{k}), falsed east- and northing C{x} and C{y} and
-                    this C{LabordeOblique*} Mercator instance C{lom}.
+           @return: L{Laborde8Tuple}C{(x, y, U, V, lat, lon, scale, lom)} with geodetic
+                    C{lat}- and C{lon}gitude in degrees, "unrectified" C{U} and C{V},
+                    C{scale} factor (aka C{k}), falsed east- and northing C{x} and C{y}
+                    and this C{LabordeOblique*} Mercator instance C{lom}.
         '''
         B, C, G, R = self._BCGR
 
@@ -244,10 +227,11 @@ class LabordeOblique(_NamedBase):
             if self._TOL(D.real):
                 break
             H_ = H
-        P    =  pow(_base_e, H.imag)
-        P    =  atan(P) * _2_0 - PI_2
-        L, P = _LP2(-H.real, P, False, *self._scaS)
+        P = pow(_base_e, H.imag)
+        P = atan(P) * _2_0 - PI_2
+        L, P, U, V = _LPUV4(-H.real, P, False, *self._scaS)
 
+        b     = _PI(_over(L, B) + self._bC)
         e     =  self.ellipsoid.e
         q, a_ = _phiq2(_over(P - C, B))
         for i in self._TRIPS(i, x, y):  # PYLINT W0631
@@ -257,8 +241,7 @@ class LabordeOblique(_NamedBase):
                 break
             a_ = a
 
-        b = _PI(_over(L, B) + self._bC)
-        return Laborde8Tuple(x, y, degrees(a), degrees(b), a, b, self.kC, self,
+        return Laborde8Tuple(x, y, U, V, degrees(a), degrees(b), self.kC, self,
                              iteration=i, name=_namethod(self.reverse, **name))
 
     @Property_RO
@@ -301,14 +284,15 @@ class LabordeError(_ValueError):
 
 
 class Laborde8Tuple(_NamedTuple):
-    '''8-Tuple C{(x, y, lat, lon, phi, lam, scale, lom)} with (falsed) east- and northing C{x}
-       and C{y} in C{meter}, geodetic C{lat}- and C{lon}gitude in degrees, C{phi} and C{lam}da
-       in C{radians}, C{scale} factor (aka C{k}) and C{LabordeOblique*} Mercator instance C{lom}.
+    '''8-Tuple C{(x, y, U, V, lat, lon, scale, lom)} with (falsed) east- and northing
+       C{x} and C{y} in C{meter}, "unrectified" C{U} and C{V}, geodetic C{lat}- and
+       C{lon}gitude in degrees, C{scale} factor (aka C{k}) and C{LabordeOblique*}
+       Mercator instance C{lom}.
 
-       @note: Except C{hom}, any attibute may be C{NAN}, C{INF} or C{NINF} for singulaties.
+       @note: Except C{hom}, any attribute may be C{NAN} or non-finite for singulaties.
     '''
-    _Names_ = (_x_,   _y_,   _lat_, _lon_, _phi_, _lam_, _scale_, 'lom')
-    _Units_ = ( Meter, Meter, Lat,   Lon,   Phi,   Lam,  _Pass,   _Pass)
+    _Names_ = (_x_,   _y_,   'U',    _V_,    _lat_, _lon_, _scale_, 'lom')
+    _Units_ = ( Meter, Meter, Scalar, Scalar, Lat,   Lon,   Scalar, _Pass)
 
 
 def _log_2(a, e):
@@ -317,7 +301,7 @@ def _log_2(a, e):
     return log(r)
 
 
-def _LP2(L, P, forward, saS, caS):
+def _LPUV4(L, P, forward, saS, caS):
     sL, cL, sP, cP = sincos2_(L, P)
     V =                     cP * cL
     W = sP if forward else (cP * sL)
@@ -335,7 +319,7 @@ def _LP2(L, P, forward, saS, caS):
     else:  # PYCHOK no cover
         L = _0_0
         P = _copysign(PI_2, W)
-    return L, log(_tan_2(P))
+    return L, log(_tan_2(P)), U, V
 
 
 def _philam2(t):
