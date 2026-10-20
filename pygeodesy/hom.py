@@ -32,7 +32,7 @@ from math import cos, cosh, degrees, e as _base_e, fabs, log, radians, \
                  sin, sinh, sqrt, tan, tanh
 
 __all__ = _ALL_LAZY.hom
-__version__ = '26.10.18'
+__version__ = '26.10.19'
 
 
 class _HotineObliqueBase(_NamedBase):
@@ -181,7 +181,6 @@ class _HotineObliqueBase(_NamedBase):
 class _HotineOblique123(_HotineObliqueBase):
     '''(INTERNAL) Spherical C{HotineOblique1}, C{-2} and C{-3} base class.
     '''
-
     _Rk0    = \
     _radius = R_M
 
@@ -348,6 +347,7 @@ class HotineOblique2(_HotineOblique123):
 class HotineOblique3(_HotineOblique123):
     '''Spherical variant 3: Hotine Oblique Mercator projection given the C{main pole}.
     '''
+
     def __init__(self, lat_latlon, lon=None, radius=R_M, **k0_lat0_x0_y0_name):
         '''New spherical L{HotineOblique3} Mercator, variant 3.
 
@@ -367,7 +367,6 @@ class HotineOblique3(_HotineOblique123):
 class _HotineObliqueAB(_HotineObliqueBase):
     '''(INTERNAL) Ellipsoidal C{HotineObliqueA} and C{-B} base class.
     '''
-
     _ABEG_BuCz = ()  # 7-tuple
     _earth     = _WGS84
 
@@ -653,6 +652,7 @@ class HotineObliqueB(_HotineObliqueAB):
     '''Ellipsoidal variant B: Hotine Oblique Mercator projection given the C{central point}
        and C{azimuth}.
     '''
+
     def __init__(self, lat_latlon, lon=None, azimuth=_0_0, earth=_WGS84, **k0_lat0_x0_y0_name):
         '''New ellipsoidal L{HotineObliqueB} Mercator, variant B.
 
@@ -752,7 +752,7 @@ def _tesB(e, s, B, *a):  # t(e, s) power B!
 #       t  =  pow(t, e)
 #       t *= _d_s(_1_0,  s)
 #       t  =  pow(t, B * _0_5)  # == pow(sqrt(t), B)
-    else:
+    else:  # PYCHOK no cover
         t  = _1_0
     return t
 

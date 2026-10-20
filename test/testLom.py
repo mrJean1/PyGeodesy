@@ -4,7 +4,7 @@
 # Some L{lom} C{LabordeOblique} Mercator tests.
 
 __all__ = ('Tests',)
-__version__ = '26.10.18'
+__version__ = '26.10.19'
 
 from bases import TestsBase, startswith
 
@@ -41,8 +41,8 @@ class Tests(TestsBase):
         r = p.reverse(188333.848, 1098841.091)
         x = '(188333.848, 1098841.091, -16.188719, 44.457265, -0.282546, 0.775926, 0.9995, ...'
         self.test('reverse', _str(r), x, known=startswith, nl=1)
-        f = p.forward(r.phi, r.lam)
-        self.test('forward_', _str(r), x, known=startswith)
+        f = p.forward_(r.phi, r.lam)
+        self.test('forward_', _str(f), x, known=startswith)
 
         f = p.forward('18 54S', '47 30E')  # IOGP page 66, Comparing the Hotine Oblique Mercator (variant B) ...
         self.test('forward', _str(f), '(511921.054, 799665.521, ...', known=True, nl=1)  # IOGP N/X? 799665.521, E/Y? 511921.054, ... XXX

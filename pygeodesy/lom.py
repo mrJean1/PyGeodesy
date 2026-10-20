@@ -75,7 +75,7 @@ class LabordeOblique(_NamedBase):
             szC, czC, s, c = sincos2_(zC, zC * _2_0)
             G = complex(_1_0 - c, s) / 12.0
             del s, c
-        else:
+        else:  # PYCHOK no cover
             czC =          _1_0
             szC = G = zC = _0_0
         if earth is not LabordeOblique._earth:
@@ -154,7 +154,7 @@ class LabordeOblique(_NamedBase):
                              name=_namethod(where, **name))
 
     def forward(self, lat_latlon, lon, **name):
-        '''Project a geodetic lat- and longitude to Laborde east- and northing.
+        '''Project a geodetic lat- and longitude in C{degrees} to Laborde east- and northing.
 
            @arg lat_latlon: Latitude of the point (scalar C{degrees90} or C{LatLon},
                     2-tuple C{(lat, lon)} or comma-separated I{"latDMS, lonDMS"} C{str}).
@@ -163,23 +163,23 @@ class LabordeOblique(_NamedBase):
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: L{Laborde8Tuple}C{(x, y, lat, lon, phi, lam, scale, lom)} with falsed
-                    east- and northing C{x} and C{y}in C{meter}, geodetic C{lat}- and
-                    C{lon}gitude in degrees, C{phi} and C{lam}da in C{radians}, C{scale}
+                    east- and northing C{x} and C{y} in C{meter}, geodetic C{lat}- and
+                    C{lon}gitude in degrees, C{phi} and C{lam}da in radians, C{scale}
                     factor (aka C{k}) and this C{LabordeOblique*} Mercator instance C{lom}.
         '''
         lat, lon = _LatLon2(lat_latlon, lon, LabordeError)
         return self._forward(lat, lon, Phid(lat), Lamd(lon), self.forward, **name)
 
     def forward_(self, phi, lam, **name):
-        '''Project a geodetic lat- and longitude to Laborde east- and northing.
+        '''Project a geodetic lat- and longitude in C{radians} to Laborde east- and northing.
 
            @arg phi: Latitude of the point (C{radians}).
            @arg lam: Longitude of the point (C{radians}).
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: L{Laborde8Tuple}C{(x, y, lat, lon, phi, lam, scale, lom)} with falsed
-                    east- and northing C{x} and C{y}in C{meter}, geodetic C{lat}- and
-                    C{lon}gitude in degrees, C{phi} and C{lam}da in C{radians}, C{scale}
+                    east- and northing C{x} and C{y} in C{meter}, geodetic C{lat}- and
+                    C{lon}gitude in degrees, C{phi} and C{lam}da in radians, C{scale}
                     factor (aka C{k}) and this C{LabordeOblique*} Mercator instance C{lom}.
         '''
         phi, lam = Phi(phi), Lam(lam)
@@ -224,7 +224,7 @@ class LabordeOblique(_NamedBase):
            @kwarg name: Optional C{B{name}=NN} (C{str}).
 
            @return: L{Laborde8Tuple}C{(x, y, lat, lon, phi, lam, scale, lom)} with geodetic
-                    C{lat}- and C{lon}gitude in degrees, C{phi} and C{lam}da in C{radians},
+                    C{lat}- and C{lon}gitude in degrees, C{phi} and C{lam}da in radians,
                     C{scale} factor (aka C{k}), falsed east- and northing C{x} and C{y} and
                     this C{LabordeOblique*} Mercator instance C{lom}.
         '''
@@ -232,8 +232,8 @@ class LabordeOblique(_NamedBase):
 
         H0 =  complex(y - self._y0,
                       x - self._x0) / R
-        H_ =  pow(H0, 3) * G
-        H_ = _over(H0, H_ + H0)
+        P  =  pow( H0, 3) * G
+        H_ = _over(H0, P + H0)
         for i in self._TRIPS(0, x, y):
             L =  pow(H_, 2) * G
             P =  pow(H_, 3) * G
