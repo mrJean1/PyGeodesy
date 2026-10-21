@@ -4,7 +4,7 @@
 # Some L{hom} C{HotineOblique} Mercator tests.
 
 __all__ = ('Tests',)
-__version__ = '26.10.20'
+__version__ = '26.10.21'
 
 from bases import isPython3, TestsBase, startswith
 
@@ -66,7 +66,7 @@ class Tests(TestsBase):
     def testHotineAB(self):
 
         h = HotineObliqueA('47 30N, 122 18W', '25 42N, 80 12W', earth=Es.Clarke1866, k0=0.9996, lat0=40, x0=4e6, y0=5e5)  # Snyder page 274, "Alternate A"
-        self.test('Ahotine', h, '(47.5, -122.3), (25.7, -80.2), ', known=startswith, nl=1)
+        self.test('Ahotine1', h, '(47.5, -122.3), (25.7, -80.2), ', known=startswith, nl=1)
         self.test('AmapAB', h.ABmap.toRepr(), 'HotineObliqueA(A=6379333.23054, B=1.001173, D=1.304333, D2=1.701284, E=1.002186, G=1.088777, uC=0.0, zC=-0.993906, a0=0.698132, b0=-0.984976, g0=-0.697885, t0=0.468343, x0=4000000.0, y0=500000.0)')
         self.test('Alatlon0', h.latlon0, '(40.0, -56.434963)')
         self.test('Alatlon1', h.latlon1, '(47.5, -122.3)')
@@ -83,8 +83,26 @@ class Tests(TestsBase):
         self.test('Areverse', _str(r), x, known=startswith)
         self.test('Aiteration', r.iteration, r.iteration)
 
+        h = HotineObliqueA((47.5, -122.3), (25.7, -80.2), earth=Es.WGS84, k0=0.9996, lat0=40, x0=4e6, y0=5e5)  # https://Neacsu.net/geodesy/snyder/numerics/ome/#sphere
+        self.test('Ahotine2', h, '(47.5, -122.3), (25.7, -80.2), ', known=startswith, nl=1)
+        self.test('AmapAB', h.ABmap.toRepr(), 'HotineObliqueA(A=6379223.515405, B=1.00116, D=1.304344, D2=1.701315, E=1.002162, G=1.088805, uC=0.0, zC=-0.993887, a0=0.698132, b0=-0.984984, g0=-0.697868, t0=0.46832, x0=4000000.0, y0=500000.0)')
+        self.test('Alatlon0', h.latlon0, '(40.0, -56.435422)')
+        self.test('Alatlon1', h.latlon1, '(47.5, -122.3)')
+        self.test('Alatlon2', h.latlon2, '(25.7, -80.2)')
+        self.test('AazimuthC', h.azimuthC, '-56.945553', prec=6)
+        self.test('Agamma0', h.gamma0, '-39.984872', prec=6)
+        f = h.forward(40.8, -74)
+        self.test('Aforward', _str(f), '(963497.880351, 4369215.405042, 4655460.671537, 1586776.263063, 40.8, -74.0, 1.030756, ...', known=startswith)
+        r = h.reverse(f.x, f.y)
+        x = '(963497.880351, 4369215.405042, 4655460.671537, 1586776.263063, 40.8, -74.0, 0.9996, ...'
+        self.test('Areverse', _str(r), x, known=startswith)
+        self.test('Aiteration', r.iteration, None)
+        r = h.reverse(f.x, f.y, triPhi=9)
+        self.test('Areverse', _str(r), x, known=startswith)
+        self.test('Aiteration', r.iteration, r.iteration)
+
         h = HotineObliqueB(36, -77.7610558, 14.3394883, earth=Es.Clarke1866)  # Snyder page 276, "Alternate B"
-        self.test('Bhotine', h, '36.0, -77.7611, 14.3395, ', known=startswith, nl=1)
+        self.test('Bhotine3', h, '36.0, -77.7611, 14.3395, ', known=startswith, nl=1)
         self.test('BmapAB', h.ABmap.toRepr(), 'HotineObliqueB(A=6380777.046609, B=1.001459, D=1.235119, D2=1.52552, E=1.001698, G=0.724928, uC=4092868.936638, zC=0.250271, a0=0.628319, b0=-1.505896, g0=0.201889, t0=0.511558, x0=0.0, y0=0.0)')
         self.test('Blatlon0', h.latlon0, '(0.0, -86.28148)')
         self.test('BlatlonC', h.latlonC, '(36.0, -77.761056)')
@@ -101,16 +119,18 @@ class Tests(TestsBase):
         self.test('Biteration', r.iteration, r.iteration)
 
         h = HotineObliqueA('47 30N, 122 18W', '25 42N, 80 12W', earth=Es.Sphere, lat0=40)
-        self.test('Ahotine', h, "(47.5, -122.3), (25.7, -80.2), earth=Ellipsoid(name='Sphere'", known=startswith, nl=1)
+        self.test('Ahotine4', h, "(47.5, -122.3), (25.7, -80.2), earth=Ellipsoid(name='Sphere'", known=startswith, nl=1)
         self.test('AmapAB', h.ABmap.toRepr(), 'HotineObliqueA(A=6371008.771415, B=1.0, D=1.305407, D2=1.704088, E=1.0, G=1.091309, uC=0.0, zC=-0.992236, a0=0.698132, b0=-0.985706, g0=-0.696284, t0=0.466308, x0=0.0, y0=0.0)')
 
         h = HotineObliqueB(4, 115, '53 18 56.9537', earth=Es.Everest1967, k0=0.99984, x0=590476.87, y0=442857.65, name='Timbalai 1948 / R.S.O. Borneo (m)')  # IOGP page 63
-        self.test('Bhotine ', h, "4.0, 115.0, 53.3158, earth=Ellipsoid(name='Everest1967', ", known=startswith, nl=1)
+        self.test('Bhotine5', h, "4.0, 115.0, 53.3158, earth=Ellipsoid(name='Everest1967', ", known=startswith, nl=1)
         self.test('Bxy0', h.xy0, '(590476.87, 442857.65)')
         self.test('BmapAB', h.ABmap.toRepr(), 'HotineObliqueB(A=6376278.686012, B=1.003303, D=1.002426, D2=1.004857, E=1.000003, G=0.069695, uC=738096.094116, zC=0.930537, a0=0.069813, b0=1.914373, g0=0.927295, t0=0.932947, x0=590476.87, y0=442857.65)')
         self.test('BlatlonC', h.latlonC, '(4.0, 115.0)')
         self.test('BazimuthC', h.azimuthC, '53.316', prec=3)  # 53 18 57...
         self.test('Bgamma0', h.gamma0, '53.130', prec=3)  # 53 07 48...
+        h.xyuvIOGP = True
+        self.test('BxyuvIOGP', h.xyuvIOGP, True)
         f = h.forward('5 23 14.1129N', '115 48 19.8196E')
         self.test('Bforward1', _str(f), '(679245.728142, 596562.777494, 163238.163018, -69702.78709, 5.387254, 115.805505, 1.009708, ...', known=startswith)  # IOGP E 679245.73, N 596562.78, ...
         r = h.reverse(f.x, f.y)  # triPhi=0
@@ -132,7 +152,7 @@ class Tests(TestsBase):
         self.test('Biteration2', r.iteration, r.iteration)  # 5 macOS
 
         h = HotineObliqueB(grades2degrees(-21), grades2degrees(51.5969213), grades2degrees(21), earth=Es.Intl1924, k0=0.9995, x0=4e5, y0=8e5, name='Tananarive (Paris)')  # IOGP page 65, Laborde
-        self.test('Bhotine', h.toRepr(), "HotineObliqueB(-18.9, 46.4372, 18.9, earth=Ellipsoid(name='Intl1924', a=6378388, f=0.003367, ", known=startswith, nl=1)
+        self.test('Bhotine6', h.toRepr(), "HotineObliqueB(-18.9, 46.4372, 18.9, earth=Ellipsoid(name='Intl1924', a=6378388, f=0.003367, ", known=startswith, nl=1)
         self.test('BmapAB', h.ABmap.toRepr(), 'HotineObliqueB(A=6375433.454701, B=1.002708, D=1.056653, D2=1.116516, E=0.999703, G=-0.341344, uC=-2201599.156405, zC=0.329867, a0=-0.329867, b0=0.92034, g0=0.311567, t0=1.396319, x0=400000.0, y0=800000.0)')
         self.test('Blatlon0', h.latlon0, '(0.0, 52.731578)')
         f = h.forward('16 11 23.28S', '44 27 27.260E')

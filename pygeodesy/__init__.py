@@ -166,7 +166,7 @@ on Intel (C{x86_64}) or Intel I{emulation} ("C{arm64_x86_64}", see function L{ma
 The tests also ran with Python 3.13.13 (and U{geographiclib<https://PyPI.org/project/geographiclib>} 2.0)
 on U{Windows 2019Server<https://CI.AppVeyor.com/project/mrJean1/pygeodesy>} in 64-bit only and with Python
 2.7.18 (and U{geographiclib<https://PyPI.org/project/geographiclib>} 1.52) on U{Windows 10
-<https://CI.AppVeyor.com/project/mrJean1/pygeodesy>} in 64- and 32-bit.
+<https://CI.AppVeyor.com/project/mrJean1/pygeodesy>} in 64-bit.
 
 A single-File and single-Directory application with C{pygeodesy} has been bundled using U{PyInstaller
 <https://PyPI.org/project/pyinstaller>} 3.4 and 64-bit Python 3.7.3 on macOS 10.13.6 High Sierra.

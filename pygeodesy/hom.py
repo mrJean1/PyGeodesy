@@ -3,8 +3,11 @@
 
 u'''A pure Python implementation of 2 ellipsoidal and 3 spherical variants of I{Hotine}'s
 U{Oblique Mercator<https://WikiPedia.org/wiki/Oblique_Mercator_projection>} projection from
-U{Snyder Chapter 9<>https://pubs.USGS.gov/pp/1395/report.pdf>} page 66ff and U{IOGP section
-3.2.4<https://www.IOGP.org/wp-content/uploads/2019/09/373-07-02.pdf>} page 59ff.
+U{Snyder Chapter 9<>https://pubs.USGS.gov/pp/1395/report.pdf>} page 66ff, on-line U{Neacsu
+<https://Neacsu.net/geodesy/snyder/3-cylindrical/sect_9>} and U{IOGP section 3.2.4
+<https://www.IOGP.org/wp-content/uploads/2019/09/373-07-02.pdf>} page 59ff.
+
+@see: U{Oblique Mercator Usage<https://Neacsu.net/geodesy/snyder/3-cylindrical/sect_9/#usage>}.
 '''
 # make sure int/int division yields float quotient
 from __future__ import division as _; del _  # noqa: E702 ;
@@ -22,7 +25,7 @@ from pygeodesy.interns import _C_, _COMMA_, _COMMASPACE_, _lat_, _lon_, _scale_,
 # from pygeodesy.lazily import _ALL_LAZY  # from .basics
 from pygeodesy.named import _NamedBase, _NamedTuple, _namethod, _Pass
 from pygeodesy.namedTuples import LatLon2Tuple, Vector2Tuple
-from pygeodesy.props import Property_RO, property_RO
+from pygeodesy.props import Property_RO, property_doc_, property_RO
 from pygeodesy.streprs import Fmt, pairs, unstr
 from pygeodesy.units import Azimuth, Degrees, Int, Meter, Lamd, Lat, _LatLon2, \
                             Lon, Phid, Radius, Scalar
@@ -32,7 +35,7 @@ from math import cos, cosh, degrees, e as _base_e, fabs, log, radians, \
                  sin, sinh, sqrt, tan, tanh
 
 __all__ = _ALL_LAZY.hom
-__version__ = '26.10.20'
+__version__ = '26.10.21'
 
 
 class _HotineObliqueBase(_NamedBase):
@@ -369,6 +372,7 @@ class _HotineObliqueAB(_HotineObliqueBase):
     '''
     _ABEG_BuCz = ()  # 7-tuple
     _earth     = _WGS84
+    _xyuvIOGP  =  False
 
     def __init__(self, earth, **k0_lat0_x0_y0_name):
 
@@ -385,11 +389,11 @@ class _HotineObliqueAB(_HotineObliqueBase):
         e2 =  E.e2not
         r  = _1_0 - e2
         B  =  ca0**4 * e2 / r
-        B  =  sqrt(_1_0  + B)
-        t  = _1_0 - sa0**2 * e2
+        B  =  sqrt(_1_0 + B)
+        s  = _1_0 - sa0**2 * e2
         r  =  sqrt(r) * B
-        A  =  r * E.a * self.k0 / t
-        D  =  F = r / (sqrt(t) * ca0)
+        A  =  r * E.a * self.k0 / s
+        D  =  F = r / (sqrt(s) * ca0)
         D2 =  D**2
         if D2 > 1:
             D21 =  sqrt(D2 - _1_0)
@@ -460,7 +464,7 @@ class _HotineObliqueAB(_HotineObliqueBase):
         if ca:  # PYLINT W0125
             Q   *= _tesB(E.e, sa, -B, a)  # PYLINT E1120 Snyder 9-25 ...
             S, T = _ST_Q(Q)
-            U    = _over(fdot_(S, sg0,  -V, cg0), T)  # PYLINT E1130
+            U    = _over(fdot_(S, sg0, -V, cg0), T)  # PYLINT E1130
 
             v = _d_s(_1_0, U)
             if _isfinite(v) and v > 0:  # U +/-1
@@ -491,7 +495,7 @@ class _HotineObliqueAB(_HotineObliqueBase):
         else:  # PYCHOK no cover
             k = NAN if x < 0 else _0_0
 
-        s,  c = self._xform2  # PYCHOK E0633
+        s, c = self._scg0 if self.xyuvIOGP else self._sczC  # PYLINT W0125
         x = fdot_(v, c,  u, s, start=self._x0)
         y = fdot_(u, c, -v, s, start=self._y0)
 
@@ -519,8 +523,8 @@ class _HotineObliqueAB(_HotineObliqueBase):
         '''
         _, B, E, _, A_B, uC, _ = self._ABEG_BuCz  # PYLINT W0632
 
-        s,   c   =  self._xform2  # PYCHOK E0633
         e,   n   = (x - self._x0), (y - self._y0)
+        s,   c   =  self._scg0 if self.xyuvIOGP else self._sczC  # PYLINT W0125
         v,   u   = (fdot_(e, c, -n, s),  # 9-40
                     fdot_(n, c,  e, s))  # 9-41
         u       +=  uC  # IOGP uC
@@ -578,9 +582,13 @@ class _HotineObliqueAB(_HotineObliqueBase):
                       e6 * (                             7 / 120 + e2 * (  81 / 1120)),
                       e6 *                                         e2 * (4279 / 161280))
 
-    @property_RO
-    def _xform2(self):  # PYCHOK no cover
-        return self._notOverloaded()
+    @property_doc_(' the IOGP I{xy-uv} C{gamma0} transform instead of C{azimuthC} (C{bool})')
+    def xyuvIOGP(self):
+        return self._xyuvIOGP
+
+    @xyuvIOGP.setter  # PYCHOK setter!
+    def xyuvIOGP(self, IOGP):
+        self._xyuvIOGP = bool(IOGP)
 
 
 class HotineObliqueA(_HotineObliqueAB):
@@ -641,12 +649,6 @@ class HotineObliqueA(_HotineObliqueAB):
         '''
         return LatLon2Tuple(*self._args[1], name=_2_)
 
-    @property_RO
-    def _xform2(self):
-        '''Get the transform's C{sincos2} (C{2-tuple}).
-        '''
-        return self._sczC
-
 
 class HotineObliqueB(_HotineObliqueAB):
     '''Ellipsoidal variant B: Hotine Oblique Mercator projection given the C{central point}
@@ -692,12 +694,6 @@ class HotineObliqueB(_HotineObliqueAB):
         '''Get the center point (L{LatLon2Tuple}).
         '''
         return LatLon2Tuple(*self._args[:2], name=_C_)
-
-    @property_RO
-    def _xform2(self):
-        '''Get the transform's C{sincos2} (C{2-tuple}).
-        '''
-        return self._scg0
 
 
 class HotineError(_ValueError):

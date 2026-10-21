@@ -54,9 +54,9 @@ class LabordeOblique(_NamedBase):
     def __init__(self, lat_latlon, lon=None, azimuth=_0_0, earth=_WGS84, kC=_1_0, x0=_0_0, y0=_0_0, **name):
         '''New ellipsoidal L{LabordeOblique} Mercator.
 
-           @arg lat_latlon: Center latitude (scalar C{degrees90} or C{LatLon}, 2-tuple
+           @arg lat_latlon: Central latitude (scalar C{degrees90} or C{LatLon}, 2-tuple
                     C{(lat, lon)} or comma-separated I{"latDMS, lonDMS"} C{str}).
-           @arg lon: Center longitude (C{degrees180}), required if B{C{lat_latlon}} is scalar,
+           @arg lon: Central longitude (C{degrees180}), required if B{C{lat_latlon}} is scalar,
                      ignored otherwise.
            @kwarg azimuth: Azimuth of the center line (C{degrees360} from North).
            @kwarg earth: Earth model (L{Datum}, L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}).
@@ -64,6 +64,8 @@ class LabordeOblique(_NamedBase):
            @kwarg x0: False easting (C{meter}).
            @kwarg y0: False northing (C{meter}).
            @kwarg name: Optional C{B{name}=NN} (C{str}).
+
+           @see: U{Roundtrip error<ttps://docs.Carmenta.com/pages/labordeobliquemercatorprojection.html>}
         '''
         self._args = lat, lon = _LatLon2(lat_latlon, lon, LabordeError)
         self._aC, self._bC    =  Phid(lat), Lamd(lon)
@@ -223,8 +225,8 @@ class LabordeOblique(_NamedBase):
             H = _over(P * _2_0 +  H0,
                       L * _3_0 + _1_0)
             P += H
-            D  = H0 - P
-            if self._TOL(D.real):
+            P -= H0
+            if self._TOL(P.real):
                 break
             H_ = H
         P = pow(_base_e, H.imag)

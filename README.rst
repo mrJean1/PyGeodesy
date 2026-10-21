@@ -64,8 +64,7 @@ Python 3.14.7, 3.13.13, 3.12.10 and 3.11.9 run on Apple M4 (``arm64``), *nativel
 
 Test coverage has been measured with coverage_ 7.14.0 using Python 3.14.7, 3.13.13 and 3.12.10.  The complete coverage report in HTML and a PDF summary are included in the distribution file.
 
-The tests also ran with Python 3.13.8 (and geographiclib_ 2.0) on `Windows 2019Server`_ in 64-bit only
-and with Python 2.7.18 (and with geographiclib_ 1.52) on `Windows 10`_ in 64- and 32-bit.
+The tests also ran with Python 3.13.8 (and geographiclib_ 2.0) on `Windows 2019Server`_ in 64-bit only and with Python 2.7.18 (and with geographiclib_ 1.52) on `Windows 10`_ in 64-bit.
 
 A single-File and single-Directory application with ``pygeodesy`` has been bundled using PyInstaller_ 3.4 and 64-bit Python 3.7.4 and 3.7.3 on macOS 10.13.6 High Sierra.
 

@@ -2934,6 +2934,7 @@ pygeodesy.hom._over	pygeodesy.constants-module.html#_over
 pygeodesy.hom._Pass	pygeodesy.named-module.html#_Pass
 pygeodesy.hom.sincos2_	pygeodesy.utily-module.html#sincos2_
 pygeodesy.hom._phit	pygeodesy.hom-module.html#_phit
+pygeodesy.hom.property_doc_	pygeodesy.props-module.html#property_doc_
 pygeodesy.hom.__all__	pygeodesy.hom-module.html#__all__
 pygeodesy.hom.fdot_	pygeodesy.fmath-module.html#fdot_
 pygeodesy.hom.pairs	pygeodesy.streprs-module.html#pairs
@@ -25284,7 +25285,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.iteration	pygeodesy.named._Named-class.html#iteration
 pygeodesy.named._Named.typename	pygeodesy.named._Named-class.html#typename
 pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
-pygeodesy.hom.HotineObliqueA._xform2	pygeodesy.hom.HotineObliqueA-class.html#_xform2
 pygeodesy.named._NamedBase._update	pygeodesy.named._NamedBase-class.html#_update
 pygeodesy.hom.HotineObliqueA.__init__	pygeodesy.hom.HotineObliqueA-class.html#__init__
 pygeodesy.named._Named.__format__	pygeodesy.named._Named-class.html#__format__
@@ -25326,7 +25326,6 @@ pygeodesy.named._Named.copy	pygeodesy.named._Named-class.html#copy
 pygeodesy.named._Named.iteration	pygeodesy.named._Named-class.html#iteration
 pygeodesy.named._Named.typename	pygeodesy.named._Named-class.html#typename
 pygeodesy.named._Named.rename	pygeodesy.named._Named-class.html#rename
-pygeodesy.hom.HotineObliqueB._xform2	pygeodesy.hom.HotineObliqueB-class.html#_xform2
 pygeodesy.named._NamedBase._update	pygeodesy.named._NamedBase-class.html#_update
 pygeodesy.hom.HotineObliqueB.__init__	pygeodesy.hom.HotineObliqueB-class.html#__init__
 pygeodesy.named._Named.__format__	pygeodesy.named._Named-class.html#__format__
