@@ -9,7 +9,7 @@ Transcoded in part from `JavaScript originals`_ by *Chris Veness (C) 2005-2025* 
 
 There are four modules for ellipsoidal earth models, *ellipsoidalExact*, *-Karney*, *-Vincenty* and *-Nvector* and two for spherical ones, *sphericalTrigonometry* and *-Nvector*.  Each module provides a geodetic LatLon_ and a geocentric Cartesian_ class with methods and functions to compute distance, surface area, perimeter, forward and reverse azimuth, initial and final bearing, intermediate and nearest points, intersections of geodesic, great circle and rhumb lines, circle intersections and secants, `3-point resections`_, triangulation, trilateration (by intersection, by overlap and in 3d), among other things.
 
-Also included are modules for conversions to and from `Cassini-Soldner`_, ECEF_ (Earth-Centered, Earth-Fixed cartesian), UTM_ (Universal Transverse Mercator and Exact_), UPS_ (Universal Polar Stereographic) and `Web Mercator`_ (Pseudo-Mercator) coordinates, MGRS_ (Military Grid Reference System, UTM *and* UPS) and OSGR_ (British Ordinance Survery Grid Reference) grid references, TRF_ (Terrestrial Reference Frames) and modules to encode and decode EPSG_, Geohashes_, `Georefs (WGRS)`_ and `Garefs (GARS)`_.
+Also included are modules for conversions to and from `Cassini-Soldner`_, ECEF_ (Earth-Centered, Earth-Fixed cartesian), UTM_ (Universal Transverse Mercator and Exact_), UPS_ (Universal Polar Stereographic), `Oblique Mercator`_ (Hotine and Laborde) and `Web Mercator`_ (Pseudo-Mercator) coordinates, MGRS_ (Military Grid Reference System, UTM *and* UPS) and OSGR_ (British Ordinance Survery Grid Reference) grid references, TRF_ (Terrestrial Reference Frames) and modules to encode and decode EPSG_, Geohashes_, `Georefs (WGRS)`_ and `Garefs (GARS)`_.
 
 Other modules provide `Albers equal-area`_ projections, equidistant_ and other *azimuthal* projections, Lambert *conformal conic* projections and positions, functions to clip paths or polygons of *LatLon* points using the `Cohen-Sutherland`_, `Forster-Hormann-Popa`_, `Greiner-Hormann`_, `Liang-Barsky`_ and `Sutherland-Hodgman`_ methods or to perform *boolean* operations between (composite) polygons, functions to simplify_ or linearize a path of *LatLon* points (or a `numpy array`_), including implementations of the `Ramer-Douglas-Peucker`_, `Visvalingam-Whyatt`_ and `Reumann-Witkam`_ algorithms and modified versions of the former.
 
@@ -77,7 +77,7 @@ All Python source code has been statically checked_ with Ruff_, PyLint_, PyFlake
 
 For a summary of all *Karney*-based functionality in ``pygeodesy``, see module karney_.
 
-*Last updated: Oct 20, 2026.*
+*Last updated: Oct 26, 2026.*
 
 License
 =======
@@ -152,6 +152,7 @@ THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMP
 .. _MIT License: https://OpenSource.org/licenses/MIT
 .. _numpy: https://PyPI.org/project/numpy
 .. _numpy array: https://docs.SciPy.org/doc/numpy/reference/generated/numpy.array.html
+.. _Oblique Mercator: https://WikiPedia.org/wiki/Oblique_Mercator_projection
 .. _OSGR: https://www.Movable-Type.co.UK/scripts/latlong-os-gridref.html
 .. _3-point resections: https://WikiPedia.org/wiki/Position_resection_and_intersection
 .. _PyChecker: https://PyPI.org/project/pychecker

@@ -13,9 +13,8 @@ U{Snyder Chapter 9<>https://pubs.USGS.gov/pp/1395/report.pdf>} page 66ff, on-lin
 from __future__ import division as _; del _  # noqa: E702 ;
 
 from pygeodesy.basics import _copysign,  _ALL_LAZY, typename
-from pygeodesy.constants import INF, NAN, PI_2, PI_4, R_M, _0_0, _0_5, _1_0, _2_0, \
-                               _90_0, _isfinite, isnear0, _1_over, _over, \
-                               _EPS2e4 as _TOL
+from pygeodesy.constants import NAN, PI_2, PI_4, R_M, _0_0, _0_5, _1_0, _2_0, _90_0, \
+                               _EPS2e4 as _TOL, _isfinite, isnear0, _1_over, _over
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.errors import _ValueError, _xkwds
 from pygeodesy.fmath import fdot, fdot_
@@ -27,15 +26,15 @@ from pygeodesy.named import _NamedBase, _NamedTuple, _namethod, _Pass
 from pygeodesy.namedTuples import LatLon2Tuple, Vector2Tuple
 from pygeodesy.props import Property_RO, property_doc_, property_RO
 from pygeodesy.streprs import Fmt, pairs, unstr
-from pygeodesy.units import Azimuth, Degrees, Int, Meter, Lamd, Lat, _LatLon2, \
-                            Lon, Phid, Radius, Scalar
+from pygeodesy.units import Azimuth, Degrees, Int, Meter, Lamd, Lat, _LatLon2, Lon, \
+                            Phid, Radius, Scalar
 from pygeodesy.utily import asin1, atan1, atan2, sincos2, sincos2_, wrapPI as _PI
 
 from math import cos, cosh, degrees, e as _base_e, fabs, log, radians, \
                  sin, sinh, sqrt, tan, tanh
 
 __all__ = _ALL_LAZY.hom
-__version__ = '26.10.21'
+__version__ = '26.10.22'
 
 
 class _HotineObliqueBase(_NamedBase):
@@ -44,7 +43,7 @@ class _HotineObliqueBase(_NamedBase):
     _a0 = _b0 = _0_0  # origin (phi0, lam0)
     _ap = _bp = _0_0  # pole (phip, lamp)
     _args     = ()    # __init__ args
-    _g0 = _zC =  NAN  # rectified-skew, azimuth
+    _g0 = _zC =  NAN  # RSO angle, azimuth
     _k0       = _1_0  # central scale factor
     _lat0     = _0_0  # origin latitude (degrees) NAN
     _x0 = _y0 = _0_0  # false east-, northing
@@ -88,7 +87,7 @@ class _HotineObliqueBase(_NamedBase):
 
     @Property_RO
     def gamma0(self):
-        '''Get the rectified-skew angle (C{degrees}) or C{NAN}.
+        '''Get the Rectified Skew Orthomorphic (RSO) angle (C{degrees}) or C{NAN}.
         '''
         g = self._g0
         if _isfinite(g):
@@ -124,8 +123,8 @@ class _HotineObliqueBase(_NamedBase):
 
     def _philam2(self, lat_latlon, lon):
         lat,  lon  = \
-        self._args = _LatLon2(lat_latlon, Error=HotineError) if lon is None else \
-                     (    Lat(lat_latlon), Lon(lon))
+        self._args = _LatLon2(lat_latlon, Error=HotineError) if lon is None else (
+                          Lat(lat_latlon), Lon(lon))
         return Phid(lat), Lamd(lon)
 
     def _philam4(self, latlon1, latlon2):
@@ -268,9 +267,10 @@ class _HotineOblique123(_HotineObliqueBase):
         sy, cy, ty = sinh(n), cosh(n), tanh(n)
         sp, cp     = self._scap
 
-        a =  degrees(asin1(fdot_(sp, ty,  cp, sx / cy))) if cy else INF
-        b = _PI(     atan2(fdot_(sp, sx, -cp, sy), cx) + self._b0)
-        return Hotine8Tuple(x, y, u, v, a, degrees(b), self.k0, self,
+        t = _over(sx, cy)
+        a =  asin1(   fdot_(sp, ty,  cp, t))
+        b = _PI(atan2(fdot_(sp, sx, -cp, sy), cx) + self._b0)
+        return Hotine8Tuple(x, y, u, v, degrees(a), degrees(b), self.k0, self,
                             name=_namethod(self.reverse, **name))
 
 
@@ -295,10 +295,10 @@ class HotineOblique1(_HotineOblique123):
 
         sa1, ca1, sb1, cb1 = sincos2_(a1, b1)
         sa2, ca2, sb2, cb2 = sincos2_(a2, b2)
-        ca1_sa2 = ca1 * sa2
-        sa1_ca2 = sa1 * ca2
-        bp = atan2(fdot_(ca1_sa2, cb1,  -sa1_ca2, cb2),
-                   fdot_(sa1_ca2, sb2,  -ca1_sa2, sb1))
+        ca1sa2 = ca1 * sa2
+        ca2sa1 = ca2 * sa1
+        bp = atan2(fdot_(ca1sa2, cb1,  -ca2sa1, cb2),
+                   fdot_(ca2sa1, sb2,  -ca1sa2, sb1))
         ap = atan1(-cos(bp - b1), tan(a1))
         _HotineOblique123.__init__(self, ap, bp, radius, **k0_lat0_x0_y0_name)
 
@@ -372,28 +372,30 @@ class _HotineObliqueAB(_HotineObliqueBase):
     '''
     _ABEG_BuCz = ()  # 7-tuple
     _earth     = _WGS84
-    _xyuvIOGP  =  False
+    _useRSO    =  False
 
-    def __init__(self, earth, **k0_lat0_x0_y0_name):
+    def __init__(self, earth, useRSO, **k0_lat0_x0_y0_name):
 
         if earth is not _HotineObliqueAB._earth:
             self._earth = _ellipsoidal_datum(earth)
+        if useRSO:
+            self.useRSO = useRSO
 
         _HotineObliqueBase.__init__(self, None, **k0_lat0_x0_y0_name)
 
     @Property_RO
-    def _ABD21EFt0(self):  # 7-tuple
+    def _ABD21EFt0(self):  # 8-tuple
         sa0, ca0 = self._sca0
-        a0 =  self._a0
         E  =  self.ellipsoid
         e2 =  E.e2not
         r  = _1_0 - e2
-        B  =  ca0**4 * e2 / r
+        B  = _over(ca0**4 * e2, r)
         B  =  sqrt(_1_0 + B)
         s  = _1_0 - sa0**2 * e2
         r  =  sqrt(r) * B
-        A  =  r * E.a * self.k0 / s
-        D  =  F = r / (sqrt(s) * ca0)
+        A  = _over(r * E.a * self.k0, s)
+        a0 =  self._a0
+        D  =  F = _over(r, sqrt(s) * ca0)
         D2 =  D**2
         if D2 > 1:
             D21 =  sqrt(D2 - _1_0)
@@ -456,11 +458,11 @@ class _HotineObliqueAB(_HotineObliqueBase):
 
         a  =  Phid(lat)
         b  =  Lamd(lon)
-        Bd = _PI(b - self._b0) * B
+        dB = _PI(b - self._b0) * B
         E  =  self.ellipsoid
         sg0,  cg0 = self._scg0
 
-        sa, ca, V, cBd = sincos2_(a, Bd)  # phi
+        sa, ca, V, cdB = sincos2_(a, dB)  # phi
         if ca:  # PYLINT W0125
             Q   *= _tesB(E.e, sa, -B, a)  # PYLINT E1120 Snyder 9-25 ...
             S, T = _ST_Q(Q)
@@ -475,11 +477,11 @@ class _HotineObliqueAB(_HotineObliqueBase):
                 v = _copysign(self._g0 * _0_5, -sa)  # PYLINT E1130
                 v =  log(tan(PI_4 + v)) * A_B
 
-            if cBd:  # PYLINT W0125
+            if cdB:  # PYLINT W0125
                 u = fdot_(S, cg0,   V, sg0)
-                u = atan2(u, cBd) * A_B  # Snyder 9-31 XXX atan1
+                u = atan2(u, cdB) * A_B  # Snyder 9-31 XXX atan1
             else:  # PYCHOK no cover
-                u = A * Bd  # Note after 9-31
+                u = A * dB  # Note after 9-31
 
             if uC or zCE:  # variant B, IOGP page 62
                 u -= (uC if b < self._b0 else  # ABS(uC) * SIGN(a0) * SIGN(b0 - b)
@@ -490,21 +492,23 @@ class _HotineObliqueAB(_HotineObliqueBase):
 
         x = _1_0 - sa**2 * E.e2not
         if x > 0:
-            k = E.a * ca * cBd  # Snyder 9-32
+            k = E.a * ca * cdB  # Snyder 9-32
             k = Scalar(k=cos(u / A_B) * sqrt(x) * A / k) if k and A_B else NAN
         else:  # PYCHOK no cover
             k = NAN if x < 0 else _0_0
-
-        s, c = self._scg0 if self.xyuvIOGP else self._sczC  # PYLINT W0125
-        x = fdot_(v, c,  u, s, start=self._x0)
-        y = fdot_(u, c, -v, s, start=self._y0)
+        x, y = self._rectify2(u, v, self._x0, self._y0)
 
 #       self._debug(self.forward, locals(), t=_tesB(E.e, sa, 1, a))
         return Hotine8Tuple(x, y, u, v, lat, lon, k, self,
                             name=_namethod(self.forward, **name))
 
     def _kwds(self, **unused):
-        return _HotineObliqueBase._kwds(self, earth=self.ellipsoid)
+        return _HotineObliqueBase._kwds(self, earth=self.ellipsoid, useRSO=self.useRSO)
+
+    def _rectify2(self, e, n, uC, v0):
+        s, c = self._scg0 if self.useRSO else self._sczC  # PYLINT W0125
+        return (fdot_(n, c,  e, s, start=uC),  # 9-40
+                fdot_(e, c, -n, s, start=v0))  # 9-41
 
     def reverse(self, x, y, triPhi=0, **name):
         '''Project an Hotine east- and northing to geodetic lat- and longitude.
@@ -523,21 +527,16 @@ class _HotineObliqueAB(_HotineObliqueBase):
         '''
         _, B, E, _, A_B, uC, _ = self._ABEG_BuCz  # PYLINT W0632
 
-        e,   n   = (x - self._x0), (y - self._y0)
-        s,   c   =  self._scg0 if self.xyuvIOGP else self._sczC  # PYLINT W0125
-        v,   u   = (fdot_(e, c, -n, s),  # 9-40
-                    fdot_(n, c,  e, s))  # 9-41
-        u       +=  uC  # IOGP uC
-        V, cBu_A =  sincos2(_over(u, A_B))
-        sg0, cg0 =  self._scg0
+        u, v     = self._rectify2(x - self._x0, y - self._y0, uC, _0_0)
+        V, cuB_A = sincos2(_over(u, A_B))
+        sg0, cg0 = self._scg0
 
         Q    =  pow(_base_e, _over(-v, A_B))
         S, T = _ST_Q(Q)
         U    = _over(fdot_(V, cg0,  S, sg0), T)
         t, i = _d_s(_1_0, -U), None
         if _isfinite(t) and t > 0:
-            t = _over(E, sqrt(t))
-            t =  pow(t, _1_over(B))
+            t =  pow(E / sqrt(t), _1_over(B))
             X = _phit(t)  # Snyder chi, 7-13
             n =  Int(triPhi=triPhi)
             e =  self.ellipsoid.e
@@ -561,7 +560,7 @@ class _HotineObliqueAB(_HotineObliqueBase):
                 a   = fdot(self._Xe5, X, *sX4)
 
             b =  fdot_(S, cg0, -V, sg0)
-            b =  atan2(b, cBu_A)
+            b =  atan2(b, cuB_A)
             b = _PI(self._b0 - _over(b, B))
 
             lat, lon =  degrees(a), degrees(b)
@@ -571,6 +570,14 @@ class _HotineObliqueAB(_HotineObliqueBase):
 #       self._debug(self.reverse, locals())
         return Hotine8Tuple(x, y, u, v, lat, lon, self.k0, self, iteration=i,
                             name=_namethod(self.reverse, **name))
+
+    @property_doc_(' apply Rectified Skew Orthomorphic (RSO) angle C{gamma0}, otherwise Oblique Mercator C{azimuthC} (C{bool}).')
+    def useRSO(self):
+        return self._useRSO
+
+    @useRSO.setter  # PYCHOK setter!
+    def useRSO(self, RSO):
+        self._useRSO = bool(RSO)
 
     @Property_RO
     def _Xe5(self):  # Snyder page 75, 3-5
@@ -582,20 +589,12 @@ class _HotineObliqueAB(_HotineObliqueBase):
                       e6 * (                             7 / 120 + e2 * (  81 / 1120)),
                       e6 *                                         e2 * (4279 / 161280))
 
-    @property_doc_(' the IOGP I{xy-uv} C{gamma0} transform instead of C{azimuthC} (C{bool})')
-    def xyuvIOGP(self):
-        return self._xyuvIOGP
-
-    @xyuvIOGP.setter  # PYCHOK setter!
-    def xyuvIOGP(self, IOGP):
-        self._xyuvIOGP = bool(IOGP)
-
 
 class HotineObliqueA(_HotineObliqueAB):
     '''Ellipsoidal variant A: Hotine Oblique Mercator projection given C{two points}.
     '''
 
-    def __init__(self, latlon1, latlon2, earth=_WGS84, **k0_lat0_x0_y0_name):
+    def __init__(self, latlon1, latlon2, earth=_WGS84, useRSO=False, **k0_lat0_x0_y0_name):
         '''New ellipsoidal L{HotineObliqueA} Mercator, variant A.
 
            @arg latlon1: Center line point (C{LatLon}, 2-tuple C{(lat, lon)} or
@@ -603,12 +602,14 @@ class HotineObliqueA(_HotineObliqueAB):
            @arg latlon2: Other center line point (C{LatLon}, 2-tuple C{(lat, lon)} or
                          comma-separated I{"latDMS, lonDMS"} C{str}).
            @kwarg earth: Earth model (L{Datum}, L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}).
+           @kwarg useRSO: If C{True} apply Rectified Skew Orthomorphic (RSO) angle C{gamma0},
+                          otherwise Oblique Mercator C{azimuthC} (C{bool}).
            @kwarg k0_lat0_x0_y0_name: Central scale factor C{B{k0}=1.0} (C{scalar}), origin
                      latitude C{B{lat0}=0.0} (C{degrees}), false easting C{B{x0}=0.0} and
                      false northing C{B{y0}=0.0} (C{meter}) and C{B{name}=NN} (C{str}).
         '''
         a1, b1, a2, b2 = self._philam4(latlon1, latlon2)
-        _HotineObliqueAB.__init__(self, earth, **k0_lat0_x0_y0_name)
+        _HotineObliqueAB.__init__(self, earth, useRSO, **k0_lat0_x0_y0_name)
 
         (lat1, _), (lat2, _) = self._args
         if isnear0(a1 - a2):  # phi1 == phi2
@@ -655,7 +656,7 @@ class HotineObliqueB(_HotineObliqueAB):
        and C{azimuth}.
     '''
 
-    def __init__(self, lat_latlon, lon=None, azimuth=_0_0, earth=_WGS84, **k0_lat0_x0_y0_name):
+    def __init__(self, lat_latlon, lon=None, azimuth=_0_0, earth=_WGS84, useRSO=False, **k0_lat0_x0_y0_name):
         '''New ellipsoidal L{HotineObliqueB} Mercator, variant B.
 
            @arg lat_latlon: Center latitude (scalar C{degrees90} or C{LatLon}, 2-tuple
@@ -664,12 +665,14 @@ class HotineObliqueB(_HotineObliqueAB):
                      ignored otherwise.
            @kwarg azimuth: Azimuth of the center line (C{degrees360} from North).
            @kwarg earth: Earth model (L{Datum}, L{Ellipsoid}, L{Ellipsoid2} or L{a_f2Tuple}).
+           @kwarg useRSO: If C{True} apply Rectified Skew Orthomorphic (RSO) angle C{gamma0},
+                          otherwise Oblique Mercator C{azimuthC} (C{bool}).
            @kwarg k0_lat0_x0_y0_name: Central scale factor C{B{k0}=1.0} (C{scalar}), origin
                      latitude C{B{lat0}=0.0} (C{degrees}), false easting C{B{x0}=0.0} and
                      false northing C{B{y0}=0.0} (C{meter}) and C{B{name}=NN} (C{str}).
         '''
         aC, bC, zC = self._philamalp3(lat_latlon, lon, azimuth)
-        _HotineObliqueAB.__init__(self, earth, **k0_lat0_x0_y0_name)
+        _HotineObliqueAB.__init__(self, earth, useRSO, **k0_lat0_x0_y0_name)
         szC, czC = self._sczC
 
         A, B, D, _, D21, E, F, _ = self._ABD21EFt0
@@ -680,8 +683,8 @@ class HotineObliqueB(_HotineObliqueAB):
         b0  =  bC - _over(asin1(tan(g0) * G), B)  # == IOGP
 
         zCE = isnear0(zC - PI_2)  # IOGP page 61, zC == 90?
-        uC  = (A * (bC - b0)) if zCE else \
-              (atan2(D21, czC) * A_B)
+        uC  = (A * (bC - b0)) if zCE else (
+               atan2(D21, czC) * A_B)
         uC  = _copysign(uC, aC)  # == ABS(uC) * SIGN(𝜑C)
 
         self._b0, self._g0 = _PI(b0), g0

@@ -4,7 +4,7 @@
 # Some L{hom} C{HotineOblique} Mercator tests.
 
 __all__ = ('Tests',)
-__version__ = '26.10.21'
+__version__ = '26.10.22'
 
 from bases import isPython3, TestsBase, startswith
 
@@ -122,15 +122,14 @@ class Tests(TestsBase):
         self.test('Ahotine4', h, "(47.5, -122.3), (25.7, -80.2), earth=Ellipsoid(name='Sphere'", known=startswith, nl=1)
         self.test('AmapAB', h.ABmap.toRepr(), 'HotineObliqueA(A=6371008.771415, B=1.0, D=1.305407, D2=1.704088, E=1.0, G=1.091309, uC=0.0, zC=-0.992236, a0=0.698132, b0=-0.985706, g0=-0.696284, t0=0.466308, x0=0.0, y0=0.0)')
 
-        h = HotineObliqueB(4, 115, '53 18 56.9537', earth=Es.Everest1967, k0=0.99984, x0=590476.87, y0=442857.65, name='Timbalai 1948 / R.S.O. Borneo (m)')  # IOGP page 63
+        h = HotineObliqueB(4, 115, '53 18 56.9537', earth=Es.Everest1967, k0=0.99984, x0=590476.87, y0=442857.65, name='Timbalai 1948 / R.S.O. Borneo (m)', useRSO=True)  # IOGP page 63
         self.test('Bhotine5', h, "4.0, 115.0, 53.3158, earth=Ellipsoid(name='Everest1967', ", known=startswith, nl=1)
         self.test('Bxy0', h.xy0, '(590476.87, 442857.65)')
         self.test('BmapAB', h.ABmap.toRepr(), 'HotineObliqueB(A=6376278.686012, B=1.003303, D=1.002426, D2=1.004857, E=1.000003, G=0.069695, uC=738096.094116, zC=0.930537, a0=0.069813, b0=1.914373, g0=0.927295, t0=0.932947, x0=590476.87, y0=442857.65)')
         self.test('BlatlonC', h.latlonC, '(4.0, 115.0)')
         self.test('BazimuthC', h.azimuthC, '53.316', prec=3)  # 53 18 57...
         self.test('Bgamma0', h.gamma0, '53.130', prec=3)  # 53 07 48...
-        h.xyuvIOGP = True
-        self.test('BxyuvIOGP', h.xyuvIOGP, True)
+        self.test('BuseRSO', h.useRSO, True)
         f = h.forward('5 23 14.1129N', '115 48 19.8196E')
         self.test('Bforward1', _str(f), '(679245.728142, 596562.777494, 163238.163018, -69702.78709, 5.387254, 115.805505, 1.009708, ...', known=startswith)  # IOGP E 679245.73, N 596562.78, ...
         r = h.reverse(f.x, f.y)  # triPhi=0
@@ -163,14 +162,18 @@ class Tests(TestsBase):
         if isPython3:
             self.test('BreverseL', (latDMS(r.lat), lonDMS(r.lon)), "('16°11′23.28″S', '044°27′27.26″E')")
 
-        f = h.forward('18 54S', '47 30E')  # IOGP page 66, Comparing the Hotine Oblique Mercator (variant B) ...
-        self.test('BforwardL', _str(f), '(511921.054, 799665.520, ...', error=_err(f, 511921.054, 799665.520), known=True, nl=1)  # IOGP N/X? 799665.520, E/Y? 511921.054, ... XXX
-        f = h.forward('16 12S', '44 24E')
-        self.test('BforwardL', _str(f), '(182184.985, 1097651.426, ...', error=_err(f, 182184.985, 1097651.426), known=True)  # IOGP N/X? 1097651.426, E/Y? 182184.985, ... XXX
-        f = h.forward('25 40S', '45 18E')
-        self.test('BforwardL', _str(f), '(285294.788, 50636.850, ...', error=_err(f, 285294.788, 50636.850), known=True)  # IOGP N/X? 50636.850, E/Y? 285294.788, ... XXX
-        f = h.forward('12 00S', '49 12E')
-        self.test('BforwardL', _str(f), '(701352.935, 1561109.350, ...', error=_err(f, 701352.935, 1561109.350), known=True)  # IOGP N/X? 1561109.350, E/Y? 701352.935, ... XXX
+        f =  h.forward('18 54S', '47 30E')  # IOGP page 66, Comparing the Hotine Oblique Mercator (variant B) ..
+        e = _err(f, 511921.054, 799665.520)
+        self.test('BforwardL', _str(f), '(511921.054, 799665.520, ...', error=e, known=e<0.001, nl=1)  # IOGP N/X? 799665.520, E/Y? 511921.054, ... XXX
+        f =  h.forward('16 12S', '44 24E')
+        e = _err(f, 182184.985, 1097651.426)
+        self.test('BforwardL', _str(f), '(182184.985, 1097651.426, ...', error=e, known=e<0.05)  # IOGP N/X? 1097651.426, E/Y? 182184.985, ... XXX
+        f =  h.forward('25 40S', '45 18E')
+        e = _err(f, 285294.788, 50636.850)
+        self.test('BforwardL', _str(f), '(285294.788, 50636.850, ...', error=e, known=e<0.001)  # IOGP N/X? 50636.850, E/Y? 285294.788, ... XXX
+        f =  h.forward('12 00S', '49 12E')
+        e = _err(f, 701352.935, 1561109.350)
+        self.test('BforwardL', _str(f), '(701352.935, 1561109.350, ...', error=e, known=e<0.001)  # IOGP N/X? 1561109.350, E/Y? 701352.935, ... XXX
 
 
 if __name__ == '__main__':
