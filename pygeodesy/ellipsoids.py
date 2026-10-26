@@ -98,7 +98,7 @@ from pygeodesy.utily import atan1, atan1d, atan2b, degrees90, m2radians, radians
 from math import asinh, atan, atanh, cos, degrees, exp, fabs, radians, sin, sinh, sqrt, tan  # as _tan
 
 __all__ = _ALL_LAZY.ellipsoids
-__version__ = '26.10.18'
+__version__ = '26.10.24'
 
 _f_0_0    = Float(f =_0_0)  # zero flattening
 _f__0_0   = Float(f_=_0_0)  # zero inverse flattening
@@ -955,6 +955,9 @@ class Ellipsoid(_NamedEnumItem):
                 for T, _, d in self._es_tauf3(t, T):  # max 2
                     if fabs(d) < s:
                         break
+                else:
+                    t = unstr(self.es_tauf, taup)
+                    raise _AssertionError(Fmt.no_convergence(d, s), txt=t)
             t = Scalar(tauf=T)
         return t
 

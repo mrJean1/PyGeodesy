@@ -13,7 +13,7 @@ U{Snyder Chapter 9<>https://pubs.USGS.gov/pp/1395/report.pdf>} page 66ff, on-lin
 from __future__ import division as _; del _  # noqa: E702 ;
 
 from pygeodesy.basics import _copysign,  _ALL_LAZY, typename
-from pygeodesy.constants import NAN, PI_2, PI_4, R_M, _0_0, _0_5, _1_0, _2_0, _90_0, \
+from pygeodesy.constants import NAN, PI_2, R_M, _0_0, _0_5, _1_0, _2_0, _90_0, \
                                _EPS2e4 as _TOL, _isfinite, isnear0, _1_over, _over
 from pygeodesy.datums import _ellipsoidal_datum, _WGS84
 from pygeodesy.errors import _ValueError, _xkwds
@@ -34,7 +34,7 @@ from math import cos, cosh, degrees, e as _base_e, fabs, log, radians, \
                  sin, sinh, sqrt, tan, tanh
 
 __all__ = _ALL_LAZY.hom
-__version__ = '26.10.22'
+__version__ = '26.10.24'
 
 
 class _HotineObliqueBase(_NamedBase):
@@ -147,17 +147,17 @@ class _HotineObliqueBase(_NamedBase):
     def _sca0(self):  # 𝜑0
         return sincos2(self._a0)
 
-    @Property_RO
-    def _scb0(self):  # 𝜆0
-        return sincos2(self._b0)
+#   @Property_RO
+#   def _scb0(self):  # 𝜆0
+#       return sincos2(self._b0)
 
     @Property_RO
     def _scap(self):  # 𝜑p
         return sincos2(self._ap)
 
-    @Property_RO
-    def _scbp(self):  # 𝜆p
-        return sincos2(self._bp)
+#   @Property_RO
+#   def _scbp(self):  # 𝜆p
+#       return sincos2(self._bp)
 
     @Property_RO
     def _scg0(self):  # 𝛾0
@@ -471,11 +471,11 @@ class _HotineObliqueAB(_HotineObliqueBase):
             v = _d_s(_1_0, U)
             if _isfinite(v) and v > 0:  # U +/-1
                 v = log(v) * A_B * _0_5  # ... Snyder 9-30
-            elif ca:  # PYLINT W0125
-                pass  # 0.0 or INF
-            else:  # PYCHOK no cover  lat +/-90
-                v = _copysign(self._g0 * _0_5, -sa)  # PYLINT E1130
-                v =  log(tan(PI_4 + v)) * A_B
+#           elif ca:  # PYLINT W0125
+#               pass  # 0.0 or INF
+#           else:  # lat +/-90
+#               v = _copysign(self._g0 * _0_5, -sa)  # PYLINT E1130
+#               v =  log(tan(PI_4 + v)) * A_B
 
             if cdB:  # PYLINT W0125
                 u = fdot_(S, cg0,   V, sg0)

@@ -92,7 +92,7 @@ from math import asin, asinh, atan, ceil, cosh, fabs, floor, radians, \
 # import operator as _operator  # from .fmath
 
 __all__ = _ALL_LAZY.elliptic
-__version__ = '26.02.15'
+__version__ = '26.10.25'
 
 _TolRD  =  zqrt(EPS * 0.002)
 _TolRF  =  zqrt(EPS * 0.030)
@@ -523,15 +523,15 @@ class Elliptic(_Named):
                 if k2 <= 0:  # Carlson, eq. 4.6, <https://DLMF.NIST.gov/19.25.E9>
                     Ei = _RF3(cn2, dn2, _1_0, self)
                     if k2:
-                        Ei -= _RD(cn2, dn2, _1_0, _3over(k2, sn**2), self)
+                        Ei -= _RD(cn2, dn2, _1_0, _3_over(k2, sn**2), self)
                 elif kp2 >= 0:  # k2 > 0, <https://DLMF.NIST.gov/19.25.E10>
                     Ei = _over(k2 * fabs(cn), dn)  # float
                     if kp2:
-                        Ei += (_RD( cn2, _1_0,  dn2, _3over(k2, sn**2), self) +
+                        Ei += (_RD( cn2, _1_0,  dn2, _3_over(k2, sn**2), self) +
                                _RF3(cn2,  dn2, _1_0, self)) * kp2
                 else:  # PYCHOK no cover
                     Ei  = _over(dn, fabs(cn))  # <https://DLMF.NIST.gov/19.25.E11>
-                    Ei -= _RD(dn2, _1_0, cn2, _3over(kp2, sn**2), self)
+                    Ei -= _RD(dn2, _1_0, cn2, _3_over(kp2, sn**2), self)
                 Ei *= fabs(sn)
             else:  # PYCHOK no cover
                 Ei  = _0_0
@@ -661,7 +661,7 @@ class Elliptic(_Named):
            @raise EllipticError: Invalid invokation or no convergence.
         '''
         if dn is None and cn is not None:  # and isscalar(phi_or_sn)
-            dn = self.fDelta(phi_or_sn, cn)  # in .triaxial
+            dn = self.fDelta(phi_or_sn, cn)  # in .triaxials.triaxial5
         return self._fXa(phi_or_sn, cn, dn, self.alpha2,
                                             self.cPi, self.deltaPi)
 
@@ -675,7 +675,7 @@ class Elliptic(_Named):
                 if aX:
                     sn2 = sn**2
                     P   = sn2 * self.alphap2 + cn2
-                    R += _RJ(cn2, dn2, _1_0, P, _3over(aX, sn2), self)
+                    R += _RJ(cn2, dn2, _1_0, P, _3_over(aX, sn2), self)
                 R *= fabs(sn)
             else:  # PYCHOK no cover
                 R = _0_0
@@ -919,8 +919,8 @@ class Elliptic(_Named):
         '''
         try:
             return _rG2(x, y) if z == 0 else (
-                   _rG2(z, x) if y == 0 else (
-                   _rG2(y, z) if x == 0 else _rG3(x, y, z)))
+                   _rG2(y, z) if x == 0 else (
+                   _rG2(z, x) if y == 0 else _rG3(x, y, z)))
         except Exception as X:
             t = _negative_ if min(x, y, z) < 0 else NN
             raise _ellipticError(Elliptic.fRG, x, y, z, cause=X, txt=t)
@@ -1157,7 +1157,7 @@ def _Hsum(S, e1, E2, E3, E4, E5, over):
     return S.fdiv(e1)  # Fsum
 
 
-def _3over(a, b):
+def _3_over(a, b):
     '''(INTERNAL) Return C{3 / (a * b)}.
     '''
     return _over(_3_0, a * b)
