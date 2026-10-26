@@ -3,7 +3,7 @@
 
 u'''A pure Python implementation of 2 ellipsoidal and 3 spherical variants of I{Hotine}'s
 U{Oblique Mercator<https://WikiPedia.org/wiki/Oblique_Mercator_projection>} projection from
-U{Snyder Chapter 9<>https://pubs.USGS.gov/pp/1395/report.pdf>} page 66ff, on-line U{Neacsu
+U{Snyder Chapter 9<https://pubs.USGS.gov/pp/1395/report.pdf>} page 66ff, on-line U{Neacsu
 <https://Neacsu.net/geodesy/snyder/3-cylindrical/sect_9>} and U{IOGP section 3.2.4
 <https://www.IOGP.org/wp-content/uploads/2019/09/373-07-02.pdf>} page 59ff.
 

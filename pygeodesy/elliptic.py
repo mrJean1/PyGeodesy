@@ -918,9 +918,9 @@ class Elliptic(_Named):
                  EllipticFunction_8cpp_source.html#l00096>} version 2.3.
         '''
         try:
-            return _rG2(x, y) if z == 0 else (
-                   _rG2(y, z) if x == 0 else (
-                   _rG2(z, x) if y == 0 else _rG3(x, y, z)))
+            return _rG2(y, z) if x == 0 else (
+                   _rG2(z, x) if y == 0 else (
+                   _rG2(x, y) if z == 0 else _rG3(x, y, z)))
         except Exception as X:
             t = _negative_ if min(x, y, z) < 0 else NN
             raise _ellipticError(Elliptic.fRG, x, y, z, cause=X, txt=t)
