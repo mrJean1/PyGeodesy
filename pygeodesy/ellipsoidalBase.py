@@ -984,9 +984,11 @@ class LatLonEllipsoidalBase(LatLonBase):
             utmups = _MODS.utmups
             u = self._toX8(utmups.toUtmUps8, pole=pole, **toUtmUps8_kwds)
             if isinstance(u, utmups.Utm):
-                self._update(False, _utm=u)  # PYCHOK kwds
+                if x:
+                    self._update(False, _utm=u)  # PYCHOK kwds
             elif isinstance(u, utmups.Ups):
-                self._update(False, _ups=u)  # PYCHOK kwds
+                if x:
+                    self._update(False, _ups=u)  # PYCHOK kwds
             else:
                 _xinstanceof(utmups.Utm, utmups.Ups, toUtmUps8=u)
         return _lowerleft(u, center)

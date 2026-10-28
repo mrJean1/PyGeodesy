@@ -49,6 +49,21 @@ class Tests(_TestsLL, _TestsV):
             t = eval('RefFrames.ITRF2014 @ t')  # PYLINT W0123
             self.test('__matmul__', t, t)
 
+        # Customized conversions must not change later default coordinates.
+        for lat in (45, -45, 85, -85):
+            for warm in (False, True):
+                q = LatLon(lat, 0)
+                expected = q.toUtmUps() if warm else LatLon(lat, 0).toUtmUps()
+                u = q.toUtmUps(falsed=False)
+                self.test('toUtmUps custom falsed', u.falsed, False)
+                u = q.toUtmUps()
+                self.test('toUtmUps default falsed', u.falsed, True)
+                self.test('toUtmUps default', u.toStr(prec=3), expected.toStr(prec=3))
+                u = q.toUtm() if abs(lat) < 80 else q.toUps()
+                self.test('toUtm/toUps default', u.toStr(prec=3), expected.toStr(prec=3))
+                if warm:
+                    self.test('toUtmUps cached', q.toUtmUps() is expected, True)
+
         if coverage:  # coverage
             n = 'test'
             self.test('parse',   p.parse(d.toStr(F_D__)), d)
